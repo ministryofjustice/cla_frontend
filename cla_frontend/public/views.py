@@ -8,7 +8,7 @@ from flask.ext.login import login_user, login_required, logout_user
 # from cla_frontend.user.models import User
 # from cla_frontend.public.forms import LoginForm
 # from cla_frontend.user.forms import RegisterForm
-from cla_frontend.utils import flash_errors
+# from cla_frontend.utils import flash_errors
 # from cla_frontend.database import db
 
 blueprint = Blueprint('public', __name__, static_folder="../static")
@@ -59,7 +59,7 @@ def home():
 #         flash_errors(form)
 #     return render_template('public/register.html', form=form)
 
-@blueprint.route("/about/")
-def about():
-    form = LoginForm(request.form)
-    return render_template("public/about.html", form=form)
+# @blueprint.route("/about/")
+# def about():
+#     form = LoginForm(request.form)
+#     return render_template("public/about.html", form=form)
