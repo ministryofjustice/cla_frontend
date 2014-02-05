@@ -14,61 +14,61 @@
 
 <p>If your problem is about two or more of the list below, please choose what is putting you at immediate risk.</p>
 
-<div>
+<form action="." method="POST">
   <h2>Is  your problem about?</h2>
 
   <ul>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="asylum">
         Applying for asylum or permission to stay in the UK
       </label>
     </li>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="abuse">
         Violence and abuse at home
       </label>
     </li>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="police">
         In trouble with the police
       </label>
     </li>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="debt">
         Debt, money problems and bankruptcy
       </label>
     </li>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="family">
         Family, marriage, separation and children
       </label>
     </li>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="housing">
         Housing, eviction and homelessness
       </label>
     </li>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="welfare">
         Welfare benefits
       </label>
     </li>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="unusual">
         Unusual cases
       </label>
     </li>
     <li>
       <label>
-        <input name="response" type="radio" value="">
+        <input name="response" type="radio" value="other">
         None of the above
       </label>
     </li>
@@ -77,8 +77,8 @@
   <p>If possible, please choose one of the categories above. If you’re really not sure or it doesn’t appear above, you can ask for a call back here.</p>
 
   <div>
-    <button type="button" class="btn btn-success">Next step - your details</button>
+    <button type="submit" class="btn btn-success">Next step - your details</button>
   </div>
-</div>
+</form>
 
 {% endblock %}

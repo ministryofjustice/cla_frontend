@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''Public section, including homepage and signup.'''
 from flask import (Blueprint, request, render_template, flash, url_for,
-                    redirect, session)
+                    redirect, session, abort)
 from flask.ext.login import login_user, login_required, logout_user
 
 # from cla_frontend.extensions import login_manager
@@ -10,13 +10,30 @@ from flask.ext.login import login_user, login_required, logout_user
 # from cla_frontend.user.forms import RegisterForm
 # from cla_frontend.utils import flash_errors
 # from cla_frontend.database import db
+from werkzeug.routing import BuildError
 
 blueprint = Blueprint('public', __name__, static_folder="../static")
 
 
 @blueprint.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("public/your_problem.html")
+    if request.method == 'POST':
+        response = request.form.get('response')
+        try:
+            to_url = url_for('.your_details', category=response)
+            return redirect(to_url)
+        except BuildError as e:
+            abort(404)
+    else:
+        return render_template("public/your_problem.html")
+
+
+@blueprint.route("/<category>/your-problem/", methods=["GET", "POST"])
+def your_details(category):
+    form = None
+    return render_template("public/your_details.html",
+                           form=form,
+                           category=category)
 
 
 # @login_manager.user_loader
