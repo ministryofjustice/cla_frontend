@@ -4,7 +4,7 @@
 # Testing
 nose
 Flask-Testing
-factory-boy>=2.2.1
+#factory-boy>=2.2.1
 Flask-WebTest>=0.0.6
 
 # Management script
