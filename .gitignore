@@ -51,5 +51,5 @@ venv
 # intellij
 .ipr
 .iml
-.iws
+*.iws
 
