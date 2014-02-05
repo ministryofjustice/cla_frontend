@@ -1,18 +1,10 @@
-{% extends "layout.html" %}
+{% extends "public/checker_base.html" %}
 
-{% block content %}
-    <div class="full-width">
-        <h1>Your details</h1>
-    </div>
+{% block page_header %}Your details{% endblock page_header %}
 
-    <ol class="breadcrumb">
-        <li class="active">Your problem</li>
-        <li class="active"><a href="#">Your details</a></li>
-        <li>Your finances</li>
-        <li>Result of legal aid check</li>
-    </ol>
-
+{% block checker_content %}
     <p>You are looking for help about {{ category }}</p>
+
 
 {#    <form action="debt" method="POST">#}
 {#        <h2>Is  your problem about?</h2>#}
