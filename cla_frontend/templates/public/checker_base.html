@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="full-width">
+  <h1>{% block page_header %}{% endblock %}</h1>
+</div>
+
+{% block breadcrumb %}
+  <ol class="breadcrumb">
+    <li>Your problem</li>
+    <li>Your details</li>
+    <li>Your finances</li>
+    <li>Result of legal aid check</li>
+  </ol>
+{% endblock %}
+
+  {% block checker_content %}{% endblock %}
+
+{% endblock %}

@@ -1,23 +1,12 @@
-{% extends "layout.html" %}
+{% extends "public/checker_base.html" %}
 
+{% block page_header %}Your problem{% endblock page_header %}
 
-
-{% block content %}
-<div class="full-width">
-  <h1>Your problem</h1>
-</div>
-
-<ol class="breadcrumb">
-  <li><a href="#">Your problem</a></li>
-  <li><a href="#">Your details</a></li>
-  <li>Your finances</li>
-  <li>Result of legal aid check</li>
-</ol>
-
+{% block checker_content %}
 <p>If your problem is about two or more of the list below, please choose what is putting you at immediate risk.</p>
 
 <form action="." method="POST">
-  <h2>Is  your problem about?</h2>
+  <h2>Is your problem about?</h2>
 
   <ul>
     <li>
