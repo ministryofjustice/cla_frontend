@@ -1,4 +1,4 @@
-{% extends "checker/base.html" %}
+{% extends "checker/base.html" %}{% load core_forms_tags %}
 
 {% block page_header %}Check your finances{% endblock page_header %}
 
@@ -12,9 +12,108 @@
 	<div>
 		<h2>You and your partner's money</h2>
 
-{% comment %}
-		{{ render_form(form, action_url='.', action_text='Next step - check if you can get legal aid') }}
-{% endcomment %}
+		<form method=post action="." role="form">{% style_form form %}
+			{% csrf_token %}
+			{{ form.non_field_errors }}
+
+			<fieldset>
+				<label>Your property</label>
+
+				<div class="form-group">
+		            {{ form.property_worth.errors }}
+		            <div>{{ form.property_worth.label_tag }}</div>
+
+		            <div class="input-group col-xs-3 row">
+					    <span class="input-group-addon">&pound;</span>
+			            {{ form.property_worth }}
+					</div>
+		        </div>
+
+				<div class="form-group">
+		            {{ form.property_morgage_left.errors }}
+		            <div>{{ form.property_morgage_left.label_tag }}</div>
+
+		            <div class="input-group col-xs-3 row">
+					    <span class="input-group-addon">&pound;</span>
+			            {{ form.property_morgage_left }}
+					</div>
+		        </div>
+
+				<div>
+		            {{ form.property_owner.errors }}
+		            <div>{{ form.property_owner.label_tag }}</div>
+		            <div>{{ form.property_owner }}</div>
+		        </div>
+
+				<div class="form-group">
+		            {{ form.property_share.errors }}
+		            <div>{{ form.property_share.label_tag }}</div>
+
+		            <div class="input-group col-xs-2 row">
+					    <span class="input-group-addon">%</span>
+			            {{ form.property_share }}
+					</div>
+		        </div>
+
+		        <hr />
+
+				<div class="form-group">
+		            {{ form.other_properties.errors }}
+		            <div>{{ form.other_properties.label_tag }}</div>
+
+		            <div class="input-group col-xs-2 row">
+			            {{ form.other_properties }}
+					</div>
+		        </div>
+
+			</fieldset>
+
+			<fieldset>
+				<label>Your savings</label>
+
+				<div class="form-group">
+		            {{ form.savings_bank.errors }}
+		            <span class="col-xs-7">{{ form.savings_bank.label_tag }}</span>
+
+		            <span class="input-group col-xs-3 row">
+					    <span class="input-group-addon">&pound;</span>
+			            {{ form.savings_bank }}
+					</span>
+		        </div>
+
+				<div class="form-group">
+		            {{ form.savings_investments.errors }}
+		            <span class="col-xs-7">{{ form.savings_investments.label_tag }}</span>
+
+		            <span class="input-group col-xs-3 row">
+					    <span class="input-group-addon">&pound;</span>
+			            {{ form.savings_investments }}
+					</span>
+		        </div>
+
+				<div class="form-group">
+		            {{ form.savings_valuable_items.errors }}
+		            <span class="col-xs-7">{{ form.savings_valuable_items.label_tag }}</span>
+
+		            <span class="input-group col-xs-3 row">
+					    <span class="input-group-addon">&pound;</span>
+			            {{ form.savings_valuable_items }}
+					</span>
+		        </div>
+
+				<div class="form-group">
+		            {{ form.savings_money_owed.errors }}
+		            <span class="col-xs-7">{{ form.savings_money_owed.label_tag }}</span>
+
+		            <span class="input-group col-xs-3 row">
+					    <span class="input-group-addon">&pound;</span>
+			            {{ form.savings_money_owed }}
+					</span>
+		        </div>
+			</fieldset>
+
+			<button type="submit" class="btn btn-success">Next step - check if you can get legal aid</button>
+		</form>
 
 
 <!-- 		<form action="." method="POST">

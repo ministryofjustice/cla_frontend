@@ -87,7 +87,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'CHANGE THIS!!!'
+SECRET_KEY = '(W)*6GwxNiYn<B*ug<U9jdYNDY(#vu(:Y&NthqqPk?^CM=ee?z'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -120,6 +120,7 @@ INSTALLED_APPS = (
 )
 
 PROJECT_APPS = (
+    'core',
     'checker',
 )
 
