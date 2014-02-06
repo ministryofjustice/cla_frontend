@@ -4,7 +4,7 @@ from django import template
 register = template.Library()
 
 
-class StyleForm(template.Node):
+class StyleFormNode(template.Node):
     def __init__(self, form):
         self.form = template.Variable(form)
 
@@ -26,4 +26,4 @@ def style_form(parser, token):
         tag_name, form = token.split_contents()
     except ValueError:
         raise template.TemplateSyntaxError("%r tag requires exactly one arguments" % token.contents.split()[0])
-    return StyleForm(form)
+    return StyleFormNode(form)
