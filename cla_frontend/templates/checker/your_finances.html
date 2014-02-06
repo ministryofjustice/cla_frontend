@@ -1,4 +1,4 @@
-{% extends "checker/base.html" %}{% load core_forms_tags %}
+{% extends "checker/base.html" %}
 
 {% block page_header %}Check your finances{% endblock page_header %}
 
@@ -12,135 +12,32 @@
 	<div>
 		<h2>You and your partner's money</h2>
 
-		<form method=post action="." role="form">{% style_form form %}
+		<form method=post action="." role="form">
 			{% csrf_token %}
 			{{ form.non_field_errors }}
 
-			<fieldset>
-				<label>Your property</label>
+			{% with form.property as form %}
+				{% include "checker/includes/finances_property_form.html" %}
+			{% endwith %}
 
-				<div class="form-group">
-		            {{ form.property_worth.errors }}
-		            <div>{{ form.property_worth.label_tag }}</div>
+			{% with form.your_savings as form %}{% with "Your savings" as fieldset_label %}
+				{% include "checker/includes/finances_savings_form.html" %}
+			{% endwith %}{% endwith %}
 
-		            <div class="input-group col-xs-3 row">
-					    <span class="input-group-addon">&pound;</span>
-			            {{ form.property_worth }}
-					</div>
-		        </div>
-
-				<div class="form-group">
-		            {{ form.property_morgage_left.errors }}
-		            <div>{{ form.property_morgage_left.label_tag }}</div>
-
-		            <div class="input-group col-xs-3 row">
-					    <span class="input-group-addon">&pound;</span>
-			            {{ form.property_morgage_left }}
-					</div>
-		        </div>
-
-				<div>
-		            {{ form.property_owner.errors }}
-		            <div>{{ form.property_owner.label_tag }}</div>
-		            <div>{{ form.property_owner }}</div>
-		        </div>
-
-				<div class="form-group">
-		            {{ form.property_share.errors }}
-		            <div>{{ form.property_share.label_tag }}</div>
-
-		            <div class="input-group col-xs-2 row">
-					    <span class="input-group-addon">%</span>
-			            {{ form.property_share }}
-					</div>
-		        </div>
-
-		        <hr />
-
-				<div class="form-group">
-		            {{ form.other_properties.errors }}
-		            <div>{{ form.other_properties.label_tag }}</div>
-
-		            <div class="input-group col-xs-2 row">
-			            {{ form.other_properties }}
-					</div>
-		        </div>
-
-			</fieldset>
+			{% with form.partners_savings as form %}{% with "Your partner's savings" as fieldset_label %}
+				{% include "checker/includes/finances_savings_form.html" %}
+			{% endwith %}{% endwith %}
 
 			<fieldset>
-				<label>Your savings</label>
-
-				<div class="form-group">
-		            {{ form.savings_bank.errors }}
-		            <span class="col-xs-7">{{ form.savings_bank.label_tag }}</span>
-
-		            <span class="input-group col-xs-3 row">
-					    <span class="input-group-addon">&pound;</span>
-			            {{ form.savings_bank }}
-					</span>
-		        </div>
-
-				<div class="form-group">
-		            {{ form.savings_investments.errors }}
-		            <span class="col-xs-7">{{ form.savings_investments.label_tag }}</span>
-
-		            <span class="input-group col-xs-3 row">
-					    <span class="input-group-addon">&pound;</span>
-			            {{ form.savings_investments }}
-					</span>
-		        </div>
-
-				<div class="form-group">
-		            {{ form.savings_valuable_items.errors }}
-		            <span class="col-xs-7">{{ form.savings_valuable_items.label_tag }}</span>
-
-		            <span class="input-group col-xs-3 row">
-					    <span class="input-group-addon">&pound;</span>
-			            {{ form.savings_valuable_items }}
-					</span>
-		        </div>
-
-				<div class="form-group">
-		            {{ form.savings_money_owed.errors }}
-		            <span class="col-xs-7">{{ form.savings_money_owed.label_tag }}</span>
-
-		            <span class="input-group col-xs-3 row">
-					    <span class="input-group-addon">&pound;</span>
-			            {{ form.savings_money_owed }}
-					</span>
-		        </div>
-			</fieldset>
+			    <div class="form-group">
+			    	<strong>
+				        <p class="col-xs-7">Total of all capital assets</p>
+				        <p class="input-group col-xs-3 row">&pound;5,000</p>
+			        </strong>
+			    </div>
+		    </fieldset>
 
 			<button type="submit" class="btn btn-success">Next step - check if you can get legal aid</button>
 		</form>
-
-
-<!-- 		<form action="." method="POST">
-			<p>You and your partner's money</p>
-
-			<p>Your property</p>
-			<fieldset>
-
-			</fieldset>
-
-			<p>Your savings</p>
-			<fieldset>
-
-			</fieldset>
-
-			<p>Your partner's savings</p>
-			<fieldset>
-
-			</fieldset>
-
-			<div>
-				<strong>Total of all capital assets</strong>
-			</div>
-
-			<div>
-				<button type="submit" class="btn btn-success">Next step - check if you can get legal aid</button>
-			</div>
-		</form> -->
 	</div>
 {% endblock %}
