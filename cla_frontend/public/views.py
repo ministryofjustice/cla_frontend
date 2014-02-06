@@ -6,7 +6,7 @@ from flask.ext.login import login_user, login_required, logout_user
 
 # from cla_frontend.extensions import login_manager
 # from cla_frontend.user.models import User
-from cla_frontend.public.forms import YourDetailsForm
+from cla_frontend.public.forms import YourDetailsForm, YourFinancesForm
 # from cla_frontend.user.forms import RegisterForm
 # from cla_frontend.utils import flash_errors
 # from cla_frontend.database import db
@@ -45,7 +45,10 @@ def your_details(category):
 
 @blueprint.route("/your-finances/", methods=["GET", "POST"])
 def your_finances():
-    return render_template("public/your_finances.html")
+    form = YourFinancesForm(request.form)
+
+    return render_template("public/your_finances.html",
+        form=form)
 
 
 # @login_manager.user_loader

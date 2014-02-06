@@ -1,4 +1,5 @@
 {% extends "public/checker_base.html" %}
+{% from "public/_macros.html" import render_form %}
 
 {% block page_header %}Check your finances{% endblock page_header %}
 
@@ -10,7 +11,12 @@
 	</p>
 
 	<div>
-		<form action="." method="POST">
+		<h2>You and your partner's money</h2>
+
+		{{ render_form(form, action_url='.', action_text='Next step - check if you can get legal aid') }}
+
+
+<!-- 		<form action="." method="POST">
 			<p>You and your partner's money</p>
 
 			<p>Your property</p>
@@ -35,6 +41,6 @@
 			<div>
 				<button type="submit" class="btn btn-success">Next step - check if you can get legal aid</button>
 			</div>
-		</form>
+		</form> -->
 	</div>
 {% endblock %}

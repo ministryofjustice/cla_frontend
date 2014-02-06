@@ -50,6 +50,7 @@
         {{ macros.render_radio_field(form.answers) }}
  #}
 {% macro render_radio_field(field) -%}
+    {{field.label}}
     {% for value, label, _ in field.iter_choices() %}
         <div class="radio">
             <label>
