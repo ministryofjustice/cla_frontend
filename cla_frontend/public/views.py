@@ -36,6 +36,11 @@ def your_details(category):
                            category=category)
 
 
+@blueprint.route("/your-finances/", methods=["GET", "POST"])
+def your_finances():
+    return render_template("public/your_finances.html")
+
+
 # @login_manager.user_loader
 # def load_user(id):
 #     return User.get_by_id(int(id))
