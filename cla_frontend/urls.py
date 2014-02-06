@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from cla_frontend.apps import checker
 
 from django.conf import settings
 from django.conf.urls import patterns, include, url
@@ -12,4 +13,5 @@ from django.conf.urls.static import static
 urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+    url(r'^/', include(checker.urls)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

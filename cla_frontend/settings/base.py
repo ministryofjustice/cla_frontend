@@ -117,6 +117,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    ## custom apps
+    'cla_frontend.apps.checker'
 )
 
 PROJECT_APPS = ()
