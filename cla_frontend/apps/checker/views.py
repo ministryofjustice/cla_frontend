@@ -21,7 +21,6 @@ class YourDetailsView(FormView):
     def get_success_url(self):
         return reverse('checker:your_finances')
 
-
     def get_context_data(self, **kwargs):
         context = super(YourDetailsView, self).get_context_data(**kwargs)
         context.update(self.kwargs)
@@ -34,10 +33,13 @@ class YourFinancesView(FormView):
 
     def get_success_url(self):
         # TODO go somewhere
-        return reverse('checker:home')
+        return reverse('checker:result')
 
     def form_valid(self, form):
         # TODO do something
 
         return super(YourFinancesView, self).form_valid(form)
 
+
+class ResultView(TemplateView):
+    template_name = 'checker/result.html'
