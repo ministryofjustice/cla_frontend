@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
 
 from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView
 
@@ -27,10 +29,8 @@ class CheckerWizard(NamedUrlSessionWizardView):
         context['history_data'] = self.get_all_cleaned_data()
         return context
 
-    # def get_step_url(self, step):
-    #     if step == 'your_details':
-    #         return reverse(u'checker:%s' % step, kwargs=self.kwargs)
-    #     return reverse(u'checker:%s' % step)
+    def done(self, *args, **kwargs):
+        return redirect(reverse('checker:result'))
 
 
 class ResultView(TemplateView):
