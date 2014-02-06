@@ -1,0 +1,47 @@
+{% extends "checker/base.html" %}
+
+{% block page_header %}Check your finances{% endblock page_header %}
+
+{% block checker_content %}
+	<p>Details you've already given</p>
+    <p class="alert alert-success">
+    	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    	tempor incididunt ut labore et dolore magna aliqua.
+	</p>
+
+	<div>
+		<h2>You and your partner's money</h2>
+
+{% comment %}
+		{{ render_form(form, action_url='.', action_text='Next step - check if you can get legal aid') }}
+{% endcomment %}
+
+
+<!-- 		<form action="." method="POST">
+			<p>You and your partner's money</p>
+
+			<p>Your property</p>
+			<fieldset>
+
+			</fieldset>
+
+			<p>Your savings</p>
+			<fieldset>
+
+			</fieldset>
+
+			<p>Your partner's savings</p>
+			<fieldset>
+
+			</fieldset>
+
+			<div>
+				<strong>Total of all capital assets</strong>
+			</div>
+
+			<div>
+				<button type="submit" class="btn btn-success">Next step - check if you can get legal aid</button>
+			</div>
+		</form> -->
+	</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "checker/base.html" %}
+
+{% block page_header %}Your details{% endblock page_header %}
+
+{% block checker_content %}
+    <p class="alert alert-success">You are looking for help about {{ category }}</p>
+
+{% comment %}
+    {{ render_form(form, action_url='.', action_text='Next') }}
+{% endcomment %}
+
+{% endblock %}
