@@ -1,75 +1,11 @@
 {% extends "public/checker_base.html" %}
+{%  from "public/_macros.html" import render_form %}
 
 {% block page_header %}Your details{% endblock page_header %}
 
 {% block checker_content %}
     <p class="alert alert-success">You are looking for help about {{ category }}</p>
 
-{#    <form action="debt" method="POST">#}
-{#        <h2>Is  your problem about?</h2>#}
-{##}
-{#        <ul>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="asylum">#}
-{#                    Applying for asylum or permission to stay in the UK#}
-{#                </label>#}
-{#            </li>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="abuse">#}
-{#                    Violence and abuse at home#}
-{#                </label>#}
-{#            </li>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="police">#}
-{#                    In trouble with the police#}
-{#                </label>#}
-{#            </li>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="debt">#}
-{#                    Debt, money problems and bankruptcy#}
-{#                </label>#}
-{#            </li>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="family">#}
-{#                    Family, marriage, separation and children#}
-{#                </label>#}
-{#            </li>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="housing">#}
-{#                    Housing, eviction and homelessness#}
-{#                </label>#}
-{#            </li>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="welfare">#}
-{#                    Welfare benefits#}
-{#                </label>#}
-{#            </li>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="unusual">#}
-{#                    Unusual cases#}
-{#                </label>#}
-{#            </li>#}
-{#            <li>#}
-{#                <label>#}
-{#                    <input name="response" type="radio" value="other">#}
-{#                    None of the above#}
-{#                </label>#}
-{#            </li>#}
-{#        </ul>#}
-{##}
-{#        <p>If possible, please choose one of the categories above. If you’re really not sure or it doesn’t appear above, you can ask for a call back here.</p>#}
-{##}
-{#        <div>#}
-{#            <button type="submit" class="btn btn-success">Next step - your details</button>#}
-{#        </div>#}
-{#    </form>#}
+    {{ render_form(form, action_url='.', action_text='Next') }}
 
 {% endblock %}

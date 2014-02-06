@@ -7,9 +7,9 @@ from flask.ext.script import Manager, Shell, Server
 from flask.ext.migrate import MigrateCommand
 
 from cla_frontend.app import create_app
-from cla_frontend.user.models import User
+# from cla_frontend.user.models import User
 from cla_frontend.settings import DevConfig, ProdConfig
-from cla_frontend.database import db
+# from cla_frontend.database import db
 
 if os.environ.get("CLA_FRONTEND_ENV") == 'prod':
     app = create_app(ProdConfig)
@@ -23,7 +23,7 @@ def _make_context():
     '''Return context dict for a shell session so you can access
     app, db, and the User model by default.
     '''
-    return {'app': app, 'db': db, 'User': User}
+    return {'app': app }
 
 @manager.command
 def test():

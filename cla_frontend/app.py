@@ -2,11 +2,9 @@
 '''The app module, containing the app factory function.'''
 from flask import Flask, render_template
 from flask_debugtoolbar import DebugToolbarExtension
-
+from .extensions import cache
 from cla_frontend.settings import ProdConfig
 from cla_frontend.assets import assets
-from cla_frontend.extensions import (db, login_manager, migrate,
-                                                    cache)
 from cla_frontend import public, user
 
 
@@ -25,12 +23,9 @@ def create_app(config_object=ProdConfig):
 
 
 def register_extensions(app):
-    db.init_app(app)
-    login_manager.init_app(app)
     assets.init_app(app)
     toolbar = DebugToolbarExtension(app)
     cache.init_app(app)
-    migrate.init_app(app, db)
     return None
 
 

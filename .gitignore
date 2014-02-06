@@ -49,7 +49,7 @@ env*
 venv
 
 # intellij
-.ipr
-.iml
+*.ipr
+*.iml
 *.iws
 
