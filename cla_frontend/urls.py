@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from cla_frontend.apps import checker
 
 from django.conf import settings
 from django.conf.urls import patterns, include, url
