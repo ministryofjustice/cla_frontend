@@ -53,3 +53,4 @@ venv
 *.iml
 *.iws
 
+cla_frontend/settings/local.py
