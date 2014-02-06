@@ -6,7 +6,7 @@ from flask.ext.login import login_user, login_required, logout_user
 
 # from cla_frontend.extensions import login_manager
 # from cla_frontend.user.models import User
-# from cla_frontend.public.forms import LoginForm
+from cla_frontend.public.forms import YourDetailsForm
 # from cla_frontend.user.forms import RegisterForm
 # from cla_frontend.utils import flash_errors
 # from cla_frontend.database import db
@@ -30,8 +30,15 @@ def home():
 
 @blueprint.route("/<category>/your-problem/", methods=["GET", "POST"])
 def your_details(category):
-    form = None
-    return render_template("public/your_details.html",
+    form = YourDetailsForm(request.form)
+    if request.method == 'POST':
+        form.validate_on_submit()
+        ## don't know what to do next
+        return render_template("public/your_details.html",
+                               form=form,
+                               category=category)
+    else:
+        return render_template("public/your_details.html",
                            form=form,
                            category=category)
 
