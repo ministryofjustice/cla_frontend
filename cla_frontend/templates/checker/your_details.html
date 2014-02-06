@@ -5,8 +5,10 @@
 {% block checker_content %}
     <p class="alert alert-success">You are looking for help about {{ category }}</p>
 
-{% comment %}
-    {{ render_form(form, action_url='.', action_text='Next') }}
-{% endcomment %}
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <button class="btn btn-success">Next</button>
+    </form>
 
 {% endblock %}
