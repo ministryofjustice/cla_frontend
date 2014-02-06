@@ -3,9 +3,14 @@ from django.conf.urls import patterns, url
 from . import views
 
 
+checker_wizard = views.CheckerWizard.as_view(
+    url_name='checker:checker_step'
+)
+
 urlpatterns = patterns('',
-    url(r'^(?P<category>[\w-]*)/your-problem/$', views.YourDetailsView.as_view(), name='your_problem'),
-    url(r'^your-finances/$', views.YourFinancesView.as_view(), name='your_finances'),
-    url(r'^result/$', views.ResultView.as_view(), name='result'),
-    url(r'^$', views.YourProblemView.as_view(), name='home'),
+    url(r'^result/$', views.ResultView, name='result'),
+
+    url(r'^$', checker_wizard, name='checker'),
+    url(r'^(?P<step>.+)/$', checker_wizard, name='checker_step'),
+
 )

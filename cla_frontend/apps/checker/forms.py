@@ -6,6 +6,56 @@ from core.forms import MultipleFormsForm
 from .fields import RadioBooleanField
 
 
+class YourProblemForm(forms.Form):
+    your_problem = forms.ChoiceField(
+        label=u'Is your problem about?',
+        choices=(
+            ('asylum', 'Applying for asylum or permission to stay in the UK'),
+            ('abuse', 'Violence and abuse at home'),
+            ('police', 'In trouble with the police'),
+            ('debt', 'Debt, money problems and bankruptcy'),
+            ('family', 'Family, marriage, separation and children'),
+            ('housing', 'Housing, eviction and homelessness'),
+            ('welfare', 'Welfare benefits'),
+            ('unusual', 'Unusual cases'),
+            ('other', 'None of the above')
+        ),
+        widget=forms.RadioSelect()
+    )
+
+
+class YourDetailsForm(forms.Form):
+    has_partner = RadioBooleanField(required=True,
+                                     label='Do you have a partner?'
+    )
+
+    has_benefits = RadioBooleanField(required=True,
+                                     label='Are you or your partner on any benefits?'
+    )
+
+
+    has_children = RadioBooleanField(required=True,
+                                     label='Do you have children?'
+    )
+
+
+    caring_responsibilities = RadioBooleanField(required=True,
+                                         label='Do you any other caring responsibilities??'
+    )
+
+    own_property = RadioBooleanField(required=True,
+                                         label='Do you or your partner own a property?'
+    )
+
+    risk_homeless = RadioBooleanField(required=True,
+                                         label='Are you or your partner aged 60 or over?'
+    )
+
+    older_than_sixty = RadioBooleanField(required=True,
+                                         label='Do you have a partner?'
+    )
+
+
 class YourFinancesPropertyForm(forms.Form):
     worth = forms.IntegerField(label=u"How much is it worth?", min_value=0)
     morgage_left = forms.IntegerField(
@@ -52,36 +102,4 @@ class YourFinancesForm(MultipleFormsForm):
         ('property', YourFinancesPropertyForm),
         ('your_savings', YourFinancesSavingsForm),
         ('partners_savings', YourFinancesSavingsForm),
-    )
-
-
-class YourDetailsForm(forms.Form):
-    has_partner = RadioBooleanField(required=True,
-                                     label='Do you have a partner?'
-    )
-
-    has_benefits = RadioBooleanField(required=True,
-                                     label='Are you or your partner on any benefits?'
-    )
-
-
-    has_children = RadioBooleanField(required=True,
-                                     label='Do you have children?'
-    )
-
-
-    caring_responsibilities = RadioBooleanField(required=True,
-                                         label='Do you any other caring responsibilities??'
-    )
-
-    own_property = RadioBooleanField(required=True,
-                                         label='Do you or your partner own a property?'
-    )
-
-    risk_homeless = RadioBooleanField(required=True,
-                                         label='Are you or your partner aged 60 or over?'
-    )
-
-    older_than_sixty = RadioBooleanField(required=True,
-                                         label='Do you have a partner?'
     )

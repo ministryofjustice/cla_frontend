@@ -1,44 +1,36 @@
-from django.views.generic import TemplateView, FormView
-from django.core.urlresolvers import reverse
-from django.shortcuts import redirect
+from django.views.generic import TemplateView
 
-from .forms import YourDetailsForm, YourFinancesForm
+from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView
 
 
-class YourProblemView(TemplateView):
-    template_name = 'checker/your_problem.html'
-
-    def post(self, request, *args, **kwargs):
-        response = request.POST.get('response')
-        destination = reverse('checker:your_problem', kwargs={'category':response})
-        return redirect(destination)
+from .forms import YourDetailsForm, YourFinancesForm, YourProblemForm
 
 
-class YourDetailsView(FormView):
-    form_class = YourDetailsForm
-    template_name = 'checker/your_details.html'
+class CheckerWizard(NamedUrlSessionWizardView):
+    form_list = [
+        ("your_problem", YourProblemForm),
+        ("your_details", YourDetailsForm),
+        ("your_finances", YourFinancesForm)
+    ]
 
-    def get_success_url(self):
-        return reverse('checker:your_finances')
+    TEMPLATES = {
+        "your_problem": "checker/your_problem.html",
+        "your_details": "checker/your_details.html",
+        "your_finances": "checker/your_finances.html",
+    }
 
-    def get_context_data(self, **kwargs):
-        context = super(YourDetailsView, self).get_context_data(**kwargs)
-        context.update(self.kwargs)
+    def get_template_names(self):
+        return [self.TEMPLATES[self.steps.current]]
+
+    def get_context_data(self, form, **kwargs):
+        context = super(CheckerWizard, self).get_context_data(form, **kwargs)
+        context['history_data'] = self.get_all_cleaned_data()
         return context
 
-
-class YourFinancesView(FormView):
-    template_name = 'checker/your_finances.html'
-    form_class = YourFinancesForm
-
-    def get_success_url(self):
-        # TODO go somewhere
-        return reverse('checker:result')
-
-    def form_valid(self, form):
-        # TODO do something
-
-        return super(YourFinancesView, self).form_valid(form)
+    # def get_step_url(self, step):
+    #     if step == 'your_details':
+    #         return reverse(u'checker:%s' % step, kwargs=self.kwargs)
+    #     return reverse(u'checker:%s' % step)
 
 
 class ResultView(TemplateView):

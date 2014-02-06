@@ -109,6 +109,9 @@ ROOT_URLCONF = 'cla_frontend.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'cla_frontend.wsgi.application'
 
+# TODO change this ?
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+
 TEMPLATE_DIRS = (
     root('templates'),
 )

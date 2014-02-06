@@ -7,7 +7,11 @@
 
 <form action="." method="POST">
     {% csrf_token %}
+    {{ wizard.management_form }}
   <h2>Is your problem about?</h2>
+
+  {{form.as_p}}
+  {% comment %}
 
   <ul>
     <li>
@@ -70,6 +74,7 @@
       </label>
     </li>
   </ul>
+  {% endcomment %}
 
   <p>If possible, please choose one of the categories above. If you’re really not sure or it doesn’t appear above, you can ask for a call back here.</p>
 

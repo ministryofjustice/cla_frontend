@@ -3,9 +3,12 @@
 {% block page_header %}Your details{% endblock page_header %}
 
 {% block checker_content %}
-    <p class="alert alert-success">You are looking for help about {{ category }}</p>
+    <p class="alert alert-success">
+        {{history_data}}
+    </p>
 
     <form action="." method="POST">
+        {{ wizard.management_form }}
         {% csrf_token %}
         {{ form.as_p }}
     <button class="btn btn-success">Next</button>
