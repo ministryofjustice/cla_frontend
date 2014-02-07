@@ -1,12 +1,10 @@
-import pickle
-
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView
 
-
+from .helpers import SessionCheckerHelper
 from .forms import YourDetailsForm, YourFinancesForm, YourProblemForm
 
 
@@ -23,24 +21,36 @@ class CheckerWizard(NamedUrlSessionWizardView):
         "your_finances": "checker/your_finances.html",
     }
 
+    def dispatch(self, request, *args, **kwargs):
+        self.session_helper = SessionCheckerHelper(request)
+        return super(CheckerWizard, self).dispatch(request, *args, **kwargs)
+
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]
 
     def get_context_data(self, form, **kwargs):
         context = super(CheckerWizard, self).get_context_data(form, **kwargs)
 
+        # get from cleaned_data if possible otherwise, get it from the session
+        session_data = self.session_helper.get() or {}
         history_data = {}
         for step in self.steps.all:
-            if self.steps.current == step:
+            if step == self.storage.current_step:
                 continue
-            history_data[step] = self.get_cleaned_data_for_step(step)
+
+            cleaned_data = self.get_cleaned_data_for_step(step)
+            if not cleaned_data:
+                cleaned_data = session_data.get(step)
+
+            if cleaned_data:
+                history_data[step] = cleaned_data
+
         context['history_data'] = history_data
         return context
 
     def get_form_initial(self, step):
-        history_data = self.request.session.get('checker_result')
+        history_data = self.session_helper.get()
         if history_data:
-            history_data = pickle.loads(history_data)
             return history_data.get(step, {})
         return {}
 
@@ -49,7 +59,7 @@ class CheckerWizard(NamedUrlSessionWizardView):
         for step in self.steps.all:
             data[step] = self.get_cleaned_data_for_step(step)
 
-        self.request.session['checker_result'] = pickle.dumps(data)
+        self.session_helper.store(data)
         return redirect(reverse('checker:result'))
 
 
@@ -62,5 +72,6 @@ class ResultView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ResultView, self).get_context_data(**kwargs)
 
-        context['history_data'] = pickle.loads(self.request.session['checker_result'])
+        session_helper = SessionCheckerHelper(self.request)
+        context['history_data'] = session_helper.get()
         return context

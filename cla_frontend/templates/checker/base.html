@@ -1,19 +1,60 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="full-width">
-  <h1>{% block page_header %}{% endblock %}</h1>
-</div>
+    <div class="full-width">
+      <h1>{% block page_header %}{% endblock %}</h1>
+    </div>
 
-{% block breadcrumb %}
-  <ol class="breadcrumb">
-    <li>Your problem</li>
-    <li>Your details</li>
-    <li>Your finances</li>
-    <li>Result of legal aid check</li>
-  </ol>
-{% endblock %}
+    {% block breadcrumb %}
+      <ol class="breadcrumb">
+        <li>Your problem</li>
+        <li>Your details</li>
+        <li>Your finances</li>
+        <li>Result of legal aid check</li>
+      </ol>
+    {% endblock %}
 
-  {% block checker_content %}{% endblock %}
+    {% if history_data %}
+        <h3>Details you've already given</h3>
+        {% if history_data.your_problem or history_data.your_details %}
+        <section class="alert alert-success">
+            <ul>
+                {% for k,v in history_data.your_problem.items %}
+                    <li>{{ k }}: {{ v }}</li>
+                {% endfor %}
 
+                {% for k,v in history_data.your_details.items %}
+                    <li>{{ k }}: {{ v }}</li>
+                {% endfor %}
+            </ul>
+
+            <div>
+                <a href="{% url 'checker:checker_step' 'your_problem' %}">Change these answers</a>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if history_data.your_finances %}
+        <h3>You and your partner's money</h3>
+        <section class="alert alert-success">
+            <ul>
+            {% for k, v in history_data.your_finances.items %}
+                <li>
+                    {{ k }}
+                    <ul>
+                    {% for i,j in v.items %}
+                        <li>{{ i }}: {{ j }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+            </ul>
+
+            <div>
+                <a href="{% url 'checker:checker_step' 'your_finances' %}">Change these answers</a>
+            </div>
+        </section>
+        {% endif %}
+    {% endif %}
+    {% block checker_content %}{% endblock %}
 {% endblock %}

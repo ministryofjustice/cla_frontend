@@ -3,10 +3,6 @@
 {% block page_header %}Your details{% endblock page_header %}
 
 {% block checker_content %}
-    <p class="alert alert-success">
-        {{history_data}}
-    </p>
-
     <form action="." method="POST">
         {{ wizard.management_form }}
         {% csrf_token %}
