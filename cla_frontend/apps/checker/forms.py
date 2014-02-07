@@ -102,3 +102,29 @@ class YourFinancesForm(MultipleFormsForm):
         ('your_savings', YourFinancesSavingsForm),
         ('partners_savings', YourFinancesSavingsForm),
     )
+
+
+class ContactDetails(forms.Form):
+    title = forms.ChoiceField(
+        label=u'Title', choices=(
+            ('mr', 'Mr'),
+            ('mrs', 'Mrs'),
+            ('miss', 'Miss'),
+            ('ms', 'Ms'),
+            ('dr', 'Dr')
+        )
+    )
+    fullname = forms.CharField(label=u'Full name', max_length=200)
+    postcode = forms.CharField(label=u'Postcode', max_length=10)
+    street = forms.CharField(
+        label='Street', max_length=300,
+        widget=forms.Textarea(attrs={'rows': 4, 'cols': 21})
+    )
+    town = forms.CharField(label=u'Town', max_length=20)
+    tel_type = forms.ChoiceField(label=None, choices=(
+            ('mob', 'mobile'),
+            ('work', 'work'),
+            ('home', 'home')
+        )
+    )
+    tel = forms.CharField(label=None, max_length=100)

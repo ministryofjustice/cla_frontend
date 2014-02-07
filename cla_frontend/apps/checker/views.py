@@ -1,11 +1,11 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView
 
 from .helpers import SessionCheckerHelper
-from .forms import YourDetailsForm, YourFinancesForm, YourProblemForm
+from .forms import YourDetailsForm, YourFinancesForm, YourProblemForm, ContactDetails
 
 
 class CheckerWizard(NamedUrlSessionWizardView):
@@ -63,8 +63,9 @@ class CheckerWizard(NamedUrlSessionWizardView):
         return redirect(reverse('checker:result'))
 
 
-class ResultView(TemplateView):
+class ResultView(FormView):
     template_name = 'checker/result.html'
+    form_class = ContactDetails
 
     def get(self, request, *args, **kwargs):
         return super(ResultView, self).get(request, *args, **kwargs)
@@ -73,5 +74,8 @@ class ResultView(TemplateView):
         context = super(ResultView, self).get_context_data(**kwargs)
 
         session_helper = SessionCheckerHelper(self.request)
-        context['history_data'] = session_helper.get()
+        context.update({
+            'history_data': session_helper.get(),
+            'applying': self.kwargs.get('applying')
+        })
         return context

@@ -1,7 +1,33 @@
-{% extends "checker/base.html" %}
+{% extends "checker/base.html" %}{% load core_forms_tags %}
 
 {% block page_header %}{% endblock page_header %}
 
-{% block checker_content %}
+{% block checker_content %}{% style_form form %}
+    {% if applying %}
+    <form action="." method="POST">
+        {% csrf_token %}
+        <fieldset>
+            <label>Contact details</label>
 
+            {{form.as_p}}
+
+        </fieldset>
+        <button class="btn btn-success">Next</button>
+    </form>
+    {% endif %}
+
+    <div>
+        <h2 style="text-align:center">You might be able to get Legal Aid</h2>
+        <p>In order to see if you can qualify for Legal Aid you need to give us your personal details</p>
+
+        <div>
+            <a href="{% url 'checker:apply' %}" class="btn btn-success">Apply for legal aid</a>
+            <button type="button" class="btn">
+              <span class="glyphicon glyphicon-send"></span> Send info by email
+            </button>
+            <button type="button" class="btn">
+              <span class="glyphicon glyphicon-print"></span> Print
+            </button>
+        </div>
+    </div>
 {% endblock %}
