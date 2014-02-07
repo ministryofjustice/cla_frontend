@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load helpers %}
 
 {% block content %}
     <div class="full-width">
@@ -6,12 +7,12 @@
     </div>
 
     {% block breadcrumb %}
-      <ol class="breadcrumb">
-        <li>Your problem</li>
-        <li>Your details</li>
-        <li>Your finances</li>
-        <li>Result of legal aid check</li>
-      </ol>
+        <ol class="breadcrumb">
+            {% for step in wizard_steps %}
+                <li><a href="{% url 'checker:checker_step' step %}">{{ step|unslug }}</a></li>
+            {% endfor %}
+            <li><a href="{% url 'checker:result' %}">Result of legal aid check</a></li>
+        </ol>
     {% endblock %}
 
     {% if history_data %}
