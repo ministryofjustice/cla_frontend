@@ -7,8 +7,10 @@ BOOL_CHOICES = ((1, _('Yes')), (0, _('No')))
 
 class RadioBooleanField(forms.TypedChoiceField):
 
+
+
     def __init__(self, *args, **kwargs):
-        # kwargs['coerce'] = kwargs.pop('coerce', lambda x: bool(int(x)) if x.isdigit() else bool(x))
+        kwargs['coerce'] = kwargs.pop('coerce', int)
         kwargs['widget'] = forms.RadioSelect
         kwargs['choices'] = kwargs.pop('choices', BOOL_CHOICES)
 

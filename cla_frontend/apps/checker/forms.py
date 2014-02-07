@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
-
-from core.forms import MultipleFormsForm
-
 from .fields import RadioBooleanField
+from core.forms import MultipleFormsForm
 
 
 class YourProblemForm(forms.Form):
