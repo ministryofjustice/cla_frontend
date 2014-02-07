@@ -75,9 +75,8 @@ class YourFinancesPropertyForm(forms.Form):
     )
 
     # TODO shouldn't be here?
-    other_properties = forms.BooleanField(
-        label=u'Do you own another property?',
-        widget=forms.RadioSelect(choices=((True, 'Yes'), (False, 'No')))
+    other_properties = RadioBooleanField(required=True,
+                                     label='Do you own another property?'
     )
 
 

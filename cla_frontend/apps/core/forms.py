@@ -36,6 +36,13 @@ class MultipleFormsForm(forms.Form):
         return None
 
     @property
+    def cleaned_data(self):
+        cleaned_data = {}
+        for prefix, form in self.forms:
+            cleaned_data[prefix] = form.cleaned_data
+        return cleaned_data
+
+    @property
     def errors(self):
         errors = {}
 
