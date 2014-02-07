@@ -1,0 +1,17 @@
+{% extends "checker/base.html" %}
+
+{% block breadcrumb_list %}
+    {% with prev_step=wizard.steps.prev next_step=wizard.steps.next %}
+        {% if prev_step %}
+            <li>
+                <a href="{% url 'checker:checker_step' prev_step %}"><i class="fa fa-step-backward"></i></a>
+            </li>
+        {% endif %}
+        {{ block.super }}
+        {% if next_step %}
+            <li>
+                <a href="{% url 'checker:checker_step' next_step %}"><i class="fa fa-step-forward"></i></a>
+            </li>
+        {% endif %}
+    {% endwith %}
+{% endblock %}

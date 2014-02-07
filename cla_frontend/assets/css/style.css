@@ -123,3 +123,6 @@ footer .footer-nav {
     border-color: #d0e3f0;
 }
 
+ol.breadcrumb li.active {
+    font-weight: 800;
+}

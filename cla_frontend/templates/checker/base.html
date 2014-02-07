@@ -8,10 +8,14 @@
 
     {% block breadcrumb %}
         <ol class="breadcrumb">
+            {%  block breadcrumb_list %}
             {% for step in wizard_steps %}
-                <li><a href="{% url 'checker:checker_step' step %}">{{ step|unslug }}</a></li>
+                {% url 'checker:checker_step' step as step_url %}
+                <li {% if request.path == step_url %}class="active"{% endif %}>
+                    <a href="{{ step_url }}">{{ step|unslug }}</a></li>
             {% endfor %}
             <li><a href="{% url 'checker:result' %}">Result of legal aid check</a></li>
+            {% endblock %}
         </ol>
     {% endblock %}
 
