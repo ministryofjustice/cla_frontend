@@ -1,7 +1,6 @@
 from django.views.generic import FormView
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
-from django.contrib.formtools.wizard.storage.session import SessionStorage
 
 from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView
 
@@ -9,21 +8,9 @@ from .helpers import SessionCheckerHelper
 from .forms import YourDetailsForm, YourFinancesForm, YourProblemForm, ContactDetails
 
 
-class CheckerSessionStorage(SessionStorage):
-    def init_data(self):
-        super(CheckerSessionStorage, self).init_data()
-        self.data['_reference'] = None
-
-    def set_if_necessary_reference(self, reference):
-        if not self.data.get('_reference'):
-            self.data['_reference'] = reference
-
-    def get_reference(self):
-        return self.data.get('_reference')
-
 
 class CheckerWizard(NamedUrlSessionWizardView):
-    storage_name = 'checker.views.CheckerSessionStorage'
+    storage_name = 'checker.storage.CheckerSessionStorage'
 
     form_list = [
         ("your_problem", YourProblemForm),

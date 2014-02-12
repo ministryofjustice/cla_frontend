@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load i18n %}
 {% load helpers %}
 
 {% block content %}
@@ -20,13 +20,13 @@
     {% endblock %}
 
     {% if history_data %}
-        <h3>Details you've already given</h3>
+        <h3>{% trans "Details you've already given" %}</h3>
         {% if history_data.your_problem or history_data.your_details %}
         <section class="alert alert-success">
             <ul>
-                {% for k,v in history_data.your_problem.items %}
-                    <li>{{ k }}: {{ v }}</li>
-                {% endfor %}
+                {% if history_data.your_problem %}
+                {% trans "You are looking for help about " %} {{history_data.your_problem.category_name}}
+                {% endif %}
 
                 {% for k,v in history_data.your_details.items %}
                     <li>{{ k }}: {{ v }}</li>

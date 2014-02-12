@@ -19,7 +19,7 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
     """
     Gets the problem choices from the backend API.
     """
-    your_problem = forms.ChoiceField(
+    category = forms.ChoiceField(
         label=_(u'Is your problem about?'),
         choices=(), widget=forms.RadioSelect()
     )
@@ -32,7 +32,7 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
     def __init__(self, *args, **kwargs):
         super(YourProblemForm, self).__init__(*args, **kwargs)
 
-        categories = connection.category.get()
+        self._categories = connection.category.get()
 
         def get_category_choice(category):
             id = category['id']
@@ -40,11 +40,30 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
             if category['description']:
                 label = mark_safe(u'%s <br> <p class="bs-callout bs-callout-warning">%s</p>' % (label, category['description']))
             return (id, label)
-        self.fields['your_problem'].choices = [get_category_choice(cat) for cat in categories]
+        self.fields['category'].choices = [get_category_choice(cat) for cat in self._categories]
+
+    def _get_category_by_id(self, id):
+        for cat in self._categories:
+            if id == str(cat['id']):
+                return cat
+        return None
+
+    def clean(self, *args, **kwargs):
+        cleaned_data = super(YourProblemForm, self).clean(*args, **kwargs)
+
+        if self._errors: # skip immediately
+            return cleaned_data
+
+        category = cleaned_data.get('category')
+        if category:
+            categoryData = self._get_category_by_id(category)
+            cleaned_data['category_name'] = categoryData['name']
+
+        return cleaned_data
 
     def save(self):
         data = {
-            'category': self.cleaned_data.get('your_problem'),
+            'category': self.cleaned_data.get('category'),
             'notes': self.cleaned_data.get('notes', '')
         }
 
