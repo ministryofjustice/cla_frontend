@@ -1,14 +1,9 @@
 from unittest import TestCase
 from django.core.exceptions import ValidationError
-from .fields import RadioBooleanField
-# Create your tests here.
-
-
+from ..fields import RadioBooleanField
 
 
 class CustomFieldsTest(TestCase):
-
-
     def test_radiobooleanfield_rejects_bad_input(self):
         f = RadioBooleanField()
         self.assertFalse(f.valid_value('aif'), msg='RadioBooleanField is allowing bad input')

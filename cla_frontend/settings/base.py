@@ -174,6 +174,9 @@ LOGGING = {
 
 # EMAILS
 
+# importing test settings file if necessary (TODO chould be done better)
+if len(sys.argv) > 1 and 'test' in sys.argv[1]:
+    from .testing import *
 
 # .local.py overrides all the common settings.
 try:
@@ -182,6 +185,3 @@ except ImportError:
     pass
 
 
-# importing test settings file if necessary (TODO chould be done better)
-if len(sys.argv) > 1 and 'test' in sys.argv[1]:
-    from .testing import *

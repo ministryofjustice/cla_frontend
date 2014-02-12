@@ -1,16 +1,15 @@
 from .base import *
 
-from django.test.simple import DjangoTestSuiteRunner
+import sys
+from os.path import join, abspath, dirname
 
-class NoDbTestRunner(DjangoTestSuiteRunner):
-    """ A test runner to test without database creation """
+# PATH vars
 
-    def setup_databases(self, **kwargs):
-        """ Override the database creation defined in parent class """
-        pass
+here = lambda *x: join(abspath(dirname(__file__)), *x)
+PROJECT_ROOT = here("..")
+root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 
-    def teardown_databases(self, old_config, **kwargs):
-        """ Override the database teardown defined in parent class """
-        pass
+sys.path.insert(0, root('apps'))
 
-TEST_RUNNER = 'cla_frontend.settings.testing.NoDbTestRunner'
+TEST_RUNNER = 'core.testing.runner.NoDbTestRunner'
+

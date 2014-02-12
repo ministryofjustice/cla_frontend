@@ -1,5 +1,6 @@
 from django.contrib.formtools.wizard.storage.session import SessionStorage
 
+
 class CheckerSessionStorage(SessionStorage):
     def init_data(self):
         super(CheckerSessionStorage, self).init_data()
