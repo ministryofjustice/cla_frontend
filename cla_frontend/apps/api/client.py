@@ -5,52 +5,77 @@ API_VERSION = 'v1'
 BASE_URI = 'http://127.0.0.1:8000/legalaid/api/{version}'.\
     format(version=API_VERSION)
 
-_client = slumber.API(BASE_URI, )
+def get_connection(session=None):
+    return slumber.API(BASE_URI, session=session)
 
 
 class Resource(object):
+    endpoint_name = None
+    endpoint = None
     fields = set()
     required_fields = set()
     connection = None
+    pk_name = 'reference'
+
+    def __init__(self, *args):
+        if not len(args):
+            connection = get_connection()
+        else:
+            connection = args[0]
+
+        self.connection = connection
+        self.endpoint = getattr(self.connection, self.endpoint_name)
+
+
+    def list(self):
+        """
+        :return: a list of all objects
+        """
+        return self.endpoint.get()
 
     def validate_fields(self, data):
         """
         checks if all required fields have been specified
         """
-        raise NotImplementedError()
+        keys = set(data.keys())
+        if not self.required_fields.issubset(keys):
+            missing = ', '.join(self.required_fields.difference(keys))
+            raise ValueError(
+                'Some required fields not supplied: {missing}'.
+                format(missing=missing))
 
     def update(self, data=None, reference=None, **kwargs):
         """
         :param data: optional, the whole updated object you want to save
-        :param kwargs: or, a reference for the object to be updated and
+        :param kwargs: or, a reference/id for the object to be updated and
         """
 
         updated = None
-        if data is not None and 'reference' in data:
+        if data is not None and self.pk_name in data:
             # check data has a reference before posting
-            updated = self.connection.post(data)
-        elif reference:
-            kwargs.update({'reference': reference})
-            updated = self.connection.patch(kwargs)
+            self.validate_fields(data)
+            updated = self.endpoint.post(data)
+            return updated
+
+        if reference:
+            updated = self.endpoint(reference).patch(kwargs)
 
         return updated
 
+    def create(self, data, **kwargs):
+        return self.endpoint.post(data)
 
 
 class Category(Resource):
-
-    connection = _client.category
-
-    def list(self):
-        """
-        :return: a list of all categories
-        """
-        return self.connection.get()
+    endpoint_name = 'category'
+    pk_name = 'id'
+    fields = {'name', 'description', 'id'}
 
 
-class EligibilityClaim(Resource):
+class EligibilityCheck(Resource):
+    fields = {'reference', 'category', 'notes'}
 
-    connection = _client.eligibility_check
+    endpoint_name = 'eligibility_check'
 
     def create(self, category=None, notes=None):
         """
@@ -66,34 +91,39 @@ class EligibilityClaim(Resource):
             data['category'] = category
             data['notes'] = notes
 
-        new = self.connection.post(data)
-        return new
+        return super(EligibilityCheck, self).create(data)
 
 
-class PersonalDetails(object):
+class PersonalDetails(Resource):
 
-    fields = ('title', 'full_name', 'postcode',
-              'street', 'town', 'mobile_phone', 'home_phone',)
+    endpoint_name = 'personal_details'
+
+    fields = {'title', 'full_name', 'postcode',
+              'street', 'town', 'mobile_phone', 'home_phone'}
+
+
 
     def create(self, title=None, full_name=None, postcode=None,
                street=None, town=None, mobile_phone=None, home_phone=None):
-        if not any([mobile_phone, home_phone]):
-            raise ValueError('One of home_phone or mobile_phone must be supplied')
 
         data = {}
 
         for f in self.fields:
             data[f] = locals()[f]
 
-        _client.personal_details.post(data)
+        return super(PersonalDetails, self).create(data)
 
-    def update(self, data=None, **kwargs):
-        pass
+    def validate_fields(self, data):
+        super(PersonalDetails, self).validate_fields(data)
+        if not 'mobile_phone' or 'home_phone' in data:
+            raise ValueError(
+                'One of "home_phone" or "mobile_phone" must be supplied.')
 
+class Case(Resource):
 
-class Case(object):
+    endpoint_name = 'case'
 
-    def create(self, eligibility_check, personal_details):
+    def create(self, eligibility_check=None, personal_details=None):
         """
         creates a case using a pre-existing pair of an
         eligibility claim object and a personal_details object.
@@ -106,4 +136,4 @@ class Case(object):
         data = {}
         data['eligibility_check'] = eligibility_check
         data['personal_details'] = personal_details
-        return _client.case.post(data)
+        return super(Case, self).create(data)
