@@ -1,28 +1,52 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from .fields import RadioBooleanField
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy, ugettext as _
+
 from core.forms import MultipleFormsForm
+from api import client
+
+from .fields import RadioBooleanField
 
 
-class YourProblemForm(forms.Form):
+class CheckerWizardForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.reference = kwargs.pop('reference', None)
+        super(CheckerWizardForm, self).__init__(*args, **kwargs)
+
+
+class YourProblemForm(CheckerWizardForm):
     your_problem = forms.ChoiceField(
-        label=u'Is your problem about?',
-        choices=(
-            ('asylum', 'Applying for asylum or permission to stay in the UK'),
-            ('abuse', 'Violence and abuse at home'),
-            ('police', 'In trouble with the police'),
-            ('debt', 'Debt, money problems and bankruptcy'),
-            ('family', 'Family, marriage, separation and children'),
-            ('housing', 'Housing, eviction and homelessness'),
-            ('welfare', 'Welfare benefits'),
-            ('unusual', 'Unusual cases'),
-            ('other', 'None of the above')
-        ),
-        widget=forms.RadioSelect()
+        label=_(u'Is your problem about?'),
+        choices=(), widget=forms.RadioSelect()
+    )
+    notes = forms.CharField(
+        required=False, max_length=1000,
+        label=_(u'You can also provide additional details about your case in the text box below.'),
+        widget=forms.Textarea(attrs={'rows': 5, 'cols': 80})
     )
 
+    def __init__(self, *args, **kwargs):
+        super(YourProblemForm, self).__init__(*args, **kwargs)
 
-class YourDetailsForm(forms.Form):
+        categories = client.Category().list()
+
+        def get_category_choice(category):
+            id = category['id']
+            label = category['name']
+            if category['description']:
+                label = mark_safe(u'%s <br> <p class="bs-callout bs-callout-warning">%s</p>' % (label, category['description']))
+            return (id, label)
+        self.fields['your_problem'].choices = [get_category_choice(cat) for cat in categories]
+
+    def save(self):
+        category = self.cleaned_data.get('your_problem')
+        notes = self.cleaned_data.get('notes', '')
+
+        return client.EligibilityClaim().create(category, notes)
+
+
+class YourDetailsForm(CheckerWizardForm):
     has_partner = RadioBooleanField(required=True,
                                      label='Do you have a partner?'
     )

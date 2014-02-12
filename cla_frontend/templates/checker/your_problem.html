@@ -1,16 +1,33 @@
-{% extends "checker/base_step.html" %}
+{% extends "checker/base_step.html" %}{% load i18n %}
 
-{% block page_header %}Your problem{% endblock page_header %}
+{% block page_header %}{% trans "Your problem" %}{% endblock page_header %}
 
 {% block checker_content %}
-<p>If your problem is about two or more of the list below, please choose what is putting you at immediate risk.</p>
+<p>{% trans "If your problem is about two or more of the list below, please choose what is putting you at immediate risk." %} </p>
 
 <form action="." method="POST">
     {% csrf_token %}
     {{ wizard.management_form }}
-  <h2>Is your problem about?</h2>
+    {{ form.non_field_errors }}
 
-  {{form.as_p}}
+    <div>
+        <h2>{{ form.your_problem.label }}</h2>
+
+        {{ form.your_problem.errors }}
+        {{ form.your_problem }}
+    </div>
+
+    <p>{% trans "If possible, please choose one of the categories above. If you’re really not sure or it doesn’t appear above, you can ask for a call back here." %}</p>
+
+    <div>
+        <h2>{{ form.notes.label_tag }}</h2>
+
+        {{ form.notes.errors }}
+        {{ form.notes }}
+    </div>
+
+
+
   {% comment %}
 
   <ul>
@@ -76,10 +93,8 @@
   </ul>
   {% endcomment %}
 
-  <p>If possible, please choose one of the categories above. If you’re really not sure or it doesn’t appear above, you can ask for a call back here.</p>
-
   <div>
-    <button type="submit" class="btn btn-success">Next step - your details</button>
+    <button type="submit" class="btn btn-success">{% trans "Next step - your details" %}</button>
   </div>
 </form>
 

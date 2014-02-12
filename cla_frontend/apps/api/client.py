@@ -88,7 +88,7 @@ class PersonalDetails(object):
         _client.personal_details.post(data)
 
     def update(self, data=None, **kwargs):
-
+        pass
 
 
 class Case(object):
