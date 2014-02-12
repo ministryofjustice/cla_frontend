@@ -1,27 +1,30 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy, ugettext as _
+from django.utils.translation import ugettext as _
 
 from core.forms import MultipleFormsForm
-from api import client
+from api.client import connection
 
 from .fields import RadioBooleanField
 
 
-class CheckerWizardForm(forms.Form):
+class CheckerWizardMixin(object):
     def __init__(self, *args, **kwargs):
         self.reference = kwargs.pop('reference', None)
-        super(CheckerWizardForm, self).__init__(*args, **kwargs)
+        super(CheckerWizardMixin, self).__init__(*args, **kwargs)
 
 
-class YourProblemForm(CheckerWizardForm):
+class YourProblemForm(CheckerWizardMixin, forms.Form):
+    """
+    Gets the problem choices from the backend API.
+    """
     your_problem = forms.ChoiceField(
         label=_(u'Is your problem about?'),
         choices=(), widget=forms.RadioSelect()
     )
     notes = forms.CharField(
-        required=False, max_length=1000,
+        required=False, max_length=500,
         label=_(u'You can also provide additional details about your case in the text box below.'),
         widget=forms.Textarea(attrs={'rows': 5, 'cols': 80})
     )
@@ -29,7 +32,7 @@ class YourProblemForm(CheckerWizardForm):
     def __init__(self, *args, **kwargs):
         super(YourProblemForm, self).__init__(*args, **kwargs)
 
-        categories = client.Category().list()
+        categories = connection.category.get()
 
         def get_category_choice(category):
             id = category['id']
@@ -40,13 +43,18 @@ class YourProblemForm(CheckerWizardForm):
         self.fields['your_problem'].choices = [get_category_choice(cat) for cat in categories]
 
     def save(self):
-        category = self.cleaned_data.get('your_problem')
-        notes = self.cleaned_data.get('notes', '')
+        data = {
+            'category': self.cleaned_data.get('your_problem'),
+            'notes': self.cleaned_data.get('notes', '')
+        }
 
-        return client.EligibilityClaim().create(category, notes)
+        if not self.reference:
+            return connection.eligibility_check.create()
+
+        return connection.eligibility_check(self.reference).patch(data)
 
 
-class YourDetailsForm(CheckerWizardForm):
+class YourDetailsForm(CheckerWizardMixin, forms.Form):
     has_partner = RadioBooleanField(required=True,
                                      label='Do you have a partner?'
     )
@@ -118,7 +126,7 @@ class YourFinancesSavingsForm(forms.Form):
     )
 
 
-class YourFinancesForm(MultipleFormsForm):
+class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
     forms_list = (
         ('property', YourFinancesPropertyForm),
         ('your_savings', YourFinancesSavingsForm),

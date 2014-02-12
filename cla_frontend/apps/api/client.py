@@ -9,6 +9,10 @@ def get_connection(session=None):
     return slumber.API(BASE_URI, session=session)
 
 
+connection = slumber.API(BASE_URI)
+
+
+
 class Resource(object):
     endpoint_name = None
     endpoint = None
