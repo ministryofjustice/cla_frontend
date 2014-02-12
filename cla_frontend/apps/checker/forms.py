@@ -49,7 +49,7 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
         }
 
         if not self.reference:
-            return connection.eligibility_check.create()
+            return connection.eligibility_check.post(data)
 
         return connection.eligibility_check(self.reference).patch(data)
 
