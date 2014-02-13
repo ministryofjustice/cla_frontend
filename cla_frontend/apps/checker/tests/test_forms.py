@@ -8,7 +8,7 @@ from .fixtures import mocked_api
 
 
 class YourProblemFormTestCase(TestCase):
-    @mock.patch('cla_frontend.apps.checker.forms.connection')
+    @mock.patch('checker.forms.connection')
     def __call__(self, runner, mocked_connection, *args, **kwargs):
         self.mocked_connection = mocked_connection
 

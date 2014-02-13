@@ -7,7 +7,10 @@ here = lambda *x: join(abspath(dirname(__file__)), *x)
 PROJECT_ROOT = here("..")
 root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 
-sys.path.insert(0, root('apps'))
+APPS_ROOT = root('apps')
+
+sys.path.insert(0, PROJECT_ROOT)
+sys.path.insert(0, APPS_ROOT)
 
 
 DEBUG = True
