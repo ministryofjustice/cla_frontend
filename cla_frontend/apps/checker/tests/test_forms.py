@@ -1,20 +1,15 @@
-import mock
-
-from unittest import TestCase
+from core.testing.testcases import CLATestCase
 
 from ..forms import YourProblemForm
 
 from .fixtures import mocked_api
 
 
-class YourProblemFormTestCase(TestCase):
-    @mock.patch('checker.forms.connection')
-    def __call__(self, runner, mocked_connection, *args, **kwargs):
-        self.mocked_connection = mocked_connection
+class YourProblemFormTestCase(CLATestCase):
+    def setUp(self):
+        super(YourProblemFormTestCase, self).setUp()
 
         self.mocked_connection.category.get.return_value = mocked_api.CATEGORY_LIST
-
-        super(YourProblemFormTestCase, self).__call__(runner, *args, **kwargs)
 
     def test_get(self):
         form = YourProblemForm()
