@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 from core.forms import MultipleFormsForm
 from api.client import connection
 
+from django.forms.formsets import formset_factory
+
 from .fields import RadioBooleanField
 
+OWNED_BY_CHOICES = [
+    (1, 'Owned by me'),
+    (0, 'Joint names')
+]
 
 class CheckerWizardMixin(object):
     def __init__(self, *args, **kwargs):
@@ -104,32 +111,43 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
                                          label='Do you have a partner?'
     )
 
+class YourFinancesOtherPropertyForm(CheckerWizardMixin, forms.Form):
+    other_properties = RadioBooleanField(required=True,
+                                         label='Do you own another property?'
+    )
 
-class YourFinancesPropertyForm(forms.Form):
+    def clean_other_properties(self):
+        other_properties = self.cleaned_data['other_properties']
+        return bool(other_properties)
+
+
+class YourFinancesPropertyForm(CheckerWizardMixin, forms.Form):
     worth = forms.IntegerField(label=u"How much is it worth?", min_value=0)
-    morgage_left = forms.IntegerField(
+    mortgage_left = forms.IntegerField(
         label=u"How much is left to pay on the mortgage?", min_value=0
     )
-    owner = forms.ChoiceField(
+    owner = RadioBooleanField(
         label=u"Is the property owned by you or is it in joint names?",
-        choices=[
-            ('Owned by me', 'me'),
-            ('Joint names', 'joint-names')
-        ],
-        widget=forms.RadioSelect()
+        choices=OWNED_BY_CHOICES,
     )
-    share = forms.DecimalField(
-        label=u'What is your share of the property?', decimal_places=2,
+    share = forms.IntegerField(
+        label=u'What is your share of the property?',
         min_value=0, max_value=100
     )
 
-    # TODO shouldn't be here?
-    other_properties = RadioBooleanField(required=True,
-                                     label='Do you own another property?'
-    )
+
+    def clean_owner(self):
+        data = self.cleaned_data['owner']
+        return bool(data)
 
 
-class YourFinancesSavingsForm(forms.Form):
+    def clean(self):
+        data = self.cleaned_data
+        data['equity'] = max(data.get('worth',0) - data.get('mortgage_left',0), 0)
+        return data
+
+
+class YourFinancesSavingsForm(CheckerWizardMixin, forms.Form):
     bank = forms.IntegerField(
         label=u"Do you have any money saved in a bank or building society?",
         min_value=0
@@ -144,13 +162,112 @@ class YourFinancesSavingsForm(forms.Form):
         label=u"Do you have any money owed to you?", min_value=0
     )
 
+class YourFinancesIncomeForm(CheckerWizardMixin, forms.Form):
+
+    earnings_per_month = forms.IntegerField(
+        label=u"Earnings per month",
+        min_value=0
+    )
+
+    other_income_per_month = forms.IntegerField(
+        label=u"Other income per month?",
+        min_value=0
+    )
+
+    self_employed = RadioBooleanField(
+        label=u"Are you self employed?",
+        initial=0
+    )
+
 
 class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
+
+    YourFinancesPropertyFormSet = formset_factory(
+        YourFinancesPropertyForm,
+        extra=1,
+        max_num=20,
+        validate_max=True,
+    )
+
+    formset_list = (
+        ('property', YourFinancesPropertyFormSet),
+    )
+
     forms_list = (
-        ('property', YourFinancesPropertyForm),
+        ('your_other_properties', YourFinancesOtherPropertyForm),
         ('your_savings', YourFinancesSavingsForm),
         ('partners_savings', YourFinancesSavingsForm),
+        ('your_income', YourFinancesIncomeForm),
+        ('partners_income', YourFinancesIncomeForm),
+        # dependents form?
     )
+
+    def __init__(self, *args, **kwargs):
+        # pop these from kwargs
+        self.has_partner = kwargs.pop('has_partner', True)
+        self.has_property = kwargs.pop('has_property', True)
+        self.more_property = kwargs.pop('more_property', True)
+
+        new_forms_list = dict(self.forms_list)
+        new_formset_list = dict(self.formset_list)
+        if not self.has_partner:
+            del new_forms_list['partners_savings']
+            del new_forms_list['partners_income']
+
+
+        self.forms_list = new_forms_list.items()
+        self.formset_list = new_formset_list.items()
+
+        super(YourFinancesForm, self).__init__(*args, **kwargs)
+
+    def get_savings(self, key):
+        data = self.cleaned_data
+        return {
+            'bank_balance': data[key].get('bank', 0),
+            'asset_balance': data[key].get('valuable_items', 0),
+            'credit_balance': data[key].get('money_owed', 0),
+            'investment_balance': data[key].get('investments', 0),
+        }
+
+    def get_income(self, key):
+        data = self.cleaned_data
+        return {
+            'earnings': data[key].get('earnings_per_month', 0),
+            'other_income': data[key].get('other_income_per_month', 0)
+        }
+
+
+    def get_finances(self):
+        your_finances = self.get_savings('your_savings')
+        partner_finances = self.get_savings('partners_savings')
+        your_finances.update(self.get_income('your_income'))
+        partner_finances.update(self.get_income('partners_income'))
+        return your_finances, partner_finances
+
+    def get_properties(self):
+        def _transform(property):
+            return {
+                'equity': property['equity'],
+                'share': property['share'],
+                'value': property['worth']
+            }
+        properties = self.cleaned_data['property']
+        return map(_transform, properties)
+
+    def save(self):
+        data = self.cleaned_data
+        your_finances, partner_finances = self.get_finances()
+        post_data = {
+            'your_finances': your_finances,
+            'partner_finances': partner_finances,
+            'dependants_young': data.get('dependant_young', 0),
+            'dependants_old': data.get('dependant_old', 0),
+            'property_set': self.get_properties()
+        }
+        if not self.reference:
+            return connection.eligibility_check.post(post_data)
+
+        return connection.eligibility_check(self.reference).patch(post_data)
 
 
 class ContactDetails(forms.Form):
@@ -172,7 +289,6 @@ class ContactDetails(forms.Form):
     town = forms.CharField(label=u'Town', max_length=20)
     tel_type = forms.ChoiceField(label=None, choices=(
             ('mob', 'mobile'),
-            ('work', 'work'),
             ('home', 'home')
         )
     )

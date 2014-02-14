@@ -11,9 +11,16 @@
 			{{ wizard.management_form }}
 			{{ form.non_field_errors }}
 
-			{% with form.property as form %}
-				{% include "checker/includes/finances_property_form.html" %}
+			{% with form.property as formset %}
+                {{ formset.management_form}}
+                {% for form in formset %}
+                    {% include "checker/includes/finances_property_form.html" %}
+                {% endfor %}
 			{% endwith %}
+
+            {% with form=form.your_other_properties  fieldset_label="Other properties"%}
+                {% include "checker/includes/finances_other_property_form.html" %}
+            {% endwith %}
 
 			{% with form.your_savings as form %}{% with "Your savings" as fieldset_label %}
 				{% include "checker/includes/finances_savings_form.html" %}
@@ -23,7 +30,29 @@
 				{% include "checker/includes/finances_savings_form.html" %}
 			{% endwith %}{% endwith %}
 
-			<fieldset>
+            {% with form=form.your_income fieldset_label="Your income" %}
+                {% include "checker/includes/finances_income_form.html" %}
+            {% endwith %}
+
+            {% with form=form.partners_income fieldset_label="Your partner's income" %}
+                {% include "checker/includes/finances_income_form.html" %}
+            {% endwith %}
+
+{#            {% with form=form.dependants fieldset_label="Dependants" %}#}
+{#                {% include "checker/includes/finances_dependants_form.html" %}#}
+{#            {% endwith %}#}
+
+            <fieldset>
+                <div class="form-group">
+                    <!-- hide if no js? -->
+                    <strong>
+                        <p class="col-xs-7">Total earnings per month</p>
+                        <p class="input-group col-xs-3 row">£1,000</p>
+                    </strong>
+                </div>
+            </fieldset>
+
+            <fieldset>
 			    <div class="form-group">
 			    	<strong>
 				        <p class="col-xs-7">Total of all capital assets</p>

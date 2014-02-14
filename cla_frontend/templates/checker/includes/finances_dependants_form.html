@@ -1,0 +1,13 @@
+{% load core_forms_tags %}{% style_form form %}
+<fieldset>
+    <label>{{ fieldset_label }}</label>
+    <div class="form-group">
+        {{ form.children_young.errors }}
+        <div>{{ form.children_young.label_tag }}</div>
+
+        <div class="input-group col-xs-3 row">
+            <span class="input-group-addon">&pound;</span>
+            {{ form.earnings_per_month }}
+        </div>
+    </div>
+</fieldset>
