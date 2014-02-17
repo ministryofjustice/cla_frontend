@@ -7,7 +7,7 @@ class MultipleFormsForm(forms.Form):
     formset_list = ()
 
     def __init__(self, *args, **kwargs):
-        initial = kwargs.get('initial')
+        initial = kwargs.get('initial', {})
         self.forms = []
         self.formsets = []
 
