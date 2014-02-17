@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 from core.forms import MultipleFormsForm
 from api.client import connection
 
-from django.forms.formsets import formset_factory
+from django.forms.formsets import formset_factory, BaseFormSet
 
 from .fields import RadioBooleanField
 
@@ -134,14 +134,6 @@ class YourFinancesOtherPropertyForm(CheckerWizardMixin, forms.Form):
                                          label='Do you own another property?'
     )
 
-    def clean_other_properties(self):
-        other_properties = self.cleaned_data['other_properties']
-        return bool(other_properties)
-
-    def clean(self):
-        if self.cleaned_data.get('other_properties'):
-            raise ValidationError('Please fill in details of your other properties.')
-        return self.cleaned_data
 
 class YourFinancesPropertyForm(CheckerWizardMixin, forms.Form):
     worth = forms.IntegerField(label=u"How much is it worth?", min_value=0)
@@ -156,11 +148,6 @@ class YourFinancesPropertyForm(CheckerWizardMixin, forms.Form):
         label=u'What is your share of the property?',
         min_value=0, max_value=100
     )
-
-
-    def clean_owner(self):
-        data = self.cleaned_data['owner']
-        return bool(data)
 
 
     def clean(self):
@@ -211,6 +198,13 @@ class YourFinancesDependentsForm(CheckerWizardMixin, forms.Form):
                                           required=False,
                                           min_value=0)
 
+class OnlyAllowExtraIfNoInitialFormSet(BaseFormSet):
+    def __init__(self, *args, **kwargs):
+        if kwargs['initial']:
+            self.extra = 0
+
+        super(OnlyAllowExtraIfNoInitialFormSet, self).__init__(*args, **kwargs)
+
 
 class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
 
@@ -219,6 +213,7 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         extra=1,
         max_num=20,
         validate_max=True,
+        formset=OnlyAllowExtraIfNoInitialFormSet
     )
 
     formset_list = (
@@ -238,8 +233,8 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         # pop these from kwargs
         self.has_partner = kwargs.pop('has_partner', True)
         self.has_property = kwargs.pop('has_property', True)
-        self.more_property = kwargs.pop('more_property', True)
         self.has_children = kwargs.pop('has_children', True)
+
 
         new_forms_list = dict(self.forms_list)
         new_formset_list = dict(self.formset_list)
@@ -249,6 +244,8 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         if not self.has_property:
             del new_formset_list['property']
             del new_forms_list['your_other_properties']
+        if not self.has_children:
+            del new_forms_list['dependants']
 
         self.forms_list = new_forms_list.items()
         self.formset_list = new_formset_list.items()
@@ -287,7 +284,7 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
                 'value': property['worth']
             }
         properties = self.cleaned_data.get('property', [])
-        return map(_transform, properties)
+        return [_transform(p) for p in properties if p]
 
     def save(self):
         data = self.cleaned_data
