@@ -18,20 +18,8 @@ OWNED_BY_CHOICES = [
 
 class CheckerWizardMixin(object):
 
-    # extra_kwargs = ['has_partner',
-    #                 'has_property',
-    #                 'more_property',
-    #                 'has_children']
-
     def __init__(self, *args, **kwargs):
-
         self.reference = kwargs.pop('reference', None)
-
-        # remove kwargs not needed by other forms
-        # for ekw in self.extra_kwargs:
-        #     if ekw in kwargs:
-        #         del kwargs[ekw]
-
         super(CheckerWizardMixin, self).__init__(*args, **kwargs)
 
     def save(self):
@@ -101,33 +89,33 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
 
 class YourDetailsForm(CheckerWizardMixin, forms.Form):
     has_partner = RadioBooleanField(required=True,
-                                     label='Do you have a partner?'
+                                     label=u'Do you have a partner?'
     )
 
     has_benefits = RadioBooleanField(required=True,
-                                     label='Are you or your partner on any benefits?'
+                                     label=u'Are you or your partner on any benefits?'
     )
 
 
     has_children = RadioBooleanField(required=True,
-                                     label='Do you have children?'
+                                     label=u'Do you have children?'
     )
 
 
     caring_responsibilities = RadioBooleanField(required=True,
-                                         label='Do you any other caring responsibilities??'
+                                         label=u'Do you any other caring responsibilities??'
     )
 
     own_property = RadioBooleanField(required=True,
-                                         label='Do you or your partner own a property?'
+                                         label=u'Do you or your partner own a property?'
     )
 
     risk_homeless = RadioBooleanField(required=True,
-                                         label='Are you or your partner aged 60 or over?'
+                                         label=u'Are you or your partner aged 60 or over?'
     )
 
     older_than_sixty = RadioBooleanField(required=True,
-                                         label='Do you have a partner?'
+                                         label=u'Do you have a partner?'
     )
 
     def save(self, *args, **kwargs):
