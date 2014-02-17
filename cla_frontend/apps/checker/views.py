@@ -54,6 +54,12 @@ class CheckerWizard(NamedUrlSessionWizardView):
     def get_form_kwargs(self, step=None):
         kwargs = super(CheckerWizard, self).get_form_kwargs(step=step)
         kwargs['reference'] = self.storage.get_reference()
+        if step == 'your_finances':
+            details_data = self.get_cleaned_data_for_step('your_details')
+            if details_data:
+                kwargs['has_partner'] = bool(details_data['has_partner'])
+                kwargs['has_children'] = bool(details_data['has_children'])
+                kwargs['has_property'] = bool(details_data['own_property'])
         return kwargs
 
     def get_form_initial(self, step):

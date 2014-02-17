@@ -17,8 +17,21 @@ OWNED_BY_CHOICES = [
 ]
 
 class CheckerWizardMixin(object):
+
+    # extra_kwargs = ['has_partner',
+    #                 'has_property',
+    #                 'more_property',
+    #                 'has_children']
+
     def __init__(self, *args, **kwargs):
+
         self.reference = kwargs.pop('reference', None)
+
+        # remove kwargs not needed by other forms
+        # for ekw in self.extra_kwargs:
+        #     if ekw in kwargs:
+        #         del kwargs[ekw]
+
         super(CheckerWizardMixin, self).__init__(*args, **kwargs)
 
 
@@ -111,6 +124,11 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
                                          label='Do you have a partner?'
     )
 
+    def save(self, *args, **kwargs):
+        return {
+            'reference': self.reference
+        }
+
 class YourFinancesOtherPropertyForm(CheckerWizardMixin, forms.Form):
     other_properties = RadioBooleanField(required=True,
                                          label='Do you own another property?'
@@ -120,6 +138,10 @@ class YourFinancesOtherPropertyForm(CheckerWizardMixin, forms.Form):
         other_properties = self.cleaned_data['other_properties']
         return bool(other_properties)
 
+    def clean(self):
+        if self.cleaned_data.get('other_properties'):
+            raise ValidationError('Please fill in details of your other properties.')
+        return self.cleaned_data
 
 class YourFinancesPropertyForm(CheckerWizardMixin, forms.Form):
     worth = forms.IntegerField(label=u"How much is it worth?", min_value=0)
@@ -180,6 +202,16 @@ class YourFinancesIncomeForm(CheckerWizardMixin, forms.Form):
     )
 
 
+class YourFinancesDependentsForm(CheckerWizardMixin, forms.Form):
+    dependants_old = forms.IntegerField(label='Children aged 16 and over',
+                                        required=False,
+                                        min_value=0)
+
+    dependants_young = forms.IntegerField(label='Children aged 15 and under',
+                                          required=False,
+                                          min_value=0)
+
+
 class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
 
     YourFinancesPropertyFormSet = formset_factory(
@@ -199,7 +231,7 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         ('partners_savings', YourFinancesSavingsForm),
         ('your_income', YourFinancesIncomeForm),
         ('partners_income', YourFinancesIncomeForm),
-        # dependents form?
+        ('dependants', YourFinancesDependentsForm)
     )
 
     def __init__(self, *args, **kwargs):
@@ -207,13 +239,16 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         self.has_partner = kwargs.pop('has_partner', True)
         self.has_property = kwargs.pop('has_property', True)
         self.more_property = kwargs.pop('more_property', True)
+        self.has_children = kwargs.pop('has_children', True)
 
         new_forms_list = dict(self.forms_list)
         new_formset_list = dict(self.formset_list)
         if not self.has_partner:
             del new_forms_list['partners_savings']
             del new_forms_list['partners_income']
-
+        if not self.has_property:
+            del new_formset_list['property']
+            del new_forms_list['your_other_properties']
 
         self.forms_list = new_forms_list.items()
         self.formset_list = new_formset_list.items()
@@ -251,7 +286,7 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
                 'share': property['share'],
                 'value': property['worth']
             }
-        properties = self.cleaned_data['property']
+        properties = self.cleaned_data.get('property', [])
         return map(_transform, properties)
 
     def save(self):

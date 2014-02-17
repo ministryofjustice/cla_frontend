@@ -12,35 +12,56 @@
 			{{ form.non_field_errors }}
 
 			{% with form.property as formset %}
-                {{ formset.management_form}}
-                {% for form in formset %}
-                    {% include "checker/includes/finances_property_form.html" %}
-                {% endfor %}
+                {% if formset %}
+                    {{ formset.management_form}}
+                    {% for form in formset %}
+                        {% if form %}
+                            {% include "checker/includes/finances_property_form.html" %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
 			{% endwith %}
 
             {% with form=form.your_other_properties  fieldset_label="Other properties"%}
-                {% include "checker/includes/finances_other_property_form.html" %}
+                {% if form %}
+                    {% include "checker/includes/finances_other_property_form.html" %}
+                {% endif %}
             {% endwith %}
 
 			{% with form.your_savings as form %}{% with "Your savings" as fieldset_label %}
-				{% include "checker/includes/finances_savings_form.html" %}
+                {% if form %}
+                    {% include "checker/includes/finances_savings_form.html" %}
+                {% endif %}
 			{% endwith %}{% endwith %}
 
 			{% with form.partners_savings as form %}{% with "Your partner's savings" as fieldset_label %}
-				{% include "checker/includes/finances_savings_form.html" %}
+                {% if form %}
+                    {% include "checker/includes/finances_savings_form.html" %}
+                {% endif %}
 			{% endwith %}{% endwith %}
 
+
+            <fieldset>
+                <div class="form-group">
+                    <strong>
+                        <p class="col-xs-7">Total of all capital assets</p>
+                        <p class="input-group col-xs-3 row">&pound;5,000</p>
+                    </strong>
+                </div>
+            </fieldset>
+
             {% with form=form.your_income fieldset_label="Your income" %}
-                {% include "checker/includes/finances_income_form.html" %}
+                {% if form %}
+                    {% include "checker/includes/finances_income_form.html" %}
+                {% endif %}
             {% endwith %}
 
             {% with form=form.partners_income fieldset_label="Your partner's income" %}
+                {% if form %}
                 {% include "checker/includes/finances_income_form.html" %}
+                {% endif %}
             {% endwith %}
 
-{#            {% with form=form.dependants fieldset_label="Dependants" %}#}
-{#                {% include "checker/includes/finances_dependants_form.html" %}#}
-{#            {% endwith %}#}
 
             <fieldset>
                 <div class="form-group">
@@ -52,14 +73,11 @@
                 </div>
             </fieldset>
 
-            <fieldset>
-			    <div class="form-group">
-			    	<strong>
-				        <p class="col-xs-7">Total of all capital assets</p>
-				        <p class="input-group col-xs-3 row">&pound;5,000</p>
-			        </strong>
-			    </div>
-		    </fieldset>
+            {% with form=form.dependants fieldset_label="Dependants" %}
+                {% if form %}
+                    {% include "checker/includes/finances_dependants_form.html" %}
+                {% endif %}
+            {% endwith %}
 
 			<button type="submit" class="btn btn-success">Next step - check if you can get legal aid</button>
 		</form>
