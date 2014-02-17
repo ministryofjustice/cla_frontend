@@ -1,5 +1,6 @@
 from .views import CheckerWizard
 
+
 def wizard_steps(request):
     """
     Returns a lazy 'messages' context variable.

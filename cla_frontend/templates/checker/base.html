@@ -14,7 +14,7 @@
                 <li {% if request.path == step_url %}class="active"{% endif %}>
                     <a href="{{ step_url }}">{{ step|unslug }}</a></li>
             {% endfor %}
-            <li><a href="{% url 'checker:result' %}">Result of legal aid check</a></li>
+            {% comment %}<li>Result of legal aid check</li>{% endcomment %}
             {% endblock %}
         </ol>
     {% endblock %}

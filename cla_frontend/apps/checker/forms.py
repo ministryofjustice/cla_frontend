@@ -34,6 +34,12 @@ class CheckerWizardMixin(object):
 
         super(CheckerWizardMixin, self).__init__(*args, **kwargs)
 
+    def save(self):
+        raise NotImplementedError()
+
+    def get_context_data(self):
+        return {}
+
 
 class YourProblemForm(CheckerWizardMixin, forms.Form):
     """
@@ -305,9 +311,9 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         return connection.eligibility_check(self.reference).patch(post_data)
 
 
-class ContactDetails(forms.Form):
+class ContactDetailsForm(forms.Form):
     title = forms.ChoiceField(
-        label=u'Title', choices=(
+        label=_(u'Title'), choices=(
             ('mr', 'Mr'),
             ('mrs', 'Mrs'),
             ('miss', 'Miss'),
@@ -315,16 +321,58 @@ class ContactDetails(forms.Form):
             ('dr', 'Dr')
         )
     )
-    fullname = forms.CharField(label=u'Full name', max_length=200)
-    postcode = forms.CharField(label=u'Postcode', max_length=10)
+    full_name = forms.CharField(label=_(u'Full name'), max_length=300)
+    postcode = forms.CharField(label=_(u'Postcode'), max_length=10)
     street = forms.CharField(
-        label='Street', max_length=300,
+        label=_(u'Street'), max_length=250,
         widget=forms.Textarea(attrs={'rows': 4, 'cols': 21})
     )
-    town = forms.CharField(label=u'Town', max_length=20)
-    tel_type = forms.ChoiceField(label=None, choices=(
-            ('mob', 'mobile'),
-            ('home', 'home')
-        )
+    town = forms.CharField(label=_(u'Town'), max_length=100)
+    mobile_phone = forms.CharField(label=_(u'Mobile Phone'), max_length=20)
+    home_phone = forms.CharField(label=_('Home Phone'), max_length=20)
+
+
+class ResultForm(CheckerWizardMixin, MultipleFormsForm):
+    forms_list = (
+        ('contact_details', ContactDetailsForm),
     )
-    tel = forms.CharField(label=None, max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super(ResultForm, self).__init__(*args, **kwargs)
+        # assert self.reference
+
+        new_forms_list = dict(self.forms_list)
+        new_formset_list = dict(self.formset_list)
+        if not self.is_eligible:
+            del new_forms_list['contact_details']
+
+        self.forms_list = new_forms_list.items()
+
+    @property
+    def is_eligible(self):
+        # TODO should use the API to test if the user is eligible?
+        return True
+
+    def get_context_data(self):
+        return {
+            'is_eligible': self.is_eligible
+        }
+
+    def get_contact_details(self):
+        data = self.cleaned_data['contact_details']
+        return {
+            'title': data['title'],
+            'full_name': data['full_name'],
+            'postcode': data['postcode'],
+            'street': data['street'],
+            'town': data['town'],
+            'mobile_phone': data['mobile_phone'],
+            'home_phone': data['home_phone']
+        }
+
+    def save(self):
+        post_data = {
+            'eligibility_check': self.reference,
+            'personal_details': self.get_contact_details()
+        }
+        return connection.case.post(post_data)

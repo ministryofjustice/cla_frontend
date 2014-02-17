@@ -1,33 +1,32 @@
-{% extends "checker/base.html" %}{% load core_forms_tags %}
+{% extends "checker/base.html" %}{% load core_forms_tags i18n %}
 
 {% block page_header %}{% endblock page_header %}
 
-{% block checker_content %}{% style_form form %}
-    {% if applying %}
-    <form action="." method="POST">
-        {% csrf_token %}
-        <fieldset>
-            <label>Contact details</label>
-
-            {{form.as_p}}
-
-        </fieldset>
-        <button class="btn btn-success">Next</button>
-    </form>
-    {% endif %}
+{% block checker_content %}{% style_form form.contact_details %}
+<form action="." method="POST">
+    {% csrf_token %}
+    {{ wizard.management_form }}
+    {{ form.non_field_errors }}
 
     <div>
-        <h2 style="text-align:center">You might be able to get Legal Aid</h2>
-        <p>In order to see if you can qualify for Legal Aid you need to give us your personal details</p>
+    {% if is_eligible %}
+        <h2 style="text-align:center">{% trans "You might be able to get Legal Aid" %}</h2>
+        <p>{% trans "In order to see if you can qualify for Legal Aid you need to give us your personal details" %}</p>
+
+        {{ form.contact_details.as_p }}
+    {% else %}
+        <h2 style="text-align:center">{% trans "You are NOT able to get legal aid based on the information given" %}</h2>
+    {% endif %}
 
         <div>
-            <a href="{% url 'checker:apply' %}" class="btn btn-success">Apply for legal aid</a>
+            <button type="submit" class="btn btn-success">{% trans "Apply for legal aid" %}</button>
             <button type="button" class="btn">
-              <span class="glyphicon glyphicon-send"></span> Send info by email
+              <span class="glyphicon glyphicon-send"></span> {% trans "Send info by email" %}
             </button>
             <button type="button" class="btn">
-              <span class="glyphicon glyphicon-print"></span> Print
+              <span class="glyphicon glyphicon-print"></span> {% trans "Print" %}
             </button>
         </div>
     </div>
+</form>
 {% endblock %}
