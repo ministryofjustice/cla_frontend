@@ -24,10 +24,6 @@ class CheckerWizard(NamedUrlSessionWizardView):
         "result": "checker/result.html"
     }
 
-    def dispatch(self, request, *args, **kwargs):
-        # self.session_helper = SessionCheckerHelper(request)
-        return super(CheckerWizard, self).dispatch(request, *args, **kwargs)
-
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]
 
@@ -59,6 +55,28 @@ class CheckerWizard(NamedUrlSessionWizardView):
                 kwargs['has_property'] = bool(details_data['own_property'])
         return kwargs
 
+    def render_next_step(self, form, **kwargs):
+        response = self.render_redirect()
+        if not response:
+            response = super(CheckerWizard, self).render_next_step(form, **kwargs)
+        return response
+
+    def render_done(self, form, **kwargs):
+        response = self.render_redirect()
+        if not response:
+            response = super(CheckerWizard, self).render_done(form, **kwargs)
+        return response
+
+    def get_form_step_data(self, form):
+        data = super(CheckerWizard, self).get_form_step_data(form)
+        if self.steps.current == 'your_finances':
+            if bool(form.cleaned_data['your_other_properties']['other_properties']):
+                data = data.copy()
+                data['property-TOTAL_FORMS'] = unicode(int(data['property-TOTAL_FORMS']) + 1)
+                data['your_other_properties-other_properties'] = u'0'
+                self.redirect_to_self = True
+        return data
+
     def process_step(self, form):
         response_data = form.save()
         self.storage.set_if_necessary_reference(response_data['reference'])
@@ -70,3 +88,7 @@ class CheckerWizard(NamedUrlSessionWizardView):
             data[step] = self.get_cleaned_data_for_step(step)
 
         return redirect(reverse('checker:done'))
+
+    def render_redirect(self):
+        if getattr(self, 'redirect_to_self', False):
+            return self.render_goto_step(self.steps.current)
