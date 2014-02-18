@@ -297,9 +297,9 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
 
     def get_finances(self):
         your_finances = self.get_savings('your_savings')
-        partner_finances = self.get_savings('partners_savings')
+        partner_finances = self.get_savings('partners_savings') or {}
         your_finances.update(self.get_income('your_income'))
-        partner_finances.update(self.get_income('partners_income'))
+        partner_finances.update(self.get_income('partners_income') or {})
         return your_finances, partner_finances
 
     def get_properties(self):

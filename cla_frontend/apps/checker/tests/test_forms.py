@@ -240,7 +240,7 @@ class YourFinancesFormTestCase(CLATestCase):
         default_data = self._get_default_post_data()
 
         ERRORS_DATA =  {
-            'your_savings':
+            'your_savings': # only checking one, not partners_savins
                 [
                     # your savings is mandatory
                     {
@@ -263,7 +263,18 @@ class YourFinancesFormTestCase(CLATestCase):
                                   'money_owed': [u'Ensure this value is greater than or equal to 0.']
                         }
                     },
-                    ]
+                    ],
+            'your_income': # only checking one, not partners_income
+                [
+                    {
+                        'data': {
+                            'your_income-earnings_per_month': -1,
+                        },
+                        'error': {
+                            'earnings_per_month': [u'Ensure this value is greater than or equal to 0.']
+                        }
+                    }
+                ]
         }
 
 
@@ -290,6 +301,17 @@ class YourFinancesFormTestCase(CLATestCase):
         form = YourFinancesForm(data=data, has_partner=False)
         self.assertTrue(form.is_valid(), form.errors)
         self.assertIsNone(form.get_income('partners_savings'))
+
+    def test_get_properties_doesnt_error_if_no_properties(self):
+        data = {k: v for k,v in self._get_default_post_data().items() if not k.startswith('property') }
+        form = YourFinancesForm(data=data, has_property=False)
+        self.assertTrue(form.is_valid(), msg=form.errors)
+        self.assertListEqual(form.get_properties(),[])
+
+    def test_form_invalid_if_no_properties_and_but_has_properties(self):
+        data = {k: v for k,v in self._get_default_post_data().items() if not k.startswith('property-0') }
+        form = YourFinancesForm(data=data)
+        self.assertTrue(form.is_valid(), msg=form.errors)
 
     def test_calculated_earned_income(self):
         form = YourFinancesForm(data=self._get_default_post_data())
