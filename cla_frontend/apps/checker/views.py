@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView
 
@@ -120,14 +121,22 @@ class CheckerWizard(NamedUrlSessionWizardView):
 class ConfirmationView(TemplateView):
     template_name = 'checker/confirmation.html'
 
-    # TODO check get or 404 in dispatch
+    def dispatch(self, request, *args, **kwargs):
+        """
+        If case reference not found in the session => 404
+        """
+        self.session_helper = SessionCheckerHelper(self.request)
+
+        if not self.session_helper.get_case_reference():
+            raise Http404()
+
+        return super(ConfirmationView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ConfirmationView, self).get_context_data(**kwargs)
 
-        session_helper = SessionCheckerHelper(self.request)
         context.update({
-            'history_data': session_helper.get_forms_data(),
-            'case_reference': session_helper.get_case_reference()
+            'history_data': self.session_helper.get_forms_data(),
+            'case_reference': self.session_helper.get_case_reference()
         })
         return context

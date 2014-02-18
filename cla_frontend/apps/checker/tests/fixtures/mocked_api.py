@@ -94,3 +94,16 @@ ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES = {
     "dependants_old": 0
 }
 
+ELIGIBILITY_CHECK_CREATE_CASE = {
+    "eligibility_check": "1d37cc19063f4f069f374c4c0aad54d2",
+    "personal_details": {
+        "title": "mr",
+        "full_name": "John Doe",
+        "postcode": "SW1H 9AJ",
+        "street": "102 Petty France",
+        "town": "London",
+        "mobile_phone": "0123456789",
+        "home_phone": "9876543210"
+    },
+    "reference": "LA-2954-3453"
+}
