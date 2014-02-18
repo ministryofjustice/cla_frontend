@@ -5,7 +5,9 @@
 {% block breadcrumb %}{% endblock breadcrumb %}
 
 
-{% block checker_content %}{% style_form form.contact_details %}
+{% block checker_content %}
+{% style_form form.contact_details %}
+{% style_form form.extra %}
 <form action="." method="POST">
     {% csrf_token %}
     {{ wizard.management_form }}
@@ -13,6 +15,8 @@
 
     <div>
         {{ form.contact_details.as_p }}
+
+        {{ form.extra.as_p }}
 
         <div>
             <button type="submit" class="btn btn-success">{% trans "Apply for legal aid" %}</button>

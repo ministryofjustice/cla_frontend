@@ -166,6 +166,7 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertEqual(form.your_income.cleaned_data['other_income_per_month'], 100)
         self.assertEqual(form.your_income.cleaned_data['self_employed'], False)
 
+
 class YourProblemFormTestCase(CLATestCase):
     def setUp(self):
         super(YourProblemFormTestCase, self).setUp()
@@ -183,7 +184,7 @@ class YourProblemFormTestCase(CLATestCase):
     def _get_default_post_data(self):
         return {
             'category': '4',
-            'notes': 'lorem'
+            'your_problem_notes': 'lorem'
         }
 
     def test_post_success_first_time(self):
@@ -227,8 +228,8 @@ class YourProblemFormTestCase(CLATestCase):
             },
             # notes too long
             {
-                'error': {'notes': [u'Ensure this value has at most 500 characters (it has 501).']},
-                'data': { 'notes': 's'*501 }
+                'error': {'your_problem_notes': [u'Ensure this value has at most 500 characters (it has 501).']},
+                'data': { 'your_problem_notes': 's'*501 }
             },
         ]
 

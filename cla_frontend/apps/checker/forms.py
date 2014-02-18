@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
@@ -37,7 +36,7 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
         label=_(u'Is your problem about?'),
         choices=(), widget=forms.RadioSelect()
     )
-    notes = forms.CharField(
+    your_problem_notes = forms.CharField(
         required=False, max_length=500,
         label=_(u'You can also provide additional details about your case in the text box below.'),
         widget=forms.Textarea(attrs={'rows': 5, 'cols': 80})
@@ -78,7 +77,7 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
     def save(self):
         data = {
             'category': self.cleaned_data.get('category'),
-            'notes': self.cleaned_data.get('notes', '')
+            'your_problem_notes': self.cleaned_data.get('your_problem_notes', '')
         }
 
         if not self.reference:
@@ -172,6 +171,7 @@ class YourFinancesSavingsForm(CheckerWizardMixin, forms.Form):
         label=u"Do you have any money owed to you?", min_value=0
     )
 
+
 class YourFinancesIncomeForm(CheckerWizardMixin, forms.Form):
 
     earnings_per_month = forms.IntegerField(
@@ -198,6 +198,7 @@ class YourFinancesDependentsForm(CheckerWizardMixin, forms.Form):
     dependants_young = forms.IntegerField(label='Children aged 15 and under',
                                           required=False,
                                           min_value=0)
+
 
 class OnlyAllowExtraIfNoInitialFormSet(BaseFormSet):
     def __init__(self, *args, **kwargs):
@@ -347,9 +348,19 @@ class ResultForm(CheckerWizardMixin, forms.Form):
             }
         }
 
+
+class AdditionalNotesForm(forms.Form):
+    notes = forms.CharField(
+        required=False, max_length=500,
+        label=_(u'Additional details about your problem'),
+        widget=forms.Textarea(attrs={'rows': 5, 'cols': 80})
+    )
+
+
 class ApplyForm(CheckerWizardMixin, MultipleFormsForm):
     forms_list = (
         ('contact_details', ContactDetailsForm),
+        ('extra', AdditionalNotesForm)
     )
 
     def get_contact_details(self):
@@ -364,7 +375,20 @@ class ApplyForm(CheckerWizardMixin, MultipleFormsForm):
             'home_phone': data['home_phone']
         }
 
+    def get_extra(self):
+        data = self.cleaned_data['extra']
+        return {
+            'notes': data['notes']
+        }
+
     def save(self):
+        # saving eligibility check notes
+        post_data = {
+            'notes': self.get_extra()['notes']
+        }
+        response = connection.eligibility_check(self.reference).patch(post_data)
+
+        # saving case
         post_data = {
             'eligibility_check': self.reference,
             'personal_details': self.get_contact_details()
