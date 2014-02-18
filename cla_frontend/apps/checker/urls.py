@@ -8,10 +8,8 @@ checker_wizard = views.CheckerWizard.as_view(
 )
 
 urlpatterns = patterns('',
-    url(r'^result/$', views.ResultView.as_view(), name='result'),
-    url(r'^result/apply/$', views.ResultView.as_view(), {'applying': True}, name='apply'),
+    url(r'^confirmation/$', views.ConfirmationView.as_view(), name='confirmation'),
 
     url(r'^$', checker_wizard, name='checker'),
     url(r'^(?P<step>.+)/$', checker_wizard, name='checker_step'),
-
 )

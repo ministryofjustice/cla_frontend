@@ -1,0 +1,26 @@
+{% extends "checker/base.html" %}{% load i18n %}
+
+{% block page_header %}{% trans "Your Legal Aid case" %}{% endblock page_header %}
+
+{% block breadcrumb %}{% endblock breadcrumb %}
+
+{% block summary %}{% with read_only=True %}
+    {{ block.super }}
+{% endwith %}{% endblock summary %}
+
+
+{% block checker_content %}
+    <div>
+        <h2 style="text-align:center">{% trans "Your case number is" %}</h2>
+        <p style="text-align:center">{{ case_reference }}</p>
+
+        <div>
+            <button type="button" class="btn">
+              <span class="glyphicon glyphicon-send"></span> {% trans "Send info by email" %}
+            </button>
+            <button type="button" class="btn">
+              <span class="glyphicon glyphicon-print"></span> {% trans "Print" %}
+            </button>
+        </div>
+    </div>
+{% endblock %}

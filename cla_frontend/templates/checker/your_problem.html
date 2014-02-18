@@ -1,4 +1,4 @@
-{% extends "checker/base_step.html" %}{% load i18n %}
+{% extends "checker/base.html" %}{% load i18n %}
 
 {% block page_header %}{% trans "Your problem" %}{% endblock page_header %}
 
@@ -19,11 +19,12 @@
 
     <p>{% trans "If possible, please choose one of the categories above. If you’re really not sure or it doesn’t appear above, you can ask for a call back here." %}</p>
 
+    {# this should only show up if last category is selected #}
     <div>
-        <h2>{{ form.notes.label_tag }}</h2>
+        <h2>{{ form.your_problem_notes.label_tag }}</h2>
 
-        {{ form.notes.errors }}
-        {{ form.notes }}
+        {{ form.your_problem_notes.errors }}
+        {{ form.your_problem_notes }}
     </div>
 
 

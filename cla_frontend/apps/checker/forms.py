@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
@@ -22,6 +21,12 @@ class CheckerWizardMixin(object):
         self.reference = kwargs.pop('reference', None)
         super(CheckerWizardMixin, self).__init__(*args, **kwargs)
 
+    def save(self):
+        raise NotImplementedError()
+
+    def get_context_data(self):
+        return {}
+
 
 class YourProblemForm(CheckerWizardMixin, forms.Form):
     """
@@ -31,7 +36,7 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
         label=_(u'Is your problem about?'),
         choices=(), widget=forms.RadioSelect()
     )
-    notes = forms.CharField(
+    your_problem_notes = forms.CharField(
         required=False, max_length=500,
         label=_(u'You can also provide additional details about your case in the text box below.'),
         widget=forms.Textarea(attrs={'rows': 5, 'cols': 80})
@@ -72,13 +77,17 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
     def save(self):
         data = {
             'category': self.cleaned_data.get('category'),
-            'notes': self.cleaned_data.get('notes', '')
+            'your_problem_notes': self.cleaned_data.get('your_problem_notes', '')
         }
 
         if not self.reference:
-            return connection.eligibility_check.post(data)
+            response = connection.eligibility_check.post(data)
+        else:
+            response = connection.eligibility_check(self.reference).patch(data)
 
-        return connection.eligibility_check(self.reference).patch(data)
+        return {
+            'eligibility_check': response
+        }
 
 
 class YourDetailsForm(CheckerWizardMixin, forms.Form):
@@ -114,8 +123,11 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
 
     def save(self, *args, **kwargs):
         return {
-            'reference': self.reference
+            'eligibility_check': {
+                'reference': self.reference
+            }
         }
+
 
 class YourFinancesOtherPropertyForm(CheckerWizardMixin, forms.Form):
     other_properties = RadioBooleanField(required=True,
@@ -159,6 +171,7 @@ class YourFinancesSavingsForm(CheckerWizardMixin, forms.Form):
         label=u"Do you have any money owed to you?", min_value=0
     )
 
+
 class YourFinancesIncomeForm(CheckerWizardMixin, forms.Form):
 
     earnings_per_month = forms.IntegerField(
@@ -185,6 +198,7 @@ class YourFinancesDependentsForm(CheckerWizardMixin, forms.Form):
     dependants_young = forms.IntegerField(label='Children aged 15 and under',
                                           required=False,
                                           min_value=0)
+
 
 class OnlyAllowExtraIfNoInitialFormSet(BaseFormSet):
     def __init__(self, *args, **kwargs):
@@ -284,14 +298,18 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
             'property_set': self.get_properties()
         }
         if not self.reference:
-            return connection.eligibility_check.post(post_data)
+            response = connection.eligibility_check.post(post_data)
+        else:
+            response = connection.eligibility_check(self.reference).patch(post_data)
 
-        return connection.eligibility_check(self.reference).patch(post_data)
+        return {
+            'eligibility_check': response
+        }
 
 
-class ContactDetails(forms.Form):
+class ContactDetailsForm(forms.Form):
     title = forms.ChoiceField(
-        label=u'Title', choices=(
+        label=_(u'Title'), choices=(
             ('mr', 'Mr'),
             ('mrs', 'Mrs'),
             ('miss', 'Miss'),
@@ -299,16 +317,85 @@ class ContactDetails(forms.Form):
             ('dr', 'Dr')
         )
     )
-    fullname = forms.CharField(label=u'Full name', max_length=200)
-    postcode = forms.CharField(label=u'Postcode', max_length=10)
+    full_name = forms.CharField(label=_(u'Full name'), max_length=300)
+    postcode = forms.CharField(label=_(u'Postcode'), max_length=10)
     street = forms.CharField(
-        label='Street', max_length=300,
+        label=_(u'Street'), max_length=250,
         widget=forms.Textarea(attrs={'rows': 4, 'cols': 21})
     )
-    town = forms.CharField(label=u'Town', max_length=20)
-    tel_type = forms.ChoiceField(label=None, choices=(
-            ('mob', 'mobile'),
-            ('home', 'home')
-        )
+    town = forms.CharField(label=_(u'Town'), max_length=100)
+    mobile_phone = forms.CharField(label=_(u'Mobile Phone'), max_length=20)
+    home_phone = forms.CharField(label=_('Home Phone'), max_length=20)
+
+
+class ResultForm(CheckerWizardMixin, forms.Form):
+    def is_eligible(self):
+        # TODO should use the API to test if the user is eligible?
+        return True
+
+    def get_context_data(self):
+        return {
+            'is_eligible': self.is_eligible()
+        }
+
+    def save(self, *args, **kwargs):
+        assert self.is_eligible()
+
+        return {
+            'eligibility_check': {
+                'reference': self.reference
+            }
+        }
+
+
+class AdditionalNotesForm(forms.Form):
+    notes = forms.CharField(
+        required=False, max_length=500,
+        label=_(u'Additional details about your problem'),
+        widget=forms.Textarea(attrs={'rows': 5, 'cols': 80})
     )
-    tel = forms.CharField(label=None, max_length=100)
+
+
+class ApplyForm(CheckerWizardMixin, MultipleFormsForm):
+    forms_list = (
+        ('contact_details', ContactDetailsForm),
+        ('extra', AdditionalNotesForm)
+    )
+
+    def get_contact_details(self):
+        data = self.cleaned_data['contact_details']
+        return {
+            'title': data['title'],
+            'full_name': data['full_name'],
+            'postcode': data['postcode'],
+            'street': data['street'],
+            'town': data['town'],
+            'mobile_phone': data['mobile_phone'],
+            'home_phone': data['home_phone']
+        }
+
+    def get_extra(self):
+        data = self.cleaned_data['extra']
+        return {
+            'notes': data['notes']
+        }
+
+    def save(self):
+        # saving eligibility check notes
+        post_data = {
+            'notes': self.get_extra()['notes']
+        }
+        response = connection.eligibility_check(self.reference).patch(post_data)
+
+        # saving case
+        post_data = {
+            'eligibility_check': self.reference,
+            'personal_details': self.get_contact_details()
+        }
+
+        response = connection.case.post(post_data)
+
+        return {
+            'case': response
+        }
+

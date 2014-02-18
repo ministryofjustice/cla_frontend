@@ -1,10 +1,10 @@
-{% extends "checker/base_step.html" %}
+{% extends "checker/base.html" %}{% load i18n %}
 
-{% block page_header %}Check your finances{% endblock page_header %}
+{% block page_header %}{% trans "Check your finances" %}{% endblock page_header %}
 
 {% block checker_content %}
 	<div>
-		<h2>You and your partner's money</h2>
+		<h2>{% trans "You and your partner's money" %}</h2>
 
 		<form method=post action="." role="form">
 			{% csrf_token %}
@@ -44,7 +44,7 @@
             <fieldset>
                 <div class="form-group">
                     <strong>
-                        <p class="col-xs-7">Total of all capital assets</p>
+                        <p class="col-xs-7">{% trans "Total of all capital assets" %}</p>
                         <p class="input-group col-xs-3 row">&pound;5,000</p>
                     </strong>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="form-group">
                     <!-- hide if no js? -->
                     <strong>
-                        <p class="col-xs-7">Total earnings per month</p>
+                        <p class="col-xs-7">{% trans "Total earnings per month" %}</p>
                         <p class="input-group col-xs-3 row">£1,000</p>
                     </strong>
                 </div>
@@ -79,7 +79,7 @@
                 {% endif %}
             {% endwith %}
 
-			<button type="submit" class="btn btn-success">Next step - check if you can get legal aid</button>
+			<button type="submit" class="btn btn-success">{% trans "Next step - check if you can get legal aid" %}</button>
 		</form>
 	</div>
 {% endblock %}

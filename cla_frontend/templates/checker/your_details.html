@@ -1,13 +1,13 @@
-{% extends "checker/base_step.html" %}
+{% extends "checker/base.html" %}{% load i18n %}
 
-{% block page_header %}Your details{% endblock page_header %}
+{% block page_header %}{% trans "Your details" %}{% endblock page_header %}
 
 {% block checker_content %}
     <form action="." method="POST">
         {{ wizard.management_form }}
         {% csrf_token %}
         {{ form.as_p }}
-    <button class="btn btn-success">Next</button>
+    <button class="btn btn-success">{% trans "Next" %}</button>
     </form>
 
 {% endblock %}
