@@ -1,17 +1,34 @@
-# import pickle
+import pickle
+
+from core.session.utils import BaseSessionData
 
 
-# class SessionCheckerHelper(object):
-#     SESSION_KEY = 'checker_result'
+class SessionCheckerHelper(BaseSessionData):
+    SESSION_KEY = 'checker_confirmation'
 
-#     def __init__(self, request):
-#         self.request = request
+    # FORMS DATA
 
-#     def store(self, data):
-#         self.request.session[self.SESSION_KEY] = pickle.dumps(data)
+    def store_forms_data(self, data):
+        self._set('forms_data', 'forms_data', pickle.dumps(data))
 
-#     def get(self):
-#         data = self.request.session.get(self.SESSION_KEY)
-#         if data:
-#             data = pickle.loads(data)
-#         return data
+    def get_forms_data(self):
+        data = self._get('forms_data', 'forms_data')
+        if data:
+            data = pickle.loads(data)
+        return data
+
+    # ELIGIBILITY CHECK
+
+    def store_eligibility_check_reference(self, reference):
+        self._set('metadata', 'eligibility_check_reference', reference)
+
+    def get_eligibility_check_reference(self):
+        return self._get('metadata', 'eligibility_check_reference')
+
+    # CASE
+
+    def store_case_reference(self, reference):
+        self._set('metadata', 'case_reference', reference)
+
+    def get_case_reference(self):
+        return self._get('metadata', 'case_reference')

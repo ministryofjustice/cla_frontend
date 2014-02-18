@@ -8,58 +8,34 @@
 
     {% block breadcrumb %}
         <ol class="breadcrumb">
-            {%  block breadcrumb_list %}
-            {% for step in wizard_steps %}
-                {% url 'checker:checker_step' step as step_url %}
-                <li {% if request.path == step_url %}class="active"{% endif %}>
-                    <a href="{{ step_url }}">{{ step|unslug }}</a></li>
+            {% comment %}
+            {% if wizard.steps.prev %}
+                <li>
+                    <a href="{% url 'checker:checker_step' wizard.steps.prev %}"><i class="fa fa-step-backward"></i></a>
+                </li>
+            {% endif %}
+            {% endcomment %}
+
+            {% for step in steps %}
+                <li {% if step == wizard.steps.current %}class="active"{% endif %}>
+                    <a href="{% url 'checker:checker_step' step %}">{{ step|unslug }}</a>
+                </li>
             {% endfor %}
-            {% comment %}<li>Result of legal aid check</li>{% endcomment %}
-            {% endblock %}
+            <li>Result of legal aid check</li>
+
+            {% comment %}
+            {% if wizard.steps.next %}
+                <li>
+                    <a href="{% url 'checker:checker_step' wizard.steps.next %}"><i class="fa fa-step-forward"></i></a>
+                </li>
+            {% endif %}
+            {% endcomment %}
         </ol>
     {% endblock %}
 
-    {% if history_data %}
-        <h3>{% trans "Details you've already given" %}</h3>
-        {% if history_data.your_problem or history_data.your_details %}
-        <section class="alert alert-success">
-            <ul>
-                {% if history_data.your_problem %}
-                {% trans "You are looking for help about " %} {{history_data.your_problem.category_name}}
-                {% endif %}
+    {% block summary %}
+    {% include "checker/includes/summary.html" %}
+    {% endblock summary %}
 
-                {% for k,v in history_data.your_details.items %}
-                    <li>{{ k }}: {{ v }}</li>
-                {% endfor %}
-            </ul>
-
-            <div>
-                <a href="{% url 'checker:checker_step' 'your_problem' %}">Change these answers</a>
-            </div>
-        </section>
-        {% endif %}
-
-        {% if history_data.your_finances %}
-        <h3>You and your partner's money</h3>
-        <section class="alert alert-success">
-            <ul>
-            {% for k, v in history_data.your_finances.items %}
-                <li>
-                    {{ k }}
-                    <ul>
-                    {% for i,j in v.items %}
-                        <li>{{ i }}: {{ j }}</li>
-                    {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-            </ul>
-
-            <div>
-                <a href="{% url 'checker:checker_step' 'your_finances' %}">Change these answers</a>
-            </div>
-        </section>
-        {% endif %}
-    {% endif %}
     {% block checker_content %}{% endblock %}
 {% endblock %}

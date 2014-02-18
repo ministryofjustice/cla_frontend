@@ -1,0 +1,48 @@
+{% load i18n %}
+
+{% if history_data %}
+    <h3>{% trans "Details you've already given" %}</h3>
+    {% if history_data.your_problem or history_data.your_details %}
+    <section class="alert alert-success">
+        <ul>
+            {% if history_data.your_problem %}
+            {% trans "You are looking for help about " %} {{history_data.your_problem.category_name}}
+            {% endif %}
+
+            {% for k,v in history_data.your_details.items %}
+                <li>{{ k }}: {{ v }}</li>
+            {% endfor %}
+        </ul>
+
+        {% if not read_only %}
+        <div>
+            <a href="{% url 'checker:checker_step' 'your_problem' %}">{% trans "Change these answers" %}</a>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    {% if history_data.your_finances %}
+    <h3>{% trans "You and your partner's money" %}</h3>
+    <section class="alert alert-success">
+        <ul>
+        {% for k, v in history_data.your_finances.items %}
+            <li>
+                {{ k }}
+                <ul>
+                {% for i,j in v.items %}
+                    <li>{{ i }}: {{ j }}</li>
+                {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+
+        {% if not read_only %}
+        <div>
+            <a href="{% url 'checker:checker_step' 'your_finances' %}">{% trans "Change these answers" %}</a>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+{% endif %}

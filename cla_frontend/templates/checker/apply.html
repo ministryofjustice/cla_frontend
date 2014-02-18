@@ -1,0 +1,28 @@
+{% extends "checker/base.html" %}{% load core_forms_tags i18n %}
+
+{% block page_header %}{% endblock page_header %}
+
+{% block breadcrumb %}{% endblock breadcrumb %}
+
+
+{% block checker_content %}{% style_form form.contact_details %}
+<form action="." method="POST">
+    {% csrf_token %}
+    {{ wizard.management_form }}
+    {{ form.non_field_errors }}
+
+    <div>
+        {{ form.contact_details.as_p }}
+
+        <div>
+            <button type="submit" class="btn btn-success">{% trans "Apply for legal aid" %}</button>
+            <button type="button" class="btn">
+              <span class="glyphicon glyphicon-send"></span> {% trans "Send info by email" %}
+            </button>
+            <button type="button" class="btn">
+              <span class="glyphicon glyphicon-print"></span> {% trans "Print" %}
+            </button>
+        </div>
+    </div>
+</form>
+{% endblock %}

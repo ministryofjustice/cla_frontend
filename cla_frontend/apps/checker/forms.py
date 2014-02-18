@@ -82,9 +82,13 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
         }
 
         if not self.reference:
-            return connection.eligibility_check.post(data)
+            response = connection.eligibility_check.post(data)
+        else:
+            response = connection.eligibility_check(self.reference).patch(data)
 
-        return connection.eligibility_check(self.reference).patch(data)
+        return {
+            'eligibility_check': response
+        }
 
 
 class YourDetailsForm(CheckerWizardMixin, forms.Form):
@@ -120,8 +124,11 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
 
     def save(self, *args, **kwargs):
         return {
-            'reference': self.reference
+            'eligibility_check': {
+                'reference': self.reference
+            }
         }
+
 
 class YourFinancesOtherPropertyForm(CheckerWizardMixin, forms.Form):
     other_properties = RadioBooleanField(required=True,
@@ -291,9 +298,13 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
             'property_set': self.get_properties()
         }
         if not self.reference:
-            return connection.eligibility_check.post(post_data)
+            response = connection.eligibility_check.post(post_data)
+        else:
+            response = connection.eligibility_check(self.reference).patch(post_data)
 
-        return connection.eligibility_check(self.reference).patch(post_data)
+        return {
+            'eligibility_check': response
+        }
 
 
 class ContactDetailsForm(forms.Form):
@@ -317,31 +328,29 @@ class ContactDetailsForm(forms.Form):
     home_phone = forms.CharField(label=_('Home Phone'), max_length=20)
 
 
-class ResultForm(CheckerWizardMixin, MultipleFormsForm):
-    forms_list = (
-        ('contact_details', ContactDetailsForm),
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(ResultForm, self).__init__(*args, **kwargs)
-        # assert self.reference
-
-        new_forms_list = dict(self.forms_list)
-        new_formset_list = dict(self.formset_list)
-        if not self.is_eligible:
-            del new_forms_list['contact_details']
-
-        self.forms_list = new_forms_list.items()
-
-    @property
+class ResultForm(CheckerWizardMixin, forms.Form):
     def is_eligible(self):
         # TODO should use the API to test if the user is eligible?
         return True
 
     def get_context_data(self):
         return {
-            'is_eligible': self.is_eligible
+            'is_eligible': self.is_eligible()
         }
+
+    def save(self, *args, **kwargs):
+        assert self.is_eligible()
+
+        return {
+            'eligibility_check': {
+                'reference': self.reference
+            }
+        }
+
+class ApplyForm(CheckerWizardMixin, MultipleFormsForm):
+    forms_list = (
+        ('contact_details', ContactDetailsForm),
+    )
 
     def get_contact_details(self):
         data = self.cleaned_data['contact_details']
@@ -360,4 +369,10 @@ class ResultForm(CheckerWizardMixin, MultipleFormsForm):
             'eligibility_check': self.reference,
             'personal_details': self.get_contact_details()
         }
-        return connection.case.post(post_data)
+
+        response = connection.case.post(post_data)
+
+        return {
+            'case': response
+        }
+
