@@ -188,9 +188,8 @@ class YourFinancesDependentsForm(CheckerWizardMixin, forms.Form):
 
 class OnlyAllowExtraIfNoInitialFormSet(BaseFormSet):
     def __init__(self, *args, **kwargs):
-        if kwargs['initial']:
+        if kwargs.get('initial'):
             self.extra = 0
-
         super(OnlyAllowExtraIfNoInitialFormSet, self).__init__(*args, **kwargs)
 
 
