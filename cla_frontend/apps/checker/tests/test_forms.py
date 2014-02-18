@@ -144,7 +144,7 @@ class YourFinancesFormTestCase(CLATestCase):
             self.assertTrue(f.is_valid())
 
         response_data = form.save()
-        self.assertDictEqual(mocked_api.ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES, response_data)
+        self.assertDictEqual(mocked_api.ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES, response_data['eligibility_check'])
         self.mocked_connection.eligibility_check.post.assert_called_with(self._get_default_api_post_data())
 
     def test_post_update(self):
@@ -162,7 +162,7 @@ class YourFinancesFormTestCase(CLATestCase):
             self.assertTrue(f.is_valid())
 
         response_data = form.save()
-        self.assertDictEqual(mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES, response_data)
+        self.assertDictEqual(mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES, response_data['eligibility_check'])
 
 
     def test_post_subform_dependants(self):
@@ -234,7 +234,7 @@ class YourFinancesFormTestCase(CLATestCase):
         ERRORS_DATA =  {
             'your_savings':
                 [
-                    # your savings mandatory
+                    # your savings is mandatory
                     {
                         'data': {'your_savings-bank': None,
                                  'your_savings-investments': None,
@@ -267,6 +267,32 @@ class YourFinancesFormTestCase(CLATestCase):
                 form = YourFinancesForm(data=data)
                 self.assertFalse(form.is_valid())
                 self.assertEqual(form.errors[error_section_name], error_data['error'])
+
+
+    # TEST Calculated fields
+
+    def test_get_income_doesnt_raise_error_if_no_partner(self):
+        data = {k:v for k,v in self._get_default_post_data().items() if not k.startswith('partners')}
+        form = YourFinancesForm(data=data, has_partner=False)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertIsNone(form.get_income('partners_income'))
+
+    def test_get_capital_doesnt_raise_error_if_no_partner(self):
+        data = {k:v for k,v in self._get_default_post_data().items() if not k.startswith('partners')}
+        form = YourFinancesForm(data=data, has_partner=False)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertIsNone(form.get_income('partners_savings'))
+
+    def test_calculated_earned_income(self):
+        form = YourFinancesForm(data=self._get_default_post_data())
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.total_earnings, 400)
+
+    def test_calculated_capital_assets(self):
+        form = YourFinancesForm(data=self._get_default_post_data())
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.total_capital_assets, 800)
+
 
 class YourFinancesPropertyFormSetTeseCase(CLATestCase):
 

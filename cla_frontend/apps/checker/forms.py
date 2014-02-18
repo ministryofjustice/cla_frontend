@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import itertools
 from django import forms
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
@@ -253,21 +254,42 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
 
         super(YourFinancesForm, self).__init__(*args, **kwargs)
 
+    @property
+    def total_earnings(self):
+        if hasattr(self, 'cleaned_data'):
+            own_income = self.get_income('your_income')
+            partner_income = self.get_income('partners_income') or {}
+            return sum(itertools.chain(own_income.values(),partner_income.values()))
+        return None
+
+    @property
+    def total_capital_assets(self):
+        # used for display at the moment but maybe should come from a
+        # common calculator lib so both front end and backend can share it
+
+        if hasattr(self, 'cleaned_data'):
+            own_savings = self.get_savings('your_savings')
+            partner_savings = self.get_savings('partners_savings') or {}
+            return sum(itertools.chain(own_savings.values(),partner_savings.values()))
+        return None
+
     def get_savings(self, key):
         data = self.cleaned_data
-        return {
-            'bank_balance': data[key].get('bank', 0),
-            'asset_balance': data[key].get('valuable_items', 0),
-            'credit_balance': data[key].get('money_owed', 0),
-            'investment_balance': data[key].get('investments', 0),
-        }
+        if key in data:
+            return {
+                'bank_balance': data[key].get('bank', 0),
+                'asset_balance': data[key].get('valuable_items', 0),
+                'credit_balance': data[key].get('money_owed', 0),
+                'investment_balance': data[key].get('investments', 0),
+            }
 
     def get_income(self, key):
         data = self.cleaned_data
-        return {
-            'earnings': data[key].get('earnings_per_month', 0),
-            'other_income': data[key].get('other_income_per_month', 0)
-        }
+        if key in data:
+            return {
+                'earnings': data[key].get('earnings_per_month', 0),
+                'other_income': data[key].get('other_income_per_month', 0)
+            }
 
 
     def get_finances(self):

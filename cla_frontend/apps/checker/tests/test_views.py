@@ -21,7 +21,7 @@ class CheckerWizardTestCase(CLATestCase):
                                          kwargs={'step': 'your_finances'}
         )
 
-        self.done_url = reverse('checker:result', args=(), kwargs={})
+        self.done_url = reverse('checker:confirmation', args=(), kwargs={})
 
     def test_get_start_page(self):
         """
