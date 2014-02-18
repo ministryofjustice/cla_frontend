@@ -10,11 +10,14 @@ from api.client import connection
 from django.forms.formsets import formset_factory, BaseFormSet
 
 from .fields import RadioBooleanField
+from .exceptions import InconsistentStateException
+
 
 OWNED_BY_CHOICES = [
     (1, 'Owned by me'),
     (0, 'Joint names')
 ]
+
 
 class CheckerWizardMixin(object):
 
@@ -350,18 +353,21 @@ class ContactDetailsForm(forms.Form):
     home_phone = forms.CharField(label=_('Home Phone'), max_length=20)
 
 
-class ResultForm(CheckerWizardMixin, forms.Form):
+class EligibilityMixin(object):
     def is_eligible(self):
         # TODO should use the API to test if the user is eligible?
         return True
 
+
+class ResultForm(EligibilityMixin, CheckerWizardMixin, forms.Form):
     def get_context_data(self):
         return {
             'is_eligible': self.is_eligible()
         }
 
     def save(self, *args, **kwargs):
-        assert self.is_eligible()
+        if not self.is_eligible():
+            raise InconsistentStateException('You must be eligible to apply')
 
         return {
             'eligibility_check': {
@@ -378,7 +384,7 @@ class AdditionalNotesForm(forms.Form):
     )
 
 
-class ApplyForm(CheckerWizardMixin, MultipleFormsForm):
+class ApplyForm(EligibilityMixin, CheckerWizardMixin, MultipleFormsForm):
     forms_list = (
         ('contact_details', ContactDetailsForm),
         ('extra', AdditionalNotesForm)
@@ -403,6 +409,18 @@ class ApplyForm(CheckerWizardMixin, MultipleFormsForm):
         }
 
     def save(self):
+        # eligibility check reference should be set otherwise => error
+        if not self.reference:
+            raise InconsistentStateException(
+                'Eligibility Reference must be set when saving the form'
+            )
+
+        # user must be eligible (double-checking) otherwise => error
+        if not self.is_eligible():
+            raise InconsistentStateException(
+                'Eligibility Reference must be set when saving the form'
+            )
+
         # saving eligibility check notes
         post_data = {
             'notes': self.get_extra()['notes']
