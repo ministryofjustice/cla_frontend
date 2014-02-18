@@ -26,36 +26,71 @@ ELIGIBILITY_CHECK_CREATE = {
     'notes': 'lorem ipsum'
 }
 
-ELIGIBILITY_CHECK_UPDATE = {
-    "reference": "a0cee53ed5d84410826fe4fb7f294803",
-    "category": 1,
-    "notes": "ggrsg",
+ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES = {
+    "reference": "1d37cc19063f4f069f374c4c0aad54d2",
+    "category": None,
+    "notes": "",
     "property_set": [
         {
-            "value": 345,
-            "equity": 0,
-            "share": 14,
-            "id": 9
+            "value": 100000,
+            "equity": 50000,
+            "share": 100,
+            "id": 76
         }
     ],
     "your_finances": {
-        "bank_balance": 345,
-        "investment_balance": 3453,
-        "asset_balance": 345,
-        "credit_balance": 345,
-        "earnings": 435,
-        "other_income": 345,
+        "bank_balance": 100,
+        "investment_balance": 100,
+        "asset_balance": 100,
+        "credit_balance": 100,
+        "earnings": 100,
+        "other_income": 100,
         "self_employed": False
     },
     "partner_finances": {
-        "bank_balance": 345,
-        "investment_balance": 345,
-        "asset_balance": 345,
-        "credit_balance": 34,
-        "earnings": 345,
-        "other_income": 345,
+        "bank_balance": 100,
+        "investment_balance": 100,
+        "asset_balance": 100,
+        "credit_balance": 100,
+        "earnings": 100,
+        "other_income": 100,
         "self_employed": False
     },
     "dependants_young": 0,
     "dependants_old": 0
 }
+
+ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES = {
+    "reference": "1d37cc19063f4f069f374c4c0aad54d2",
+    "category": None,
+    "notes": "",
+    "property_set": [
+        {
+            "value": 100000,
+            "equity": 50000,
+            "share": 100,
+            "id": 76
+        }
+    ],
+    "your_finances": {
+        "bank_balance": 100,
+        "investment_balance": 100,
+        "asset_balance": 100,
+        "credit_balance": 100,
+        "earnings": 100,
+        "other_income": 100,
+        "self_employed": False
+    },
+    "partner_finances": {
+        "bank_balance": 100,
+        "investment_balance": 100,
+        "asset_balance": 100,
+        "credit_balance": 100,
+        "earnings": 100,
+        "other_income": 100,
+        "self_employed": False
+    },
+    "dependants_young": 0,
+    "dependants_old": 0
+}
+

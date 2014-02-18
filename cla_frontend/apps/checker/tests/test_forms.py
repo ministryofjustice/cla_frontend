@@ -1,8 +1,10 @@
 import mock
 
 from core.testing.testcases import CLATestCase
+from django.forms.formsets import formset_factory
 
-from ..forms import YourProblemForm, YourFinancesForm, ApplyForm, ResultForm
+from ..forms import YourProblemForm, YourFinancesForm, ApplyForm, ResultForm, \
+    YourFinancesPropertyForm, OnlyAllowExtraIfNoInitialFormSet
 from ..exceptions import InconsistentStateException
 
 from .fixtures import mocked_api
@@ -10,9 +12,25 @@ from .fixtures import mocked_api
 
 class YourFinancesFormTestCase(CLATestCase):
 
+    all_forms = {'your_savings',
+                  'partners_savings',
+                  'partners_income',
+                  'your_other_properties',
+                  'dependants',
+                  'your_income'}
+
+    partner_forms = {
+        'partners_savings',
+        'partners_income',
+    }
+
+    children_forms = {'dependants'}
+    property_forms = {'your_other_properties'}
+
     def setUp(self):
         super(YourFinancesFormTestCase, self).setUp()
-        self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE
+        self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES
+        self.mocked_connection.eligibility_check('123456789').patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES
 
     def test_get(self):
         # TEST: a blank GET to the this form - all subforms should be visible
@@ -20,12 +38,7 @@ class YourFinancesFormTestCase(CLATestCase):
         form = YourFinancesForm()
 
         self.assertSetEqual(set(dict(form.forms_list).keys()),
-                             {'your_savings',
-                              'partners_savings',
-                              'partners_income',
-                              'your_other_properties',
-                              'dependants',
-                              'your_income'})
+                             self.all_forms)
 
         self.assertSetEqual(set(dict(form.formset_list).keys()), {'property'})
 
@@ -35,10 +48,8 @@ class YourFinancesFormTestCase(CLATestCase):
 
         form = YourFinancesForm(has_partner=False)
         self.assertSetEqual(set(dict(form.forms_list).keys()),
-                            {'your_savings',
-                              'your_other_properties',
-                              'dependants',
-                              'your_income'})
+                            self.all_forms-self.partner_forms)
+
         self.assertSetEqual(set(dict(form.formset_list).keys()), {'property'})
 
     def test_get_no_children(self):
@@ -47,21 +58,14 @@ class YourFinancesFormTestCase(CLATestCase):
 
         form = YourFinancesForm(has_children=False)
         self.assertSetEqual(set(dict(form.forms_list).keys()),
-                           {'your_savings',
-                              'partners_savings',
-                              'partners_income',
-                              'your_other_properties',
-                              'your_income'})
+                           self.all_forms-self.children_forms)
+
         self.assertSetEqual(set(dict(form.formset_list).keys()), {'property'})
 
     def test_get_no_property(self):
         form = YourFinancesForm(has_property=False)
         self.assertSetEqual(set(dict(form.forms_list).keys()),
-                            {'your_savings',
-                             'partners_savings',
-                             'partners_income',
-                             'dependants',
-                             'your_income'})
+                            self.all_forms-self.property_forms)
 
         self.assertSetEqual(set(dict(form.formset_list).keys()), set())
 
@@ -69,18 +73,14 @@ class YourFinancesFormTestCase(CLATestCase):
     def test_get_no_property_no_children(self):
         form = YourFinancesForm(has_property=False, has_children=False)
         self.assertSetEqual(set(dict(form.forms_list).keys()),
-                            {'your_savings',
-                             'partners_savings',
-                             'partners_income',
-                             'your_income'})
+                            self.all_forms-self.children_forms-self.property_forms)
 
         self.assertSetEqual(set(dict(form.formset_list).keys()), set())
 
     def test_get_no_property_no_children_no_partner(self):
         form = YourFinancesForm(has_property=False, has_children=False, has_partner=False)
         self.assertSetEqual(set(dict(form.forms_list).keys()),
-                            {'your_savings',
-                             'your_income'})
+                            self.all_forms-self.children_forms-self.partner_forms-self.property_forms)
 
         self.assertSetEqual(set(dict(form.formset_list).keys()), set())
 
@@ -115,6 +115,24 @@ class YourFinancesFormTestCase(CLATestCase):
             u'your_savings-money_owed': u'100',
             u'your_savings-valuable_items': u'100'}
 
+    def _get_default_api_post_data(self):
+        return {
+        "partner_finances": {"other_income": 100,
+                             "investment_balance": 100,
+                             "earnings": 100,
+                             "bank_balance": 100,
+                             "credit_balance": 100,
+                             "asset_balance": 100},
+        "dependants_old": 0,
+        "property_set": [{"share": 100, "value": 100000, "equity": 50000}],
+        "your_finances": {"other_income": 100,
+                          "investment_balance": 100,
+                          "earnings": 100,
+                          "bank_balance": 100,
+                          "credit_balance": 100,
+                          "asset_balance": 100},
+        "dependants_young": 0}
+
     def test_post(self):
         # TEST post with full data, simple case
         form = YourFinancesForm(data=self._get_default_post_data())
@@ -128,6 +146,31 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertTrue(form.partners_savings.is_valid())
         for f in form.property:
             self.assertTrue(f.is_valid())
+
+        response_data = form.save()
+        self.assertDictEqual(response_data, {
+            'eligibility_check': mocked_api.ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES
+        })
+        self.mocked_connection.eligibility_check.post.assert_called_with(self._get_default_api_post_data())
+
+    def test_post_update(self):
+        # TEST a post to eligibility check when we already have a reference
+        form = YourFinancesForm(data=self._get_default_post_data())
+        form.reference = '1234567890'
+
+        self.assertTrue(form.dependants.is_valid())
+        self.assertTrue(form.your_other_properties.is_valid())
+        self.assertTrue(form.your_income.is_valid())
+        self.assertTrue(form.partners_income.is_valid())
+        self.assertTrue(form.your_savings.is_valid())
+        self.assertTrue(form.partners_savings.is_valid())
+        for f in form.property:
+            self.assertTrue(f.is_valid())
+
+        response_data = form.save()
+        self.assertDictEqual(response_data, {
+            'eligibility_check': mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES
+        })
 
 
     def test_post_subform_dependants(self):
@@ -168,6 +211,98 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertEqual(form.your_income.cleaned_data['earnings_per_month'], 100)
         self.assertEqual(form.your_income.cleaned_data['other_income_per_month'], 100)
         self.assertEqual(form.your_income.cleaned_data['self_employed'], False)
+
+    def test_post_subform_your_other_properties(self):
+        # TEST post with full data, simple case
+        form = YourFinancesForm(data=self._get_default_post_data())
+        self.assertTrue(form.your_other_properties.is_valid())
+        self.assertEqual(form.your_other_properties.cleaned_data['other_properties'], False)
+
+    def test_post_subform_your_savings(self):
+        # TEST post with full data, simple case
+        form = YourFinancesForm(data=self._get_default_post_data())
+        self.assertTrue(form.your_savings.is_valid())
+        self.assertEqual(form.your_savings.cleaned_data['bank'], 100)
+        self.assertEqual(form.your_savings.cleaned_data['investments'], 100)
+        self.assertEqual(form.your_savings.cleaned_data['money_owed'], 100)
+        self.assertEqual(form.your_savings.cleaned_data['valuable_items'], 100)
+
+    def test_post_subform_partner_savings(self):
+        # TEST post with full data, simple case
+        form = YourFinancesForm(data=self._get_default_post_data())
+        self.assertTrue(form.partners_savings.is_valid())
+        self.assertEqual(form.partners_savings.cleaned_data['bank'], 100)
+        self.assertEqual(form.partners_savings.cleaned_data['investments'], 100)
+        self.assertEqual(form.partners_savings.cleaned_data['money_owed'], 100)
+        self.assertEqual(form.partners_savings.cleaned_data['valuable_items'], 100)
+
+    def test_form_validation(self):
+        default_data = self._get_default_post_data()
+
+        ERRORS_DATA =  {
+            'your_savings':
+                [
+                    # your savings mandatory
+                    {
+                        'data': {'your_savings-bank': None,
+                                 'your_savings-investments': None,
+                                 'your_savings-money_owed': None
+                        },
+                        'error': {'bank': [u'This field is required.'],
+                                  'investments': [u'This field is required.'],
+                                  'money_owed': [u'This field is required.']
+                        }
+                    },
+                    {
+                        'data': {'your_savings-bank': -1,
+                                 'your_savings-investments': -1,
+                                 'your_savings-money_owed': -1
+                        },
+                        'error': {'bank': [u'Ensure this value is greater than or equal to 0.'],
+                                  'investments': [u'Ensure this value is greater than or equal to 0.'],
+                                  'money_owed': [u'Ensure this value is greater than or equal to 0.']
+                        }
+                    },
+                    ]
+        }
+
+
+        for error_section_name, error_section_vals in ERRORS_DATA.items():
+            for error_data in error_section_vals:
+                data = dict(default_data)
+                data.update(error_data['data'])
+
+                form = YourFinancesForm(data=data)
+                self.assertFalse(form.is_valid())
+                self.assertEqual(form.errors[error_section_name], error_data['error'])
+
+class YourFinancesPropertyFormSetTeseCase(CLATestCase):
+
+    def test_no_extra_allowed_if_initial_data_supplied(self):
+        YourFinancesPropertyFormSet = formset_factory(
+        YourFinancesPropertyForm,
+        extra=1,
+        max_num=20,
+        validate_max=True,
+        formset=OnlyAllowExtraIfNoInitialFormSet
+        )
+        formset = YourFinancesPropertyFormSet(initial=[
+            {"share": 100, "value": 100000, "equity": 50000},
+            {"share": 100, "value": 100000, "equity": 50000}])
+        self.assertEqual(formset.extra, 0)
+
+
+    def test_one_extra_allowed_if_no_initial_data_supplied(self):
+        YourFinancesPropertyFormSet = formset_factory(
+            YourFinancesPropertyForm,
+            extra=1,
+            max_num=20,
+            validate_max=True,
+            formset=OnlyAllowExtraIfNoInitialFormSet
+        )
+        formset = YourFinancesPropertyFormSet()
+        self.assertEqual(formset.extra, 1)
+
 
 
 class YourProblemFormTestCase(CLATestCase):
