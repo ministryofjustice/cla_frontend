@@ -5,13 +5,70 @@
     {% if history_data.your_problem or history_data.your_details %}
     <section class="alert alert-success">
         <ul>
-            {% if history_data.your_problem %}
-            {% trans "You are looking for help about " %} {{history_data.your_problem.category_name}}
+            {% if history_data.your_problem.category_name %}
+            <li>{% trans "You are looking for help about " %} {{history_data.your_problem.category_name}}</li>
             {% endif %}
 
-            {% for k,v in history_data.your_details.items %}
+            {% if history_data.your_problem.your_problem_notes %}
+            <li>{% trans "Additional details about your problem" %}: {{ history_data.your_problem.your_problem_notes }}</li>
+            {% endif %}
+
+            {% if history_data.your_details %}
+            <li>
+                {% if history_data.your_details.has_partner %}
+                    {% trans "You live with a partner" %}
+                {% else %}
+                    {% trans "You don't live with a partner" %}
+                {% endif %}
+            </li>
+            <li>
+                {% if history_data.your_details.has_benefits %}
+                    {% trans "You or your partner are on Income Support benefits" %}
+                {% else %}
+                    {% trans "You or your partner are not on Income Support benefits" %}
+                {% endif %}
+            </li>
+            <li>
+                {% if history_data.your_details.has_children %}
+                    {% trans "You have children dependent on you" %}
+                {% else %}
+                    {% trans "You don't have children dependent on you" %}
+                {% endif %}
+            </li>
+            <li>
+                {% if history_data.your_details.own_property %}
+                    {% trans "You or your partner own a property" %}
+                {% else %}
+                    {% trans "You or your partner don't own a property" %}
+                {% endif %}
+            </li>
+            <li>
+                {% if history_data.your_details.risk_homeless %}
+                    {% trans "You are in danger of losing your home" %}
+                {% else %}
+                    {% trans "You are not in danger of losing your home" %}
+                {% endif %}
+            </li>
+            <li>
+                {% if history_data.your_details.older_than_sixty %}
+                    {% trans "You or your partner are 60 or over" %}
+                {% else %}
+                    {% trans "You or your partner are not 60 or over" %}
+                {% endif %}
+            </li>
+            <li>
+                {% if history_data.your_details.caring_responsibilities %}
+                    {% trans "You have other caring responsibilities" %}
+                {% else %}
+                    {% trans "You don't have any other caring responsibilities" %}
+                {% endif %}
+            </li>
+            {% comment %}
+                {% for k,v in history_data.your_details.items %}
                 <li>{{ k }}: {{ v }}</li>
-            {% endfor %}
+                {% endfor %}
+            {% endcomment %}
+            {% endif %}
         </ul>
 
         {% if not read_only %}
@@ -26,6 +83,75 @@
     <h3>{% trans "You and your partner's money" %}</h3>
     <section class="alert alert-success">
         <ul>
+            {% if history_data.your_finances.property %}
+            <li>
+                {% blocktrans count property_count=history_data.your_finances.property|length %}
+                    You have one property
+                {% plural %}
+                    You have {{ property_count }} properties
+                {% endblocktrans %}
+                <ul>
+                    {% for property in history_data.your_finances.property %}
+                        <li>{% blocktrans with property_counter=forloop.counter %}Property {{ property_counter }}{% endblocktrans %}
+                            <ul>
+                                <li>{% blocktrans with property_value=property.worth %}The value of your property is &pound;{{ property_value }}{% endblocktrans %}</li>
+                                <li>
+                                    {% if property.mortgage_left %}
+                                        {% blocktrans with mortgage_left=property.mortgage_left %}You have &pound;{{ mortgage_left }} left to pay on the mortgage{% endblocktrans %}
+                                    {% else %}
+                                        {% trans "You have no outstanding mortgage on the property" %}
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% if property.owner == 1 %}
+                                        {% trans "The property is not held in joint names." %}
+                                    {% else %}
+                                        {% trans "The property is held in joint names." %}
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% blocktrans with share=property.share %}You own {{ share }}% of the property.{% endblocktrans %}
+                                </li>
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endif %}
+
+            <li>
+                You have savings with a value of £xxxxx
+            </li>
+
+            <li>
+                Total earnings per month with a value of £xxxxx
+            </li>
+            {% if history_data.your_finances.dependants %}
+                <li>
+                {% if history_data.your_finances.dependants.dependants_young %}
+                    {% blocktrans count dependants_young=history_data.your_finances.dependants.dependants_young %}
+                        You have one child aged 15 and under
+                    {% plural %}
+                        You have {{ dependants_young }} children aged 15 and under
+                    {% endblocktrans %}
+                {% else %}
+                    {% trans "You don't have any children dependant aged 15 and under." %}
+                {% endif %}
+                </li>
+                <li>
+                {% if history_data.your_finances.dependants.dependants_old %}
+                    {% blocktrans count dependants_old=history_data.your_finances.dependants.dependants_old %}
+                        You have one child aged 16 and over
+                    {% plural %}
+                        You have {{ dependants_old }} children aged 16 and over
+                    {% endblocktrans %}
+                {% else %}
+                    {% trans "You don't have any children dependant aged 16 and over." %}
+                {% endif %}
+                </li>
+            {% endif %}
+
+{% comment %}
         {% for k, v in history_data.your_finances.items %}
             <li>
                 {{ k }}
@@ -36,6 +162,7 @@
                 </ul>
             </li>
         {% endfor %}
+{% endcomment %}
         </ul>
 
         {% if not read_only %}
@@ -45,4 +172,17 @@
         {% endif %}
     </section>
     {% endif %}
+
+    {% if history_data.apply.contact_details %}{% with history_data.apply.contact_details as data %}
+
+    <h3>{% trans "Contact details" %}</h3>
+    <section class="alert alert-success">
+        {{data.title|capfirst}} {{data.full_name}}<br>
+        {{data.street}}<br>
+        {{data.town}} {{data.postcode}}<br><br>
+
+        {% trans "Mobile" %}: {{data.mobile_phone|default:"-"}}<br>
+        {% trans "Home" %}: {{data.home_phone|default:"-"}}
+    </section>
+    {% endwith %}{% endif %}
 {% endif %}
