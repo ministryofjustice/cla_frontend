@@ -118,7 +118,7 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
     )
 
     risk_homeless = RadioBooleanField(required=True,
-                                         label=u'Are you are risk of becoming homeless??'
+                                         label=u'Are you are risk of becoming homeless?'
     )
 
     older_than_sixty = RadioBooleanField(required=True,
