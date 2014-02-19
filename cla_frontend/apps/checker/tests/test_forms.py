@@ -327,6 +327,27 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertEqual(properties_value, 50000)
         self.assertEqual(form.total_capital_assets, 800 + 50000)
 
+    def test_calculated_capital_assets_no_property(self):
+        data = {k: v for k,v in self._get_default_post_data().items() if not k.startswith('property-0')}
+        form = YourFinancesForm(data=data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.total_capital_assets, 800)
+
+    def test_calculated_capital_assets_two_property(self):
+        default_data = self._get_default_post_data()
+        default_data['property-TOTAL_FORMS'] = u'2'
+        new_data = {k.replace('0','1'): v for k,v in default_data.items() if  k.startswith('property-0')}
+        default_data.update(new_data)
+        form = YourFinancesForm(data=default_data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.total_capital_assets, 800 + (50000 * 2))
+
+    def test_calculated_capital_assets_negative_equity_property(self):
+        default_data = self._get_default_post_data()
+        default_data['property-0-mortgage_left'] = u"101000"
+        form = YourFinancesForm(data=default_data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.total_capital_assets, 800)
 
 class YourFinancesPropertyFormSetTeseCase(CLATestCase):
 
