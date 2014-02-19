@@ -80,7 +80,7 @@ class CheckerWizard(NamedUrlSessionWizardView):
     def get_form_step_data(self, form):
         data = super(CheckerWizard, self).get_form_step_data(form)
         if self.steps.current == 'your_finances':
-            if bool(form.cleaned_data['your_other_properties']['other_properties']):
+            if bool(form.cleaned_data.get('your_other_properties',{}).get('other_properties', False)):
                 data = data.copy()
                 data['property-TOTAL_FORMS'] = unicode(int(data['property-TOTAL_FORMS']) + 1)
                 data['your_other_properties-other_properties'] = u'0'
