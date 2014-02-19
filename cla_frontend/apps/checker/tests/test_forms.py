@@ -294,19 +294,19 @@ class YourFinancesFormTestCase(CLATestCase):
         data = {k:v for k,v in self._get_default_post_data().items() if not k.startswith('partners')}
         form = YourFinancesForm(data=data, has_partner=False)
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertIsNone(form.get_income('partners_income'))
+        self.assertIsNone(form.get_income('partners_income', form.cleaned_data))
 
     def test_get_capital_doesnt_raise_error_if_no_partner(self):
         data = {k:v for k,v in self._get_default_post_data().items() if not k.startswith('partners')}
         form = YourFinancesForm(data=data, has_partner=False)
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertIsNone(form.get_income('partners_savings'))
+        self.assertIsNone(form.get_income('partners_savings', form.cleaned_data))
 
     def test_get_properties_doesnt_error_if_no_properties(self):
         data = {k: v for k,v in self._get_default_post_data().items() if not k.startswith('property') }
         form = YourFinancesForm(data=data, has_property=False)
         self.assertTrue(form.is_valid(), msg=form.errors)
-        self.assertListEqual(form.get_properties(),[])
+        self.assertListEqual(form.get_properties(form.cleaned_data),[])
 
     def test_form_invalid_if_no_properties_and_but_has_properties(self):
         data = {k: v for k,v in self._get_default_post_data().items() if not k.startswith('property-0') }
@@ -323,7 +323,7 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertTrue(form.is_valid())
         # this should be their share of any properties
         # plus any savings
-        properties_value = sum([int(x['equity']*(x['share'] / 100.0)) for x in form.get_properties()])
+        properties_value = sum([int(x['equity']*(x['share'] / 100.0)) for x in form.get_properties(form.cleaned_data)])
         self.assertEqual(properties_value, 50000)
         self.assertEqual(form.total_capital_assets, 800 + 50000)
 

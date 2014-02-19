@@ -120,11 +120,15 @@
             {% endif %}
 
             <li>
-                You have savings with a value of £xxxxx
+                {% blocktrans with total_capital_assets=history_data.your_finances.total_capital_assets %}
+                You have capital assets with a value of £{{ total_capital_assets }}
+                {% endblocktrans %}
             </li>
 
             <li>
-                Total earnings per month with a value of £xxxxx
+                {% blocktrans with total_earnings=history_data.your_finances.total_earnings %}
+                You have earnings per month with a value of £{{ total_earnings }}
+                {% endblocktrans %}
             </li>
             {% if history_data.your_finances.dependants %}
                 <li>

@@ -257,81 +257,91 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
 
         super(YourFinancesForm, self).__init__(*args, **kwargs)
 
+    def _get_total_earnings(self, cleaned_data):
+        own_income = self.get_income('your_income', cleaned_data)
+        partner_income = self.get_income('partners_income', cleaned_data) or {}
+        return sum(itertools.chain(own_income.values(), partner_income.values()))
+
     @property
     def total_earnings(self):
-        if hasattr(self, 'cleaned_data'):
-            own_income = self.get_income('your_income')
-            partner_income = self.get_income('partners_income') or {}
-            return sum(itertools.chain(own_income.values(),partner_income.values()))
-        return None
+        return self._get_total_earnings(self.cleaned_data)
 
     @property
     def total_capital_assets(self):
+        return self._get_total_capital_assets(self.cleaned_data)
+
+    def _get_total_capital_assets(self, cleaned_data):
         # used for display at the moment but maybe should come from a
         # common calculator lib so both front end and backend can share it
 
         total_of_savings = 0
         total_of_property = 0
 
-        if hasattr(self, 'cleaned_data'):
-            own_savings = self.get_savings('your_savings')
-            partner_savings = self.get_savings('partners_savings') or {}
-            total_of_savings = sum(itertools.chain(own_savings.values(),partner_savings.values()))
+        own_savings = self.get_savings('your_savings', cleaned_data)
+        partner_savings = self.get_savings('partners_savings', cleaned_data) or {}
+        total_of_savings = sum(itertools.chain(own_savings.values(), partner_savings.values()))
 
-            properties = self.get_properties()
-            for property in properties:
-                share = property['share']
-                if share > 0:
-                    share = share / 100.0
-                    total_of_property += int(property['equity'] * share)
+        properties = self.get_properties(cleaned_data)
+        for property in properties:
+            share = property['share']
+            if share > 0:
+                share = share / 100.0
+                total_of_property += int(property['equity'] * share)
 
         return total_of_property + total_of_savings
 
-    def get_savings(self, key):
-        data = self.cleaned_data
-        if key in data:
+    @property
+    def cleaned_data(self):
+        cleaned_data = super(YourFinancesForm, self).cleaned_data
+        cleaned_data.update({
+            'total_capital_assets': self._get_total_capital_assets(cleaned_data),
+            'total_earnings': self._get_total_earnings(cleaned_data)
+        })
+
+        return cleaned_data
+
+    def get_savings(self, key, cleaned_data):
+        if key in cleaned_data:
             return {
-                'bank_balance': data[key].get('bank', 0),
-                'asset_balance': data[key].get('valuable_items', 0),
-                'credit_balance': data[key].get('money_owed', 0),
-                'investment_balance': data[key].get('investments', 0),
+                'bank_balance': cleaned_data[key].get('bank', 0),
+                'asset_balance': cleaned_data[key].get('valuable_items', 0),
+                'credit_balance': cleaned_data[key].get('money_owed', 0),
+                'investment_balance': cleaned_data[key].get('investments', 0),
             }
 
-    def get_income(self, key):
-        data = self.cleaned_data
-        if key in data:
+    def get_income(self, key, cleaned_data):
+        if key in cleaned_data:
             return {
-                'earnings': data[key].get('earnings_per_month', 0),
-                'other_income': data[key].get('other_income_per_month', 0)
+                'earnings': cleaned_data[key].get('earnings_per_month', 0),
+                'other_income': cleaned_data[key].get('other_income_per_month', 0)
             }
 
-
-    def get_finances(self):
-        your_finances = self.get_savings('your_savings')
-        partner_finances = self.get_savings('partners_savings') or {}
-        your_finances.update(self.get_income('your_income'))
-        partner_finances.update(self.get_income('partners_income') or {})
+    def get_finances(self, cleaned_data):
+        your_finances = self.get_savings('your_savings', cleaned_data)
+        partner_finances = self.get_savings('partners_savings', cleaned_data) or {}
+        your_finances.update(self.get_income('your_income', cleaned_data))
+        partner_finances.update(self.get_income('partners_income', cleaned_data) or {})
         return your_finances, partner_finances
 
-    def get_properties(self):
+    def get_properties(self, cleaned_data):
         def _transform(property):
             return {
                 'equity': property['equity'],
                 'share': property['share'],
                 'value': property['worth']
             }
-        properties = self.cleaned_data.get('property', [])
+        properties = cleaned_data.get('property', [])
         return [_transform(p) for p in properties if p]
 
     def save(self):
         data = self.cleaned_data
-        your_finances, partner_finances = self.get_finances()
+        your_finances, partner_finances = self.get_finances(data)
         post_data = {
             'your_finances': your_finances,
             'partner_finances': partner_finances,
             'dependants_young': data.get('dependant_young', 0),
             'dependants_old': data.get('dependant_old', 0),
-            'property_set': self.get_properties()
+            'property_set': self.get_properties(data)
         }
         if not self.reference:
             response = connection.eligibility_check.post(post_data)
