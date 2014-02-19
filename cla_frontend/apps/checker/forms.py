@@ -110,7 +110,7 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
 
 
     caring_responsibilities = RadioBooleanField(required=True,
-                                         label=u'Do you any other caring responsibilities??'
+                                         label=u'Do you any other caring responsibilities?'
     )
 
     own_property = RadioBooleanField(required=True,
@@ -118,11 +118,11 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
     )
 
     risk_homeless = RadioBooleanField(required=True,
-                                         label=u'Are you or your partner aged 60 or over?'
+                                         label=u'Are you are risk of becoming homeless??'
     )
 
     older_than_sixty = RadioBooleanField(required=True,
-                                         label=u'Do you have a partner?'
+                                         label=u'Are you or your partner aged 60 or over?'
     )
 
     def save(self, *args, **kwargs):
@@ -270,11 +270,22 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         # used for display at the moment but maybe should come from a
         # common calculator lib so both front end and backend can share it
 
+        total_of_savings = 0
+        total_of_property = 0
+
         if hasattr(self, 'cleaned_data'):
             own_savings = self.get_savings('your_savings')
             partner_savings = self.get_savings('partners_savings') or {}
-            return sum(itertools.chain(own_savings.values(),partner_savings.values()))
-        return None
+            total_of_savings = sum(itertools.chain(own_savings.values(),partner_savings.values()))
+
+            properties = self.get_properties()
+            for property in properties:
+                share = property['share']
+                if share > 0:
+                    share = share / 100.0
+                    total_of_property += int(property['equity'] * share)
+
+        return total_of_property + total_of_savings
 
     def get_savings(self, key):
         data = self.cleaned_data
@@ -297,9 +308,9 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
 
     def get_finances(self):
         your_finances = self.get_savings('your_savings')
-        partner_finances = self.get_savings('partners_savings')
+        partner_finances = self.get_savings('partners_savings') or {}
         your_finances.update(self.get_income('your_income'))
-        partner_finances.update(self.get_income('partners_income'))
+        partner_finances.update(self.get_income('partners_income') or {})
         return your_finances, partner_finances
 
     def get_properties(self):
