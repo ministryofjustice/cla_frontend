@@ -110,7 +110,7 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
 
 
     caring_responsibilities = RadioBooleanField(required=True,
-                                         label=u'Do you any other caring responsibilities??'
+                                         label=u'Do you any other caring responsibilities?'
     )
 
     own_property = RadioBooleanField(required=True,
@@ -118,11 +118,11 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
     )
 
     risk_homeless = RadioBooleanField(required=True,
-                                         label=u'Are you or your partner aged 60 or over?'
+                                         label=u'Are you are risk of becoming homeless??'
     )
 
     older_than_sixty = RadioBooleanField(required=True,
-                                         label=u'Do you have a partner?'
+                                         label=u'Are you or your partner aged 60 or over?'
     )
 
     def save(self, *args, **kwargs):
