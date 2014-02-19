@@ -321,7 +321,11 @@ class YourFinancesFormTestCase(CLATestCase):
     def test_calculated_capital_assets(self):
         form = YourFinancesForm(data=self._get_default_post_data())
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.total_capital_assets, 800)
+        # this should be their share of any properties
+        # plus any savings
+        properties_value = sum([int(x['equity']*(x['share'] / 100.0)) for x in form.get_properties()])
+        self.assertEqual(properties_value, 50000)
+        self.assertEqual(form.total_capital_assets, 800 + 50000)
 
 
 class YourFinancesPropertyFormSetTeseCase(CLATestCase):

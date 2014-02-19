@@ -270,11 +270,22 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         # used for display at the moment but maybe should come from a
         # common calculator lib so both front end and backend can share it
 
+        total_of_savings = 0
+        total_of_property = 0
+
         if hasattr(self, 'cleaned_data'):
             own_savings = self.get_savings('your_savings')
             partner_savings = self.get_savings('partners_savings') or {}
-            return sum(itertools.chain(own_savings.values(),partner_savings.values()))
-        return None
+            total_of_savings = sum(itertools.chain(own_savings.values(),partner_savings.values()))
+
+            properties = self.get_properties()
+            for property in properties:
+                share = property['share']
+                if share > 0:
+                    share = share / 100.0
+                    total_of_property += int(property['equity'] * share)
+
+        return total_of_property + total_of_savings
 
     def get_savings(self, key):
         data = self.cleaned_data
