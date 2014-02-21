@@ -4,6 +4,9 @@
 
 Django==1.6.1
 
+# MOJ Template
+django-moj-template==0.5.1
+
 #django-model-utils
 
 #psycopg2

@@ -114,7 +114,8 @@ TEMPLATE_CONTEXT_PROCESSORS =  (
     "django.core.context_processors.static",
     'django.core.context_processors.request',
     "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages"
+    "django.contrib.messages.context_processors.messages",
+    "cla_frontend.apps.core.context_processors.globals"
  )
 
 ROOT_URLCONF = 'cla_frontend.urls'
@@ -137,6 +138,7 @@ INSTALLED_APPS = (
 )
 
 PROJECT_APPS = (
+    'moj_template',
     'core',
     'checker',
 )
