@@ -2,6 +2,7 @@
 {% load helpers %}
 
 {% block content %}
+  <div class="inner">
     <div class="full-width">
       <h1>{% block page_header %}{% endblock %}</h1>
     </div>
@@ -38,4 +39,5 @@
     {% endblock summary %}
 
     {% block checker_content %}{% endblock %}
+  </div>
 {% endblock %}
