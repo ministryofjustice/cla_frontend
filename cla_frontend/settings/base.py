@@ -13,6 +13,26 @@ sys.path.insert(0, PROJECT_ROOT)
 sys.path.insert(0, APPS_ROOT)
 
 
+# ENVIRON values
+
+from django.core.exceptions import ImproperlyConfigured
+
+# .env_values.py contains secrets and host config values usually stored
+# in a different place
+try:
+    import env_values
+except ImportError:
+    env_values = None
+
+
+def get_env_value(var_name):
+    """ Get the env value `var_name` or return exception """
+    try:
+        return getattr(env_values, var_name)
+    except AttributeError:
+        raise ImproperlyConfigured("Environment value %s not found" % var_name)
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -20,16 +40,7 @@ ADMINS = ()
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'cla_frontend',
-    #     'USER': 'postgres',
-    #     'PASSWORD': '',
-    #     'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-    #     'PORT': '',                      # Set to empty string for default.
-    # }
-}
+DATABASES = {}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
