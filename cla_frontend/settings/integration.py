@@ -12,4 +12,6 @@ ADMINS = (
 MANAGERS = ADMINS
 
 
-#HOST_NAME = "http://"
+HOST_NAME = "http://cla-frontend.dsd.io"
+
+BACKEND_BASE_URI = 'http://cla-backend.dsd.io'

@@ -186,6 +186,8 @@ LOGGING = {
 }
 
 
+BACKEND_BASE_URI = 'http://127.0.0.1:8000'
+
 # EMAILS
 
 # importing test settings file if necessary (TODO chould be done better)

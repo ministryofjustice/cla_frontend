@@ -1,9 +1,11 @@
 import slumber
 
+from django.conf import settings
+
 
 API_VERSION = 'v1'
-BASE_URI = 'http://127.0.0.1:8000/legalaid/api/{version}'.\
-    format(version=API_VERSION)
+BASE_URI = '{base_uri}/legalaid/api/{version}'.\
+    format(base_uri=settings.BACKEND_BASE_URI, version=API_VERSION)
 
 def get_connection(session=None):
     return slumber.API(BASE_URI, session=session)
