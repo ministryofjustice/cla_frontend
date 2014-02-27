@@ -590,7 +590,7 @@ class ApplyFormTestCase(CLATestCase):
     def test_fail_save_when_not_eligible(self):
         data = self._get_default_post_data()
         form = ApplyForm(reference=self.DEFAULT_CHECK_REFERENCE, data=data)
-        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible.return_value = {
+        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible().post.return_value = {
             'is_eligible': False
         }
 
@@ -619,7 +619,7 @@ class ResultFormTestCase(CLATestCase):
 
     def test_is_eligible_context_var(self):
         form = ResultForm(reference=self.DEFAULT_CHECK_REFERENCE)
-        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible.return_value = {
+        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible().post.return_value = {
             'is_eligible': True
         }
 
@@ -627,7 +627,7 @@ class ResultFormTestCase(CLATestCase):
 
     def test_is_not_eligible_context_var(self):
         form = ResultForm(reference=self.DEFAULT_CHECK_REFERENCE)
-        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible.return_value = {
+        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible().post.return_value = {
             'is_eligible': False
         }
 

@@ -3,12 +3,12 @@ from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView
 
-from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView
+from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView, StepsHelper
+from django.contrib.formtools.wizard.storage import get_storage
 
 from .helpers import SessionCheckerHelper
 from .forms import YourDetailsForm, YourFinancesForm, YourProblemForm, \
     ResultForm, ApplyForm
-
 
 class CheckerWizard(NamedUrlSessionWizardView):
     storage_name = 'checker.storage.CheckerSessionStorage'
@@ -28,6 +28,35 @@ class CheckerWizard(NamedUrlSessionWizardView):
         "result": "checker/result.html",
         "apply": "checker/apply.html"
     }
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        This renders the form or, if needed, does the http redirects.
+        """
+        self.prefix = self.get_prefix(*args, **kwargs)
+        self.storage = get_storage(self.storage_name, self.prefix, request,
+            getattr(self, 'file_storage', None))
+        self.steps = StepsHelper(self)
+
+        step_url = kwargs.get('step', None)
+        if step_url:
+            # walk through the form list and try to validate the data again.
+            for form_key in self.get_form_list():
+                if form_key == step_url:
+                    break
+
+                form_obj = self.get_form(step=form_key,
+                    data=self.storage.get_step_data(form_key),
+                    files=self.storage.get_step_files(form_key))
+                if not form_obj.is_valid():
+                    return self.render_revalidation_failure(form_key, form_obj, **kwargs)
+
+
+        response = super(CheckerWizard, self).dispatch(request, *args, **kwargs)
+
+        # update the response (e.g. adding cookies)
+        self.storage.update_response(response)
+        return response
 
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]

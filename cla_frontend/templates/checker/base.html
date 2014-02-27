@@ -19,7 +19,11 @@
 
             {% for step in steps %}
                 <li {% if step == wizard.steps.current %}class="active"{% endif %}>
+                {% if step in history_data %}
                     <a href="{% url 'checker:checker_step' step %}">{{ step|unslug }}</a>
+                {% else %}
+                    {{ step|unslug }}
+                {% endif %}
                 </li>
             {% endfor %}
             <li>Result of legal aid check</li>

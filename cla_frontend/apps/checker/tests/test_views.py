@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from core.testing.testcases import CLATestCase
 
 from ..exceptions import InconsistentStateException
+from ..views import CheckerWizard
 
 from .fixtures import mocked_api
 
@@ -33,21 +34,6 @@ class CheckerWizardTestCase(CLATestCase):
 
         self.done_url = reverse('checker:confirmation', args=(), kwargs={})
 
-    def test_get_start_page(self):
-        """
-        Redirects to the first step of the wizard.
-        """
-        response = self.client.get(reverse('checker:checker'))
-        self.assertRedirects(response, self.your_problem_url)
-
-    def test_get_your_problem(self):
-        response = self.client.get(self.your_problem_url)
-        context_data = response.context_data
-
-        choices = context_data['form'].fields['category'].choices
-        self.assertTrue(len(choices), 4)
-        self.assertItemsEqual([c[0] for c in choices], [1,2,3,4])
-
     def _get_your_problem_post_data(self):
         return {
             'your_problem-category': [1],
@@ -66,25 +52,6 @@ class CheckerWizardTestCase(CLATestCase):
             'your_details-own_property': [1],
             'your_details-checker_wizard-current_step': 'your_details',
         }
-
-    def _add_reference_to_session(self, reference=123456789):
-        s = self.client.session
-        s['wizard_checker_wizard']['_check_reference'] = reference
-        s.save()
-
-    def test_sumbmit_your_problem(self):
-        data = self._get_your_problem_post_data()
-
-        self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE
-
-        response = self.client.post(self.your_problem_url, data=data)
-        self.assertRedirects(response, self.your_details_url)
-        self.mocked_connection.eligibility_check.post.assert_called()
-
-    def test_get_your_finances(self):
-        response = self.client.get(self.your_finances_url)
-        self.assertTrue('sessionid' in response.cookies)
-        self.assertEqual(response.status_code, 200)
 
     def _get_your_finances_post_data(self):
         return {
@@ -115,13 +82,101 @@ class CheckerWizardTestCase(CLATestCase):
             "dependants-dependants_young": [0],
         }
 
+    def _add_reference_to_session(self, reference=123456789):
+        s = self.client.session
+        s['wizard_checker_wizard']['_check_reference'] = reference
+        s.save()
+
+    def _fill_in_prev_steps(self, current_step, reference=123456789):
+        self.client.get(self.your_problem_url)
+        s = self.client.session
+        s['wizard_checker_wizard']['_check_reference'] = reference
+
+        step_data = {}
+        fillers = {
+            'your_problem': self._get_your_problem_post_data,
+            'your_details': self._get_your_details_post_data,
+            'your_finances': self._get_your_finances_post_data,
+            'result': lambda : {}
+        }
+        for step in [x[0] for x in CheckerWizard.form_list]:
+            if step == current_step:
+                break
+            step_data[step] = fillers[step]()
+        s['wizard_checker_wizard'][u'step_data'] = step_data
+        s.save()
+
+    def test_get_start_page(self):
+        """
+        Redirects to the first step of the wizard.
+        """
+        response = self.client.get(reverse('checker:checker'))
+        self.assertRedirects(response, self.your_problem_url)
+
+    def _test_cant_skip_steps_redirect_to_step(self, requested_step, expected_redirect_to_step):
+        STEP_URL_MAPPER = {
+            'your_problem': self.your_problem_url,
+            'your_details': self.your_details_url,
+            'your_finances': self.your_finances_url,
+            'result': self.result_url,
+            'apply': self.apply_url
+        }
+
+        requested_url = STEP_URL_MAPPER[requested_step]
+        expected_redirect_to_step_url = STEP_URL_MAPPER[expected_redirect_to_step]
+
+        response_get = self.client.get(requested_url)
+        self.assertRedirects(response_get, expected_redirect_to_step_url)
+
+        response_post = self.client.post(requested_url, data={})
+        self.assertRedirects(response_post, expected_redirect_to_step_url)
+
+    def test_cant_skip_steps(self):
+        """
+        Tests that you can't get or post directly a future step
+        """
+        # TODO: makes tests run slow, change?
+        steps = [x[0] for x in CheckerWizard.form_list]
+        for index, step in enumerate(steps):
+            self._fill_in_prev_steps(current_step=step)
+
+            # test that can't get or post future steps
+            for future_step in steps[index+1:]:
+                self._test_cant_skip_steps_redirect_to_step(future_step, step)
+
+    def test_get_your_problem(self):
+        response = self.client.get(self.your_problem_url)
+        context_data = response.context_data
+
+        choices = context_data['form'].fields['category'].choices
+        self.assertTrue(len(choices), 4)
+        self.assertItemsEqual([c[0] for c in choices], [1,2,3,4])
+
+    def test_sumbmit_your_problem(self):
+        data = self._get_your_problem_post_data()
+
+        self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE
+
+        response = self.client.post(self.your_problem_url, data=data)
+        self.assertRedirects(response, self.your_details_url)
+        self.mocked_connection.eligibility_check.post.assert_called()
+
+    def test_get_your_finances(self):
+        self._fill_in_prev_steps(current_step='your_finances')
+
+        response = self.client.get(self.your_finances_url)
+        self.assertTrue('sessionid' in response.cookies)
+        self.assertEqual(response.status_code, 200)
+
     def test_post_your_finances(self):
+        self._fill_in_prev_steps(current_step='your_finances')
+
         finances_data = self._get_your_finances_post_data()
 
         r1 = self.client.get(self.your_finances_url)
         self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES
         response = self.client.post(self.your_finances_url, data=finances_data)
-        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, self.result_url)
 
     def test_post_your_finances_with_extra_property(self):
         # Test that ticking yes for 'I own other properties' returns you to the same page
@@ -154,6 +209,8 @@ class CheckerWizardTestCase(CLATestCase):
             "dependants-dependants_young": 0,
             }
 
+        self._fill_in_prev_steps(current_step='your_finances')
+
         r1 = self.client.get(self.your_finances_url)
         self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES
         response = self.client.post(self.your_finances_url, data=finances_data, follow=True)
@@ -163,10 +220,9 @@ class CheckerWizardTestCase(CLATestCase):
 
     def test_get_result_is_eligible(self):
         reference = '1234567890'
-        self.client.get(self.your_problem_url)
-        self._add_reference_to_session(reference)
+        self._fill_in_prev_steps(reference=reference, current_step='result')
 
-        self.mocked_connection.eligibility_check(reference).is_eligible.return_value = mocked_api.IS_ELIGIBLE_TRUE
+        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_TRUE
 
         response = self.client.get(self.result_url)
         self.assertTrue('sessionid' in response.cookies)
@@ -176,10 +232,9 @@ class CheckerWizardTestCase(CLATestCase):
 
     def test_get_result_is_not_eligible(self):
         reference = '1234567890'
-        self.client.get(self.your_problem_url)
-        self._add_reference_to_session(reference)
+        self._fill_in_prev_steps(reference=reference, current_step='result')
 
-        self.mocked_connection.eligibility_check(reference).is_eligible.return_value = mocked_api.IS_ELIGIBLE_FALSE
+        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_FALSE
 
         response = self.client.get(self.result_url)
         self.assertTrue('sessionid' in response.cookies)
@@ -188,8 +243,7 @@ class CheckerWizardTestCase(CLATestCase):
         self.assertEqual(response.context_data['is_eligible'], False)
 
     def test_post_result(self):
-        self.client.get(self.your_problem_url)
-        self._add_reference_to_session()
+        self._fill_in_prev_steps(current_step='result')
 
         data = {
             "checker_wizard-current_step": "result",
@@ -199,12 +253,16 @@ class CheckerWizardTestCase(CLATestCase):
         self.assertRedirects(response, self.apply_url)
 
     def test_get_apply(self):
+        self._fill_in_prev_steps(current_step='apply')
+
         response = self.client.get(self.apply_url)
         self.assertTrue('sessionid' in response.cookies)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['wizard']['steps'].current, 'apply')
 
     def test_post_apply_fails_without_reference(self):
+        self._fill_in_prev_steps(reference=None, current_step='apply')
+
         data = {
             "checker_wizard-current_step": "apply",
             "contact_details-title": 'mr',
@@ -220,6 +278,8 @@ class CheckerWizardTestCase(CLATestCase):
 
     def test_post_apply_fails_is_not_eligible(self):
         reference = '1234567890'
+        self._fill_in_prev_steps(reference=reference, current_step='apply')
+
         data = {
             "checker_wizard-current_step": "apply",
             "contact_details-title": 'mr',
@@ -232,24 +292,15 @@ class CheckerWizardTestCase(CLATestCase):
         }
         r1 = self.client.get(self.apply_url)
 
-        # need to set eligibility check reference in the session
-        self._add_reference_to_session(reference)
-        s = self.client.session
-        s['wizard_checker_wizard'][u'step_data'] = {
-            'your_problem': self._get_your_problem_post_data(),
-            'your_details': self._get_your_details_post_data(),
-            'your_finances': self._get_your_finances_post_data(),
-            'result': {}
-        }
-        s.save()
-
-        self.mocked_connection.eligibility_check(reference).is_eligible.return_value = mocked_api.IS_ELIGIBLE_FALSE
+        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_FALSE
         self.assertRaises(
             InconsistentStateException, self.client.post,
             self.apply_url, data=data
         )
 
     def test_post_apply_success(self):
+        self._fill_in_prev_steps(current_step='apply')
+
         data = {
             "checker_wizard-current_step": "apply",
             "contact_details-title": 'mr',
@@ -261,17 +312,6 @@ class CheckerWizardTestCase(CLATestCase):
             "contact_details-home_phone": '9876543210',
         }
         r1 = self.client.get(self.apply_url)
-
-        # need to set eligibility check reference in the session
-        self._add_reference_to_session()
-        s = self.client.session
-        s['wizard_checker_wizard'][u'step_data'] = {
-            'your_problem': self._get_your_problem_post_data(),
-            'your_details': self._get_your_details_post_data(),
-            'your_finances': self._get_your_finances_post_data(),
-            'result': {}
-        }
-        s.save()
 
         self.mocked_connection.case.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE_CASE
 
