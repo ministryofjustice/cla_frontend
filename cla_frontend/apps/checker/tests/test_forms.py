@@ -124,7 +124,7 @@ class YourFinancesFormTestCase(CLATestCase):
                              "credit_balance": 100,
                              "asset_balance": 100},
         "dependants_old": 0,
-        "property_set": [{"share": 100, "value": 100000, "equity": 50000}],
+        "property_set": [{"share": 100, "value": 100000, "mortgage_left": 50000}],
         "your_finances": {"other_income": 100,
                           "investment_balance": 100,
                           "earnings": 100,
@@ -323,7 +323,7 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertTrue(form.is_valid())
         # this should be their share of any properties
         # plus any savings
-        properties_value = sum([int(x['equity']*(x['share'] / 100.0)) for x in form.get_properties(form.cleaned_data)])
+        properties_value = sum([(int(max(x['value'], 0) - x['mortgage_left'])*(x['share'] / 100.0)) for x in form.get_properties(form.cleaned_data)])
         self.assertEqual(properties_value, 50000)
         self.assertEqual(form.total_capital_assets, 800 + 50000)
 
@@ -342,12 +342,6 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertTrue(form.is_valid())
         self.assertEqual(form.total_capital_assets, 800 + (50000 * 2))
 
-    def test_calculated_capital_assets_negative_equity_property(self):
-        default_data = self._get_default_post_data()
-        default_data['property-0-mortgage_left'] = u"101000"
-        form = YourFinancesForm(data=default_data)
-        self.assertTrue(form.is_valid())
-        self.assertEqual(form.total_capital_assets, 800)
 
 class YourFinancesPropertyFormSetTeseCase(CLATestCase):
 
@@ -360,8 +354,8 @@ class YourFinancesPropertyFormSetTeseCase(CLATestCase):
         formset=OnlyAllowExtraIfNoInitialFormSet
         )
         formset = YourFinancesPropertyFormSet(initial=[
-            {"share": 100, "value": 100000, "equity": 50000},
-            {"share": 100, "value": 100000, "equity": 50000}])
+            {"share": 100, "value": 100000, "mortgage_left": 50000},
+            {"share": 100, "value": 100000, "mortgage_left": 50000}])
         self.assertEqual(formset.extra, 0)
 
 

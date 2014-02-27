@@ -33,7 +33,7 @@ ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES = {
     "property_set": [
         {
             "value": 100000,
-            "equity": 50000,
+            "mortgage_left": 50000,
             "share": 100,
             "id": 76
         }
@@ -67,7 +67,7 @@ ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES = {
     "property_set": [
         {
             "value": 100000,
-            "equity": 50000,
+            "mortgage_left": 50000,
             "share": 100,
             "id": 76
         }

@@ -154,12 +154,6 @@ class YourFinancesPropertyForm(CheckerWizardMixin, forms.Form):
     )
 
 
-    def clean(self):
-        data = self.cleaned_data
-        data['equity'] = max(data.get('worth',0) - data.get('mortgage_left',0), 0)
-        return data
-
-
 class YourFinancesSavingsForm(CheckerWizardMixin, forms.Form):
     bank = forms.IntegerField(
         label=u"Do you have any money saved in a bank or building society?",
@@ -284,9 +278,12 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         properties = self.get_properties(cleaned_data)
         for property in properties:
             share = property['share']
+            value = property['value']
+            mortgage_left = property['mortgage_left']
             if share > 0:
                 share = share / 100.0
-                total_of_property += int(property['equity'] * share)
+
+                total_of_property +=  int(max(value - mortgage_left, 0) * share)
 
         return total_of_property + total_of_savings
 
@@ -326,7 +323,7 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
     def get_properties(self, cleaned_data):
         def _transform(property):
             return {
-                'equity': property['equity'],
+                'mortgage_left': property['mortgage_left'],
                 'share': property['share'],
                 'value': property['worth']
             }
