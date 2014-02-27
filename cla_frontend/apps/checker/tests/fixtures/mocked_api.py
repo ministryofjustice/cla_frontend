@@ -107,3 +107,11 @@ ELIGIBILITY_CHECK_CREATE_CASE = {
     },
     "reference": "LA-2954-3453"
 }
+
+IS_ELIGIBLE_TRUE = {
+    'is_eligible': True
+}
+
+IS_ELIGIBLE_FALSE = {
+    'is_eligible': False
+}

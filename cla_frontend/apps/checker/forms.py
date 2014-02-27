@@ -373,20 +373,23 @@ class ContactDetailsForm(forms.Form):
 
 class EligibilityMixin(object):
     def is_eligible(self):
-        # TODO should use the API to test if the user is eligible?
-        return True
+        response = connection.eligibility_check(self.reference).is_eligible().post()
+        return response['is_eligible']
 
 
 class ResultForm(EligibilityMixin, CheckerWizardMixin, forms.Form):
     def get_context_data(self):
+        # eligibility check reference should be set otherwise => error
+        if not self.reference:
+            raise InconsistentStateException(
+                'Eligibility Reference must be set for calculating the eligibility'
+            )
+
         return {
             'is_eligible': self.is_eligible()
         }
 
     def save(self, *args, **kwargs):
-        if not self.is_eligible():
-            raise InconsistentStateException('You must be eligible to apply')
-
         return {
             'eligibility_check': {
                 'reference': self.reference
@@ -435,9 +438,7 @@ class ApplyForm(EligibilityMixin, CheckerWizardMixin, MultipleFormsForm):
 
         # user must be eligible (double-checking) otherwise => error
         if not self.is_eligible():
-            raise InconsistentStateException(
-                'Eligibility Reference must be set when saving the form'
-            )
+            raise InconsistentStateException('You must be eligible to apply')
 
         # saving eligibility check notes
         post_data = {

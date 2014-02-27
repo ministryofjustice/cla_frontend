@@ -67,6 +67,11 @@ class CheckerWizardTestCase(CLATestCase):
             'your_details-checker_wizard-current_step': 'your_details',
         }
 
+    def _add_reference_to_session(self, reference=123456789):
+        s = self.client.session
+        s['wizard_checker_wizard']['_check_reference'] = reference
+        s.save()
+
     def test_sumbmit_your_problem(self):
         data = self._get_your_problem_post_data()
 
@@ -156,14 +161,36 @@ class CheckerWizardTestCase(CLATestCase):
         self.assertGreater(len(response.context_data['form'].property),
                            len(r1.context_data['form'].property))
 
-    def test_get_result(self):
+    def test_get_result_is_eligible(self):
+        reference = '1234567890'
+        self.client.get(self.your_problem_url)
+        self._add_reference_to_session(reference)
+
+        self.mocked_connection.eligibility_check(reference).is_eligible.return_value = mocked_api.IS_ELIGIBLE_TRUE
+
         response = self.client.get(self.result_url)
         self.assertTrue('sessionid' in response.cookies)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['wizard']['steps'].current, 'result')
         self.assertEqual(response.context_data['is_eligible'], True)
 
+    def test_get_result_is_not_eligible(self):
+        reference = '1234567890'
+        self.client.get(self.your_problem_url)
+        self._add_reference_to_session(reference)
+
+        self.mocked_connection.eligibility_check(reference).is_eligible.return_value = mocked_api.IS_ELIGIBLE_FALSE
+
+        response = self.client.get(self.result_url)
+        self.assertTrue('sessionid' in response.cookies)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['wizard']['steps'].current, 'result')
+        self.assertEqual(response.context_data['is_eligible'], False)
+
     def test_post_result(self):
+        self.client.get(self.your_problem_url)
+        self._add_reference_to_session()
+
         data = {
             "checker_wizard-current_step": "result",
         }
@@ -191,6 +218,37 @@ class CheckerWizardTestCase(CLATestCase):
         r1 = self.client.get(self.apply_url)
         self.assertRaises(InconsistentStateException, self.client.post, self.apply_url, data=data)
 
+    def test_post_apply_fails_is_not_eligible(self):
+        reference = '1234567890'
+        data = {
+            "checker_wizard-current_step": "apply",
+            "contact_details-title": 'mr',
+            "contact_details-full_name": 'John Doe',
+            "contact_details-postcode": 'SW1H 9AJ',
+            "contact_details-street": '102 Petty France',
+            "contact_details-town": 'London',
+            "contact_details-mobile_phone": '0123456789',
+            "contact_details-home_phone": '9876543210',
+        }
+        r1 = self.client.get(self.apply_url)
+
+        # need to set eligibility check reference in the session
+        self._add_reference_to_session(reference)
+        s = self.client.session
+        s['wizard_checker_wizard'][u'step_data'] = {
+            'your_problem': self._get_your_problem_post_data(),
+            'your_details': self._get_your_details_post_data(),
+            'your_finances': self._get_your_finances_post_data(),
+            'result': {}
+        }
+        s.save()
+
+        self.mocked_connection.eligibility_check(reference).is_eligible.return_value = mocked_api.IS_ELIGIBLE_FALSE
+        self.assertRaises(
+            InconsistentStateException, self.client.post,
+            self.apply_url, data=data
+        )
+
     def test_post_apply_success(self):
         data = {
             "checker_wizard-current_step": "apply",
@@ -205,8 +263,8 @@ class CheckerWizardTestCase(CLATestCase):
         r1 = self.client.get(self.apply_url)
 
         # need to set eligibility check reference in the session
+        self._add_reference_to_session()
         s = self.client.session
-        s['wizard_checker_wizard']['_check_reference'] = 123456789
         s['wizard_checker_wizard'][u'step_data'] = {
             'your_problem': self._get_your_problem_post_data(),
             'your_details': self._get_your_details_post_data(),

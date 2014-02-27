@@ -589,8 +589,10 @@ class ApplyFormTestCase(CLATestCase):
 
     def test_fail_save_when_not_eligible(self):
         data = self._get_default_post_data()
-        form = ApplyForm(data=data)
-        form.is_eligible = mock.MagicMock(return_value=False)
+        form = ApplyForm(reference=self.DEFAULT_CHECK_REFERENCE, data=data)
+        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible.return_value = {
+            'is_eligible': False
+        }
 
         self.assertTrue(form.is_valid())
         self.assertRaises(InconsistentStateException, form.save)
@@ -610,10 +612,23 @@ class ResultFormTestCase(CLATestCase):
             }
         })
 
-    def test_fail_save_when_not_eligible(self):
-        form = ResultForm(reference=self.DEFAULT_CHECK_REFERENCE, data={})
-        form.is_eligible = mock.MagicMock(return_value=False)
+    def test_fail_without_eligibility_check_reference(self):
+        form = ResultForm()
 
-        self.assertTrue(form.is_valid())
-        self.assertRaises(InconsistentStateException, form.save)
+        self.assertRaises(InconsistentStateException, form.get_context_data)
 
+    def test_is_eligible_context_var(self):
+        form = ResultForm(reference=self.DEFAULT_CHECK_REFERENCE)
+        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible.return_value = {
+            'is_eligible': True
+        }
+
+        self.assertTrue(form.get_context_data()['is_eligible'])
+
+    def test_is_not_eligible_context_var(self):
+        form = ResultForm(reference=self.DEFAULT_CHECK_REFERENCE)
+        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).is_eligible.return_value = {
+            'is_eligible': False
+        }
+
+        self.assertFalse(form.get_context_data()['is_eligible'])
