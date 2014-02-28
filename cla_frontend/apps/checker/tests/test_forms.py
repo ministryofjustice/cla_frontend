@@ -314,34 +314,34 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertTrue(form.is_valid(), msg=form.errors)
 
  # CALCULATED TESTS REDUNDANT AND TO BE REMOVED
- #    def test_calculated_earned_income(self):
- #        form = YourFinancesForm(data=self._get_default_post_data())
- #        self.assertTrue(form.is_valid())
- #        self.assertEqual(form.total_earnings, 40000)
- #
- #    def test_calculated_capital_assets(self):
- #        form = YourFinancesForm(data=self._get_default_post_data())
- #        self.assertTrue(form.is_valid())
- #        # this should be their share of any properties
- #        # plus any savings
- #        properties_value = sum([(int(max(x['value'], 0) - x['mortgage_left'])*(x['share'] / 100.0)) for x in form.get_properties(form.cleaned_data)])
- #        self.assertEqual(properties_value, 50000)
- #        self.assertEqual(form.total_capital_assets, 80000 + 5000000)
- #
- #    def test_calculated_capital_assets_no_property(self):
- #        data = {k: v for k,v in self._get_default_post_data().items() if not k.startswith('property-0')}
- #        form = YourFinancesForm(data=data)
- #        self.assertTrue(form.is_valid())
- #        self.assertEqual(form.total_capital_assets, 80000)
- #
- #    def test_calculated_capital_assets_two_property(self):
- #        default_data = self._get_default_post_data()
- #        default_data['property-TOTAL_FORMS'] = u'2'
- #        new_data = {k.replace('0','1'): v for k,v in default_data.items() if  k.startswith('property-0')}
- #        default_data.update(new_data)
- #        form = YourFinancesForm(data=default_data)
- #        self.assertTrue(form.is_valid())
- #        self.assertEqual(form.total_capital_assets, 80000 + (5000000 * 2))
+    def test_calculated_earned_income(self):
+        form = YourFinancesForm(data=self._get_default_post_data())
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.total_earnings, 40000)
+
+    def test_calculated_capital_assets(self):
+        form = YourFinancesForm(data=self._get_default_post_data())
+        self.assertTrue(form.is_valid())
+        # this should be their share of any properties
+        # plus any savings
+        properties_value = sum([(int(max(x['value'], 0) - x['mortgage_left'])*(x['share'] / 100.0)) for x in form.get_properties(form.cleaned_data)])
+        self.assertEqual(properties_value, 5000000)
+        self.assertEqual(form.total_capital_assets, 80000 + 5000000)
+
+    def test_calculated_capital_assets_no_property(self):
+        data = {k: v for k,v in self._get_default_post_data().items() if not k.startswith('property-0')}
+        form = YourFinancesForm(data=data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.total_capital_assets, 80000)
+
+    def test_calculated_capital_assets_two_property(self):
+        default_data = self._get_default_post_data()
+        default_data['property-TOTAL_FORMS'] = u'2'
+        new_data = {k.replace('0','1'): v for k,v in default_data.items() if  k.startswith('property-0')}
+        default_data.update(new_data)
+        form = YourFinancesForm(data=default_data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.total_capital_assets, 80000 + (5000000 * 2))
 
 
 class YourFinancesPropertyFormSetTeseCase(CLATestCase):
