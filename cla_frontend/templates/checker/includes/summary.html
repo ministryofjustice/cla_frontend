@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n helpers %}
 
 {% if history_data %}
     <h3>{% trans "Details you've already given" %}</h3>
@@ -94,10 +94,10 @@
                     {% for property in history_data.your_finances.property %}
                         <li>{% blocktrans with property_counter=forloop.counter %}Property {{ property_counter }}{% endblocktrans %}
                             <ul>
-                                <li>{% blocktrans with property_value=property.worth %}The value of your property is &pound;{{ property_value }}{% endblocktrans %}</li>
+                                <li>{% blocktrans with property_value=property.worth|in_pounds %}The value of your property is &pound;{{ property_value }}{% endblocktrans %}</li>
                                 <li>
                                     {% if property.mortgage_left %}
-                                        {% blocktrans with mortgage_left=property.mortgage_left %}You have &pound;{{ mortgage_left }} left to pay on the mortgage{% endblocktrans %}
+                                        {% blocktrans with mortgage_left=property.mortgage_left|in_pounds %}You have &pound;{{ mortgage_left }} left to pay on the mortgage{% endblocktrans %}
                                     {% else %}
                                         {% trans "You have no outstanding mortgage on the property" %}
                                     {% endif %}
@@ -120,13 +120,13 @@
             {% endif %}
 
             <li>
-                {% blocktrans with total_capital_assets=history_data.your_finances.total_capital_assets %}
+                {% blocktrans with total_capital_assets=history_data.your_finances.total_capital_assets|in_pounds %}
                 You have capital assets with a value of £{{ total_capital_assets }}
                 {% endblocktrans %}
             </li>
 
             <li>
-                {% blocktrans with total_earnings=history_data.your_finances.total_earnings %}
+                {% blocktrans with total_earnings=history_data.your_finances.total_earnings|in_pounds %}
                 You have earnings per month with a value of £{{ total_earnings }}
                 {% endblocktrans %}
             </li>

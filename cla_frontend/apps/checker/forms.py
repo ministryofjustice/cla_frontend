@@ -9,7 +9,7 @@ from api.client import connection
 
 from django.forms.formsets import formset_factory, BaseFormSet
 
-from .fields import RadioBooleanField
+from .fields import RadioBooleanField, MoneyField
 from .exceptions import InconsistentStateException
 
 
@@ -140,44 +140,50 @@ class YourFinancesOtherPropertyForm(CheckerWizardMixin, forms.Form):
 
 
 class YourFinancesPropertyForm(CheckerWizardMixin, forms.Form):
-    worth = forms.IntegerField(label=u"How much is it worth?", min_value=0)
-    mortgage_left = forms.IntegerField(
-        label=u"How much is left to pay on the mortgage?", min_value=0
+    worth = MoneyField(label=u"How much is it worth?", min_value=0,
+    required=True)
+    mortgage_left = MoneyField(
+        label=u"How much is left to pay on the mortgage?", min_value=0,
+        required=True
     )
     owner = RadioBooleanField(
         label=u"Is the property owned by you or is it in joint names?",
-        choices=OWNED_BY_CHOICES,
+        choices=OWNED_BY_CHOICES, required=True
     )
     share = forms.IntegerField(
         label=u'What is your share of the property?',
         min_value=0, max_value=100
     )
 
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        return cleaned_data
+
 
 class YourFinancesSavingsForm(CheckerWizardMixin, forms.Form):
-    bank = forms.IntegerField(
+    bank = MoneyField(
         label=u"Do you have any money saved in a bank or building society?",
         min_value=0
     )
-    investments = forms.IntegerField(
+    investments = MoneyField(
         label=u"Do you have any investments, shares, ISAs?", min_value=0
     )
-    valuable_items = forms.IntegerField(
+    valuable_items = MoneyField(
         label=u"Do you have any valuable items over £££ each?", min_value=0
     )
-    money_owed = forms.IntegerField(
+    money_owed = MoneyField(
         label=u"Do you have any money owed to you?", min_value=0
     )
 
 
 class YourFinancesIncomeForm(CheckerWizardMixin, forms.Form):
 
-    earnings_per_month = forms.IntegerField(
+    earnings_per_month = MoneyField(
         label=u"Earnings per month",
         min_value=0
     )
 
-    other_income_per_month = forms.IntegerField(
+    other_income_per_month = MoneyField(
         label=u"Other income per month?",
         min_value=0
     )
@@ -323,9 +329,9 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
     def get_properties(self, cleaned_data):
         def _transform(property):
             return {
-                'mortgage_left': property['mortgage_left'],
-                'share': property['share'],
-                'value': property['worth']
+                'mortgage_left': property.get('mortgage_left'),
+                'share': property.get('share'),
+                'value': property.get('worth')
             }
         properties = cleaned_data.get('property', [])
         return [_transform(p) for p in properties if p]
