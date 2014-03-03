@@ -36,7 +36,7 @@ class CheckerWizardTestCase(CLATestCase):
 
     def _get_your_problem_post_data(self):
         return {
-            'your_problem-category': [1],
+            'your_problem-category': ['debt'],
             'your_problem-notes': u'lorem',
             'checker_wizard-current_step': 'your_problem',
         }
@@ -150,7 +150,7 @@ class CheckerWizardTestCase(CLATestCase):
 
         choices = context_data['form'].fields['category'].choices
         self.assertTrue(len(choices), 4)
-        self.assertItemsEqual([c[0] for c in choices], [1,2,3,4])
+        self.assertItemsEqual([c[0] for c in choices], ['immigration','abuse','consumer','debt'])
 
     def test_sumbmit_your_problem(self):
         data = self._get_your_problem_post_data()

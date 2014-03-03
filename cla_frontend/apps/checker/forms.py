@@ -52,16 +52,16 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
         self._categories = connection.category.get()
 
         def get_category_choice(category):
-            id = category['id']
+            code = category['code']
             label = category['name']
             if category['description']:
                 label = mark_safe(u'%s <br> <p class="bs-callout bs-callout-warning">%s</p>' % (label, category['description']))
-            return (id, label)
+            return (code, label)
         self.fields['category'].choices = [get_category_choice(cat) for cat in self._categories]
 
-    def _get_category_by_id(self, id):
+    def _get_category_by_code(self, code):
         for cat in self._categories:
-            if id == str(cat['id']):
+            if code == str(cat['code']):
                 return cat
         return None
 
@@ -73,7 +73,7 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
 
         category = cleaned_data.get('category')
         if category:
-            categoryData = self._get_category_by_id(category)
+            categoryData = self._get_category_by_code(category)
             cleaned_data['category_name'] = categoryData['name']
 
         return cleaned_data

@@ -384,12 +384,12 @@ class YourProblemFormTestCase(CLATestCase):
 
         choices = form.fields['category'].choices
         self.assertEqual(len(choices), 4)
-        self.assertEqual([c[0] for c in choices], [1,2,3,4])
+        self.assertEqual([c[0] for c in choices], ['immigration','abuse','consumer','debt'])
         self.assertEqual(choices[0][1], 'Immigration')  # checking only the first one
 
     def _get_default_post_data(self):
         return {
-            'category': '4',
+            'category': 'debt',
             'your_problem_notes': 'lorem'
         }
 
