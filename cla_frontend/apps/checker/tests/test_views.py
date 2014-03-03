@@ -25,6 +25,9 @@ class CheckerWizardTestCase(CLATestCase):
         self.your_finances_url = reverse('checker:checker_step', args=(),
                                          kwargs={'step': 'your_finances'}
         )
+        self.your_disposable_income_url = reverse('checker:checker_step', args=(),
+                                         kwargs={'step': 'your_disposable_income'}
+        )
         self.result_url = reverse('checker:checker_step', args=(),
                                          kwargs={'step': 'result'}
         )
@@ -52,6 +55,12 @@ class CheckerWizardTestCase(CLATestCase):
             'your_details-own_property': [1],
             'your_details-checker_wizard-current_step': 'your_details',
         }
+
+    def _get_your_disposable_income_post_data(self):
+        return {
+            "checker_wizard-current_step": "your_disposable_income",
+            "does_pass_disposable_income-passes_test": [1]
+            }
 
     def _get_your_finances_post_data(self):
         return {
@@ -97,6 +106,7 @@ class CheckerWizardTestCase(CLATestCase):
             'your_problem': self._get_your_problem_post_data,
             'your_details': self._get_your_details_post_data,
             'your_finances': self._get_your_finances_post_data,
+            'your_disposable_income': self._get_your_disposable_income_post_data,
             'result': lambda : {}
         }
         for step in [x[0] for x in CheckerWizard.form_list]:
@@ -118,6 +128,7 @@ class CheckerWizardTestCase(CLATestCase):
             'your_problem': self.your_problem_url,
             'your_details': self.your_details_url,
             'your_finances': self.your_finances_url,
+            'your_disposable_income': self.your_disposable_income_url,
             'result': self.result_url,
             'apply': self.apply_url
         }
@@ -176,7 +187,7 @@ class CheckerWizardTestCase(CLATestCase):
         r1 = self.client.get(self.your_finances_url)
         self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES
         response = self.client.post(self.your_finances_url, data=finances_data)
-        self.assertRedirects(response, self.result_url)
+        self.assertRedirects(response, self.your_disposable_income_url)
 
     def test_post_your_finances_with_extra_property(self):
         # Test that ticking yes for 'I own other properties' returns you to the same page

@@ -5,18 +5,25 @@ from django.views.generic import TemplateView
 
 from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView, StepsHelper
 from django.contrib.formtools.wizard.storage import get_storage
+from checker.wizard import conditions
 
 from .helpers import SessionCheckerHelper
 from .forms import YourDetailsForm, YourFinancesForm, YourProblemForm, \
-    ResultForm, ApplyForm
+    ResultForm, ApplyForm, YourDisposableIncomeForm
+
 
 class CheckerWizard(NamedUrlSessionWizardView):
     storage_name = 'checker.storage.CheckerSessionStorage'
+
+    condition_dict = {
+        "your_disposable_income": conditions.show_disposable_income,
+    }
 
     form_list = [
         ("your_problem", YourProblemForm),
         ("your_details", YourDetailsForm),
         ("your_finances", YourFinancesForm),
+        ("your_disposable_income", YourDisposableIncomeForm),
         ("result", ResultForm),
         ("apply", ApplyForm),
     ]
@@ -25,6 +32,7 @@ class CheckerWizard(NamedUrlSessionWizardView):
         "your_problem": "checker/your_problem.html",
         "your_details": "checker/your_details.html",
         "your_finances": "checker/your_finances.html",
+        "your_disposable_income": "checker/your_disposable_income.html",
         "result": "checker/result.html",
         "apply": "checker/apply.html"
     }

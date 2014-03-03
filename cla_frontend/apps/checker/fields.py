@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from django import forms
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
@@ -43,11 +43,15 @@ class MoneyField(forms.Field):
         value = super(MoneyField, self).to_python(value)
         if value in self.empty_values:
             return None
+
+        if isinstance(value, bool):
+            return None
+
         if self.localize:
             value = forms.formats.sanitize_separators(value)
         try:
             value = int(Decimal(value).quantize(TWO_DP) * 100)
-        except (ValueError, TypeError):
+        except (ValueError, TypeError, InvalidOperation):
             raise forms.ValidationError(self.error_messages['invalid'], code='invalid')
         return value
 

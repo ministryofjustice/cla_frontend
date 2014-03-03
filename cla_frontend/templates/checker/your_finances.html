@@ -1,4 +1,4 @@
-{% extends "checker/base.html" %}{% load i18n humanize %}
+{% extends "checker/base.html" %}{% load i18n humanize helpers %}
 
 {% block page_header %}{% trans "Check your finances" %}{% endblock page_header %}
 
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <strong>
                         <p class="col-xs-7">{% trans "Total of all capital assets" %}</p>
-                        <p class="input-group col-xs-3 row">&pound;{{ form.total_capital_assets|default:0|intcomma }}</p>
+                        <p class="input-group col-xs-3 row">&pound;{{ form.total_capital_assets|default:0|in_pounds|intcomma }}</p>
                     </strong>
                 </div>
             </fieldset>
@@ -68,7 +68,7 @@
                     <!-- hide if no js? -->
                     <strong>
                         <p class="col-xs-7">{% trans "Total earnings per month" %}</p>
-                        <p class="input-group col-xs-3 row">£{{ form.total_earnings|default:0|intcomma }}</p>
+                        <p class="input-group col-xs-3 row">£{{ form.total_earnings|default:0|in_pounds|intcomma }}</p>
                     </strong>
                 </div>
             </fieldset>
