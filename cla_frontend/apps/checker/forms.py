@@ -204,6 +204,30 @@ class YourFinancesDependentsForm(CheckerWizardMixin, forms.Form):
                                           min_value=0)
 
 
+
+class DoesPassDisposableIncomeForm(CheckerWizardMixin, forms.Form):
+    passes_test = RadioBooleanField(label='do you pass the disposable income test?')
+
+class YourDisposableIncomeForm(CheckerWizardMixin, MultipleFormsForm):
+
+    forms_list = (
+        ('does_pass_disposable_income', DoesPassDisposableIncomeForm),
+    )
+
+
+    def save(self):
+        post_data = {
+        }
+        if not self.reference:
+            response = connection.eligibility_check.post(post_data)
+        else:
+            response = connection.eligibility_check(self.reference).patch(post_data)
+
+        return {
+            'eligibility_check': response
+        }
+
+
 class OnlyAllowExtraIfNoInitialFormSet(BaseFormSet):
     def __init__(self, *args, **kwargs):
         if kwargs.get('initial'):
@@ -354,6 +378,7 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         return {
             'eligibility_check': response
         }
+
 
 
 class ContactDetailsForm(forms.Form):
