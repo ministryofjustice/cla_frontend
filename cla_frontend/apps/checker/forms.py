@@ -31,6 +31,12 @@ class CheckerWizardMixin(object):
     def get_context_data(self):
         return {}
 
+    def check_that_reference_exists(self):
+        if not self.reference:
+            raise InconsistentStateException(
+                'Eligibility Reference cannot be None'
+            )
+
 
 class YourProblemForm(CheckerWizardMixin, forms.Form):
     """
@@ -166,10 +172,6 @@ class YourFinancesPropertyForm(CheckerWizardMixin, forms.Form):
         min_value=0, max_value=100
     )
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        return cleaned_data
-
 
 class YourFinancesSavingsForm(CheckerWizardMixin, forms.Form):
     bank = MoneyField(
@@ -213,30 +215,6 @@ class YourFinancesDependentsForm(CheckerWizardMixin, forms.Form):
     dependants_young = forms.IntegerField(label='Children aged 15 and under',
                                           required=False,
                                           min_value=0)
-
-
-
-class DoesPassDisposableIncomeForm(CheckerWizardMixin, forms.Form):
-    passes_test = RadioBooleanField(label='do you pass the disposable income test?')
-
-class YourDisposableIncomeForm(CheckerWizardMixin, MultipleFormsForm):
-
-    forms_list = (
-        ('does_pass_disposable_income', DoesPassDisposableIncomeForm),
-    )
-
-
-    def save(self):
-        post_data = {
-        }
-        if not self.reference:
-            response = connection.eligibility_check.post(post_data)
-        else:
-            response = connection.eligibility_check(self.reference).patch(post_data)
-
-        return {
-            'eligibility_check': response
-        }
 
 
 class OnlyAllowExtraIfNoInitialFormSet(BaseFormSet):
@@ -391,6 +369,35 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         }
 
 
+class YourDisposableIncomeForm(CheckerWizardMixin, forms.Form):
+    income_tax_and_ni = MoneyField(
+        label=_(u"Income Tax and National Insurance"), min_value=0
+    )
+    maintenance = MoneyField(label=_(u"Maintenance payments"), min_value=0)
+    mortgage_or_rent = MoneyField(label=_(u"Mortgage or rent"), min_value=0)
+    criminal_legalaid_contributions = MoneyField(
+        label=_(u"Payments being made towards a contribution order"), min_value=0
+    )
+
+    def save(self):
+        # eligibility check reference should be set otherwise => error
+        self.check_that_reference_exists()
+
+        data = self.cleaned_data
+        post_data = {
+            'your_finances': {
+                'income_tax_and_ni': data['income_tax_and_ni'],
+                'maintenance': data['maintenance'],
+                'mortgage_or_rent': data['mortgage_or_rent'],
+                'criminal_legalaid_contributions': data['criminal_legalaid_contributions']
+            }
+        }
+
+        response = connection.eligibility_check(self.reference).patch(post_data)
+        return {
+            'eligibility_check': response
+        }
+
 
 class ContactDetailsForm(forms.Form):
     title = forms.ChoiceField(
@@ -422,10 +429,7 @@ class EligibilityMixin(object):
 class ResultForm(EligibilityMixin, CheckerWizardMixin, forms.Form):
     def get_context_data(self):
         # eligibility check reference should be set otherwise => error
-        if not self.reference:
-            raise InconsistentStateException(
-                'Eligibility Reference must be set for calculating the eligibility'
-            )
+        self.check_that_reference_exists()
 
         return {
             'is_eligible': self.is_eligible()
@@ -473,10 +477,7 @@ class ApplyForm(EligibilityMixin, CheckerWizardMixin, MultipleFormsForm):
 
     def save(self):
         # eligibility check reference should be set otherwise => error
-        if not self.reference:
-            raise InconsistentStateException(
-                'Eligibility Reference must be set when saving the form'
-            )
+        self.check_that_reference_exists()
 
         # user must be eligible (double-checking) otherwise => error
         if not self.is_eligible():

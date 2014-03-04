@@ -58,9 +58,12 @@ class CheckerWizardTestCase(CLATestCase):
 
     def _get_your_disposable_income_post_data(self):
         return {
-            "checker_wizard-current_step": "your_disposable_income",
-            "does_pass_disposable_income-passes_test": [1]
-            }
+            'your_disposable_income-income_tax_and_ni': [700],
+            'your_disposable_income-maintenance': [710],
+            'your_disposable_income-mortgage_or_rent': [720],
+            'your_disposable_income-criminal_legalaid_contributions': [730],
+            'checker_wizard-current_step': 'your_disposable_income',
+        }
 
     def _get_your_finances_post_data(self):
         return {
@@ -228,6 +231,26 @@ class CheckerWizardTestCase(CLATestCase):
         self.assertRedirects(response, self.your_finances_url)
         self.assertGreater(len(response.context_data['form'].property),
                            len(r1.context_data['form'].property))
+
+    def test_get_your_disposable_income(self):
+        self._fill_in_prev_steps(current_step='your_disposable_income')
+
+        response = self.client.get(self.your_disposable_income_url)
+        self.assertTrue('sessionid' in response.cookies)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['wizard']['steps'].current, 'your_disposable_income')
+
+    def test_post_your_disposable_income(self):
+        reference = '1234567890'
+
+        self._fill_in_prev_steps(reference=reference, current_step='your_disposable_income')
+
+        post_data = self._get_your_disposable_income_post_data()
+
+        r1 = self.client.get(self.your_disposable_income_url)
+        self.mocked_connection.eligibility_check.patch(reference).return_value = mocked_api.ELIGIBILITY_CHECK_DISPOSABLE_INCOME_YOUR_FINANCES
+        response = self.client.post(self.your_disposable_income_url, data=post_data)
+        self.assertRedirects(response, self.result_url)
 
     def test_get_result_is_eligible(self):
         reference = '1234567890'

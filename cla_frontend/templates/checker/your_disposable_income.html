@@ -1,21 +1,18 @@
 {% extends "checker/base.html" %}{% load i18n humanize %}
 
-{% block page_header %}{% trans "Check your finances" %}{% endblock page_header %}
+{% block page_header %}{% trans "You and your partner's disposable money" %}{% endblock page_header %}
 
 {% block checker_content %}
 	<div>
 		<h2>{% trans "You and your partner's disposable money" %}</h2>
 
-		<form method=post action="../" role="form">
+		<form method=post action="." role="form">
 			{% csrf_token %}
 			{{ wizard.management_form }}
-			{{ form.non_field_errors }}
 
-            {% with form=form.does_pass_disposable_income  fieldset_label="DUMMY"%}
-                {% if form %}
-                    {% include "checker/includes/disposable_income_dummy.html" %}
-                {% endif %}
-            {% endwith %}
+			{{ form.non_field_errors }}
+            {{ form.as_p }}
+            <button class="btn btn-success">{% trans "Next" %}</button>
 
 			<button type="submit" class="btn btn-success">{% trans "Next step - check if you can get legal aid" %}</button>
 		</form>
