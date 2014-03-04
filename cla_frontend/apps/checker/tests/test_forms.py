@@ -4,7 +4,8 @@ from core.testing.testcases import CLATestCase
 from django.forms.formsets import formset_factory
 
 from ..forms import YourProblemForm, YourFinancesForm, ApplyForm, ResultForm, \
-    YourFinancesPropertyForm, OnlyAllowExtraIfNoInitialFormSet
+    YourFinancesPropertyForm, OnlyAllowExtraIfNoInitialFormSet, \
+    YourDisposableIncomeForm
 from ..exceptions import InconsistentStateException
 
 from .fixtures import mocked_api
@@ -172,7 +173,6 @@ class YourFinancesFormTestCase(CLATestCase):
             'eligibility_check': mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES
         })
 
-
     def test_post_subform_dependants(self):
         # TEST post with full data, simple case
         form = YourFinancesForm(data=self._get_default_post_data())
@@ -201,7 +201,6 @@ class YourFinancesFormTestCase(CLATestCase):
         self.assertEqual(form.partners_income.cleaned_data['earnings_per_month'], 10000)
         self.assertEqual(form.partners_income.cleaned_data['other_income_per_month'], 10000)
         self.assertEqual(form.partners_income.cleaned_data['self_employed'], False)
-
 
     def test_post_subform_your_income(self):
         # TEST post with full data, simple case
@@ -448,6 +447,99 @@ class YourProblemFormTestCase(CLATestCase):
             self.assertEqual(form.errors, error_data['error'])
 
 
+class YourDisposableIncomeFormTestCase(CLATestCase):
+    def setUp(self):
+        super(YourDisposableIncomeFormTestCase, self).setUp()
+
+        self.reference = '123456789'
+        self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_DISPOSABLE_INCOME_YOUR_FINANCES
+        self.mocked_connection.eligibility_check(self.reference).patch.return_value = mocked_api.ELIGIBILITY_CHECK_DISPOSABLE_INCOME_YOUR_FINANCES
+
+    def _get_default_post_data(self):
+        return {
+            u'income_tax_and_ni': u'700',
+            u'maintenance': u'710',
+            u'mortgage_or_rent': u'720',
+            u'criminal_legalaid_contributions': u'730',
+        }
+
+    def test_fail_save_without_eligibility_check_reference(self):
+        """
+        The form should raise an Exception if eligibility check is not present
+        when saving
+        """
+        data = self._get_default_post_data()
+        form = YourDisposableIncomeForm(data=data)
+        self.assertTrue(form.is_valid())
+
+        self.assertRaises(InconsistentStateException, form.save)
+
+    def test_post_update(self):
+        """
+        PATCH to eligibility_check with a reference already set
+        """
+        post_data = self._get_default_post_data()
+        form = YourDisposableIncomeForm(reference=self.reference, data=post_data)
+
+        self.assertTrue(form.is_valid())
+
+        response_data = form.save()
+        self.assertDictEqual(response_data, {
+            'eligibility_check': mocked_api.ELIGIBILITY_CHECK_DISPOSABLE_INCOME_YOUR_FINANCES
+        })
+
+        expected_data = {}
+        for k,v in post_data.items():
+            expected_data[k] = int(v) * 100
+        self.mocked_connection.eligibility_check(self.reference).patch.assert_called_with({
+            'your_finances': expected_data
+        })
+
+    def test_form_validation(self):
+        default_data = self._get_default_post_data()
+
+        ERRORS_DATA = [
+            # mandatory fields
+            {
+                'error': {
+                    u'income_tax_and_ni': [u'This field is required.'],
+                    u'maintenance': [u'This field is required.'],
+                    u'mortgage_or_rent': [u'This field is required.'],
+                    u'criminal_legalaid_contributions': [u'This field is required.'],
+                },
+                'data': {
+                    u'income_tax_and_ni': None,
+                    u'maintenance': None,
+                    u'mortgage_or_rent': None,
+                    u'criminal_legalaid_contributions': None,
+                }
+            },
+            # negative values
+            {
+                'error': {
+                    u'income_tax_and_ni': [u'Ensure this value is greater than or equal to 0.'],
+                    u'maintenance': [u'Ensure this value is greater than or equal to 0.'],
+                    u'mortgage_or_rent': [u'Ensure this value is greater than or equal to 0.'],
+                    u'criminal_legalaid_contributions': [u'Ensure this value is greater than or equal to 0.'],
+                },
+                'data': {
+                    u'income_tax_and_ni': u'-1',
+                    u'maintenance': u'-1',
+                    u'mortgage_or_rent': u'-1',
+                    u'criminal_legalaid_contributions': u'-1',
+                }
+            },
+        ]
+
+        for error_data in ERRORS_DATA:
+            data = dict(default_data)
+            data.update(error_data['data'])
+
+            form = YourDisposableIncomeForm(reference=self.reference, data=data)
+            self.assertFalse(form.is_valid())
+            self.assertEqual(form.errors, error_data['error'])
+
+
 class ApplyFormTestCase(CLATestCase):
     # def setUp(self):
     #     super(ApplyFormTestCase, self).setUp()
@@ -477,7 +569,7 @@ class ApplyFormTestCase(CLATestCase):
         data.update(extra_data)
         return data
 
-    def test_post_validation_errors(self):
+    def test_form_validation(self):
         default_data = self._get_default_post_data()
 
         ERRORS_DATA = [

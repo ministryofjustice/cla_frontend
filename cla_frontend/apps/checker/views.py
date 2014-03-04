@@ -59,7 +59,6 @@ class CheckerWizard(NamedUrlSessionWizardView):
                 if not form_obj.is_valid():
                     return self.render_revalidation_failure(form_key, form_obj, **kwargs)
 
-
         response = super(CheckerWizard, self).dispatch(request, *args, **kwargs)
 
         # update the response (e.g. adding cookies)

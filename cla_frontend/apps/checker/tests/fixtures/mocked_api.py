@@ -45,7 +45,12 @@ ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES = {
         "credit_balance": 100,
         "earnings": 100,
         "other_income": 100,
-        "self_employed": False
+        "self_employed": False,
+
+        "income_tax_and_ni": 0,
+        "maintenance": 0,
+        "mortgage_or_rent": 0,
+        "criminal_legalaid_contributions": 0
     },
     "partner_finances": {
         "bank_balance": 100,
@@ -54,7 +59,12 @@ ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES = {
         "credit_balance": 100,
         "earnings": 100,
         "other_income": 100,
-        "self_employed": False
+        "self_employed": False,
+
+        "income_tax_and_ni": 0,
+        "maintenance": 0,
+        "mortgage_or_rent": 0,
+        "criminal_legalaid_contributions": 0
     },
     "dependants_young": 0,
     "dependants_old": 0
@@ -79,7 +89,12 @@ ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES = {
         "credit_balance": 100,
         "earnings": 100,
         "other_income": 100,
-        "self_employed": False
+        "self_employed": False,
+
+        "income_tax_and_ni": 0,
+        "maintenance": 0,
+        "mortgage_or_rent": 0,
+        "criminal_legalaid_contributions": 0
     },
     "partner_finances": {
         "bank_balance": 100,
@@ -88,7 +103,49 @@ ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES = {
         "credit_balance": 100,
         "earnings": 100,
         "other_income": 100,
-        "self_employed": False
+        "self_employed": False,
+
+        "income_tax_and_ni": 0,
+        "maintenance": 0,
+        "mortgage_or_rent": 0,
+        "criminal_legalaid_contributions": 0
+    },
+    "dependants_young": 0,
+    "dependants_old": 0
+}
+
+ELIGIBILITY_CHECK_DISPOSABLE_INCOME_YOUR_FINANCES = {
+    "reference": "1d37cc19063f4f069f374c4c0aad54d2",
+    "category": None,
+    "notes": "",
+    "property_set": [],
+    "your_finances": {
+        "bank_balance": 0,
+        "investment_balance": 0,
+        "asset_balance": 0,
+        "credit_balance": 0,
+        "earnings": 0,
+        "other_income": 0,
+        "self_employed": False,
+
+        "income_tax_and_ni": 700,
+        "maintenance": 710,
+        "mortgage_or_rent": 720,
+        "criminal_legalaid_contributions": 730
+    },
+    "partner_finances": {
+        "bank_balance": 0,
+        "investment_balance": 0,
+        "asset_balance": 0,
+        "credit_balance": 0,
+        "earnings": 0,
+        "other_income": 0,
+        "self_employed": False,
+
+        "income_tax_and_ni": 0,
+        "maintenance": 0,
+        "mortgage_or_rent": 0,
+        "criminal_legalaid_contributions": 0
     },
     "dependants_young": 0,
     "dependants_old": 0
