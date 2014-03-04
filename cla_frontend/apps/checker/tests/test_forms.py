@@ -4,7 +4,7 @@ from core.testing.testcases import CLATestCase
 from django.forms.formsets import formset_factory
 
 from ..forms import YourProblemForm, YourFinancesForm, ApplyForm, ResultForm, \
-    YourFinancesPropertyForm, OnlyAllowExtraIfNoInitialFormSet
+    YourFinancesPropertyForm, OnlyAllowExtraIfNoInitialFormSet, YourDetailsForm
 from ..exceptions import InconsistentStateException
 
 from .fixtures import mocked_api
@@ -370,6 +370,64 @@ class YourFinancesPropertyFormSetTeseCase(CLATestCase):
         )
         formset = YourFinancesPropertyFormSet()
         self.assertEqual(formset.extra, 1)
+
+
+class YourDetailsFormTestCase(CLATestCase):
+    def setUp(self):
+        super(YourDetailsFormTestCase, self).setUp()
+
+
+    def test_get(self):
+        form = YourDetailsForm()
+        self.assertFalse(form.is_valid())
+
+    def _get_default_post_data(self):
+        return {
+            'older_than_sixty': 0,
+            'has_partner': 0,
+            'has_benefits': 0,
+            'has_children': 0,
+            'caring_responsibilities': 0,
+            'own_property': 0,
+            'risk_homeless': 0,
+        }
+
+    def _get_default_post_data_response(self):
+        return {
+            'reference': '123456789',
+            "category": 'null',
+            "your_problem_notes": "",
+            "notes": "",
+            "property_set": [],
+            "your_finances": 'null',
+            "partner_finances": 'null',
+            "dependants_young": 0,
+            "dependants_old": 0,
+            "is_you_or_your_partner_over_60": True,
+            "has_partner": True,
+            "on_passported_benefits": True
+        }
+
+    def test_basic_post(self):
+        data = self._get_default_post_data()
+        form = YourDetailsForm(data=data)
+        self.assertTrue(form.is_valid())
+
+        self.mocked_connection.eligibility_check.post.return_value = self._get_default_post_data_response()
+        response = form.save()
+        self.mocked_connection.eligibility_check.post.assert_called_with({
+            'on_passported_benefits': data['has_benefits'],
+            'is_you_or_your_partner_over_60': data['older_than_sixty'],
+            'has_partner': data['has_partner']
+        })
+        self.assertTrue('reference' in response['eligibility_check'])
+        self.assertDictContainsSubset(
+            {
+                'is_you_or_your_partner_over_60': True,
+                'has_partner': True,
+                'on_passported_benefits': True
+            },
+            response['eligibility_check'])
 
 
 

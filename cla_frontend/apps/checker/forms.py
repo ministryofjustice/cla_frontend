@@ -100,7 +100,9 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
     )
 
     has_benefits = RadioBooleanField(required=True,
-                                     label=u'Are you or your partner on any benefits?'
+                                     label=u"Are you or your partner on Income Support, "
+                                           u"Income Based Jobseeker's Allowance, Income Based Employment"
+                                           u" and Support Allowance or Guarantee Credit?"
     )
 
 
@@ -126,10 +128,19 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
     )
 
     def save(self, *args, **kwargs):
+        data = self.cleaned_data
+        post_data = {
+            'is_you_or_your_partner_over_60': data['older_than_sixty'],
+            'on_passported_benefits': data['has_benefits'],
+            'has_partner': data['has_partner'],
+        }
+        if not self.reference:
+            response = connection.eligibility_check.post(post_data)
+        else:
+            response = connection.eligibility_check(self.reference).patch(post_data)
+
         return {
-            'eligibility_check': {
-                'reference': self.reference
-            }
+            'eligibility_check': response
         }
 
 
