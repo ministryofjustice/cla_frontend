@@ -11,7 +11,7 @@
 			{{ wizard.management_form }}
 			{{ form.non_field_errors }}
 
-			{% with form.get_form_by_prefix.property as formset %}
+			{% with form.form_dict.property as formset %}
                 {% if formset %}
                     {{ formset.management_form}}
                     {% for form in formset %}
@@ -22,19 +22,19 @@
                 {% endif %}
 			{% endwith %}
 
-            {% with form=form.get_form_by_prefix.your_other_properties  fieldset_label="Other properties"%}
+            {% with form=form.form_dict.your_other_properties  fieldset_label="Other properties"%}
                 {% if form %}
                     {% include "checker/includes/finances_other_property_form.html" %}
                 {% endif %}
             {% endwith %}
 
-			{% with form.get_form_by_prefix.your_savings as form %}{% with "Your savings" as fieldset_label %}
+			{% with form.form_dict.your_savings as form %}{% with "Your savings" as fieldset_label %}
                 {% if form %}
                     {% include "checker/includes/finances_savings_form.html" %}
                 {% endif %}
 			{% endwith %}{% endwith %}
 
-			{% with form.get_form_by_prefix.partners_savings as form %}{% with "Your partner's savings" as fieldset_label %}
+			{% with form.form_dict.partners_savings as form %}{% with "Your partner's savings" as fieldset_label %}
                 {% if form %}
                     {% include "checker/includes/finances_savings_form.html" %}
                 {% endif %}
@@ -50,13 +50,13 @@
                 </div>
             </fieldset>
 
-            {% with form=form.get_form_by_prefix.your_income fieldset_label="Your income" %}
+            {% with form=form.form_dict.your_income fieldset_label="Your income" %}
                 {% if form %}
                     {% include "checker/includes/finances_income_form.html" %}
                 {% endif %}
             {% endwith %}
 
-            {% with form=form.get_form_by_prefix.partners_income fieldset_label="Your partner's income" %}
+            {% with form=form.form_dict.partners_income fieldset_label="Your partner's income" %}
                 {% if form %}
                 {% include "checker/includes/finances_income_form.html" %}
                 {% endif %}
@@ -73,7 +73,7 @@
                 </div>
             </fieldset>
 
-            {% with form=form.get_form_by_prefix.dependants fieldset_label="Dependants" %}
+            {% with form=form.form_dict.dependants fieldset_label="Dependants" %}
                 {% if form %}
                     {% include "checker/includes/finances_dependants_form.html" %}
                 {% endif %}
