@@ -76,7 +76,7 @@ class MultipleFormsForm(forms.Form):
 
     def form_dict(self):
         form_dict = {}
-        form_dict.update({k: v for k,v in self.forms_list})
-        form_dict.update({k: v for k,v in self.formset_list})
+        form_dict.update({k: v for k,v in self.forms})
+        form_dict.update({k: v for k,v in self.formsets})
         return form_dict
 
