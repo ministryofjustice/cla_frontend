@@ -252,6 +252,7 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         self.has_partner = kwargs.pop('has_partner', True)
         self.has_property = kwargs.pop('has_property', True)
         self.has_children = kwargs.pop('has_children', True)
+        self.has_benefits = kwargs.pop('has_benefits', False)
 
 
         new_forms_list = dict(self.forms_list)
@@ -264,6 +265,9 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
             del new_forms_list['your_other_properties']
         if not self.has_children:
             del new_forms_list['dependants']
+        if self.has_benefits:
+            new_forms_list.pop('partners_income', None)
+            new_forms_list.pop('your_income', None)
 
         self.forms_list = new_forms_list.items()
         self.formset_list = new_formset_list.items()
@@ -271,7 +275,7 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         super(YourFinancesForm, self).__init__(*args, **kwargs)
 
     def _get_total_earnings(self, cleaned_data):
-        own_income = self.get_income('your_income', cleaned_data)
+        own_income = self.get_income('your_income', cleaned_data) or {}
         partner_income = self.get_income('partners_income', cleaned_data) or {}
         return sum(itertools.chain(own_income.values(), partner_income.values()))
 
@@ -319,18 +323,17 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
     def get_savings(self, key, cleaned_data):
         if key in cleaned_data:
             return {
-                'bank_balance': cleaned_data[key].get('bank', 0),
-                'asset_balance': cleaned_data[key].get('valuable_items', 0),
-                'credit_balance': cleaned_data[key].get('money_owed', 0),
-                'investment_balance': cleaned_data[key].get('investments', 0),
+                'bank_balance': cleaned_data.get(key, {}).get('bank', 0),
+                'asset_balance': cleaned_data.get(key, {}).get('valuable_items', 0),
+                'credit_balance': cleaned_data.get(key, {}).get('money_owed', 0),
+                'investment_balance': cleaned_data.get(key, {}).get('investments', 0),
             }
 
     def get_income(self, key, cleaned_data):
-        if key in cleaned_data:
-            return {
-                'earnings': cleaned_data[key].get('earnings_per_month', 0),
-                'other_income': cleaned_data[key].get('other_income_per_month', 0)
-            }
+        return {
+            'earnings': cleaned_data.get(key, {}).get('earnings_per_month', 0),
+            'other_income': cleaned_data.get(key, {}).get('other_income_per_month', 0)
+        }
 
     def get_finances(self, cleaned_data):
         your_finances = self.get_savings('your_savings', cleaned_data)

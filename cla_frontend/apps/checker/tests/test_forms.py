@@ -87,7 +87,7 @@ class YourFinancesFormTestCase(CLATestCase):
 
     def test_get_has_single_new_property(self):
         form = YourFinancesForm()
-        self.assertTrue(len(form.property.forms), 1)
+        self.assertTrue(len(form.get_form_by_prefix('property').forms), 1)
 
     def _get_default_post_data(self):
         return {
@@ -139,13 +139,13 @@ class YourFinancesFormTestCase(CLATestCase):
         form = YourFinancesForm(data=self._get_default_post_data())
 
 
-        self.assertTrue(form.dependants.is_valid())
-        self.assertTrue(form.your_other_properties.is_valid())
-        self.assertTrue(form.your_income.is_valid())
-        self.assertTrue(form.partners_income.is_valid())
-        self.assertTrue(form.your_savings.is_valid())
-        self.assertTrue(form.partners_savings.is_valid())
-        for f in form.property:
+        self.assertTrue(form.get_form_by_prefix('dependants').is_valid())
+        self.assertTrue(form.get_form_by_prefix('your_other_properties').is_valid())
+        self.assertTrue(form.get_form_by_prefix('your_income').is_valid())
+        self.assertTrue(form.get_form_by_prefix('partners_income').is_valid())
+        self.assertTrue(form.get_form_by_prefix('your_savings').is_valid())
+        self.assertTrue(form.get_form_by_prefix('partners_savings').is_valid())
+        for f in form.get_form_by_prefix('property'):
             self.assertTrue(f.is_valid())
 
         response_data = form.save()
@@ -159,13 +159,13 @@ class YourFinancesFormTestCase(CLATestCase):
         form = YourFinancesForm(data=self._get_default_post_data())
         form.reference = '1234567890'
 
-        self.assertTrue(form.dependants.is_valid())
-        self.assertTrue(form.your_other_properties.is_valid())
-        self.assertTrue(form.your_income.is_valid())
-        self.assertTrue(form.partners_income.is_valid())
-        self.assertTrue(form.your_savings.is_valid())
-        self.assertTrue(form.partners_savings.is_valid())
-        for f in form.property:
+        self.assertTrue(form.get_form_by_prefix('dependants').is_valid())
+        self.assertTrue(form.get_form_by_prefix('your_other_properties').is_valid())
+        self.assertTrue(form.get_form_by_prefix('your_income').is_valid())
+        self.assertTrue(form.get_form_by_prefix('partners_income').is_valid())
+        self.assertTrue(form.get_form_by_prefix('your_savings').is_valid())
+        self.assertTrue(form.get_form_by_prefix('partners_savings').is_valid())
+        for f in form.get_form_by_prefix('property'):
             self.assertTrue(f.is_valid())
 
         response_data = form.save()
@@ -178,62 +178,62 @@ class YourFinancesFormTestCase(CLATestCase):
         form = YourFinancesForm(data=self._get_default_post_data())
 
 
-        self.assertTrue(form.dependants.is_valid())
-        self.assertEqual(form.dependants.cleaned_data['dependants_young'], 1)
-        self.assertEqual(form.dependants.cleaned_data['dependants_old'], 1)
+        self.assertTrue(form.get_form_by_prefix('dependants').is_valid())
+        self.assertEqual(form.get_form_by_prefix('dependants').cleaned_data['dependants_young'], 1)
+        self.assertEqual(form.get_form_by_prefix('dependants').cleaned_data['dependants_old'], 1)
 
-        self.assertTrue(form.your_other_properties.is_valid())
-        self.assertEqual(form.your_other_properties.cleaned_data['other_properties'], False)
+        self.assertTrue(form.get_form_by_prefix('your_other_properties').is_valid())
+        self.assertEqual(form.get_form_by_prefix('your_other_properties').cleaned_data['other_properties'], False)
 
 
     def test_post_subform_other_properties(self):
         # TEST post with full data, simple case
         form = YourFinancesForm(data=self._get_default_post_data())
 
-        self.assertTrue(form.your_other_properties.is_valid())
-        self.assertEqual(form.your_other_properties.cleaned_data['other_properties'], False)
+        self.assertTrue(form.get_form_by_prefix('your_other_properties').is_valid())
+        self.assertEqual(form.get_form_by_prefix('your_other_properties').cleaned_data['other_properties'], False)
 
     def test_post_subform_partners_income(self):
         # TEST post with full data, simple case
         form = YourFinancesForm(data=self._get_default_post_data())
 
-        self.assertTrue(form.partners_income.is_valid())
-        self.assertEqual(form.partners_income.cleaned_data['earnings_per_month'], 10000)
-        self.assertEqual(form.partners_income.cleaned_data['other_income_per_month'], 10000)
-        self.assertEqual(form.partners_income.cleaned_data['self_employed'], False)
+        self.assertTrue(form.get_form_by_prefix('partners_income').is_valid())
+        self.assertEqual(form.get_form_by_prefix('partners_income').cleaned_data['earnings_per_month'], 10000)
+        self.assertEqual(form.get_form_by_prefix('partners_income').cleaned_data['other_income_per_month'], 10000)
+        self.assertEqual(form.get_form_by_prefix('partners_income').cleaned_data['self_employed'], False)
 
     def test_post_subform_your_income(self):
         # TEST post with full data, simple case
         form = YourFinancesForm(data=self._get_default_post_data())
 
-        self.assertTrue(form.your_income.is_valid())
-        self.assertEqual(form.your_income.cleaned_data['earnings_per_month'], 10000)
-        self.assertEqual(form.your_income.cleaned_data['other_income_per_month'], 10000)
-        self.assertEqual(form.your_income.cleaned_data['self_employed'], False)
+        self.assertTrue(form.get_form_by_prefix('your_income').is_valid())
+        self.assertEqual(form.get_form_by_prefix('your_income').cleaned_data['earnings_per_month'], 10000)
+        self.assertEqual(form.get_form_by_prefix('your_income').cleaned_data['other_income_per_month'], 10000)
+        self.assertEqual(form.get_form_by_prefix('your_income').cleaned_data['self_employed'], False)
 
     def test_post_subform_your_other_properties(self):
         # TEST post with full data, simple case
         form = YourFinancesForm(data=self._get_default_post_data())
-        self.assertTrue(form.your_other_properties.is_valid())
-        self.assertEqual(form.your_other_properties.cleaned_data['other_properties'], False)
+        self.assertTrue(form.get_form_by_prefix('your_other_properties').is_valid())
+        self.assertEqual(form.get_form_by_prefix('your_other_properties').cleaned_data['other_properties'], False)
 
     def test_post_subform_your_savings(self):
         # TEST post with full data, simple case
         form = YourFinancesForm(data=self._get_default_post_data())
-        self.assertTrue(form.your_savings.is_valid())
-        self.assertEqual(form.your_savings.cleaned_data['bank'], 10000)
-        self.assertEqual(form.your_savings.cleaned_data['investments'], 10000)
-        self.assertEqual(form.your_savings.cleaned_data['money_owed'], 10000)
-        self.assertEqual(form.your_savings.cleaned_data['valuable_items'], 10000)
+        self.assertTrue(form.get_form_by_prefix('your_savings').is_valid())
+        self.assertEqual(form.get_form_by_prefix('your_savings').cleaned_data['bank'], 10000)
+        self.assertEqual(form.get_form_by_prefix('your_savings').cleaned_data['investments'], 10000)
+        self.assertEqual(form.get_form_by_prefix('your_savings').cleaned_data['money_owed'], 10000)
+        self.assertEqual(form.get_form_by_prefix('your_savings').cleaned_data['valuable_items'], 10000)
 
     def test_post_subform_partner_savings(self):
         # TEST post with full data, simple case
         form = YourFinancesForm(data=self._get_default_post_data())
-        self.assertTrue(form.partners_savings.is_valid())
-        self.assertEqual(form.partners_savings.cleaned_data['bank'], 10000)
-        self.assertEqual(form.partners_savings.cleaned_data['investments'], 10000)
-        self.assertEqual(form.partners_savings.cleaned_data['money_owed'], 10000)
-        self.assertEqual(form.partners_savings.cleaned_data['valuable_items'], 10000)
+        self.assertTrue(form.get_form_by_prefix('partners_savings').is_valid())
+        self.assertEqual(form.get_form_by_prefix('partners_savings').cleaned_data['bank'], 10000)
+        self.assertEqual(form.get_form_by_prefix('partners_savings').cleaned_data['investments'], 10000)
+        self.assertEqual(form.get_form_by_prefix('partners_savings').cleaned_data['money_owed'], 10000)
+        self.assertEqual(form.get_form_by_prefix('partners_savings').cleaned_data['valuable_items'], 10000)
 
     def test_form_validation(self):
         default_data = self._get_default_post_data()
@@ -293,13 +293,13 @@ class YourFinancesFormTestCase(CLATestCase):
         data = {k:v for k,v in self._get_default_post_data().items() if not k.startswith('partners')}
         form = YourFinancesForm(data=data, has_partner=False)
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertIsNone(form.get_income('partners_income', form.cleaned_data))
+        form.get_income('partners_income', form.cleaned_data)
 
     def test_get_capital_doesnt_raise_error_if_no_partner(self):
         data = {k:v for k,v in self._get_default_post_data().items() if not k.startswith('partners')}
         form = YourFinancesForm(data=data, has_partner=False)
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertIsNone(form.get_income('partners_savings', form.cleaned_data))
+        form.get_income('partners_savings', form.cleaned_data)
 
     def test_get_properties_doesnt_error_if_no_properties(self):
         data = {k: v for k,v in self._get_default_post_data().items() if not k.startswith('property') }
@@ -428,7 +428,44 @@ class YourDetailsFormTestCase(CLATestCase):
             },
             response['eligibility_check'])
 
+    def test_form_validation_error(self):
+        default_data = self._get_default_post_data()
+        ERRORS_DATA = [
+            # just testing a few
+            # has_partner req'd
+            {
+                'error': {'has_partner': [u'This field is required.']},
+                'data': {'has_partner': None}
+            },
+            # is_you_or_your_partner_over_60 req'd
+            {
+                'error': {'older_than_sixty': [u'This field is required.']},
+                'data': {'older_than_sixty': None}
+            }
+        ]
+        for error_data in ERRORS_DATA:
+            data = dict(default_data)
+            data.update(error_data['data'])
 
+            form = YourDetailsForm(data=data)
+            self.assertFalse(form.is_valid())
+            self.assertEqual(form.errors, error_data['error'])
+
+    def test_patch_success(self):
+        reference = '123456789'
+        data = self._get_default_post_data()
+        form = YourDetailsForm(reference=reference, data=data)
+        self.assertTrue(form.is_valid())
+        self.mocked_connection.eligibility_check.patch.return_value = self._get_default_post_data_response()
+        response = form.save()
+        self.mocked_connection.eligibility_check(reference).patch.assert_called_with(
+            {
+                'on_passported_benefits': data['has_benefits'],
+                'is_you_or_your_partner_over_60': data['older_than_sixty'],
+                'has_partner': data['has_partner']
+            }
+        )
+        self.mocked_connection.eligibility_check.assert_called_with(reference)
 
 class YourProblemFormTestCase(CLATestCase):
     def setUp(self):

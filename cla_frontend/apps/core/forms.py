@@ -74,8 +74,3 @@ class MultipleFormsForm(forms.Form):
                 errors[prefix] = form.errors
         return errors
 
-    def __getattr__(self, name):
-        form =  self.get_form_by_prefix(name)
-        if form:
-            return form
-        return super(MultipleFormsForm, self).__getattr__(name)

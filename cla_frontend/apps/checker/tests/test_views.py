@@ -229,8 +229,8 @@ class CheckerWizardTestCase(CLATestCase):
         self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES
         response = self.client.post(self.your_finances_url, data=finances_data, follow=True)
         self.assertRedirects(response, self.your_finances_url)
-        self.assertGreater(len(response.context_data['form'].property),
-                           len(r1.context_data['form'].property))
+        self.assertGreater(len(response.context_data['form'].get_form_by_prefix('property')),
+                           len(r1.context_data['form'].get_form_by_prefix('property')))
 
     def test_get_your_disposable_income(self):
         self._fill_in_prev_steps(current_step='your_disposable_income')

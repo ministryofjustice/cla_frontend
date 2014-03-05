@@ -99,6 +99,7 @@ class CheckerWizard(NamedUrlSessionWizardView):
                 kwargs['has_partner'] = bool(details_data['has_partner'])
                 kwargs['has_children'] = bool(details_data['has_children'])
                 kwargs['has_property'] = bool(details_data['own_property'])
+                kwargs['has_benefits'] = bool(details_data['has_benefits'])
         return kwargs
 
     def render_next_step(self, form, **kwargs):
