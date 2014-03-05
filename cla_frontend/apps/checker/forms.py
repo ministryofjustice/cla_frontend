@@ -20,9 +20,14 @@ OWNED_BY_CHOICES = [
 
 
 class CheckerWizardMixin(object):
+    form_tag = ''
+
+    def _prepare_for_init(self, kwargs):
+        # pop these from kwargs
+        self.reference = kwargs.pop('reference', None)
 
     def __init__(self, *args, **kwargs):
-        self.reference = kwargs.pop('reference', None)
+        self._prepare_for_init(kwargs)
         super(CheckerWizardMixin, self).__init__(*args, **kwargs)
 
     def save(self):
@@ -36,6 +41,12 @@ class CheckerWizardMixin(object):
             raise InconsistentStateException(
                 'Eligibility Reference cannot be None'
             )
+
+
+class EligibilityMixin(object):
+    def is_eligible(self):
+        response = connection.eligibility_check(self.reference).is_eligible().post()
+        return response['is_eligible']
 
 
 class YourProblemForm(CheckerWizardMixin, forms.Form):
@@ -101,36 +112,36 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
 
 
 class YourDetailsForm(CheckerWizardMixin, forms.Form):
-    has_partner = RadioBooleanField(required=True,
-                                     label=u'Do you have a partner?'
+    has_partner = RadioBooleanField(
+        required=True, label=_(u'Do you have a partner?')
     )
 
-    has_benefits = RadioBooleanField(required=True,
-                                     label=u"Are you or your partner on Income Support, "
-                                           u"Income Based Jobseeker's Allowance, Income Based Employment"
-                                           u" and Support Allowance or Guarantee Credit?"
+    has_benefits = RadioBooleanField(
+        required=True, label=_(u''.join([
+            u"Are you or your partner on Income Support, "
+            u"Income Based Jobseeker's Allowance, Income Based Employment"
+            u" and Support Allowance or Guarantee Credit?"
+        ]))
     )
 
-
-    has_children = RadioBooleanField(required=True,
-                                     label=u'Do you have children?'
+    has_children = RadioBooleanField(
+        required=True, label=_(u'Do you have children?')
     )
 
-
-    caring_responsibilities = RadioBooleanField(required=True,
-                                         label=u'Do you any other caring responsibilities?'
+    caring_responsibilities = RadioBooleanField(
+        required=True, label=_(u'Do you any other caring responsibilities?')
     )
 
-    own_property = RadioBooleanField(required=True,
-                                         label=u'Do you or your partner own a property?'
+    own_property = RadioBooleanField(
+        required=True, label=_(u'Do you or your partner own a property?')
     )
 
-    risk_homeless = RadioBooleanField(required=True,
-                                         label=u'Are you are risk of becoming homeless?'
+    risk_homeless = RadioBooleanField(
+        required=True, label=_(u'Are you are risk of becoming homeless?')
     )
 
-    older_than_sixty = RadioBooleanField(required=True,
-                                         label=u'Are you or your partner aged 60 or over?'
+    older_than_sixty = RadioBooleanField(
+        required=True, label=_(u'Are you or your partner aged 60 or over?')
     )
 
     def save(self, *args, **kwargs):
@@ -150,71 +161,44 @@ class YourDetailsForm(CheckerWizardMixin, forms.Form):
         }
 
 
-class YourFinancesOtherPropertyForm(CheckerWizardMixin, forms.Form):
-    other_properties = RadioBooleanField(required=True,
-                                         label='Do you own another property?'
+class YourCapitalOtherPropertyForm(CheckerWizardMixin, forms.Form):
+    other_properties = RadioBooleanField(
+        required=True, label=_(u'Do you own another property?')
     )
 
 
-class YourFinancesPropertyForm(CheckerWizardMixin, forms.Form):
-    worth = MoneyField(label=u"How much is it worth?", min_value=0,
-    required=True)
+class YourCapitalPropertyForm(CheckerWizardMixin, forms.Form):
+    worth = MoneyField(
+        label=_(u"How much is it worth?"), min_value=0, required=True
+    )
     mortgage_left = MoneyField(
-        label=u"How much is left to pay on the mortgage?", min_value=0,
+        label=_(u"How much is left to pay on the mortgage?"), min_value=0,
         required=True
     )
     owner = RadioBooleanField(
-        label=u"Is the property owned by you or is it in joint names?",
+        label=_(u"Is the property owned by you or is it in joint names?"),
         choices=OWNED_BY_CHOICES, required=True
     )
     share = forms.IntegerField(
-        label=u'What is your share of the property?',
+        label=_(u'What is your share of the property?'),
         min_value=0, max_value=100
     )
 
 
-class YourFinancesSavingsForm(CheckerWizardMixin, forms.Form):
+class YourCapitalSavingsForm(CheckerWizardMixin, forms.Form):
     bank = MoneyField(
-        label=u"Do you have any money saved in a bank or building society?",
+        label=_(u"Do you have any money saved in a bank or building society?"),
         min_value=0
     )
     investments = MoneyField(
-        label=u"Do you have any investments, shares, ISAs?", min_value=0
+        label=_(u"Do you have any investments, shares, ISAs?"), min_value=0
     )
     valuable_items = MoneyField(
-        label=u"Do you have any valuable items over £££ each?", min_value=0
+        label=_(u"Do you have any valuable items over £££ each?"), min_value=0
     )
     money_owed = MoneyField(
-        label=u"Do you have any money owed to you?", min_value=0
+        label=_(u"Do you have any money owed to you?"), min_value=0
     )
-
-
-class YourFinancesIncomeForm(CheckerWizardMixin, forms.Form):
-
-    earnings_per_month = MoneyField(
-        label=u"Earnings per month",
-        min_value=0
-    )
-
-    other_income_per_month = MoneyField(
-        label=u"Other income per month?",
-        min_value=0
-    )
-
-    self_employed = RadioBooleanField(
-        label=u"Are you self employed?",
-        initial=0
-    )
-
-
-class YourFinancesDependentsForm(CheckerWizardMixin, forms.Form):
-    dependants_old = forms.IntegerField(label='Children aged 16 and over',
-                                        required=False,
-                                        min_value=0)
-
-    dependants_young = forms.IntegerField(label='Children aged 15 and under',
-                                          required=False,
-                                          min_value=0)
 
 
 class OnlyAllowExtraIfNoInitialFormSet(BaseFormSet):
@@ -224,30 +208,12 @@ class OnlyAllowExtraIfNoInitialFormSet(BaseFormSet):
         super(OnlyAllowExtraIfNoInitialFormSet, self).__init__(*args, **kwargs)
 
 
-class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
+class YourFinancesFormMixin(EligibilityMixin, CheckerWizardMixin):
+    form_tag = 'your_finances'
 
-    YourFinancesPropertyFormSet = formset_factory(
-        YourFinancesPropertyForm,
-        extra=1,
-        max_num=20,
-        validate_max=True,
-        formset=OnlyAllowExtraIfNoInitialFormSet
-    )
+    def _prepare_for_init(self, kwargs):
+        super(YourFinancesFormMixin, self)._prepare_for_init(kwargs)
 
-    formset_list = (
-        ('property', YourFinancesPropertyFormSet),
-    )
-
-    forms_list = (
-        ('your_other_properties', YourFinancesOtherPropertyForm),
-        ('your_savings', YourFinancesSavingsForm),
-        ('partners_savings', YourFinancesSavingsForm),
-        ('your_income', YourFinancesIncomeForm),
-        ('partners_income', YourFinancesIncomeForm),
-        ('dependants', YourFinancesDependentsForm)
-    )
-
-    def __init__(self, *args, **kwargs):
         # pop these from kwargs
         self.has_partner = kwargs.pop('has_partner', True)
         self.has_property = kwargs.pop('has_property', True)
@@ -255,33 +221,39 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         self.has_benefits = kwargs.pop('has_benefits', False)
 
 
+class YourCapitalForm(YourFinancesFormMixin, MultipleFormsForm):
+
+    YourCapitalPropertyFormSet = formset_factory(
+        YourCapitalPropertyForm,
+        extra=1,
+        max_num=20,
+        validate_max=True,
+        formset=OnlyAllowExtraIfNoInitialFormSet
+    )
+
+    formset_list = (
+        ('property', YourCapitalPropertyFormSet),
+    )
+
+    forms_list = (
+        ('your_other_properties', YourCapitalOtherPropertyForm),
+        ('your_savings', YourCapitalSavingsForm),
+        ('partners_savings', YourCapitalSavingsForm),
+    )
+
+    def _prepare_for_init(self, kwargs):
+        super(YourCapitalForm, self)._prepare_for_init(kwargs)
+
         new_forms_list = dict(self.forms_list)
         new_formset_list = dict(self.formset_list)
         if not self.has_partner:
             del new_forms_list['partners_savings']
-            del new_forms_list['partners_income']
         if not self.has_property:
             del new_formset_list['property']
             del new_forms_list['your_other_properties']
-        if not self.has_children:
-            del new_forms_list['dependants']
-        if self.has_benefits:
-            new_forms_list.pop('partners_income', None)
-            new_forms_list.pop('your_income', None)
 
         self.forms_list = new_forms_list.items()
         self.formset_list = new_formset_list.items()
-
-        super(YourFinancesForm, self).__init__(*args, **kwargs)
-
-    def _get_total_earnings(self, cleaned_data):
-        own_income = self.get_income('your_income', cleaned_data) or {}
-        partner_income = self.get_income('partners_income', cleaned_data) or {}
-        return sum(itertools.chain(own_income.values(), partner_income.values()))
-
-    @property
-    def total_earnings(self):
-        return self._get_total_earnings(self.cleaned_data)
 
     @property
     def total_capital_assets(self):
@@ -312,10 +284,9 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
 
     @property
     def cleaned_data(self):
-        cleaned_data = super(YourFinancesForm, self).cleaned_data
+        cleaned_data = super(YourCapitalForm, self).cleaned_data
         cleaned_data.update({
-            'total_capital_assets': self._get_total_capital_assets(cleaned_data),
-            'total_earnings': self._get_total_earnings(cleaned_data)
+            'total_capital_assets': self._get_total_capital_assets(cleaned_data)
         })
 
         return cleaned_data
@@ -329,17 +300,9 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
                 'investment_balance': cleaned_data.get(key, {}).get('investments', 0),
             }
 
-    def get_income(self, key, cleaned_data):
-        return {
-            'earnings': cleaned_data.get(key, {}).get('earnings_per_month', 0),
-            'other_income': cleaned_data.get(key, {}).get('other_income_per_month', 0)
-        }
-
     def get_finances(self, cleaned_data):
         your_finances = self.get_savings('your_savings', cleaned_data)
         partner_finances = self.get_savings('partners_savings', cleaned_data) or {}
-        your_finances.update(self.get_income('your_income', cleaned_data))
-        partner_finances.update(self.get_income('partners_income', cleaned_data) or {})
         return your_finances, partner_finances
 
     def get_properties(self, cleaned_data):
@@ -358,8 +321,6 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         post_data = {
             'your_finances': your_finances,
             'partner_finances': partner_finances,
-            'dependants_young': data.get('dependant_young', 0),
-            'dependants_old': data.get('dependant_old', 0),
             'property_set': self.get_properties(data)
         }
         if not self.reference:
@@ -372,7 +333,100 @@ class YourFinancesForm(CheckerWizardMixin, MultipleFormsForm):
         }
 
 
-class YourDisposableIncomeForm(CheckerWizardMixin, forms.Form):
+class YourSingleIncomeForm(CheckerWizardMixin, forms.Form):
+    earnings_per_month = MoneyField(
+        label=_(u"Earnings per month"), min_value=0
+    )
+
+    other_income_per_month = MoneyField(
+        label=_(u"Other income per month?"), min_value=0
+    )
+
+    self_employed = RadioBooleanField(
+        label=_(u"Are you self employed?"), initial=0
+    )
+
+
+class YourDependentsForm(CheckerWizardMixin, forms.Form):
+    dependants_old = forms.IntegerField(
+        label=_(u'Children aged 16 and over'), required=False, min_value=0
+    )
+
+    dependants_young = forms.IntegerField(
+        label=_(u'Children aged 15 and under'), required=False, min_value=0
+    )
+
+
+class YourIncomeForm(YourFinancesFormMixin, MultipleFormsForm):
+    forms_list = (
+        ('your_income', YourSingleIncomeForm),
+        ('partners_income', YourSingleIncomeForm),
+        ('dependants', YourDependentsForm)
+    )
+
+    def _prepare_for_init(self, kwargs):
+        super(YourIncomeForm, self)._prepare_for_init(kwargs)
+
+        new_forms_list = dict(self.forms_list)
+        if not self.has_partner:
+            del new_forms_list['partners_income']
+        if not self.has_children:
+            del new_forms_list['dependants']
+        # if self.has_benefits:
+        #     new_forms_list.pop('partners_income', None)
+        #     new_forms_list.pop('your_income', None)
+
+        self.forms_list = new_forms_list.items()
+
+    def _get_total_earnings(self, cleaned_data):
+        own_income = self.get_income('your_income', cleaned_data) or {}
+        partner_income = self.get_income('partners_income', cleaned_data) or {}
+        return sum(itertools.chain(own_income.values(), partner_income.values()))
+
+    @property
+    def total_earnings(self):
+        return self._get_total_earnings(self.cleaned_data)
+
+    @property
+    def cleaned_data(self):
+        cleaned_data = super(YourIncomeForm, self).cleaned_data
+        cleaned_data.update({
+            'total_earnings': self._get_total_earnings(cleaned_data)
+        })
+
+        return cleaned_data
+
+    def get_income(self, key, cleaned_data):
+        return {
+            'earnings': cleaned_data.get(key, {}).get('earnings_per_month', 0),
+            'other_income': cleaned_data.get(key, {}).get('other_income_per_month', 0)
+        }
+
+    def get_finances(self, cleaned_data):
+        your_finances = self.get_income('your_income', cleaned_data)
+        partner_finances = self.get_income('partners_income', cleaned_data) or {}
+        return your_finances, partner_finances
+
+    def save(self):
+        data = self.cleaned_data
+        your_finances, partner_finances = self.get_finances(data)
+        post_data = {
+            'your_finances': your_finances,
+            'partner_finances': partner_finances,
+            'dependants_young': data.get('dependant_young', 0),
+            'dependants_old': data.get('dependant_old', 0)
+        }
+        if not self.reference:
+            response = connection.eligibility_check.post(post_data)
+        else:
+            response = connection.eligibility_check(self.reference).patch(post_data)
+
+        return {
+            'eligibility_check': response
+        }
+
+
+class YourAllowancesForm(YourFinancesFormMixin, forms.Form):
     income_tax_and_ni = MoneyField(
         label=_(u"Income Tax and National Insurance"), min_value=0
     )
@@ -421,12 +475,6 @@ class ContactDetailsForm(forms.Form):
     town = forms.CharField(label=_(u'Town'), max_length=100)
     mobile_phone = forms.CharField(label=_(u'Mobile Phone'), max_length=20)
     home_phone = forms.CharField(label=_('Home Phone'), max_length=20)
-
-
-class EligibilityMixin(object):
-    def is_eligible(self):
-        response = connection.eligibility_check(self.reference).is_eligible().post()
-        return response['is_eligible']
 
 
 class ResultForm(EligibilityMixin, CheckerWizardMixin, forms.Form):

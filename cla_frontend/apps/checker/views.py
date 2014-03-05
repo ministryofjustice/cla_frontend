@@ -8,22 +8,33 @@ from django.contrib.formtools.wizard.storage import get_storage
 from checker.wizard import conditions
 
 from .helpers import SessionCheckerHelper
-from .forms import YourDetailsForm, YourFinancesForm, YourProblemForm, \
-    ResultForm, ApplyForm, YourDisposableIncomeForm
+from .forms import YourProblemForm, YourDetailsForm, \
+    YourCapitalForm, YourIncomeForm, YourAllowancesForm, \
+    ResultForm, ApplyForm
+
+
+
+def show_your_finances_extra_step(wizard):
+    your_details = wizard.get_cleaned_data_for_step('your_details')
+    if your_details and your_details.get('has_benefits', False):
+        return False
+    return True
 
 
 class CheckerWizard(NamedUrlSessionWizardView):
     storage_name = 'checker.storage.CheckerSessionStorage'
 
     condition_dict = {
-        "your_disposable_income": conditions.show_disposable_income,
+        "your_income": show_your_finances_extra_step,
+        "your_allowances": show_your_finances_extra_step,
     }
 
     form_list = [
         ("your_problem", YourProblemForm),
         ("your_details", YourDetailsForm),
-        ("your_finances", YourFinancesForm),
-        ("your_disposable_income", YourDisposableIncomeForm),
+        ("your_capital", YourCapitalForm),
+        ("your_income", YourIncomeForm),
+        ("your_allowances", YourAllowancesForm),
         ("result", ResultForm),
         ("apply", ApplyForm),
     ]
@@ -31,39 +42,40 @@ class CheckerWizard(NamedUrlSessionWizardView):
     TEMPLATES = {
         "your_problem": "checker/your_problem.html",
         "your_details": "checker/your_details.html",
-        "your_finances": "checker/your_finances.html",
-        "your_disposable_income": "checker/your_disposable_income.html",
+        "your_capital": "checker/your_capital.html",
+        "your_income": "checker/your_income.html",
+        "your_allowances": "checker/your_allowances.html",
         "result": "checker/result.html",
         "apply": "checker/apply.html"
     }
 
-    def dispatch(self, request, *args, **kwargs):
-        """
-        This renders the form or, if needed, does the http redirects.
-        """
-        self.prefix = self.get_prefix(*args, **kwargs)
-        self.storage = get_storage(self.storage_name, self.prefix, request,
-            getattr(self, 'file_storage', None))
-        self.steps = StepsHelper(self)
+    # def dispatch(self, request, *args, **kwargs):
+    #     """
+    #     This renders the form or, if needed, does the http redirects.
+    #     """
+    #     self.prefix = self.get_prefix(*args, **kwargs)
+    #     self.storage = get_storage(self.storage_name, self.prefix, request,
+    #         getattr(self, 'file_storage', None))
+    #     self.steps = StepsHelper(self)
 
-        step_url = kwargs.get('step', None)
-        if step_url:
-            # walk through the form list and try to validate the data again.
-            for form_key in self.get_form_list():
-                if form_key == step_url:
-                    break
+    #     step_url = kwargs.get('step', None)
+    #     if step_url:
+    #         # walk through the form list and try to validate the data again.
+    #         for form_key in self.get_form_list():
+    #             if form_key == step_url:
+    #                 break
 
-                form_obj = self.get_form(step=form_key,
-                    data=self.storage.get_step_data(form_key),
-                    files=self.storage.get_step_files(form_key))
-                if not form_obj.is_valid():
-                    return self.render_revalidation_failure(form_key, form_obj, **kwargs)
+    #             form_obj = self.get_form(step=form_key,
+    #                 data=self.storage.get_step_data(form_key),
+    #                 files=self.storage.get_step_files(form_key))
+    #             if not form_obj.is_valid():
+    #                 return self.render_revalidation_failure(form_key, form_obj, **kwargs)
 
-        response = super(CheckerWizard, self).dispatch(request, *args, **kwargs)
+    #     response = super(CheckerWizard, self).dispatch(request, *args, **kwargs)
 
-        # update the response (e.g. adding cookies)
-        self.storage.update_response(response)
-        return response
+    #     # update the response (e.g. adding cookies)
+    #     self.storage.update_response(response)
+    #     return response
 
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]
@@ -93,7 +105,7 @@ class CheckerWizard(NamedUrlSessionWizardView):
     def get_form_kwargs(self, step=None):
         kwargs = super(CheckerWizard, self).get_form_kwargs(step=step)
         kwargs['reference'] = self.storage.get_eligibility_check_reference()
-        if step == 'your_finances':
+        if self.form_list[step].form_tag == 'your_finances':
             details_data = self.get_cleaned_data_for_step('your_details')
             if details_data:
                 kwargs['has_partner'] = bool(details_data['has_partner'])
@@ -103,20 +115,20 @@ class CheckerWizard(NamedUrlSessionWizardView):
         return kwargs
 
     def render_next_step(self, form, **kwargs):
-        response = self.render_redirect()
+        response = self.render_redirect(form)
         if not response:
             response = super(CheckerWizard, self).render_next_step(form, **kwargs)
         return response
 
     def render_done(self, form, **kwargs):
-        response = self.render_redirect()
+        response = self.render_redirect(form)
         if not response:
             response = super(CheckerWizard, self).render_done(form, **kwargs)
         return response
 
     def get_form_step_data(self, form):
         data = super(CheckerWizard, self).get_form_step_data(form)
-        if self.steps.current == 'your_finances':
+        if form.form_tag == 'your_finances':
             if bool(form.cleaned_data.get('your_other_properties',{}).get('other_properties', False)):
                 data = data.copy()
                 data['property-TOTAL_FORMS'] = unicode(int(data['property-TOTAL_FORMS']) + 1)
@@ -150,9 +162,12 @@ class CheckerWizard(NamedUrlSessionWizardView):
 
         return redirect(reverse('checker:confirmation'))
 
-    def render_redirect(self):
+    def render_redirect(self, form):
         if getattr(self, 'redirect_to_self', False):
             return self.render_goto_step(self.steps.current)
+
+        if form.form_tag == 'your_finances' and not form.is_eligible():
+            return self.render_goto_step('result')
 
 
 class ConfirmationView(TemplateView):

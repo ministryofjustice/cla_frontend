@@ -50,36 +50,7 @@
                 </div>
             </fieldset>
 
-            {% with form=form.form_dict.your_income fieldset_label="Your income" %}
-                {% if form %}
-                    {% include "checker/includes/finances_income_form.html" %}
-                {% endif %}
-            {% endwith %}
-
-            {% with form=form.form_dict.partners_income fieldset_label="Your partner's income" %}
-                {% if form %}
-                {% include "checker/includes/finances_income_form.html" %}
-                {% endif %}
-            {% endwith %}
-
-
-            <fieldset>
-                <div class="form-group">
-                    <!-- hide if no js? -->
-                    <strong>
-                        <p class="col-xs-7">{% trans "Total earnings per month" %}</p>
-                        <p class="input-group col-xs-3 row">£{{ form.total_earnings|default:0|in_pounds|intcomma }}</p>
-                    </strong>
-                </div>
-            </fieldset>
-
-            {% with form=form.form_dict.dependants fieldset_label="Dependants" %}
-                {% if form %}
-                    {% include "checker/includes/finances_dependants_form.html" %}
-                {% endif %}
-            {% endwith %}
-
-			<button type="submit" class="btn btn-success">{% trans "Next step - check if you can get legal aid" %}</button>
+            <button type="submit" class="btn btn-success">{% trans "Next" %}</button>
 		</form>
 	</div>
 {% endblock %}
