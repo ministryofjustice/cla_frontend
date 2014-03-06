@@ -26,7 +26,8 @@ ELIGIBILITY_CHECK_CREATE = {
     'notes': 'lorem ipsum'
 }
 
-ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES = {
+
+ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_SAVINGS = {
     "reference": "1d37cc19063f4f069f374c4c0aad54d2",
     "category": None,
     "notes": "",
@@ -38,39 +39,28 @@ ELIGIBILITY_CHECK_CREATE_FROM_YOUR_FINANCES = {
             "id": 76
         }
     ],
-    "your_finances": {
-        "bank_balance": 100,
-        "investment_balance": 100,
-        "asset_balance": 100,
-        "credit_balance": 100,
-        "earnings": 100,
-        "other_income": 100,
-        "self_employed": False,
-
-        "income_tax_and_ni": 0,
-        "maintenance": 0,
-        "mortgage_or_rent": 0,
-        "criminal_legalaid_contributions": 0
+    "you": {
+        "savings": {
+            "bank_balance": 100,
+            "investment_balance": 100,
+            "asset_balance": 100,
+            "credit_balance": 100,
+        }
     },
-    "partner_finances": {
-        "bank_balance": 100,
-        "investment_balance": 100,
-        "asset_balance": 100,
-        "credit_balance": 100,
-        "earnings": 100,
-        "other_income": 100,
-        "self_employed": False,
-
-        "income_tax_and_ni": 0,
-        "maintenance": 0,
-        "mortgage_or_rent": 0,
-        "criminal_legalaid_contributions": 0
+    "partner": {
+        "savings": {
+            "bank_balance": 150,
+            "investment_balance": 160,
+            "asset_balance": 170,
+            "credit_balance": 180,
+        }
     },
     "dependants_young": 0,
     "dependants_old": 0
 }
 
-ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES = {
+
+ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_INCOME = {
     "reference": "1d37cc19063f4f069f374c4c0aad54d2",
     "category": None,
     "notes": "",
@@ -82,74 +72,42 @@ ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_FINANCES = {
             "id": 76
         }
     ],
-    "your_finances": {
-        "bank_balance": 100,
-        "investment_balance": 100,
-        "asset_balance": 100,
-        "credit_balance": 100,
-        "earnings": 100,
-        "other_income": 100,
-        "self_employed": False,
-
-        "income_tax_and_ni": 0,
-        "maintenance": 0,
-        "mortgage_or_rent": 0,
-        "criminal_legalaid_contributions": 0
+    "you": {
+        "income": {
+            "earnings": 222,
+            "other_income": 333,
+            "self_employed": False,
+        }
     },
-    "partner_finances": {
-        "bank_balance": 100,
-        "investment_balance": 100,
-        "asset_balance": 100,
-        "credit_balance": 100,
-        "earnings": 100,
-        "other_income": 100,
-        "self_employed": False,
-
-        "income_tax_and_ni": 0,
-        "maintenance": 0,
-        "mortgage_or_rent": 0,
-        "criminal_legalaid_contributions": 0
+    "partner": {
+        "income": {
+            "earnings": 444,
+            "other_income": 555,
+            "self_employed": False,
+        }
     },
-    "dependants_young": 0,
-    "dependants_old": 0
+    "dependants_young": 3,
+    "dependants_old": 2
 }
 
-ELIGIBILITY_CHECK_DISPOSABLE_INCOME_YOUR_FINANCES = {
+
+ELIGIBILITY_CHECK_YOUR_ALLOWANCES = {
     "reference": "1d37cc19063f4f069f374c4c0aad54d2",
     "category": None,
     "notes": "",
     "property_set": [],
-    "your_finances": {
-        "bank_balance": 0,
-        "investment_balance": 0,
-        "asset_balance": 0,
-        "credit_balance": 0,
-        "earnings": 0,
-        "other_income": 0,
-        "self_employed": False,
-
-        "income_tax_and_ni": 700,
-        "maintenance": 710,
-        "mortgage_or_rent": 720,
-        "criminal_legalaid_contributions": 730
-    },
-    "partner_finances": {
-        "bank_balance": 0,
-        "investment_balance": 0,
-        "asset_balance": 0,
-        "credit_balance": 0,
-        "earnings": 0,
-        "other_income": 0,
-        "self_employed": False,
-
-        "income_tax_and_ni": 0,
-        "maintenance": 0,
-        "mortgage_or_rent": 0,
-        "criminal_legalaid_contributions": 0
+    "you": {
+        "deductions": {
+            "income_tax_and_ni": 100,
+            "maintenance": 100,
+            "mortgage_or_rent": 100,
+            "criminal_legalaid_contributions": 100
+        }
     },
     "dependants_young": 0,
     "dependants_old": 0
 }
+
 
 ELIGIBILITY_CHECK_CREATE_CASE = {
     "eligibility_check": "1d37cc19063f4f069f374c4c0aad54d2",
@@ -165,10 +123,14 @@ ELIGIBILITY_CHECK_CREATE_CASE = {
     "reference": "LA-2954-3453"
 }
 
-IS_ELIGIBLE_TRUE = {
-    'is_eligible': True
+IS_ELIGIBLE_YES = {
+    'is_eligible': 'yes'
 }
 
-IS_ELIGIBLE_FALSE = {
-    'is_eligible': False
+IS_ELIGIBLE_NO = {
+    'is_eligible': 'no'
+}
+
+IS_ELIGIBLE_UNKNOWN = {
+    'is_eligible': 'unknown'
 }

@@ -5,7 +5,6 @@ from django.views.generic import TemplateView
 
 from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView, StepsHelper
 from django.contrib.formtools.wizard.storage import get_storage
-from checker.wizard import conditions
 
 from .helpers import SessionCheckerHelper
 from .forms import YourProblemForm, YourDetailsForm, \
@@ -13,21 +12,8 @@ from .forms import YourProblemForm, YourDetailsForm, \
     ResultForm, ApplyForm
 
 
-
-def show_your_finances_extra_step(wizard):
-    your_details = wizard.get_cleaned_data_for_step('your_details')
-    if your_details and your_details.get('has_benefits', False):
-        return False
-    return True
-
-
 class CheckerWizard(NamedUrlSessionWizardView):
     storage_name = 'checker.storage.CheckerSessionStorage'
-
-    condition_dict = {
-        "your_income": show_your_finances_extra_step,
-        "your_allowances": show_your_finances_extra_step,
-    }
 
     form_list = [
         ("your_problem", YourProblemForm),
@@ -166,7 +152,7 @@ class CheckerWizard(NamedUrlSessionWizardView):
         if getattr(self, 'redirect_to_self', False):
             return self.render_goto_step(self.steps.current)
 
-        if form.form_tag == 'your_finances' and not form.is_eligible():
+        if form.form_tag == 'your_finances' and not form.is_eligibility_unknown():
             return self.render_goto_step('result')
 
 

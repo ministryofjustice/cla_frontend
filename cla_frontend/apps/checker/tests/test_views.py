@@ -84,11 +84,11 @@ class CheckerWizardTestCase(CLATestCase):
             "partners_savings-investments": [100],
             "partners_savings-valuable_items": [100],
             "partners_savings-money_owed": [100],
-            "your_income-earnings_per_month": [100],
-            "your_income-other_income_per_month": [100],
+            "your_income-earnings": [100],
+            "your_income-other_income": [100],
             "your_income-self_employed": [0],
-            "partners_income-earnings_per_month": [100],
-            "partners_income-other_income_per_month": [100],
+            "partners_income-earnings": [100],
+            "partners_income-other_income": [100],
             "partners_income-self_employed": [0],
             "dependants-dependants_old": [0],
             "dependants-dependants_young": [0],
@@ -213,11 +213,11 @@ class CheckerWizardTestCase(CLATestCase):
             "partners_savings-investments": 100,
             "partners_savings-valuable_items": 100,
             "partners_savings-money_owed": 100,
-            "your_income-earnings_per_month": 100,
-            "your_income-other_income_per_month": 100,
+            "your_income-earnings": 100,
+            "your_income-other_income": 100,
             "your_income-self_employed": 0,
-            "partners_income-earnings_per_month": 100,
-            "partners_income-other_income_per_month": 100,
+            "partners_income-earnings": 100,
+            "partners_income-other_income": 100,
             "partners_income-self_employed": 0,
             "dependants-dependants_old": 0,
             "dependants-dependants_young": 0,
@@ -256,7 +256,7 @@ class CheckerWizardTestCase(CLATestCase):
         reference = '1234567890'
         self._fill_in_prev_steps(reference=reference, current_step='result')
 
-        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_TRUE
+        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_YES
 
         response = self.client.get(self.result_url)
         self.assertTrue('sessionid' in response.cookies)
@@ -268,7 +268,7 @@ class CheckerWizardTestCase(CLATestCase):
         reference = '1234567890'
         self._fill_in_prev_steps(reference=reference, current_step='result')
 
-        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_FALSE
+        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_NO
 
         response = self.client.get(self.result_url)
         self.assertTrue('sessionid' in response.cookies)
