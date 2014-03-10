@@ -1,0 +1,8 @@
+{
+  "name": "cla-frontend",
+  "version": "0.1.0",
+  "devDependencies": {
+    "gulp": "~3.5.5",
+    "gulp-sass": "~0.7.1"
+  }
+}
