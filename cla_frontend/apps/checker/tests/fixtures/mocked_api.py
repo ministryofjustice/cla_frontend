@@ -27,6 +27,13 @@ ELIGIBILITY_CHECK_CREATE = {
 }
 
 
+ELIGIBILITY_CHECK_UPDATE = {
+    'reference': '1234567890',
+    'category': 'debt',
+    'notes': 'lorem ipsum'
+}
+
+
 ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_SAVINGS = {
     "reference": "1d37cc19063f4f069f374c4c0aad54d2",
     "category": None,
@@ -91,7 +98,7 @@ ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_INCOME = {
 }
 
 
-ELIGIBILITY_CHECK_YOUR_ALLOWANCES = {
+ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_ALLOWANCES = {
     "reference": "1d37cc19063f4f069f374c4c0aad54d2",
     "category": None,
     "notes": "",

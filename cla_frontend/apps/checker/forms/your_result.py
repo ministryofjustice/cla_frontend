@@ -39,6 +39,10 @@ class ResultForm(EligibilityMixin, CheckerWizardMixin, forms.Form):
         }
 
     def save(self, *args, **kwargs):
+        # user must be eligible (double-checking) otherwise => error
+        if not self.is_eligible():
+            raise InconsistentStateException('You must be eligible to apply')
+
         return {
             'eligibility_check': {
                 'reference': self.reference

@@ -11,6 +11,8 @@ class ResultFormTestCase(CLATestCase):
 
     def test_post_success(self):
         form = ResultForm(reference=self.DEFAULT_CHECK_REFERENCE, data={})
+        self.mocked_connection.eligibility_check(self.DEFAULT_CHECK_REFERENCE).\
+            is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_YES
         self.assertTrue(form.is_valid())
 
         response = form.save()

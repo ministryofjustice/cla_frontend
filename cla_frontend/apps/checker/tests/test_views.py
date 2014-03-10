@@ -14,7 +14,14 @@ class CheckerWizardTestCase(CLATestCase):
     def setUp(self):
         super(CheckerWizardTestCase, self).setUp()
 
+        self.reference = '123456789'
+
         self.mocked_connection.category.get.return_value = mocked_api.CATEGORY_LIST
+
+        # shortcuts
+        self.mocked_eligibility_check_create = self.mocked_connection.eligibility_check.post
+        self.mocked_eligibility_check_patch = self.mocked_connection.eligibility_check(self.reference).patch
+        self.mocked_is_eligible_post = self.mocked_connection.eligibility_check(self.reference).is_eligible().post
 
         self.your_problem_url = reverse(
             'checker:checker_step', args=(), kwargs={'step': 'your_problem'}
@@ -56,7 +63,7 @@ class CheckerWizardTestCase(CLATestCase):
             'your_details-older_than_sixty': [1],
             'your_details-caring_responsibilities': [1],
             'your_details-own_property': [1],
-            'your_details-checker_wizard-current_step': 'your_details',
+            'checker_wizard-current_step': 'your_details',
         }
 
     def _get_your_capital_post_data(self):
@@ -102,15 +109,12 @@ class CheckerWizardTestCase(CLATestCase):
             'checker_wizard-current_step': 'your_allowances',
         }
 
-    def _add_reference_to_session(self, reference=123456789):
-        s = self.client.session
-        s['wizard_checker_wizard']['_check_reference'] = reference
-        s.save()
-
-    def _fill_in_prev_steps(self, current_step, reference=123456789):
+    def _fill_in_prev_steps(self, current_step, without_reference=False):
         self.client.get(self.your_problem_url)
         s = self.client.session
-        s['wizard_checker_wizard']['_check_reference'] = reference
+
+        if not without_reference:
+            s['wizard_checker_wizard']['_check_reference'] = self.reference
 
         step_data = {}
         fillers = {
@@ -127,6 +131,9 @@ class CheckerWizardTestCase(CLATestCase):
             step_data[step] = fillers[step]()
         s['wizard_checker_wizard'][u'step_data'] = step_data
         s.save()
+
+    def assertStepEqual(self, response, step):
+        self.assertEqual(response.context_data['wizard']['steps'].current, step)
 
     def test_get_start_page(self):
         """
@@ -174,22 +181,93 @@ class CheckerWizardTestCase(CLATestCase):
     #         for future_step in steps[index+1:]:
     #             self._test_cant_skip_steps_redirect_to_step(future_step, step)
 
+    ## YOUR PROBLEM
+
     def test_get_your_problem(self):
+        """
+        TEST get your problem - context variables and step
+        """
         response = self.client.get(self.your_problem_url)
         context_data = response.context_data
 
         choices = context_data['form'].fields['category'].choices
         self.assertTrue(len(choices), 4)
         self.assertItemsEqual([c[0] for c in choices], ['immigration','abuse','consumer','debt'])
+        self.assertStepEqual(response, 'your_problem')
 
-    def test_sumbmit_your_problem(self):
+    def test_post_your_problem(self):
+        """
+        TEST post your problem - without reference
+        """
         data = self._get_your_problem_post_data()
 
-        self.mocked_connection.eligibility_check.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE
+        self.mocked_eligibility_check_create.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE
 
         response = self.client.post(self.your_problem_url, data=data)
         self.assertRedirects(response, self.your_details_url)
-        self.mocked_connection.eligibility_check.post.assert_called()
+
+        self.assertEqual(self.mocked_eligibility_check_create.called, True)
+
+    def test_update_your_problem(self):
+        """
+        TEST post your problem - with reference - should call patch instead of post
+        """
+        self._fill_in_prev_steps(current_step='your_problem')
+        data = self._get_your_problem_post_data()
+
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE
+
+        response = self.client.post(self.your_problem_url, data=data)
+        self.assertRedirects(response, self.your_details_url)
+
+        self.assertEqual(self.mocked_eligibility_check_patch.called, True)
+
+    ## YOUR DETAILS
+
+    def test_get_your_details(self):
+        self._fill_in_prev_steps(current_step='your_details')
+
+        response = self.client.get(self.your_details_url)
+        self.assertTrue('sessionid' in response.cookies)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertStepEqual(response, 'your_details')
+
+    def test_post_your_details(self):
+        """
+        TEST post your details - without reference
+        """
+        self._fill_in_prev_steps(current_step='your_details', without_reference=True)
+
+        data = self._get_your_details_post_data()
+
+        r1 = self.client.get(self.your_details_url)
+
+        self.mocked_eligibility_check_create.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE
+
+        response = self.client.post(self.your_details_url, data=data)
+        self.assertRedirects(response, self.your_capital_url)
+
+        self.assertEqual(self.mocked_eligibility_check_create.called, True)
+
+    def test_update_your_details(self):
+        """
+        TEST post your details - with reference
+        """
+        self._fill_in_prev_steps(current_step='your_details')
+
+        data = self._get_your_details_post_data()
+
+        r1 = self.client.get(self.your_details_url)
+
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE
+
+        response = self.client.post(self.your_details_url, data=data)
+        self.assertRedirects(response, self.your_capital_url)
+
+        self.assertEqual(self.mocked_eligibility_check_patch.called, True)
+
+    ## YOUR CAPITAL
 
     def test_get_your_capital(self):
         self._fill_in_prev_steps(current_step='your_capital')
@@ -197,24 +275,71 @@ class CheckerWizardTestCase(CLATestCase):
         response = self.client.get(self.your_capital_url)
         self.assertTrue('sessionid' in response.cookies)
         self.assertEqual(response.status_code, 200)
+        self.assertStepEqual(response, 'your_capital')
 
-    def test_post_your_capital(self):
-        reference = '123456789'
-        self._fill_in_prev_steps(reference=reference, current_step='your_capital')
+    def test_post_your_capital_unknown_eligibility(self):
+        """
+        TEST post your capital - should redirect to next step because of
+            the unknown eligibility
+        """
+        self._fill_in_prev_steps(current_step='your_capital')
 
         post_data = self._get_your_capital_post_data()
 
         r1 = self.client.get(self.your_capital_url)
-        self.mocked_connection.eligibility_check(reference).patch.\
-            return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_SAVINGS
-        self.mocked_connection.eligibility_check(reference).is_eligible().post.\
-            return_value = mocked_api.IS_ELIGIBLE_UNKNOWN
+
+        # mock api responses
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_SAVINGS
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_UNKNOWN
+
         response = self.client.post(self.your_capital_url, data=post_data)
         self.assertRedirects(response, self.your_income_url)
 
+        # api called?
+        self.assertEqual(self.mocked_eligibility_check_patch.called, True)
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
+
+    def test_post_your_capital_is_eligible(self):
+        """
+        TEST post your capital - is_eligible returns True so redirect straight to
+            result page.
+        """
+        self._fill_in_prev_steps(current_step='your_capital')
+
+        post_data = self._get_your_capital_post_data()
+
+        r1 = self.client.get(self.your_capital_url)
+
+        # mock api responses
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_SAVINGS
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_YES
+
+        response = self.client.post(self.your_capital_url, data=post_data)
+        self.assertRedirects(response, self.result_url)
+
+    def test_post_your_capital_is_not_eligible(self):
+        """
+        TEST post your capital - is_eligible returns False so redirect straight to
+            result page.
+        """
+        self._fill_in_prev_steps(current_step='your_capital')
+
+        post_data = self._get_your_capital_post_data()
+
+        r1 = self.client.get(self.your_capital_url)
+
+        # mock api responses
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_SAVINGS
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_NO
+
+        response = self.client.post(self.your_capital_url, data=post_data)
+        self.assertRedirects(response, self.result_url)
+
     def test_post_your_capital_with_extra_property(self):
-        # Test that ticking yes for 'I own other properties' returns you to the same page
-        # with an additional property
+        """
+        Test that ticking yes for 'I own other properties' returns you to the same page
+        with an additional property
+        """
         post_data = {
             "checker_wizard-current_step": "your_capital",
             "property-TOTAL_FORMS": [1],
@@ -235,14 +360,12 @@ class CheckerWizardTestCase(CLATestCase):
             "partners_savings-money_owed": [100],
         }
 
-        reference = '123456789'
         self._fill_in_prev_steps(current_step='your_capital')
 
         r1 = self.client.get(self.your_capital_url)
-        self.mocked_connection.eligibility_check(reference).patch.\
-            return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_SAVINGS
-        self.mocked_connection.eligibility_check(reference).is_eligible().post.\
-            return_value = mocked_api.IS_ELIGIBLE_UNKNOWN
+
+        # mock api responses
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_SAVINGS
 
         response = self.client.post(self.your_capital_url, data=post_data, follow=True)
         self.assertRedirects(response, self.your_capital_url)
@@ -251,76 +374,214 @@ class CheckerWizardTestCase(CLATestCase):
             len(r1.context_data['form'].get_form_by_prefix('property'))
         )
 
+        # api called?
+        self.assertEqual(self.mocked_eligibility_check_patch.called, True)
+        # shouldn't call is_eligible because the user has to add another property
+        self.assertEqual(self.mocked_is_eligible_post.called, False)
 
+    def test_post_your_capital_fails_without_reference(self):
+        self._fill_in_prev_steps(current_step='your_capital', without_reference=True)
 
+        post_data = self._get_your_capital_post_data()
 
+        r1 = self.client.get(self.your_capital_url)
+        self.assertRaises(InconsistentStateException,
+            self.client.post, self.your_capital_url, data=post_data
+        )
 
+    ## YOUR INCOME
 
-    ##################################
-    # TESTED UNTIL HERE
-    # your income view
-    # your allowances (used to be called your_disposable_income)
-    # redirects
-    ##################################
+    def test_get_your_income(self):
+        self._fill_in_prev_steps(current_step='your_income')
 
-
-
-
-
-
-    def test_get_your_disposable_income(self):
-        self._fill_in_prev_steps(current_step='your_disposable_income')
-
-        response = self.client.get(self.your_disposable_income_url)
+        response = self.client.get(self.your_income_url)
         self.assertTrue('sessionid' in response.cookies)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context_data['wizard']['steps'].current, 'your_disposable_income')
 
-    def test_post_your_disposable_income(self):
-        reference = '1234567890'
+        self.assertStepEqual(response, 'your_income')
 
-        self._fill_in_prev_steps(reference=reference, current_step='your_disposable_income')
+    def test_post_your_income_unknown_eligibility(self):
+        """
+        TEST post your income - should redirect to next step because of
+            the unknown eligibility
+        """
+        self._fill_in_prev_steps(current_step='your_income')
 
-        post_data = self._get_your_disposable_income_post_data()
+        post_data = self._get_your_income_post_data()
 
-        r1 = self.client.get(self.your_disposable_income_url)
-        self.mocked_connection.eligibility_check.patch(reference).return_value = mocked_api.ELIGIBILITY_CHECK_DISPOSABLE_INCOME_YOUR_FINANCES
-        response = self.client.post(self.your_disposable_income_url, data=post_data)
+        r1 = self.client.get(self.your_income_url)
+
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_INCOME
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_UNKNOWN
+        response = self.client.post(self.your_income_url, data=post_data)
+        self.assertRedirects(response, self.your_allowances_url)
+
+        # api called?
+        self.assertEqual(self.mocked_eligibility_check_patch.called, True)
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
+
+    def test_post_your_income_is_eligible(self):
+        """
+        TEST post your income - is_eligible returns True so redirect straight to
+            result page.
+        """
+        self._fill_in_prev_steps(current_step='your_income')
+
+        post_data = self._get_your_income_post_data()
+
+        r1 = self.client.get(self.your_income_url)
+
+        # mock api responses
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_INCOME
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_YES
+
+        response = self.client.post(self.your_income_url, data=post_data)
         self.assertRedirects(response, self.result_url)
 
-    def test_get_result_is_eligible(self):
-        reference = '1234567890'
-        self._fill_in_prev_steps(reference=reference, current_step='result')
+    def test_post_your_income_is_not_eligible(self):
+        """
+        TEST post your income - is_eligible returns False so redirect straight to
+            result page.
+        """
+        self._fill_in_prev_steps(current_step='your_income')
 
-        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_YES
+        post_data = self._get_your_income_post_data()
+
+        r1 = self.client.get(self.your_income_url)
+
+        # mock api responses
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_INCOME
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_NO
+
+        response = self.client.post(self.your_income_url, data=post_data)
+        self.assertRedirects(response, self.result_url)
+
+    def test_post_your_income_fails_without_reference(self):
+        self._fill_in_prev_steps(current_step='your_income', without_reference=True)
+
+        post_data = self._get_your_income_post_data()
+
+        r1 = self.client.get(self.your_income_url)
+        self.assertRaises(InconsistentStateException,
+            self.client.post, self.your_income_url, data=post_data
+        )
+
+    ## YOUR ALLOWANCES
+
+    def test_get_your_allowances(self):
+        self._fill_in_prev_steps(current_step='your_allowances')
+
+        response = self.client.get(self.your_allowances_url)
+        self.assertTrue('sessionid' in response.cookies)
+        self.assertEqual(response.status_code, 200)
+        self.assertStepEqual(response, 'your_allowances')
+
+    def test_post_your_allowances(self):
+        self._fill_in_prev_steps(current_step='your_allowances')
+
+        post_data = self._get_your_allowances_post_data()
+
+        r1 = self.client.get(self.your_allowances_url)
+
+        # mock api responses
+        self.mocked_eligibility_check_patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_ALLOWANCES
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_YES
+
+        response = self.client.post(self.your_allowances_url, data=post_data)
+        self.assertRedirects(response, self.result_url)
+
+        # api called?
+        self.assertEqual(self.mocked_eligibility_check_patch.called, True)
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
+
+    ## YOUR RESULT
+
+    def test_get_result_is_eligible(self):
+        self._fill_in_prev_steps(current_step='result')
+
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_YES
 
         response = self.client.get(self.result_url)
         self.assertTrue('sessionid' in response.cookies)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context_data['wizard']['steps'].current, 'result')
+
+        self.assertStepEqual(response, 'result')
         self.assertEqual(response.context_data['is_eligible'], True)
 
-    def test_get_result_is_not_eligible(self):
-        reference = '1234567890'
-        self._fill_in_prev_steps(reference=reference, current_step='result')
+        # api called?
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
 
-        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_NO
+    def test_get_result_is_not_eligible(self):
+        self._fill_in_prev_steps(current_step='result')
+
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_NO
 
         response = self.client.get(self.result_url)
         self.assertTrue('sessionid' in response.cookies)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context_data['wizard']['steps'].current, 'result')
+
+        self.assertStepEqual(response, 'result')
         self.assertEqual(response.context_data['is_eligible'], False)
 
-    def test_post_result(self):
+        # api called?
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
+
+    def test_get_result_unknown_eligibility(self):
+        """
+        TEST unknown eligibility => error
+        """
         self._fill_in_prev_steps(current_step='result')
+
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_UNKNOWN
+
+        self.assertRaises(InconsistentStateException,
+            self.client.get, self.result_url
+        )
+
+        # api called?
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
+
+    def test_post_result_is_eligible(self):
+        """
+        TEST post result - is_eligible == True so redirect to apply form
+        """
+        self._fill_in_prev_steps(current_step='result')
+
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_YES
 
         data = {
             "checker_wizard-current_step": "result",
         }
+
         r1 = self.client.get(self.result_url)
         response = self.client.post(self.result_url, data=data)
+
         self.assertRedirects(response, self.apply_url)
+
+        # api called?
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
+
+    def test_post_result_is_not_eligible(self):
+        """
+        TEST post result - is_eligible == False => error
+        """
+        self._fill_in_prev_steps(current_step='result')
+
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_NO
+
+        data = {
+            "checker_wizard-current_step": "result",
+        }
+
+        r1 = self.client.get(self.result_url)
+        self.assertRaises(InconsistentStateException,
+            self.client.post, self.result_url, data=data
+        )
+
+        # api called?
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
+
+    # APPLY
 
     def test_get_apply(self):
         self._fill_in_prev_steps(current_step='apply')
@@ -328,10 +589,11 @@ class CheckerWizardTestCase(CLATestCase):
         response = self.client.get(self.apply_url)
         self.assertTrue('sessionid' in response.cookies)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context_data['wizard']['steps'].current, 'apply')
+
+        self.assertStepEqual(response, 'apply')
 
     def test_post_apply_fails_without_reference(self):
-        self._fill_in_prev_steps(reference=None, current_step='apply')
+        self._fill_in_prev_steps(current_step='apply', without_reference=True)
 
         data = {
             "checker_wizard-current_step": "apply",
@@ -346,9 +608,11 @@ class CheckerWizardTestCase(CLATestCase):
         r1 = self.client.get(self.apply_url)
         self.assertRaises(InconsistentStateException, self.client.post, self.apply_url, data=data)
 
-    def test_post_apply_fails_is_not_eligible(self):
-        reference = '1234567890'
-        self._fill_in_prev_steps(reference=reference, current_step='apply')
+    def test_post_apply_fails_if_not_eligible(self):
+        """
+        TEST cannot apply if not eligible
+        """
+        self._fill_in_prev_steps(current_step='apply')
 
         data = {
             "checker_wizard-current_step": "apply",
@@ -362,11 +626,41 @@ class CheckerWizardTestCase(CLATestCase):
         }
         r1 = self.client.get(self.apply_url)
 
-        self.mocked_connection.eligibility_check(reference).is_eligible().post.return_value = mocked_api.IS_ELIGIBLE_FALSE
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_NO
         self.assertRaises(
             InconsistentStateException, self.client.post,
             self.apply_url, data=data
         )
+
+        # api called?
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
+
+    def test_post_apply_fails_if_unknown_eligibility(self):
+        """
+        TEST cannot apply if unknown eligibility
+        """
+        self._fill_in_prev_steps(current_step='apply')
+
+        data = {
+            "checker_wizard-current_step": "apply",
+            "contact_details-title": 'mr',
+            "contact_details-full_name": 'John Doe',
+            "contact_details-postcode": 'SW1H 9AJ',
+            "contact_details-street": '102 Petty France',
+            "contact_details-town": 'London',
+            "contact_details-mobile_phone": '0123456789',
+            "contact_details-home_phone": '9876543210',
+        }
+        r1 = self.client.get(self.apply_url)
+
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_UNKNOWN
+        self.assertRaises(
+            InconsistentStateException, self.client.post,
+            self.apply_url, data=data
+        )
+
+        # api called?
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
 
     def test_post_apply_success(self):
         self._fill_in_prev_steps(current_step='apply')
@@ -384,6 +678,7 @@ class CheckerWizardTestCase(CLATestCase):
         r1 = self.client.get(self.apply_url)
 
         self.mocked_connection.case.post.return_value = mocked_api.ELIGIBILITY_CHECK_CREATE_CASE
+        self.mocked_is_eligible_post.return_value = mocked_api.IS_ELIGIBLE_YES
 
         response = self.client.post(self.apply_url, data=data, follow=True)
         self.assertRedirects(response, self.done_url)
@@ -393,8 +688,12 @@ class CheckerWizardTestCase(CLATestCase):
         self.assertItemsEqual(s['checker_confirmation'].keys(), ['forms_data', 'metadata'])
         self.assertDictEqual(
             s['checker_confirmation']['metadata'],
-            {u'case_reference': u'LA-2954-3453', u'eligibility_check_reference': 123456789}
+            {u'case_reference': u'LA-2954-3453', u'eligibility_check_reference': self.reference}
         )
+
+        # api called?
+        self.assertEqual(self.mocked_connection.case.post.called, True)
+        self.assertEqual(self.mocked_is_eligible_post.called, True)
 
 
 class ConfirmationViewTestCase(CLATestCase):

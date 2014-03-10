@@ -528,7 +528,7 @@ class YourAllowancesFormTestCase(CLATestCase):
 
         self.reference = '123456789'
         self.mocked_connection.eligibility_check(self.reference).\
-            patch.return_value = mocked_api.ELIGIBILITY_CHECK_YOUR_ALLOWANCES
+            patch.return_value = mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_ALLOWANCES
 
     def _get_default_post_data(self):
         return {
@@ -560,7 +560,7 @@ class YourAllowancesFormTestCase(CLATestCase):
 
         response_data = form.save()
         self.assertDictEqual(response_data, {
-            'eligibility_check': mocked_api.ELIGIBILITY_CHECK_YOUR_ALLOWANCES
+            'eligibility_check': mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_ALLOWANCES
         })
 
         expected_data = {}
