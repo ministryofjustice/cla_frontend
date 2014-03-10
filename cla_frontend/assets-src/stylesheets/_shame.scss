@@ -1,0 +1,11 @@
+.indicator {
+  padding: 0.5em 2em !important;
+
+  @include media(mobile){
+    padding: 0.5em 1em !important;
+  }
+
+  p {
+    padding: 0 !important;
+  }
+}

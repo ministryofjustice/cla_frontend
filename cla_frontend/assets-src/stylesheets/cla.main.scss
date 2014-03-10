@@ -1,9 +1,12 @@
 // GOV.UK Toolkit imports
-@import "../vendor/govuk_toolkit/stylesheets/_colours";
-@import "../vendor/govuk_toolkit/stylesheets/_conditionals";
-@import "../vendor/govuk_toolkit/stylesheets/_css3";
-@import "../vendor/govuk_toolkit/stylesheets/_device-pixels";
-@import "../vendor/govuk_toolkit/stylesheets/_font_stack";
-@import "../vendor/govuk_toolkit/stylesheets/_measurements";
-@import "../vendor/govuk_toolkit/stylesheets/_shims";
-@import "../vendor/govuk_toolkit/stylesheets/_typography";
+@import "../vendor/govuk_toolkit/stylesheets/colours";
+@import "../vendor/govuk_toolkit/stylesheets/conditionals";
+@import "../vendor/govuk_toolkit/stylesheets/css3";
+@import "../vendor/govuk_toolkit/stylesheets/device-pixels";
+@import "../vendor/govuk_toolkit/stylesheets/font_stack";
+@import "../vendor/govuk_toolkit/stylesheets/measurements";
+@import "../vendor/govuk_toolkit/stylesheets/shims";
+@import "../vendor/govuk_toolkit/stylesheets/typography";
+
+@import "design-patterns/grid";
+@import "shame";
