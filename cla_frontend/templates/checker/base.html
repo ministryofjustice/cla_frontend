@@ -1,5 +1,13 @@
 {% extends "base.html" %}{% load i18n %}
-{% load helpers %}
+{% load helpers static %}
+
+{% block stylesheets %}
+  <link href="{% static 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+  <script src="{% static 'javascripts/cla.main.js' %}"></script>
+{% endblock %}
 
 {% block content %}
   <div class="inner">

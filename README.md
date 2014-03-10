@@ -35,3 +35,39 @@ Each time you start a new terminal instance you will need to run the following c
     source env/bin/activate
 
     ./manage.py runserver 8001
+
+## Frontend
+
+Assets are managed using [gulp.js](http://gulpjs.com/). To compile the assets once, after a pull for example, run:
+
+    gulp build
+
+### FE Dependencies
+
+* [nodejs.org](http://nodejs.org/)
+* [Sass](http://sass-lang.com/)
+* [gulp.js](http://gulpjs.com/)
+
+### Stylesheets
+
+Stylesheets are located in `cla_frontend/assets-src/stylesheets` and are compiled into `cla_frontend/assets/stylesheets`. They are written in Sass using the `scss` syntax. To compile the stylesheets run:
+
+    gulp sass
+
+### Javascripts
+
+Javascripts files are located in `cla_frontend/assets/src/javascripts` and are concatinated into `cla_frontend/assets/javascripts`. To compile the javascript files run:
+
+    gulp js
+
+### Images
+
+Image are optimised and copied into the `cla_frontend/assets/images` folder using gulp. Source images should be stored in `cla_frontend/assets-src/images`. To optimise and copy images into assets run:
+
+    gulp images
+
+### Development
+
+When making frequent changes to the assets you can run a gulp watch command to instantly compile any assets. To watch the source assets, run:
+
+    gulp watch
