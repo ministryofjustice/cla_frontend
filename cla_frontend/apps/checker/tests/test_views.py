@@ -102,10 +102,20 @@ class CheckerWizardTestCase(CLATestCase):
 
     def _get_your_allowances_post_data(self):
         return {
-            'your_allowances-income_tax_and_ni': [700],
-            'your_allowances-maintenance': [710],
-            'your_allowances-mortgage_or_rent': [720],
-            'your_allowances-criminal_legalaid_contributions': [730],
+            'your_allowances-mortgage': [700],
+            'your_allowances-rent': [700],
+            'your_allowances-tax': [700],
+            'your_allowances-ni': [700],
+            'your_allowances-maintenance': [700],
+            'your_allowances-criminal_legalaid_contributions': [700],
+
+            'partners_allowances-mortgage': [701],
+            'partners_allowances-rent': [701],
+            'partners_allowances-tax': [701],
+            'partners_allowances-ni': [701],
+            'partners_allowances-maintenance': [701],
+            'partners_allowances-criminal_legalaid_contributions': [701],
+
             'checker_wizard-current_step': 'your_allowances',
         }
 

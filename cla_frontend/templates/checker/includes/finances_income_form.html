@@ -1,6 +1,7 @@
-{% load core_forms_tags %}{% style_form form %}
+{% load i18n core_forms_tags %}
+{% if form %}{% style_form form %}
 <fieldset>
-    <label>{{ fieldset_label }}</label>
+    <label>{% trans fieldset_label %}</label>
     <div class="form-group">
         {{ form.earnings.errors }}
         <div>{{ form.earnings.label_tag }}</div>
@@ -33,3 +34,4 @@
     </div>
 
 </fieldset>
+{% endif %}

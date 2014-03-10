@@ -91,8 +91,6 @@ class ApplyFormTestCase(CLATestCase):
                         'postcode': [u'This field is required.'],
                         'street': [u'This field is required.'],
                         'town': [u'This field is required.'],
-                        'mobile_phone': [u'This field is required.'],
-                        'home_phone': [u'This field is required.'],
                     }
                 },
                 'data': {
@@ -104,6 +102,18 @@ class ApplyFormTestCase(CLATestCase):
                     'contact_details-mobile_phone': None,
                     'contact_details-home_phone': None,
                     'extra-notes': None
+                }
+            },
+            # must be mobile phone or home phone
+            {
+                'error': {
+                    'contact_details': {
+                        'mobile_phone': [u'You must specify at least one contact number.'],
+                    }
+                },
+                'data': {
+                    'contact_details-mobile_phone': None,
+                    'contact_details-home_phone': None,
                 }
             },
             # notes too long

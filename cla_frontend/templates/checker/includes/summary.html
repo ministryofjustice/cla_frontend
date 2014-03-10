@@ -6,7 +6,7 @@
     <section class="alert alert-success">
         <ul>
             {% if history_data.your_problem.category_name %}
-            <li>{% trans "You are looking for help about " %} {{history_data.your_problem.category_name}}</li>
+            <li>{% trans "You are looking for help about " %} {{ history_data.your_problem.category_name }}</li>
             {% endif %}
 
             {% if history_data.your_problem.your_problem_notes %}
@@ -36,6 +36,13 @@
                 {% endif %}
             </li>
             <li>
+                {% if history_data.your_details.caring_responsibilities %}
+                    {% trans "You have other caring responsibilities" %}
+                {% else %}
+                    {% trans "You don't have any other caring responsibilities" %}
+                {% endif %}
+            </li>
+            <li>
                 {% if history_data.your_details.own_property %}
                     {% trans "You or your partner own a property" %}
                 {% else %}
@@ -56,18 +63,6 @@
                     {% trans "You or your partner are not 60 or over" %}
                 {% endif %}
             </li>
-            <li>
-                {% if history_data.your_details.caring_responsibilities %}
-                    {% trans "You have other caring responsibilities" %}
-                {% else %}
-                    {% trans "You don't have any other caring responsibilities" %}
-                {% endif %}
-            </li>
-            {% comment %}
-                {% for k,v in history_data.your_details.items %}
-                <li>{{ k }}: {{ v }}</li>
-                {% endfor %}
-            {% endcomment %}
             {% endif %}
         </ul>
 
@@ -79,19 +74,19 @@
     </section>
     {% endif %}
 
-    {% if history_data.your_finances %}
-    <h3>{% trans "You and your partner's money" %}</h3>
+    {% if history_data.your_capital %}
+    <h3>{% trans "Your finances" %}</h3>
     <section class="alert alert-success">
         <ul>
-            {% if history_data.your_finances.property %}
+            {% if history_data.your_capital.property %}
             <li>
-                {% blocktrans count property_count=history_data.your_finances.property|length %}
+                {% blocktrans count property_count=history_data.your_capital.property|length %}
                     You have one property
                 {% plural %}
                     You have {{ property_count }} properties
                 {% endblocktrans %}
                 <ul>
-                    {% for property in history_data.your_finances.property %}
+                    {% for property in history_data.your_capital.property %}
                         <li>{% blocktrans with property_counter=forloop.counter %}Property {{ property_counter }}{% endblocktrans %}
                             <ul>
                                 <li>{% blocktrans with property_value=property.worth|in_pounds %}The value of your property is &pound;{{ property_value }}{% endblocktrans %}</li>
@@ -119,14 +114,15 @@
             </li>
             {% endif %}
 
+{% comment %}
             <li>
-                {% blocktrans with total_capital_assets=history_data.your_finances.total_capital_assets|in_pounds %}
+                {% blocktrans with total_capital_assets=history_data.your_capital.total_capital_assets|in_pounds %}
                 You have capital assets with a value of £{{ total_capital_assets }}
                 {% endblocktrans %}
             </li>
 
             <li>
-                {% blocktrans with total_earnings=history_data.your_finances.total_earnings|in_pounds %}
+                {% blocktrans with total_earnings=history_data.your_capital.total_earnings|in_pounds %}
                 You have earnings per month with a value of £{{ total_earnings }}
                 {% endblocktrans %}
             </li>
@@ -154,24 +150,87 @@
                 {% endif %}
                 </li>
             {% endif %}
-
-{% comment %}
-        {% for k, v in history_data.your_finances.items %}
-            <li>
-                {{ k }}
-                <ul>
-                {% for i,j in v.items %}
-                    <li>{{ i }}: {{ j }}</li>
-                {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
 {% endcomment %}
         </ul>
 
         {% if not read_only %}
         <div>
-            <a href="{% url 'checker:checker_step' 'your_finances' %}">{% trans "Change these answers" %}</a>
+            <a href="{% url 'checker:checker_step' 'your_capital' %}">{% trans "Change these answers" %}</a>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    {% if history_data.your_income %}
+    <h3>{% trans "Your income" %}</h3>
+    <section class="alert alert-success">
+        <ul>
+            {% if history_data.your_income.your_income %}
+            <li>
+                Your income TODO...
+            </li>
+            {% endif %}
+
+            {% if history_data.your_income.partners_income %}
+            <li>
+                Your partner's income TODO...
+            </li>
+            {% endif %}
+
+            {% if history_data.your_income.dependants %}
+            <li>
+            {% if history_data.your_income.dependants.dependants_young %}
+                {% blocktrans count dependants_young=history_data.your_income.dependants.dependants_young %}
+                    You have one child aged 15 and under
+                {% plural %}
+                    You have {{ dependants_young }} children aged 15 and under
+                {% endblocktrans %}
+            {% else %}
+                {% trans "You don't have any children dependant aged 15 and under." %}
+            {% endif %}
+            </li>
+            <li>
+            {% if history_data.your_income.dependants.dependants_old %}
+                {% blocktrans count dependants_old=history_data.your_income.dependants.dependants_old %}
+                    You have one child aged 16 and over
+                {% plural %}
+                    You have {{ dependants_old }} children aged 16 and over
+                {% endblocktrans %}
+            {% else %}
+                {% trans "You don't have any children dependant aged 16 and over." %}
+            {% endif %}
+            </li>
+            {% endif %}
+        </ul>
+
+        {% if not read_only %}
+        <div>
+            <a href="{% url 'checker:checker_step' 'your_income' %}">{% trans "Change these answers" %}</a>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    {% if history_data.your_allowances %}
+    <h3>{% trans "Your expenses" %}</h3>
+    <section class="alert alert-success">
+        <ul>
+            {% if history_data.your_allowances.your_allowances %}
+            <li>
+                Your expenses TODO...
+            </li>
+            {% endif %}
+
+            {% if history_data.your_allowances.partners_allowances %}
+            <li>
+                Your partner's expenses TODO...
+            </li>
+            {% endif %}
+        </ul>
+
+        {% if not read_only %}
+        <div>
+            <a href="{% url 'checker:checker_step' 'your_allowances' %}">{% trans "Change these answers" %}</a>
         </div>
         {% endif %}
     </section>

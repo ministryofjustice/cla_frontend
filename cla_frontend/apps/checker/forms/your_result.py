@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 
 from core.forms import MultipleFormsForm
@@ -25,8 +26,25 @@ class ContactDetailsForm(forms.Form):
         widget=forms.Textarea(attrs={'rows': 4, 'cols': 21})
     )
     town = forms.CharField(label=_(u'Town'), max_length=100)
-    mobile_phone = forms.CharField(label=_(u'Mobile Phone'), max_length=20)
-    home_phone = forms.CharField(label=_('Home Phone'), max_length=20)
+    mobile_phone = forms.CharField(label=_(u'Mobile Phone'), max_length=20, required=False)
+    home_phone = forms.CharField(label=_('Home Phone'), max_length=20, required=False)
+
+    def clean(self, *args, **kwargs):
+        cleaned_data = super(ContactDetailsForm, self).clean(*args, **kwargs)
+
+        if self._errors: # skip immediately
+            return cleaned_data
+
+        mobile_phone = cleaned_data.get('mobile_phone')
+        home_phone = cleaned_data.get('home_phone')
+        if not mobile_phone and not home_phone:
+            self._errors['mobile_phone'] = ErrorList([
+                _(u'You must specify at least one contact number.')
+            ])
+            del cleaned_data['mobile_phone']
+
+        return cleaned_data
+
 
 
 class ResultForm(EligibilityMixin, CheckerWizardMixin, forms.Form):

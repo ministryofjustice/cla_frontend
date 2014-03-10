@@ -1,45 +1,27 @@
 {% extends "checker/base.html" %}{% load i18n humanize helpers %}
 
-{% block page_header %}{% trans "Check your finances" %}{% endblock page_header %}
 
 {% block checker_content %}
-    <div>
-        <h2>{% trans "You and your partner's income" %}</h2>
+    <h1>{% trans "Your income" %}</h1>
+    <p>{% trans "Whether or not you qualify for legal aid depends on how much money you and your partner earn. To find out if you’re financially eligible, please answer these questions as honestly and fully as you can." %}</p>
 
-        <form method=post action="." role="form">
-            {% csrf_token %}
-            {{ wizard.management_form }}
-            {{ form.non_field_errors }}
+    <form method=post action="." role="form">
+        {% csrf_token %}
+        {{ wizard.management_form }}
+        {{ form.non_field_errors }}
 
-            {% with form=form.form_dict.your_income fieldset_label="Your income" %}
-                {% if form %}
-                    {% include "checker/includes/finances_income_form.html" %}
-                {% endif %}
-            {% endwith %}
+        {% with form=form.form_dict.your_income fieldset_label="Your income" %}
+            {% include "checker/includes/finances_income_form.html" %}
+        {% endwith %}
 
-            {% with form=form.form_dict.partners_income fieldset_label="Your partner's income" %}
-                {% if form %}
-                {% include "checker/includes/finances_income_form.html" %}
-                {% endif %}
-            {% endwith %}
+        {% with form=form.form_dict.partners_income fieldset_label="Your partner's income" %}
+            {% include "checker/includes/finances_income_form.html" %}
+        {% endwith %}
 
-            <fieldset>
-                <div class="form-group">
-                    <!-- hide if no js? -->
-                    <strong>
-                        <p class="col-xs-7">{% trans "Total earnings per month" %}</p>
-                        <p class="input-group col-xs-3 row">&pound;{{ form.total_earnings|default:0|in_pounds|intcomma }}</p>
-                    </strong>
-                </div>
-            </fieldset>
+        {% with form=form.form_dict.dependants fieldset_label="Dependants" %}
+            {% include "checker/includes/finances_dependants_form.html" %}
+        {% endwith %}
 
-            {% with form=form.form_dict.dependants fieldset_label="Dependants" %}
-                {% if form %}
-                    {% include "checker/includes/finances_dependants_form.html" %}
-                {% endif %}
-            {% endwith %}
-
-            <button type="submit" class="btn btn-success">{% trans "Next" %}</button>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-success">{% trans "Next" %}</button>
+    </form>
 {% endblock %}

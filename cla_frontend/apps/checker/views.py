@@ -78,8 +78,8 @@ class CheckerWizard(NamedUrlSessionWizardView):
         context = super(CheckerWizard, self).get_context_data(form, **kwargs)
 
         history_data = self.get_all_cleaned_data_dicts()
-        if self.storage.current_step in history_data:
-            del history_data[self.storage.current_step]
+        # if self.storage.current_step in history_data:
+        #     del history_data[self.storage.current_step]
 
         context['history_data'] = history_data
         context.update(form.get_context_data())

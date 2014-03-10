@@ -1,9 +1,9 @@
 {% extends "checker/base.html" %}{% load i18n %}
 
-{% block page_header %}{% trans "Your problem" %}{% endblock page_header %}
 
 {% block checker_content %}
-<p>{% trans "If your problem is about two or more of the list below, please choose what is putting you at immediate risk." %} </p>
+<h1>{% trans "Your problem" %}</h1>
+<p>{% trans "What is your problem about? Choose what is putting you at immediate risk." %} </p>
 
 <form action="." method="POST">
     {% csrf_token %}

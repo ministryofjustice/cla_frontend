@@ -6,26 +6,22 @@
 
 
 {% block checker_content %}
-{% style_form form.contact_details %}
-{% style_form form.extra %}
 <form action="." method="POST">
     {% csrf_token %}
     {{ wizard.management_form }}
     {{ form.non_field_errors }}
 
     <div>
-        {{ form.contact_details.as_p }}
+        {% with form=form.form_dict.contact_details %}{% style_form form %}
+        {{ form.as_p }}
+        {% endwith %}
 
-        {{ form.extra.as_p }}
+        {% with form=form.form_dict.extra %}{% style_form form %}
+        {{ form.as_p }}
+        {% endwith %}
 
         <div>
             <button type="submit" class="btn btn-success">{% trans "Apply for legal aid" %}</button>
-            <button type="button" class="btn">
-              <span class="glyphicon glyphicon-send"></span> {% trans "Send info by email" %}
-            </button>
-            <button type="button" class="btn">
-              <span class="glyphicon glyphicon-print"></span> {% trans "Print" %}
-            </button>
         </div>
     </div>
 </form>

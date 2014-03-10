@@ -1,56 +1,45 @@
 {% extends "checker/base.html" %}{% load i18n humanize helpers %}
 
-{% block page_header %}{% trans "Check your finances" %}{% endblock page_header %}
 
 {% block checker_content %}
-	<div>
-		<h2>{% trans "You and your partner's money" %}</h2>
+    <h1>{% trans "Your finances" %}</h1>
+    <p>{% trans "Whether or not you qualify for legal aid depends on how much money you and your partner have. To find out if you’re financially eligible, please answer these questions as honestly and fully as you can." %}</p>
 
-		<form method=post action="." role="form">
-			{% csrf_token %}
-			{{ wizard.management_form }}
-			{{ form.non_field_errors }}
+	<form method=post action="." role="form">
+		{% csrf_token %}
+		{{ wizard.management_form }}
+		{{ form.non_field_errors }}
 
-			{% with form.form_dict.property as formset %}
-                {% if formset %}
-                    {{ formset.management_form}}
-                    {% for form in formset %}
-                        {% if form %}
-                            {% include "checker/includes/finances_property_form.html" %}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-			{% endwith %}
+		{% with form.form_dict.property as formset %}
+            {% if formset %}
+                {{ formset.management_form}}
+                {% for form in formset %}
+                    {% if form %}
+                        {% include "checker/includes/finances_property_form.html" %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+		{% endwith %}
 
-            {% with form=form.form_dict.your_other_properties  fieldset_label="Other properties"%}
-                {% if form %}
-                    {% include "checker/includes/finances_other_property_form.html" %}
-                {% endif %}
-            {% endwith %}
+        {% with form=form.form_dict.your_other_properties  fieldset_label="Other properties"%}
+            {% if form %}
+                {% include "checker/includes/finances_other_property_form.html" %}
+            {% endif %}
+        {% endwith %}
 
-			{% with form.form_dict.your_savings as form %}{% with "Your savings" as fieldset_label %}
-                {% if form %}
-                    {% include "checker/includes/finances_savings_form.html" %}
-                {% endif %}
-			{% endwith %}{% endwith %}
+		{% with form.form_dict.your_savings as form %}{% with "Your savings" as fieldset_label %}
+            {% if form %}
+                {% include "checker/includes/finances_savings_form.html" %}
+            {% endif %}
+		{% endwith %}{% endwith %}
 
-			{% with form.form_dict.partners_savings as form %}{% with "Your partner's savings" as fieldset_label %}
-                {% if form %}
-                    {% include "checker/includes/finances_savings_form.html" %}
-                {% endif %}
-			{% endwith %}{% endwith %}
+		{% with form.form_dict.partners_savings as form %}{% with "Your partner's savings" as fieldset_label %}
+            {% if form %}
+                {% include "checker/includes/finances_savings_form.html" %}
+            {% endif %}
+		{% endwith %}{% endwith %}
 
 
-            <fieldset>
-                <div class="form-group">
-                    <strong>
-                        <p class="col-xs-7">{% trans "Total of all capital assets" %}</p>
-                        <p class="input-group col-xs-3 row">&pound;{{ form.total_capital_assets|default:0|in_pounds|intcomma }}</p>
-                    </strong>
-                </div>
-            </fieldset>
-
-            <button type="submit" class="btn btn-success">{% trans "Next" %}</button>
-		</form>
-	</div>
+        <button type="submit" class="btn btn-success">{% trans "Next" %}</button>
+	</form>
 {% endblock %}

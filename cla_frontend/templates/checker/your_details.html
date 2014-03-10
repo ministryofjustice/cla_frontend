@@ -1,8 +1,9 @@
 {% extends "checker/base.html" %}{% load i18n %}
 
-{% block page_header %}{% trans "Your details" %}{% endblock page_header %}
 
 {% block checker_content %}
+    <h1>{% trans "Your details" %}</h1>
+
     <form action="." method="POST">
         {{ wizard.management_form }}
         {% csrf_token %}

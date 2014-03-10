@@ -5,7 +5,7 @@
 {% block breadcrumb %}{% endblock breadcrumb %}
 
 {% block summary %}{% with read_only=True %}
-    {{ block.super }}
+{% include "checker/includes/summary.html" %}
 {% endwith %}{% endblock summary %}
 
 
@@ -14,13 +14,6 @@
         <h2 style="text-align:center">{% trans "Your case number is" %}</h2>
         <p style="text-align:center">{{ case_reference }}</p>
 
-        <div>
-            <button type="button" class="btn">
-              <span class="glyphicon glyphicon-send"></span> {% trans "Send info by email" %}
-            </button>
-            <button type="button" class="btn">
-              <span class="glyphicon glyphicon-print"></span> {% trans "Print" %}
-            </button>
-        </div>
+        <p>{% trans "You will be contacted shortly by someone from the Legal Aid Authority about your case" %}</p>
     </div>
 {% endblock %}

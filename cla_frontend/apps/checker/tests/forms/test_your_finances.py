@@ -523,6 +523,15 @@ class YourIncomeFormTestCase(CLATestCase):
 
 
 class YourAllowancesFormTestCase(CLATestCase):
+    all_forms = {
+        'your_allowances',
+        'partners_allowances',
+    }
+
+    partner_forms = {
+        'partners_allowances',
+    }
+
     def setUp(self):
         super(YourAllowancesFormTestCase, self).setUp()
 
@@ -532,11 +541,63 @@ class YourAllowancesFormTestCase(CLATestCase):
 
     def _get_default_post_data(self):
         return {
-            u'income_tax_and_ni': u'700',
-            u'maintenance': u'710',
-            u'mortgage_or_rent': u'720',
-            u'criminal_legalaid_contributions': u'730',
+            u'your_allowances-mortgage': u'351',
+            u'your_allowances-rent': u'352',
+            u'your_allowances-tax': u'353',
+            u'your_allowances-ni': u'354',
+            u'your_allowances-maintenance': u'355',
+            u'your_allowances-criminal_legalaid_contributions': u'356',
+
+            u'partners_allowances-mortgage': u'451',
+            u'partners_allowances-rent': u'452',
+            u'partners_allowances-tax': u'453',
+            u'partners_allowances-ni': u'454',
+            u'partners_allowances-maintenance': u'455',
+            u'partners_allowances-criminal_legalaid_contributions': u'456',
         }
+
+    def _get_default_api_post_data(self):
+        return {
+            "you": {
+                "deductions": {
+                    "mortgage_or_rent": 70300,
+                    "income_tax_and_ni": 70700,
+                    "maintenance": 35500,
+                    "criminal_legalaid_contributions": 35600
+                }
+            },
+            "partner": {
+                "deductions": {
+                    "mortgage_or_rent": 90300,
+                    "income_tax_and_ni": 90700,
+                    "maintenance": 45500,
+                    "criminal_legalaid_contributions": 45600
+                }
+            }
+        }
+
+    def test_get(self):
+        """
+        TEST: a blank GET to the this form - all subforms should be visible
+        """
+
+        form = YourAllowancesForm()
+        self.assertSetEqual(
+            set(dict(form.forms_list).keys()),
+            self.all_forms
+        )
+
+    def test_get_no_partner(self):
+        """
+        TEST: no questions about partner should be visible
+        if the form was created with a has_partner=False kwarg
+        """
+
+        form = YourAllowancesForm(has_partner=False)
+        self.assertSetEqual(
+            set(dict(form.forms_list).keys()),
+            self.all_forms - self.partner_forms
+        )
 
     def test_fail_save_without_eligibility_check_reference(self):
         """
@@ -563,14 +624,9 @@ class YourAllowancesFormTestCase(CLATestCase):
             'eligibility_check': mocked_api.ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_ALLOWANCES
         })
 
-        expected_data = {}
-        for k,v in post_data.items():
-            expected_data[k] = int(v) * 100
-        self.mocked_connection.eligibility_check(self.reference).patch.assert_called_with({
-            'you': {
-                'deductions': expected_data
-            }
-        })
+        self.mocked_connection.eligibility_check(self.reference).patch.assert_called_with(
+            self._get_default_api_post_data()
+        )
 
     def test_form_validation(self):
         default_data = self._get_default_post_data()
@@ -608,10 +664,56 @@ class YourAllowancesFormTestCase(CLATestCase):
             },
         ]
 
-        for error_data in ERRORS_DATA:
-            data = dict(default_data)
-            data.update(error_data['data'])
+        ERRORS_DATA =  {
+            'your_allowances': # only checking one, not partners_allowances
+                [
+                    # your allowances is mandatory
+                    {
+                        'data': {
+                            'your_allowances-mortgage': None,
+                            'your_allowances-rent': None,
+                            'your_allowances-tax': None,
+                            'your_allowances-ni': None,
+                            'your_allowances-maintenance': None,
+                            'your_allowances-criminal_legalaid_contributions': None,
+                        },
+                        'error': {
+                            'mortgage': [u'This field is required.'],
+                            'rent': [u'This field is required.'],
+                            'tax': [u'This field is required.'],
+                            'ni': [u'This field is required.'],
+                            'maintenance': [u'This field is required.'],
+                            'criminal_legalaid_contributions': [u'This field is required.'],
+                        }
+                    },
+                    {
+                        'data': {
+                            'your_allowances-mortgage': -1,
+                            'your_allowances-rent': -1,
+                            'your_allowances-tax': -1,
+                            'your_allowances-ni': -1,
+                            'your_allowances-maintenance': -1,
+                            'your_allowances-criminal_legalaid_contributions': -1,
+                        },
+                        'error': {
+                            'mortgage': [u'Ensure this value is greater than or equal to 0.'],
+                            'rent': [u'Ensure this value is greater than or equal to 0.'],
+                            'tax': [u'Ensure this value is greater than or equal to 0.'],
+                            'ni': [u'Ensure this value is greater than or equal to 0.'],
+                            'maintenance': [u'Ensure this value is greater than or equal to 0.'],
+                            'criminal_legalaid_contributions': [u'Ensure this value is greater than or equal to 0.'],
+                        }
+                    },
+                ],
+        }
 
-            form = YourAllowancesForm(reference=self.reference, data=data)
-            self.assertFalse(form.is_valid())
-            self.assertEqual(form.errors, error_data['error'])
+        for error_section_name, error_section_vals in ERRORS_DATA.items():
+            for error_data in error_section_vals:
+                data = dict(default_data)
+                data.update(error_data['data'])
+
+                form = YourAllowancesForm(reference=self.reference, data=data)
+                self.assertFalse(form.is_valid())
+                self.assertEqual(
+                    form.errors[error_section_name], error_data['error']
+                )

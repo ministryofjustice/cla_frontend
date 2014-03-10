@@ -235,9 +235,6 @@ class YourIncomeForm(YourFinancesFormMixin, MultipleFormsForm):
             del new_forms_list['partners_income']
         if not self.has_children:
             del new_forms_list['dependants']
-        # if self.has_benefits:
-        #     new_forms_list.pop('partners_income', None)
-        #     new_forms_list.pop('your_income', None)
 
         self.forms_list = new_forms_list.items()
 
@@ -300,31 +297,70 @@ class YourIncomeForm(YourFinancesFormMixin, MultipleFormsForm):
         }
 
 
-class YourAllowancesForm(YourFinancesFormMixin, forms.Form):
-    income_tax_and_ni = MoneyField(
-        label=_(u"Income Tax and National Insurance"), min_value=0
-    )
-    maintenance = MoneyField(label=_(u"Maintenance payments"), min_value=0)
-    mortgage_or_rent = MoneyField(label=_(u"Mortgage or rent"), min_value=0)
+class YourSingleAllowancesForm(CheckerWizardMixin, forms.Form):
+    mortgage = MoneyField(label=_(u"Mortgage"), min_value=0)
+    rent = MoneyField(label=_(u"Rent"), min_value=0)
+    tax = MoneyField(label=_(u"Tax"), min_value=0)
+    ni = MoneyField(label=_(u"National Insurance"), min_value=0)
+    maintenance = MoneyField(label=_(u"Childcare"), min_value=0)
     criminal_legalaid_contributions = MoneyField(
         label=_(u"Payments being made towards a contribution order"), min_value=0
     )
+
+
+class YourAllowancesForm(YourFinancesFormMixin, MultipleFormsForm):
+    forms_list = (
+        ('your_allowances', YourSingleAllowancesForm),
+        ('partners_allowances', YourSingleAllowancesForm)
+    )
+
+    def _prepare_for_init(self, kwargs):
+        super(YourAllowancesForm, self)._prepare_for_init(kwargs)
+
+        new_forms_list = dict(self.forms_list)
+        if not self.has_partner:
+            del new_forms_list['partners_allowances']
+
+        self.forms_list = new_forms_list.items()
+
+    def _get_allowances(self, key, cleaned_data):
+        if key in cleaned_data:
+            mortgage = cleaned_data.get(key, {}).get('mortgage', 0)
+            rent = cleaned_data.get(key, {}).get('rent', 0)
+
+            tax = cleaned_data.get(key, {}).get('tax', 0)
+            ni = cleaned_data.get(key, {}).get('ni', 0)
+            return {
+                'mortgage_or_rent': mortgage + rent,
+                'income_tax_and_ni': tax + ni,
+                'maintenance': cleaned_data.get(key, {}).get('maintenance', 0),
+                'criminal_legalaid_contributions': cleaned_data.get(key, {}).get('criminal_legalaid_contributions', 0),
+            }
+
+    def get_allowances(self, cleaned_data):
+        your_allowances = self._get_allowances('your_allowances', cleaned_data)
+        partner_allowances = self._get_allowances('partners_allowances', cleaned_data) or {}
+        return your_allowances, partner_allowances
 
     def save(self):
         # eligibility check reference should be set otherwise => error
         self.check_that_reference_exists()
 
         data = self.cleaned_data
+
+        your_allowances, partner_allowances = self.get_allowances(data)
         post_data = {
             'you': {
-                'deductions': {
-                    'income_tax_and_ni': data['income_tax_and_ni'],
-                    'maintenance': data['maintenance'],
-                    'mortgage_or_rent': data['mortgage_or_rent'],
-                    'criminal_legalaid_contributions': data['criminal_legalaid_contributions']
-                }
+                'deductions': your_allowances
             }
         }
+
+        if partner_allowances:
+            post_data.update({
+                'partner': {
+                    'deductions': partner_allowances
+                }
+            })
 
         response = self.connection.eligibility_check(self.reference).patch(post_data)
         return {
