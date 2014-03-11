@@ -12,19 +12,21 @@
   <div class="inner">
 
     {% block breadcrumb %}
-    <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step {{ breadcrumb.index }} of {{ breadcrumb.length }}">
-      {% for item in breadcrumb.all %}
-          <li class="ProgressIndicator-step{% if item.active %} is-active{% endif %}{% if item.step in history_data %} is-complete{% endif %}">
-            {% if item.step in history_data %}
-              <a href="{% url 'checker:checker_step' item.step %}" class="ProgressIndicator-tick">{{ item.name }}</a>
-            {% else %}
-              {{item.name}}
-            {% endif %}
-          </li>
-      {% endfor %}
-    </ol>
+      <nav>
+        <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step {{ breadcrumb.index }} of {{ breadcrumb.length }}">
+          {% for item in breadcrumb.all %}
+            <li class="ProgressIndicator-step{% if item.active %} is-active{% endif %}{% if item.step in history_data %} is-complete{% endif %}">
+              {% if item.step in history_data %}
+                <a href="{% url 'checker:checker_step' item.step %}" class="ProgressIndicator-tick">{{ item.name }}</a>
+              {% else %}
+                {{item.name}}
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+      </nav>
     {% endblock %}
-    
+
     <header>
       <h1>{% block page_header %}{% endblock %}</h1>
     </header>
