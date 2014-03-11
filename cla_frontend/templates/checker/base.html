@@ -15,7 +15,7 @@
     </header>
 
     {% block breadcrumb %}
-      <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 5">
+      <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of {{ steps|length }}">
         {% for step in steps %}
           <li class="ProgressIndicator-step{% if step == wizard.steps.current %} is-active{% endif %}{% if step in history_data %} is-complete{% endif %}">
             {% if step in history_data %}
