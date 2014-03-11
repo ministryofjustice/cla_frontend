@@ -10,9 +10,6 @@
 
 {% block content %}
   <div class="inner">
-    <header>
-      <h1>{% block page_header %}{% endblock %}</h1>
-    </header>
 
     {% block breadcrumb %}
     <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step {{ breadcrumb.index }} of {{ breadcrumb.length }}">
@@ -27,6 +24,10 @@
       {% endfor %}
     </ol>
     {% endblock %}
+    
+    <header>
+      <h1>{% block page_header %}{% endblock %}</h1>
+    </header>
 
     {% block checker_content %}{% endblock %}
 

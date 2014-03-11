@@ -1,8 +1,8 @@
 {% extends "checker/base.html" %}{% load i18n humanize helpers %}
 
+{% block page_header %}{% trans "Your finances" %}{% endblock %}
 
 {% block checker_content %}
-    <h1>{% trans "Your finances" %}</h1>
     <p>{% trans "Whether or not you qualify for legal aid depends on how much money you and your partner have. To find out if you’re financially eligible, please answer these questions as honestly and fully as you can." %}</p>
 
 	<form method=post action="." role="form">
