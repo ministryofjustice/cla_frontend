@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 var paths = {
   dest_dir: 'cla_frontend/assets/',
-  styles: 'cla_frontend/assets-src/stylesheets/*.scss',
+  styles: 'cla_frontend/assets-src/stylesheets/**/*.scss',
   scripts: ['cla_frontend/assets-src/javascripts/cla.main.js'],
   images: 'cla_frontend/assets-src/images/**/*'
 };
@@ -41,6 +41,7 @@ gulp.task('images', function() {
 gulp.task('watch', function() {
   gulp.watch(paths.styles, ['sass']);
   gulp.watch(paths.scripts, ['js', 'lint']);
+  gulp.watch(paths.images, ['images']);
 });
 
 // setup default tasks
