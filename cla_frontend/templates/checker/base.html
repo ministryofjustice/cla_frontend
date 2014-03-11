@@ -1,5 +1,4 @@
-{% extends "base.html" %}{% load i18n %}
-{% load helpers static %}
+{% extends "base.html" %}{% load i18n helpers static %}
 
 {% block stylesheets %}
   <link href="{% static 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet">
@@ -11,39 +10,23 @@
 
 {% block content %}
   <div class="inner">
-    <div class="full-width">
+    <header>
       <h1>{% block page_header %}{% endblock %}</h1>
-    </div>
+    </header>
 
     {% block breadcrumb %}
-        <ol class="breadcrumb">
-            {% comment %}
-            {% if wizard.steps.prev %}
-                <li>
-                    <a href="{% url 'checker:checker_step' wizard.steps.prev %}"><i class="fa fa-step-backward"></i></a>
-                </li>
+      <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 5">
+        {% for step in steps %}
+          <li class="ProgressIndicator-step{% if step == wizard.steps.current %} is-active{% endif %}{% if step in history_data %} is-complete{% endif %}">
+            {% if step in history_data %}
+              <a href="{% url 'checker:checker_step' step %}" class="ProgressIndicator-tick">{{ step|unslug }}</a>
+            {% else %}
+              {{ step|unslug }}
             {% endif %}
-            {% endcomment %}
-
-            {% for step in steps %}
-                <li {% if step == wizard.steps.current %}class="active"{% endif %}>
-                {% if step in history_data %}
-                    <a href="{% url 'checker:checker_step' step %}">{{ step|unslug }}</a>
-                {% else %}
-                    {{ step|unslug }}
-                {% endif %}
-                </li>
-            {% endfor %}
-            <li>Result of legal aid check</li>
-
-            {% comment %}
-            {% if wizard.steps.next %}
-                <li>
-                    <a href="{% url 'checker:checker_step' wizard.steps.next %}"><i class="fa fa-step-forward"></i></a>
-                </li>
-            {% endif %}
-            {% endcomment %}
-        </ol>
+          </li>
+        {% endfor %}
+        <li class="ProgressIndicator-step">Result of legal aid check</li>
+      </ol>
     {% endblock %}
 
     {% block checker_content %}{% endblock %}
