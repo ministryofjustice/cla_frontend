@@ -302,7 +302,8 @@ class YourSingleAllowancesForm(CheckerWizardMixin, forms.Form):
     rent = MoneyField(label=_(u"Rent"), min_value=0)
     tax = MoneyField(label=_(u"Tax"), min_value=0)
     ni = MoneyField(label=_(u"National Insurance"), min_value=0)
-    maintenance = MoneyField(label=_(u"Childcare"), min_value=0)
+    maintenance = MoneyField(label=_(u"Maintenance"), min_value=0)
+    childcare = MoneyField(label=_(u"Childcare"), min_value=0)
     criminal_legalaid_contributions = MoneyField(
         label=_(u"Payments being made towards a contribution order"), min_value=0
     )
@@ -334,6 +335,7 @@ class YourAllowancesForm(YourFinancesFormMixin, MultipleFormsForm):
                 'mortgage_or_rent': mortgage + rent,
                 'income_tax_and_ni': tax + ni,
                 'maintenance': cleaned_data.get(key, {}).get('maintenance', 0),
+                'childcare': cleaned_data.get(key, {}).get('childcare', 0),
                 'criminal_legalaid_contributions': cleaned_data.get(key, {}).get('criminal_legalaid_contributions', 0),
             }
 

@@ -546,6 +546,7 @@ class YourAllowancesFormTestCase(CLATestCase):
             u'your_allowances-tax': u'353',
             u'your_allowances-ni': u'354',
             u'your_allowances-maintenance': u'355',
+            u'your_allowances-childcare': u'355.50',
             u'your_allowances-criminal_legalaid_contributions': u'356',
 
             u'partners_allowances-mortgage': u'451',
@@ -553,6 +554,7 @@ class YourAllowancesFormTestCase(CLATestCase):
             u'partners_allowances-tax': u'453',
             u'partners_allowances-ni': u'454',
             u'partners_allowances-maintenance': u'455',
+            u'partners_allowances-childcare': u'455.50',
             u'partners_allowances-criminal_legalaid_contributions': u'456',
         }
 
@@ -563,6 +565,7 @@ class YourAllowancesFormTestCase(CLATestCase):
                     "mortgage_or_rent": 70300,
                     "income_tax_and_ni": 70700,
                     "maintenance": 35500,
+                    "childcare": 35550,
                     "criminal_legalaid_contributions": 35600
                 }
             },
@@ -571,6 +574,7 @@ class YourAllowancesFormTestCase(CLATestCase):
                     "mortgage_or_rent": 90300,
                     "income_tax_and_ni": 90700,
                     "maintenance": 45500,
+                    "childcare": 45550,
                     "criminal_legalaid_contributions": 45600
                 }
             }
@@ -637,12 +641,14 @@ class YourAllowancesFormTestCase(CLATestCase):
                 'error': {
                     u'income_tax_and_ni': [u'This field is required.'],
                     u'maintenance': [u'This field is required.'],
+                    u'childcare': [u'This field is required.'],
                     u'mortgage_or_rent': [u'This field is required.'],
                     u'criminal_legalaid_contributions': [u'This field is required.'],
                 },
                 'data': {
                     u'income_tax_and_ni': None,
                     u'maintenance': None,
+                    u'childcare': None,
                     u'mortgage_or_rent': None,
                     u'criminal_legalaid_contributions': None,
                 }
@@ -652,12 +658,14 @@ class YourAllowancesFormTestCase(CLATestCase):
                 'error': {
                     u'income_tax_and_ni': [u'Ensure this value is greater than or equal to 0.'],
                     u'maintenance': [u'Ensure this value is greater than or equal to 0.'],
+                    u'childcare': [u'Ensure this value is greater than or equal to 0.'],
                     u'mortgage_or_rent': [u'Ensure this value is greater than or equal to 0.'],
                     u'criminal_legalaid_contributions': [u'Ensure this value is greater than or equal to 0.'],
                 },
                 'data': {
                     u'income_tax_and_ni': u'-1',
                     u'maintenance': u'-1',
+                    u'childcare': u'-1',
                     u'mortgage_or_rent': u'-1',
                     u'criminal_legalaid_contributions': u'-1',
                 }
@@ -675,6 +683,7 @@ class YourAllowancesFormTestCase(CLATestCase):
                             'your_allowances-tax': None,
                             'your_allowances-ni': None,
                             'your_allowances-maintenance': None,
+                            'your_allowances-childcare': None,
                             'your_allowances-criminal_legalaid_contributions': None,
                         },
                         'error': {
@@ -683,6 +692,7 @@ class YourAllowancesFormTestCase(CLATestCase):
                             'tax': [u'This field is required.'],
                             'ni': [u'This field is required.'],
                             'maintenance': [u'This field is required.'],
+                            'childcare': [u'This field is required.'],
                             'criminal_legalaid_contributions': [u'This field is required.'],
                         }
                     },
@@ -693,6 +703,7 @@ class YourAllowancesFormTestCase(CLATestCase):
                             'your_allowances-tax': -1,
                             'your_allowances-ni': -1,
                             'your_allowances-maintenance': -1,
+                            'your_allowances-childcare': -1,
                             'your_allowances-criminal_legalaid_contributions': -1,
                         },
                         'error': {
@@ -701,6 +712,7 @@ class YourAllowancesFormTestCase(CLATestCase):
                             'tax': [u'Ensure this value is greater than or equal to 0.'],
                             'ni': [u'Ensure this value is greater than or equal to 0.'],
                             'maintenance': [u'Ensure this value is greater than or equal to 0.'],
+                            'childcare': [u'Ensure this value is greater than or equal to 0.'],
                             'criminal_legalaid_contributions': [u'Ensure this value is greater than or equal to 0.'],
                         }
                     },

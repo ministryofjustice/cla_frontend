@@ -107,6 +107,7 @@ class CheckerWizardTestCase(CLATestCase):
             'your_allowances-tax': [700],
             'your_allowances-ni': [700],
             'your_allowances-maintenance': [700],
+            'your_allowances-childcare': [700],
             'your_allowances-criminal_legalaid_contributions': [700],
 
             'partners_allowances-mortgage': [701],
@@ -114,6 +115,7 @@ class CheckerWizardTestCase(CLATestCase):
             'partners_allowances-tax': [701],
             'partners_allowances-ni': [701],
             'partners_allowances-maintenance': [701],
+            'partners_allowances-childcare': [701],
             'partners_allowances-criminal_legalaid_contributions': [701],
 
             'checker_wizard-current_step': 'your_allowances',

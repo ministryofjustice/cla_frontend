@@ -107,6 +107,7 @@ ELIGIBILITY_CHECK_UPDATE_FROM_YOUR_ALLOWANCES = {
         "deductions": {
             "income_tax_and_ni": 100,
             "maintenance": 100,
+            "childcare": 100,
             "mortgage_or_rent": 100,
             "criminal_legalaid_contributions": 100
         }
