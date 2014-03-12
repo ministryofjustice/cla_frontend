@@ -60,3 +60,6 @@ cla_frontend/assets/
 cla_frontend/static/
 
 .DS_Store
+
+# node
+node_modules/
