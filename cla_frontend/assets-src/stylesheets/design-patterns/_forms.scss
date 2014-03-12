@@ -17,6 +17,10 @@
   margin: 0 0 1px;
   position: relative;
 
+  label {
+    @include core-19;
+  }
+
   &.FormRow--check,
   &.FormRow--radio    {
     padding: 0;
