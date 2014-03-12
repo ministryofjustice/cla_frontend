@@ -5,6 +5,11 @@ details {
     color: $link-colour;
     cursor: pointer;
     text-decoration: underline;
+
+    &:focus {
+      background-color: $yellow;
+      outline: 3px solid $yellow;
+    }
   }
 
   div {
