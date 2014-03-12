@@ -1,0 +1,16 @@
+details {
+  @include core-19;
+
+  summary {
+    color: $link-colour;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  div {
+    border-left: 3px solid #ccc;
+    padding: 10px 0 10px 55px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+  }
+}

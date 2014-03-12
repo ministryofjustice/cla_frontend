@@ -15,10 +15,19 @@
 .FormRow {
   padding: 24px;
   margin: 0 0 1px;
+  position: relative;
+
+  label {
+    @include core-19;
+  }
 
   &.FormRow--check,
   &.FormRow--radio    {
     padding: 0;
+
+    input {
+      margin-right: 15px;
+    }
 
     label {
       padding: 24px;
@@ -37,7 +46,16 @@
   }
   &.FormRow--even {
     
-  }    
+  }
+
+  details {
+
+    summary {
+      position: absolute;
+      right: 24px;
+      top: 25px;
+    }
+  }
 }
 
 .FormActions {
