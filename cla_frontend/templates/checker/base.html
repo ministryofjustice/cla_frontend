@@ -1,7 +1,10 @@
 {% extends "base.html" %}{% load i18n helpers static %}
 
 {% block stylesheets %}
-  <link href="{% static 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet">
+  <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet"><!--<![endif]-->
+  <!--[if IE 6]><link href="{% static 'stylesheets/cla.main-ie6.css' %}" media="screen" rel="stylesheet"><![endif]-->
+  <!--[if IE 7]><link href="{% static 'stylesheets/cla.main-ie7.css' %}" media="screen" rel="stylesheet"><![endif]-->
+  <!--[if IE 8]><link href="{% static 'stylesheets/cla.main-ie8.css' %}" media="screen" rel="stylesheet"><![endif]-->
 {% endblock %}
 
 {% block javascripts %}
