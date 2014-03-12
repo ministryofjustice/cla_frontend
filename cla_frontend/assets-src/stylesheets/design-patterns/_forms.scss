@@ -4,6 +4,10 @@
 
   &.FormBlock--grey {
     padding: 25px 50px;
+    margin: 0 0 30px;
+    border-width: 1px 0;
+    border-color: #C2C2C2;
+    border-style: solid;
     background-color: $grey-4;
   }
 }
