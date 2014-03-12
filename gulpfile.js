@@ -12,7 +12,7 @@ var paths = {
 // compile scss
 gulp.task('sass', function() {
   return gulp.src(paths.styles)
-              .pipe(plugins.sass({errLogToConsole: true}))
+              .pipe(plugins.rubySass())
               .pipe(gulp.dest(paths.dest_dir + 'stylesheets'));
 });
 
