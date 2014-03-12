@@ -58,13 +58,6 @@
       color: #fff;
       font-weight: 700;
       background-color: #248BC7;
-      a {
-        color: #fff;
-      }
-      .ProgressIndicator-tick {
-        background: none;
-        padding-right: 0;
-      }
       &:after {
         background-image: url(../images/progress-indicator/chevron--active.png);      
       }

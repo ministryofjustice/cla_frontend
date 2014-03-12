@@ -36,7 +36,7 @@ class BreadCrumb(object):
                 'active': current_form.form_tag == 'your_finances'
             },
             {
-                'name': 'Result of legal aid check',
+                'name': 'Result',
                 'step': 'result',
                 'active': current_form.form_tag == 'result'
             }
