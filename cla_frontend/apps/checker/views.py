@@ -12,6 +12,48 @@ from .forms import YourProblemForm, YourDetailsForm, \
     ResultForm, ApplyForm
 
 
+class BreadCrumb(object):
+    def __init__(self, wizard):
+        self.wizard = wizard
+
+    @property
+    def all(self):
+        current_form = self.wizard.get_form()
+        return [
+            {
+                'name': 'Your Problem',
+                'step': 'your_problem',
+                'active': current_form.form_tag == 'your_problem'
+            },
+            {
+                'name': 'Your Details',
+                'step': 'your_details',
+                'active': current_form.form_tag == 'your_details'
+            },
+            {
+                'name': 'Your Finances',
+                'step': 'your_capital',
+                'active': current_form.form_tag == 'your_finances'
+            },
+            {
+                'name': 'Result of legal aid check',
+                'step': 'result',
+                'active': current_form.form_tag == 'result'
+            }
+        ]
+
+    @property
+    def index(self):
+        for index, item in enumerate(self.all, 1):
+            if item['active']:
+                return index
+        return 0
+
+    @property
+    def length(self):
+        return len(self.all)
+
+
 class CheckerWizard(NamedUrlSessionWizardView):
     storage_name = 'checker.storage.CheckerSessionStorage'
 
@@ -86,6 +128,7 @@ class CheckerWizard(NamedUrlSessionWizardView):
 
         # steps
         context['steps'] = self.steps.all[:-2]
+        context['breadcrumb'] = BreadCrumb(self)
         return context
 
     def get_form_kwargs(self, step=None):

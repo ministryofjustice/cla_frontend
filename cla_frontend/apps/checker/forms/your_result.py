@@ -48,6 +48,8 @@ class ContactDetailsForm(forms.Form):
 
 
 class ResultForm(EligibilityMixin, CheckerWizardMixin, forms.Form):
+    form_tag = 'result'
+
     def get_context_data(self):
         # eligibility check reference should be set otherwise => error
         self.check_that_reference_exists()

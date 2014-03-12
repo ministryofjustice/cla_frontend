@@ -15,18 +15,17 @@
     </header>
 
     {% block breadcrumb %}
-      <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of {{ steps|length }}">
-        {% for step in steps %}
-          <li class="ProgressIndicator-step{% if step == wizard.steps.current %} is-active{% endif %}{% if step in history_data %} is-complete{% endif %}">
-            {% if step in history_data %}
-              <a href="{% url 'checker:checker_step' step %}" class="ProgressIndicator-tick">{{ step|unslug }}</a>
+    <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step {{ breadcrumb.index }} of {{ breadcrumb.length }}">
+      {% for item in breadcrumb.all %}
+          <li class="ProgressIndicator-step{% if item.active %} is-active{% endif %}{% if item.step in history_data %} is-complete{% endif %}">
+            {% if item.step in history_data %}
+              <a href="{% url 'checker:checker_step' item.step %}" class="ProgressIndicator-tick">{{ item.name }}</a>
             {% else %}
-              {{ step|unslug }}
+              {{item.name}}
             {% endif %}
           </li>
-        {% endfor %}
-        <li class="ProgressIndicator-step">Result of legal aid check</li>
-      </ol>
+      {% endfor %}
+    </ol>
     {% endblock %}
 
     {% block checker_content %}{% endblock %}

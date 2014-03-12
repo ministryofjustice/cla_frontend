@@ -9,6 +9,8 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
     """
     Gets the problem choices from the backend API.
     """
+    form_tag = 'your_problem'
+
     category = forms.ChoiceField(
         label=_(u'Is your problem about?'),
         choices=(), widget=forms.RadioSelect()

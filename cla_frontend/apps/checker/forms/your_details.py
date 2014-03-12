@@ -7,6 +7,8 @@ from .base import CheckerWizardMixin
 
 
 class YourDetailsForm(CheckerWizardMixin, forms.Form):
+    form_tag = 'your_details'
+
     has_partner = RadioBooleanField(
         required=True, label=_(u'Do you have a partner?')
     )
