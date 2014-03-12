@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
-
+from core.forms import AdvancedCollectionChoiceField
 from .base import CheckerWizardMixin
 
 
@@ -11,14 +11,18 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
     """
     form_tag = 'your_problem'
 
-    category = forms.ChoiceField(
-        label=_(u'Is your problem about?'),
-        choices=(), widget=forms.RadioSelect()
-    )
     your_problem_notes = forms.CharField(
         required=False, max_length=500,
         label=_(u'You can also provide additional details about your case in the text box below.'),
         widget=forms.Textarea(attrs={'rows': 5, 'cols': 80})
+    )
+
+    category = AdvancedCollectionChoiceField(
+        collection=[],
+        pk_attr=u'code',
+        label_attr=u'name',
+        label=_(u'Is your problem about?'),
+        widget=forms.RadioSelect()
     )
 
     def __init__(self, *args, **kwargs):
@@ -33,6 +37,9 @@ class YourProblemForm(CheckerWizardMixin, forms.Form):
                 label = mark_safe(u'%s <br> <p class="bs-callout bs-callout-warning">%s</p>' % (label, category['description']))
             return (code, label)
         self.fields['category'].choices = [get_category_choice(cat) for cat in self._categories]
+
+
+        self.fields['category'].collection = self._categories
 
     def _get_category_by_code(self, code):
         for cat in self._categories:

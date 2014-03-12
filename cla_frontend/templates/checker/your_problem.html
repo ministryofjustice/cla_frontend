@@ -14,21 +14,20 @@
 
     {{ wizard.management_form }}
     {{ form.non_field_errors }}
-
     <fieldset class="FormBlock FormBlock--grey">
       <h2>{{ form.category.label }}</h2>
 
       {{ form.category.errors }}
-
       {% for category in form.fields.category.choices %}
         <div class="FormRow FormRow--check {% cycle 'FormRow--odd' 'FormRow--even' %}">
           <label for="{{ form.category.auto_id }}_{{ forloop.counter0 }}">
-            <input type="checkbox" name="{{ form.category.auto_id }}" id="{{ form.category.auto_id }}_{{ forloop.counter0 }}" value="{{ category.0 }}">
+            <input type="radio" name="{{ form.category.html_name }}" id="{{ form.category.auto_id }}_{{ forloop.counter0 }}" value="{{ category.0 }}" {% if category.0 == form.category.value %}checked="checked"{% endif %}>
             {{ category.1 }}
+{#  TODO: Dom do something with this value          <br>{{ category.2 }}#}
           </label>
         </div>
         {% if forloop.counter0|add:1 == form.fields.category.choices|length %}
-        {# this should only show up if last category is selected #}
+        this should only show up if last category is selected
         <div>
             <p>{{ form.your_problem_notes.label_tag }}</p>
 
@@ -36,9 +35,8 @@
             {{ form.your_problem_notes }}
         </div>
         {% endif %}
-      {% endfor %}      
+      {% endfor %}
     </fieldset>
-
     <p>{% trans "If possible, please choose one of the categories above. If you’re really not sure or it doesn’t appear above, you can ask for a call back here." %}</p>
 
     <div class="FormActions">
