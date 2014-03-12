@@ -1,102 +1,50 @@
 {% extends "checker/base.html" %}{% load i18n %}
 
+{% block page_header %}
+
+  <h1>{% trans "Your problem" %}</h1>
+  <p>{% trans "What is your problem about? Choose what is putting you at immediate risk." %}</p>
+
+{% endblock %}
 
 {% block checker_content %}
-<h1>{% trans "Your problem" %}</h1>
-<p>{% trans "What is your problem about? Choose what is putting you at immediate risk." %} </p>
 
-<form action="." method="POST">
+  <form action="." method="POST">
     {% csrf_token %}
+
     {{ wizard.management_form }}
     {{ form.non_field_errors }}
 
-    <div>
-        <h2>{{ form.category.label }}</h2>
+    <fieldset class="FormBlock FormBlock--grey">
+      <h2>{{ form.category.label }}</h2>
 
-        {{ form.category.errors }}
-        {{ form.category }}
-    </div>
+      {{ form.category.errors }}
+
+      {% for category in form.fields.category.choices %}
+        <div class="FormRow FormRow--check {% cycle 'FormRow--odd' 'FormRow--even' %}">
+          <label for="{{ form.category.auto_id }}_{{ forloop.counter0 }}">
+            <input type="checkbox" name="{{ form.category.auto_id }}" id="{{ form.category.auto_id }}_{{ forloop.counter0 }}" value="{{ category.0 }}">
+            {{ category.1 }}
+          </label>
+        </div>
+        {% if forloop.counter0|add:1 == form.fields.category.choices|length %}
+        {# this should only show up if last category is selected #}
+        <div>
+            <p>{{ form.your_problem_notes.label_tag }}</p>
+
+            {{ form.your_problem_notes.errors }}
+            {{ form.your_problem_notes }}
+        </div>
+        {% endif %}
+      {% endfor %}      
+    </fieldset>
 
     <p>{% trans "If possible, please choose one of the categories above. If you’re really not sure or it doesn’t appear above, you can ask for a call back here." %}</p>
 
-    {# this should only show up if last category is selected #}
-    <div>
-        <h2>{{ form.your_problem_notes.label_tag }}</h2>
-
-        {{ form.your_problem_notes.errors }}
-        {{ form.your_problem_notes }}
+    <div class="FormActions">
+      <button type="submit" class="Button">{% trans "Next step - your details" %}</button>
+      <a href="#">Go back to previous step</a>
     </div>
-
-
-
-  {% comment %}
-
-  <ul>
-    <li>
-      <label>
-        <input name="response" type="radio" value="asylum">
-        Applying for asylum or permission to stay in the UK
-      </label>
-    </li>
-    <li>
-      <label>
-        <input name="response" type="radio" value="abuse">
-        Violence and abuse at home
-      </label>
-    </li>
-    <li>
-      <label>
-        <input name="response" type="radio" value="police">
-        In trouble with the police
-      </label>
-    </li>
-    <li>
-      <label>
-        <input name="response" type="radio" value="debt">
-        Debt, money problems and bankruptcy
-      </label>
-      <p class="bs-callout bs-callout-warning">
-        <strong>You may be able to get legal aid if:</strong><br>
-        You owe money to someone who is threatening you with bankruptcy <br>
-        You owe money to an individual or a mortgage lender which is putting your home at risk
-      </p>
-    </li>
-    <li>
-      <label>
-        <input name="response" type="radio" value="family">
-        Family, marriage, separation and children
-      </label>
-    </li>
-    <li>
-      <label>
-        <input name="response" type="radio" value="housing">
-        Housing, eviction and homelessness
-      </label>
-    </li>
-    <li>
-      <label>
-        <input name="response" type="radio" value="welfare">
-        Welfare benefits
-      </label>
-    </li>
-    <li>
-      <label>
-        <input name="response" type="radio" value="unusual">
-        Unusual cases
-      </label>
-    </li>
-    <li>
-      <label>
-        <input name="response" type="radio" value="other">
-        None of the above
-      </label>
-    </li>
-  </ul>
-  {% endcomment %}
-
-  <div>
-    <button type="submit" class="btn btn-success">{% trans "Next step - your details" %}</button>
-  </div>
-</form>
+  </form>
 
 {% endblock %}

@@ -1,0 +1,44 @@
+
+.FormBlock {
+  margin: 0;
+
+  &.FormBlock--grey {
+    padding: 25px 50px;
+    background-color: $grey-4;
+  }
+}
+
+.FormRow {
+  padding: 24px;
+  margin: 0 0 1px;
+
+  &.FormRow--check,
+  &.FormRow--radio    {
+    padding: 0;
+
+    label {
+      padding: 24px;
+      display: block;
+    }
+
+    &.is-selected {
+      label {
+        background-color: #D5E8F4;
+      }
+    }
+  }
+
+  &.FormRow--odd {
+    background-color: #f1f1f1;
+  }
+  &.FormRow--even {
+    
+  }    
+}
+
+.FormActions {
+
+  .Button {
+    margin-right: 20px;
+  }
+}
