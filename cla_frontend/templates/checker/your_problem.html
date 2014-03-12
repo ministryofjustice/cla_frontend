@@ -15,7 +15,7 @@
     {{ wizard.management_form }}
     {{ form.non_field_errors }}
     <fieldset class="FormBlock FormBlock--grey">
-      <h2>{{ form.category.label }}</h2>
+      <p>{{ form.category.label }}</p>
 
       {{ form.category.errors }}
       {% for category in form.fields.category.choices %}
