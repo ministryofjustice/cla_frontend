@@ -26,7 +26,7 @@
       content: "";
       display: block;
       background: url(../images/progress-indicator/chevron.png) right center no-repeat;
-      height: 51px;
+      height: 100%;
       width: 15px;
       position: absolute;
       z-index: 10;
@@ -44,6 +44,7 @@
 
     &.is-complete {
       color: #248BC7;
+      font-weight: 700;
       a {
         color: #248BC7;
         text-decoration: none;
@@ -55,6 +56,7 @@
 
     &.is-active {
       color: #fff;
+      font-weight: 700;
       background-color: #248BC7;
       a {
         color: #fff;
