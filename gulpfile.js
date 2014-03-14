@@ -8,6 +8,7 @@ var paths = {
   scripts: [
     'cla_frontend/assets-src/javascripts/modules/moj.LabelFocus.js',
     'cla_frontend/assets-src/javascripts/modules/moj.LabelSelect.js',
+    'cla_frontend/assets-src/javascripts/modules/moj.Conditional.js',
     'cla_frontend/assets-src/javascripts/cla.main.js'
   ],
   images: 'cla_frontend/assets-src/images/**/*'
