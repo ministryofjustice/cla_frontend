@@ -1,3 +1,5 @@
+/* globals _ */
+
 (function () {
   'use strict';
 
@@ -5,43 +7,38 @@
     el: '.js-Conditional',
 
     init: function () {
-      var _this = this;
-
+      _.bindAll(this, 'render');
       this.cacheEls();
       this.bindEvents();
-
-      this.$conditionals.each(function () {
-        _this.toggleEl($(this));
-      });
     },
 
     bindEvents: function () {
-      var _this = this;
-
-      // set focused selector to parent label
-      this.$conditionals
-        .on('change', function () {
-          _this.toggleEl($(this));
-
-          // trigger a deselect event
-          $('input[name="' + $(this).attr('name') + '"]').not($(this)).trigger('deselect');
-        })
-        .on('deselect', function () {
-          _this.toggleEl($(this));
-        });
+      this.$conditionals.on('change deselect', this.toggle);
+      moj.Events.on('render', this.render);
     },
 
     cacheEls: function () {
       this.$conditionals = $(this.el);
     },
 
-    toggleEl: function (el) {
-      var $el = el,
+    render: function () {
+      this.$conditionals.each(this.toggle);
+    },
+
+    toggle: function (e) {
+      var $el = $(this),
           $conditionalEl = $('#' + $el.data('conditionalEl'));
 
+      // trigger a deselect event if a change event occured
+      if (e.type === 'change') {
+        $('input[name="' + $el.attr('name') + '"]').not($el).trigger('deselect');
+      }
+
+      // if a conditional element has been set, run the checks
       if ($el.data('conditionalEl')) {
         $el.attr('aria-control', $el.data('conditionalEl'));
 
+        // if checked show/hide the extra content
         if($el.is(':checked')){
           $conditionalEl.show();
           $conditionalEl.attr('aria-expanded', 'true').attr('aria-hidden', 'false');
