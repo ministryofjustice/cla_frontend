@@ -1,4 +1,3 @@
-
 .FormBlock {
   margin: 0;
 
@@ -13,53 +12,62 @@
 }
 
 .FormRow {
-  padding: 24px;
+  padding: 25px;
   margin: 0 0 1px;
   position: relative;
 
-  label {
+  .FormRow-label {
     @include core-19;
+
+    &.FormRow-label--odd {
+      background-color: #f1f1f1;
+    }
   }
 
-  &.FormRow--check,
-  &.FormRow--radio    {
+  .FormRow-inner {
+    border-left: 3px solid #ccc;
+    padding: 10px 60px;
+  }
+
+  &.FormRow--group {
     padding: 0;
 
-    input {
-      margin-right: 15px;
-    }
-
-    label {
-      padding: 24px;
+    .FormRow-label {
+      padding: 25px;
       display: block;
-    }
+      position: relative;
 
-    &.is-selected {
-      label {
+      input {
+        margin-right: 20px;
+      }
+
+      &.is-selected {
         background-color: #D5E8F4;
+      }
+
+      &.is-focused {
+        outline: 3px solid $yellow;
+        position: relative;
+        z-index: 1;
+
+        input:focus {
+          outline: none;
+          background: none;
+        }
       }
     }
   }
 
-  &.FormRow--odd {
-    background-color: #f1f1f1;
-  }
-  &.FormRow--even {
-    
-  }
-
   details {
-
     summary {
       position: absolute;
-      right: 24px;
+      right: 25px;
       top: 25px;
     }
   }
 }
 
 .FormActions {
-
   .Button {
     margin-right: 20px;
   }
