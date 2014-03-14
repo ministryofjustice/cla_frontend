@@ -1,5 +1,7 @@
 {% extends "base.html" %}{% load i18n helpers static %}
 
+{% block page_title %}Civil Legal Aid{% endblock %}
+
 {% block stylesheets %}
   <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet"><!--<![endif]-->
   <!--[if IE 6]><link href="{% static 'stylesheets/cla.main-ie6.css' %}" media="screen" rel="stylesheet"><![endif]-->
@@ -8,6 +10,7 @@
 {% endblock %}
 
 {% block javascripts %}
+  <script src="{% static 'javascripts/vendor.js' %}"></script>
   <script src="{% static 'javascripts/cla.main.js' %}"></script>
 {% endblock %}
 

@@ -1,0 +1,8 @@
+{
+  "name": "cla-frontend",
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "lodash": "~2.4.1"
+  }
+}
