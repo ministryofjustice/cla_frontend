@@ -1,4 +1,3 @@
-
 .FormBlock {
   margin: 0;
 
@@ -36,6 +35,7 @@
     .FormRow-label {
       padding: 25px;
       display: block;
+      position: relative;
 
       input {
         margin-right: 20px;
@@ -44,9 +44,16 @@
       &.is-selected {
         background-color: #D5E8F4;
       }
-      &:focus {
-        background-color: #ffbf47;
-        outline: 3px solid #ffbf47;
+
+      &.is-focused {
+        outline: 3px solid $yellow;
+        position: relative;
+        z-index: 1;
+
+        input:focus {
+          outline: none;
+          background: none;
+        }
       }
     }
   }
