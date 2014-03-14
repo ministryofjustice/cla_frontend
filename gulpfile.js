@@ -8,8 +8,10 @@ var paths = {
   scripts: [
     'cla_frontend/assets-src/javascripts/modules/moj.LabelFocus.js',
     'cla_frontend/assets-src/javascripts/modules/moj.LabelSelect.js',
-    'cla_frontend/assets-src/javascripts/modules/moj.Conditional.js',
-    'cla_frontend/assets-src/javascripts/cla.main.js'
+    'cla_frontend/assets-src/javascripts/modules/moj.Conditional.js'
+  ],
+  vendor_scripts: [
+    'cla_frontend/assets-src/vendor/lodash/dist/lodash.min.js'
   ],
   images: 'cla_frontend/assets-src/images/**/*'
 };
@@ -25,6 +27,11 @@ gulp.task('sass', function() {
 gulp.task('js', function() {
   return gulp.src(paths.scripts)
               .pipe(plugins.concat('cla.main.js'))
+              .pipe(gulp.dest(paths.dest_dir + 'javascripts'));
+});
+gulp.task('js:vendor', function() {
+  return gulp.src(paths.vendor_scripts)
+              .pipe(plugins.concat('vendor.js'))
               .pipe(gulp.dest(paths.dest_dir + 'javascripts'));
 });
 
@@ -51,4 +58,4 @@ gulp.task('watch', function() {
 
 // setup default tasks
 gulp.task('default', ['build']);
-gulp.task('build', ['sass', 'js', 'lint', 'images']);
+gulp.task('build', ['sass', 'js', 'js:vendor', 'lint', 'images']);
