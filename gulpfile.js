@@ -8,10 +8,12 @@ var paths = {
   scripts: [
     'cla_frontend/assets-src/javascripts/modules/moj.LabelFocus.js',
     'cla_frontend/assets-src/javascripts/modules/moj.LabelSelect.js',
-    'cla_frontend/assets-src/javascripts/modules/moj.Conditional.js'
+    'cla_frontend/assets-src/javascripts/modules/moj.Conditional.js',
+    'cla_frontend/assets-src/javascripts/modules/moj.Shame.js'
   ],
   vendor_scripts: [
-    'cla_frontend/assets-src/vendor/lodash/dist/lodash.min.js'
+    'cla_frontend/assets-src/vendor/lodash/dist/lodash.min.js',
+    'cla_frontend/assets-src/vendor/jquery-details/jquery.details.min.js'
   ],
   images: 'cla_frontend/assets-src/images/**/*'
 };
