@@ -5,4 +5,4 @@ from django.template import RequestContext
 
 @login_required
 def dashboard(request):
-    return render_to_response('call_centre/dashboard.html', {}, RequestContext(request))
+    return render_to_response('cla_provider/dashboard.html', {}, RequestContext(request))
