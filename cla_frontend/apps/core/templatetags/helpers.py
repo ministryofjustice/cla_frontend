@@ -1,8 +1,10 @@
 from django import template
 from django.template.defaultfilters import stringfilter
+
 from numbers import Number
 
 register = template.Library()
+
 
 @stringfilter
 def unslug(name):

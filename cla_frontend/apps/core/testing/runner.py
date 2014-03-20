@@ -11,7 +11,9 @@ class NoDbTestRunner(DiscoverRunner):
 
     def build_suite(self, test_labels=None, extra_tests=None, **kwargs):
         test_labels = test_labels or ['apps']
-        return super(NoDbTestRunner, self).build_suite(test_labels=test_labels, extra_tests=extra_tests, **kwargs)
+        return super(NoDbTestRunner, self).build_suite(
+            test_labels=test_labels, extra_tests=extra_tests, **kwargs
+        )
 
     def setup_databases(self, **kwargs):
         """ Override the database creation defined in parent class """

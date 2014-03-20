@@ -152,7 +152,6 @@ PROJECT_APPS = (
     'moj_template',
     'cla_auth',
     'core',
-    'checker',
     'call_centre'
 )
 
