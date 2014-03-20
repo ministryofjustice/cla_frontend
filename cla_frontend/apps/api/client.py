@@ -1,3 +1,4 @@
+import urllib
 import slumber
 
 from django.conf import settings
@@ -13,6 +14,24 @@ def get_connection(session=None):
 
 connection = slumber.API(BASE_URI)
 
+
+class FormSerializer(slumber.serialize.JsonSerializer):
+    key = "form"
+    content_types = ["application/x-www-form-urlencoded", "application/json"]
+
+    def dumps(self, data):
+        return urllib.urlencode(data)
+
+
+def get_auth_connection():
+    s = slumber.serialize.Serializer(
+        default="form",
+        serializers=[
+            FormSerializer(),
+        ]
+    )
+
+    return slumber.API('http://127.0.0.1:8000/', serializer=s)
 
 
 class Resource(object):
