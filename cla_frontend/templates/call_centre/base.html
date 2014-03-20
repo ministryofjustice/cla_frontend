@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ul>
+        <li><a href="{% url 'account:logout' %}">Logout</a></li>
+    </ul>
+
+    {% block call_centre_content %}{% endblock call_centre_content %}
+{% endblock content %}

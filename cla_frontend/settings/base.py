@@ -197,7 +197,8 @@ AUTH_USER_MODEL = 'cla_auth.ClaUser'
 AUTHENTICATION_BACKENDS = (
     'cla_auth.backend.ClaBackend',
 )
-LOGIN_REDIRECT_URL = 'cla_auth.views.login_redirect_url'
+# LOGIN_REDIRECT_URL = 'cla_auth.views.login_redirect_url'
+LOGIN_REDIRECT_URL = '/call_centre/'
 
 
 # EMAILS
