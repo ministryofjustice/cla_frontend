@@ -32,7 +32,7 @@ class AuthenticationForm(forms.Form):
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
                     code='invalid_login',
-                    params={'username': self.username_field.verbose_name},
+                    params={'username': 'username'},
                 )
         return self.cleaned_data
 
