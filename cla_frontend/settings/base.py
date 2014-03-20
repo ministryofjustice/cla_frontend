@@ -152,7 +152,8 @@ PROJECT_APPS = (
     'moj_template',
     'cla_auth',
     'core',
-    'call_centre'
+    'call_centre',
+    'cla_provider'
 )
 
 INSTALLED_APPS += PROJECT_APPS
@@ -189,16 +190,20 @@ LOGGING = {
 
 BACKEND_BASE_URI = 'http://127.0.0.1:8000'
 
-AUTH_CLIENT_ID = 'b4b9220ffcb11ebfdab1'
-AUTH_CLIENT_SECRET = '2df71313bdd38a2e1b815015e1b14387e7681d41'
+# AUTH_CLIENT_ID = 'b4b9220ffcb11ebfdab1'
+# AUTH_CLIENT_SECRET = '2df71313bdd38a2e1b815015e1b14387e7681d41'
+# LOGIN_REDIRECT_URL = '/call_centre/'
+# LOGIN_REDIRECT_URL = 'cla_auth.views.login_redirect_url'
+
+AUTH_CLIENT_ID = '59657ed22d980251cdd3'
+AUTH_CLIENT_SECRET = '0494287c65bdf61d29f0eeed467ec8e090f0d80f'
+LOGIN_REDIRECT_URL = '/provider/'
 
 AUTH_USER_MODEL = 'cla_auth.ClaUser'
 
 AUTHENTICATION_BACKENDS = (
     'cla_auth.backend.ClaBackend',
 )
-# LOGIN_REDIRECT_URL = 'cla_auth.views.login_redirect_url'
-LOGIN_REDIRECT_URL = '/call_centre/'
 
 
 # EMAILS
