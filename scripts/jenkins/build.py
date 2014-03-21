@@ -4,7 +4,7 @@ import subprocess
 import os
 import sys
 
-PROJECT_NAME = "cla_backend"
+PROJECT_NAME = "cla_frontend"
 
 # use python scripts/jenkins/build.py integration
 
