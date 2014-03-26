@@ -208,7 +208,8 @@ AUTH_APPS_PROFILES = {
 AUTH_USER_MODEL = 'cla_auth.ClaUser'
 
 AUTHENTICATION_BACKENDS = (
-    'cla_auth.backend.ClaBackend',
+    'cla_auth.backend.CallCentreBackend',
+    'cla_auth.backend.ClaProviderBackend',
 )
 
 

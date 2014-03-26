@@ -2,8 +2,8 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
-from . import utils
-from .backend import ClaBackend
+from . import authenticate
+from .utils import get_auth_profile
 
 
 class AuthenticationForm(forms.Form):
@@ -30,9 +30,8 @@ class AuthenticationForm(forms.Form):
         password = self.cleaned_data.get('password')
 
         if username and password:
-            self.user_cache = utils.authenticate(
-                username=username, password=password,
-                auth_app=self.auth_app
+            self.user_cache = authenticate(
+                self.auth_app, username=username, password=password,
             )
 
             if self.user_cache is None:
@@ -52,4 +51,6 @@ class AuthenticationForm(forms.Form):
         return self.user_cache
 
     def get_login_redirect_url(self):
-        return utils.get_login_redirect_url(self.auth_app)
+        auth_profile =  get_auth_profile(self.auth_app)
+        return reverse(auth_profile['LOGIN_REDIRECT_URL'])
+        return self.request.user.backend.get_login_redirect_url()

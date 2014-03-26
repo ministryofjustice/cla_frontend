@@ -1,13 +1,15 @@
+import sys
 import json
 import logging
 from requests import ConnectionError
 from slumber.exceptions import HttpClientError
+
 from django.conf import settings
-from django.core.urlresolvers import reverse
 
 from api.client import get_auth_connection
 
 from .models import ClaUser
+from .utils import get_auth_profile
 
 logger = logging.getLogger(__name__)
 
@@ -15,10 +17,10 @@ logger = logging.getLogger(__name__)
 class ClaBackend(object):
     """
     """
+    auth_app = None
 
-    def authenticate(self, username=None, password=None, auth_app=None):
-        auth_profile = settings.AUTH_APPS_PROFILES.get(auth_app)
-
+    def authenticate(self, username=None, password=None):
+        auth_profile = get_auth_profile(self.auth_app)
         if not auth_profile:
             return None
 
@@ -53,12 +55,26 @@ class ClaBackend(object):
     def get_user(self, token):
         return ClaUser(token)
 
-    def get_login_redirect_url(self, auth_app):
-        auth_profile = settings.AUTH_APPS_PROFILES.get(auth_app)
-        return reverse(auth_profile['LOGIN_REDIRECT_URL'])
+
+def to_camelcase(string):
+    class_ = string.__class__
+    return class_.join('', map(class_.capitalize, string.split('_')))
 
 
-# import sys
-# for name in ['ClaProviderBackend']:
-#     backend = type(name, (), {})
-#     setattr(sys.modules[__name__], backend.__name__, backend)
+backends = []
+
+for auth_app in settings.AUTH_APPS_PROFILES:
+    backend_name = '%sBackend' % to_camelcase(auth_app)
+    backendClazz = type(backend_name, (ClaBackend,), {
+        'auth_app': auth_app
+    })
+    setattr(sys.modules[__name__], backendClazz.__name__, backendClazz)
+
+    backends.append(backendClazz)
+
+
+def get_backend_class(auth_app):
+    for backendClazz in backends:
+        if backendClazz.auth_app == auth_app:
+            return backendClazz
+    return None
