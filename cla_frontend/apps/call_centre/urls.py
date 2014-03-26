@@ -9,7 +9,7 @@ from . import views
 
 urlpatterns = patterns('',
     url(r'^login/$', auth_views.login, {
-        'auth_app': 'call_centre'
+        'zone_name': 'call_centre'
     }, name='login'),
 
     url(r'^logout/$', django_views.logout, {

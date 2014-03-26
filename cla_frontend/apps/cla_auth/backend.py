@@ -9,7 +9,7 @@ from django.conf import settings
 from api.client import get_auth_connection
 
 from .models import ClaUser
-from .utils import get_auth_profile
+from .utils import get_zone_profile
 
 logger = logging.getLogger(__name__)
 
@@ -17,10 +17,10 @@ logger = logging.getLogger(__name__)
 class ClaBackend(object):
     """
     """
-    auth_app = None
+    zone_name = None
 
     def authenticate(self, username=None, password=None):
-        auth_profile = get_auth_profile(self.auth_app)
+        auth_profile = get_zone_profile(self.zone_name)
         if not auth_profile:
             return None
 
@@ -63,18 +63,18 @@ def to_camelcase(string):
 
 backends = []
 
-for auth_app in settings.AUTH_APPS_PROFILES:
-    backend_name = '%sBackend' % to_camelcase(auth_app)
+for zone_name in settings.ZONE_PROFILES:
+    backend_name = '%sBackend' % to_camelcase(zone_name)
     backendClazz = type(backend_name, (ClaBackend,), {
-        'auth_app': auth_app
+        'zone_name': zone_name
     })
     setattr(sys.modules[__name__], backendClazz.__name__, backendClazz)
 
     backends.append(backendClazz)
 
 
-def get_backend_class(auth_app):
+def get_backend_class(zone_name):
     for backendClazz in backends:
-        if backendClazz.auth_app == auth_app:
+        if backendClazz.zone_name == zone_name:
             return backendClazz
     return None

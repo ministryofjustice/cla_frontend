@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
 from . import authenticate
-from .utils import get_auth_profile
+from .utils import get_zone_profile
 
 
 class AuthenticationForm(forms.Form):
@@ -22,7 +22,7 @@ class AuthenticationForm(forms.Form):
         """
         self.request = request
         self.user_cache = None
-        self.auth_app = kwargs.pop('auth_app', None)
+        self.zone_name = kwargs.pop('zone_name', None)
         super(AuthenticationForm, self).__init__(*args, **kwargs)
 
     def clean(self):
@@ -31,7 +31,7 @@ class AuthenticationForm(forms.Form):
 
         if username and password:
             self.user_cache = authenticate(
-                self.auth_app, username=username, password=password,
+                self.zone_name, username=username, password=password,
             )
 
             if self.user_cache is None:
@@ -51,6 +51,6 @@ class AuthenticationForm(forms.Form):
         return self.user_cache
 
     def get_login_redirect_url(self):
-        auth_profile =  get_auth_profile(self.auth_app)
+        auth_profile =  get_zone_profile(self.zone_name)
         return reverse(auth_profile['LOGIN_REDIRECT_URL'])
         return self.request.user.backend.get_login_redirect_url()

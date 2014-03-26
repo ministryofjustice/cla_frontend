@@ -116,6 +116,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cla_auth.middleware.ZoneMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS =  (
@@ -190,17 +191,19 @@ LOGGING = {
 
 BACKEND_BASE_URI = 'http://127.0.0.1:8000'
 
-AUTH_APPS_PROFILES = {
+ZONE_PROFILES = {
     'call_centre': {
         'CLIENT_ID': 'b4b9220ffcb11ebfdab1',
         'CLIENT_SECRET': '2df71313bdd38a2e1b815015e1b14387e7681d41',
-        'LOGIN_REDIRECT_URL': 'call_centre:dashboard'
+        'LOGIN_REDIRECT_URL': 'call_centre:dashboard',
+        'BASE_URI': '%s/call_centre/api/v1/' % BACKEND_BASE_URI
     },
 
     'cla_provider': {
         'CLIENT_ID': '59657ed22d980251cdd3',
         'CLIENT_SECRET': '0494287c65bdf61d29f0eeed467ec8e090f0d80f',
-        'LOGIN_REDIRECT_URL': 'cla_provider:dashboard'
+        'LOGIN_REDIRECT_URL': 'cla_provider:dashboard',
+        'BASE_URI': '%s/cla_provider/api/v1/' % BACKEND_BASE_URI
     }
 }
 # LOGIN_REDIRECT_URL = 'cla_auth.views.login_redirect_url'

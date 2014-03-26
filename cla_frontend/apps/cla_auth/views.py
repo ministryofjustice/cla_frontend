@@ -24,7 +24,7 @@ from .forms import AuthenticationForm
 def login(request, template_name='accounts/login.html',
           redirect_field_name=REDIRECT_FIELD_NAME,
           authentication_form=AuthenticationForm,
-          current_app=None, extra_context=None, auth_app=None):
+          current_app=None, extra_context=None, zone_name=None):
     """
     Displays the login form and handles the login action.
     """
@@ -32,7 +32,7 @@ def login(request, template_name='accounts/login.html',
 
     if request.method == "POST":
         form = authentication_form(
-            request, data=request.POST, auth_app=auth_app
+            request, data=request.POST, zone_name=zone_name
         )
         if form.is_valid():
 
@@ -45,7 +45,7 @@ def login(request, template_name='accounts/login.html',
 
             return HttpResponseRedirect(redirect_to)
     else:
-        form = authentication_form(request, auth_app=auth_app)
+        form = authentication_form(request, zone_name=zone_name)
 
     current_site = get_current_site(request)
 

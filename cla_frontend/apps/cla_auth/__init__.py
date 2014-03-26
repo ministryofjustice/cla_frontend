@@ -1,16 +1,18 @@
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.signals import user_login_failed
-from django.contrib.auth import _clean_credentials
+from django.contrib.auth import _clean_credentials, BACKEND_SESSION_KEY, load_backend
+from django.conf import settings
 
 from .backend import get_backend_class
+from .utils import get_zone_profile
 
 
-def authenticate(auth_app, **credentials):
+def authenticate(zone_name, **credentials):
     """
     If the given credentials are valid, return a User object.
     """
 
-    backend = get_backend_class(auth_app)()
+    backend = get_backend_class(zone_name)()
     user = None
     try:
         user = backend.authenticate(**credentials)
@@ -29,3 +31,15 @@ def authenticate(auth_app, **credentials):
     # The credentials supplied are invalid to all backends, fire signal
     user_login_failed.send(sender=__name__,
             credentials=_clean_credentials(credentials))
+
+
+def get_zone(request):
+    try:
+        backend_path = request.session[BACKEND_SESSION_KEY]
+        assert backend_path in settings.AUTHENTICATION_BACKENDS
+        backend = load_backend(backend_path)
+
+        return get_zone_profile(backend.zone_name)
+    except (KeyError, AssertionError):
+        return None
+    return None

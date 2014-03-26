@@ -1,5 +1,5 @@
 from django.conf import settings
 
 
-def get_auth_profile(auth_app):
-    return settings.AUTH_APPS_PROFILES.get(auth_app)
+def get_zone_profile(zone_name):
+    return settings.ZONE_PROFILES.get(zone_name)
