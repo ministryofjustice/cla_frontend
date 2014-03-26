@@ -1,5 +1,6 @@
 from requests.auth import AuthBase
 
+
 class BearerTokenAuth(AuthBase):
     """
     Attaches the Bearer token to the request

@@ -1,6 +1,9 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import authenticate
+from django.core.urlresolvers import reverse
+
+from . import utils
+from .backend import ClaBackend
 
 
 class AuthenticationForm(forms.Form):
@@ -19,6 +22,7 @@ class AuthenticationForm(forms.Form):
         """
         self.request = request
         self.user_cache = None
+        self.auth_app = kwargs.pop('auth_app', None)
         super(AuthenticationForm, self).__init__(*args, **kwargs)
 
     def clean(self):
@@ -26,8 +30,11 @@ class AuthenticationForm(forms.Form):
         password = self.cleaned_data.get('password')
 
         if username and password:
-            self.user_cache = authenticate(username=username,
-                                           password=password)
+            self.user_cache = utils.authenticate(
+                username=username, password=password,
+                auth_app=self.auth_app
+            )
+
             if self.user_cache is None:
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
@@ -43,3 +50,6 @@ class AuthenticationForm(forms.Form):
 
     def get_user(self):
         return self.user_cache
+
+    def get_login_redirect_url(self):
+        return utils.get_login_redirect_url(self.auth_app)

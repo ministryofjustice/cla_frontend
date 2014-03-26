@@ -1,8 +1,9 @@
 import json
-from requests import ConnectionError
 import logging
-from django.conf import settings
+from requests import ConnectionError
 from slumber.exceptions import HttpClientError
+from django.conf import settings
+from django.core.urlresolvers import reverse
 
 from api.client import get_auth_connection
 
@@ -10,17 +11,23 @@ from .models import ClaUser
 
 logger = logging.getLogger(__name__)
 
+
 class ClaBackend(object):
     """
     """
-    def authenticate(self, username=None, password=None):
+
+    def authenticate(self, username=None, password=None, auth_app=None):
+        auth_profile = settings.AUTH_APPS_PROFILES.get(auth_app)
+
+        if not auth_profile:
+            return None
 
         connection = get_auth_connection()
         response = None
         try:
             response = connection.oauth2.access_token.post({
-                'client_id': settings.AUTH_CLIENT_ID,
-                'client_secret': settings.AUTH_CLIENT_SECRET,
+                'client_id': auth_profile['CLIENT_ID'],
+                'client_secret': auth_profile['CLIENT_SECRET'],
                 'grant_type': 'password',
                 'username': username,
                 'password': password
@@ -45,3 +52,13 @@ class ClaBackend(object):
 
     def get_user(self, token):
         return ClaUser(token)
+
+    def get_login_redirect_url(self, auth_app):
+        auth_profile = settings.AUTH_APPS_PROFILES.get(auth_app)
+        return reverse(auth_profile['LOGIN_REDIRECT_URL'])
+
+
+# import sys
+# for name in ['ClaProviderBackend']:
+#     backend = type(name, (), {})
+#     setattr(sys.modules[__name__], backend.__name__, backend)
