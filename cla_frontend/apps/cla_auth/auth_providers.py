@@ -9,3 +9,4 @@ class BearerTokenAuth(AuthBase):
 
     def __call__(self, request):
         request.headers['Authorization'] = 'Bearer %s' % self.token
+        return request

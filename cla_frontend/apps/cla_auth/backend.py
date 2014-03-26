@@ -33,7 +33,7 @@ class ClaBackend(object):
             error = error.get('error')
             if error == u'invalid_client':
                 # the client is invalid log it
-                "Client used to authenticate with backend is invalid. {}: {}".format(hcerr.message, error)
+                "Client used to authenticate with backend is invalid. {}: {}".format(hcerr, error)
                 logger.error(hcerr.message)
                 return
             elif error == u'invalid_grant':
