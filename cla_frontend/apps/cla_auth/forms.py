@@ -51,6 +51,7 @@ class AuthenticationForm(forms.Form):
         return self.user_cache
 
     def get_login_redirect_url(self):
-        auth_profile =  get_zone_profile(self.zone_name)
-        return reverse(auth_profile['LOGIN_REDIRECT_URL'])
-        return self.request.user.backend.get_login_redirect_url()
+        zone_profile =  get_zone_profile(self.zone_name)
+        if not zone_profile:
+            return None
+        return reverse(zone_profile['LOGIN_REDIRECT_URL'])
