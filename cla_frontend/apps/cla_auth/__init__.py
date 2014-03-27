@@ -3,7 +3,7 @@ from django.contrib.auth.signals import user_login_failed
 from django.contrib.auth import _clean_credentials, BACKEND_SESSION_KEY, load_backend
 from django.conf import settings
 
-from .backend import get_backend_class
+from .backend import get_backend
 from .utils import get_zone_profile
 
 
@@ -12,7 +12,7 @@ def authenticate(zone_name, **credentials):
     If the given credentials are valid, return a User object.
     """
 
-    backend = get_backend_class(zone_name)()
+    backend = get_backend(zone_name)
     user = None
     try:
         user = backend.authenticate(**credentials)

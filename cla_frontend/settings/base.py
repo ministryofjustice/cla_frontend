@@ -196,24 +196,25 @@ ZONE_PROFILES = {
         'CLIENT_ID': 'b4b9220ffcb11ebfdab1',
         'CLIENT_SECRET': '2df71313bdd38a2e1b815015e1b14387e7681d41',
         'LOGIN_REDIRECT_URL': 'call_centre:dashboard',
-        'BASE_URI': '%s/call_centre/api/v1/' % BACKEND_BASE_URI
+        'BASE_URI': '%s/call_centre/api/v1/' % BACKEND_BASE_URI,
+        'AUTHENTICATION_BACKEND': 'call_centre.backend.CallCentreBackend'
     },
 
     'cla_provider': {
         'CLIENT_ID': '59657ed22d980251cdd3',
         'CLIENT_SECRET': '0494287c65bdf61d29f0eeed467ec8e090f0d80f',
         'LOGIN_REDIRECT_URL': 'cla_provider:dashboard',
-        'BASE_URI': '%s/cla_provider/api/v1/' % BACKEND_BASE_URI
+        'BASE_URI': '%s/cla_provider/api/v1/' % BACKEND_BASE_URI,
+        'AUTHENTICATION_BACKEND': 'cla_provider.backend.ClaProviderBackend'
     }
 }
 # LOGIN_REDIRECT_URL = 'cla_auth.views.login_redirect_url'
 
 AUTH_USER_MODEL = 'cla_auth.ClaUser'
+LOGIN_URL = 'auth:global_login'
 
-AUTHENTICATION_BACKENDS = (
-    'cla_auth.backend.CallCentreBackend',
-    'cla_auth.backend.ClaProviderBackend',
-)
+# AUTHENTICATION_BACKENDS from ZONE_PROFILES
+AUTHENTICATION_BACKENDS = [v['AUTHENTICATION_BACKEND'] for k,v in ZONE_PROFILES.items()]
 
 
 # EMAILS

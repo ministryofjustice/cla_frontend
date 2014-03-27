@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        <h2>Call Centre Login</h2>
+        <p>
+            To login as an operator, click <a href="{% url 'call_centre:login' %}">here.</a>
+        </p>
+    </section>
+
+    <section>
+        <h2>Providers Login</h2>
+        <p>
+            To login as a specialist, click <a href="{% url 'cla_provider:login' %}">here.</a>
+        </p>
+    </section>
+
+{% endblock content %}

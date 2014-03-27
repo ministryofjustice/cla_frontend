@@ -1,10 +1,9 @@
-import sys
 import json
 import logging
 from requests import ConnectionError
 from slumber.exceptions import HttpClientError
 
-from django.conf import settings
+from django.contrib.auth import load_backend
 
 from api.client import get_auth_connection
 
@@ -20,16 +19,16 @@ class ClaBackend(object):
     zone_name = None
 
     def authenticate(self, username=None, password=None):
-        auth_profile = get_zone_profile(self.zone_name)
-        if not auth_profile:
+        zone_profile = get_zone_profile(self.zone_name)
+        if not zone_profile:
             return None
 
         connection = get_auth_connection()
         response = None
         try:
             response = connection.oauth2.access_token.post({
-                'client_id': auth_profile['CLIENT_ID'],
-                'client_secret': auth_profile['CLIENT_SECRET'],
+                'client_id': zone_profile['CLIENT_ID'],
+                'client_secret': zone_profile['CLIENT_SECRET'],
                 'grant_type': 'password',
                 'username': username,
                 'password': password
@@ -56,25 +55,11 @@ class ClaBackend(object):
         return ClaUser(token)
 
 
-def to_camelcase(string):
-    class_ = string.__class__
-    return class_.join('', map(class_.capitalize, string.split('_')))
+def get_backend(zone_name):
+    zone_profile = get_zone_profile(zone_name)
+    if not zone_profile:
+        return None
 
-
-backends = []
-
-for zone_name in settings.ZONE_PROFILES:
-    backend_name = '%sBackend' % to_camelcase(zone_name)
-    backendClazz = type(backend_name, (ClaBackend,), {
-        'zone_name': zone_name
-    })
-    setattr(sys.modules[__name__], backendClazz.__name__, backendClazz)
-
-    backends.append(backendClazz)
-
-
-def get_backend_class(zone_name):
-    for backendClazz in backends:
-        if backendClazz.zone_name == zone_name:
-            return backendClazz
-    return None
+    backend_path = zone_profile['AUTHENTICATION_BACKEND']
+    backendClazz = load_backend(backend_path)
+    return backendClazz
