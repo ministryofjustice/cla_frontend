@@ -18,4 +18,6 @@ urlpatterns = patterns('',
 
 
     url(r'^$', views.dashboard, name='dashboard'),
+    url(r'^case/edit/$', views.create_case, name='create_case'),
+    url(r'^case/(?P<case_ref>.+)/edit/$', views.edit_case, name='edit_case'),
 )

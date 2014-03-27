@@ -2,4 +2,15 @@
 
 {% block call_centre_content %}
     Call Centre - You are logged in
+
+    <h1>List of Cases</h1>
+    <ul>
+    {% for case in cases %}
+    <li>{{ case.reference }}</li>
+    {% endfor %}
+    </ul>
+    <form action="{% url 'call_centre:create_case' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="create a new case">
+    </form>
 {% endblock call_centre_content %}

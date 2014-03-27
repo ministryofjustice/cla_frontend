@@ -1,0 +1,11 @@
+{% extends "call_centre/base.html" %}
+
+{% block call_centre_content %}
+
+    <h1>Edit case:</h1>
+    <form method="post" action=".">
+    {% csrf_token %}
+        {{ form.as_p }}
+    <input type="submit" value="submit">
+    </form>
+{% endblock call_centre_content %}
