@@ -2,7 +2,7 @@
 
 {% block call_centre_content %}
 
-    <h1>Edit case:</h1>
+    <h1>Edit case: {{ case_reference }}</h1>
     <form method="post" action=".">
     {% csrf_token %}
         {{ form.as_p }}

@@ -1,13 +1,30 @@
 {% extends "call_centre/base.html" %}
+{% load humanize helpers %}
 
 {% block call_centre_content %}
     Call Centre - You are logged in
 
     <h1>List of Cases</h1>
     <ul>
-    {% for case in cases %}
-    <li>{{ case.reference }}</li>
-    {% endfor %}
+        <table>
+        <thead>
+            <tr>
+                <th>Reference
+                <th>Created
+                <th>Modified
+                <th>Edit
+        </thead>
+        <tbody>
+
+        {% for case in cases %}
+            <tr>
+                <td>{{ case.reference}}
+                <td>{{ case.created|as_date|naturaltime }}
+                <td>{{ case.modified|as_date|naturaltime }}
+                <td><a href="{% url 'call_centre:edit_case' case.reference %}">Edit</a>
+        {% endfor %}
+        </tbody>
+        </table>
     </ul>
     <form action="{% url 'call_centre:create_case' %}" method="post">
         {% csrf_token %}
