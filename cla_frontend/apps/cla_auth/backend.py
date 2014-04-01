@@ -35,7 +35,7 @@ class ClaBackend(object):
             })
         except ConnectionError as conerr:
             # the server is down
-            pass
+            return
         except HttpClientError as hcerr:
             error = json.loads(hcerr.content)
             error = error.get('error')
@@ -43,10 +43,7 @@ class ClaBackend(object):
                 # the client is invalid log it
                 "Client used to authenticate with backend is invalid. {}: {}".format(hcerr, error)
                 logger.error(hcerr.message)
-                return
-            elif error == u'invalid_grant':
-                # the password was wrong - just return None
-                return
+            return
 
         user = ClaUser(response['access_token'])
         return user

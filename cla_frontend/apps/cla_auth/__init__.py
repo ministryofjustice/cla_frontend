@@ -13,14 +13,17 @@ def authenticate(zone_name, **credentials):
     """
 
     backend = get_backend(zone_name)
+    if not backend:
+        return None
+
     user = None
     try:
         user = backend.authenticate(**credentials)
     except TypeError:
-        # This backend doesn't accept these credentials as arguments. Try the next one.
+        # This backend doesn't accept these credentials as arguments. exit
         pass
     except PermissionDenied:
-        # This backend says to stop in our tracks - this user should not be allowed in at all.
+        # This backend says that this user should not be allowed in at all.
         pass
 
     if user:
