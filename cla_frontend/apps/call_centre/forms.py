@@ -2,4 +2,4 @@ from django import forms
 
 
 class CaseForm(forms.Form):
-    reference = forms.CharField(max_length=35, )
+    reference = forms.CharField(max_length=35)
