@@ -29,13 +29,14 @@ def edit_case(request, case_reference):
         case_edit_form = CaseForm(request.POST)
 
         if case_edit_form.is_valid():
-            client.case(case_reference).patch(case_edit_form.cleaned_data)
+            data = case_edit_form.save()
+            client.case(case_reference).patch(data)
             return redirect('call_centre:dashboard')
         else:
             context['form'] = case_edit_form
             return render(request, 'call_centre/edit_case.html', context)
     else:
-        context['form'] = CaseForm(data=case)
+        context['form'] = CaseForm(initial=case)
         return render(request, 'call_centre/edit_case.html', context)
 
 @login_required

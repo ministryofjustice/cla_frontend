@@ -152,6 +152,7 @@ INSTALLED_APPS = (
 PROJECT_APPS = (
     'moj_template',
     'cla_auth',
+    'cla_common',
     'core',
     'call_centre',
     'cla_provider'
