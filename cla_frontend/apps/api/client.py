@@ -3,16 +3,7 @@ import urllib
 
 from django.conf import settings
 
-
-# API_VERSION = 'v1'
-# BASE_URI = '{base_uri}/checker/api/{version}'.\
-#     format(base_uri=settings.BACKEND_BASE_URI, version=API_VERSION)
-
-# def get_connection(session=None):
-#     return slumber.API(BASE_URI, session=session)
-
-
-# connection = slumber.API(BASE_URI)
+from cla_auth.auth_providers import BearerTokenAuth
 
 
 class FormSerializer(slumber.serialize.JsonSerializer):
@@ -32,3 +23,16 @@ def get_auth_connection():
     )
 
     return slumber.API(settings.BACKEND_BASE_URI, serializer=s)
+
+
+def get_connection(request):
+    user = request.user
+    zone = request.zone
+
+    if not user:
+        raise ValueError(u'no such user')
+
+    if not zone:
+        raise ValueError(u'no such app')
+
+    return slumber.API(base_url=zone['BASE_URI'], auth=BearerTokenAuth(user.pk))

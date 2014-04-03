@@ -15,7 +15,7 @@ args = parser.parse_args()
 
 env = args.envname[0]
 env_name = "%s-%s" % (PROJECT_NAME, env)
-env_path = "/var/lib/jenkins/envs/%s" % env_name
+env_path = "/tmp/jenkins/envs/%s" % env_name
 bin_path = "%s/bin" % env_path
 
 
@@ -34,6 +34,7 @@ if not os.path.isdir(env_path):
 	run('virtualenv --no-site-packages %s' % env_path)
 
 run('%s/pip install -r requirements/jenkins.txt' % bin_path)
+
 
 # Remove .pyc files from the project
 run("find . -name '*.pyc' -delete")

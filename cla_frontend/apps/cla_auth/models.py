@@ -1,6 +1,3 @@
-# from django.contrib.auth.models import AbstractBaseUser
-
-
 class ClaUser(object):
     USERNAME_FIELD = 'token'
 
