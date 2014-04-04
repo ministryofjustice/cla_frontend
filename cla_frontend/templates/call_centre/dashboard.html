@@ -12,6 +12,7 @@
                 <th>Reference
                 <th>Created
                 <th>Modified
+                <th>Created by
                 <th>Edit
         </thead>
         <tbody>
@@ -21,6 +22,7 @@
                 <td>{{ case.reference}}
                 <td>{{ case.created|as_date|naturaltime }}
                 <td>{{ case.modified|as_date|naturaltime }}
+                <td>{{ case.created_by|default:"web" }}
                 <td><a href="{% url 'call_centre:edit_case' case.reference %}">Edit</a>
         {% endfor %}
         </tbody>

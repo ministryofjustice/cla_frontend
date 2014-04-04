@@ -1,39 +1,61 @@
 from django import forms
+from django.forms.util import ErrorList
+from django.utils.translation import ugettext_lazy as _
+from cla_common.forms import MultipleFormsForm
+from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES
 
+class EligibilityCheckForm(forms.Form):
+    extra_kwargs = {'client'}
+    client = None
 
-def api_to_case(data):
-    new_data = {}
-    personal_details = data.get('personal_details', {})
-    eligibility_check = data.get('eligibility_check', {})
-    if eligibility_check:
-        new_data.update(eligibility_check)
-    if personal_details:
-        new_data.update(personal_details)
-    return new_data
+    category = forms.ChoiceField(
+        label=_(u'Law Category:')
+    )
+    notes = forms.CharField(widget=forms.Textarea, label=_('Case Notes'))
 
-
-def case_to_api(data):
-    personal_details_keys = {}
-    eligibility_check_keys = {'notes', 'category', 'reference'}
-    new_data = {}
-    personal_details = {k: v for k,v in data.items() if k in personal_details_keys}
-    eligibility_check = {k: v for k,v in data.items() if k in eligibility_check_keys}
-    if personal_details_keys:
-        new_data['personal_details'] = personal_details
-    if eligibility_check:
-        new_data['eligibility_check'] = eligibility_check
-    return new_data
-
-class CaseForm(forms.Form):
-    notes = forms.CharField(widget=forms.Textarea)
+    state = forms.ChoiceField(label=_('Means Test Passed?'), choices=STATE_CHOICES, initial=STATE_MAYBE)
 
     def __init__(self, *args, **kwargs):
-        data = kwargs.get('initial', None)
-        if data:
-            data = api_to_case(data)
-            kwargs['initial'] = data
-        super(CaseForm, self).__init__(*args, **kwargs)
+        self.client = kwargs.pop('client')
+        super(EligibilityCheckForm, self).__init__(*args, **kwargs)
+        if self.client:
+            self._categories = self.client.category.get()
+            choices = [(x['code'], x['name']) for x in self._categories]
+            self.fields['category'].choices = choices
 
-    def save(self):
-        data = self.cleaned_data
-        return case_to_api(data)
+
+class PersonalDetailsForm(forms.Form):
+    title = forms.ChoiceField(
+        label=_(u'Title'), choices=TITLE_CHOICES
+    )
+    full_name = forms.CharField(label=_(u'Full name'), max_length=300)
+    postcode = forms.CharField(label=_(u'Postcode'), max_length=10)
+    street = forms.CharField(
+        label=_(u'Street'), max_length=250,
+        widget=forms.Textarea(attrs={'rows': 4, 'cols': 21})
+    )
+    town = forms.CharField(label=_(u'Town'), max_length=100)
+    mobile_phone = forms.CharField(label=_(u'Mobile Phone'), max_length=20, required=False)
+    home_phone = forms.CharField(label=_('Home Phone'), max_length=20, required=False)
+
+    def clean(self, *args, **kwargs):
+        cleaned_data = super(PersonalDetailsForm, self).clean(*args, **kwargs)
+
+        if self._errors: # skip immediately
+            return cleaned_data
+
+        mobile_phone = cleaned_data.get('mobile_phone')
+        home_phone = cleaned_data.get('home_phone')
+        if not mobile_phone and not home_phone:
+            self._errors['mobile_phone'] = ErrorList([
+                _(u'You must specify at least one contact number.')
+            ])
+            del cleaned_data['mobile_phone']
+
+        return cleaned_data
+
+class CaseForm(MultipleFormsForm):
+    forms_list = (
+        ('eligibility_check', EligibilityCheckForm),
+        ('personal_details', PersonalDetailsForm),
+    )
