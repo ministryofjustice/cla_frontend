@@ -2,9 +2,19 @@ from django import forms
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
 from cla_common.forms import MultipleFormsForm
-from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES
+from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES, CASE_STATE_REJECTED
 
-class EligibilityCheckForm(forms.Form):
+
+EMPTY_CHOICE = (('', '----'),)
+
+class APIFormMixin(object):
+    client = None
+
+    def __init__(self, *args, **kwargs):
+        self.client = kwargs.pop('client')
+        super(APIFormMixin, self).__init__(*args, **kwargs)
+
+class EligibilityCheckForm(APIFormMixin, forms.Form):
     extra_kwargs = {'client'}
     client = None
 
@@ -16,7 +26,6 @@ class EligibilityCheckForm(forms.Form):
     state = forms.ChoiceField(label=_('Means Test Passed?'), choices=STATE_CHOICES, initial=STATE_MAYBE)
 
     def __init__(self, *args, **kwargs):
-        self.client = kwargs.pop('client')
         super(EligibilityCheckForm, self).__init__(*args, **kwargs)
         if self.client:
             self._categories = self.client.category.get()
@@ -59,3 +68,18 @@ class CaseForm(MultipleFormsForm):
         ('eligibility_check', EligibilityCheckForm),
         ('personal_details', PersonalDetailsForm),
     )
+
+class CaseAssignForm(APIFormMixin, forms.Form):
+
+   provider = forms.TypedChoiceField(required=False, coerce=int)
+
+   def __init__(self, *args, **kwargs):
+       super(CaseAssignForm, self).__init__(*args, **kwargs)
+       if self.client:
+           self._providers = self.client.provider.get()
+           self.fields['provider'].choices = EMPTY_CHOICE + \
+                                             tuple((x['id'], x['name']) for x in self._providers)
+
+class CaseCloseForm(forms.Form):
+    reason = forms.ChoiceField(choices=EMPTY_CHOICE + ((CASE_STATE_REJECTED, 'REJECT'),), required=False)
+
