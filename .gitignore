@@ -66,3 +66,4 @@ node_modules/
 
 # bower packages
 cla_frontend/assets-src/vendor/
+.sass-cache/
