@@ -71,7 +71,7 @@ class CaseForm(MultipleFormsForm):
 
 class CaseAssignForm(APIFormMixin, forms.Form):
 
-   provider = forms.TypedChoiceField(required=False, coerce=int)
+   provider = forms.TypedChoiceField(required=True, coerce=int)
 
    def __init__(self, *args, **kwargs):
        super(CaseAssignForm, self).__init__(*args, **kwargs)
@@ -81,5 +81,5 @@ class CaseAssignForm(APIFormMixin, forms.Form):
                                              tuple((x['id'], x['name']) for x in self._providers)
 
 class CaseCloseForm(forms.Form):
-    reason = forms.ChoiceField(choices=EMPTY_CHOICE + ((CASE_STATE_REJECTED, 'REJECT'),), required=False)
+    reason = forms.ChoiceField(choices=EMPTY_CHOICE + ((CASE_STATE_REJECTED, 'REJECT'),), required=True)
 

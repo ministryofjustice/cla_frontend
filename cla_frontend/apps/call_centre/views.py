@@ -67,8 +67,8 @@ def assign_case(request, case_reference):
         from django.contrib import messages
         messages.add_message(request,
                              messages.INFO,
-                             _('Could not assign case {case_ref} to {provider}'.format(case_ref=case_reference, provider=assign_form.data.get('provider'))))
-        return redirect('call_centre:case_edit', case_reference)
+                             _('Could not assign case {case_ref} to provider.'.format(case_ref=case_reference)))
+        return redirect('call_centre:edit_case', case_reference)
 
 @login_required
 @require_POST
@@ -87,8 +87,8 @@ def close_case(request, case_reference):
         from django.contrib import messages
         messages.add_message(request,
                              messages.INFO,
-                             _('Could not close case {case_ref}'.format(case_ref=case_reference)))
-        return redirect('call_centre:case_edit', case_reference)
+                             _('Could not close case {case_ref}.'.format(case_ref=case_reference)))
+        return redirect('call_centre:edit_case', case_reference)
 
 @login_required
 @require_POST
