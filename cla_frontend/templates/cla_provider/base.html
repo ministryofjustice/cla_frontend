@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block before_content %}
     <ul>
         <li><a href="{% url 'cla_provider:logout' %}">Logout</a></li>
     </ul>
-
-    {% block provider_content %}{% endblock provider_content %}
-{% endblock content %}
+{% endblock %}
