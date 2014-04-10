@@ -1,0 +1,82 @@
+// Overrides to allow header to be full width
+#global-header {
+  &.with-proposition {
+    .header-wrapper {
+      .header-global {
+        width: 240px;
+      }
+
+      .header-proposition {
+        width: auto;
+        .content {
+          margin-right: 0;
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+
+  .header-wrapper {
+    max-width: none;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    @include media(tablet) {
+      // padding-left: 20px;
+      // padding-right: 20px;
+    }
+
+    .header-global .header-logo {
+      width: auto;
+      .content {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.CaseSearch {
+  float: left;
+  margin: 4px 20px 0;
+  position: relative;
+}
+.CaseSearch-label {
+  @include box-sizing(border-box);
+  @include core-16;
+  display: block;
+  float: left;
+  background-color: $white;
+  height: 30px;
+  width: 70px;
+  padding: 4px 8px;
+  line-height: 24px;
+
+  // body.js-enabled & {
+  //   position: absolute;
+  //   background-color: transparent;
+  // }
+}
+input.CaseSearch-query {
+  @include core-16;
+  @include box-sizing(border-box);
+  height: 30px;
+  width: 165px;
+  padding: 4px 8px;
+  border: 0;
+  float: left;
+  display: block;
+  background-color: $white;
+
+  // body.js-enabled & {
+  //   width: 235px;
+  // }
+}
+.CaseSearch-submit {
+  width: 30px;
+  height: 30px;
+  background: url(../images/icons/search-button.png) -2px -20px #6F777B;
+  text-indent: -1000px;
+  overflow: hidden;
+  border: 0;
+  margin-left: 5px;
+}
