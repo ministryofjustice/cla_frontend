@@ -100,6 +100,13 @@
           <input type="search" name="q" id="case-search" title="Search" class="CaseSearch-query js-PlaceholderLabel">
           <input class="CaseSearch-submit" type="submit" value="Search">
         </form>
+
+        <nav class="UserMenu">
+          <a href="#" class="UserMenu-name">user.name</a>
+          <ul class="UserMenu-options">
+            <li class="UserMenu-option"><a href="{% url 'call_centre:logout' %}">Logout</li>
+          </ul>
+        </nav>
       </div>
     </header>
     <!--end header-->
