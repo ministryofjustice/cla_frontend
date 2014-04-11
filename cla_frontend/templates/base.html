@@ -97,7 +97,7 @@
 
         <form id="search" class="CaseSearch" action="/search" method="get" role="search">
           <label for="case-search" class="CaseSearch-label">Search</label>
-          <input type="search" name="q" id="case-search" title="Search" class="CaseSearch-query js-PlaceholderLabel">
+          <input type="search" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelFocus">
           <input class="CaseSearch-submit" type="submit" value="Search">
         </form>
 
@@ -191,7 +191,14 @@
     <!--[if gt IE 6]><!-->
     <script src="{% static 'javascripts/vendor/jquery/jquery-1.11.0.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'javascripts/moj.js' %}" type="text/javascript"></script>
-
+    
+    <script src="{% static 'javascripts/cla.main.js' %}"></script>
+    {% if debug %}
+    <!-- NOT IN PROD MODE -->
+    <script src="{% static 'javascripts/cla.debug.js' %}"></script>
+    {% else %}
+    <!-- IN PROD MODE -->
+    {% endif %}
     {% block javascripts %}{% endblock %}
 
     <script type="text/javascript">$(moj.init);</script>

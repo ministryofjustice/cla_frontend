@@ -19,10 +19,14 @@
     padding-bottom: 6px;
   }
 
-  // body.js-enabled & {
-  //   position: absolute;
-  //   background-color: transparent;
-  // }
+  body.js-enabled & {
+    @include border-radius(3px);
+    background-color: transparent;
+    border: 1px solid $grey-1;
+    color: $grey-1;
+    position: absolute;
+    width: 235px;
+  }
 }
 input.CaseSearch-query {
   @include box-sizing(border-box);
@@ -36,15 +40,21 @@ input.CaseSearch-query {
   display: block;
   background-color: $white;
 
-  // body.js-enabled & {
-  //   @include border-radius(3px);
-  //   width: 235px;
-  // }
+  body.js-enabled & {
+    @include border-radius(3px);
+    background-color: transparent;
+    position: relative;
+    width: 235px;
+
+    &.is-focused {
+      background-color: $white;
+    }
+  }
 }
 .CaseSearch-submit {
   width: 30px;
   height: 30px;
-  background: url(../images/icons/search-button.png) -2px -20px #6F777B;
+  background: url(../images/icons/search-button.png) -2px -20px $grey-1;
   text-indent: -1000px;
   overflow: hidden;
   border: 0;
@@ -52,6 +62,6 @@ input.CaseSearch-query {
   @include border-radius(3px);
 
   &:hover {
-    background-color: lighten(#6F777B, 5%);
+    background-color: lighten($grey-1, 5%);
   }
 }
