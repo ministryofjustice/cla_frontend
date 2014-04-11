@@ -104,7 +104,7 @@
         <nav class="UserMenu">
           <a href="#" class="UserMenu-name">user.name</a>
           <ul class="UserMenu-options">
-            <li class="UserMenu-option"><a href="{% url 'call_centre:logout' %}">Logout</li>
+            <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:logout' %}">Logout</a>{% endblock %}</li>
           </ul>
         </nav>
       </div>
