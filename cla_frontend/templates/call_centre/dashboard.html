@@ -1,7 +1,6 @@
-{% extends "call_centre/base.html" %}
-{% load humanize helpers %}
+{% extends "call_centre/base.html" %}{% load humanize helpers %}
 
-{% block call_centre_content %}
+{% block full_content %}
     Call Centre - You are logged in
 
     <h1>List of Cases</h1>
@@ -32,4 +31,4 @@
         {% csrf_token %}
         <input type="submit" value="create a new case">
     </form>
-{% endblock call_centre_content %}
+{% endblock %}

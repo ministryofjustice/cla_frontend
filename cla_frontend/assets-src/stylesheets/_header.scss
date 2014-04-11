@@ -1,0 +1,36 @@
+// Overrides to allow header to be full width
+#global-header {
+  &.with-proposition {
+    .header-wrapper {
+      .header-global {
+        width: 240px;
+      }
+
+      .header-proposition {
+        width: auto;
+        .content {
+          margin-right: 0;
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+
+  .header-wrapper {
+    max-width: none;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    @include media(tablet) {
+      // padding-left: 20px;
+      // padding-right: 20px;
+    }
+
+    .header-global .header-logo {
+      width: auto;
+      .content {
+        margin: 0;
+      }
+    }
+  }
+}
