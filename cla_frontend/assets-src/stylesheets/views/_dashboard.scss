@@ -1,0 +1,23 @@
+.v-Dashboard {
+  .PageHeader {
+    padding-top: 50px;
+    position: relative;
+    z-index: 2;
+
+    h1 {
+      @include bold-36;
+      font-size: 32px;
+    }
+
+    .Button {
+      @include core-16;
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+  }
+
+  .CaseList {
+    position: relative;
+    top: -60px;
+  }
+}

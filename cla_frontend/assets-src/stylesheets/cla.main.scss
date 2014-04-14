@@ -9,16 +9,23 @@
 @import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/typography";
 @import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
 
-
-@import "design-patterns/grid";
-@import "design-patterns/case-search";
-@import "design-patterns/user-menu";
+// Extras
 @import "header";
 @import "footer";
 @import "content";
 @import "typography";
-
 @import "utilities";
+
+// Design patterns
+@import "design-patterns/grid";
+@import "design-patterns/buttons";
+@import "design-patterns/case-search";
+@import "design-patterns/user-menu";
+@import "design-patterns/case-list";
+
+// Views
+@import "views/dashboard";
+
 
 
 // Shamefully sitting all alone at the bottom of the page...

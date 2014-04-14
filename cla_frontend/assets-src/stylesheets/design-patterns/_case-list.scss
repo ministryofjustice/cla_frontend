@@ -1,0 +1,20 @@
+.CaseList {
+  border-collapse: collapse;
+  color: $grey-1;
+
+  th {
+    text-align: left;
+    padding: 20px 15px;
+    font-weight: 400;
+  }
+
+  td {
+    border-bottom: 1px solid $grey-2;
+    background-color: $grey-4;
+    padding: 10px 15px;
+  }
+
+  tr:hover td {
+    background-color: $yellow-25;
+  }
+}
