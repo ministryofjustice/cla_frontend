@@ -1,3 +1,6 @@
+$fixed-col-width: 240; // in pixels
+$col-gutter: 20; // in pixels
+
 .Grid {  
 
   .Grid-row {
@@ -22,16 +25,15 @@
         width: 66.17647%;
       }
       &--fixed {
-        background: #f00;
-        width: 240px;
+        width: $fixed-col-width + px;
         margin-right: 0;
       }
       &--fluid {
-        margin-left: 260px;
+        margin-left: ($fixed-col-width + $col-gutter) + px;
 
         .Grid-col--fluid {
           margin-left: 0;
-          margin-right: 260px;
+          margin-right: ($fixed-col-width + $col-gutter) + px;
         }
       }
 
@@ -43,7 +45,7 @@
 
   .Grid-colFluid {
     position: relative;
-    margin-left: 260px;
+    margin-left: ($fixed-col-width + $col-gutter) + px;
   }
   
   .Grid-colPush {
