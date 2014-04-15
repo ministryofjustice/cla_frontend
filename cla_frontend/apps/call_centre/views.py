@@ -12,7 +12,12 @@ from .forms import CaseForm, CaseAssignForm, CaseCloseForm, CaseUnlockForm
 @login_required
 def dashboard(request):
     client = get_connection(request)
-    cases = client.case.get()
+    cases = []
+    q = request.GET.get('q')
+    if q:
+        cases = client.case.get(search=q)
+    else:
+        cases = client.case.get()
     return render_to_response('call_centre/dashboard.html', {
         'cases': cases
     }, RequestContext(request))
