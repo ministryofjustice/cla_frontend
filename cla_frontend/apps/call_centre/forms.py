@@ -1,18 +1,14 @@
 from django import forms
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
+
 from cla_common.forms import MultipleFormsForm
 from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES, CASE_STATE_REJECTED
 
+from legalaid.forms import APIFormMixin, OutcomeForm
 
 EMPTY_CHOICE = (('', '----'),)
 
-class APIFormMixin(object):
-    client = None
-
-    def __init__(self, *args, **kwargs):
-        self.client = kwargs.pop('client')
-        super(APIFormMixin, self).__init__(*args, **kwargs)
 
 class EligibilityCheckForm(APIFormMixin, forms.Form):
     extra_kwargs = {'client'}
@@ -63,23 +59,32 @@ class PersonalDetailsForm(forms.Form):
 
         return cleaned_data
 
+
 class CaseForm(MultipleFormsForm):
     forms_list = (
         ('eligibility_check', EligibilityCheckForm),
         ('personal_details', PersonalDetailsForm),
     )
 
-class CaseAssignForm(APIFormMixin, forms.Form):
 
-   provider = forms.TypedChoiceField(required=True, coerce=int)
+class CaseAssignForm(OutcomeForm):
+    provider = forms.TypedChoiceField(required=True, coerce=int)
 
-   def __init__(self, *args, **kwargs):
-       super(CaseAssignForm, self).__init__(*args, **kwargs)
-       if self.client:
-           self._providers = self.client.provider.get()
-           self.fields['provider'].choices = EMPTY_CHOICE + \
-                                             tuple((x['id'], x['name']) for x in self._providers)
+    def __init__(self, *args, **kwargs):
+        super(CaseAssignForm, self).__init__(*args, **kwargs)
+        if self.client:
+            self._providers = self.client.provider.get()
+            self.fields['provider'].choices = EMPTY_CHOICE + \
+                                            tuple((x['id'], x['name']) for x in self._providers)
+
+    def save(self, case_reference):
+        response = self.client.case(case_reference).assign().post(self.cleaned_data)
+        # TODO do something in case of 4xx and 5xx errors ?
+
 
 class CaseCloseForm(forms.Form):
     reason = forms.ChoiceField(choices=EMPTY_CHOICE + ((CASE_STATE_REJECTED, 'REJECT'),), required=True)
 
+
+class CaseUnlockForm(forms.Form):
+    pass

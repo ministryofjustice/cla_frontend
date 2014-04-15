@@ -154,6 +154,7 @@ PROJECT_APPS = (
     'cla_auth',
     'cla_common',
     'core',
+    'legalaid',
     'call_centre',
     'cla_provider'
 )

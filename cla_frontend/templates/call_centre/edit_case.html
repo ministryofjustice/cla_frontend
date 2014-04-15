@@ -13,16 +13,25 @@
     </form>
     <hr>
     <h3>Actions:</h3>
+
     <h4>Assign to Provider</h4>
     <form method="post" action="{% url 'call_centre:assign_case' case_reference=case_reference %}">
         {% csrf_token %}
         {{ assign_form.as_p }}
         <input type="submit" value="assign">
     </form>
+
     <h4>Close Case</h4>
     <form method="post" action="{% url 'call_centre:close_case' case_reference=case_reference %}">
         {% csrf_token %}
         {{ close_form.as_p }}
         <input type="submit" value="close">
+    </form>
+
+    <h4>Unlock Case</h4>
+    <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
+        {% csrf_token %}
+        {{ unlock_form.as_p }}
+        <input type="submit" value="unlock">
     </form>
 {% endblock %}

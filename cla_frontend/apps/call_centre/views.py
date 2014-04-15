@@ -1,11 +1,12 @@
-from django import forms
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_POST
+
 from api.client import get_connection
-from call_centre.forms import CaseForm, CaseAssignForm, CaseCloseForm
+
+from .forms import CaseForm, CaseAssignForm, CaseCloseForm, CaseUnlockForm
 
 
 @login_required
@@ -15,8 +16,6 @@ def dashboard(request):
     return render_to_response('call_centre/dashboard.html', {
         'cases': cases
     }, RequestContext(request))
-
-
 
 
 @login_required
@@ -30,6 +29,8 @@ def edit_case(request, case_reference):
     context['eligibility_check'] = eligibility_check
     context['assign_form'] = CaseAssignForm(client=client)
     context['close_form'] = CaseCloseForm()
+    context['unlock_form'] = CaseUnlockForm()
+
     if request.method == 'POST':
         case_edit_form = CaseForm(request.POST, client=client)
 
@@ -51,6 +52,7 @@ def edit_case(request, case_reference):
         )
         return render(request, 'call_centre/edit_case.html', context)
 
+
 @login_required
 @require_POST
 def assign_case(request, case_reference):
@@ -58,10 +60,12 @@ def assign_case(request, case_reference):
     to assign to a cla_provider, should post a
     provider with id of provider to assign to
     """
+    # TODO complete this, different page?
     client = get_connection(request)
     assign_form = CaseAssignForm(request.POST, client=client)
+
     if assign_form.is_valid():
-        client.case(case_reference).patch(assign_form.cleaned_data)
+        assign_form.save(case_reference)
         return redirect('call_centre:dashboard')
     else:
         from django.contrib import messages
@@ -69,6 +73,7 @@ def assign_case(request, case_reference):
                              messages.INFO,
                              _('Could not assign case {case_ref} to provider.'.format(case_ref=case_reference)))
         return redirect('call_centre:edit_case', case_reference)
+
 
 @login_required
 @require_POST
@@ -90,9 +95,18 @@ def close_case(request, case_reference):
                              _('Could not close case {case_ref}.'.format(case_ref=case_reference)))
         return redirect('call_centre:edit_case', case_reference)
 
+
 @login_required
 @require_POST
 def create_case(request):
     client = get_connection(request)
     resp = client.case.post()
     return redirect('call_centre:edit_case', resp.get('reference'))
+
+
+@login_required
+@require_POST
+def unlock_case(request, case_reference):
+    """
+    """
+    raise NotImplementedError()

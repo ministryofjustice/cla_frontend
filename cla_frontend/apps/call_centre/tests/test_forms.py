@@ -1,37 +1,16 @@
-from cla_common import constants
-from django.forms.forms import Form
 import mock
 
+from django.forms.forms import Form
 from django.test import testcases
+
+from cla_common import constants
+
+from legalaid.tests.test_forms import APIFormMixinTest
+
 from ..forms import CaseAssignForm, CaseCloseForm, APIFormMixin, \
 EligibilityCheckForm, PersonalDetailsForm
 
 BLANK_CHOICE = [('', '----')]
-
-
-class APIFormMixinTest(testcases.SimpleTestCase):
-
-    formclass = None
-    class TestForm(APIFormMixin, Form):
-        pass
-
-    def _get_test_form(self):
-        if self.formclass:
-            return self.formclass
-        return self.TestForm
-
-    def test_form_pops_client(self):
-        client = mock.MagicMock()
-        f = self.TestForm(client=client)
-        self.assertTrue(hasattr(f, 'client'))
-
-    def test_form_error_if_no_client_kwarg(self):
-        with self.assertRaises(KeyError):
-            f = self.TestForm(notclient=mock.MagicMock())
-
-    def test_form_rejects_bad_kwarg(self):
-        with self.assertRaises(TypeError):
-            f = self.TestForm(client=mock.MagicMock(), foo='bar')
 
 
 class CaseCloseFormTest(testcases.SimpleTestCase):
@@ -63,30 +42,77 @@ class CaseAssignFormTest(APIFormMixinTest):
             {'id': 2, 'name': 'provider2'},
             {'id': 111, 'name': 'provider2'},
         ]
+        self.outcome_codes = [
+            {'code': 'AAA', 'description': 'aaa'},
+            {'code': 'BBB', 'description': 'bbb'},
+        ]
         self.client.provider.get.return_value = self.providers
+        self.client.outcome_code.get.return_value = self.outcome_codes
 
     def test_choices(self):
-        expected = BLANK_CHOICE + [(x['id'], x['name']) for x in self.providers]
+        providers_expected = BLANK_CHOICE + [(x['id'], x['name']) for x in self.providers]
+        outcome_codes_expected = tuple(
+            (x['code'], u'%s - %s' % (x['code'], x['description'])) for x in self.outcome_codes
+        )
+
         form = CaseAssignForm(client=self.client)
-        self.assertItemsEqual(form.fields['provider'].choices, expected)
+        self.assertItemsEqual(form.fields['provider'].choices, providers_expected)
+        self.assertItemsEqual(form.fields['outcome_code'].choices, outcome_codes_expected)
 
     def test_provider_with_none_is_invalid(self):
-        form = CaseAssignForm(client=self.client, data={'provider': ''})
+        form = CaseAssignForm(client=self.client, data={})
         self.assertFalse(form.is_valid())
-        self.assertItemsEqual(form.errors, {'provider': [u'This field is required.']})
+        self.assertItemsEqual(form.errors, {
+            'provider': [u'This field is required.'],
+            'outcome_code': [u'This field is required.'],
+        })
 
+    def _get_default_post_data(self, data={}):
+        default_data = {
+            'provider': self.providers[0]['id'],
+            'outcome_code': self.outcome_codes[0]['code'],
+            'outcome_notes': 'lorem ipsum'
+        }
+        default_data.update(data)
+        return default_data
 
-    def test_provider_invalid_provider_is_invalid(self):
-        form = CaseAssignForm(client=self.client, data={'provider': 121})
+    def test_invalid_if_provider_is_invalid(self):
+        data = self._get_default_post_data({
+            'provider': 121
+        })
+        form = CaseAssignForm(client=self.client, data=data)
         self.assertFalse(form.is_valid())
-        self.assertDictEqual(form.errors,
-                             {'provider': [u'Select a valid choice. 121 is not one of the available choices.']})
+        self.assertDictEqual(
+            form.errors,
+            {'provider': [u'Select a valid choice. 121 is not one of the available choices.']
+        })
 
-    def test_provider_valid_provider_is_valid(self):
-        form = CaseAssignForm(client=self.client, data={'provider': 111})
+    def test_invalid_if_outcome_code_is_invalid(self):
+        data = self._get_default_post_data({
+            'outcome_code': 'invalid'
+        })
+        form = CaseAssignForm(client=self.client, data=data)
+        self.assertFalse(form.is_valid())
+        self.assertDictEqual(
+            form.errors,
+            {'outcome_code': [u'Select a valid choice. invalid is not one of the available choices.']
+        })
+
+    def test_is_valid_True(self):
+        data = self._get_default_post_data()
+        form = CaseAssignForm(client=self.client, data=data)
         self.assertTrue(form.is_valid())
-        self.assertDictEqual(form.errors,
-                             {})
+        self.assertDictEqual(form.errors, {})
+
+    def test_save(self):
+        case_reference = '1234567890'
+
+        data = self._get_default_post_data()
+        form = CaseAssignForm(client=self.client, data=data)
+        self.assertTrue(form.is_valid())
+
+        form.save(case_reference)
+        self.client.case(case_reference).assign().post.assert_called_with(data)
 
 
 class PersonalDetailsFormTests(testcases.SimpleTestCase):
