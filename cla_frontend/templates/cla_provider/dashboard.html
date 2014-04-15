@@ -1,5 +1,30 @@
 {% extends "cla_provider/base.html" %}
+{% load humanize helpers %}
 
 {% block full_content %}
     Provider - You are logged in
+
+
+    <h1>List of Cases</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Reference
+                <th>Created
+                <th>Modified
+                <th>Created by
+                <th>Edit
+            </thead>
+            <tbody>
+
+            {% for case in cases %}
+                <tr>
+                <td>{{ case.reference}}
+                <td>{{ case.created|as_date|naturaltime }}
+                <td>{{ case.modified|as_date|naturaltime }}
+                <td>{{ case.created_by|default:"web" }}
+                <td><a href="{% url 'cla_provider:edit_case' case.reference %}">Edit</a>
+            {% endfor %}
+            </tbody>
+        </table>
 {% endblock %}
