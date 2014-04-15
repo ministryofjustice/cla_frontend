@@ -22,7 +22,7 @@
       {% for case in cases %}
         <tr>
           <td><a href="{% url 'call_centre:edit_case' case.reference %}">{{ case.reference}}</a></td>
-          <td>{Name}</td>
+          <td>{{ case.personal_details.full_name }}</td>
           <td>{{ case.created|as_date|naturaltime }}</td>
           <td>{{ case.modified|as_date|naturaltime }}</td>
           <td>{{ case.created_by|default:"web" }}</td>
