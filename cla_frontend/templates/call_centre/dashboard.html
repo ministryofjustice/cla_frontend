@@ -1,36 +1,8 @@
-{% extends "call_centre/base.html" %}{% load humanize helpers %}
+{% extends "common/dashboard.html" %}{% load humanize %}
 
-{% block body_classes %}{{ product_type }} {{ phase }} v-Dashboard{% endblock %}
-
-{% block full_content %}
-  <header class="PageHeader cf">
-    <h1 class="u-pullLeft">Cases</h1>
-    <form action="{% url 'call_centre:create_case' %}" method="post" class="u-pullLeft">
-      {% csrf_token %}
-      <input type="submit" value="Create a case" class="Button">
-    </form>
-  </header>
-
-  <table class="CaseList" cellpadding="0" cellspacing="0" border="0" width="100%">
-    <thead>
-      <tr>
-        <th><span class="visuallyhidden">Reference</span></th>
-        <th><span class="visuallyhidden">Client</span></th>
-        <th><a href="?sort=created" class="u-sortDesc">Created</a></th>
-        <th><a href="?sort=modified">Modified</a></th>
-        <th>Created by</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for case in cases %}
-        <tr>
-          <td><a href="{% url 'call_centre:edit_case' case.reference %}">{{ case.reference}}</a></td>
-          <td>{{ case.eligibility_check.fullname }}</td>
-          <td>{{ case.created|as_date|naturaltime }}</td>
-          <td>{{ case.modified|as_date|naturaltime }}</td>
-          <td>{{ case.created_by|default:"web" }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+{% block actions %}
+<form action="{% url 'call_centre:create_case' %}" method="post" class="u-pullLeft">
+  {% csrf_token %}
+  <input type="submit" value="Create a case" class="Button">
+</form>
 {% endblock %}

@@ -1,5 +1,5 @@
 def globals(request):
-  return {
+  context = {
     'app_title': 'Civil Legal Advise',
     'proposition_title': 'Civil Legal Advise Tool',
     'phase': 'alpha',
@@ -7,3 +7,8 @@ def globals(request):
     'feedback_url': '#',
     'ga_id': '',
   }
+
+  if hasattr(request, 'zone'):
+    context['app_base_template'] = '%s/base.html' % request.zone['name']
+
+  return context
