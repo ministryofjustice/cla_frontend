@@ -1,8 +1,8 @@
-{% extends "common/dashboard.html" %}{% load humanize %}
+{% extends "common/dashboard.html" %}{% load humanize i18n %}
 
 {% block actions %}
 <form action="{% url 'call_centre:create_case' %}" method="post" class="u-pullLeft">
   {% csrf_token %}
-  <input type="submit" value="Create a case" class="Button">
+  <button type="submit" class="Button">{% trans "Create a case" %}</button>
 </form>
 {% endblock %}
