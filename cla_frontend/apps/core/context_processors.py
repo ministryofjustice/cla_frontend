@@ -8,7 +8,7 @@ def globals(request):
     'ga_id': '',
   }
 
-  if hasattr(request, 'zone'):
+  if hasattr(request, 'zone') and request.zone:
     context['app_base_template'] = '%s/base.html' % request.zone['name']
 
   return context

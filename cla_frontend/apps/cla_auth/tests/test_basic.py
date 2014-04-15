@@ -134,6 +134,7 @@ class GetZoneTestCase(SimpleTestCase):
         self.mocked_load_backend.side_effect = load_backend
 
         zone_profile = settings.ZONE_PROFILES.values()[0]
+        zone_profile['name'] = settings.ZONE_PROFILES.keys()[0]
         request = mock.MagicMock(session={
             BACKEND_SESSION_KEY: zone_profile['AUTHENTICATION_BACKEND']
         })
