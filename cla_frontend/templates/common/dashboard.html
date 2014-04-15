@@ -1,0 +1,33 @@
+{% extends app_base_template %}{% load humanize helpers i18n %}
+
+{% block body_classes %}{{ product_type }} {{ phase }} v-Dashboard{% endblock %}
+
+{% block full_content %}
+  <header class="PageHeader cf">
+    <h1 class="u-pullLeft">{% trans "Cases" %}</h1>
+    {% block actions %}{% endblock %}
+  </header>
+
+  <table class="CaseList" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <thead>
+      <tr>
+        <th><span class="visuallyhidden">{% trans "Reference" %}</span></th>
+        <th><span class="visuallyhidden">{% trans "Client" %}</span></th>
+        <th>{% trans "Created" %}</th>
+        <th>{% trans "Modified" %}</th>
+        <th>{% trans "Created by" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for case in cases %}
+        <tr>
+          <td><a href="{% url 'call_centre:edit_case' case.reference %}">{{ case.reference}}</a></td>
+          <td>{Name}</td>
+          <td>{{ case.created|as_date|naturaltime }}</td>
+          <td>{{ case.modified|as_date|naturaltime }}</td>
+          <td>{{ case.created_by|default:"web" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

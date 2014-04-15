@@ -82,7 +82,7 @@
         <div class="header-global">
           <div class="header-logo">
             <a href="https://www.gov.uk/" title="Go to the GOV.UK homepage" id="logo" class="content">
-              <img src="{% static 'images/gov.uk_logotype_crown.png' %}" alt=""> <!--GOV.UK-->
+              <img src="{% static 'images/gov.uk_logotype_crown.png' %}" alt=""> <span class="visuallyhidden">GOV.UK</span>
             </a>
           </div>
           {% block inside_header %}{% endblock %}
@@ -207,4 +207,3 @@
     {% block body_end %}{% endblock %}
   </body>
 </html>
->>>>>>> 5767c20... Add basic template markup
