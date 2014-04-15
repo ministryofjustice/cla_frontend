@@ -16,8 +16,8 @@
       <tr>
         <th><span class="visuallyhidden">Reference</span></th>
         <th><span class="visuallyhidden">Client</span></th>
-        <th>Created</th>
-        <th>Modified</th>
+        <th><a href="?sort=created" class="u-sortDesc">Created</a></th>
+        <th><a href="?sort=modified">Modified</a></th>
         <th>Created by</th>
       </tr>
     </thead>
@@ -25,7 +25,7 @@
       {% for case in cases %}
         <tr>
           <td><a href="{% url 'call_centre:edit_case' case.reference %}">{{ case.reference}}</a></td>
-          <td>{Name}</td>
+          <td>{{ case.eligibility_check.fullname }}</td>
           <td>{{ case.created|as_date|naturaltime }}</td>
           <td>{{ case.modified|as_date|naturaltime }}</td>
           <td>{{ case.created_by|default:"web" }}</td>
