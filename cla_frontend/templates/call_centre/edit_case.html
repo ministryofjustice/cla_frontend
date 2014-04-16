@@ -1,21 +1,75 @@
-{% extends "call_centre/base.html" %}{% load humanize helpers %}
+{% extends "call_centre/base.html" %}{% load i18n humanize helpers %}
 
+{% block body_classes %}{{ product_type }} {{ phase }} v-Case{% endblock %}
 
 {% block left_content %}
-    <a href="{% url 'call_centre:dashboard' %}">Back to cases</a>
+  <nav class="SubNav">
+    <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
+  </nav>
+
+  <form method="post" action=".">
+    <!--<div class="FormRow IconRow">
+      <label for="" class="visuallyhidden">Title</label>
+      <input type="text" name="" id="" placeholder="Title">
+    </div>-->
+    <div class="FormRow IconRow IconRow--name">
+      <label for="" class="visuallyhidden">Name</label>
+      <input type="text" name="" id="" placeholder="Name">
+    </div>
+    <div class="FormRow IconRow IconRow--address">
+      <label for="" class="visuallyhidden">Post code</label>
+      <input type="text" name="" id="" placeholder="Post code">
+    </div>
+    <div class="FormRow IconRow">
+      <label for="" class="visuallyhidden">Address</label>
+      <textarea name="" id="" cols="20" rows="3" placeholder="Address"></textarea>
+    </div>
+    <div class="FormRow IconRow IconRow--email">
+      <label for="" class="visuallyhidden">Email</label>
+      <input type="text" name="" id="" placeholder="Email">
+    </div>
+    <div class="FormRow IconRow IconRow--phone">
+      <label for="" class="visuallyhidden">Home</label>
+      <input type="text" name="" id="" placeholder="Home">
+    </div>
+    <div class="FormRow IconRow">
+      <label for="" class="visuallyhidden">Mobile</label>
+      <input type="text" name="" id="" placeholder="Mobile">
+    </div>
+    <div class="cf">
+      <button class="Button u-pullRight">Save details</button>
+    </div>
+  </form>
+
+  <nav>
+    <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 4">
+      <li class="ProgressIndicator-step is-complete"><a href="" class="ProgressIndicator-tick">Your problem</a></li>
+      <li class="ProgressIndicator-step is-active">Your details</li>
+      <li class="ProgressIndicator-step">Your finances</li>
+      <li class="ProgressIndicator-step">Result</li>      
+    </ol>
+  </nav>
 {% endblock %}
 
-
 {% block middle_content %}
-{% comment %}
-    <ul>
-        <li><a href="{% url 'call_centre:close_case' case.reference %}">Close Case</a></li>
-        <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
-    </ul>
-{% endcomment %}
+  <ul>
+      <li><a href="{% url 'call_centre:close_case' case.reference %}">Close Case</a></li>
+      <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
+  </ul>
 
-    <h1>Edit case: {{ case_reference }}</h1>
-    <h2>State: {{ case.state }}</h2>
+
+  <header class="PageHeader cf">
+    <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
+    <a href="" class="Button Button--secondary u-pullRight">Close case</a>
+  </header>
+
+  <div class="FormRow">
+    <textarea name="" id="" rows="13" cols="20" placeholder="Comments about case {{ case_reference }}"></textarea>
+  </div>
+  <div class="cf">
+    <button class="Button u-pullRight">Save notes</button>
+  </div>
+
     <form method="post" action=".">
         {% csrf_token %}
         {% for k, subform in form.form_dict.items %}
@@ -25,9 +79,27 @@
     </form>
 {% endblock %}
 
-
 {% block right_content %}
-{% comment %}
+  <div class="Timer cf">
+    <span class="Timer-current u-pullLeft">00:01:02</span>
+    <span class="Timer-total u-pullRight">00:13:06 total</span>
+  </div>
+
+  <ul class="CaseHistory">
+    <li class="CaseHistory-item">
+      18 Mar 2013 10:56<br>
+      Case LA-2954-3453 opened<br>
+      (<a href="">dave.wilson</a>)<br>
+      <span class="CaseHistory-label">ROS</span>
+    </li>
+    <li class="CaseHistory-item">
+      18 Mar 2013 10:56<br>
+      Case LA-2954-3453 opened<br>
+      (<a href="">dave.wilson</a>)<br>
+      <span class="CaseHistory-label">ONAR</span>
+    </li>
+  </ul>
+
     <section>
         <h4>Unlock Case</h4>
         <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
@@ -36,23 +108,4 @@
             <input type="submit" value="unlock">
         </form>
     </section>
-
-    {% if case.caseoutcome_set %}
-    <section>
-        <h4>Case History</h4>
-        <ul>
-        {% for outcome in case.caseoutcome_set %}
-            <li>
-                {{ outcome.created|as_date|naturaltime }}<br />
-                {% if outcome.notes %}
-                    {{ outcome.notes }}<br />
-                {% endif %}
-                ({{ outcome.created_by }})<br />
-                {{ outcome.outcome_code }}<br />
-            </li>
-        {% endfor %}
-        </ul>
-    </section>
-    {% endif %}
-{% endcomment %}
 {% endblock %}

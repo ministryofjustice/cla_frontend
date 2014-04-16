@@ -14,11 +14,13 @@
 @import "footer";
 @import "content";
 @import "typography";
+@import "mixins";
 @import "utilities";
 
 // Design patterns
 @import "design-patterns/grid";
 @import "design-patterns/buttons";
+@import "design-patterns/forms";
 @import "design-patterns/case-search";
 @import "design-patterns/user-menu";
 @import "design-patterns/case-list";
