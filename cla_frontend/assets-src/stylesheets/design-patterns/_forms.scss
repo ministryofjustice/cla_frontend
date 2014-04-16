@@ -22,9 +22,10 @@ $border-colour: #C2C2C2;
 }
 
 .FormRow {
-  margin: 20px 0;
+  margin: 0 0 4px;
   padding: 0;
   position: relative;
+  clear: both;
 
   label {
     @include core-19;
@@ -84,24 +85,24 @@ $border-colour: #C2C2C2;
   input[type=text],
   input[type=password],
   input[type=number] {
-    @include core-24;
-    font-size: 23px;
+    @include core-16;
+    font-size: 14px;
     border: 1px solid $border-colour;
     padding: 2px 4px;
     margin: 0;
-    height: 32px;
+    height: 30px;
     display: inline-block;
-    float: left;
-    width: 230px;
+    width: 100%;
     @include box-sizing(border-box);
   }
   textarea {
-    @include core-24;
+    @include core-16;
+    font-size: 14px;
     width: 100%;
     height: auto;
     display: block;
     border: 1px solid $border-colour;
-    padding: 2px 4px;
+    padding: 8px;
     margin: 0;
     @include box-sizing(border-box);
   }
@@ -246,6 +247,18 @@ $border-colour: #C2C2C2;
     }
   }
 }
+
+.IconRow {
+  padding-left: 28px;
+  background: {
+    position: left center;
+    repeat: no-repeat;
+  }
+}
+.IconRow--name { @include svg-bg("../images/icons/user") }
+.IconRow--address { @include svg-bg("../images/icons/house") }
+.IconRow--phone { @include svg-bg("../images/icons/phone") }
+.IconRow--email { @include svg-bg("../images/icons/email") }
 
 .FieldGroup {
   padding-bottom: 15px;
