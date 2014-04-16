@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.template import RequestContext
+from django.views.generic import TemplateView
 from api.client import get_connection
 
 
@@ -21,7 +22,6 @@ def dashboard(request):
 def edit_case(request, case_reference):
     context = {'case_reference': case_reference}
     client = get_connection(request)
-    # TODO should be atomic...? rev_id
     case = client.case(case_reference).get()
     context['case'] = case
     context['eligibility_check'] = client.eligibility_check(case['eligibility_check']).get()
