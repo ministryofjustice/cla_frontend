@@ -1,4 +1,4 @@
-{% extends "call_centre/base.html" %}
+{% extends "call_centre/base.html" %}{% load humanize helpers %}
 
 {% block middle_content %}
 
@@ -34,4 +34,22 @@
         {{ unlock_form.as_p }}
         <input type="submit" value="unlock">
     </form>
+{% endblock %}
+
+
+{% block right_content %}
+    {% if case.caseoutcome_set %}
+    <ul>
+    {% for outcome in case.caseoutcome_set %}
+        <li>
+            {{ outcome.created|as_date|naturaltime }}<br />
+            {% if outcome.notes %}
+                {{ outcome.notes }}<br />
+            {% endif %}
+            ({{ outcome.created_by }})<br />
+            {{ outcome.outcome_code }}<br />
+        </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
 {% endblock %}
