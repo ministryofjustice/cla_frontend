@@ -19,15 +19,15 @@
       </tr>
     </thead>
     <tbody>
-      {% for case in cases %}
+    {% for case in cases %}
         <tr{% if case.locked_by %} style="color: red"{% endif %}>
-          <td><a href="{% url 'call_centre:edit_case' case.reference %}">{{ case.reference}}</a></td>
-          <td>{{ case.personal_details.full_name }}</td>
-          <td>{{ case.created|as_date|naturaltime }}</td>
-          <td>{{ case.modified|as_date|naturaltime }}</td>
-          <td>{{ case.created_by|default:"web" }}</td>
+            <td><a href="{% url zone.name|add:':edit_case' case.reference %}">{{ case.reference}}</a></td>
+            <td>{{ case.personal_details.full_name }}</td>
+            <td>{{ case.created|as_date|naturaltime }}</td>
+            <td>{{ case.modified|as_date|naturaltime }}</td>
+            <td>{{ case.created_by|default:"web" }}</td>
         </tr>
-      {% endfor %}
+    {% endfor %}
     </tbody>
   </table>
 {% endblock %}
