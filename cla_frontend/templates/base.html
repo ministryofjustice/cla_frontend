@@ -133,18 +133,16 @@
     <main id="wrapper" class="group">
       {% block full_content %}
         <div class="Grid">
-          <div class="Grid-row">
-            <div class="Grid-col Grid-col--fixed">
+          <div class="Grid-row cf">
+            <div class="Grid-col Grid-col--1-5">
               {% block left_content %}{% endblock %}
             </div>
-
-            <div class="Grid-col--fluid">
-              <div class="Grid-col Grid-col--fixed Grid-col--right">
+            <div class="Grid-col Grid-col--3-5">
+              {% block middle_content %}{% endblock %}
+            </div>
+            <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour">
+              <div class="Grid-colInner">
                 {% block right_content %}{% endblock %}
-              </div> 
-
-              <div class="Grid-col--fluid">
-                {% block middle_content %}{% endblock %}
               </div>
             </div>
           </div>
