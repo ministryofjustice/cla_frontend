@@ -126,9 +126,11 @@ def unlock_case(request, case_reference):
 
     if form.is_valid():
         form.save(case_reference)
+        messages.add_message(request, messages.INFO,
+            'Case {case_ref} unlocked successfully'.format(case_ref=case_reference)
+        )
         return redirect('call_centre:dashboard')
     else:
-        from django.contrib import messages
         messages.add_message(request,
                              messages.INFO,
                              _('Could not unlock case {case_ref}.'.format(case_ref=case_reference)))

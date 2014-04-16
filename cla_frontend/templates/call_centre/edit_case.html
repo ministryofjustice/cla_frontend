@@ -21,31 +21,34 @@
         {% endfor %}
     <input type="submit" value="submit">
     </form>
-    <hr>
-    <h3>Actions:</h3>
-
-    <h4>Unlock Case</h4>
-    <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
-        {% csrf_token %}
-        {{ unlock_form.as_p }}
-        <input type="submit" value="unlock">
-    </form>
 {% endblock %}
 
 
 {% block right_content %}
+    <section>
+        <h4>Unlock Case</h4>
+        <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
+            {% csrf_token %}
+            {{ unlock_form.as_p }}
+            <input type="submit" value="unlock">
+        </form>
+    </section>
+
     {% if case.caseoutcome_set %}
-    <ul>
-    {% for outcome in case.caseoutcome_set %}
-        <li>
-            {{ outcome.created|as_date|naturaltime }}<br />
-            {% if outcome.notes %}
-                {{ outcome.notes }}<br />
-            {% endif %}
-            ({{ outcome.created_by }})<br />
-            {{ outcome.outcome_code }}<br />
-        </li>
-    {% endfor %}
-    </ul>
+    <section>
+        <h4>Case History</h4>
+        <ul>
+        {% for outcome in case.caseoutcome_set %}
+            <li>
+                {{ outcome.created|as_date|naturaltime }}<br />
+                {% if outcome.notes %}
+                    {{ outcome.notes }}<br />
+                {% endif %}
+                ({{ outcome.created_by }})<br />
+                {{ outcome.outcome_code }}<br />
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
     {% endif %}
 {% endblock %}
