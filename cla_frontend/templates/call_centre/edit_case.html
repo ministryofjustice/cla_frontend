@@ -1,7 +1,16 @@
 {% extends "call_centre/base.html" %}{% load humanize helpers %}
 
+
+{% block left_content %}
+    <a href="{% url 'call_centre:dashboard' %}">Back to cases</a>
+{% endblock %}
+
+
 {% block middle_content %}
-    <a href="{% url 'call_centre:close_case' case.reference %}">Close Case</a>
+    <ul>
+        <li><a href="{% url 'call_centre:close_case' case.reference %}">Close Case</a></li>
+        <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
+    </ul>
 
     <h1>Edit case: {{ case_reference }}</h1>
     <h2>State: {{ case.state }}</h2>
@@ -14,13 +23,6 @@
     </form>
     <hr>
     <h3>Actions:</h3>
-
-    <h4>Assign to Provider</h4>
-    <form method="post" action="{% url 'call_centre:assign_case' case_reference=case_reference %}">
-        {% csrf_token %}
-        {{ assign_form.as_p }}
-        <input type="submit" value="assign">
-    </form>
 
     <h4>Unlock Case</h4>
     <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">

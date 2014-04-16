@@ -33,7 +33,6 @@ def edit_case(request, case_reference):
     eligibility_check = client.eligibility_check(case['eligibility_check']).get()
     context['case'] = case
     context['eligibility_check'] = eligibility_check
-    context['assign_form'] = CaseAssignForm(client=client)
     context['unlock_form'] = CaseUnlockForm(client=client)
 
     if request.method == 'POST':
@@ -67,25 +66,28 @@ def create_case(request):
 
 
 @login_required
-@require_POST
 def assign_case(request, case_reference):
     """
     to assign to a cla_provider, should post a
     provider with id of provider to assign to
     """
-    # TODO complete this, different page?
     client = get_connection(request)
-    assign_form = CaseAssignForm(request.POST, client=client)
 
-    if assign_form.is_valid():
-        assign_form.save(case_reference)
-        return redirect('call_centre:dashboard')
+    if request.method == 'POST':
+        form = CaseAssignForm(request.POST, client=client)
+
+        if form.is_valid():
+            form.save(case_reference)
+            messages.add_message(request, messages.INFO,
+                'Case {case_ref} assigned successfully'.format(case_ref=case_reference)
+            )
+            return redirect('call_centre:dashboard')
     else:
-        from django.contrib import messages
-        messages.add_message(request,
-                             messages.INFO,
-                             _('Could not assign case {case_ref} to provider.'.format(case_ref=case_reference)))
-        return redirect('call_centre:edit_case', case_reference)
+        form = CaseAssignForm(client=client)
+
+    return render(request, 'call_centre/assign_case.html', {
+        'form': form
+    })
 
 
 @login_required
