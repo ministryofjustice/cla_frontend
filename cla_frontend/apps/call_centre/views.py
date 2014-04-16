@@ -27,7 +27,7 @@ def dashboard(request):
 def edit_case(request, case_reference):
     context = {'case_reference': case_reference}
     client = get_connection(request)
-    # TODO should be atomic...? rev_id
+
     case = client.case(case_reference).get()
     eligibility_check = client.eligibility_check(case['eligibility_check']).get()
     context['case'] = case
