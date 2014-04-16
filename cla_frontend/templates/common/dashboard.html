@@ -20,7 +20,7 @@
     </thead>
     <tbody>
       {% for case in cases %}
-        <tr>
+        <tr{% if case.locked_by %} style="color: red"{% endif %}>
           <td><a href="{% url 'call_centre:edit_case' case.reference %}">{{ case.reference}}</a></td>
           <td>{{ case.personal_details.full_name }}</td>
           <td>{{ case.created|as_date|naturaltime }}</td>

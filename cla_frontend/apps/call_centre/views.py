@@ -29,7 +29,7 @@ def edit_case(request, case_reference):
     context['eligibility_check'] = eligibility_check
     context['assign_form'] = CaseAssignForm(client=client)
     context['close_form'] = CaseCloseForm()
-    context['unlock_form'] = CaseUnlockForm()
+    context['unlock_form'] = CaseUnlockForm(client=client)
 
     if request.method == 'POST':
         case_edit_form = CaseForm(request.POST, client=client)
@@ -108,5 +108,18 @@ def create_case(request):
 @require_POST
 def unlock_case(request, case_reference):
     """
+    Unlocks a case, outcome required.
     """
-    raise NotImplementedError()
+    # TODO complete this, different page?
+    client = get_connection(request)
+    form = CaseUnlockForm(request.POST, client=client)
+
+    if form.is_valid():
+        form.save(case_reference)
+        return redirect('call_centre:dashboard')
+    else:
+        from django.contrib import messages
+        messages.add_message(request,
+                             messages.INFO,
+                             _('Could not unlock case {case_ref}.'.format(case_ref=case_reference)))
+        return redirect('call_centre:edit_case', case_reference)

@@ -86,5 +86,7 @@ class CaseCloseForm(forms.Form):
     reason = forms.ChoiceField(choices=EMPTY_CHOICE + ((CASE_STATE_REJECTED, 'REJECT'),), required=True)
 
 
-class CaseUnlockForm(forms.Form):
-    pass
+class CaseUnlockForm(OutcomeForm):
+    def save(self, case_reference):
+        response = self.client.case(case_reference).unlock().post(self.cleaned_data)
+        # TODO do something in case of 4xx and 5xx errors ?
