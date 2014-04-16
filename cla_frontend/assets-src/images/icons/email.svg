@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="12px" viewBox="0 0 16 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>email</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Operator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="3_Case_YourDetails" sketch:type="MSArtboardGroup" transform="translate(-10.000000, -287.000000)" fill="#6F777B">
+            <g id="User_details" sketch:type="MSLayerGroup" transform="translate(10.000000, 128.000000)">
+                <path d="M7.00986693,166.99006 L7,167 L8,168 L9,167 L8.01230892,166.01949 L8.0144477,166.017352 L4.50714111,162.503601 L3.51806641,163.531372 L5.01262458,165.011758 L3.49768066,166.507307 L4.52545168,167.496381 L6.0238234,166.013367 L7.00986693,166.99006 Z M10.0000269,166.032976 L9.03924969,167.002951 L8.01147867,166.013877 L11.5252292,162.50657 L12.513798,163.495139 L11.0029064,165.020495 L12.4671454,166.503723 L11.4407783,167.488647 L10.0000269,166.032976 L10.0000269,166.032976 Z M1.99406028,159 C0.892771196,159 0,159.90195 0,161.00853 L0,168.99147 C0,170.10075 0.894513756,171 1.99406028,171 L14.0059397,171 C15.1072288,171 16,170.09805 16,168.99147 L16,161.00853 C16,159.89925 15.1054862,159 14.0059397,159 L1.99406028,159 Z M3.00247329,161 C2.44882258,161 2,161.453036 2,161.99703 L2,168.00297 C2,168.553614 2.45576096,169 3.00247329,169 L12.9975267,169 C13.5511774,169 14,168.546964 14,168.00297 L14,161.99703 C14,161.446386 13.544239,161 12.9975267,161 L3.00247329,161 Z" id="email_icon" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>
