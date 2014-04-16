@@ -6,7 +6,7 @@
     className: 'is-focused',
 
     init: function () {
-      _.bindAll(this, 'render', 'onFocus', 'onFocusOut');
+      _.bindAll(this, 'render', 'renderEach', 'onFocus', 'onFocusOut');
       this.cacheEls();
       this.bindEvents();
     },
@@ -25,13 +25,14 @@
     },
 
     render: function () {
-      // if an input has value, give focused class
-      this.$inputs.each(function (i, el) {
-        var $el = $(el);
-        if ($el.val() !== '') {
-          $el.addClass(this.className);
-        }
-      });
+      this.$inputs.each(this.renderEach);
+    },
+
+    renderEach: function (i, el) {
+      var $el = $(el);
+      if ($el.val() !== '') {
+        $el.addClass(this.className);
+      }
     },
 
     onFocus: function (e) {
