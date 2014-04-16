@@ -1,0 +1,10 @@
+{% extends "call_centre/base.html" %}{% load humanize helpers %}
+
+{% block middle_content %}
+    <h4>Close Case</h4>
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="close">
+    </form>
+{% endblock %}

@@ -1,6 +1,7 @@
 {% extends "call_centre/base.html" %}{% load humanize helpers %}
 
 {% block middle_content %}
+    <a href="{% url 'call_centre:close_case' case.reference %}">Close Case</a>
 
     <h1>Edit case: {{ case_reference }}</h1>
     <h2>State: {{ case.state }}</h2>

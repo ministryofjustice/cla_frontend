@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
@@ -84,24 +85,27 @@ def assign_case(request, case_reference):
 
 
 @login_required
-@require_POST
 def close_case(request, case_reference):
     """
-    this should actually set a 'reason code' for closure
-    and assign to provider
+    Closes a case, outcome required.
     """
     client = get_connection(request)
-    form = CaseCloseForm(request.POST, client=client)
 
-    if form.is_valid():
-        form.save(case_reference)
-        return redirect('call_centre:dashboard')
+    if request.method == 'POST':
+        form = CaseCloseForm(request.POST, client=client)
+
+        if form.is_valid():
+            form.save(case_reference)
+            messages.add_message(request, messages.INFO,
+                'Case {case_ref} close successfully'.format(case_ref=case_reference)
+            )
+            return redirect('call_centre:dashboard')
     else:
-        from django.contrib import messages
-        messages.add_message(request,
-                             messages.INFO,
-                             _('Could not close case {case_ref}.'.format(case_ref=case_reference)))
-        return redirect('call_centre:edit_case', case_reference)
+        form = CaseCloseForm(client=client)
+
+    return render(request, 'call_centre/close_case.html', {
+        'form': form
+    })
 
 
 @login_required
