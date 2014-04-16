@@ -3,7 +3,7 @@ from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
 
 from cla_common.forms import MultipleFormsForm
-from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES, CASE_STATE_REJECTED
+from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES
 
 from legalaid.forms import APIFormMixin, OutcomeForm
 
@@ -82,8 +82,10 @@ class CaseAssignForm(OutcomeForm):
         # TODO do something in case of 4xx and 5xx errors ?
 
 
-class CaseCloseForm(forms.Form):
-    reason = forms.ChoiceField(choices=EMPTY_CHOICE + ((CASE_STATE_REJECTED, 'REJECT'),), required=True)
+class CaseCloseForm(OutcomeForm):
+    def save(self, case_reference):
+        response = self.client.case(case_reference).close().post(self.cleaned_data)
+        # TODO do something in case of 4xx and 5xx errors ?
 
 
 class CaseUnlockForm(OutcomeForm):

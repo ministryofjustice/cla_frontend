@@ -28,7 +28,7 @@ def edit_case(request, case_reference):
     context['case'] = case
     context['eligibility_check'] = eligibility_check
     context['assign_form'] = CaseAssignForm(client=client)
-    context['close_form'] = CaseCloseForm()
+    context['close_form'] = CaseCloseForm(client=client)
     context['unlock_form'] = CaseUnlockForm(client=client)
 
     if request.method == 'POST':
@@ -51,6 +51,14 @@ def edit_case(request, case_reference):
             client=client
         )
         return render(request, 'call_centre/edit_case.html', context)
+
+
+@login_required
+@require_POST
+def create_case(request):
+    client = get_connection(request)
+    resp = client.case.post()
+    return redirect('call_centre:edit_case', resp.get('reference'))
 
 
 @login_required
@@ -83,10 +91,10 @@ def close_case(request, case_reference):
     and assign to provider
     """
     client = get_connection(request)
-    close_form = CaseCloseForm(request.POST)
-    if close_form.is_valid():
-        state = close_form.cleaned_data['reason']
-        client.case(case_reference).patch({'state': state})
+    form = CaseCloseForm(request.POST, client=client)
+
+    if form.is_valid():
+        form.save(case_reference)
         return redirect('call_centre:dashboard')
     else:
         from django.contrib import messages
@@ -94,14 +102,6 @@ def close_case(request, case_reference):
                              messages.INFO,
                              _('Could not close case {case_ref}.'.format(case_ref=case_reference)))
         return redirect('call_centre:edit_case', case_reference)
-
-
-@login_required
-@require_POST
-def create_case(request):
-    client = get_connection(request)
-    resp = client.case.post()
-    return redirect('call_centre:edit_case', resp.get('reference'))
 
 
 @login_required
