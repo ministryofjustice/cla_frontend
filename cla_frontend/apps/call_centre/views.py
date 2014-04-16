@@ -29,7 +29,6 @@ def edit_case(request, case_reference):
     context['case'] = case
     context['eligibility_check'] = eligibility_check
     context['assign_form'] = CaseAssignForm(client=client)
-    context['close_form'] = CaseCloseForm(client=client)
     context['unlock_form'] = CaseUnlockForm(client=client)
 
     if request.method == 'POST':
