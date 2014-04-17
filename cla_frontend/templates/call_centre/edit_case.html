@@ -7,39 +7,41 @@
     <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
   </nav>
 
-  <form method="post" action=".">
-    <!--<div class="FormRow IconRow">
-      <label for="" class="visuallyhidden">Title</label>
-      <input type="text" name="" id="" placeholder="Title">
-    </div>-->
-    <div class="FormRow IconRow IconRow--name">
-      <label for="" class="visuallyhidden">Name</label>
-      <input type="text" name="" id="" placeholder="Name">
-    </div>
-    <div class="FormRow IconRow IconRow--address">
-      <label for="" class="visuallyhidden">Post code</label>
-      <input type="text" name="" id="" placeholder="Post code">
-    </div>
-    <div class="FormRow IconRow">
-      <label for="" class="visuallyhidden">Address</label>
-      <textarea name="" id="" cols="20" rows="3" placeholder="Address"></textarea>
-    </div>
-    <div class="FormRow IconRow IconRow--email">
-      <label for="" class="visuallyhidden">Email</label>
-      <input type="text" name="" id="" placeholder="Email">
-    </div>
-    <div class="FormRow IconRow IconRow--phone">
-      <label for="" class="visuallyhidden">Home</label>
-      <input type="text" name="" id="" placeholder="Home">
-    </div>
-    <div class="FormRow IconRow">
-      <label for="" class="visuallyhidden">Mobile</label>
-      <input type="text" name="" id="" placeholder="Mobile">
-    </div>
-    <div class="IconRow cf">
-      <button class="Button">Save details</button>
-    </div>
-  </form>
+
+   <iframe src="{% url 'call_centre:edit_case_personal_details' case.reference %}"></iframe>
+{#  <form method="post" action=".">#}
+{#    <!--<div class="FormRow IconRow">#}
+{#      <label for="" class="visuallyhidden">Title</label>#}
+{#      <input type="text" name="" id="" placeholder="Title">#}
+{#    </div>-->#}
+{#    <div class="FormRow IconRow IconRow--name">#}
+{#      <label for="" class="visuallyhidden">Name</label>#}
+{#      <input type="text" name="" id="" placeholder="Name">#}
+{#    </div>#}
+{#    <div class="FormRow IconRow IconRow--address">#}
+{#      <label for="" class="visuallyhidden">Post code</label>#}
+{#      <input type="text" name="" id="" placeholder="Post code">#}
+{#    </div>#}
+{#    <div class="FormRow IconRow">#}
+{#      <label for="" class="visuallyhidden">Address</label>#}
+{#      <textarea name="" id="" cols="20" rows="3" placeholder="Address"></textarea>#}
+{#    </div>#}
+{#    <div class="FormRow IconRow IconRow--email">#}
+{#      <label for="" class="visuallyhidden">Email</label>#}
+{#      <input type="text" name="" id="" placeholder="Email">#}
+{#    </div>#}
+{#    <div class="FormRow IconRow IconRow--phone">#}
+{#      <label for="" class="visuallyhidden">Home</label>#}
+{#      <input type="text" name="" id="" placeholder="Home">#}
+{#    </div>#}
+{#    <div class="FormRow IconRow">#}
+{#      <label for="" class="visuallyhidden">Mobile</label>#}
+{#      <input type="text" name="" id="" placeholder="Mobile">#}
+{#    </div>#}
+{#    <div class="IconRow cf">#}
+{#      <button class="Button">Save details</button>#}
+{#    </div>#}
+{#  </form>#}
   
   <nav>
     <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 4">

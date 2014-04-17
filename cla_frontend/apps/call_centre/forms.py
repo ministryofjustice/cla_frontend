@@ -63,7 +63,6 @@ class PersonalDetailsForm(forms.Form):
 class CaseForm(MultipleFormsForm):
     forms_list = (
         ('eligibility_check', EligibilityCheckForm),
-        ('personal_details', PersonalDetailsForm),
     )
 
 
