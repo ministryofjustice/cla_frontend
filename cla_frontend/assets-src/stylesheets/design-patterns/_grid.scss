@@ -13,6 +13,7 @@ $col-gutter: 20; // in pixels
     @include media (tablet) {
       float: left;
       width: 100%;
+      padding-bottom: 20px;
       @include box-sizing(border-box);
 
       &:last-child {

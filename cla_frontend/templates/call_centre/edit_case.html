@@ -1,4 +1,4 @@
-{% extends "call_centre/base.html" %}{% load i18n humanize helpers %}
+{% extends "call_centre/base.html" %}{% load i18n humanize helpers widget_tweaks %}
 
 {% block body_classes %}{{ product_type }} {{ phase }} v-Case{% endblock %}
 
@@ -7,40 +7,8 @@
     <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
   </nav>
 
-    <iframe src="{% url 'call_centre:edit_case_personal_details' case.reference %}"></iframe>
-{#  <form method="post" action=".">#}
-{#    <!--<div class="FormRow IconRow">#}
-{#      <label for="" class="visuallyhidden">Title</label>#}
-{#      <input type="text" name="" id="" placeholder="Title">#}
-{#    </div>-->#}
-{#    <div class="FormRow IconRow IconRow--name">#}
-{#      <label for="" class="visuallyhidden">Name</label>#}
-{#      <input type="text" name="" id="" placeholder="Name">#}
-{#    </div>#}
-{#    <div class="FormRow IconRow IconRow--address">#}
-{#      <label for="" class="visuallyhidden">Post code</label>#}
-{#      <input type="text" name="" id="" placeholder="Post code">#}
-{#    </div>#}
-{#    <div class="FormRow IconRow">#}
-{#      <label for="" class="visuallyhidden">Address</label>#}
-{#      <textarea name="" id="" cols="20" rows="3" placeholder="Address"></textarea>#}
-{#    </div>#}
-{#    <div class="FormRow IconRow IconRow--email">#}
-{#      <label for="" class="visuallyhidden">Email</label>#}
-{#      <input type="text" name="" id="" placeholder="Email">#}
-{#    </div>#}
-{#    <div class="FormRow IconRow IconRow--phone">#}
-{#      <label for="" class="visuallyhidden">Home</label>#}
-{#      <input type="text" name="" id="" placeholder="Home">#}
-{#    </div>#}
-{#    <div class="FormRow IconRow">#}
-{#      <label for="" class="visuallyhidden">Mobile</label>#}
-{#      <input type="text" name="" id="" placeholder="Mobile">#}
-{#    </div>#}
-{#    <div class="IconRow cf">#}
-{#      <button class="Button">Save details</button>#}
-{#    </div>#}
-{#  </form>#}
+  <iframe src="{% url 'call_centre:edit_case_personal_details' case.reference %}" frameBorder="0"></iframe>
+
   <nav>
     <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 4">
       <li class="ProgressIndicator-step is-complete"><a href="" class="ProgressIndicator-tick">Your problem</a></li>
@@ -55,28 +23,37 @@
   <header class="PageHeader cf">
     <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
     <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>
+    <a href="{% url 'call_centre:assign_case' case.reference %}" class="Button Button--secondary u-pullRight">Assign case</a>
   </header>
-
-  <div class="FormRow">
-    <textarea name="" id="" rows="13" cols="20" placeholder="Comments about case {{ case_reference }}"></textarea>
-  </div>
-  <div>
-    <button type="submit" class="Button">Save notes</button>
-  </div>
-
-  <ul>
-      <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
-  </ul>
-
   <form method="post" action=".">
     {% csrf_token %}
-    {% for k, subform in form.form_dict.items %}
-        {{ subform.as_p }}
-    {% endfor %}
 
-    <div>
-      <button type="submit" class="Button">Next</button>
+    {% with form=form.form_dict.eligibility_check %}
+    <div class="FormRow">
+      {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case " }}
     </div>
+    <div class="FormRow cf">
+      <label for="{{ form.category.id_for_label }}" id="{{ form.category.auto_id }}-label">
+        <span class="FormRow-label">{{ form.category.label }}</span>
+        {% for error in form.category.errors %}
+          <span class="Error-message">{{ error }}</span>
+        {% endfor %}
+        {{ form.category }}
+      </label>
+    </div>
+    <div class="FormRow cf">
+      <label for="{{ form.state.id_for_label }}" id="{{ form.state.auto_id }}-label">
+        <span class="FormRow-label">{{ form.state.label }}</span>
+        {% for error in form.state.errors %}
+          <span class="Error-message">{{ error }}</span>
+        {% endfor %}
+        {{ form.state }}
+      </label>
+    </div>
+    <div>
+      <button type="submit" class="Button">Save case details</button>
+    </div>
+    {% endwith %}
   </form>
 {% endblock %}
 

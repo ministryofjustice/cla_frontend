@@ -102,7 +102,7 @@ $border-colour: #C2C2C2;
     height: auto;
     display: block;
     border: 1px solid $border-colour;
-    padding: 8px;
+    padding: 8px 4px;
     margin: 0;
     @include box-sizing(border-box);
   }
