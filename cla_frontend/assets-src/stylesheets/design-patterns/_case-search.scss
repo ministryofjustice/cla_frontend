@@ -19,8 +19,9 @@
   float: left;
   background-color: $white;
   height: 30px;
-  width: 70px;
+  width: 60px;
   padding: 8px 8px;
+  color: $grey-1;
 
   @include media(tablet) {
     padding-top: 6px;
@@ -41,7 +42,7 @@ input.CaseSearch-query {
   @include border-radius(0 3px 3px 0);
   @include core-16;
   height: 30px;
-  width: 165px;
+  width: 145px;
   padding: 4px 8px;
   border: 0;
   float: left;
