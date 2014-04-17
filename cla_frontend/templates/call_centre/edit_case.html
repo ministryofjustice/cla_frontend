@@ -7,10 +7,12 @@
 
 
 {% block middle_content %}
+{% comment %}
     <ul>
         <li><a href="{% url 'call_centre:close_case' case.reference %}">Close Case</a></li>
         <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
     </ul>
+{% endcomment %}
 
     <h1>Edit case: {{ case_reference }}</h1>
     <h2>State: {{ case.state }}</h2>
@@ -25,6 +27,7 @@
 
 
 {% block right_content %}
+{% comment %}
     <section>
         <h4>Unlock Case</h4>
         <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
@@ -51,4 +54,5 @@
         </ul>
     </section>
     {% endif %}
+{% endcomment %}
 {% endblock %}
