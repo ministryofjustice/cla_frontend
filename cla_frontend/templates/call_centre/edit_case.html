@@ -108,7 +108,7 @@
       {% for field in unlock_form %}
       <div class="FormRow cf">
         <label for="{{ field.id_for_label }}" id="{{ field.auto_id }}-label">
-          {{ field.label }}
+          <span class="FormRow-label">{{ field.label }}</span>
           {% for error in field.errors %}
             <span class="Error-message">{{ error }}</span>
           {% endfor %}
