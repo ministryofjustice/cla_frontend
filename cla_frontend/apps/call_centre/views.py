@@ -7,7 +7,8 @@ from django.views.decorators.http import require_POST
 
 from api.client import get_connection
 
-from .forms import CaseForm, CaseAssignForm, CaseCloseForm, CaseUnlockForm
+from .forms import CaseForm, CaseAssignForm, CaseCloseForm, CaseUnlockForm, \
+    PersonalDetailsForm
 
 
 @login_required
@@ -55,6 +56,29 @@ def edit_case(request, case_reference):
             client=client
         )
         return render(request, 'call_centre/edit_case.html', context)
+
+@login_required
+def edit_case_personal_details(request, case_reference):
+    context = {'case_reference': case_reference}
+    client = get_connection(request)
+    case = client.case(case_reference).get()
+    context['case'] = case
+
+    if request.method == 'POST':
+        personal_details_edit_form = PersonalDetailsForm(request.POST)
+
+        if personal_details_edit_form.is_valid():
+            data = personal_details_edit_form.cleaned_data
+            client.case(case_reference).patch({'personal_details':data})
+            return redirect('call_centre:edit_case_personal_details', case_reference)
+        else:
+            context['form'] = personal_details_edit_form
+            return render(request, 'call_centre/edit_case_personal_details.html', context)
+    else:
+        context['form'] = PersonalDetailsForm(
+            initial= case.get('personal_details'),
+        )
+        return render(request, 'call_centre/edit_case_personal_details.html', context)
 
 
 @login_required

@@ -1,0 +1,42 @@
+{% extends "iframe.html" %}{% load widget_tweaks %}
+
+{% block content %}
+  <form method="post" action="{% url 'call_centre:edit_case_personal_details' case.reference %}">
+    {% csrf_token %}
+    <!--<div class="FormRow IconRow IconRow--name">
+      <label for="{{ form.title.id_for_label }}" class="visuallyhidden">Title</label>
+      {{ form.title }}
+    </div>-->
+    <div class="FormRow IconRow IconRow--name">
+      <label for="{{ form.full_name.id_for_label }}" class="visuallyhidden">Name</label>
+      {{ form.full_name|attr:"placeholder:Name" }}
+    </div>
+    <div class="FormRow IconRow IconRow--address">
+      <label for="{{ form.postcode.id_for_label }}" class="visuallyhidden">Post code</label>
+      {{ form.postcode|attr:"placeholder:Post code" }}
+    </div>
+    <div class="FormRow IconRow">
+      <label for="{{ form.street.id_for_label }}" class="visuallyhidden">Address</label>
+      {{ form.street|attr:"rows:3"|attr:"cols:20"|attr:"placeholder:Address" }}
+    </div>
+    <!--<div class="FormRow IconRow">
+      <label for="{{ form.town.id_for_label }}" class="visuallyhidden">Town</label>
+      {{ form.town|attr:"placeholder:Town" }}
+    </div>-->
+    <div class="FormRow IconRow IconRow--email">
+      <label for="{{ form.email.id_for_label }}" class="visuallyhidden">Email</label>
+      {{ form.email|attr:"placeholder:Email" }}
+    </div>
+    <div class="FormRow IconRow IconRow--phone">
+      <label for="{{ form.home_phone.id_for_label }}" class="visuallyhidden">Home</label>
+      {{ form.home_phone|attr:"placeholder:Home" }}
+    </div>
+    <div class="FormRow IconRow IconRow--phone">
+      <label for="{{ form.mobile_phone.id_for_label }}" class="visuallyhidden">Mobile</label>
+      {{ form.mobile_phone|attr:"placeholder:" }}
+    </div>
+    <div class="IconRow cf">
+      <button type="submit" class="Button">Save details</button>
+    </div>
+  </form>
+{% endblock %}

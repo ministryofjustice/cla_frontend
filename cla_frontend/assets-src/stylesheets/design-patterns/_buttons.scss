@@ -1,7 +1,7 @@
 .Button {
   @include button;
   @include border-radius(3px);
-  @include core-19;
+  @include core-16;
   
   &:link {
     color: $white;

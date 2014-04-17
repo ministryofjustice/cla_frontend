@@ -23,4 +23,5 @@ urlpatterns = patterns('',
     url(r'^case/(?P<case_reference>.+)/assign/$', views.assign_case, name='assign_case'),
     url(r'^case/(?P<case_reference>.+)/close/$', views.close_case, name='close_case'),
     url(r'^case/(?P<case_reference>.+)/edit/$', views.edit_case, name='edit_case'),
+    url(r'^case/(?P<case_reference>.+)/edit/personal_details/$', views.edit_case_personal_details, name='edit_case_personal_details'),
 )
