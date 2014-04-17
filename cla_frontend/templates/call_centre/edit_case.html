@@ -52,16 +52,9 @@
 {% endblock %}
 
 {% block middle_content %}
-
-  <ul>
-      <li><a href="{% url 'call_centre:close_case' case.reference %}">Close Case</a></li>
-      <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
-  </ul>
-
-
   <header class="PageHeader cf">
     <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
-    <a href="" class="Button Button--secondary u-pullRight">Close case</a>
+    <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>
   </header>
 
   <div class="FormRow">
@@ -70,6 +63,10 @@
   <div class="cf">
     <button class="Button u-pullRight">Save notes</button>
   </div>
+
+  <ul>
+      <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
+  </ul>
 
     <form method="post" action=".">
         {% csrf_token %}
@@ -85,48 +82,29 @@
     <span class="Timer-current u-pullLeft">00:01:02</span>
     <span class="Timer-total u-pullRight">00:13:06 total</span>
   </div>
-
+  
+  {% if case.caseoutcome_set %}
   <ul class="CaseHistory">
+    {% for outcome in case.caseoutcome_set %}
     <li class="CaseHistory-item">
-      18 Mar 2013 10:56<br>
+      {{ outcome.created|as_date }}<br>
       Case LA-2954-3453 opened<br>
-      (<a href="">dave.wilson</a>)<br>
-      <span class="CaseHistory-label">ROS</span>
+      {% if outcome.notes %}
+        {{ outcome.notes }}<br>
+      {% endif %}
+      (<a href="#">{{ outcome.created_by }}</a>)<br>
+      <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
     </li>
-    <li class="CaseHistory-item">
-      18 Mar 2013 10:56<br>
-      Case LA-2954-3453 opened<br>
-      (<a href="">dave.wilson</a>)<br>
-      <span class="CaseHistory-label">ONAR</span>
-    </li>
+    {% endfor %}
   </ul>
+  {% endif %}
 
-
-
-    <section>
-        <h4>Unlock Case</h4>
-        <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
-            {% csrf_token %}
-            {{ unlock_form.as_p }}
-            <input type="submit" value="unlock">
-        </form>
-    </section>
-
-    {% if case.caseoutcome_set %}
-    <section>
-        <h4>Case History</h4>
-        <ul>
-        {% for outcome in case.caseoutcome_set %}
-            <li>
-                {{ outcome.created|as_date|naturaltime }}<br />
-                {% if outcome.notes %}
-                    {{ outcome.notes }}<br />
-                {% endif %}
-                ({{ outcome.created_by }})<br />
-                {{ outcome.outcome_code }}<br />
-            </li>
-        {% endfor %}
-        </ul>
-    </section>
-    {% endif %}
+  <section>
+    <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
+      {% csrf_token %}
+      {{ unlock_form.as_p }}
+      <input type="submit" value="unlock">
+    </form>
+  </section>
+    
 {% endblock %}
