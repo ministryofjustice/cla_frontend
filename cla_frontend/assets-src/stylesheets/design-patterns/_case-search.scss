@@ -1,7 +1,15 @@
 .CaseSearch {
-  float: left;
-  margin: 4px 20px 0;
+  margin: 4px 0 0;
   position: relative;
+  clear: left;
+
+  @include media(desktop) {
+    float: left;
+    clear: none;
+    margin: {
+      left: 20px;
+    }
+  }
 }
 .CaseSearch-label {
   @include box-sizing(border-box);
@@ -11,8 +19,9 @@
   float: left;
   background-color: $white;
   height: 30px;
-  width: 70px;
+  width: 60px;
   padding: 8px 8px;
+  color: $grey-1;
 
   @include media(tablet) {
     padding-top: 6px;
@@ -25,7 +34,7 @@
     border: 1px solid $grey-1;
     color: $grey-1;
     position: absolute;
-    width: 235px;
+    width: 205px;
   }
 }
 input.CaseSearch-query {
@@ -33,7 +42,7 @@ input.CaseSearch-query {
   @include border-radius(0 3px 3px 0);
   @include core-16;
   height: 30px;
-  width: 165px;
+  width: 145px;
   padding: 4px 8px;
   border: 0;
   float: left;
@@ -44,7 +53,7 @@ input.CaseSearch-query {
     @include border-radius(3px);
     background-color: transparent;
     position: relative;
-    width: 235px;
+    width: 205px;
 
     &.is-focused {
       background-color: $white;

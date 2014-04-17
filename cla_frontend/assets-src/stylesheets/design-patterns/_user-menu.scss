@@ -1,6 +1,9 @@
 .UserMenu {
   padding-top: 8px;
-  float: right;
+
+  @include media(desktop) {
+    float: right;
+  }
   
   a:link,
   a:visited {

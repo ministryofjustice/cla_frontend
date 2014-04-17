@@ -20,7 +20,7 @@
     </thead>
     <tbody>
     {% for case in cases %}
-        <tr{% if case.locked_by %} style="color: red"{% endif %}>
+        <tr>
             <td><a href="{% url zone.name|add:':edit_case' case.reference %}">{{ case.reference}}</a></td>
             <td>{{ case.personal_details.full_name }}</td>
             <td>{{ case.created|as_date|naturaltime }}</td>

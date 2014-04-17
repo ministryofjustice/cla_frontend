@@ -7,7 +7,51 @@
     <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
   </nav>
 
+  <form method="post" action=".">
+    <!--<div class="FormRow IconRow">
+      <label for="" class="visuallyhidden">Title</label>
+      <input type="text" name="" id="" placeholder="Title">
+    </div>-->
+    <div class="FormRow IconRow IconRow--name">
+      <label for="" class="visuallyhidden">Name</label>
+      <input type="text" name="" id="" placeholder="Name">
+    </div>
+    <div class="FormRow IconRow IconRow--address">
+      <label for="" class="visuallyhidden">Post code</label>
+      <input type="text" name="" id="" placeholder="Post code">
+    </div>
+    <div class="FormRow IconRow">
+      <label for="" class="visuallyhidden">Address</label>
+      <textarea name="" id="" cols="20" rows="3" placeholder="Address"></textarea>
+    </div>
+    <div class="FormRow IconRow IconRow--email">
+      <label for="" class="visuallyhidden">Email</label>
+      <input type="text" name="" id="" placeholder="Email">
+    </div>
+    <div class="FormRow IconRow IconRow--phone">
+      <label for="" class="visuallyhidden">Home</label>
+      <input type="text" name="" id="" placeholder="Home">
+    </div>
+    <div class="FormRow IconRow">
+      <label for="" class="visuallyhidden">Mobile</label>
+      <input type="text" name="" id="" placeholder="Mobile">
+    </div>
+    <div class="IconRow cf">
+      <button class="Button">Save details</button>
+    </div>
+  </form>
+  
+  <nav>
+    <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 4">
+      <li class="ProgressIndicator-step is-complete"><a href="" class="ProgressIndicator-tick">Your problem</a></li>
+      <li class="ProgressIndicator-step is-active">Your details</li>
+      <li class="ProgressIndicator-step">Your finances</li>
+      <li class="ProgressIndicator-step">Result</li>      
+    </ol>
+  </nav>
+{% endblock %}
 
+<<<<<<< HEAD
    <iframe src="{% url 'call_centre:edit_case_personal_details' case.reference %}"></iframe>
 {#  <form method="post" action=".">#}
 {#    <!--<div class="FormRow IconRow">#}
@@ -70,6 +114,25 @@
       <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
   </ul>
 
+=======
+{% block middle_content %}
+  <header class="PageHeader cf">
+    <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
+    <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>
+  </header>
+
+  <div class="FormRow">
+    <textarea name="" id="" rows="13" cols="20" placeholder="Comments about case {{ case_reference }}"></textarea>
+  </div>
+  <div>
+    <button type="submit" class="Button">Save notes</button>
+  </div>
+
+  <ul>
+      <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
+  </ul>
+
+>>>>>>> d0d3a2aa45d8061112262f64d2ce035feecd0234
   <form method="post" action=".">
     {% csrf_token %}
     {% for k, subform in form.form_dict.items %}
@@ -110,7 +173,11 @@
       {% for field in unlock_form %}
       <div class="FormRow cf">
         <label for="{{ field.id_for_label }}" id="{{ field.auto_id }}-label">
+<<<<<<< HEAD
           {{ field.label }}
+=======
+          <span class="FormRow-label">{{ field.label }}</span>
+>>>>>>> d0d3a2aa45d8061112262f64d2ce035feecd0234
           {% for error in field.errors %}
             <span class="Error-message">{{ error }}</span>
           {% endfor %}
@@ -124,5 +191,8 @@
       </div>
     </form>
   </section>
+<<<<<<< HEAD
     
+=======
+>>>>>>> d0d3a2aa45d8061112262f64d2ce035feecd0234
 {% endblock %}

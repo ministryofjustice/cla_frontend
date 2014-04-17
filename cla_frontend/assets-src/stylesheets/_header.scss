@@ -3,14 +3,21 @@
   &.with-proposition {
     .header-wrapper {
       .header-global {
-        width: 240px;
+        float: left;
+        
+        @include media(desktop) {
+          width: 18.75%;
+          margin-right: 1.5625%;
+        }
       }
 
       .header-proposition {
         width: auto;
+        float: left;
+
         .content {
           margin-right: 0;
-          margin-left: 20px;
+          margin-left: 0;
         }
       }
     }
