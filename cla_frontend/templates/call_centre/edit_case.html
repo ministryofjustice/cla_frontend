@@ -36,11 +36,11 @@
       <label for="" class="visuallyhidden">Mobile</label>
       <input type="text" name="" id="" placeholder="Mobile">
     </div>
-    <div class="cf">
-      <button class="Button u-pullRight">Save details</button>
+    <div class="IconRow cf">
+      <button class="Button">Save details</button>
     </div>
   </form>
-
+  
   <nav>
     <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 4">
       <li class="ProgressIndicator-step is-complete"><a href="" class="ProgressIndicator-tick">Your problem</a></li>
@@ -60,21 +60,24 @@
   <div class="FormRow">
     <textarea name="" id="" rows="13" cols="20" placeholder="Comments about case {{ case_reference }}"></textarea>
   </div>
-  <div class="cf">
-    <button class="Button u-pullRight">Save notes</button>
+  <div>
+    <button type="submit" class="Button">Save notes</button>
   </div>
 
   <ul>
       <li><a href="{% url 'call_centre:assign_case' case.reference %}">Assign Case</a></li>
   </ul>
 
-    <form method="post" action=".">
-        {% csrf_token %}
-        {% for k, subform in form.form_dict.items %}
-            {{ subform.as_p }}
-        {% endfor %}
-    <input type="submit" value="submit">
-    </form>
+  <form method="post" action=".">
+    {% csrf_token %}
+    {% for k, subform in form.form_dict.items %}
+        {{ subform.as_p }}
+    {% endfor %}
+
+    <div>
+      <button type="submit" class="Button">Next</button>
+    </div>
+  </form>
 {% endblock %}
 
 {% block right_content %}
@@ -88,11 +91,10 @@
     {% for outcome in case.caseoutcome_set %}
     <li class="CaseHistory-item">
       {{ outcome.created|as_date }}<br>
-      Case LA-2954-3453 opened<br>
       {% if outcome.notes %}
         {{ outcome.notes }}<br>
       {% endif %}
-      (<a href="#">{{ outcome.created_by }}</a>)<br>
+      ({{ outcome.created_by }})<br>
       <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
     </li>
     {% endfor %}
@@ -102,8 +104,22 @@
   <section>
     <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
       {% csrf_token %}
-      {{ unlock_form.as_p }}
-      <input type="submit" value="unlock">
+
+      {% for field in unlock_form %}
+      <div class="FormRow cf">
+        <label for="{{ field.id_for_label }}" id="{{ field.auto_id }}-label">
+          {{ field.label }}
+          {% for error in field.errors %}
+            <span class="Error-message">{{ error }}</span>
+          {% endfor %}
+          {{ field }}
+        </label>
+      </div>
+      {% endfor %}
+
+      <div>
+        <button type="submit" class="Button">Unlock case</button>
+      </div>
     </form>
   </section>
     
