@@ -1,7 +1,7 @@
 def globals(request):
   context = {
-    'app_title': 'Civil Legal Advise',
-    'proposition_title': 'Civil Legal Advise Tool',
+    'app_title': 'Civil Legal Advice',
+    'proposition_title': 'Civil Legal Advice Tool',
     'phase': 'alpha',
     'product_type': 'service',
     'feedback_url': '#',
