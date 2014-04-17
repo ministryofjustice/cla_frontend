@@ -1,7 +1,15 @@
 .CaseSearch {
-  float: left;
-  margin: 4px 20px 0;
+  margin: 4px 0 0;
   position: relative;
+  clear: left;
+
+  @include media(desktop) {
+    float: left;
+    clear: none;
+    margin: {
+      left: 20px;
+    }
+  }
 }
 .CaseSearch-label {
   @include box-sizing(border-box);
@@ -25,7 +33,7 @@
     border: 1px solid $grey-1;
     color: $grey-1;
     position: absolute;
-    width: 235px;
+    width: 205px;
   }
 }
 input.CaseSearch-query {
@@ -44,7 +52,7 @@ input.CaseSearch-query {
     @include border-radius(3px);
     background-color: transparent;
     position: relative;
-    width: 235px;
+    width: 205px;
 
     &.is-focused {
       background-color: $white;
