@@ -10,11 +10,11 @@ from core.testing.test_base import CLATFrontEndTestCase
 from .fixtures import mocked_api
 from ..views import dashboard
 
-class CallCentreDashboardTests(CLATFrontEndTestCase):
+class ProviderDashboardTests(CLATFrontEndTestCase):
 
-    zone = 'call_centre'
+    zone = 'cla_provider'
 
-    @mock.patch('call_centre.views.get_connection')
+    @mock.patch('cla_provider.views.get_connection')
     def __call__(self, result, mocked_get_connection, *args, **kwargs):
         self.mocked_get_connection = mocked_get_connection
         
@@ -24,10 +24,10 @@ class CallCentreDashboardTests(CLATFrontEndTestCase):
         self.mocked_get_connection.return_value = connection
 
 
-        super(CallCentreDashboardTests, self).__call__(result, *args, **kwargs)
+        super(ProviderDashboardTests, self).__call__(result, *args, **kwargs)
 
     def setUp(self):
-        self.dashboard_url = reverse('call_centre:dashboard')
+        self.dashboard_url = reverse('cla_provider:dashboard')
         self.login()
 
 
@@ -39,11 +39,11 @@ class CallCentreDashboardTests(CLATFrontEndTestCase):
             self.assertContains(response, case.get('reference'))
 
     def test_dashboard_get_search_cases(self):
-        response = self.client.get(self.dashboard_url, data={'q':'foo'})
+        response = self.client.get(self.dashboard_url, data={'q':u'bar'})
         args, kwargs = self.mocked_get_connection.call_args
         request = args[0]
         self.assertTrue('q' in request.GET)
-        self.assertEqual(u'foo', request.GET.get('q'))
+        self.assertEqual(u'bar', request.GET.get('q'))
         self.assertEqual(response.status_code, 200)
-        for case in mocked_api.CASE_LIST[0:2]:
+        for case in mocked_api.CASE_LIST:
             self.assertContains(response, case.get('reference'))
