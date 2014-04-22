@@ -10,4 +10,6 @@ urlpatterns = patterns('',
     url(r'^provider/', include('cla_provider.urls', namespace='cla_provider',)),
 
     url(r'^auth/', include('cla_auth.urls', namespace='auth',)),
+
+    url(r'^', include('legalaid.urls', namespace='legalaid',)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
