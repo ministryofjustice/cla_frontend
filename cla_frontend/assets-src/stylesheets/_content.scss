@@ -1,9 +1,9 @@
 #wrapper {
-  padding: 0 10px;
   border-bottom: 0;
+  padding: 0 10px;
 
   @include media(tablet) {
-    // padding-left: 20px;
-    // padding-right: 20px;
+    // padding-left: 30px;
+    // padding-right: 30px;
   }
 }
