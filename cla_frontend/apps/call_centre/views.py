@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from api.client import get_connection
 from cla_auth.utils import call_centre_zone_required
 
-from .forms import CaseForm, CaseAssignForm, CaseCloseForm, CaseUnlockForm, \
+from .forms import CaseForm, CaseAssignForm, CaseCloseForm, \
     PersonalDetailsForm
 
 
@@ -35,7 +35,6 @@ def edit_case(request, case_reference):
     eligibility_check = client.eligibility_check(case['eligibility_check']).get()
     context['case'] = case
     context['eligibility_check'] = eligibility_check
-    context['unlock_form'] = CaseUnlockForm(client=client)
 
     if request.method == 'POST':
         case_edit_form = CaseForm(request.POST, client=client)
@@ -137,26 +136,3 @@ def close_case(request, case_reference):
     return render(request, 'call_centre/close_case.html', {
         'form': form
     })
-
-
-@call_centre_zone_required
-@require_POST
-def unlock_case(request, case_reference):
-    """
-    Unlocks a case, outcome required.
-    """
-    # TODO complete this, different page?
-    client = get_connection(request)
-    form = CaseUnlockForm(request.POST, client=client)
-
-    if form.is_valid():
-        form.save(case_reference)
-        messages.add_message(request, messages.INFO,
-            'Case {case_ref} unlocked successfully'.format(case_ref=case_reference)
-        )
-        return redirect('call_centre:dashboard')
-    else:
-        messages.add_message(request,
-                             messages.INFO,
-                             _('Could not unlock case {case_ref}.'.format(case_ref=case_reference)))
-        return redirect('call_centre:edit_case', case_reference)

@@ -14,7 +14,7 @@
       <li class="ProgressIndicator-step is-complete"><a href="" class="ProgressIndicator-tick">Your problem</a></li>
       <li class="ProgressIndicator-step is-active">Your details</li>
       <li class="ProgressIndicator-step">Your finances</li>
-      <li class="ProgressIndicator-step">Result</li>      
+      <li class="ProgressIndicator-step">Result</li>
     </ol>
   </nav>
 {% endblock %}
@@ -62,7 +62,7 @@
     <span class="Timer-current u-pullLeft">00:01:02</span>
     <span class="Timer-total u-pullRight">00:13:06 total</span>
   </div>
-  
+
   {% if case.caseoutcome_set %}
   <ul class="CaseHistory">
     {% for outcome in case.caseoutcome_set %}
@@ -77,26 +77,4 @@
     {% endfor %}
   </ul>
   {% endif %}
-
-  <section>
-    <form method="post" action="{% url 'call_centre:unlock_case' case_reference=case_reference %}">
-      {% csrf_token %}
-
-      {% for field in unlock_form %}
-      <div class="FormRow cf">
-        <label for="{{ field.id_for_label }}" id="{{ field.auto_id }}-label">
-          <span class="FormRow-label">{{ field.label }}</span>
-          {% for error in field.errors %}
-            <span class="Error-message">{{ error }}</span>
-          {% endfor %}
-          {{ field }}
-        </label>
-      </div>
-      {% endfor %}
-
-      <div>
-        <button type="submit" class="Button">Unlock case</button>
-      </div>
-    </form>
-  </section>
 {% endblock %}
