@@ -9,6 +9,7 @@
 
   <iframe src="{% url 'call_centre:edit_case_personal_details' case.reference %}" frameBorder="0"></iframe>
 
+  {% comment %}
   <nav>
     <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 4">
       <li class="ProgressIndicator-step is-complete"><a href="" class="ProgressIndicator-tick">Your problem</a></li>
@@ -17,6 +18,7 @@
       <li class="ProgressIndicator-step">Result</li>      
     </ol>
   </nav>
+  {% endcomment %}
 {% endblock %}
 
 {% block middle_content %}
