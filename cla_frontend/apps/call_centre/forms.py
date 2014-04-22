@@ -30,16 +30,16 @@ class EligibilityCheckForm(APIFormMixin, forms.Form):
 
 
 class PersonalDetailsForm(forms.Form):
-    title = forms.ChoiceField(
-        label=_(u'Title'), choices=TITLE_CHOICES
-    )
+    # title = forms.ChoiceField(
+    #     label=_(u'Title'), choices=TITLE_CHOICES
+    # )
     full_name = forms.CharField(label=_(u'Full name'), max_length=300)
     postcode = forms.CharField(label=_(u'Postcode'), max_length=10)
     street = forms.CharField(
         label=_(u'Street'), max_length=250,
         widget=forms.Textarea(attrs={'rows': 4, 'cols': 21})
     )
-    town = forms.CharField(label=_(u'Town'), max_length=100)
+    # town = forms.CharField(label=_(u'Town'), max_length=100)
     mobile_phone = forms.CharField(label=_(u'Mobile Phone'), max_length=20, required=False)
     home_phone = forms.CharField(label=_('Home Phone'), max_length=20, required=False)
 
