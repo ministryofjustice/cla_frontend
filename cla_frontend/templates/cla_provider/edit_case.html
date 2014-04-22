@@ -1,8 +1,20 @@
 {% extends "cla_provider/base.html" %}
+{% load i18n humanize helpers widget_tweaks %}
 
+{% block body_classes %}{{ product_type }} {{ phase }} v-Case{% endblock %}
+{% block left_content %}
+    left content
+{% endblock %}
 {% block middle_content %}
+    <header class="PageHeader cf">
+        <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
+{#        <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>#}
+{#        <a href="{% url 'call_centre:assign_case' case.reference %}" class="Button Button--secondary u-pullRight">Assign case</a>#}
+    </header>
+    <textarea rows=11 cols=20 placeholder="Comments about this case" readonly>
+        {{ eligibility_check.notes }}
+    </textarea>
 
-    <!-- IF New -->
     <ul>
         <li>
             <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
@@ -12,30 +24,34 @@
             </form>
         <li><a href="{% url 'cla_provider:reject_case' case.reference %}">Reject</a></li>
     </ul>
-    <!-- else -->
-    {% comment %}
-    <ul>
-        <li><a href="">Close</a></li>
-        <li><a href="">Reject</a></li> <!--  ??? -->
-    </ul>
-    {% endcomment %}
 
-    <h1>Edit case: {{ case_reference }}</h1>
-    <h2>State: {{ case.state }}</h2>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {% for k, subform in form.form_dict.items %}
-            {{ subform.as_p }}
-        {% endfor %}
-    <input type="submit" value="submit">
-    </form>
-    <hr>
-    <h3>Actions:</h3>
-    TODO
-    <h4>Close Case</h4>
-{#    <form method="post" action="{% url 'cla_provider:close_case' case_reference=case_reference %}">#}
-{#        {% csrf_token %}#}
-{#        {{ close_form.as_p }}#}
-{#        <input type="submit" value="close">#}
-{#    </form>#}
+    <div class="FormRow">
+    <h3>should just be able to include the summary template here (@Dom)</h3>
+        <dl>
+            {% for k,v in eligibility_check.items %}
+                <dt>{{ k }}</dt><dd>{{ v }}</dd>
+            {% endfor %}
+        </dl>
+    </div>
+{% endblock %}
+{% block right_content %}
+    <div class="Timer cf">
+        <span class="Timer-current u-pullLeft">00:01:02</span>
+        <span class="Timer-total u-pullRight">00:13:06 total</span>
+    </div>
+
+    {% if case.caseoutcome_set %}
+        <ul class="CaseHistory">
+            {% for outcome in case.caseoutcome_set %}
+                <li class="CaseHistory-item">
+                    {{ outcome.created|as_date }}<br>
+                    {% if outcome.notes %}
+                        {{ outcome.notes }}<br>
+                    {% endif %}
+                    ({{ outcome.created_by }})<br>
+                    <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
