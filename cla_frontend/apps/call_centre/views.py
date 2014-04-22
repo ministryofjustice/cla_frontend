@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from cla_auth.utils import call_centre_zone_required
 from django.contrib import messages
 from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
@@ -6,12 +6,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_POST
 
 from api.client import get_connection
+from cla_auth.utils import call_centre_zone_required
 
 from .forms import CaseForm, CaseAssignForm, CaseCloseForm, CaseUnlockForm, \
     PersonalDetailsForm
 
 
-@login_required
+@call_centre_zone_required
 def dashboard(request):
     client = get_connection(request)
     cases = []
@@ -25,7 +26,7 @@ def dashboard(request):
     }, RequestContext(request))
 
 
-@login_required
+@call_centre_zone_required
 def edit_case(request, case_reference):
     context = {'case_reference': case_reference}
     client = get_connection(request)
@@ -57,7 +58,7 @@ def edit_case(request, case_reference):
         )
         return render(request, 'call_centre/edit_case.html', context)
 
-@login_required
+@call_centre_zone_required
 def edit_case_personal_details(request, case_reference):
     context = {'case_reference': case_reference}
     client = get_connection(request)
@@ -81,7 +82,7 @@ def edit_case_personal_details(request, case_reference):
         return render(request, 'call_centre/edit_case_personal_details.html', context)
 
 
-@login_required
+@call_centre_zone_required
 @require_POST
 def create_case(request):
     client = get_connection(request)
@@ -89,7 +90,7 @@ def create_case(request):
     return redirect('call_centre:edit_case', resp.get('reference'))
 
 
-@login_required
+@call_centre_zone_required
 def assign_case(request, case_reference):
     """
     to assign to a cla_provider, should post a
@@ -114,7 +115,7 @@ def assign_case(request, case_reference):
     })
 
 
-@login_required
+@call_centre_zone_required
 def close_case(request, case_reference):
     """
     Closes a case, outcome required.
@@ -138,7 +139,7 @@ def close_case(request, case_reference):
     })
 
 
-@login_required
+@call_centre_zone_required
 @require_POST
 def unlock_case(request, case_reference):
     """

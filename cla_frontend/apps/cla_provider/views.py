@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect
 from django.template import RequestContext
 from django.views.generic import TemplateView
 from api.client import get_connection
+from cla_auth.utils import cla_provider_zone_required
 
 
-@login_required
+@cla_provider_zone_required
 def dashboard(request):
     client = get_connection(request)
     cases = []
@@ -18,7 +19,7 @@ def dashboard(request):
         'cases': cases
     })
 
-@login_required
+@cla_provider_zone_required
 def edit_case(request, case_reference):
     context = {'case_reference': case_reference}
     client = get_connection(request)
