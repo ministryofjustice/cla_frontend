@@ -3,3 +3,11 @@
   padding-top: 5px !important;
   padding-bottom: 5px !important;
 }
+
+// body backgound when short height
+html, body {
+  height: 100%;
+}
+body {
+  background-color: $grey-3;
+}
