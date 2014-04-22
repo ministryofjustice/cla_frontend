@@ -2,11 +2,13 @@ $fixed-col-width: 240; // in pixels
 $col-gutter: 20; // in pixels
 
 .Grid {  
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  margin: 0 -10px;
 
   .Grid-row {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
+    padding: 0 10px;
   }
 
   .Grid-col {
@@ -74,12 +76,23 @@ $col-gutter: 20; // in pixels
           margin-bottom: -99999px;
           padding-bottom: 99999px;
         }
+        &:last-child {
+          &:before {
+            padding-right: 10px;
+          }
+        }
+        &:first-child {
+          &:before {
+            padding-right: 10px;
+            margin-left: -10px;
+          }
+        }
       }
     }
   }
 
   .Grid-colInner {
-    padding: 0 10px;
+    padding: 0 15px;
   }
 
   .Grid-colFluid {
