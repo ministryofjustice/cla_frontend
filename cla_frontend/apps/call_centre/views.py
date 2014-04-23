@@ -102,9 +102,16 @@ def assign_case(request, case_reference):
 
         if form.is_valid():
             form.save(case_reference)
-            messages.add_message(request, messages.INFO,
-                'Case {case_ref} assigned successfully'.format(case_ref=case_reference)
-            )
+
+            provider = client.provider.get(id=form.cleaned_data['provider']) [0]
+            # TODO - internationalisation?
+            msg = ('Case {case_ref} successfully assigned'
+                   ' to {provider_name} with shortcode {shortcode}'
+                   ).format(
+                        case_ref=case_reference, provider_name=provider['name'],
+                        shortcode=provider['short_code']
+                    )
+            messages.add_message(request, messages.INFO, msg)
             return redirect('call_centre:dashboard')
     else:
         form = CaseAssignForm(client=client)
