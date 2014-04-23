@@ -11,3 +11,14 @@ html, body {
 body.service {
   background-color: $grey-3;
 }
+
+// iframe fixes
+iframe {
+  width: 100%;
+  height: 245px;
+}
+.iframe {
+  .FormRow {
+    margin-bottom: 5px;
+  }
+}

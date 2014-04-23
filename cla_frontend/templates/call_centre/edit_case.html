@@ -32,7 +32,8 @@
 
     {% with form=form.form_dict.eligibility_check %}
     <div class="FormRow">
-      {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case " }}
+      <label for="{{ form.notes.id_for_label }}" id="{{ form.notes.auto_id }}-label" class="visuallyhidden">{{ form.notes.label }}</label>
+      {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow cf">
       <label for="{{ form.category.id_for_label }}" id="{{ form.category.auto_id }}-label">
