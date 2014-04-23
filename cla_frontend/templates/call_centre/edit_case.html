@@ -32,6 +32,9 @@
 
     {% with form=form.form_dict.eligibility_check %}
     <div class="FormRow">
+        {% for error in form.notes.errors %}
+          <span class="Error-message">{{ error }}</span>
+        {% endfor %}
       {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case " }}
     </div>
     <div class="FormRow cf">
