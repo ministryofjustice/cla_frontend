@@ -102,7 +102,7 @@
               </form>
 
               <nav class="UserMenu">
-                  <a href="#" class="UserMenu-name">user.name</a>
+                  {#<a href="#" class="UserMenu-name">user.name</a>#}
                   <ul class="UserMenu-options">
                       <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}">Logout</a>{% endblock %}</li>
                   </ul>
