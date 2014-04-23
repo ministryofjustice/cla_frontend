@@ -9,31 +9,31 @@
     </div>-->
     <div class="FormRow IconRow IconRow--name">
       <label for="{{ form.full_name.id_for_label }}" class="visuallyhidden">Name</label>
-      {{ form.full_name|attr:"placeholder:Name" }}
+      {{ form.full_name|attr:"placeholder:Name"|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow IconRow IconRow--address">
       <label for="{{ form.postcode.id_for_label }}" class="visuallyhidden">Post code</label>
-      {{ form.postcode|attr:"placeholder:Post code" }}
+      {{ form.postcode|attr:"placeholder:Post code"|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow IconRow">
       <label for="{{ form.street.id_for_label }}" class="visuallyhidden">Address</label>
-      {{ form.street|attr:"rows:3"|attr:"cols:20"|attr:"placeholder:Address" }}
+      {{ form.street|attr:"rows:3"|attr:"cols:20"|attr:"placeholder:Address"|add_class:"FormRow-field--full" }}
     </div>
     <!--<div class="FormRow IconRow">
       <label for="{{ form.town.id_for_label }}" class="visuallyhidden">Town</label>
-      {{ form.town|attr:"placeholder:Town" }}
+      {{ form.town|attr:"placeholder:Town"|add_class:"FormRow-field--full" }}
     </div>-->
     <div class="FormRow IconRow IconRow--email">
       <label for="{{ form.email.id_for_label }}" class="visuallyhidden">Email</label>
-      {{ form.email|attr:"placeholder:Email" }}
+      {{ form.email|attr:"placeholder:Email"|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow IconRow IconRow--phone">
       <label for="{{ form.home_phone.id_for_label }}" class="visuallyhidden">Home</label>
-      {{ form.home_phone|attr:"placeholder:Home" }}
+      {{ form.home_phone|attr:"placeholder:Home"|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow IconRow IconRow--phone">
       <label for="{{ form.mobile_phone.id_for_label }}" class="visuallyhidden">Mobile</label>
-      {{ form.mobile_phone|attr:"placeholder:" }}
+      {{ form.mobile_phone|attr:"placeholder:"|add_class:"FormRow-field--full" }}
     </div>
     <div class="IconRow cf">
       <button type="submit" class="Button">Save details</button>

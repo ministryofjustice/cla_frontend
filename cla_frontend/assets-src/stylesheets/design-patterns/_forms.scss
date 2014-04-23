@@ -104,18 +104,22 @@ $border-colour: #C2C2C2;
   }
 
   // size modifiers 
-  input.FormRow-field--l,
-  textarea.FormRow-field--l {
-    width: 420px;
+  input,
+  textarea {
+    &.FormRow-field--full {
+      width: 100%;
+    }
+    &.FormRow-field--l {
+      width: 420px;
+    }
+    &.FormRow-field--s {
+      width: 100px;
+    }
+    &.FormRow-field--xs {
+      width: 50px;
+    }
   }
-  input.FormRow-field--s,
-  textarea.FormRow-field--s {
-    width: 100px;
-  }
-  input.FormRow-field--xs,
-  textarea.FormRow-field--xs {
-    width: 50px;
-  }
+  
   // shorten if in column
   .Grid-col--1-3 {
     .FormRow-prefix,
@@ -272,13 +276,13 @@ $border-colour: #C2C2C2;
   @include core-19;
 }
 
-.Grid-col {
-  .FormRow {
-    input[type=text],
-    input[type=password],
-    input[type=number],
-    textarea {
-      width: 100%;
-    }
-  }
-}
+// .Grid-col {
+//   .FormRow {
+//     input[type=text],
+//     input[type=password],
+//     input[type=number],
+//     textarea {
+//       width: 100%;
+//     }
+//   }
+// }
