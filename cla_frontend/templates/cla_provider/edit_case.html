@@ -11,7 +11,7 @@
 {#        <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>#}
 {#        <a href="{% url 'call_centre:assign_case' case.reference %}" class="Button Button--secondary u-pullRight">Assign case</a>#}
     </header>
-    <textarea rows=11 cols=20 placeholder="Comments about this case" readonly>
+    <textarea rows=11 cols=80 placeholder="Comments about this case" readonly>
         {{ eligibility_check.notes }}
     </textarea>
 

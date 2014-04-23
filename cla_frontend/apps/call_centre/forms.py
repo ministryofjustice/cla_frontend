@@ -9,6 +9,8 @@ from legalaid.forms import APIFormMixin
 
 EMPTY_CHOICE = (('', '----'),)
 
+class CaseNotesForm(forms.Form):
+    notes = forms.CharField(widget=forms.Textarea, label=_('Case Notes'))
 
 class EligibilityCheckForm(APIFormMixin, forms.Form):
     extra_kwargs = {'client'}
@@ -17,7 +19,6 @@ class EligibilityCheckForm(APIFormMixin, forms.Form):
     category = forms.ChoiceField(
         label=_(u'Law Category:')
     )
-    notes = forms.CharField(widget=forms.Textarea, label=_('Case Notes'))
 
     state = forms.ChoiceField(label=_('Means Test Passed?'), choices=STATE_CHOICES, initial=STATE_MAYBE)
 
@@ -62,6 +63,7 @@ class PersonalDetailsForm(forms.Form):
 
 class CaseForm(MultipleFormsForm):
     forms_list = (
+        ('case_notes', CaseNotesForm),
         ('eligibility_check', EligibilityCheckForm),
     )
 

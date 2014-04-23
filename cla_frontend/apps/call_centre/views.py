@@ -45,7 +45,8 @@ def edit_case(request, case_reference):
         if case_edit_form.is_valid():
             data = case_edit_form.cleaned_data
             eligibility_check = data.pop('eligibility_check')
-            client.case(case_reference).patch(data)
+            case_notes = data.pop('case_notes')
+            client.case(case_reference).patch(case_notes)
             client.eligibility_check(case['eligibility_check']).patch(eligibility_check)
             return redirect('call_centre:dashboard')
         else:
@@ -55,7 +56,7 @@ def edit_case(request, case_reference):
         context['form'] = CaseForm(
             initial=
                 {'eligibility_check': eligibility_check,
-                'personal_details': case.get('personal_details')},
+                'case_notes': case},
             client=client
         )
         return render(request, 'call_centre/edit_case.html', context)
