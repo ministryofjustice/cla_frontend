@@ -29,4 +29,5 @@ def in_pounds(value):
 
 @register.filter()
 def field_from_name(form, name):
-    return form[name]
+    if name in form.fields:
+        return form[name]
