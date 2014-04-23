@@ -5,12 +5,14 @@
 {% block full_content %}
   <div class="Grid">
     <div class="Grid-row cf">
-      <div class="Grid-col Grid-colPush--1-5">
+      <div class="Grid-col Grid-col--3-5 Grid-colPush--1-5">
         <header class="PageHeader">
           <h1>Sign in</h1>
         </header>
         <form action="" method="post">
           {% csrf_token %}
+
+          {% include "common/includes/error_summary.html" %}
 
           {% for field in form %}
             <div class="FormRow cf{% if field.errors %} Error{% endif %}">

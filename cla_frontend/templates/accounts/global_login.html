@@ -1,18 +1,21 @@
 {% extends "base.html" %}
 
+{% block body_classes %}{{ product_type }} {{ phase }} v-Login{% endblock %}
+
 {% block full_content %}
-    <section>
-        <h2>Call Centre Login</h2>
-        <p>
-            To login as an operator, click <a href="{% url 'call_centre:login' %}">here.</a>
-        </p>
-    </section>
+  <div class="Grid">
+    <div class="Grid-row cf">
+      <div class="Grid-col Grid-col--3-5 Grid-colPush--1-5">
+        <section>
+          <h2>Call Centre Login</h2>
+          <p>To login as an operator, click <a href="{% url 'call_centre:login' %}">here.</a></p>
+        </section>
 
-    <section>
-        <h2>Providers Login</h2>
-        <p>
-            To login as a specialist, click <a href="{% url 'cla_provider:login' %}">here.</a>
-        </p>
-    </section>
-
+        <section>
+          <h2>Providers Login</h2>
+          <p>To login as a specialist, click <a href="{% url 'cla_provider:login' %}">here.</a></p>
+        </section>
+      </div>
+    </div>
+  </div>
 {% endblock %}
