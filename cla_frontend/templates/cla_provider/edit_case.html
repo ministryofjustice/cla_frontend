@@ -2,6 +2,19 @@
 
 {% block middle_content %}
 
+    <!-- IF New -->
+    <ul>
+        <li><a href="">Accept</a></li>
+        <li><a href="{% url 'cla_provider:reject_case' case.reference %}">Reject</a></li>
+    </ul>
+    <!-- else -->
+    {% comment %}
+    <ul>
+        <li><a href="">Close</a></li>
+        <li><a href="">Reject</a></li> <!--  ??? -->
+    </ul>
+    {% endcomment %}
+
     <h1>Edit case: {{ case_reference }}</h1>
     <h2>State: {{ case.state }}</h2>
     <form method="post" action=".">

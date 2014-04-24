@@ -7,6 +7,7 @@ from django.views.decorators.http import require_POST
 
 from api.client import get_connection
 from cla_auth.utils import call_centre_zone_required
+from legalaid.shortcuts import get_case_or_404
 
 from .forms import CaseForm, CaseAssignForm, CaseCloseForm, \
     PersonalDetailsForm
@@ -28,13 +29,15 @@ def dashboard(request):
 
 @call_centre_zone_required
 def edit_case(request, case_reference):
-    context = {'case_reference': case_reference}
     client = get_connection(request)
-
-    case = client.case(case_reference).get()
+    case = get_case_or_404(client, case_reference)
     eligibility_check = client.eligibility_check(case['eligibility_check']).get()
-    context['case'] = case
-    context['eligibility_check'] = eligibility_check
+
+    context = {
+        'case_reference': case_reference,
+        'case': case,
+        'eligibility_check': eligibility_check
+    }
 
     if request.method == 'POST':
         case_edit_form = CaseForm(request.POST, client=client)
@@ -59,10 +62,13 @@ def edit_case(request, case_reference):
 
 @call_centre_zone_required
 def edit_case_personal_details(request, case_reference):
-    context = {'case_reference': case_reference}
     client = get_connection(request)
-    case = client.case(case_reference).get()
-    context['case'] = case
+    case = get_case_or_404(client, case_reference)
+
+    context = {
+        'case_reference': case_reference,
+        'case': case
+    }
 
     if request.method == 'POST':
         personal_details_edit_form = PersonalDetailsForm(request.POST)
@@ -96,6 +102,7 @@ def assign_case(request, case_reference):
     provider with id of provider to assign to
     """
     client = get_connection(request)
+    case = get_case_or_404(client, case_reference)
 
     if request.method == 'POST':
         form = CaseAssignForm(request.POST, client=client)
@@ -127,6 +134,7 @@ def close_case(request, case_reference):
     Closes a case, outcome required.
     """
     client = get_connection(request)
+    case = get_case_or_404(client, case_reference)
 
     if request.method == 'POST':
         form = CaseCloseForm(request.POST, client=client)

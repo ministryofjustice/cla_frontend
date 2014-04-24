@@ -2,7 +2,7 @@ import mock
 
 from django.test import testcases
 
-from legalaid.tests.test_forms import APIFormMixinTest
+from legalaid.tests import test_forms
 
 from ..forms import CaseAssignForm, CaseCloseForm, EligibilityCheckForm, \
     PersonalDetailsForm
@@ -118,7 +118,7 @@ class PersonalDetailsFormTests(testcases.SimpleTestCase):
             {'mobile_phone':
                  [u'You must specify at least one contact number.']})
 
-class EligibilityCheckFormTest(APIFormMixinTest):
+class EligibilityCheckFormTest(test_forms.APIFormMixinTest):
 
     formclass = EligibilityCheckForm
     default_data = {

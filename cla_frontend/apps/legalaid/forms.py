@@ -20,7 +20,10 @@ class OutcomeForm(APIFormMixin, forms.Form):
         super(OutcomeForm, self).__init__(*args, **kwargs)
 
         if self.client:
-            self._outcome_codes = self.client.outcome_code.get()
+            self._outcome_codes = self.get_outcome_code_queryset()
             self.fields['outcome_code'].choices = tuple(
                 (x['code'], u'%s - %s' % (x['code'], x['description'])) for x in self._outcome_codes
             )
+
+    def get_outcome_code_queryset(self):
+        return self.client.outcome_code.get()

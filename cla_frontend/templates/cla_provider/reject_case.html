@@ -1,0 +1,12 @@
+{% extends "cla_provider/base.html" %}{% load humanize helpers %}
+
+{% block middle_content %}
+    <h4>Reject Case</h4>
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input type="submit" value="reject">
+        <a href="{% url 'cla_provider:edit_case' case.reference %}">Cancel</a>
+    </form>
+{% endblock %}
