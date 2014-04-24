@@ -101,9 +101,8 @@ def assign_case(request, case_reference):
         form = CaseAssignForm(request.POST, client=client)
 
         if form.is_valid():
-            form.save(case_reference)
 
-            provider = client.provider.get(id=form.cleaned_data['provider']) [0]
+            provider = form.save(case_reference)
             # TODO - internationalisation?
             msg = ('Case {case_ref} successfully assigned'
                    ' to {provider_name} with shortcode {shortcode}'

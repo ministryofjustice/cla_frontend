@@ -77,8 +77,8 @@ class CaseAssignForm(APIFormMixin, forms.Form):
                                             tuple((x['id'], x['name']) for x in self._providers)
 
     def save(self, case_reference):
-        response = self.client.case(case_reference).assign().post(self.cleaned_data)
         # TODO do something in case of 4xx and 5xx errors ?
+        return self.client.case(case_reference).assign().post(self.cleaned_data)
 
 
 class CaseCloseForm(APIFormMixin, forms.Form):
