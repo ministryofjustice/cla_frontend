@@ -1,30 +1,31 @@
-{% extends "cla_provider/base.html" %}
-{% load i18n humanize helpers widget_tweaks %}
+{% extends "cla_provider/base.html" %}{% load i18n humanize helpers widget_tweaks %}
 
 {% block body_classes %}{{ product_type }} {{ phase }} v-Case{% endblock %}
+
 {% block left_content %}
-    left content
+  <nav class="SubNav">
+    <a href="/" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
+  </nav>
+
 {% endblock %}
+
 {% block middle_content %}
-    <header class="PageHeader cf">
-        <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
-{#        <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>#}
-{#        <a href="{% url 'call_centre:assign_case' case.reference %}" class="Button Button--secondary u-pullRight">Assign case</a>#}
-    </header>
-    <textarea rows=11 cols=80 placeholder="Comments about this case" readonly>
-        {{ eligibility_check.notes }}
-    </textarea>
+    <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
+      {% csrf_token %}
+      {{ accept_form.as_p }}
 
-    <ul>
-        <li>
-            <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
-                {% csrf_token %}
-                {{ accept_form.as_p }}
-                <input type="submit" value="Accept">
-            </form>
-        <li><a href="{% url 'cla_provider:reject_case' case.reference %}">Reject</a></li>
-    </ul>
+      <header class="PageHeader cf">
+          <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
+          <a href="{% url 'cla_provider:reject_case' case.reference %}" class="Button Button--warning u-pullRight">Reject</a>
+          <button type="submit" class="Button u-pullRight">Accept</button>
+      </header>
+    </form>
 
+    {% comment %}
+    {% with data=eligibility_check %}
+      {% include "common/includes/summary.html" %}
+    {% endwith %}
+        
     <div class="FormRow">
     <h3>should just be able to include the summary template here (@Dom)</h3>
         <dl>
@@ -33,25 +34,26 @@
             {% endfor %}
         </dl>
     </div>
+    {% endcomment %}
 {% endblock %}
 {% block right_content %}
-    <div class="Timer cf">
-        <span class="Timer-current u-pullLeft">00:01:02</span>
-        <span class="Timer-total u-pullRight">00:13:06 total</span>
-    </div>
+  <div class="Timer cf">
+    <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
+    <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> total</span>
+  </div>
 
-    {% if case.caseoutcome_set %}
-        <ul class="CaseHistory">
-            {% for outcome in case.caseoutcome_set %}
-                <li class="CaseHistory-item">
-                    {{ outcome.created|as_date }}<br>
-                    {% if outcome.notes %}
-                        {{ outcome.notes }}<br>
-                    {% endif %}
-                    ({{ outcome.created_by }})<br>
-                    <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+  {% if case.caseoutcome_set %}
+  <ul class="CaseHistory">
+    {% for outcome in case.caseoutcome_set %}
+    <li class="CaseHistory-item">
+      {{ outcome.created|as_date }}<br>
+      {% if outcome.notes %}
+        {{ outcome.notes }}<br>
+      {% endif %}
+      ({{ outcome.created_by }})<br>
+      <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 {% endblock %}
