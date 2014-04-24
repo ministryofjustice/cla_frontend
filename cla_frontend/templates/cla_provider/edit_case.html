@@ -2,7 +2,6 @@
 
 {% block middle_content %}
 
-    <!-- IF New -->
     {% if is_open %}
     <ul>
         <li>
@@ -18,13 +17,6 @@
         <li><a href="">Close</a></li>
     </ul>
     {% endif %}
-    <!-- else -->
-    {% comment %}
-    <ul>
-        <li><a href="">Close</a></li>
-        <li><a href="">Reject</a></li> <!--  ??? -->
-    </ul>
-    {% endcomment %}
 
     <h1>Edit case: {{ case_reference }}</h1>
     <h2>State: {{ case.state }}</h2>
