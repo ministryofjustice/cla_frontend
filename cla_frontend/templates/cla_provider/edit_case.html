@@ -4,7 +4,12 @@
 
     <!-- IF New -->
     <ul>
-        <li><a href="">Accept</a></li>
+        <li>
+            <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
+                {% csrf_token %}
+                {{ accept_form.as_p }}
+                <input type="submit" value="Accept">
+            </form>
         <li><a href="{% url 'cla_provider:reject_case' case.reference %}">Reject</a></li>
     </ul>
     <!-- else -->

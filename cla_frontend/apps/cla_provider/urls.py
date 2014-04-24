@@ -19,5 +19,6 @@ urlpatterns = patterns('',
 
     url(r'^$', views.dashboard, name='dashboard'),
     url(r'^case/(?P<case_reference>.+)/edit/$', views.edit_case, name='edit_case'),
+    url(r'^case/(?P<case_reference>.+)/accept/$', views.accept_case, name='accept_case'),
     url(r'^case/(?P<case_reference>.+)/reject/$', views.reject_case, name='reject_case'),
 )
