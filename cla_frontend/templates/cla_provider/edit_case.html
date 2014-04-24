@@ -3,6 +3,7 @@
 {% block middle_content %}
 
     <!-- IF New -->
+    {% if is_open %}
     <ul>
         <li>
             <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
@@ -12,6 +13,11 @@
             </form>
         <li><a href="{% url 'cla_provider:reject_case' case.reference %}">Reject</a></li>
     </ul>
+    {% else %}
+    <ul>
+        <li><a href="">Close</a></li>
+    </ul>
+    {% endif %}
     <!-- else -->
     {% comment %}
     <ul>
