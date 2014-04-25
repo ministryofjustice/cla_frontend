@@ -68,24 +68,14 @@ class CaseForm(MultipleFormsForm):
 
 
 class CaseAssignForm(APIFormMixin, forms.Form):
-    provider = forms.TypedChoiceField(required=True, coerce=int)
-
-    def __init__(self, *args, **kwargs):
-        super(CaseAssignForm, self).__init__(*args, **kwargs)
-
-        # The populated drop down will be useful later when operators can
-        # auto OR manually assign a case to a provider
-        if self.client:
-            self._providers = self.client.provider.get()
-            self.fields['provider'].choices = AUTO_ASSIGN_CHOICE + \
-                                            tuple((x['id'], x['name']) for x in self._providers)
 
     def save(self, case_reference):
         """
         @return: dict provider
         """
         # TODO do something in case of 4xx and 5xx errors ?
-        return self.client.case(case_reference).assign().post(self.cleaned_data)
+        # This posts no data ; just POSTing assigns a random provider
+        return self.client.case(case_reference).assign().post()
 
 
 class CaseCloseForm(APIFormMixin, forms.Form):
