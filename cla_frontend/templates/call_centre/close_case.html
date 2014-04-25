@@ -1,29 +1,6 @@
-{% extends "call_centre/base.html" %}{% load i18n humanize helpers %}
+{% extends "call_centre/case.html" %}{% load i18n %}
 
-{% block left_content %}
-  <nav class="SubNav">
-    <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
-  </nav>
-
-  <iframe src="{% url 'call_centre:edit_case_personal_details' case.reference %}" frameBorder="0"></iframe>
-
-  {% comment %}
-  <nav>
-    <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 4">
-      <li class="ProgressIndicator-step is-complete"><a href="" class="ProgressIndicator-tick">Your problem</a></li>
-      <li class="ProgressIndicator-step is-active">Your details</li>
-      <li class="ProgressIndicator-step">Your finances</li>
-      <li class="ProgressIndicator-step">Result</li>
-    </ol>
-  </nav>
-  {% endcomment %}
-{% endblock %}
-
-{% block middle_content %}
-  <header class="PageHeader cf">
-    <h1 class="u-pullLeft">{{ case.reference }}</h1>
-  </header>
-
+{% block case_content %}
   <div class="FormBlock FormBlock--yellow">
     <form method="post" action=".">
       {% csrf_token %}
@@ -32,26 +9,4 @@
       <a href="{% url zone.name|add:':edit_case' case.reference %}">Cancel</a>
     </form>
   </div>
-{% endblock %}
-
-{% block right_content %}
-  <div class="Timer cf">
-    <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
-    <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> total</span>
-  </div>
-
-  {% if case.caseoutcome_set %}
-  <ul class="CaseHistory">
-    {% for outcome in case.caseoutcome_set %}
-    <li class="CaseHistory-item">
-      {{ outcome.created|as_date }}<br>
-      {% if outcome.notes %}
-        {{ outcome.notes }}<br>
-      {% endif %}
-      ({{ outcome.created_by }})<br>
-      <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
 {% endblock %}
