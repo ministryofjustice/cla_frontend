@@ -1,33 +1,11 @@
-{% extends "call_centre/base.html" %}{% load i18n humanize helpers widget_tweaks %}
+{% extends "call_centre/case.html" %}{% load i18n widget_tweaks %}
 
-{% block body_classes %}{{ product_type }} {{ phase }} v-Case{% endblock %}
-
-{% block left_content %}
-  <nav class="SubNav">
-    <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
-  </nav>
-
-  <iframe src="{% url 'call_centre:edit_case_personal_details' case.reference %}" frameBorder="0"></iframe>
-
-  {% comment %}
-  <nav>
-    <ol class="ProgressIndicator" role="progressbar" aria-valuetext="Step 1 of 4">
-      <li class="ProgressIndicator-step is-complete"><a href="" class="ProgressIndicator-tick">Your problem</a></li>
-      <li class="ProgressIndicator-step is-active">Your details</li>
-      <li class="ProgressIndicator-step">Your finances</li>
-      <li class="ProgressIndicator-step">Result</li>
-    </ol>
-  </nav>
-  {% endcomment %}
+{% block case_actions %}
+  <a href="{% url zone.name|add:':close_case' case.reference %}" class="Button Button--secondary u-pullRight">{% trans "Close case" %}</a>
+  <a href="{% url zone.name|add:':assign_case' case.reference %}" class="Button Button--secondary u-pullRight">{% trans "Assign case" %}</a>
 {% endblock %}
 
-{% block middle_content %}
-  <header class="PageHeader cf">
-    <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
-    <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>
-    <a href="{% url 'call_centre:assign_case' case.reference %}" class="Button Button--secondary u-pullRight">Assign case</a>
-  </header>
-  
+{% block case_content %}
   <form method="post" action=".">
     {% csrf_token %}
     {% with form=form.form_dict.case_notes %}
@@ -59,7 +37,7 @@
       </label>
     </div>
     <div>
-      <button type="submit" class="Button">Save case details</button>
+      <button type="submit" class="Button">{% trans "Save case details" %}</button>
     </div>
     {% endwith %}
   </form>
@@ -67,26 +45,4 @@
     <h5>Eligibility Check Notes</h5>
     {{ eligibility_check.notes }}
   </section>
-{% endblock %}
-
-{% block right_content %}
-  <div class="Timer cf">
-    <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
-    <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> total</span>
-  </div>
-
-  {% if case.caseoutcome_set %}
-  <ul class="CaseHistory">
-    {% for outcome in case.caseoutcome_set %}
-    <li class="CaseHistory-item">
-      {{ outcome.created|as_date }}<br>
-      {% if outcome.notes %}
-        {{ outcome.notes }}<br>
-      {% endif %}
-      ({{ outcome.created_by }})<br>
-      <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
 {% endblock %}

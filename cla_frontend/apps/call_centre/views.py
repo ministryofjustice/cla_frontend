@@ -124,7 +124,8 @@ def assign_case(request, case_reference):
         form = CaseAssignForm(client=client)
 
     return render(request, 'call_centre/assign_case.html', {
-        'form': form
+        'form': form,
+        'case': case
     })
 
 
@@ -149,5 +150,6 @@ def close_case(request, case_reference):
         form = CaseCloseForm(client=client)
 
     return render(request, 'call_centre/close_case.html', {
-        'form': form
+        'form': form,
+        'case': case
     })

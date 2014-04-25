@@ -12,9 +12,12 @@
     border-bottom: 1px solid $grey-2;
     background-color: $grey-4;
     padding: 10px 15px;
+
   }
 
-  tr:hover td {
-    background-color: $yellow-25;
+  tr.is-new {
+    td {
+      background-color: $yellow-25;
+    }
   }
 }

@@ -15,6 +15,11 @@ $border-colour: #C2C2C2;
     border-style: solid;
     background-color: $grey-4;
   }
+
+  &--yellow {
+    background-color: $yellow-25;
+    padding: 0.75em 0.75em;
+  }
 }
 .FormBlock-label {
   @include heading-24;
@@ -102,9 +107,17 @@ $border-colour: #C2C2C2;
     padding-bottom: 6px;
     display: block;
   }
+  select {
+    width: 230px;
+    // height: 30px;
+    // border: 1px solid $border-colour;
+    // display: inline-block;
+    // @include box-sizing(border-box);
+  }
 
   // size modifiers 
   input,
+  select,
   textarea {
     &.FormRow-field--full {
       width: 100%;
@@ -275,14 +288,3 @@ $border-colour: #C2C2C2;
   margin: 50px 0 0;
   @include core-19;
 }
-
-// .Grid-col {
-//   .FormRow {
-//     input[type=text],
-//     input[type=password],
-//     input[type=number],
-//     textarea {
-//       width: 100%;
-//     }
-//   }
-// }
