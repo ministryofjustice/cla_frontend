@@ -6,8 +6,7 @@
     float: left;
 
     h1 {
-      @include bold-36;
-      font-size: 32px;
+      padding: 4px 0;
     }
 
     .Button {
@@ -19,6 +18,6 @@
 
   .CaseList {
     position: relative;
-    top: -60px;
+    top: -55px;
   }
 }
