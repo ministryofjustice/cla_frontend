@@ -5,8 +5,8 @@
     <form method="post" action=".">
       {% csrf_token %}
 
-      <button type="submit" class="Button">Close case</button>
-      <a href="{% url zone.name|add:':edit_case' case.reference %}">Cancel</a>
+      <button type="submit" class="Button">{% trans "Close case" %}</button>
+      <a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a>
     </form>
   </div>
 {% endblock %}

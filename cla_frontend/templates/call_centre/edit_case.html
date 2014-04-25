@@ -1,8 +1,8 @@
 {% extends "call_centre/case.html" %}{% load i18n widget_tweaks %}
 
 {% block case_actions %}
-  <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>
-  <a href="{% url 'call_centre:assign_case' case.reference %}" class="Button Button--secondary u-pullRight">Assign case</a>
+  <a href="{% url zone.name|add:':close_case' case.reference %}" class="Button Button--secondary u-pullRight">{% trans "Close case" %}</a>
+  <a href="{% url zone.name|add:':assign_case' case.reference %}" class="Button Button--secondary u-pullRight">{% trans "Assign case" %}</a>
 {% endblock %}
 
 {% block case_content %}
@@ -36,7 +36,7 @@
       </label>
     </div>
     <div>
-      <button type="submit" class="Button">Save case details</button>
+      <button type="submit" class="Button">{% trans "Save case details" %}</button>
     </div>
     {% endwith %}
   </form>
