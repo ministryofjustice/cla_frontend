@@ -1,10 +1,12 @@
-{% extends "call_centre/base.html" %}{% load humanize helpers %}
+{% extends "call_centre/case.html" %}{% load i18n %}
 
-{% block middle_content %}
-    <h4>Close Case</h4>
+{% block case_content %}
+  <div class="FormBlock FormBlock--yellow">
     <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="close">
+      {% csrf_token %}
+
+      <button type="submit" class="Button">{% trans "Close case" %}</button>
+      <a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a>
     </form>
+  </div>
 {% endblock %}
