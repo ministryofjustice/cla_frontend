@@ -23,7 +23,7 @@
 
 {% block middle_content %}
   <header class="PageHeader cf">
-    <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
+    <h1 class="u-pullLeft">{{ case_reference }}</h1>
     <a href="{% url 'call_centre:close_case' case.reference %}" class="Button Button--secondary u-pullRight">Close case</a>
     <a href="{% url 'call_centre:assign_case' case.reference %}" class="Button Button--secondary u-pullRight">Assign case</a>
   </header>
