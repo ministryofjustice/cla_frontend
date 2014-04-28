@@ -1,9 +1,21 @@
 from django import forms
+from django.forms import fields
 
 from cla_common.constants import CASE_STATE_REJECTED, CASE_STATE_ACCEPTED
 
-from legalaid.forms import OutcomeForm
+from legalaid.forms import OutcomeForm, APIFormMixin
 
+
+class CaseForm(APIFormMixin, forms.Form):
+
+    provider_notes = fields.CharField(
+        required=False, max_length=500,
+        widget=forms.Textarea(attrs={'rows': 4, 'cols': 30})
+    )
+
+    def save(self, case_reference):
+        if self.is_valid():
+            self.client.case(case_reference).patch(self.cleaned_data)
 
 class RejectCaseForm(OutcomeForm):
 
