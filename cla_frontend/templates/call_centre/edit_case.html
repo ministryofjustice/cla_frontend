@@ -8,8 +8,7 @@
 {% block case_content %}
   <form method="post" action=".">
     {% csrf_token %}
-
-    {% with form=form.form_dict.eligibility_check %}
+    {% with form=form.form_dict.case_notes %}
     <div class="FormRow">
       <label for="{{ form.notes.id_for_label }}" id="{{ form.notes.auto_id }}-label" class="visuallyhidden">{{ form.notes.label }}</label>
         {% for error in form.notes.errors %}
@@ -17,6 +16,8 @@
         {% endfor %}
       {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
     </div>
+    {% endwith %}
+    {% with form=form.form_dict.eligibility_check %}
     <div class="FormRow cf">
       <label for="{{ form.category.id_for_label }}" id="{{ form.category.auto_id }}-label">
         <span class="FormRow-label">{{ form.category.label }}</span>
@@ -40,4 +41,8 @@
     </div>
     {% endwith %}
   </form>
+  <section>
+    <h5>Eligibility Check Notes</h5>
+    {{ eligibility_check.notes }}
+  </section>
 {% endblock %}

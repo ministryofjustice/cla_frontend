@@ -1,39 +1,77 @@
-{% extends "cla_provider/base.html" %}
+{% extends "cla_provider/base.html" %}{% load i18n helpers %}
+
+{% block body_classes %}{{ product_type }} {{ phase }} v-Case{% endblock %}
+
+{% block left_content %}
+  <nav class="SubNav">
+    <a href="/" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
+  </nav>
+
+{% endblock %}
 
 {% block middle_content %}
+    <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
+      {% csrf_token %}
+      {{ accept_form.as_p }}
 
-    {% if is_open %}
-    <ul>
-        <li>
-            <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
-                {% csrf_token %}
-                {{ accept_form.as_p }}
-                <input type="submit" value="Accept">
-            </form>
-        <li><a href="{% url 'cla_provider:reject_case' case.reference %}">Reject</a></li>
-    </ul>
-    {% else %}
-    <ul>
-        <li><a href="">Close</a></li>
-    </ul>
-    {% endif %}
-
-    <h1>Edit case: {{ case_reference }}</h1>
-    <h2>State: {{ case.state }}</h2>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {% for k, subform in form.form_dict.items %}
-            {{ subform.as_p }}
-        {% endfor %}
-    <input type="submit" value="submit">
+      <header class="PageHeader cf">
+          <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
+          <a href="{% url 'cla_provider:reject_case' case.reference %}" class="Button Button--warning u-pullRight">Reject</a>
+          <button type="submit" class="Button u-pullRight">Accept</button>
+      </header>
     </form>
-    <hr>
-    <h3>Actions:</h3>
-    TODO
-    <h4>Close Case</h4>
-{#    <form method="post" action="{% url 'cla_provider:close_case' case_reference=case_reference %}">#}
-{#        {% csrf_token %}#}
-{#        {{ close_form.as_p }}#}
-{#        <input type="submit" value="close">#}
-{#    </form>#}
+    <p>
+    Operator notes: {{ case.notes }}
+    </p>
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ case_form.as_p }}
+
+        <button type="submit" class="Button">Save Notes</button>
+    </form>
+    <section class="SummaryBlock">
+      <h2 class="SummaryBlock-heading"></h2>
+      <div class="SummaryBlock-list">
+        <figure class="Figure IconRow IconRow--name">
+          <figcaption class="Figure-cap">18-Mar-2014 12:23 - John Smith Reynolds wrote:</figcaption>
+          <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
+        </figure>
+      </div>
+    </section>
+
+    {% comment %}
+    {% with data=eligibility_check %}
+      {% include "common/includes/summary.html" %}
+    {% endwith %}
+        
+    <div class="FormRow">
+    <h3>should just be able to include the summary template here (@Dom)</h3>
+        <dl>
+            {% for k,v in eligibility_check.items %}
+                <dt>{{ k }}</dt><dd>{{ v }}</dd>
+            {% endfor %}
+        </dl>
+    </div>
+    {% endcomment %}
+{% endblock %}
+{% block right_content %}
+  <div class="Timer cf">
+    <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
+    <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> total</span>
+  </div>
+
+  {% if case.caseoutcome_set %}
+  <ul class="CaseHistory">
+    {% for outcome in case.caseoutcome_set %}
+    <li class="CaseHistory-item">
+      {{ outcome.created|as_date }}<br>
+      {% if outcome.notes %}
+        {{ outcome.notes }}<br>
+      {% endif %}
+      ({{ outcome.created_by }})<br>
+      <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 {% endblock %}
