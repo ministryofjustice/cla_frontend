@@ -11,9 +11,11 @@
 {% endblock %}
 
 {% block case_content %}
-    <p>
-    Operator notes: {{ case.notes }}
-    </p>
+    <figure class="CommentBlock IconRow IconRow--comments">
+      {# <figcaption class="CommentBlock-author u-mute">(test_operator)</figcaption> #}
+      <blockquote class="Quote">{{ case.notes|linebreaksbr }}</blockquote>
+    </figure>
+
     <form action="." method="post">
       {% csrf_token %}
 
@@ -44,11 +46,11 @@
       {% endfor %}
       
       {% if eligibility_check.notes %}
-      <section class="SummaryBlock">
+      <section class="SummaryBlock CommentBlock">
         <div class="SummaryBlock-list">
           <figure class="Figure IconRow IconRow--name">
             <figcaption class="Figure-cap">{{ case.created_at|as_date|date:"d M Y H:i" }} - {{ case.personal_details.full_name }} {% trans "wrote" %}:</figcaption>
-            <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
+            <blockquote class="Quote">{{ eligibility_check.notes|linebreaksbr }}</blockquote>
           </figure>
         </div>
       </section>
