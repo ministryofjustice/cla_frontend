@@ -41,8 +41,6 @@
     </div>
     {% endwith %}
   </form>
-  <section>
-    <h5>Eligibility Check Notes</h5>
-    {{ eligibility_check.notes }}
-  </section>
+  
+  {% include "common/includes/means_test_summary.html" %}
 {% endblock %}
