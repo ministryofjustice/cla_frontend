@@ -1,7 +1,9 @@
-{% extends app_base_template %}{% load humanize helpers i18n %}
+{% extends app_base_template %}{% load humanize helpers i18n case_tags %}
 
 {% block body_classes %}{{ product_type }} {{ phase }} v-Dashboard{% endblock %}
 
+{% comment %}
+######  OLD VERSION  ######
 {% block full_content %}
   <header class="PageHeader cf">
     <h1 class="u-pullLeft">{% trans "Cases" %}</h1>
@@ -26,6 +28,37 @@
             <td>{{ case.created|as_date|naturaltime }}</td>
             <td>{{ case.modified|as_date|naturaltime }}</td>
             <td>{{ case.created_by|default:"web" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% endcomment %}
+
+{% block full_content %}
+  <header class="PageHeader cf">
+    <h1 class="u-pullLeft">{% trans "Cases" %}</h1>
+    {% block actions %}{% endblock %}
+  </header>
+
+  <table class="CaseList" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <thead>
+      <tr>
+        <th><span class="visuallyhidden">{% trans "Reference" %}</span></th>
+        <th>{% trans "Name" %}</th>
+        <th><a href="?sort=created" class="u-sortDesc">{% trans "Created" %}</a></th>
+        <th><a href="?sort=modified">{% trans "Modified" %}</th>
+        <th><span class="visuallyhidden">{% trans "Onwer" %}</span></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for case in cases %}
+        <tr{% if case|is_case_open %} style="color: red"{% endif %}>
+            <td><a href="{% url zone.name|add:':edit_case' case.reference %}">{{ case.reference}}</a></td>
+            <td>{{ case.personal_details.full_name }}</td>
+            <td>{{ case.created|as_date|naturaltime }}</td>
+            <td>{{ case.modified|as_date|naturaltime }}</td>
+            <td>{{ case.locked_by|default:"-" }}</td>
         </tr>
     {% endfor %}
     </tbody>
