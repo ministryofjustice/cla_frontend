@@ -1,14 +1,23 @@
+import json
 from django import forms
+from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
+import itertools
+from slumber.exceptions import HttpClientError
 
 from cla_common.forms import MultipleFormsForm
 from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES
+from core.exceptions import RemoteValidationError
 
 from legalaid.forms import APIFormMixin
 
 EMPTY_CHOICE = (('', '----'),)
 AUTO_ASSIGN_CHOICE = (('0', 'Auto assign'),)
+
+class CaseNotesForm(forms.Form):
+    notes = forms.CharField(widget=forms.Textarea, label=_('Case Notes'),
+                            max_length=500, required=False)
 
 
 class EligibilityCheckForm(APIFormMixin, forms.Form):
@@ -18,7 +27,6 @@ class EligibilityCheckForm(APIFormMixin, forms.Form):
     category = forms.ChoiceField(
         label=_(u'Law Category:')
     )
-    notes = forms.CharField(widget=forms.Textarea, label=_('Case Notes'))
 
     state = forms.ChoiceField(label=_('Means Test Passed?'), choices=STATE_CHOICES, initial=STATE_MAYBE)
 
@@ -63,6 +71,7 @@ class PersonalDetailsForm(forms.Form):
 
 class CaseForm(MultipleFormsForm):
     forms_list = (
+        ('case_notes', CaseNotesForm),
         ('eligibility_check', EligibilityCheckForm),
     )
 
@@ -75,8 +84,21 @@ class CaseAssignForm(APIFormMixin, forms.Form):
         """
         # TODO do something in case of 4xx and 5xx errors ?
         # This posts no data ; just POSTing assigns a random provider
-        return self.client.case(case_reference).assign().post()
-
+        try:
+            return self.client.case(case_reference).assign().post()
+        except HttpClientError as hce:
+            if hce.response.status_code == 400:
+                remote_errors = json.loads(hce.response.content)
+                non_field_errors = []
+                for error_field_name, value in remote_errors.items():
+                    if error_field_name in self.fields:
+                        self._errors[error_field_name] = ErrorList(value)
+                    else:
+                        non_field_errors.append(value)
+                self._errors[NON_FIELD_ERRORS] = ErrorList(itertools.chain.from_iterable(non_field_errors))
+                raise RemoteValidationError('Remote form validation error. see form.errors')
+            else:
+                raise
 
 class CaseCloseForm(APIFormMixin, forms.Form):
     def save(self, case_reference):

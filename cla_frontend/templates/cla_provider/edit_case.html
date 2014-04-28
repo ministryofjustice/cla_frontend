@@ -1,39 +1,63 @@
-{% extends "cla_provider/base.html" %}
+{% extends "cla_provider/case.html" %}{% load i18n widget_tweaks means_summary_tags helpers %}
 
-{% block middle_content %}
+{% block case_actions %}
+  {% if is_open %}
+  <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST" class="u-pullRight">
+    {% csrf_token %}
+    {{ accept_form.as_p }}
 
-    {% if is_open %}
-    <ul>
-        <li>
-            <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
-                {% csrf_token %}
-                {{ accept_form.as_p }}
-                <input type="submit" value="Accept">
-            </form>
-        <li><a href="{% url 'cla_provider:reject_case' case.reference %}">Reject</a></li>
-    </ul>
-    {% else %}
-    <ul>
-        <li><a href="{% url 'cla_provider:close_case' case.reference %}">Close</a></li>
-    </ul>
-    {% endif %}
+    <button type="submit" class="Button u-pullLeft">{% trans "Accept case" %}</button>
+    <a href="{% url 'cla_provider:reject_case' case.reference %}" class="Button Button--warning u-pullLeft">{% trans "Reject case" %}</a>
+  </form>
+  {% else %}
+    <a href="{% url 'cla_provider:close_case' case.reference %}" class="Button u-pullRight">{% trans "Close case" %}</a>
+  {% endif %}
+{% endblock %}
 
-    <h1>Edit case: {{ case_reference }}</h1>
-    <h2>State: {{ case.state }}</h2>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {% for k, subform in form.form_dict.items %}
-            {{ subform.as_p }}
-        {% endfor %}
-    <input type="submit" value="submit">
+{% block case_content %}
+    <figure class="CommentBlock IconRow IconRow--comments">
+      {# <figcaption class="CommentBlock-author u-mute">(test_operator)</figcaption> #}
+      <blockquote class="Quote">{{ case.notes|linebreaksbr }}</blockquote>
+    </figure>
+
+    <form action="." method="post">
+      {% csrf_token %}
+
+      <div class="FormRow">
+        <label for="{{ case_form.provider_notes.id_for_label }}" id="{{ case_form.provider_notes.auto_id }}-label" class="visuallyhidden">{{ case_form.provider_notes.label }}</label>
+          {% for error in case_form.provider_notes.errors %}
+            <span class="Error-message">{{ error }}</span>
+          {% endfor %}
+        {{ case_form.provider_notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
+      </div>
+
+      <button type="submit" class="Button">{% trans "Save Notes" %}</button>
     </form>
-    <hr>
-    <h3>Actions:</h3>
-    TODO
-    <h4>Close Case</h4>
-{#    <form method="post" action="{% url 'cla_provider:close_case' case_reference=case_reference %}">#}
-{#        {% csrf_token %}#}
-{#        {{ close_form.as_p }}#}
-{#        <input type="submit" value="close">#}
-{#    </form>#}
+
+    {% if eligibility_check  %}{% get_means_summary eligibility_check as sections %}
+      <p class="u-mute">{% trans "Means test completed by user on " %} {{ case.created_at|as_date|date:"d M Y H:i" }}</p>
+
+      {% for section in sections %}
+        <section class="SummaryBlock">
+          <h2 class="SummaryBlock-heading visuallyhidden">{{section.header}}</h2>
+          <ul class="SummaryBlock-list">
+
+          {% for item in section.items %}
+            <li>{{item|safe}}</li>
+          {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+      
+      {% if eligibility_check.notes %}
+      <section class="SummaryBlock CommentBlock">
+        <div class="SummaryBlock-list">
+          <figure class="Figure IconRow IconRow--name">
+            <figcaption class="Figure-cap">{{ case.created_at|as_date|date:"d M Y H:i" }} - {{ case.personal_details.full_name }} {% trans "wrote" %}:</figcaption>
+            <blockquote class="Quote">{{ eligibility_check.notes|linebreaksbr }}</blockquote>
+          </figure>
+        </div>
+      </section>
+      {% endif %}
+    {% endif %}  
 {% endblock %}

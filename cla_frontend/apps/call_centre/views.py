@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from cla_auth.utils import call_centre_zone_required
 from django.contrib import messages
 from django.shortcuts import render_to_response, redirect, render
@@ -7,6 +8,7 @@ from django.views.decorators.http import require_POST
 
 from api.client import get_connection
 from cla_auth.utils import call_centre_zone_required
+from core.exceptions import RemoteValidationError
 from legalaid.shortcuts import get_case_or_404
 
 from .forms import CaseForm, CaseAssignForm, CaseCloseForm, \
@@ -45,7 +47,8 @@ def edit_case(request, case_reference):
         if case_edit_form.is_valid():
             data = case_edit_form.cleaned_data
             eligibility_check = data.pop('eligibility_check')
-            client.case(case_reference).patch(data)
+            case_notes = data.pop('case_notes')
+            client.case(case_reference).patch(case_notes)
             client.eligibility_check(case['eligibility_check']).patch(eligibility_check)
             return redirect('call_centre:dashboard')
         else:
@@ -55,7 +58,7 @@ def edit_case(request, case_reference):
         context['form'] = CaseForm(
             initial=
                 {'eligibility_check': eligibility_check,
-                'personal_details': case.get('personal_details')},
+                'case_notes': case},
             client=client
         )
         return render(request, 'call_centre/edit_case.html', context)
@@ -108,17 +111,19 @@ def assign_case(request, case_reference):
         form = CaseAssignForm(request.POST, client=client)
 
         if form.is_valid():
-
-            provider = form.save(case_reference)
-            # TODO - internationalisation?
-            msg = ('Case {case_ref} successfully assigned'
-                   ' to {provider_name} with shortcode {shortcode}'
-                   ).format(
-                        case_ref=case_reference, provider_name=provider['name'],
-                        shortcode=provider['short_code']
-                    )
-            messages.add_message(request, messages.INFO, msg)
-            return redirect('call_centre:dashboard')
+            provider = None
+            try:
+                provider = form.save(case_reference)
+                msg = ('Case {case_ref} successfully assigned'
+                       ' to {provider_name} with shortcode {shortcode}'
+                ).format(
+                    case_ref=case_reference, provider_name=provider['name'],
+                    shortcode=provider['short_code']
+                )
+                messages.add_message(request, messages.INFO, msg)
+                return redirect('call_centre:dashboard')
+            except RemoteValidationError as rve:
+                pass
     else:
         form = CaseAssignForm(client=client)
 
