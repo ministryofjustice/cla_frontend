@@ -15,10 +15,12 @@
 {% endblock %}
 
 {% block case_content %}
+  {% if case.notes %}
   <figure class="CommentBlock IconRow IconRow--comments">
     {# <figcaption class="CommentBlock-author u-mute">(test_operator)</figcaption> #}
     <blockquote class="Quote">{{ case.notes|linebreaksbr }}</blockquote>
   </figure>
+  {% endif %}
 
   <form action="." method="post">
     {% csrf_token %}
