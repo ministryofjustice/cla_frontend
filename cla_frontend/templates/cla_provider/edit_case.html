@@ -1,12 +1,11 @@
-{% extends "cla_provider/base.html" %}{% load i18n helpers %}
+{% extends "cla_provider/base.html" %}{% load means_summary_tags helpers %}
 
 {% block body_classes %}{{ product_type }} {{ phase }} v-Case{% endblock %}
 
 {% block left_content %}
   <nav class="SubNav">
-    <a href="/" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
+    <a href="/" class="SubNav-link SubNav-link--back">Back to cases</a>
   </nav>
-
 {% endblock %}
 
 {% block middle_content %}
@@ -39,21 +38,22 @@
       </div>
     </section>
 
-    {% comment %}
-    {% with data=eligibility_check %}
-      {% include "common/includes/summary.html" %}
-    {% endwith %}
-        
-    <div class="FormRow">
-    <h3>should just be able to include the summary template here (@Dom)</h3>
-        <dl>
-            {% for k,v in eligibility_check.items %}
-                <dt>{{ k }}</dt><dd>{{ v }}</dd>
-            {% endfor %}
-        </dl>
-    </div>
-    {% endcomment %}
+    {% if eligibility_check  %}{% get_means_summary eligibility_check as sections %}
+      {% for section in sections %}
+        <section class="SummaryBlock">
+          <h2 class="SummaryBlock-heading">{{section.header}}</h2>
+          <ul class="SummaryBlock-list">
+
+          {% for item in section.items %}
+            <li>{{item|safe}}</li>
+          {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    {% endif %}
 {% endblock %}
+
+
 {% block right_content %}
   <div class="Timer cf">
     <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
