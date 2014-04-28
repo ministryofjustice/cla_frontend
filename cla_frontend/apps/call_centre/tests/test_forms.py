@@ -1,6 +1,7 @@
 import mock
 
 from django.test import testcases
+from core.exceptions import RemoteValidationError
 
 from legalaid.tests import test_forms
 
@@ -33,7 +34,7 @@ class CaseAssignFormTest(testcases.SimpleTestCase):
         self.assertTrue(form.is_valid())
 
         form.save(case_reference)
-        self.client.case(case_reference).assign().post.assert_called_once()
+        self.client.case(case_reference).assign().post.assert_called_once_with()
 
 
     def test_save_with_no_providers_for_category(self):
@@ -43,6 +44,14 @@ class CaseAssignFormTest(testcases.SimpleTestCase):
                     "There is no provider specified in the system to handle cases of this law category." ]}
         form = CaseAssignForm(client=self.client, data={})
         self.assertTrue(form.is_valid())
+        with self.assertRaises(RemoteValidationError):
+            form.save(case_reference)
+        self.client.case(case_reference).assign().post.assert_called_once_with()
+        self.assertFalse(form.is_valid())
+        nfe = form.non_field_errors()
+        self.assertEqual(len(nfe),1)
+
+
 
 
 class CaseCloseFormTest(testcases.SimpleTestCase):
