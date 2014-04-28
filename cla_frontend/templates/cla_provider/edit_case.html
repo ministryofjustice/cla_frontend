@@ -10,7 +10,7 @@
     <a href="{% url 'cla_provider:reject_case' case.reference %}" class="Button Button--warning u-pullLeft">{% trans "Reject case" %}</a>
   </form>
   {% else %}
-    <a href="{% url 'cla_provider:close_case' case.reference %}">Close</a>
+    <a href="{% url 'cla_provider:close_case' case.reference %}" class="Button u-pullRight">{% trans "Close case" %}</a>
   {% endif %}
 {% endblock %}
 
