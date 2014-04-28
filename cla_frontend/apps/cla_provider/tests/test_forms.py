@@ -1,8 +1,10 @@
+import mock
 from legalaid.tests import test_forms
 
 from cla_common.constants import CASE_STATE_REJECTED, CASE_STATE_ACCEPTED
 
-from ..forms import RejectCaseForm, AcceptCaseForm
+from ..forms import RejectCaseForm, AcceptCaseForm, CaseForm
+from legalaid.tests.test_forms import APIFormMixinTest
 
 
 class RejectCaseFormTest(test_forms.OutcomeFormTest):
@@ -39,3 +41,21 @@ class AcceptCaseFormTest(test_forms.OutcomeFormTest):
 
         form.save(case_reference)
         self.client.case(case_reference).accept().post.assert_called_with(data)
+
+
+class CaseFormTest(APIFormMixinTest):
+    formclass = CaseForm
+
+    _client = mock.MagicMock()
+
+    def test_save(self):
+        case_reference = '123456'
+        data = {
+            'provider_notes': 'hello'
+        }
+        form = CaseForm(client=self._client, data=data)
+
+        self.assertTrue(form.is_valid())
+
+        form.save(case_reference)
+        self._client.case(case_reference).accept().post.assert_called_with(data)

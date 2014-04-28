@@ -8,7 +8,7 @@ from cla_auth.utils import cla_provider_zone_required
 from legalaid.shortcuts import get_case_or_404
 from cla_common.constants import CASE_STATE_OPEN
 
-from .forms import RejectCaseForm, AcceptCaseForm
+from .forms import RejectCaseForm, AcceptCaseForm, CaseForm
 
 
 @cla_provider_zone_required
@@ -29,9 +29,19 @@ def edit_case(request, case_reference):
     client = get_connection(request)
     case = get_case_or_404(client, case_reference)
 
+    if request.method == 'POST':
+        case_form = CaseForm(client=client, data=request.POST)
+        if case_form.is_valid():
+            case_form.save(case_reference)
+            return redirect('.')
+    else:
+        case_form = CaseForm(client=client, initial=case)
+
+
     context = {
         'case_reference': case_reference,
         'case': case,
+        'case_form': case_form,
         'eligibility_check': client.eligibility_check(case['eligibility_check']).get(),
         'accept_form': AcceptCaseForm(client=client),
         'is_open': case['state'] == CASE_STATE_OPEN  # TODO not looking great, refactor
