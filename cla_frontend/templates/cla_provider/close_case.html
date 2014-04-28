@@ -1,12 +1,32 @@
-{% extends "cla_provider/base.html" %}{% load humanize helpers %}
+{% extends "cla_provider/case.html" %}{% load i18n widget_tweaks %}
 
-{% block middle_content %}
-    <h4>Close Case</h4>
+{% block case_content %}
+  <div class="FormBlock FormBlock--yellow">
     <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
+      {% csrf_token %}
 
-        <input type="submit" value="close">
-        <a href="{% url 'cla_provider:edit_case' case.reference %}">Cancel</a>
+      <div class="FormRow">
+        <label for="{{ form.outcome_notes.id_for_label }}" id="{{ form.outcome_notes.auto_id }}-label" class="visuallyhidden">{{ form.outcome_notes.label }}</label>
+          {% for error in form.outcome_notes.errors %}
+            <span class="Error-message">{{ error }}</span>
+          {% endfor %}
+        {{ form.outcome_notes|attr:"rows:6"|attr:"cols:20"|add_class:"FormRow-field--full" }}
+      </div>
+
+      <div class="FormRow cf{% if form.outcome_code.errors %} Error{% endif %}">
+        <label for="{{ form.outcome_code.id_for_label }}" id="{{ form.outcome_code.auto_id }}-label">
+          <span class="FormRow-label">
+            {{ form.outcome_code.label }}
+            {% for error in form.outcome_code.errors %}
+              <span class="Error-message">{{ error }}</span>
+            {% endfor %}
+          </span>
+          {{ form.outcome_code|add_class:"FormRow-field--l" }}
+        </label>
+      </div>
+
+      <button type="submit" class="Button">{% trans "Close case" %}</button>
+      <a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a>
     </form>
+  </div>
 {% endblock %}
