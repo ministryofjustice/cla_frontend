@@ -59,7 +59,7 @@ class CaseFormTest(APIFormMixinTest):
         self.assertTrue(form.is_valid())
 
         form.save(case_reference)
-        self._client.case(case_reference).accept().post.assert_called_with(data)
+        self._client.case(case_reference).patch.assert_called_with(data)
 
 
 class CloseCaseFormTest(test_forms.OutcomeFormTest):
