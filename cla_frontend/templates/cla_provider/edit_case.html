@@ -1,47 +1,39 @@
-{% extends "cla_provider/base.html" %}{% load means_summary_tags helpers %}
+{% extends "cla_provider/case.html" %}{% load i18n widget_tweaks means_summary_tags helpers %}
 
-{% block body_classes %}{{ product_type }} {{ phase }} v-Case{% endblock %}
+{% block case_actions %}
+  <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST" class="u-pullRight">
+    {% csrf_token %}
+    {{ accept_form.as_p }}
 
-{% block left_content %}
-  <nav class="SubNav">
-    <a href="/" class="SubNav-link SubNav-link--back">Back to cases</a>
-  </nav>
+    <button type="submit" class="Button u-pullLeft">{% trans "Accept case" %}</button>
+    <a href="{% url 'cla_provider:reject_case' case.reference %}" class="Button Button--warning u-pullLeft">{% trans "Reject case" %}</a>
+  </form>
 {% endblock %}
 
-{% block middle_content %}
-    <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST">
-      {% csrf_token %}
-      {{ accept_form.as_p }}
-
-      <header class="PageHeader cf">
-          <h1 class="u-pullLeft">{{ case_reference }} (State: {{ case.state }})</h1>
-          <a href="{% url 'cla_provider:reject_case' case.reference %}" class="Button Button--warning u-pullRight">Reject</a>
-          <button type="submit" class="Button u-pullRight">Accept</button>
-      </header>
-    </form>
+{% block case_content %}
     <p>
     Operator notes: {{ case.notes }}
     </p>
     <form action="." method="post">
-        {% csrf_token %}
-        {{ case_form.as_p }}
+      {% csrf_token %}
 
-        <button type="submit" class="Button">Save Notes</button>
-    </form>
-    <section class="SummaryBlock">
-      <h2 class="SummaryBlock-heading"></h2>
-      <div class="SummaryBlock-list">
-        <figure class="Figure IconRow IconRow--name">
-          <figcaption class="Figure-cap">18-Mar-2014 12:23 - John Smith Reynolds wrote:</figcaption>
-          <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
-        </figure>
+      <div class="FormRow">
+        <label for="{{ case_form.provider_notes.id_for_label }}" id="{{ case_form.provider_notes.auto_id }}-label" class="visuallyhidden">{{ case_form.provider_notes.label }}</label>
+          {% for error in case_form.provider_notes.errors %}
+            <span class="Error-message">{{ error }}</span>
+          {% endfor %}
+        {{ case_form.provider_notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
       </div>
-    </section>
+
+      <button type="submit" class="Button">{% trans "Save Notes" %}</button>
+    </form>
 
     {% if eligibility_check  %}{% get_means_summary eligibility_check as sections %}
+      <p class="u-mute">{% trans "Means test completed by user on " %} {{ case.created_at|as_date|date:"d M Y H:i" }}</p>
+
       {% for section in sections %}
         <section class="SummaryBlock">
-          <h2 class="SummaryBlock-heading">{{section.header}}</h2>
+          <h2 class="SummaryBlock-heading visuallyhidden">{{section.header}}</h2>
           <ul class="SummaryBlock-list">
 
           {% for item in section.items %}
@@ -50,28 +42,16 @@
           </ul>
         </section>
       {% endfor %}
-    {% endif %}
-{% endblock %}
-
-
-{% block right_content %}
-  <div class="Timer cf">
-    <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
-    <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> total</span>
-  </div>
-
-  {% if case.caseoutcome_set %}
-  <ul class="CaseHistory">
-    {% for outcome in case.caseoutcome_set %}
-    <li class="CaseHistory-item">
-      {{ outcome.created|as_date }}<br>
-      {% if outcome.notes %}
-        {{ outcome.notes }}<br>
+      
+      {% if eligibility_check.notes %}
+      <section class="SummaryBlock">
+        <div class="SummaryBlock-list">
+          <figure class="Figure IconRow IconRow--name">
+            <figcaption class="Figure-cap">{{ case.created_at|as_date|date:"d M Y H:i" }} - {{ case.personal_details.full_name }} {% trans "wrote" %}:</figcaption>
+            <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
+          </figure>
+        </div>
+      </section>
       {% endif %}
-      ({{ outcome.created_by }})<br>
-      <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+    {% endif %}  
 {% endblock %}
