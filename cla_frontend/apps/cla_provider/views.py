@@ -8,7 +8,7 @@ from cla_auth.utils import cla_provider_zone_required
 from legalaid.shortcuts import get_case_or_404
 from cla_common.constants import CASE_STATE_OPEN
 
-from .forms import RejectCaseForm, AcceptCaseForm
+from .forms import RejectCaseForm, AcceptCaseForm, CloseCaseForm
 
 
 @cla_provider_zone_required
@@ -82,3 +82,28 @@ def accept_case(request, case_reference):
             'Cannot accept Case {case_ref}'.format(case_ref=case_reference)
         )
     return redirect('cla_provider:edit_case', case_reference)
+
+
+@cla_provider_zone_required
+def close_case(request, case_reference):
+    client = get_connection(request)
+    case = get_case_or_404(client, case_reference)
+
+    if request.method == 'POST':
+        form = CloseCaseForm(client=client, data=request.POST)
+
+        if form.is_valid():
+            form.save(case_reference)
+
+            messages.add_message(request, messages.INFO,
+                'Case {case_ref} closed successfully'.format(case_ref=case_reference)
+            )
+            return redirect('cla_provider:dashboard')
+    else:
+        form = CloseCaseForm(client=client)
+
+    return render(request, 'cla_provider/close_case.html', {
+        'case_reference': case_reference,
+        'case': case,
+        'form': form
+    })

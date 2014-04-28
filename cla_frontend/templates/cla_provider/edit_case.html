@@ -14,7 +14,7 @@
     </ul>
     {% else %}
     <ul>
-        <li><a href="">Close</a></li>
+        <li><a href="{% url 'cla_provider:close_case' case.reference %}">Close</a></li>
     </ul>
     {% endif %}
 
