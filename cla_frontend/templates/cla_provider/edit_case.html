@@ -1,6 +1,7 @@
 {% extends "cla_provider/case.html" %}{% load i18n widget_tweaks means_summary_tags helpers %}
 
 {% block case_actions %}
+  {% if is_open %}
   <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST" class="u-pullRight">
     {% csrf_token %}
     {{ accept_form.as_p }}
@@ -8,6 +9,9 @@
     <button type="submit" class="Button u-pullLeft">{% trans "Accept case" %}</button>
     <a href="{% url 'cla_provider:reject_case' case.reference %}" class="Button Button--warning u-pullLeft">{% trans "Reject case" %}</a>
   </form>
+  {% else %}
+    <a href="{% url 'cla_provider:close_case' case.reference %}">Close</a>
+  {% endif %}
 {% endblock %}
 
 {% block case_content %}
@@ -30,6 +34,7 @@
       <button type="submit" class="Button">{% trans "Save Notes" %}</button>
     </form>
 
+{% block middle_content %}
     {% if eligibility_check  %}{% get_means_summary eligibility_check as sections %}
       <p class="u-mute">{% trans "Means test completed by user on " %} {{ case.created_at|as_date|date:"d M Y H:i" }}</p>
 
