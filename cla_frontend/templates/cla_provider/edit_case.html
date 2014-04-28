@@ -34,7 +34,6 @@
       <button type="submit" class="Button">{% trans "Save Notes" %}</button>
     </form>
 
-{% block middle_content %}
     {% if eligibility_check  %}{% get_means_summary eligibility_check as sections %}
       <p class="u-mute">{% trans "Means test completed by user on " %} {{ case.created_at|as_date|date:"d M Y H:i" }}</p>
 
