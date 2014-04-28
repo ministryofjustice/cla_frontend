@@ -36,6 +36,15 @@ class CaseAssignFormTest(testcases.SimpleTestCase):
         self.client.case(case_reference).assign().post.assert_called_once()
 
 
+    def test_save_with_no_providers_for_category(self):
+        case_reference = '999999'
+        self.client.case(case_reference).assign().post.return_value = \
+            { "__all__": [
+                    "There is no provider specified in the system to handle cases of this law category." ]}
+        form = CaseAssignForm(client=self.client, data={})
+        self.assertTrue(form.is_valid())
+
+
 class CaseCloseFormTest(testcases.SimpleTestCase):
     def setUp(self):
         super(CaseCloseFormTest, self).setUp()
@@ -51,6 +60,7 @@ class CaseCloseFormTest(testcases.SimpleTestCase):
 
         form.save(case_reference)
         self.client.case(case_reference).close().post.assert_called_with(data)
+
 
 
 class PersonalDetailsFormTests(testcases.SimpleTestCase):

@@ -4,13 +4,12 @@
   <div class="FormBlock FormBlock--yellow">
     <form method="post" action=".">
       {% csrf_token %}
-      <div class="FormRow cf{% if form.non_field_errors %} Error{% endif %}">
-          <span class="FormRow-label">
-            {% for error in form.non_field_errors %}
-              <span class="Error-message">{{ error }}</span>
-            {% endfor %}
-          </span>
-      </div>
+
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <div class="Error-message">{{ error }}</div>
+        {% endfor %}      
+      {% endif %}
 
       <button type="submit" class="Button">{% trans "Assign case" %}</button>
       <a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a>
