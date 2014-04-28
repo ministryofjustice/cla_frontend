@@ -20,47 +20,20 @@ class CaseAssignFormTest(testcases.SimpleTestCase):
             {'id': 2, 'name': 'provider2'},
             {'id': 111, 'name': 'provider2'},
         ]
-        self.client.provider.get.return_value = self.providers
 
-    def test_choices(self):
-        providers_expected = BLANK_CHOICE + [(x['id'], x['name']) for x in self.providers]
 
-        form = CaseAssignForm(client=self.client)
-        self.assertItemsEqual(form.fields['provider'].choices, providers_expected)
-
-    def test_provider_with_none_is_invalid(self):
+    def test_provider_with_none_is_valid(self):
         form = CaseAssignForm(client=self.client, data={})
-        self.assertFalse(form.is_valid())
-        self.assertItemsEqual(form.errors, {
-            'provider': [u'This field is required.'],
-        })
-
-    def _get_default_post_data(self, data={}):
-        data = dict(data)
-        if 'provider' not in data:
-            data['provider'] = self.providers[0]['id']
-        return data
-
-    def test_invalid_if_provider_is_invalid(self):
-        data = self._get_default_post_data({
-            'provider': 121
-        })
-        form = CaseAssignForm(client=self.client, data=data)
-        self.assertFalse(form.is_valid())
-        self.assertDictEqual(
-            form.errors,
-            {'provider': [u'Select a valid choice. 121 is not one of the available choices.']
-        })
+        self.assertTrue(form.is_valid())
 
     def test_save(self):
         case_reference = '1234567890'
 
-        data = self._get_default_post_data()
-        form = CaseAssignForm(client=self.client, data=data)
+        form = CaseAssignForm(client=self.client, data={})
         self.assertTrue(form.is_valid())
 
         form.save(case_reference)
-        self.client.case(case_reference).assign().post.assert_called_with(data)
+        self.client.case(case_reference).assign().post.assert_called_once()
 
 
 class CaseCloseFormTest(testcases.SimpleTestCase):

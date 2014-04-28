@@ -8,6 +8,7 @@ from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES
 from legalaid.forms import APIFormMixin
 
 EMPTY_CHOICE = (('', '----'),)
+AUTO_ASSIGN_CHOICE = (('0', 'Auto assign'),)
 
 
 class EligibilityCheckForm(APIFormMixin, forms.Form):
@@ -67,18 +68,14 @@ class CaseForm(MultipleFormsForm):
 
 
 class CaseAssignForm(APIFormMixin, forms.Form):
-    provider = forms.TypedChoiceField(required=True, coerce=int)
-
-    def __init__(self, *args, **kwargs):
-        super(CaseAssignForm, self).__init__(*args, **kwargs)
-        if self.client:
-            self._providers = self.client.provider.get()
-            self.fields['provider'].choices = EMPTY_CHOICE + \
-                                            tuple((x['id'], x['name']) for x in self._providers)
 
     def save(self, case_reference):
+        """
+        @return: dict provider
+        """
         # TODO do something in case of 4xx and 5xx errors ?
-        return self.client.case(case_reference).assign().post(self.cleaned_data)
+        # This posts no data ; just POSTing assigns a random provider
+        return self.client.case(case_reference).assign().post()
 
 
 class CaseCloseForm(APIFormMixin, forms.Form):
