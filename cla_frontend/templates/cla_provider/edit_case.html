@@ -15,49 +15,49 @@
 {% endblock %}
 
 {% block case_content %}
-    <figure class="CommentBlock IconRow IconRow--comments">
-      {# <figcaption class="CommentBlock-author u-mute">(test_operator)</figcaption> #}
-      <blockquote class="Quote">{{ case.notes|linebreaksbr }}</blockquote>
-    </figure>
+  <figure class="CommentBlock IconRow IconRow--comments">
+    {# <figcaption class="CommentBlock-author u-mute">(test_operator)</figcaption> #}
+    <blockquote class="Quote">{{ case.notes|linebreaksbr }}</blockquote>
+  </figure>
 
-    <form action="." method="post">
-      {% csrf_token %}
+  <form action="." method="post">
+    {% csrf_token %}
 
-      <div class="FormRow">
-        <label for="{{ case_form.provider_notes.id_for_label }}" id="{{ case_form.provider_notes.auto_id }}-label" class="visuallyhidden">{{ case_form.provider_notes.label }}</label>
-          {% for error in case_form.provider_notes.errors %}
-            <span class="Error-message">{{ error }}</span>
-          {% endfor %}
-        {{ case_form.provider_notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
-      </div>
+    <div class="FormRow">
+      <label for="{{ case_form.provider_notes.id_for_label }}" id="{{ case_form.provider_notes.auto_id }}-label" class="visuallyhidden">{{ case_form.provider_notes.label }}</label>
+        {% for error in case_form.provider_notes.errors %}
+          <span class="Error-message">{{ error }}</span>
+        {% endfor %}
+      {{ case_form.provider_notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
+    </div>
 
-      <button type="submit" class="Button">{% trans "Save Notes" %}</button>
-    </form>
+    <button type="submit" class="Button">{% trans "Save notes" %}</button>
+  </form>
 
-    {% if eligibility_check  %}{% get_means_summary eligibility_check as sections %}
-      <p class="u-mute">{% trans "Means test completed by user on " %} {{ case.created_at|as_date|date:"d M Y H:i" }}</p>
+  {% if eligibility_check  %}{% get_means_summary eligibility_check as sections %}
+    <p class="u-mute">{% trans "Means test completed by user on " %} {{ case.created_at|as_date|date:"d M Y H:i" }}</p>
 
-      {% for section in sections %}
-        <section class="SummaryBlock">
-          <h2 class="SummaryBlock-heading visuallyhidden">{{section.header}}</h2>
-          <ul class="SummaryBlock-list">
+    {% for section in sections %}
+      <section class="SummaryBlock">
+        <h2 class="SummaryBlock-heading visuallyhidden">{{section.header}}</h2>
+        <ul class="SummaryBlock-list">
 
-          {% for item in section.items %}
-            <li>{{item|safe}}</li>
-          {% endfor %}
-          </ul>
-        </section>
-      {% endfor %}
-      
-      {% if eligibility_check.notes %}
-      <section class="SummaryBlock CommentBlock">
-        <div class="SummaryBlock-list">
-          <figure class="Figure IconRow IconRow--name">
-            <figcaption class="Figure-cap">{{ case.created_at|as_date|date:"d M Y H:i" }} - {{ case.personal_details.full_name }} {% trans "wrote" %}:</figcaption>
-            <blockquote class="Quote">{{ eligibility_check.notes|linebreaksbr }}</blockquote>
-          </figure>
-        </div>
+        {% for item in section.items %}
+          <li>{{item|safe}}</li>
+        {% endfor %}
+        </ul>
       </section>
-      {% endif %}
-    {% endif %}  
+    {% endfor %}
+    
+    {% if eligibility_check.notes %}
+    <section class="SummaryBlock CommentBlock">
+      <div class="SummaryBlock-list">
+        <figure class="Figure IconRow IconRow--name">
+          <figcaption class="Figure-cap">{{ case.created_at|as_date|date:"d M Y H:i" }} - {{ case.personal_details.full_name }} {% trans "wrote" %}:</figcaption>
+          <blockquote class="Quote">{{ eligibility_check.notes|linebreaksbr }}</blockquote>
+        </figure>
+      </div>
+    </section>
+    {% endif %}
+  {% endif %}
 {% endblock %}
