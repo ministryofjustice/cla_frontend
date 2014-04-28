@@ -4,17 +4,12 @@
   <div class="FormBlock FormBlock--yellow">
     <form method="post" action=".">
       {% csrf_token %}
-      
-      <div class="FormRow cf{% if form.provider.errors %} Error{% endif %}">
-        <label for="{{ form.provider.id_for_label }}" id="{{ form.provider.auto_id }}-label">
+      <div class="FormRow cf{% if form.non_field_errors %} Error{% endif %}">
           <span class="FormRow-label">
-            {{ form.provider.label }}
-            {% for error in form.provider.errors %}
+            {% for error in form.non_field_errors %}
               <span class="Error-message">{{ error }}</span>
             {% endfor %}
           </span>
-          {{ form.provider|add_class:"FormRow-field--l" }}
-        </label>
       </div>
 
       <button type="submit" class="Button">{% trans "Assign case" %}</button>
