@@ -44,8 +44,6 @@ class CaseAssignFormTest(testcases.SimpleTestCase):
                     "There is no provider specified in the system to handle cases of this law category." ]}
         form = CaseAssignForm(client=self.client, data={})
         self.assertTrue(form.is_valid())
-        with self.assertRaises(RemoteValidationError):
-            form.save(case_reference)
         self.client.case(case_reference).assign().post.assert_called_once_with()
         self.assertFalse(form.is_valid())
         nfe = form.non_field_errors()
