@@ -12,7 +12,12 @@ h3 {
 h4 {
   @include core-24;
 }
-p,
+p {
+  @include core-16;
+  &:first-child {
+    margin-top: 0;
+  }
+}
 blockquote {
   @include core-16;
 }
