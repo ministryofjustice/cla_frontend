@@ -26,7 +26,7 @@
     <h1 class="u-pullLeft">{{ case.reference }}</h1>
     {% block case_actions %}{% endblock %}
   </header>
-  
+
   {% block case_content %}{% endblock %}
 
 {% endblock %}
@@ -51,4 +51,22 @@
     {% endfor %}
   </ul>
   {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+{% comment %}
+  This is to fix the problem with iframe + dynamic height depending on the
+  presence of form error messages.
+
+  Should go away at some point.
+{% endcomment %}
+<script type="text/javascript">
+$('iframe').load(function() {
+    var iframe = $(this);
+
+    iframe.css({
+      'height': iframe.contents().find('form').height() + 10
+    });
+});
+</script>
 {% endblock %}

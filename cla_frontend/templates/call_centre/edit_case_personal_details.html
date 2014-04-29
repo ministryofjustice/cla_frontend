@@ -5,34 +5,58 @@
     {% csrf_token %}
     <!--<div class="FormRow IconRow IconRow--name">
       <label for="{{ form.title.id_for_label }}" class="visuallyhidden">Title</label>
+      {% for error in form.title.errors %}
+        <span class="Error-message">{{ error }}</span>
+      {% endfor %}
       {{ form.title }}
     </div>-->
     <div class="FormRow IconRow IconRow--name">
       <label for="{{ form.full_name.id_for_label }}" class="visuallyhidden">Name</label>
+      {% for error in form.full_name.errors %}
+        <span class="Error-message">{{ error }}</span>
+      {% endfor %}
       {{ form.full_name|attr:"placeholder:Name"|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow IconRow IconRow--address">
       <label for="{{ form.postcode.id_for_label }}" class="visuallyhidden">Post code</label>
+      {% for error in form.postcode.errors %}
+        <span class="Error-message">{{ error }}</span>
+      {% endfor %}
       {{ form.postcode|attr:"placeholder:Post code"|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow IconRow">
       <label for="{{ form.street.id_for_label }}" class="visuallyhidden">Address</label>
+      {% for error in form.street.errors %}
+        <span class="Error-message">{{ error }}</span>
+      {% endfor %}
       {{ form.street|attr:"rows:3"|attr:"cols:20"|attr:"placeholder:Address"|add_class:"FormRow-field--full" }}
     </div>
     <!--<div class="FormRow IconRow">
       <label for="{{ form.town.id_for_label }}" class="visuallyhidden">Town</label>
+      {% for error in form.town.errors %}
+        <span class="Error-message">{{ error }}</span>
+      {% endfor %}
       {{ form.town|attr:"placeholder:Town"|add_class:"FormRow-field--full" }}
     </div>-->
     <div class="FormRow IconRow IconRow--email">
       <label for="{{ form.email.id_for_label }}" class="visuallyhidden">Email</label>
+      {% for error in form.email.errors %}
+        <span class="Error-message">{{ error }}</span>
+      {% endfor %}
       {{ form.email|attr:"placeholder:Email"|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow IconRow IconRow--phone">
       <label for="{{ form.home_phone.id_for_label }}" class="visuallyhidden">Home</label>
+      {% for error in form.home_phone.errors %}
+        <span class="Error-message">{{ error }}</span>
+      {% endfor %}
       {{ form.home_phone|attr:"placeholder:Home"|add_class:"FormRow-field--full" }}
     </div>
     <div class="FormRow IconRow IconRow--phone">
       <label for="{{ form.mobile_phone.id_for_label }}" class="visuallyhidden">Mobile</label>
+      {% for error in form.mobile_phone.errors %}
+        <span class="Error-message">{{ error }}</span>
+      {% endfor %}
       {{ form.mobile_phone|attr:"placeholder:"|add_class:"FormRow-field--full" }}
     </div>
     <div class="IconRow cf">
