@@ -1,23 +1,24 @@
 .v-Dashboard {
-  .PageHeader {
-    padding-top: 50px;
-    position: relative;
-    z-index: 2;
-    float: left;
+  .SubNav {
+    padding-left: 0;
+  }
 
+  .PageHeader {
     h1 {
-      padding: 4px 0;
+      padding: 0;
     }
 
     .Button {
       @include core-16;
       margin-left: 20px;
-      margin-top: 8px;
+      margin-top: 4px;
     }
   }
+  .PageHeader--wo-search {
+    padding-top: 60px;
+  }
 
-  .CaseList {
-    position: relative;
-    top: -55px;
+  #wrapper {
+    padding-bottom: 60px;
   }
 }

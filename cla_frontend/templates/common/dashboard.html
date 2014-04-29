@@ -3,10 +3,25 @@
 {% block body_classes %}{{ product_type }} {{ phase }} v-Dashboard{% endblock %}
 
 {% block full_content %}
-  <header class="PageHeader cf">
-    <h1 class="u-pullLeft">{% trans "Cases" %}</h1>
+  {% with query=request.GET.q %}
+  <header class="PageHeader cf{% if not query %} PageHeader--wo-search{% endif %}">
+    {% if query %}
+      <nav class="SubNav">
+        <a href="{% url zone.name|add:':dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to all cases" %}</a>
+      </nav>
+    {% endif %}
+
+    <h1 class="u-pullLeft">
+      {% if query %}
+        {% trans "Results" %} "{{ query }}"
+      {% else %}
+        {% trans "Cases" %}
+      {% endif %}
+    </h1>
+
     {% block actions %}{% endblock %}
   </header>
+  {% endwith %}
 
   <table class="CaseList" cellpadding="0" cellspacing="0" border="0" width="100%">
     <thead>
