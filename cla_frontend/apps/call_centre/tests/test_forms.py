@@ -1,6 +1,7 @@
 import mock
 
 from django.test import testcases
+from slumber.exceptions import HttpClientError
 from core.exceptions import RemoteValidationError
 
 from legalaid.tests import test_forms
@@ -39,12 +40,15 @@ class CaseAssignFormTest(testcases.SimpleTestCase):
 
     def test_save_with_no_providers_for_category(self):
         case_reference = '999999'
-        self.client.case(case_reference).assign().post.return_value = \
-            { "__all__": [
-                    "There is no provider specified in the system to handle cases of this law category." ]}
+        response = mock.MagicMock()
+        response.content = \
+            '{ "__all__": [ "There is no provider specified in the system to handle cases of this law category." ]}'
+        response.status_code = 400
         form = CaseAssignForm(client=self.client, data={})
         self.assertTrue(form.is_valid())
-        self.client.case(case_reference).assign().post.assert_called_once_with()
+        self.client.case(case_reference).assign().post.side_effect = HttpClientError(status_code=response.status_code, response=response)
+        with self.assertRaises(RemoteValidationError):
+            form.save(case_reference)
         self.assertFalse(form.is_valid())
         nfe = form.non_field_errors()
         self.assertEqual(len(nfe),1)
