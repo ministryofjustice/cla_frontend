@@ -118,18 +118,18 @@
     <div class="indicator cf"></div>
 
     {% block after_header %}{% endblock %}
-
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
     
     {% block before_content %}{% endblock %}
 
     <main id="wrapper" class="group">
+      {% if messages %}
+        <ul class="Notice">
+          {% for message in messages %}
+            <li class="Notice-msg{% if message.tags %} {{ message.tags }}{% endif %}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      
       {% block full_content %}
         <div class="Grid">
           <div class="Grid-row cf">
