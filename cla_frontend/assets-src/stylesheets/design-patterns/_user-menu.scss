@@ -1,0 +1,43 @@
+.UserMenu {
+  padding-top: 8px;
+
+  @include media(desktop) {
+    float: right;
+  }
+  
+  a:link,
+  a:visited {
+    color: $grey-1;
+  }
+}
+
+.UserMenu-name {
+  @include core-16;
+  float: left;
+
+  body.js-enabled & {
+    // &:after {
+    //   display: inline-block;
+    //   font-size: 11px;
+    //   height: 8px;
+    //   padding-left: 5px;
+    //   content: " \25BC";
+    // }
+  }
+}
+
+.UserMenu-options {
+  @include core-16;
+  margin: 0;
+  padding: 0;
+  float: left;
+
+  body.js-enabled & {
+    // display: none;
+  }
+}
+
+.UserMenu-option {
+  list-style-type: none;
+  margin-left: 10px;
+}

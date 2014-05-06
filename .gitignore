@@ -49,7 +49,21 @@ env*
 venv
 
 # intellij
-.ipr
-.iml
-.iws
+*.ipr
+*.iml
+*.iws
 
+cla_frontend/settings/local.py
+
+# collect static output directory
+cla_frontend/assets/
+cla_frontend/static/
+
+.DS_Store
+
+# node
+node_modules/
+
+# bower packages
+cla_frontend/assets-src/vendor/
+.sass-cache/

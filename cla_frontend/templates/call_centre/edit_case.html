@@ -1,0 +1,53 @@
+{% extends "call_centre/case.html" %}{% load i18n widget_tweaks %}
+
+{% block case_actions %}
+  <a href="{% url zone.name|add:':close_case' case.reference %}" class="Button Button--secondary u-pullRight">{% trans "Close case" %}</a>
+  <a href="{% url zone.name|add:':assign_case' case.reference %}" class="Button Button--secondary u-pullRight">{% trans "Assign case" %}</a>
+{% endblock %}
+
+{% block case_content %}
+  <form method="post" action=".">
+    {% csrf_token %}
+    {% with form=form.form_dict.case_notes %}
+        <div class="FormRow">
+            <label for="{{ form.notes.id_for_label }}" id="{{ form.notes.auto_id }}-label" class="visuallyhidden">{{ form.notes.label }}</label>
+            {% for error in form.notes.errors %}
+                <span class="Error-message">{{ error }}</span>
+            {% endfor %}
+            {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
+        </div>
+        <div class="FormRow">
+            <label for="{{ form.in_scope.id_for_label }}" id="{{ form.in_scope.auto_id }}-label">{{ form.in_scope.label }}</label>
+            {% for error in form.in_scope.errors %}
+                <span class="Error-message">{{ error }}</span>
+            {% endfor %}
+            {{ form.in_scope }}
+        </div>
+    {% endwith %}
+    {% with form=form.form_dict.eligibility_check %}
+    <div class="FormRow cf">
+      <label for="{{ form.category.id_for_label }}" id="{{ form.category.auto_id }}-label">
+        <span class="FormRow-label">{{ form.category.label }}</span>
+        {% for error in form.category.errors %}
+          <span class="Error-message">{{ error }}</span>
+        {% endfor %}
+        {{ form.category }}
+      </label>
+    </div>
+    <div class="FormRow cf">
+      <label for="{{ form.state.id_for_label }}" id="{{ form.state.auto_id }}-label">
+        <span class="FormRow-label">{{ form.state.label }}</span>
+        {% for error in form.state.errors %}
+          <span class="Error-message">{{ error }}</span>
+        {% endfor %}
+        {{ form.state }}
+      </label>
+    </div>
+    <div>
+      <button type="submit" class="Button">{% trans "Save case details" %}</button>
+    </div>
+    {% endwith %}
+  </form>
+  
+  {% include "common/includes/means_test_summary.html" %}
+{% endblock %}

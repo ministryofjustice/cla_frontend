@@ -1,0 +1,76 @@
+.CaseSearch {
+  margin: 4px 0 0;
+  position: relative;
+  clear: left;
+
+  @include media(desktop) {
+    float: left;
+    clear: none;
+    margin: {
+      left: 20px;
+    }
+  }
+}
+.CaseSearch-label {
+  @include box-sizing(border-box);
+  @include border-radius(3px 0 0 3px);
+  @include core-16;
+  display: block;
+  float: left;
+  background-color: $white;
+  height: 30px;
+  width: 60px;
+  padding: 8px 8px;
+  color: $grey-1;
+
+  @include media(tablet) {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  body.js-enabled & {
+    @include border-radius(3px);
+    background-color: transparent;
+    border: 1px solid $grey-1;
+    color: $grey-1;
+    position: absolute;
+    width: 205px;
+  }
+}
+input.CaseSearch-query {
+  @include box-sizing(border-box);
+  @include border-radius(0 3px 3px 0);
+  @include core-16;
+  height: 30px;
+  width: 145px;
+  padding: 4px 8px;
+  border: 0;
+  float: left;
+  display: block;
+  background-color: $white;
+
+  body.js-enabled & {
+    @include border-radius(3px);
+    background-color: transparent;
+    position: relative;
+    width: 205px;
+
+    &.is-focused {
+      background-color: $white;
+    }
+  }
+}
+.CaseSearch-submit {
+  width: 30px;
+  height: 30px;
+  background: url(../images/icons/search-button.png) -2px -20px $grey-1;
+  text-indent: -1000px;
+  overflow: hidden;
+  border: 0;
+  margin-left: 5px;
+  @include border-radius(3px);
+
+  &:hover {
+    background-color: lighten($grey-1, 5%);
+  }
+}

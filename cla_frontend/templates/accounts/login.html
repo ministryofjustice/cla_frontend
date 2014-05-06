@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% load widget_tweaks %}
+
+{% block body_classes %}{{ product_type }} {{ phase }} v-Login{% endblock %}
+
+{% block full_content %}
+  <div class="Grid">
+    <div class="Grid-row cf">
+      <div class="Grid-col Grid-col--3-5 Grid-colPush--1-5">
+        <header class="PageHeader">
+          <h1>Sign in</h1>
+        </header>
+        <form action="" method="post">
+          {% csrf_token %}
+
+          {% include "common/includes/error_summary.html" %}
+
+          {% for field in form %}
+            <div class="FormRow cf{% if field.errors %} Error{% endif %}">
+              <label for="{{ field.id_for_label }}" id="{{ field.auto_id }}-label">
+                <span class="FormRow-label">
+                  {{ field.label }}
+                  {% for error in field.errors %}
+                    <span class="Error-message">{{ error }}</span>
+                  {% endfor %}
+                </span>
+                {{ field }}
+              </label>
+            </div>
+          {% endfor %}
+
+          <input type="submit" value="Signin" class="Button">
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

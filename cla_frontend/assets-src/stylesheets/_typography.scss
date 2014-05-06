@@ -1,0 +1,34 @@
+h1 {
+  @include heading-48;
+  font-weight: 700;
+}
+h2 {
+  @include heading-36;
+  font-weight: 700;
+}
+h3 {
+  @include core-36;
+}
+h4 {
+  @include core-24;
+}
+p,
+blockquote {
+  @include core-16;
+}
+
+.PageHeader {
+  h1 {
+    @include bold-36;
+    padding: 12px 0 9px;
+  }
+
+  p {
+    @include core-24
+  }
+
+  .Button {
+    margin-top: 15px;
+    margin-left: 15px;
+  }
+}

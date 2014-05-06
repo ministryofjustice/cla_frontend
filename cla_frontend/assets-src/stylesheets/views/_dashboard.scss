@@ -1,0 +1,24 @@
+.v-Dashboard {
+  .SubNav {
+    padding-left: 0;
+  }
+
+  .PageHeader {
+    h1 {
+      padding: 0;
+    }
+
+    .Button {
+      @include core-16;
+      margin-left: 20px;
+      margin-top: 4px;
+    }
+  }
+  .PageHeader--wo-search {
+    padding-top: 60px;
+  }
+
+  #wrapper {
+    padding-bottom: 60px;
+  }
+}

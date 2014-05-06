@@ -1,0 +1,26 @@
+.CaseHistory {
+  margin: 0;
+  padding: 0;
+  color: $grey-1;
+
+  a:link,
+  a:visited {
+    color: $grey-1;
+  }
+}
+
+.CaseHistory-item {
+  list-style: none;
+  line-height: 1.4em;
+  margin-bottom: 20px;
+}
+
+.CaseHistory-label {
+  @include border-radius(3px);
+  display: inline-block;
+  padding: 5px 5px 3px;
+  margin-top: 5px;
+  color: $white;
+  line-height: 1em;
+  background-color: $grey-1;
+}

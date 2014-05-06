@@ -1,0 +1,23 @@
+.SubNav {
+  margin: {
+    top: 10px;
+    bottom: 10px;
+  }
+  padding-left: 12px;
+}
+
+.SubNav-link {
+  @include core-16;
+  padding: 10px 0;
+  display: inline-block;
+
+  // modifiers
+  &--back {
+    &:before {
+      display: inline-block;
+      padding-right: 8px;
+      font-size: 14px;
+      content: " \003C";
+    }
+  }
+}
