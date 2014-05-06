@@ -6,6 +6,21 @@
   <nav class="SubNav">
     <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
   </nav>
+
+  <section class="UserDetails">
+    <p class="UserDetails-item IconRow IconRow--name">
+      {{ case.personal_details.full_name }}
+    </p>
+    <p class="UserDetails-item IconRow IconRow--address">
+      {{ case.personal_details.street }}<br>
+      {{ case.personal_details.town }}<br>
+      {{ case.personal_details.postcode }}
+    </p>
+    <p class="UserDetails-item IconRow IconRow--phone">
+      {{ case.personal_details.home_phone }}<br>
+      {{ case.personal_details.mobile_phone }}
+    </p>
+  </section>
 {% endblock %}
 
 {% block middle_content %}

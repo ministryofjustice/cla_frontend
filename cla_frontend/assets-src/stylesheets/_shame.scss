@@ -4,12 +4,23 @@
   padding-bottom: 5px !important;
 }
 
+// override max width on cookie message and footer
+#footer {
+  display: none;
+  
+  .footer-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: none;
+  }
+}
+
 // body backgound when short height
 html, body {
   height: 100%;
 }
 body.service {
-  background-color: $grey-3;
+  // background-color: $grey-3;
 }
 
 // iframe fixes

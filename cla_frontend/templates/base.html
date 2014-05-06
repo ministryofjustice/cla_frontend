@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-    <title>{% block page_title %}{% endblock %}</title>
+    <title>{% block page_title %}{{ app_title }}{% endblock %}</title>
 
     <script type="text/javascript">
       (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
@@ -118,22 +118,18 @@
     <div class="indicator cf"></div>
 
     {% block after_header %}{% endblock %}
-
-    <div id="global-cookie-message">        
-      <p>GOV.UK uses cookies to make the site simpler. <a href="https://www.gov.uk/help/cookies">Find out more about cookies</a></p>
-    </div>
-
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
     
     {% block before_content %}{% endblock %}
 
     <main id="wrapper" class="group">
+      {% if messages %}
+        <ul class="Notice">
+          {% for message in messages %}
+            <li class="Notice-msg{% if message.tags %} {{ message.tags }}{% endif %}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      
       {% block full_content %}
         <div class="Grid">
           <div class="Grid-row cf">
