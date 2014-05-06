@@ -18,6 +18,7 @@ AUTO_ASSIGN_CHOICE = (('0', 'Auto assign'),)
 class CaseNotesForm(forms.Form):
     notes = forms.CharField(widget=forms.Textarea, label=_('Case Notes'),
                             max_length=500, required=False)
+    in_scope = forms.NullBooleanField(label=_('In Scope'), required=False)
 
 
 class EligibilityCheckForm(APIFormMixin, forms.Form):
