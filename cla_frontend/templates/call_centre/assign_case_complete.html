@@ -1,9 +1,25 @@
 {% extends "call_centre/case.html" %}{% load i18n widget_tweaks %}
 
+{% block left_content %}{% endblock %}
+
+{% block case_heading %}<h1 class="u-pullLeft TextIcon TextIcon--tick">{{ case.reference }} {% trans "assigned to a Specialist Provider" %}</h1>{% endblock %}
+
 {% block case_content %}
-  <div>
-  	{{case.provider_notes}}<br />
-  	{{provider.name}}<br />
-	{{provider.short_code}}<br />
+  <div class="ContactBlock ContactBlock--grey clearfix">
+  	<h2 class="ContactBlock-heading">{{ provider.name }}</h2>
+
+    <div class="Grid-col Grid-col--1-3">
+      <p>Furnival House<br>
+        48 Furnival Gate<br>
+        Sheffield</p>
+    </div>
+    <div class="Grid-col Grid-col--2-3">
+      <p>0344 515 1540 (for telephone advice)<br>
+        0344 515 2222 (for an appointment / more information on our service)</p>
+    </div>
   </div>
+
+  <ul class="Notice">
+    <li class="Notice-msg">{% trans "Provider phone short code" %} <strong>{{ provider.short_code }}</strong></li>
+  </ul>
 {% endblock %}

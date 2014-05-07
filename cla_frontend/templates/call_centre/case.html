@@ -23,7 +23,7 @@
 
 {% block middle_content %}
   <header class="PageHeader cf">
-    <h1 class="u-pullLeft">{{ case.reference }}</h1>
+    {% block case_heading %}<h1 class="u-pullLeft">{{ case.reference }}</h1>{% endblock %}
     {% block case_actions %}{% endblock %}
   </header>
 
