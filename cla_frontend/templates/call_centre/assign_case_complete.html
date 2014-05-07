@@ -1,0 +1,9 @@
+{% extends "call_centre/case.html" %}{% load i18n widget_tweaks %}
+
+{% block case_content %}
+  <div>
+  	{{case.provider_notes}}<br />
+  	{{provider.name}}<br />
+	{{provider.short_code}}<br />
+  </div>
+{% endblock %}

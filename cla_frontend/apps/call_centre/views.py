@@ -114,14 +114,14 @@ def assign_case(request, case_reference):
             provider = None
             try:
                 provider = form.save(case_reference)
-                msg = ('Case {case_ref} successfully assigned'
-                       ' to {provider_name} with shortcode {shortcode}'
-                ).format(
-                    case_ref=case_reference, provider_name=provider['name'],
-                    shortcode=provider['short_code']
-                )
-                messages.add_message(request, messages.INFO, msg)
-                return redirect('call_centre:dashboard')
+                # A redirect would be more correct after a POST but would require the
+                # operator to have access to the case after it has been assigned to
+                # the provider.
+                context = {'provider': provider,
+                           'case': case
+                           }
+                return render(request, 'call_centre/assign_case_complete.html', context)
+
             except RemoteValidationError as rve:
                 pass
     else:
