@@ -10,7 +10,7 @@
   }
 }
 .IconRow--name { @include svg-bg("../images/icons/user") }
-.IconRow--address { @include svg-bg("../images/icons/house") }
+.IconRow--address { @include svg-bg("../images/icons/address") }
 .IconRow--phone { @include svg-bg("../images/icons/phone") }
 .IconRow--email { @include svg-bg("../images/icons/email") }
 .IconRow--comments { @include svg-bg("../images/icons/comments") }

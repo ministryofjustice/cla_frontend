@@ -6,21 +6,35 @@
   <nav class="SubNav">
     <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
   </nav>
-
+  
+  {% with details=case.personal_details %}
   <section class="UserDetails">
-    <p class="UserDetails-item IconRow IconRow--name">
-      {{ case.personal_details.full_name }}
-    </p>
-    <p class="UserDetails-item IconRow IconRow--address">
-      {{ case.personal_details.street }}<br>
-      {{ case.personal_details.town }}<br>
-      {{ case.personal_details.postcode }}
-    </p>
-    <p class="UserDetails-item IconRow IconRow--phone">
-      {{ case.personal_details.home_phone }}<br>
-      {{ case.personal_details.mobile_phone }}
-    </p>
+    {% if details %}
+      {% if details.full_name %}
+      <p class="UserDetails-item UserDetails-item--l IconRow IconRow--name">
+        {{ details.full_name }}
+      </p>
+      {% endif %}
+      {% if details.street or details.town or details.postcode %}
+      <p class="UserDetails-item IconRow IconRow--address">
+        {% if details.street %}{{ details.street }}<br>{% endif %}
+        {% if details.town %}{{ details.town }}<br>{% endif %}
+        {% if details.postcode %}{{ details.postcode }}{% endif %}
+      </p>
+      {% endif %}
+      {% if details.home_phone or details.mobile_phone %}
+      <p class="UserDetails-item IconRow IconRow--phone">
+        {% if details.home_phone %}{{ details.home_phone }}<br>{% endif %}
+        {% if details.mobile_phone %}{{ details.mobile_phone }}{% endif %}
+      </p>
+      {% endif %}
+    {% else %}
+      <p>
+        <i class="u-mute">No personal details provided</i>
+      </p>
+    {% endif %}
   </section>
+  {% endwith %}
 {% endblock %}
 
 {% block middle_content %}
