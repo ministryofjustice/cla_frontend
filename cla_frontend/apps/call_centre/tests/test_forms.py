@@ -4,6 +4,8 @@ from django.test import testcases
 from slumber.exceptions import HttpClientError
 from core.exceptions import RemoteValidationError
 
+from cla_common.constants import STATE_MAYBE
+
 from legalaid.tests import test_forms
 
 from ..forms import CaseAssignForm, CaseCloseForm, EligibilityCheckForm, \
@@ -117,7 +119,7 @@ class EligibilityCheckFormTest(test_forms.APIFormMixinTest):
     formclass = EligibilityCheckForm
     default_data = {
         'notes':'hello',
-        'state': 1
+        'state': STATE_MAYBE
     }
 
     def setUp(self):
