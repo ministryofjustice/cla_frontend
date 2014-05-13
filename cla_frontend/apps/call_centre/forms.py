@@ -7,7 +7,7 @@ import itertools
 from slumber.exceptions import HttpClientError
 
 from cla_common.forms import MultipleFormsForm
-from cla_common.constants import STATE_MAYBE, STATE_CHOICES, TITLE_CHOICES
+from cla_common.constants import ELIGIBILITY_STATES, TITLES
 from core.exceptions import RemoteValidationError
 
 from legalaid.forms import APIFormMixin
@@ -29,7 +29,10 @@ class EligibilityCheckForm(APIFormMixin, forms.Form):
         label=_(u'Law Category:')
     )
 
-    state = forms.ChoiceField(label=_('Means Test Passed?'), choices=STATE_CHOICES, initial=STATE_MAYBE)
+    state = forms.ChoiceField(
+        label=_('Means Test Passed?'), choices=ELIGIBILITY_STATES.CHOICES,
+        initial=ELIGIBILITY_STATES.MAYBE
+    )
 
     def __init__(self, *args, **kwargs):
         super(EligibilityCheckForm, self).__init__(*args, **kwargs)
@@ -41,7 +44,7 @@ class EligibilityCheckForm(APIFormMixin, forms.Form):
 
 class PersonalDetailsForm(forms.Form):
     # title = forms.ChoiceField(
-    #     label=_(u'Title'), choices=TITLE_CHOICES
+    #     label=_(u'Title'), choices=TITLES.CHOICES
     # )
     full_name = forms.CharField(label=_(u'Full name'), max_length=300)
     postcode = forms.CharField(label=_(u'Postcode'), max_length=10)
