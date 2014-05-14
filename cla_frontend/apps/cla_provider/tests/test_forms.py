@@ -1,8 +1,7 @@
 import mock
 from legalaid.tests import test_forms
 
-from cla_common.constants import CASE_STATE_REJECTED, CASE_STATE_ACCEPTED, \
-    CASE_STATE_CLOSED
+from cla_common.constants import CASE_STATES
 
 from ..forms import RejectCaseForm, AcceptCaseForm, CaseForm, CloseCaseForm
 from legalaid.tests.test_forms import APIFormMixinTest
@@ -13,7 +12,7 @@ class RejectCaseFormTest(test_forms.OutcomeFormTest):
 
     def test_choices(self):
         super(RejectCaseFormTest, self).test_choices()
-        self.client.outcome_code.get.assert_called_with(case_state=CASE_STATE_REJECTED)
+        self.client.outcome_code.get.assert_called_with(case_state=CASE_STATES.REJECTED)
 
     def test_save(self):
         case_reference = '1234567890'
@@ -31,7 +30,7 @@ class AcceptCaseFormTest(test_forms.OutcomeFormTest):
 
     def test_choices(self):
         super(AcceptCaseFormTest, self).test_choices()
-        self.client.outcome_code.get.assert_called_with(case_state=CASE_STATE_ACCEPTED)
+        self.client.outcome_code.get.assert_called_with(case_state=CASE_STATES.ACCEPTED)
 
     def test_save(self):
         case_reference = '1234567890'
@@ -67,7 +66,7 @@ class CloseCaseFormTest(test_forms.OutcomeFormTest):
 
     def test_choices(self):
         super(CloseCaseFormTest, self).test_choices()
-        self.client.outcome_code.get.assert_called_with(case_state=CASE_STATE_CLOSED)
+        self.client.outcome_code.get.assert_called_with(case_state=CASE_STATES.CLOSED)
 
     def test_save(self):
         case_reference = '1234567890'

@@ -1,5 +1,9 @@
 .CommentBlock {
-  margin: 0 0 20px;
+  margin: 10px 0 20px;
+
+  .Quote {
+    padding-top: 0;
+  }
 }
 .CommentBlock-author {
   padding-top: 2px;

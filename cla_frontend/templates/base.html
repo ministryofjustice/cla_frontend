@@ -97,20 +97,24 @@
             <a href="https://www.gov.uk/service-manual/phases/{{ phase }}.html" class="proposition-phase">{{ phase }}</a>
           </div>
         </div>
-          {% if zone %}
-              <form id="search" class="CaseSearch" action="{% url zone.LOGIN_REDIRECT_URL %}" method="get" role="search">
-                  <label for="case-search" class="CaseSearch-label">Search</label>
-                  <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" value="{{ request.GET.q }}" autocomplete="off">
-                  <input class="CaseSearch-submit" type="submit" value="Search">
-              </form>
 
-              <nav class="UserMenu">
-                  {#<a href="#" class="UserMenu-name">user.name</a>#}
-                  <ul class="UserMenu-options">
-                      <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}">Logout</a>{% endblock %}</li>
-                  </ul>
-              </nav>
-          {% endif %}
+        {% if zone %}
+          <form id="search" class="CaseSearch" action="{% url zone.LOGIN_REDIRECT_URL %}" method="get" role="search">
+            <label for="case-search" class="CaseSearch-label">Search</label>
+            <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" value="{{ request.GET.q }}" autocomplete="off">
+            <input class="CaseSearch-submit" type="submit" value="Search">
+          </form>
+          
+          <nav class="UserMenu">
+            <p class="UserMenu-status">
+              {% if zone == "call_centre" %}Provider{% else %}Operator{% endif %}:
+              <strong class="UserMenu-name TextIcon TextIcon--account">[[Placeholder Name]]</strong>
+            </p>
+            <ul class="UserMenu-options">
+              <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}">Sign out</a>{% endblock %}</li>
+            </ul>
+          </nav>
+        {% endif %}
       </div>
     </header>
     <!--end header-->

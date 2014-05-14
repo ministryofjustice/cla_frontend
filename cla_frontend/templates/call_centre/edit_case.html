@@ -9,43 +9,47 @@
   <form method="post" action=".">
     {% csrf_token %}
     {% with form=form.form_dict.case_notes %}
-        <div class="FormRow">
-            <label for="{{ form.notes.id_for_label }}" id="{{ form.notes.auto_id }}-label" class="visuallyhidden">{{ form.notes.label }}</label>
-            {% for error in form.notes.errors %}
-                <span class="Error-message">{{ error }}</span>
-            {% endfor %}
-            {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
-        </div>
-        <div class="FormRow">
-            <label for="{{ form.in_scope.id_for_label }}" id="{{ form.in_scope.auto_id }}-label">{{ form.in_scope.label }}</label>
-            {% for error in form.in_scope.errors %}
-                <span class="Error-message">{{ error }}</span>
-            {% endfor %}
-            {{ form.in_scope }}
-        </div>
+      <div class="FormRow">
+        <label for="{{ form.notes.id_for_label }}" id="{{ form.notes.auto_id }}-label" class="visuallyhidden">{{ form.notes.label }}</label>
+        {% for error in form.notes.errors %}
+          <span class="Error-message">{{ error }}</span>
+        {% endfor %}
+        {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
+      </div>
+      
+      <div class="FormRow">
+        <label for="{{ form.in_scope.id_for_label }}" id="{{ form.in_scope.auto_id }}-label">
+          <span class="FormRow-label">{{ form.in_scope.label }}</span>
+          {% for error in form.in_scope.errors %}
+            <span class="Error-message">{{ error }}</span>
+          {% endfor %}
+          {{ form.in_scope }}
+        </label>
+      </div>
     {% endwith %}
+
     {% with form=form.form_dict.eligibility_check %}
-    <div class="FormRow cf">
-      <label for="{{ form.category.id_for_label }}" id="{{ form.category.auto_id }}-label">
-        <span class="FormRow-label">{{ form.category.label }}</span>
-        {% for error in form.category.errors %}
-          <span class="Error-message">{{ error }}</span>
-        {% endfor %}
-        {{ form.category }}
-      </label>
-    </div>
-    <div class="FormRow cf">
-      <label for="{{ form.state.id_for_label }}" id="{{ form.state.auto_id }}-label">
-        <span class="FormRow-label">{{ form.state.label }}</span>
-        {% for error in form.state.errors %}
-          <span class="Error-message">{{ error }}</span>
-        {% endfor %}
-        {{ form.state }}
-      </label>
-    </div>
-    <div>
-      <button type="submit" class="Button">{% trans "Save case details" %}</button>
-    </div>
+      <div class="FormRow cf">
+        <label for="{{ form.category.id_for_label }}" id="{{ form.category.auto_id }}-label">
+          <span class="FormRow-label">{{ form.category.label }}</span>
+          {% for error in form.category.errors %}
+            <span class="Error-message">{{ error }}</span>
+          {% endfor %}
+          {{ form.category }}
+        </label>
+      </div>
+      <div class="FormRow cf">
+        <label for="{{ form.state.id_for_label }}" id="{{ form.state.auto_id }}-label">
+          <span class="FormRow-label">{{ form.state.label }}</span>
+          {% for error in form.state.errors %}
+            <span class="Error-message">{{ error }}</span>
+          {% endfor %}
+          {{ form.state }}
+        </label>
+      </div>
+      <div>
+        <button type="submit" class="Button">{% trans "Save case details" %}</button>
+      </div>
     {% endwith %}
   </form>
   

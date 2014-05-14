@@ -1,0 +1,37 @@
+.TextIcon {
+  background: {
+    repeat: no-repeat;
+    position: left top;
+  };
+}
+
+.TextIcon--tick {
+  @include svg-bg("../images/icons/tick");
+  padding-left: 81px;
+}
+.TextIcon--cross {
+  @include svg-bg("../images/icons/cross");
+  padding-left: 81px;
+}
+.TextIcon--account {
+  @include svg-bg("../images/icons/account");
+  padding-left: 22px;
+  background-position: left 1px;
+}
+
+.IconRow {
+  padding-left: 28px;
+  background: {
+    position: left 1px;
+    repeat: no-repeat;
+  };
+
+  &.FormRow {
+    background-position: left 7px;
+  }
+}
+.IconRow--name { @include svg-bg("../images/icons/user") }
+.IconRow--address { @include svg-bg("../images/icons/address") }
+.IconRow--phone { @include svg-bg("../images/icons/phone") }
+.IconRow--email { @include svg-bg("../images/icons/email") }
+.IconRow--comments { @include svg-bg("../images/icons/comments") }

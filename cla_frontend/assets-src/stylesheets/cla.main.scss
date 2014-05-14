@@ -1,20 +1,21 @@
 // GOV.UK Toolkit imports
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/colours";
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/conditionals";
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/css3";
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/device-pixels";
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/font_stack";
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/measurements";
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/shims";
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/typography";
-@import "../../../node_modules/govuk_frontend_toolkit/govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
+@import "govuk_frontend_toolkit/stylesheets/colours";
+@import "govuk_frontend_toolkit/stylesheets/conditionals";
+@import "govuk_frontend_toolkit/stylesheets/css3";
+@import "govuk_frontend_toolkit/stylesheets/device-pixels";
+@import "govuk_frontend_toolkit/stylesheets/font_stack";
+@import "govuk_frontend_toolkit/stylesheets/measurements";
+@import "govuk_frontend_toolkit/stylesheets/shims";
+@import "govuk_frontend_toolkit/stylesheets/typography";
+@import "govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
 
 // Extras
+@import "mixins";
 @import "header";
 @import "footer";
 @import "content";
 @import "typography";
-@import "mixins";
+@import "icons";
 @import "utilities";
 
 // Design patterns
@@ -22,7 +23,6 @@
 @import "design-patterns/buttons";
 @import "design-patterns/forms";
 @import "design-patterns/errors";
-@import "design-patterns/icons";
 @import "design-patterns/quotes";
 @import "design-patterns/progress-indicator";
 @import "design-patterns/case-search";

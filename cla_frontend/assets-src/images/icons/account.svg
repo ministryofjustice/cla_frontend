@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>operator_icon</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="operator_icon" sketch:type="MSLayerGroup">
+            <circle id="Oval-23" fill="#C1CACB" sketch:type="MSShapeGroup" cx="8" cy="8" r="8"></circle>
+            <path d="M6.3251829,6.54156506 C5.86900483,6.05441334 5.22005221,5.75 4.5,5.75 C3.11928806,5.75 2,6.86928806 2,8.25 C2,9.63071194 3.11928806,10.75 4.5,10.75 C5.05330006,10.75 5.56461836,10.5702549 5.97874827,10.2659713 L5.97874827,10.2659713 L8.36154848,11.5897492 C8.28928506,11.7964528 8.25,12.0186386 8.25,12.25 C8.25,13.3545696 9.14543045,14.25 10.25,14.25 C11.3545696,14.25 12.25,13.3545696 12.25,12.25 C12.25,11.1454304 11.3545696,10.25 10.25,10.25 C9.86198459,10.25 9.49977675,10.3604953 9.19312574,10.5517365 L6.80316938,9.22398299 C6.92990874,8.9246548 7,8.59551275 7,8.25 C7,8.06115927 6.97906239,7.87720878 6.93938198,7.70034334 L10,6 L10,5.56134277 C10.3423995,5.83582044 10.7770266,6 11.25,6 C12.3545696,6 13.25,5.10456955 13.25,4 C13.25,2.89543045 12.3545696,2 11.25,2 C10.1454304,2 9.25,2.89543045 9.25,4 C9.25,4.29198183 9.31256873,4.56934994 9.42502978,4.8194279 L6.3251829,6.54156506 Z" id="share" fill="#0B0C0C" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>
