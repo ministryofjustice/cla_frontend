@@ -62,7 +62,7 @@
     <!--[if IE 6]><link href="{% static 'stylesheets/cla.main-ie6.css' %}" media="screen" rel="stylesheet"><![endif]-->
     <!--[if IE 7]><link href="{% static 'stylesheets/cla.main-ie7.css' %}" media="screen" rel="stylesheet"><![endif]-->
     <!--[if IE 8]><link href="{% static 'stylesheets/cla.main-ie8.css' %}" media="screen" rel="stylesheet"><![endif]-->
-    
+
     <!-- load modernizer -->
     <script src="{% static 'javascripts/vendor/modernizr.custom.92045.js' %}"></script>
 
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    
+
     <header role="banner" id="global-header" class="with-proposition{% block header_class %}{% endblock %}">
       <div class="header-wrapper">
         <div class="header-global">
@@ -104,11 +104,11 @@
             <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" value="{{ request.GET.q }}" autocomplete="off">
             <input class="CaseSearch-submit" type="submit" value="Search">
           </form>
-          
+
           <nav class="UserMenu">
             <p class="UserMenu-status">
               {% if zone == "call_centre" %}Provider{% else %}Operator{% endif %}:
-              <strong class="UserMenu-name TextIcon TextIcon--account">[[Placeholder Name]]</strong>
+              <strong class="UserMenu-name TextIcon TextIcon--account">{{ profile.username }}</strong>
             </p>
             <ul class="UserMenu-options">
               <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}">Sign out</a>{% endblock %}</li>
@@ -118,11 +118,11 @@
       </div>
     </header>
     <!--end header-->
-    
+
     <div class="indicator cf"></div>
 
     {% block after_header %}{% endblock %}
-    
+
     {% block before_content %}{% endblock %}
 
     <main id="wrapper" class="group">
@@ -133,7 +133,7 @@
           {% endfor %}
         </ul>
       {% endif %}
-      
+
       {% block full_content %}
         <div class="Grid">
           <div class="Grid-row cf">
@@ -152,7 +152,7 @@
         </div>
       {% endblock %}
     </main>
-    
+
 
     <footer class="group js-footer" id="footer" role="contentinfo">
 
@@ -193,7 +193,7 @@
     <!--[if gt IE 6]><!-->
     <script src="{% static 'javascripts/vendor/jquery/jquery-1.11.0.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'javascripts/moj.js' %}" type="text/javascript"></script>
-    
+
     <script src="{% static 'javascripts/cla.main.js' %}"></script>
     {% if debug %}
     <!-- DEBUG MODE -->
