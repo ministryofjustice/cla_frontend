@@ -1,10 +1,11 @@
 import json
+import itertools
+from slumber.exceptions import HttpClientError
+
 from django import forms
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
-import itertools
-from slumber.exceptions import HttpClientError
 
 from cla_common.forms import MultipleFormsForm
 from cla_common.constants import ELIGIBILITY_STATES, TITLES
@@ -15,10 +16,25 @@ from legalaid.forms import APIFormMixin
 EMPTY_CHOICE = (('', '----'),)
 AUTO_ASSIGN_CHOICE = (('0', 'Auto assign'),)
 
-class CaseNotesForm(forms.Form):
+
+class SearchCaseForm(APIFormMixin, forms.Form):
+    def search(self, q=None):
+
+        search_params = {}
+        if q:
+            search_params['search'] = q
+
+        return self.client.case.get(**search_params)
+
+
+class CaseNotesForm(APIFormMixin, forms.Form):
     notes = forms.CharField(widget=forms.Textarea, label=_('Case Notes'),
                             max_length=500, required=False)
     in_scope = forms.NullBooleanField(label=_('In Scope'), required=False)
+
+    def save(self, case_reference):
+        data = self.cleaned_data
+        self.client.case(case_reference).patch(data)
 
 
 class EligibilityCheckForm(APIFormMixin, forms.Form):
@@ -41,8 +57,12 @@ class EligibilityCheckForm(APIFormMixin, forms.Form):
             choices = [(x['code'], x['name']) for x in self._categories]
             self.fields['category'].choices = choices
 
+    def save(self, eligibility_check_reference):
+        data = self.cleaned_data
+        self.client.eligibility_check(eligibility_check_reference).patch(data)
 
-class PersonalDetailsForm(forms.Form):
+
+class PersonalDetailsForm(APIFormMixin, forms.Form):
     # title = forms.ChoiceField(
     #     label=_(u'Title'), choices=TITLES.CHOICES
     # )
@@ -72,12 +92,25 @@ class PersonalDetailsForm(forms.Form):
 
         return cleaned_data
 
+    def save(self, case_reference):
+        data = self.cleaned_data
+        self.client.case(case_reference).patch({'personal_details': data})
 
-class CaseForm(MultipleFormsForm):
+
+class CaseForm(APIFormMixin, MultipleFormsForm):
     forms_list = (
         ('case_notes', CaseNotesForm),
         ('eligibility_check', EligibilityCheckForm),
     )
+
+    def get_form_kwargs(self, form_class, **kwargs):
+        kwargs = super(CaseForm, self).get_form_kwargs(form_class, **kwargs)
+        kwargs['client'] = self.client
+        return kwargs
+
+    def save(self, case_reference, eligibility_check_reference):
+        self.get_form_by_prefix('case_notes').save(case_reference)
+        self.get_form_by_prefix('eligibility_check').save(eligibility_check_reference)
 
 
 class CaseAssignForm(APIFormMixin, forms.Form):

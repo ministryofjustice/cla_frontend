@@ -12,6 +12,10 @@ class APIFormMixinTest(testcases.SimpleTestCase):
     class TestForm(APIFormMixin, Form):
         pass
 
+    def setUp(self):
+        self._client = mock.MagicMock()
+        super(APIFormMixinTest, self).setUp()
+
     def _get_test_form(self):
         if self.formclass:
             return self.formclass
