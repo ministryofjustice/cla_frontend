@@ -7,11 +7,13 @@
 
 .TextIcon--tick {
   @include svg-bg("../images/icons/tick");
-  padding-left: 81px;
+  background-position: left center;
+  padding-left: 60px;
 }
 .TextIcon--cross {
   @include svg-bg("../images/icons/cross");
-  padding-left: 81px;
+  background-position: left center;
+  padding-left: 60px;
 }
 .TextIcon--account {
   @include svg-bg("../images/icons/account");

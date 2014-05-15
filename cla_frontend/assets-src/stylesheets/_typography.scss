@@ -20,7 +20,10 @@ blockquote {
 .PageHeader {
   h1 {
     @include bold-36;
-    padding: 12px 0 9px;
+    padding: {
+      top: 12px;
+      bottom: 9px;
+    }
   }
 
   p {
