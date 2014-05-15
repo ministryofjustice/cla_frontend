@@ -46,8 +46,6 @@ class AcceptCaseFormTest(test_forms.OutcomeFormTest):
 class CaseFormTest(APIFormMixinTest):
     formclass = CaseForm
 
-    _client = mock.MagicMock()
-
     def test_save(self):
         case_reference = '123456'
         data = {
