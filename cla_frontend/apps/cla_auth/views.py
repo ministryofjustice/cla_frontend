@@ -4,7 +4,6 @@
 # def login_redirect_url(request):
 #     return reverse('call_centre:dashboard')
 
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
 from django.views.decorators.debug import sensitive_post_parameters
@@ -14,10 +13,8 @@ from django.utils.http import is_safe_url
 from django.shortcuts import resolve_url
 from django.contrib.sites.models import get_current_site
 from django.template.response import TemplateResponse
-from django.core import signing
 
 from .forms import AuthenticationForm
-from .constants import PROFILE_SIGNED_COOKIE_KEY
 
 
 @sensitive_post_parameters()
@@ -44,15 +41,7 @@ def login(request, template_name='accounts/login.html',
             # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
 
-            # adding profile data to signed cookie
-            signed_profile = signing.dumps({
-                "username": form.cleaned_data['username']
-            })
-
-            response = HttpResponseRedirect(redirect_to)
-            response.set_signed_cookie(PROFILE_SIGNED_COOKIE_KEY, signed_profile)
-
-            return response
+            return HttpResponseRedirect(redirect_to)
     else:
         form = authentication_form(request, zone_name=zone_name)
 

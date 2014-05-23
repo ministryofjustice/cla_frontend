@@ -129,8 +129,7 @@ TEMPLATE_CONTEXT_PROCESSORS =  (
     "django.contrib.messages.context_processors.messages",
     "django.contrib.auth.context_processors.auth",
     "cla_frontend.apps.core.context_processors.globals",
-    "cla_frontend.apps.cla_auth.context_processors.cla_auth"
- )
+)
 
 ROOT_URLCONF = 'cla_frontend.urls'
 
