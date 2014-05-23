@@ -250,5 +250,5 @@ USER_ME = {
         "name": "Test Provider",
         "id": 1
     },
-    "is_staff_superuser": False
+    "is_superuser": False
 }

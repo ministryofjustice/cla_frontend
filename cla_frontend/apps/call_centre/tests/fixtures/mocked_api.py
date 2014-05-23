@@ -245,5 +245,5 @@ USER_ME = {
     "first_name": "",
     "last_name": "",
     "email": "",
-    "is_operator_superuser": False
+    "is_manager": False
 }
