@@ -5,7 +5,7 @@ from slumber.exceptions import HttpClientError
 
 from django.contrib.auth import load_backend
 
-from api.client import get_auth_connection
+from api.client import get_auth_connection, get_raw_connection
 
 from .models import ClaUser
 from .utils import get_zone_profile
@@ -19,7 +19,7 @@ class ClaBackend(object):
     zone_name = None
 
     def authenticate(self, username=None, password=None):
-        zone_profile = get_zone_profile(self.zone_name)
+        zone_profile = self.get_this_zone_profile()
         if not zone_profile:
             return None
 
@@ -49,7 +49,14 @@ class ClaBackend(object):
         return user
 
     def get_user(self, token):
-        return ClaUser(token)
+        zone_profile = self.get_this_zone_profile()
+        client = get_raw_connection(token, zone_profile)
+
+        profile_data = client.user.me.get()
+        return ClaUser(token, **profile_data)
+
+    def get_this_zone_profile(self):
+        return get_zone_profile(self.zone_name)
 
 
 def get_backend(zone_name):

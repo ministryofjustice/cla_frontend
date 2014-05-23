@@ -12,9 +12,14 @@ from . import base
 class LoginTestCase(SimpleTestCase):
     urls = 'cla_auth.tests.urls'
 
+    @mock.patch('cla_auth.backend.get_raw_connection')
     @mock.patch('cla_auth.backend.get_auth_connection')
-    def __call__(self, result, mocked_get_auth_connection, *args, **kwargs):
+    def __call__(self, result,
+        mocked_get_auth_connection, mocked_get_raw_connection,
+        *args, **kwargs
+    ):
         self.mocked_get_auth_connection = mocked_get_auth_connection
+        self.mocked_get_raw_connection = mocked_get_raw_connection
 
         self.credentials = {
             'username': 'my-username',
