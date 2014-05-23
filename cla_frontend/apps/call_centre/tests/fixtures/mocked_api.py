@@ -239,3 +239,11 @@ CASE_LIST = [
         "provider": None
     }
 ]
+
+USER_ME = {
+    "username": "test_operator",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_operator_superuser": False
+}

@@ -239,3 +239,16 @@ CASE_LIST = [
         "provider": None
     }
 ]
+
+
+USER_ME = {
+    "username": "test_staff",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "provider": {
+        "name": "Test Provider",
+        "id": 1
+    },
+    "is_staff_superuser": False
+}

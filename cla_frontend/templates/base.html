@@ -108,7 +108,7 @@
           <nav class="UserMenu">
             <p class="UserMenu-status">
               {% if zone == "call_centre" %}Provider{% else %}Operator{% endif %}:
-              <strong class="UserMenu-name TextIcon TextIcon--account">{{ profile.username }}</strong>
+              <strong class="UserMenu-name TextIcon TextIcon--account">{{ user.username }}</strong>
             </p>
             <ul class="UserMenu-options">
               <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}">Sign out</a>{% endblock %}</li>
@@ -124,7 +124,6 @@
     {% block after_header %}{% endblock %}
 
     {% block before_content %}{% endblock %}
-
     <main id="wrapper" class="group">
       {% if messages %}
         <ul class="Notice">

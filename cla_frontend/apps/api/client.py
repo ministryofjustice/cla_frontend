@@ -35,4 +35,8 @@ def get_connection(request):
     if not zone:
         raise ValueError(u'no such app')
 
-    return slumber.API(base_url=zone['BASE_URI'], auth=BearerTokenAuth(user.pk))
+    return get_raw_connection(user.pk, zone)
+
+
+def get_raw_connection(token, zone):
+    return slumber.API(base_url=zone['BASE_URI'], auth=BearerTokenAuth(token))
