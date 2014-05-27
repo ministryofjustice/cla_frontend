@@ -596,8 +596,6 @@ table.fc-border-separate {
 <script src="{% static 'javascripts/vendor/fullcalendar.min.js' %}"></script>
 <script type="text/javascript">
     $(function() {
-        var token = "{{request.user.pk}}";
-
         // calendar
         $('#calendar').fullCalendar({
             editable: true,
@@ -605,7 +603,7 @@ table.fc-border-separate {
             firstDay: 1,
             events: function(start, end, callback) {
                 $.ajax({
-                    url: "/call_centre/proxy/provider/rota/",
+                    url: "{% url 'call_centre:backend_proxy' path='provider/rota' %}",
                     dataType: 'json',
                     data: {
                         // TODO make this params work in both javascript and Django
@@ -635,10 +633,9 @@ table.fc-border-separate {
 
             // POPULATE CATEGORY
             $.ajax({
-                url: '/call_centre/proxy/category/',
+                url: '{% url 'call_centre:backend_proxy' path='category/' %}',
                 method: 'GET',
                 dataType: 'json',
-                headers: {"Authorization": "Bearer "+token},
                 success: function(data) {
 
                     $('<option>').attr('value', '').text('-----').appendTo(categorySelect);
@@ -660,13 +657,12 @@ table.fc-border-separate {
                 providerSelect.empty();
 
                 $.ajax({
-                    url: '/call_centre/proxy/provider/',
+                    url: '{% url 'call_centre:backend_proxy' path='provider/' %}',
                     method: 'GET',
                     dataType: 'json',
                     data: {
                         'law_category__code': $this.val()
                     },
-                    headers: {"Authorization": "Bearer "+token},
                     success: function(data) {
                         $('<option>').attr('value', '').text('-----').appendTo(providerSelect);
                         $.each(data, function(index, item) {
@@ -717,7 +713,7 @@ table.fc-border-separate {
 <section>
     <h3>Add Rota</h3>
 
-    <form method="POST" action="/call_centre/proxy/provider/rota/" id="add_rota_form">{% csrf_token %}
+    <form method="POST" action="{% url 'call_centre:backend_proxy' path='provider/rota/' %}" id="add_rota_form">{% csrf_token %}
         <p>
             <label for="id_start_date">Start date:</label>
             <input id="id_start_date" name="start_date" type="text">

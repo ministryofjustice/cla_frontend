@@ -26,5 +26,5 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include('call_centre.admin.urls', namespace='admin',)),
 
-    url('proxy/(?P<path>.*)', views.backend_proxy_view),
+    url(r'^proxy/(?P<path>.*)', views.backend_proxy_view, name="backend_proxy"),
 )
