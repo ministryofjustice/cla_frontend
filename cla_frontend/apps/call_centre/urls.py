@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from django.contrib.auth import views as django_views
 from django.core.urlresolvers import reverse_lazy
 
@@ -23,4 +23,8 @@ urlpatterns = patterns('',
     url(r'^case/(?P<case_reference>.+)/close/$', views.close_case, name='close_case'),
     url(r'^case/(?P<case_reference>.+)/edit/$', views.edit_case, name='edit_case'),
     url(r'^case/(?P<case_reference>.+)/edit/personal_details/$', views.edit_case_personal_details, name='edit_case_personal_details'),
+
+    url(r'^admin/', include('call_centre.admin.urls', namespace='admin',)),
+
+    url('proxy/(?P<path>.*)', views.backend_proxy_view),
 )
