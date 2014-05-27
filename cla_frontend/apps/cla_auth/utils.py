@@ -2,11 +2,12 @@ from functools import wraps
 from urlparse import urlparse
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import resolve_url
 from django.utils.decorators import available_attrs
 from django.utils.encoding import force_str
 from django.utils.functional import curry
+from django.http import Http404
+
 
 
 def get_zone_profile(zone_name):
@@ -52,3 +53,18 @@ def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=N
 
 call_centre_zone_required = curry(zone_required, zone='call_centre')
 cla_provider_zone_required = curry(zone_required, zone='cla_provider')
+
+
+def manager_member_required(view_func):
+    """
+    Decorator for views that checks that the user is logged in and is a member
+    member.
+    """
+    @wraps(view_func)
+    def _checklogin(request, *args, **kwargs):
+        if request.user.is_authenticated() and request.user.is_manager:
+            # The user is valid. Continue to the admin page.
+            return view_func(request, *args, **kwargs)
+
+        raise Http404()
+    return _checklogin

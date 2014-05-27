@@ -3,6 +3,8 @@ from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
 
+from proxy.views import proxy_view
+
 from api.client import get_connection
 from cla_auth.utils import call_centre_zone_required
 from core.exceptions import RemoteValidationError
@@ -144,3 +146,19 @@ def close_case(request, case_reference):
         'form': form,
         'case': case
     })
+
+
+def backend_proxy_view(request, path):
+    """
+        TODO: hacky as it's getting the base_url and the auth header from the
+            get_connection slumber object.
+
+            Also, we should limit the endpoint accessible from this proxy
+    """
+    client = get_connection(request)
+
+    extra_requests_args = {
+        'headers': dict([client._store['session'].auth.get_header()])
+    }
+    remoteurl = u"%s%s" % (client._store['base_url'], path)
+    return proxy_view(request, remoteurl, extra_requests_args)
