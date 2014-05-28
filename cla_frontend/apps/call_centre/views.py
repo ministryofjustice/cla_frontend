@@ -92,7 +92,8 @@ def assign_case(request, case_reference):
     """
     client = get_connection(request)
     case = get_case_or_404(client, case_reference)
-
+    context = { 'case': case }
+                
     if request.method == 'POST':
         form = CaseAssignForm(request.POST, client=client)
 
@@ -104,20 +105,28 @@ def assign_case(request, case_reference):
                 # A redirect would be more correct after a POST but would require the
                 # operator to have access to the case after it has been assigned to
                 # the provider.
-                context = {'provider': provider,
-                           'case': case
-                           }
+                context['provider'] = provider
                 return render(request, 'call_centre/assign_case_complete.html', context)
 
             except RemoteValidationError as rve:
                 pass
     else:
-        form = CaseAssignForm(client=client)
+        assign_suggestions = client.case(case_reference).assign_suggest().get()
+        form = CaseAssignForm(client=client,
+                              initial={'providers' : assign_suggestions['suggested_provider']['id']}
+                              )
 
-    return render(request, 'call_centre/assign_case.html', {
-        'form': form,
-        'case': case
-    })
+        all_providers = [(y['id'], y['name']) for y in [assign_suggestions['suggested_provider'],]+ assign_suggestions['other_providers']]
+        form.fields['providers'].choices = all_providers
+
+        # NEXT - hidden field
+
+        # u'suggested_provider' and list of u'other_providers'
+        context.update(assign_suggestions)
+        
+
+    context['form'] = form
+    return render(request, 'call_centre/assign_case.html', context)
 
 
 @call_centre_zone_required

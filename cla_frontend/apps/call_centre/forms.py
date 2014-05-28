@@ -115,6 +115,8 @@ class CaseForm(APIFormMixin, MultipleFormsForm):
 
 class CaseAssignForm(APIFormMixin, forms.Form):
 
+    providers = forms.ChoiceField(widget=forms.RadioSelect)
+
     def save(self, case_reference):
         """
         @return: dict provider
