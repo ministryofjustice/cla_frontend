@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 
 from proxy.views import proxy_view
 
@@ -148,6 +149,7 @@ def close_case(request, case_reference):
     })
 
 
+@csrf_exempt
 def backend_proxy_view(request, path):
     """
         TODO: hacky as it's getting the base_url and the auth header from the
