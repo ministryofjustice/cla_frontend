@@ -730,11 +730,11 @@ table.fc-border-separate {
     <form method="POST" action="{% url 'call_centre:backend_proxy' path='provider/rota/' %}" id="add_rota_form">{% csrf_token %}
         <p>
             <label for="id_start_date">Start date:</label>
-            <input id="id_start_date" name="start_date" type="text">
+            <input id="id_start_date" name="start_date" type="datetime-local">
         </p>
         <p>
             <label for="id_end_date">End date:</label>
-            <input id="id_end_date" name="end_date" type="text">
+            <input id="id_end_date" name="end_date" type="datetime-local">
         </p>
         <p>
             <label for="id_category">Category:</label>
