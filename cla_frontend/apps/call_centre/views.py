@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
+from django.utils.safestring import mark_safe
 from django.views.decorators.http import require_POST
 
 from api.client import get_connection
@@ -90,17 +91,37 @@ def assign_case(request, case_reference):
     to assign to a cla_provider, should post a
     provider with id of provider to assign to
     """
+    def _get_provider_choices(providers):
+        provider_choices = []
+        for p in providers:
+            label = mark_safe(u'%s <br> <ul><li>%s</li><li>%s</li><li>%s</li></ul>' % \
+                                                                           (p['name'], p['short_code'],\
+                                                                            p['telephone_frontdoor'],\
+                                                                            p['telephone_backdoor']))
+            provider_choices.append((p['id'], label))
+        return provider_choices
+
     client = get_connection(request)
     case = get_case_or_404(client, case_reference)
     context = { 'case': case }
-                
+    assign_suggestions = client.case(case_reference).assign_suggest().get()
+#         other_providers = [ProviderSerializer(p).data
+#                            for p in helper.get_qualifying_providers(category)\
+#                            if p.id != suggested.id
+#                           ]
+
+
+
     if request.method == 'POST':
         form = CaseAssignForm(request.POST, client=client)
 
         if form.is_valid():
             provider = None
             try:
-                provider = form.save(case_reference)
+                
+                x = form.cleaned_data
+                
+                #provider = form.save(case_reference)
 
                 # A redirect would be more correct after a POST but would require the
                 # operator to have access to the case after it has been assigned to
@@ -111,18 +132,28 @@ def assign_case(request, case_reference):
             except RemoteValidationError as rve:
                 pass
     else:
-        assign_suggestions = client.case(case_reference).assign_suggest().get()
+
         form = CaseAssignForm(client=client,
-                              initial={'providers' : assign_suggestions['suggested_provider']['id']}
+                              initial={'providers' : assign_suggestions['suggested_provider']['id'],
+                                       'suggested_provider' : assign_suggestions['suggested_provider']['id']
+                                      }
                               )
 
-        all_providers = [(y['id'], y['name']) for y in [assign_suggestions['suggested_provider'],]+ assign_suggestions['other_providers']]
-        form.fields['providers'].choices = all_providers
 
-        # NEXT - hidden field
+        # TODO - NEXT - something like this block needs to setup before is_valid() in POST
+        #               and also in GET
+
+        suggested = assign_suggestions['suggested_provider']
+        other_providers = [p for p in assign_suggestions['suitable_providers'] if p['id'] != suggested['id']]
+
+        all_providers = [assign_suggestions['suggested_provider'],] + other_providers
+
+
+        form.fields['providers'].choices = _get_provider_choices(all_providers)
+        form.fields['providers'].collection = all_providers
 
         # u'suggested_provider' and list of u'other_providers'
-        context.update(assign_suggestions)
+#         context.update(assign_suggestions)
         
 
     context['form'] = form
