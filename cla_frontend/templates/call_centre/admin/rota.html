@@ -601,6 +601,7 @@ table.fc-border-separate {
             editable: true,
             defaultView: 'month',
             firstDay: 1,
+            disableDragging: true,
             events: function(start, end, callback) {
                 $.ajax({
                     url: "{% url 'call_centre:backend_proxy' path='provider/rota' %}",
@@ -623,6 +624,19 @@ table.fc-border-separate {
                         callback(events);
                     }
                 });
+            },
+            eventClick: function(calEvent, jsEvent, view) {
+                if (confirm('Are you sure you want to delete '+calEvent.title+'?')) {
+                    $.ajax({
+                        url: '{% url 'call_centre:backend_proxy' path='provider/rota/' %}'+calEvent.id,
+                        method: 'DELETE',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#calendar').fullCalendar('refetchEvents');
+                        },
+                        error: function(data) {}
+                    });
+                }
             }
         });
 
