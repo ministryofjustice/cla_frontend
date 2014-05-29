@@ -8,11 +8,14 @@
       {% if form.non_field_errors %}
         {% for error in form.non_field_errors %}
           <div class="Error-message">{{ error }}</div>
-        {% endfor %}      
+        {% endfor %}
       {% endif %}
 
       <button type="submit" class="Button">{% trans "Assign case" %}</button>
       <a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a>
+
+
+      <p><a href="{% url zone.name|add:':decline_specialists' case.reference %}">{% trans "Decline all specialists" %}</a></p>
     </form>
   </div>
 {% endblock %}
