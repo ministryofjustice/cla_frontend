@@ -217,33 +217,38 @@ class CaseAssignFormTestCase(test_forms.APIFormMixinTest):
             {'id': 111, 'name': 'provider2'},
         ]
 
-    def test_provider_with_none_is_valid(self):
+    def test_provider_with_none_isnt_valid(self):
         form = CaseAssignForm(client=self._client, data={})
-        self.assertTrue(form.is_valid())
+        self.assertFalse(form.is_valid())
 
     def test_save(self):
+
         case_reference = '1234567890'
+        provider_id = 2
+        is_manual = False
+        assign_notes = ""
+        post_data = {'suggested_provider': provider_id, 'providers': provider_id}
 
-        form = CaseAssignForm(client=self._client, data={})
+        form = CaseAssignForm(client=self._client, data=post_data)
+        form.fields['providers'].choices = [(int(p['id']), p['name']) for p in self.providers]
+        form.fields['providers'].collection = self.providers
         self.assertTrue(form.is_valid())
 
-        form.save(case_reference)
-        self._client.case(case_reference).assign().post.assert_called_once_with()
+        form.save(case_reference, provider_id, is_manual, assign_notes)
+        d={'is_manual': False, 'assign_notes': '', 'provider_id': 2}
+        self._client.case(case_reference).assign().post.assert_called_once_with(d)
 
-    def test_save_with_no_providers_for_category(self):
-        case_reference = '999999'
-        response = mock.MagicMock()
-        response.content = \
-            '{ "__all__": [ "There is no provider specified in the system to handle cases of this law category." ]}'
-        response.status_code = 400
-        form = CaseAssignForm(client=self._client, data={})
-        self.assertTrue(form.is_valid())
-        self._client.case(case_reference).assign().post.side_effect = HttpClientError(status_code=response.status_code, response=response)
-        with self.assertRaises(RemoteValidationError):
-            form.save(case_reference)
+
+    def test_invalid_form_when_no_providers_for_category(self):
+
+        # TODO - add correct behaviour to this from operator's point of view
+        provider_id = 1
+        post_data = {'suggested_provider': provider_id, 'providers': provider_id}
+
+        form = CaseAssignForm(client=self._client, data=post_data)
+        form.fields['providers'].choices = []
+        form.fields['providers'].collection = []
         self.assertFalse(form.is_valid())
-        nfe = form.non_field_errors()
-        self.assertEqual(len(nfe),1)
 
 
 class CaseCloseFormTestCase(test_forms.APIFormMixinTest):

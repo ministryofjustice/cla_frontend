@@ -127,14 +127,17 @@ class CaseAssignForm(APIFormMixin, forms.Form):
     
     suggested_provider = forms.IntegerField(widget=forms.HiddenInput)
 
-    def save(self, case_reference):
+    def save(self, case_reference, provider_id, is_manual, assign_notes):
         """
         @return: dict provider
         """
         # TODO do something in case of 4xx and 5xx errors ?
-        # This posts no data ; just POSTing assigns a random provider
+        post_me = {'provider_id' : provider_id,
+                   'is_manual' : is_manual,
+                   'assign_notes' : assign_notes
+                  }
         try:
-            return self.client.case(case_reference).assign().post()
+            return self.client.case(case_reference).assign().post(post_me)
         except HttpClientError as hce:
             if hce.response.status_code == 400:
                 remote_errors = json.loads(hce.response.content)

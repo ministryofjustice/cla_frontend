@@ -105,23 +105,36 @@ def assign_case(request, case_reference):
     case = get_case_or_404(client, case_reference)
     context = { 'case': case }
     assign_suggestions = client.case(case_reference).assign_suggest().get()
-#         other_providers = [ProviderSerializer(p).data
-#                            for p in helper.get_qualifying_providers(category)\
-#                            if p.id != suggested.id
-#                           ]
-
 
 
     if request.method == 'POST':
         form = CaseAssignForm(request.POST, client=client)
 
+        # use originally suggested provider
+        suggested_provider_id = int(form.data.get('suggested_provider', 0))
+        suggested = None
+        other_providers = []
+        for p in assign_suggestions['suitable_providers']:
+            if p['id'] == suggested_provider_id:
+                suggested = p
+            else:
+                other_providers.append(p)
+        if suggested == None:
+            raise ValueError("Suggested provider not found")
+
+        # keep suggested_provider first
+        all_providers = [suggested] + other_providers
+        form.fields['providers'].choices = _get_provider_choices(all_providers)
+        form.fields['providers'].collection = all_providers
+
         if form.is_valid():
             provider = None
             try:
+                cd = form.cleaned_data
+                is_manual_assignment = int(cd['providers']) != cd['suggested_provider']
                 
-                x = form.cleaned_data
-                
-                #provider = form.save(case_reference)
+                # TODO add last argument - assignment notes
+                provider = form.save(case_reference, int(cd['providers']), is_manual_assignment, "")
 
                 # A redirect would be more correct after a POST but would require the
                 # operator to have access to the case after it has been assigned to
@@ -131,6 +144,7 @@ def assign_case(request, case_reference):
 
             except RemoteValidationError as rve:
                 pass
+
     else:
 
         form = CaseAssignForm(client=client,
@@ -139,22 +153,13 @@ def assign_case(request, case_reference):
                                       }
                               )
 
-
-        # TODO - NEXT - something like this block needs to setup before is_valid() in POST
-        #               and also in GET
-
         suggested = assign_suggestions['suggested_provider']
         other_providers = [p for p in assign_suggestions['suitable_providers'] if p['id'] != suggested['id']]
-
         all_providers = [assign_suggestions['suggested_provider'],] + other_providers
-
 
         form.fields['providers'].choices = _get_provider_choices(all_providers)
         form.fields['providers'].collection = all_providers
 
-        # u'suggested_provider' and list of u'other_providers'
-#         context.update(assign_suggestions)
-        
 
     context['form'] = form
     return render(request, 'call_centre/assign_case.html', context)
