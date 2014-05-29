@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import fields
 
-from cla_common.constants import CASE_STATES
+from cla_common.constants import CASELOGTYPE_ACTION_KEYS
 
 from legalaid.forms import OutcomeForm, APIFormMixin
 
@@ -20,7 +20,9 @@ class CaseForm(APIFormMixin, forms.Form):
 class RejectCaseForm(OutcomeForm):
 
     def get_outcome_code_queryset(self):
-        return self.client.outcome_code.get(case_state=CASE_STATES.REJECTED)
+        return self.client.outcome_code.get(
+            action_key=CASELOGTYPE_ACTION_KEYS.PROVIDER_REJECT_CASE
+        )
 
     def save(self, case_reference):
         response = self.client.case(case_reference).reject().post(self.cleaned_data)
@@ -37,7 +39,9 @@ class AcceptCaseForm(OutcomeForm):
 
 
     def get_outcome_code_queryset(self):
-        return self.client.outcome_code.get(case_state=CASE_STATES.ACCEPTED)
+        return self.client.outcome_code.get(
+            action_key=CASELOGTYPE_ACTION_KEYS.PROVIDER_ACCEPT_CASE
+        )
 
     def save(self, case_reference):
         response = self.client.case(case_reference).accept().post(self.cleaned_data)
@@ -47,7 +51,9 @@ class AcceptCaseForm(OutcomeForm):
 class CloseCaseForm(OutcomeForm):
 
     def get_outcome_code_queryset(self):
-        return self.client.outcome_code.get(case_state=CASE_STATES.CLOSED)
+        return self.client.outcome_code.get(
+            action_key=CASELOGTYPE_ACTION_KEYS.PROVIDER_CLOSE_CASE
+        )
 
     def save(self, case_reference):
         response = self.client.case(case_reference).close().post(self.cleaned_data)
