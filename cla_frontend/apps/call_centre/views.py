@@ -12,7 +12,8 @@ from core.exceptions import RemoteValidationError
 from legalaid.shortcuts import get_case_or_404
 
 from .forms import CaseForm, CaseAssignForm, CaseCloseForm, \
-    PersonalDetailsForm, SearchCaseForm, DeclineSpecialistsCaseForm
+    PersonalDetailsForm, SearchCaseForm, DeclineSpecialistsCaseForm, \
+    DeferAssignCaseForm
 
 
 @call_centre_zone_required
@@ -123,6 +124,31 @@ def assign_case(request, case_reference):
     })
 
 @call_centre_zone_required
+def defer_assignment(request, case_reference):
+    """
+    Defers assignment to provider
+    """
+    client = get_connection(request)
+    case = get_case_or_404(client, case_reference)
+
+    if request.method == 'POST':
+        form = DeferAssignCaseForm(request.POST, client=client)
+
+        if form.is_valid():
+            form.save(case_reference)
+            messages.add_message(request, messages.INFO,
+                                 'Case {case_ref} deferred successfully'.format(case_ref=case_reference)
+            )
+            return redirect('call_centre:dashboard')
+    else:
+        form = DeferAssignCaseForm(client=client)
+
+    return render(request, 'call_centre/defer_assignment.html', {
+        'form': form,
+        'case': case
+    })
+
+@call_centre_zone_required
 def decline_specialists(request, case_reference):
     """
     Declines all specialists providers
@@ -189,3 +215,5 @@ def backend_proxy_view(request, path):
     }
     remoteurl = u"%s%s" % (client._store['base_url'], path)
     return proxy_view(request, remoteurl, extra_requests_args)
+
+
