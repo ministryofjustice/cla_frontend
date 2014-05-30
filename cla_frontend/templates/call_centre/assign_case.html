@@ -1,8 +1,9 @@
 {% extends "call_centre/case.html" %}{% load i18n widget_tweaks %}
 
 {% block case_content %}
-  <div class="FormBlock FormBlock--yellow">
+
     <form method="post" action=".">
+  		<div class="FormBlock FormBlock--yellow">
       {% csrf_token %}
 
       {% if form.non_field_errors %}
@@ -11,7 +12,24 @@
         {% endfor %}
       {% endif %}
 
-      <button type="submit" class="Button">{% trans "Assign case" %}</button>
+    	<label>
+        	<span class="radio">{{ radio.tag }}</span>
+        	{{ radio.choice_label }}
+    	</label>
+    	
+ 		{% if forloop.first %}
+	  	</div>
+	  	&nbsp;
+  	  	<div class="FormBlock FormBlock--yellow">
+  	  	<h2>Manually Assign Provider</h2>
+	  	{% endif %}
+    	
+    	
+	{% endfor %}
+		
+		{{ form.suggested_provider }}
+
+      <button type="submit" class="Button">{% trans "Assign Provider" %}</button>
       <a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a>
 
 

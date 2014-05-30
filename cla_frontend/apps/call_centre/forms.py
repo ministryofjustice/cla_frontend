@@ -7,7 +7,7 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
 
-from cla_common.forms import MultipleFormsForm
+from cla_common.forms import MultipleFormsForm, AdvancedCollectionChoiceField
 from cla_common.constants import ELIGIBILITY_STATES, TITLES, \
     CASELOGTYPE_ACTION_KEYS
 from core.exceptions import RemoteValidationError
@@ -116,14 +116,29 @@ class CaseForm(APIFormMixin, MultipleFormsForm):
 
 class CaseAssignForm(APIFormMixin, forms.Form):
 
-    def save(self, case_reference):
+    #providers = forms.ChoiceField(widget=forms.RadioSelect)
+    
+    providers = AdvancedCollectionChoiceField(
+        collection=[],
+        pk_attr=u'id',
+        label_attr=u'name',
+        #label=_(u'Is your problem about? XXX'),
+        widget=forms.RadioSelect()
+    )
+    
+    suggested_provider = forms.IntegerField(widget=forms.HiddenInput)
+
+    def save(self, case_reference, provider_id, is_manual, assign_notes):
         """
         @return: dict provider
         """
         # TODO do something in case of 4xx and 5xx errors ?
-        # This posts no data ; just POSTing assigns a random provider
+        post_me = {'provider_id' : provider_id,
+                   'is_manual' : is_manual,
+                   'assign_notes' : assign_notes
+                  }
         try:
-            return self.client.case(case_reference).assign().post()
+            return self.client.case(case_reference).assign().post(post_me)
         except HttpClientError as hce:
             if hce.response.status_code == 400:
                 remote_errors = json.loads(hce.response.content)
