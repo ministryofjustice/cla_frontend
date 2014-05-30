@@ -143,6 +143,16 @@ class CaseCloseForm(APIFormMixin, forms.Form):
         response = self.client.case(case_reference).close().post(self.cleaned_data)
         # TODO do something in case of 4xx and 5xx errors ?
 
+class DeferAssignCaseForm(OutcomeForm):
+
+    def get_outcome_code_queryset(self):
+        return self.client.outcome_code.get(
+            action_key=CASELOGTYPE_ACTION_KEYS.DEFER_ASSIGNMENT
+        )
+
+    def save(self, case_reference):
+        response = self.client.case(case_reference).defer_assignment().post(self.cleaned_data)
+        # TODO do something in case of 4xx and 5xx errors ?
 
 class DeclineSpecialistsCaseForm(OutcomeForm):
 

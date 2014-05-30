@@ -15,7 +15,10 @@
       <a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a>
 
 
-      <p><a href="{% url zone.name|add:':decline_specialists' case.reference %}">{% trans "Decline all specialists" %}</a></p>
+      <p>
+        <a href="{% url zone.name|add:':decline_specialists' case.reference %}">{% trans "Decline all specialists" %}</a>
+        <a href="{% url zone.name|add:':defer_assignment' case.reference %}">{% trans "Defer assignment" %}</a>
+      </p>
     </form>
   </div>
 {% endblock %}
