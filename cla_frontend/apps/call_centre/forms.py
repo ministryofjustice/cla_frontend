@@ -7,7 +7,7 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
 
-from cla_common.forms import MultipleFormsForm
+from cla_common.forms import MultipleFormsForm, AdvancedCollectionChoiceField
 from cla_common.constants import ELIGIBILITY_STATES, TITLES, \
     CASELOGTYPE_ACTION_KEYS
 from core.exceptions import RemoteValidationError
