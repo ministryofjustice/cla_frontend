@@ -7,11 +7,12 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
 
-from cla_common.forms import MultipleFormsForm, AdvancedCollectionChoiceField
-from cla_common.constants import ELIGIBILITY_STATES, TITLES
+from cla_common.forms import MultipleFormsForm
+from cla_common.constants import ELIGIBILITY_STATES, TITLES, \
+    CASELOGTYPE_ACTION_KEYS
 from core.exceptions import RemoteValidationError
 
-from legalaid.forms import APIFormMixin
+from legalaid.forms import APIFormMixin, OutcomeForm
 
 EMPTY_CHOICE = (('', '----'),)
 AUTO_ASSIGN_CHOICE = (('0', 'Auto assign'),)
@@ -155,4 +156,26 @@ class CaseAssignForm(APIFormMixin, forms.Form):
 class CaseCloseForm(APIFormMixin, forms.Form):
     def save(self, case_reference):
         response = self.client.case(case_reference).close().post(self.cleaned_data)
+        # TODO do something in case of 4xx and 5xx errors ?
+
+class DeferAssignCaseForm(OutcomeForm):
+
+    def get_outcome_code_queryset(self):
+        return self.client.outcome_code.get(
+            action_key=CASELOGTYPE_ACTION_KEYS.DEFER_ASSIGNMENT
+        )
+
+    def save(self, case_reference):
+        response = self.client.case(case_reference).defer_assignment().post(self.cleaned_data)
+        # TODO do something in case of 4xx and 5xx errors ?
+
+class DeclineSpecialistsCaseForm(OutcomeForm):
+
+    def get_outcome_code_queryset(self):
+        return self.client.outcome_code.get(
+            action_key=CASELOGTYPE_ACTION_KEYS.DECLINE_SPECIALISTS
+        )
+
+    def save(self, case_reference):
+        response = self.client.case(case_reference).decline_all_specialists().post(self.cleaned_data)
         # TODO do something in case of 4xx and 5xx errors ?

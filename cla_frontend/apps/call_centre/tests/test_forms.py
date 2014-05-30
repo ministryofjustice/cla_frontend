@@ -5,12 +5,13 @@ from django.test import testcases
 
 from core.exceptions import RemoteValidationError
 
-from cla_common.constants import ELIGIBILITY_STATES
+from cla_common.constants import ELIGIBILITY_STATES, CASELOGTYPE_ACTION_KEYS
 
 from legalaid.tests import test_forms
 
 from ..forms import CaseAssignForm, CaseCloseForm, EligibilityCheckForm, \
-    PersonalDetailsForm, SearchCaseForm, CaseNotesForm, CaseForm
+    PersonalDetailsForm, SearchCaseForm, CaseNotesForm, CaseForm, \
+    DeclineSpecialistsCaseForm
 
 BLANK_CHOICE = [('', '----')]
 
@@ -263,3 +264,23 @@ class CaseCloseFormTestCase(test_forms.APIFormMixinTest):
 
         form.save(case_reference)
         self._client.case(case_reference).close().post.assert_called_with(data)
+
+
+class DeclineSpecialistsFormTest(test_forms.OutcomeFormTest):
+    formclass = DeclineSpecialistsCaseForm
+
+    def test_choices(self):
+        super(DeclineSpecialistsFormTest, self).test_choices()
+        self.client.outcome_code.get.assert_called_with(
+            action_key=CASELOGTYPE_ACTION_KEYS.DECLINE_SPECIALISTS
+        )
+
+    def test_save(self):
+        case_reference = '1234567890'
+
+        data = self._get_default_post_data()
+        form = DeclineSpecialistsCaseForm(client=self.client, data=data)
+        self.assertTrue(form.is_valid())
+
+        form.save(case_reference)
+        self.client.case(case_reference).decline_all_specialists().post.assert_called_with(data)

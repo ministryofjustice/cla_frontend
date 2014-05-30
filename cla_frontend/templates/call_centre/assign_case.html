@@ -6,12 +6,11 @@
   		<div class="FormBlock FormBlock--yellow">
       {% csrf_token %}
 
-      {% for error in form.errors %}
-        <span class="Error-message">{{ error }}</span>
-      {% endfor %}
-
-	<h2>Suggested Provider</h2>
-  	{% for radio in form.providers %}
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <div class="Error-message">{{ error }}</div>
+        {% endfor %}
+      {% endif %}
 
     	<label>
         	<span class="radio">{{ radio.tag }}</span>
@@ -32,7 +31,12 @@
 
       <button type="submit" class="Button">{% trans "Assign Provider" %}</button>
       <a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a>
-  	</div>
-    </form>
 
+
+      <p>
+        <a href="{% url zone.name|add:':decline_specialists' case.reference %}">{% trans "Decline all specialists" %}</a>
+        <a href="{% url zone.name|add:':defer_assignment' case.reference %}">{% trans "Defer assignment" %}</a>
+      </p>
+    </form>
+  </div>
 {% endblock %}
