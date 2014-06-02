@@ -118,11 +118,12 @@ def assign_case(request, case_reference):
         suggested_provider_id = int(form.data.get('suggested_provider', 0))
         suggested = None
         other_providers = []
-        for p in assign_suggestions['suitable_providers']:
-            if p['id'] == suggested_provider_id:
-                suggested = p
-            else:
-                other_providers.append(p)
+        if assign_suggestions:
+            for p in assign_suggestions['suitable_providers']:
+                if p['id'] == suggested_provider_id:
+                    suggested = p
+                else:
+                    other_providers.append(p)
         if suggested == None:
             raise ValueError("Suggested provider not found")
 
@@ -156,6 +157,9 @@ def assign_case(request, case_reference):
                                        'suggested_provider' : assign_suggestions['suggested_provider']['id']
                                       }
                               )
+
+        if not assign_suggestions:
+            raise ValueError("Suggested provider not found")
 
         suggested = assign_suggestions['suggested_provider']
         other_providers = [p for p in assign_suggestions['suitable_providers'] if p['id'] != suggested['id']]
