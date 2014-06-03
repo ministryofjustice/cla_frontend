@@ -1,18 +1,29 @@
 var gulp = require('gulp'),
-    plugins = require('gulp-load-plugins')(),
-    stylish = require('jshint-stylish'),
-    runSequence = require('run-sequence');
+  plugins = require('gulp-load-plugins')(),
+  stylish = require('jshint-stylish'),
+  runSequence = require('run-sequence'),
+  size = require('gulp-filesize');
 
 var paths = {
   dest_dir: 'cla_frontend/assets/',
   src_dir: 'cla_frontend/assets-src/',
   styles: 'cla_frontend/assets-src/stylesheets/**/*.scss',
   templates: 'cla_frontend/assets-src/javascripts/templates/*.hbs',
+  partials: 'cla_frontend/assets-src/javascripts/app/partials/*.html',
   scripts: [
     // vendor scripts
     'cla_frontend/assets-src/vendor/lodash/dist/lodash.min.js',
     'cla_frontend/assets-src/vendor/jquery-details/jquery.details.js',
     'cla_frontend/assets-src/vendor/handlebars/handlebars.js',
+    // angular deps
+    'cla_frontend/assets-src/vendor/angular/angular.js',
+    'cla_frontend/assets-src/vendor/angular-animate/angular-animate.js',
+    'cla_frontend/assets-src/vendor/angular-resource/angular-resource.js',
+    'cla_frontend/assets-src/vendor/angular-ui-router/release/angular-ui-router.js',
+    'cla_frontend/assets-src/vendor/angular-i18n/angular-locale_en-gb.js',
+    'cla_frontend/assets-src/vendor/angular-django-rest-resource/angular-django-rest-resource.js',
+    // angular app code
+    'cla_frontend/assets-src/javascripts/app/**/*.js',
     // templates
     'cla_frontend/assets-src/javascripts/templates.js',
     // CLA
@@ -61,18 +72,25 @@ gulp.task('js', ['templates'], function() {
   // create concatinated js file
   gulp
     .src(prod)
+    .pipe(size())
     .pipe(plugins.concat('cla.main.js'))
     .pipe(gulp.dest(paths.dest_dir + 'javascripts'));
   // copy static vendor files
   gulp
     .src(paths.vendor_scripts)
     .pipe(gulp.dest(paths.dest_dir + 'javascripts/vendor'));
+  // copy static template files
+  gulp
+    .src(paths.partials)
+    .pipe(size())
+    .pipe(gulp.dest(paths.dest_dir + 'javascripts/app/partials'));
   // create debug js file
   gulp
     .src(paths.src_dir + 'javascripts/**/*debug*')
     .pipe(plugins.concat('cla.debug.js'))
     .pipe(gulp.dest(paths.dest_dir + 'javascripts/'));
 });
+
 
 // jshint js code
 gulp.task('lint', function() {

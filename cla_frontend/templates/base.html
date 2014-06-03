@@ -1,7 +1,7 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<!--[if gt IE 8]><!--><html lang="en" {% block html_attrs %}{% endblock %}><!--<![endif]-->
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
@@ -99,11 +99,13 @@
         </div>
 
         {% if zone %}
+          {% block search %}
           <form id="search" class="CaseSearch" action="{% url zone.LOGIN_REDIRECT_URL %}" method="get" role="search">
             <label for="case-search" class="CaseSearch-label">Search</label>
             <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" value="{{ request.GET.q }}" autocomplete="off">
             <input class="CaseSearch-submit" type="submit" value="Search">
           </form>
+          {% endblock %}
 
           <nav class="UserMenu">
             <p class="UserMenu-status">

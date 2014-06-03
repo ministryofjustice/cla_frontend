@@ -1,0 +1,39 @@
+<!--
+{% with query=request.GET.q %}
+  {% if query %}
+
+  {% endif %}
+
+
+{% endwith %}
+-->
+<header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}">
+  <h1 class="u-pullLeft">
+      {{ search ? 'Results' : 'Cases' }} {{ search }}
+  </h1>
+</header>
+<nav class="SubNav">
+      <a ui-sref="cases({search:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all cases</a>
+</nav>
+
+
+<table class="CaseList" cellpadding="0" cellspacing="0" border="0" width="100%">
+  <thead>
+  <tr>
+    <th><span class="visuallyhidden">Reference</span></th>
+    <th>Name</th>
+    <th><a href="?sort=created" class="u-sortDesc">Created</a></th>
+    <th><a href="?sort=modified">Modified</th>
+    <th><span class="visuallyhidden">Onwer</span></th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="case in cases">
+      <td><a href>{{ case.reference}}</a></td>
+      <td>{{ case.personal_details.full_name }}</td>
+      <td>{{ case.created }}</td>
+      <td>{{ case.modified }}</td>
+      <td>{{ case.locked_by }}</td>
+    </tr>
+  </tbody>
+</table>

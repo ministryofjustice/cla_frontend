@@ -1,0 +1,71 @@
+{% extends app_base_template %}{% load humanize i18n static %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript">
+
+  // States
+  var CaseListState = {
+    url: '/operator/?search',
+    templateUrl: '/static/javascripts/app/partials/case_list.html',
+    controller: 'CaseListCtrl'
+  };
+
+    var operatorApp = angular.module('operatorApp', ['djangoRESTResources', 'ui.router']);
+
+    operatorApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
+      $locationProvider.html5Mode(true);
+{#      $urlRouterProvider.otherwise('/foo')#}
+
+      $stateProvider
+          .state('cases', CaseListState)
+
+    });
+
+{#    var operatorServices = angular.module('operatorServices', ['djangoRESTResources']);#}
+{##}
+{#    operatorServices.factory('Case', ['djangoRESTResources', function(djangoRESTResources) {#}
+{#      #}
+{#    }]);#}
+
+    operatorApp.controller('CaseListCtrl', ['$scope', 'djResource', '$location', function($scope, djResource, $location) {
+      $scope.search = $location.search().search || '';
+
+      var Case = djResource('/call_centre/proxy/case/:caseref/', {caseref:'@reference'});
+      $scope.cases = Case.query({search:$location.search().search || ''});
+    }]);
+
+    operatorApp.controller('SearchCtrl', ['$scope', '$state', '$location', function($scope, $state, $location) {
+        $scope.search = $location.search().search || '';
+
+        $scope.submit = function() {
+          $location.search('search', $scope.search);
+        }
+    }]);
+  </script>
+{% endblock %}
+{% block search %}{% verbatim %}
+<form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
+  <label for="case-search" class="CaseSearch-label">Search</label>
+  <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" ng-model="search" autocomplete="off">
+  <input class="CaseSearch-submit" type="submit" value="Search">
+</form>
+{% endverbatim %}
+{% endblock %}
+
+{% block actions %}
+<form action="{% url 'call_centre:create_case' %}" method="post" class="u-pullLeft">
+  {% csrf_token %}
+  <button type="submit" class="Button">{% trans "Create a case" %}</button>
+</form>
+{% endblock %}
+
+{% block full_content %}
+  <div ui-view></div>
+{#  <div ng-controller="CaseListCtrl">#}
+{#    <ul>#}
+{#      <li ng-repeat="case in cases">{{ case.reference }}</li>#}
+{#    </ul>#}
+{#  </div>#}
+
+{% endblock %}
