@@ -27,7 +27,6 @@ CASE_LIST = [
             "full_name": "test",
             "postcode": "ee",
             "street": "afef",
-            "town": "eafe",
             "mobile_phone": "ea3",
             "home_phone": "3333"
         },
@@ -45,7 +44,6 @@ CASE_LIST = [
             "full_name": "hello",
             "postcode": "sw1v 1aa",
             "street": "oaijge",
-            "town": "london",
             "mobile_phone": "343335",
             "home_phone": "352352"
         },
@@ -63,7 +61,6 @@ CASE_LIST = [
             "full_name": "sgsh",
             "postcode": "srhsrh",
             "street": "rshsr",
-            "town": "srhs",
             "mobile_phone": "srhsrh",
             "home_phone": "srhs"
         },
@@ -101,7 +98,6 @@ CASE_LIST = [
             "full_name": "ppp",
             "postcode": "ppp",
             "street": "ppp",
-            "town": "22",
             "mobile_phone": "afa33",
             "home_phone": "222"
         },
@@ -119,7 +115,6 @@ CASE_LIST = [
             "full_name": "bob",
             "postcode": "sdg",
             "street": "sgsd",
-            "town": "sdg",
             "mobile_phone": "343",
             "home_phone": "447742340433"
         },
@@ -227,7 +222,6 @@ CASE_LIST = [
             "full_name": "Dahlia May",
             "postcode": "Officiis n",
             "street": "Illum, et quae mollitia et perferendis deserunt beatae in et dolor voluptatem, et neque aut esse eiusmod cillum.",
-            "town": "Ea et reprehenderit aperiam voluptatem numquam et excepturi quia natus amet similique",
             "mobile_phone": "+112-26-7509838",
             "home_phone": "+378-82-5268426"
         },

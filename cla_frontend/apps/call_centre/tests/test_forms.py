@@ -135,7 +135,6 @@ class PersonalDetailsFormTestCase(test_forms.APIFormMixinTest):
         "full_name": 'John Doe',
         "postcode": 'SW1H 9AJ',
         "street": '102 Petty France',
-        "town": 'London',
     }
 
     def test_contact_required_validation_only_mobile_valid(self):
