@@ -1,5 +1,7 @@
 {% extends app_base_template %}{% load humanize i18n static %}
 
+{% block body_classes %}{{ product_type }} {{ phase }} v-Dashboard{% endblock %}
+
 {% block javascripts %}
   {{ block.super }}
   <script type="text/javascript">
