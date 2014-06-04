@@ -4,7 +4,7 @@
   </h1>
 </header>
 <nav class="SubNav">
-      <a ui-sref="cases({search:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all cases</a>
+      <a ui-sref="case_list({search:'', sort:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all case_list</a>
 </nav>
 
 
@@ -13,14 +13,14 @@
   <tr>
     <th><span class="visuallyhidden">Reference</span></th>
     <th>Name</th>
-    <th><a href="?sort=created" class="u-sortDesc">Created</a></th>
-    <th><a href="?sort=modified">Modified</th>
+    <th><a ui-sref="case_list({sort:sortToggle('created')})" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
+    <th><a ui-sref="case_list({sort:sortToggle('modified')})" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
     <th><span class="visuallyhidden">Onwer</span></th>
   </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="case in cases">
-      <td><a href="/">{{ case.reference}}</a></td>
+    <tr ng-repeat="case in cases | orderBy:orderProp">
+      <td><a ui-sref="case_detail.edit({caseref:case.reference})">{{ case.reference }}</a></td>
       <td>{{ case.personal_details.full_name }}</td>
       <td>{{ case.created }}</td>
       <td>{{ case.modified }}</td>

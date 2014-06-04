@@ -6,42 +6,86 @@
 
   // States
   var CaseListState = {
-    url: '/operator/?search',
+    url: '/operator/?search?sort',
     templateUrl: '/static/javascripts/app/partials/case_list.html',
     controller: 'CaseListCtrl'
   };
+  var CaseDetailState = {
+    abstract: true,
+    url: '/operator/:caseref/',
+    templateUrl: '/static/javascripts/app/partials/case_detail.html',
+    controller: ['$scope', 'case', function($scope, $case){
+      $scope.test= 123;
+      $scope.case = $case;
+    }],
+    resolve: {
+      'case': ['djResource', '$stateParams', function(djResource, $stateParams) {
+        var cases = djResource('/call_centre/proxy/case/:caseref/', {caseref:'@reference'});
+        return cases.get({caseref: $stateParams.caseref});
+      }]
+    }
+  };
 
-    var operatorApp = angular.module('operatorApp', ['djangoRESTResources', 'ui.router']);
+  var CaseDetailEditState = {
+    url: '',
+    views: {
+      '': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
+        controller: ['$scope', function($scope){console.log('edit state loaded'+ JSON.stringify($scope.case))}]
+      },
+      'outcome': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.outcome.html',
+        controller: ['$scope', function($scope){console.log('edit.outcome state loaded')}]
+      },
+      'personalDetails': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
+        controller: ['$scope', function($scope){console.log('edit.outcome state loaded')}]
+      }
+    }
+  };
 
-    operatorApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
-      $locationProvider.html5Mode(true);
-{#      $urlRouterProvider.otherwise('/foo')#}
+  var operatorApp = angular.module('operatorApp', ['djangoRESTResources', 'ui.router']);
 
-      $stateProvider
-          .state('cases', CaseListState)
+  operatorApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
+    $locationProvider.html5Mode(true);
 
+    $stateProvider
+        .state('case_list', CaseListState)
+        .state('case_detail', CaseDetailState)
+        .state('case_detail.edit', CaseDetailEditState)
+    ;
+
+  });
+
+
+  operatorApp.controller('CaseListCtrl', ['$scope', 'djResource', '$location', function($scope, djResource, $location) {
+    $scope.search = $location.search().search || '';
+    $scope.orderProp = $location.search().sort || '-created';
+
+
+    var Case = djResource('/call_centre/proxy/case/:caseref/', {caseref:'@reference'});
+    Case.query({search: $scope.search}, function(data) {
+      $scope.cases = data;
     });
 
-{#    var operatorServices = angular.module('operatorServices', ['djangoRESTResources']);#}
-{##}
-{#    operatorServices.factory('Case', ['djangoRESTResources', function(djangoRESTResources) {#}
-{#      #}
-{#    }]);#}
+    $scope.sortToggle = function(currentOrderProp){
+      if (currentOrderProp === $scope.orderProp) {
+        return '-' + currentOrderProp;
+      }
+      return currentOrderProp;
+    };
+  }]);
 
-    operatorApp.controller('CaseListCtrl', ['$scope', 'djResource', '$location', function($scope, djResource, $location) {
+  operatorApp.controller('SearchCtrl', ['$scope', '$state', '$location', function($scope, $state, $location) {
+    $scope.$on('$locationChangeSuccess', function(){
       $scope.search = $location.search().search || '';
+    });
 
-      var Case = djResource('/call_centre/proxy/case/:caseref/', {caseref:'@reference'});
-      $scope.cases = Case.query({search:$location.search().search || ''});
-    }]);
+    $scope.submit = function() {
+      $state.go('case_list', {search: $scope.search, sort:''});
+    };
 
-    operatorApp.controller('SearchCtrl', ['$scope', '$state', '$location', function($scope, $state, $location) {
-        $scope.search = $location.search().search || '';
-
-        $scope.submit = function() {
-          $location.search('search', $scope.search);
-        }
-    }]);
+  }]);
   </script>
 {% endblock %}
 {% block search %}{% verbatim %}
