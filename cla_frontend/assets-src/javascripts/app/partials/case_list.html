@@ -1,12 +1,3 @@
-<!--
-{% with query=request.GET.q %}
-  {% if query %}
-
-  {% endif %}
-
-
-{% endwith %}
--->
 <header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}">
   <h1 class="u-pullLeft">
       {{ search ? 'Results' : 'Cases' }} {{ search }}
@@ -29,7 +20,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="case in cases">
-      <td><a href>{{ case.reference}}</a></td>
+      <td><a href="/">{{ case.reference}}</a></td>
       <td>{{ case.personal_details.full_name }}</td>
       <td>{{ case.created }}</td>
       <td>{{ case.modified }}</td>
