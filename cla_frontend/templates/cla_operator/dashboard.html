@@ -86,12 +86,10 @@
     });
   }]);
 
-  operatorApp.controller('CaseListCtrl', ['$scope', 'djResource', '$location', function($scope, djResource, $location) {
+  operatorApp.controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
     $scope.search = $location.search().search || '';
     $scope.orderProp = $location.search().sort || '-created';
 
-
-    var Case = djResource('/call_centre/proxy/case/:caseref/', {caseref:'@reference'});
     Case.query({search: $scope.search}, function(data) {
       $scope.cases = data;
     });
