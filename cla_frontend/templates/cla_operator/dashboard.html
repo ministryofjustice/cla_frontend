@@ -1,13 +1,16 @@
 {% extends app_base_template %}{% load humanize i18n static %}
 
-{% block body_classes %}{{ product_type }} {{ phase }} v-Dashboard{% endblock %}
+{% block body_attrs %}ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
 
 {% block javascripts %}
   {{ block.super }}
   <script type="text/javascript">
 
   // APP
-  var operatorApp = angular.module('operatorApp', ['djangoRESTResources', 'ui.router']);
+  var operatorApp = angular.module('operatorApp', ['djangoRESTResources', 'ui.router']).run(function ($rootScope, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+  });
 
   // STATES
   var CaseListState = {
@@ -82,6 +85,7 @@
   operatorApp.controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
     $scope.search = $location.search().search || '';
     $scope.orderProp = $location.search().sort || '-created';
+    $scope.viewClass = 'v-Dashboard';
 
     Case.query({search: $scope.search}, function(data) {
       $scope.cases = data;
@@ -135,6 +139,4 @@
 
 {% block full_content %}
   <div ui-view></div>
-
-
 {% endblock %}
