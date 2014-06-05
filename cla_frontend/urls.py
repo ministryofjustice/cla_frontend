@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     url(r'^call_centre/', include('call_centre.urls', namespace='call_centre',)),
+    url(r'^operator/', include('cla_operator.urls', namespace='cla_operator',)),
     url(r'^provider/', include('cla_provider.urls', namespace='cla_provider',)),
 
     url(r'^auth/', include('cla_auth.urls', namespace='auth',)),
