@@ -1,1 +1,54 @@
-<h2> hi from case detail edit</h2>
+<header class="PageHeader cf">
+  <h1 class="u-pullLeft">{{ case.reference }}</h1>
+</header>
+
+<form method="post" ng-submit="submit()">
+  <div class="FormRow">
+    <label for="id_case_notes-notes" id="id_case_notes-notes-label" class="visuallyhidden">Case Notes</label>
+    <textarea class="FormRow-field--full" id="id_case_notes-notes" name="case_notes-notes" placeholder="Comments about this case" cols="20" rows="11" ng-model="case.notes"></textarea>
+  </div>
+
+  <div class="FormRow">
+    <label for="id_case_notes-in_scope" id="id_case_notes-in_scope-label">
+      <span class="FormRow-label">In Scope</span>
+      
+      <select id="id_case_notes-in_scope" name="case_notes-in_scope" ng-model="case.in_scope">
+
+      </select>
+    </label>
+  </div>
+
+  <div class="FormRow">
+    <label for="id_eligibility_check-category" id="id_eligibility_check-category-label">
+      <span class="FormRow-label">Law Category:</span>
+      
+      <select id="id_eligibility_check-category" name="eligibility_check-category" ng-model="eligibility_check.category">
+        <option value="YOGVr">Violence and abuse at home</option>
+        <option value="ybpce">Housing, eviction and homelessness</option>
+        <option value="uGaNC">Debt, money problems and bankruptcy</option>
+        <option value="tHnGg">Family, marriage, separation and children</option>
+        <option value="iFPRx">Applying for asylum or permission to stay in the UK</option>
+        <option value="itNWp">Welfare benefits appeals</option>
+        <option value="xlNRv">In trouble with the police</option>
+        <option value="WqIKJ">Mental health, discrimination, disability and other issues</option>
+        <option value="rHeXRa">None of the above</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="FormRow">
+    <label for="id_eligibility_check-state" id="id_eligibility_check-state-label">
+      <span class="FormRow-label">Means Test Passed?</span>
+      
+      <select id="id_eligibility_check-state" name="eligibility_check-state" ng-model="eligibility_check.state">
+        <option value="maybe">Maybe</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </label>
+  </div>
+
+  <div>
+    <button type="submit" class="Button">Save case details</button>
+  </div>
+</form>

@@ -1,7 +1,153 @@
 {% extends app_base_template %}{% load humanize i18n static %}
 
-{% block body_classes %}{{ product_type }} {{ phase }} v-Dashboard{% endblock %}
+{% block body_attrs %}ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
 
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript">
+
+  // APP
+  var operatorApp = angular.module('operatorApp', ['djangoRESTResources', 'ui.router']).run(function ($rootScope, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+  });
+
+  // STATES
+  var CaseListState = {
+    url: '/operator/?search?sort',
+    templateUrl: '/static/javascripts/app/partials/case_list.html',
+    controller: 'CaseListCtrl'
+  };
+
+  var CaseDetailState = {
+    abstract: true,
+    url: '/operator/:caseref/',
+    templateUrl: '/static/javascripts/app/partials/case_detail.html',
+    controller: ['$scope', 'case', function($scope, $case){
+      $scope.case = $case;
+    }],
+    resolve: {
+      'case': ['Case', 'EligibilityCheck', '$stateParams', function(Case, EligibilityCheck, $stateParams) {
+        return Case.get({caseref: $stateParams.caseref});
+      }]
+    }
+  };
+
+  var CaseDetailEditState = {
+    url: '',
+    views: {
+      '': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
+        controller: ['$scope', 'EligibilityCheck', function($scope, EligibilityCheck){
+          // console.log($scope.eligibility_check);
+          $scope.submit = function(){
+            $scope.case.$case_details_patch();
+          };
+        }]
+      },
+      'outcome': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.outcome.html',
+        controller: ['$scope', function($scope){console.log('edit.outcome state loaded')}]
+      },
+      'personalDetails': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
+        controller: ['$scope', function($scope){
+          $scope.submit = function(){
+            $scope.case.$personal_details_patch();
+          };
+        }]
+      }
+    }
+  };
+
+  // SERVICES
+  operatorApp.factory('Case', ['$http', 'djResource', function($http, djResource) {
+    var transformData = function(data, headers) {
+      var fns = $http.defaults.transformRequest;
+
+      if (angular.isFunction(fns))
+        return fns(data, headers);
+
+      angular.forEach(fns, function(fn) {
+        data = fn(data, headers);
+      });
+
+      return data;
+    }
+
+    return djResource('/call_centre/proxy/case/:caseref/', {caseref:'@reference'}, {
+      'personal_details_patch': {
+        method:'PATCH',
+        transformRequest: function(data, headers) {
+          return transformData({"personal_details": data.personal_details}, headers);
+        }
+      },
+      'case_details_patch': {
+        method:'PATCH',
+        transformRequest: function(data, headers) {
+          return transformData({"notes": data.notes}, headers);
+        }
+      }
+    });
+  }]);
+
+  operatorApp.factory('EligibilityCheck', ['$http', 'djResource', function($http, djResource) {
+    var transformData = function(data, headers) {
+      var fns = $http.defaults.transformRequest;
+
+      if (angular.isFunction(fns))
+        return fns(data, headers);
+
+      angular.forEach(fns, function(fn) {
+        data = fn(data, headers);
+      });
+
+      return data;
+    }
+
+    return djResource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
+    });
+  }]);
+
+  // CONTROLLERS
+  operatorApp.controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
+    $scope.search = $location.search().search || '';
+    $scope.orderProp = $location.search().sort || '-created';
+
+    Case.query({search: $scope.search}, function(data) {
+      $scope.cases = data;
+    });
+
+    $scope.sortToggle = function(currentOrderProp){
+      if (currentOrderProp === $scope.orderProp) {
+        return '-' + currentOrderProp;
+      }
+      return currentOrderProp;
+    };
+  }]);
+
+  operatorApp.controller('SearchCtrl', ['$scope', '$state', '$location', function($scope, $state, $location) {
+    $scope.$on('$locationChangeSuccess', function(){
+      $scope.search = $location.search().search || '';
+    });
+
+    $scope.submit = function() {
+      $state.go('case_list', {search: $scope.search, sort:''});
+    };
+
+  }]);
+
+  //ROUTES
+  operatorApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
+    $locationProvider.html5Mode(true);
+
+    $stateProvider
+        .state('case_list', CaseListState)
+        .state('case_detail', CaseDetailState)
+        .state('case_detail.edit', CaseDetailEditState);
+  });
+  </script>
+{% endblock %}
 
 {% block search %}{% verbatim %}
 <form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
@@ -9,18 +155,8 @@
   <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" ng-model="search" autocomplete="off">
   <input class="CaseSearch-submit" type="submit" value="Search">
 </form>
-{% endverbatim %}
-{% endblock %}
-
-{% block actions %}
-<form action="{% url 'call_centre:create_case' %}" method="post" class="u-pullLeft">
-  {% csrf_token %}
-  <button type="submit" class="Button">{% trans "Create a case" %}</button>
-</form>
-{% endblock %}
+{% endverbatim %}{% endblock %}
 
 {% block full_content %}
   <div ui-view></div>
-
-
 {% endblock %}
