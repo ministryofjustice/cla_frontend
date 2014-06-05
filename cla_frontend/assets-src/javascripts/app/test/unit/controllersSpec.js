@@ -3,7 +3,7 @@
 /* jasmine specs for controllers go here */
 describe('OperatorApp controllers', function() {
 
-  beforeEach(module('operatorApp'));
+  beforeEach(module('cla.app'));
 
   describe('CaseListCtrl', function(){
     it('should init search param as empty', inject(function($controller) {
