@@ -1,3 +1,5 @@
+"use strict";
+
 // APP
 var operatorApp = angular.module('operatorApp', ['djangoRESTResources', 'ui.router']);
 

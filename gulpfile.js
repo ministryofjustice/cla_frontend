@@ -22,7 +22,7 @@ var paths = {
     'cla_frontend/assets-src/vendor/angular-i18n/angular-locale_en-gb.js',
     'cla_frontend/assets-src/vendor/angular-django-rest-resource/angular-django-rest-resource.js',
     // angular app code
-    'cla_frontend/assets-src/javascripts/app/**/*.js',
+    'cla_frontend/assets-src/javascripts/app/js/**/*.js',
     // templates
     'cla_frontend/assets-src/javascripts/templates.js',
     // CLA
