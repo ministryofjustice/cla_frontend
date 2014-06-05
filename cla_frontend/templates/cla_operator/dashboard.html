@@ -21,9 +21,8 @@
       $scope.case = $case;
     }],
     resolve: {
-      'case': ['djResource', '$stateParams', function(djResource, $stateParams) {
-        var cases = djResource('/call_centre/proxy/case/:caseref/', {caseref:'@reference'});
-        return cases.get({caseref: $stateParams.caseref});
+      'case': ['Case', '$stateParams', function(Case, $stateParams) {
+        return Case.get({caseref: $stateParams.caseref});
       }]
     }
   };
@@ -41,7 +40,11 @@
       },
       'personalDetails': {
         templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
-        controller: ['$scope', function($scope){console.log('edit.outcome state loaded')}]
+        controller: ['$scope', function($scope){
+          $scope.submit = function(){
+            $scope.case.$personal_details_patch();
+          };
+        }]
       }
     }
   };
@@ -59,6 +62,29 @@
 
   });
 
+  operatorApp.factory('Case', ['$http', 'djResource', function($http, djResource) {
+    var transformData = function(data, headers) {
+      var fns = $http.defaults.transformRequest;
+
+      if (angular.isFunction(fns))
+        return fns(data, headers);
+
+      angular.forEach(fns, function(fn) {
+        data = fn(data, headers);
+      });
+
+      return data;
+    }
+
+    return djResource('/call_centre/proxy/case/:caseref/', {caseref:'@reference'}, {
+      'personal_details_patch': {
+        method:'PATCH',
+        transformRequest: function(data, headers) {
+          return transformData({"personal_details": data.personal_details}, headers);
+        }
+      }
+    });
+  }]);
 
   operatorApp.controller('CaseListCtrl', ['$scope', 'djResource', '$location', function($scope, djResource, $location) {
     $scope.search = $location.search().search || '';
