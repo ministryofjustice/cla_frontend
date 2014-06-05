@@ -24,11 +24,10 @@
     url: '/operator/:caseref/',
     templateUrl: '/static/javascripts/app/partials/case_detail.html',
     controller: ['$scope', 'case', function($scope, $case){
-      $scope.test= 123;
       $scope.case = $case;
     }],
     resolve: {
-      'case': ['Case', '$stateParams', function(Case, $stateParams) {
+      'case': ['Case', 'EligibilityCheck', '$stateParams', function(Case, EligibilityCheck, $stateParams) {
         return Case.get({caseref: $stateParams.caseref});
       }]
     }
@@ -39,7 +38,12 @@
     views: {
       '': {
         templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
-        controller: ['$scope', function($scope){console.log('edit state loaded'+ JSON.stringify($scope.case))}]
+        controller: ['$scope', 'EligibilityCheck', function($scope, EligibilityCheck){
+          // console.log($scope.eligibility_check);
+          $scope.submit = function(){
+            $scope.case.$case_details_patch();
+          };
+        }]
       },
       'outcome': {
         templateUrl: '/static/javascripts/app/partials/case_detail.outcome.html',
@@ -77,7 +81,31 @@
         transformRequest: function(data, headers) {
           return transformData({"personal_details": data.personal_details}, headers);
         }
+      },
+      'case_details_patch': {
+        method:'PATCH',
+        transformRequest: function(data, headers) {
+          return transformData({"notes": data.notes}, headers);
+        }
       }
+    });
+  }]);
+
+  operatorApp.factory('EligibilityCheck', ['$http', 'djResource', function($http, djResource) {
+    var transformData = function(data, headers) {
+      var fns = $http.defaults.transformRequest;
+
+      if (angular.isFunction(fns))
+        return fns(data, headers);
+
+      angular.forEach(fns, function(fn) {
+        data = fn(data, headers);
+      });
+
+      return data;
+    }
+
+    return djResource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
     });
   }]);
 
@@ -85,7 +113,6 @@
   operatorApp.controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
     $scope.search = $location.search().search || '';
     $scope.orderProp = $location.search().sort || '-created';
-    $scope.viewClass = 'v-Dashboard';
 
     Case.query({search: $scope.search}, function(data) {
       $scope.cases = data;
@@ -121,21 +148,14 @@
   });
   </script>
 {% endblock %}
+
 {% block search %}{% verbatim %}
 <form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
   <label for="case-search" class="CaseSearch-label">Search</label>
   <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" ng-model="search" autocomplete="off">
   <input class="CaseSearch-submit" type="submit" value="Search">
 </form>
-{% endverbatim %}
-{% endblock %}
-
-{% block actions %}
-<form action="{% url 'call_centre:create_case' %}" method="post" class="u-pullLeft">
-  {% csrf_token %}
-  <button type="submit" class="Button">{% trans "Create a case" %}</button>
-</form>
-{% endblock %}
+{% endverbatim %}{% endblock %}
 
 {% block full_content %}
   <div ui-view></div>
