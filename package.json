@@ -27,6 +27,8 @@
   "scripts": {
     "test": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js",
     "test-single-run": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js  --single-run",
+    "update-webdriver": "webdriver-manager update",
+    "preprotractor": "npm run update-webdriver",
     "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-conf.js"
   }
 }
