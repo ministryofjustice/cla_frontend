@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
   plugins = require('gulp-load-plugins')(),
   stylish = require('jshint-stylish'),
-  runSequence = require('run-sequence')
+  runSequence = require('run-sequence');
 
 var paths = {
   dest_dir: 'cla_frontend/assets/',
@@ -22,7 +22,8 @@ var paths = {
     'cla_frontend/assets-src/vendor/angular-i18n/angular-locale_en-gb.js',
     'cla_frontend/assets-src/vendor/angular-django-rest-resource/angular-django-rest-resource.js',
     // angular app code
-    'cla_frontend/assets-src/javascripts/app/**/*.js',
+    'cla_frontend/assets-src/javascripts/app/js/app.js',
+    'cla_frontend/assets-src/javascripts/app/js/**/*.js',
     // templates
     'cla_frontend/assets-src/javascripts/templates.js',
     // CLA
