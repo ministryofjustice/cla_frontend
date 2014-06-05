@@ -1,8 +1,7 @@
 var gulp = require('gulp'),
   plugins = require('gulp-load-plugins')(),
   stylish = require('jshint-stylish'),
-  runSequence = require('run-sequence'),
-  size = require('gulp-filesize');
+  runSequence = require('run-sequence')
 
 var paths = {
   dest_dir: 'cla_frontend/assets/',
@@ -72,7 +71,6 @@ gulp.task('js', ['templates'], function() {
   // create concatinated js file
   gulp
     .src(prod)
-    .pipe(size())
     .pipe(plugins.concat('cla.main.js'))
     .pipe(gulp.dest(paths.dest_dir + 'javascripts'));
   // copy static vendor files
@@ -82,7 +80,6 @@ gulp.task('js', ['templates'], function() {
   // copy static template files
   gulp
     .src(paths.partials)
-    .pipe(size())
     .pipe(gulp.dest(paths.dest_dir + 'javascripts/app/partials'));
   // create debug js file
   gulp
