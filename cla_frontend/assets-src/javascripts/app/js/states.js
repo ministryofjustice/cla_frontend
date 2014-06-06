@@ -80,4 +80,14 @@
     }
   };
 
+  states.CaseDetailDeferAssignmentState = {
+    url: 'assign/defer/',
+    views: {
+      '@case_detail': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.defer_assignment.html',
+        controller: 'CaseDeferSpecialists'
+      }
+    }
+  };
+
 })();

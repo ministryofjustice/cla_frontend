@@ -40,6 +40,11 @@
         $http.post(url, data).success(successCallback);
       };
 
+      resource.prototype.$defer_assignment = function(data, successCallback) {
+        var url = '/call_centre/proxy/case/'+this.reference+'/defer_assignment/';
+        $http.post(url, data).success(successCallback);
+      };
+
       return resource;
     }]);
 

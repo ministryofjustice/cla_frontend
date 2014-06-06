@@ -11,6 +11,7 @@
         .state('case_detail', states.CaseDetailState)
         .state('case_detail.edit', states.CaseEditDetailState)
         .state('case_detail.edit.assign', states.CaseEditDetailAssignState)
-        .state('case_detail.edit.decline_specialists', states.CaseDetailDeclineSpecialistsState);
+        .state('case_detail.edit.decline_specialists', states.CaseDetailDeclineSpecialistsState)
+        .state('case_detail.edit.defer_assignment', states.CaseDetailDeferAssignmentState);
     });
 })();

@@ -3,7 +3,7 @@
 </header>
 
 <div class="FormBlock FormBlock--yellow">
-  <form method="post" ng-submit="decline()">
+  <form method="post" ng-submit="defer()">
     <div class="FormRow">
       <label for="id_outcome_notes" id="id_outcome_notes-label" class="visuallyhidden">Outcome notes</label>
 
@@ -21,7 +21,7 @@
       </label>
     </div>
 
-    <button type="submit" class="Button">Decline all specialists</button>
+    <button type="submit" class="Button">Defer Assignment</button>
     <a ui-sref="case_detail.edit({caseref:case.reference})">Cancel</a>
   </form>
 </div>
