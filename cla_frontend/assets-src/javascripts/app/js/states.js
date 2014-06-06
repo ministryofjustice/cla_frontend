@@ -34,8 +34,10 @@
     views: {
       '': {
         templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
-        controller: ['$scope', 'EligibilityCheck', function($scope, EligibilityCheck){
-          console.log($scope.eligibility_check);
+        controller: ['$scope', 'Category', function($scope){
+
+          $scope.category_list = [];
+
           $scope.submit = function(){
             $scope.case.$case_details_patch();
           };
