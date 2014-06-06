@@ -29,5 +29,6 @@
         $state.go('case_list', {search: $scope.search, sort:''});
       };
 
-    }])
+    }]);
+
 })();

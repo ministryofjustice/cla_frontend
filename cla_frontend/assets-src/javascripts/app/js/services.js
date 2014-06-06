@@ -40,5 +40,11 @@
     .factory('EligibilityCheck', ['$http', 'djResource', function($http, djResource) {
       return djResource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
       });
+    }]);
+
+  angular.module('cla.services')
+    .factory('Category', ['$http', 'djResource', function($http, djResource) {
+      return djResource('/call_centre/proxy/category/:code/', {
+      });
     }])
 })();
