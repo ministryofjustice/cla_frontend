@@ -11,7 +11,7 @@
   <div class="FormRow">
     <label for="id_case_notes-in_scope" id="id_case_notes-in_scope-label">
       <span class="FormRow-label">In Scope</span>
-      
+
       <select id="id_case_notes-in_scope" name="case_notes-in_scope" ng-model="case.in_scope">
 
       </select>
@@ -21,7 +21,6 @@
   <div class="FormRow">
     <label for="id_eligibility_check-category" id="id_eligibility_check-category-label">
       <span class="FormRow-label">Law Category:</span>
-      
       <select id="id_eligibility_check-category" name="eligibility_check-category" ng-model="eligibility_check.category" ng-options="category.code as category.name for category in category_list">
       </select>
     </label>
@@ -30,7 +29,7 @@
   <div class="FormRow">
     <label for="id_eligibility_check-state" id="id_eligibility_check-state-label">
       <span class="FormRow-label">Means Test Passed?</span>
-      
+
       <select id="id_eligibility_check-state" name="eligibility_check-state" ng-model="eligibility_check.state">
         <option value="maybe">Maybe</option>
         <option value="yes">Yes</option>
