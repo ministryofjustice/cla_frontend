@@ -5,8 +5,8 @@
 		// builtin $filter inheritance to create a standardised date filter
 		var builtInDateFilter = filter('date');
 		return function(date_str) {
-		    return builtInDateFilter(date_str, 'short');
+      return builtInDateFilter(date_str, 'short');
 		};
-	}]);
+  }]);
 
 })();
