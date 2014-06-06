@@ -34,9 +34,8 @@
     views: {
       '': {
         templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
-        controller: ['$scope', 'Category', function($scope){
-
-          $scope.category_list = [];
+        controller: ['$scope', 'Category', function($scope, Category){
+          $scope.category_list = Category.query();
 
           $scope.submit = function(){
             $scope.case.$case_details_patch();
