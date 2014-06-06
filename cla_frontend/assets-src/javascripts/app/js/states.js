@@ -43,6 +43,7 @@
 
           $scope.submit = function(){
             $scope.case.$case_details_patch();
+            $scope.eligibility_check.$patch();
           };
         }]
       },
@@ -65,7 +66,8 @@
     url: 'assign/',
     views: {
       '@case_detail': {
-        template:'<h1>test</h1>'
+        templateUrl:'/static/javascripts/app/partials/case_detail.edit.assign.html',
+        controller: 'AssignProviderCtrl'
       }
     }
   };

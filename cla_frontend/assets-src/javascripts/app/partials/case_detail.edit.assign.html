@@ -1,0 +1,20 @@
+<header class="PageHeader cf">
+  <h1 class="u-pullLeft">{{ case.reference }}</h1>
+</header>
+
+<form method="post" ng-submit="submit()">
+  <div class="FormBlock FormBlock--yellow">
+    <h2>Suggested Provider</h2>
+    <label> <span class="radio">{{ suggested_providers.suggested_provider.name }}</span>
+      {{ suggested_providers.suggested_provider.name }}
+    </label>
+    <div class="FormBlock FormBlock--yellow">
+      <h2>Manually Assign Provider</h2>
+
+      <button type="submit" class="Button">Assign Provider</button>
+      <a ui-sref="case_detail.edit">Cancel</a>
+      <a ui-sref="case_detail.edit.assign.decline">Decline all specialists</a>
+      <a ui-sref="case_detail.edit.assign.defer">Defer assignment</a>
+    </div>
+  </div>
+</form>

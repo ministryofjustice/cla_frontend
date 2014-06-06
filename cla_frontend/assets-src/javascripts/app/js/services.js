@@ -15,7 +15,6 @@
     return data;
   };
 
-
 // SERVICES
   angular.module('cla.services')
     .factory('Case', ['$http', 'djResource', function($http, djResource) {
@@ -45,12 +44,16 @@
         $http.post(url, data).success(successCallback);
       };
 
-      return resource;
+      resource.prototype.get_suggested_providers = function(){
+        return $http.get('/call_centre/proxy/case/'+this.reference+'/assign_suggest/');
+      };
+      return resource
     }]);
 
   angular.module('cla.services')
     .factory('EligibilityCheck', ['$http', 'djResource', function($http, djResource) {
       return djResource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
+        'patch': {method: 'PATCH'}
       });
     }]);
 
