@@ -22,16 +22,7 @@
     <label for="id_eligibility_check-category" id="id_eligibility_check-category-label">
       <span class="FormRow-label">Law Category:</span>
       
-      <select id="id_eligibility_check-category" name="eligibility_check-category" ng-model="eligibility_check.category">
-        <option value="YOGVr">Violence and abuse at home</option>
-        <option value="ybpce">Housing, eviction and homelessness</option>
-        <option value="uGaNC">Debt, money problems and bankruptcy</option>
-        <option value="tHnGg">Family, marriage, separation and children</option>
-        <option value="iFPRx">Applying for asylum or permission to stay in the UK</option>
-        <option value="itNWp">Welfare benefits appeals</option>
-        <option value="xlNRv">In trouble with the police</option>
-        <option value="WqIKJ">Mental health, discrimination, disability and other issues</option>
-        <option value="rHeXRa">None of the above</option>
+      <select id="id_eligibility_check-category" name="eligibility_check-category" ng-model="eligibility_check.category" ng-options="category.code as category.name for category in category_list">
       </select>
     </label>
   </div>
