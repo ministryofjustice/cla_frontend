@@ -1,5 +1,7 @@
 {% extends app_base_template %}{% load humanize i18n static %}
 
+{% block html_attrs %}ng-app="cla.app"{% endblock %}
+
 {% block body_attrs %}ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
 
 {% block search %}{% verbatim %}

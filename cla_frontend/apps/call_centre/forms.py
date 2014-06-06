@@ -117,7 +117,7 @@ class CaseForm(APIFormMixin, MultipleFormsForm):
 class CaseAssignForm(APIFormMixin, forms.Form):
 
     #providers = forms.ChoiceField(widget=forms.RadioSelect)
-    
+
     providers = AdvancedCollectionChoiceField(
         collection=[],
         pk_attr=u'id',
@@ -125,7 +125,7 @@ class CaseAssignForm(APIFormMixin, forms.Form):
         #label=_(u'Is your problem about? XXX'),
         widget=forms.RadioSelect()
     )
-    
+
     suggested_provider = forms.IntegerField(widget=forms.HiddenInput)
 
     def save(self, case_reference, provider_id, is_manual, assign_notes):

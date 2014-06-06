@@ -10,7 +10,8 @@
       'cla.filters',
       'cla.directives',
       'cla.states',
-      'cla.utils'])
+      'cla.utils'
+    ])
     .run(function ($rootScope, $state, $stateParams) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;

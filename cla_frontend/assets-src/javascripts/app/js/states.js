@@ -68,6 +68,16 @@
         template:'<h1>test</h1>'
       }
     }
-  }
+  };
+
+  states.CaseDetailDeclineSpecialistsState = {
+    url: 'assign/decline_all/',
+    views: {
+      '@case_detail': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.decline_specialists.html',
+        controller: 'CaseDeclineSpecialists'
+      }
+    }
+  };
 
 })();

@@ -1,0 +1,23 @@
+<div class="FormBlock FormBlock--yellow">
+  <form method="post" ng-submit="decline()">
+    <div class="FormRow">
+      <label for="id_outcome_notes" id="id_outcome_notes-label" class="visuallyhidden">Outcome notes</label>
+
+      <textarea class="FormRow-field--full" cols="20" id="id_outcome_notes" name="outcome_notes" rows="6" ng-model="outcome_notes"></textarea>
+    </div>
+
+    <div class="FormRow cf" style="display: none">
+      <label for="id_outcome_code" id="id_outcome_code-label">
+        <span class="FormRow-label">
+          Outcome code
+
+        </span>
+        <select class="FormRow-field--l" id="id_outcome_code" name="outcome_code" ng-options="outcome_code.code as outcome_code.description for outcome_code in outcome_codes" ng-model="outcome_code">
+        </select>
+      </label>
+    </div>
+
+    <button type="submit" class="Button">Decline all specialists</button>
+    <a ui-sref="case_detail.edit({caseref:case.reference})">Cancel</a>
+  </form>
+</div>
