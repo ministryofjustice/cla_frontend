@@ -9,6 +9,7 @@
         .state('layout', states.Layout)
         .state('case_list', states.CaseListState)
         .state('case_detail', states.CaseDetailState)
-        .state('case_detail.edit', states.CaseEditDetailState);
+        .state('case_detail.edit', states.CaseEditDetailState)
+        .state('case_detail.edit.assign', states.CaseEditDetailAssignState);
     });
 })();

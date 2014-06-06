@@ -60,4 +60,14 @@
       }
     }
   };
+
+  states.CaseEditDetailAssignState = {
+    url: 'assign/',
+    views: {
+      '@case_detail': {
+        template:'<h1>test</h1>'
+      }
+    }
+  }
+
 })();
