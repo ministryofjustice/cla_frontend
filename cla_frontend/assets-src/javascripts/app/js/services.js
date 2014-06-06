@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 
-  var transformData = function(data, headers) {
+  var transformData = function($http, data, headers) {
     var fns = $http.defaults.transformRequest;
 
     if (angular.isFunction(fns)) {
@@ -24,13 +24,13 @@
         'personal_details_patch': {
           method:'PATCH',
           transformRequest: function(data, headers) {
-            return transformData({personal_details: data.personal_details}, headers);
+            return transformData($http, {personal_details: data.personal_details}, headers);
           }
         },
         'case_details_patch': {
           method:'PATCH',
           transformRequest: function(data, headers) {
-            return transformData({notes: data.notes}, headers);
+            return transformData($http, {notes: data.notes}, headers);
           }
         }
       });

@@ -23,7 +23,7 @@
       $scope.case = $case;
     }],
     resolve: {
-      'case': ['Case', 'EligibilityCheck', '$stateParams', function(Case, EligibilityCheck, $stateParams) {
+      'case': ['Case', '$stateParams', function(Case, $stateParams) {
         return Case.get({caseref: $stateParams.caseref});
       }]
     }
@@ -34,8 +34,12 @@
     views: {
       '': {
         templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
-        controller: ['$scope', 'Category', function($scope, Category){
+        controller: ['$scope', 'Category', 'EligibilityCheck', function($scope, Category, EligibilityCheck){
           $scope.category_list = Category.query();
+
+          $scope.case.$then(function(data) {
+            $scope.eligibility_check = EligibilityCheck.get({ref: data.resource.eligibility_check});
+          });
 
           $scope.submit = function(){
             $scope.case.$case_details_patch();
