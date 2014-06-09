@@ -50,6 +50,12 @@
       resource.prototype.get_suggested_providers = function(){
         return $http.get('/call_centre/proxy/case/'+this.reference+'/assign_suggest/');
       };
+
+      resource.prototype.$assign = function(data){
+        var url = '/call_centre/proxy/case/'+this.reference+'/assign/';
+        return $http.post(url, data);
+      };
+
       return resource;
     }]);
 
