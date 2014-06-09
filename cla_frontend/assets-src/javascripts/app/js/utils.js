@@ -2,7 +2,7 @@
 (function(){
   angular.module('cla.utils')
     .factory('_', ['$window', function($window){
-    return $window._
+    return $window._;
   }]);
 })();
 
