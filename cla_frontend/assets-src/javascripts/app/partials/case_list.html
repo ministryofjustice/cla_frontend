@@ -2,6 +2,10 @@
   <h1 class="u-pullLeft">
       {{ search ? 'Results' : 'Cases' }} {{ search }}
   </h1>
+  <form name="newCaseForm" ng-controller="CaseCtrl" ng-submit="addCase()">
+    <button type="submit" class="Button">Create a case</button>
+  </form>
+
 </header>
 <nav class="SubNav">
       <a ui-sref="case_list({search:'', sort:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all case_list</a>

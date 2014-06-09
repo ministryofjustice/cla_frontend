@@ -19,6 +19,19 @@
       };
     }]);
 
+
+  angular.module('cla.controllers').controller('CaseCtrl', ['$scope', '$state', 'Case', function($scope, $state, Case) {
+
+    $scope.addCase = function() {
+      new Case().$save(function(data) {
+        //console.log(data.reference);
+        $state.go('case_detail.edit', {caseref:data.reference});
+      });
+
+    };
+  }]);
+
+
   angular.module('cla.controllers')
     .controller('SearchCtrl', ['$scope', '$state', '$location', function($scope, $state, $location) {
       $scope.$on('$locationChangeSuccess', function(){
