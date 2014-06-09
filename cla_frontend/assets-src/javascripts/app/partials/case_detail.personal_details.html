@@ -5,7 +5,7 @@
 <form method="post" ng-submit="save()" novalidate class="PersonalDetails">
   <label for="id_full_name" class="FormRow IconRow IconRow--name">
     <span class="visuallyhidden">Name</span>
-    <input class="FormRow-field--full" id="id_full_name" maxlength="300" name="full_name" placeholder="Name" type="text" required ng-model="case.personal_details.full_name">
+    <input class="FormRow-field--full" id="id_full_name" maxlength="300" name="full_name" placeholder="Name" type="text" required ng-model="case.personal_details.full_name" ng-blur="save()">
   </label>
   <label for="id_postcode" class="FormRow IconRow IconRow--address">
     <span class="visuallyhidden">Post code</span>
