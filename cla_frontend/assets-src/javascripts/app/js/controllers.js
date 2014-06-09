@@ -1,7 +1,7 @@
 'use strict';
 
 (function(){
-  var saveDelay = 500;
+  var saveDelay = 750;
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
