@@ -14,8 +14,7 @@
     <label for="id_case_notes-in_scope" id="id_case_notes-in_scope-label">
       <span class="FormRow-label">In Scope</span>
 
-      <select id="id_case_notes-in_scope" name="case_notes-in_scope" ng-model="case.in_scope">
-
+      <select id="id_case_notes-in_scope" name="case_notes-in_scope" ng-model="case.in_scope" ng-options="choice.value as choice.label for choice in in_scope_choices">
       </select>
     </label>
   </div>

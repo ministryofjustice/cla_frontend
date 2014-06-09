@@ -1,7 +1,6 @@
 'use strict';
 
 (function(){
-// CONTROLLERS
   angular.module('cla.controllers')
     .controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
       $scope.search = $location.search().search || '';
@@ -45,8 +44,28 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('CaseDeclineSpecialists',
-    ['$scope', '$state', 'OutcomeCode', 'Case', function($scope, $state, OutcomeCode, Case) {
+    .controller('CaseEditDetailCtrl', ['$scope', 'Category', 'EligibilityCheck', function($scope, Category, EligibilityCheck){
+      $scope.category_list = Category.query();
+
+      $scope.case.$then(function(data) {
+        $scope.eligibility_check = EligibilityCheck.get({ref: data.resource.eligibility_check});
+      });
+
+      $scope.in_scope_choices = [
+        { label: 'Unknown', value: null},
+        { label: 'Yes', value: true},
+        { label: 'No', value: false}
+      ];
+
+      $scope.submit = function(){
+        $scope.case.$case_details_patch();
+        $scope.eligibility_check.$patch();
+      };
+    }]);
+
+  angular.module('cla.controllers')
+    .controller('CaseDeclineSpecialistsCtrl',
+    ['$scope', '$state', 'OutcomeCode', function($scope, $state, OutcomeCode) {
 
       /*
        TODO:
@@ -69,8 +88,8 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('CaseDeferSpecialists',
-    ['$scope', '$state', 'OutcomeCode', 'Case', function($scope, $state, OutcomeCode, Case) {
+    .controller('CaseDeferSpecialistsCtrl',
+    ['$scope', '$state', 'OutcomeCode', function($scope, $state, OutcomeCode) {
 
       /*
        TODO:

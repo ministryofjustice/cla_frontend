@@ -34,22 +34,10 @@
     views: {
       '': {
         templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
-        controller: ['$scope', 'Category', 'EligibilityCheck', function($scope, Category, EligibilityCheck){
-          $scope.category_list = Category.query();
-
-          $scope.case.$then(function(data) {
-            $scope.eligibility_check = EligibilityCheck.get({ref: data.resource.eligibility_check});
-          });
-
-          $scope.submit = function(){
-            $scope.case.$case_details_patch();
-            $scope.eligibility_check.$patch();
-          };
-        }]
+        controller: 'CaseEditDetailCtrl'
       },
       'outcome': {
-        templateUrl: '/static/javascripts/app/partials/case_detail.outcome.html',
-        controller: ['$scope', function($scope){console.log('edit.outcome state loaded');}]
+        templateUrl: '/static/javascripts/app/partials/case_detail.outcome.html'
       },
       'personalDetails': {
         templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
@@ -77,7 +65,7 @@
     views: {
       '@case_detail': {
         templateUrl: '/static/javascripts/app/partials/case_detail.decline_specialists.html',
-        controller: 'CaseDeclineSpecialists'
+        controller: 'CaseDeclineSpecialistsCtrl'
       }
     }
   };
@@ -87,7 +75,7 @@
     views: {
       '@case_detail': {
         templateUrl: '/static/javascripts/app/partials/case_detail.defer_assignment.html',
-        controller: 'CaseDeferSpecialists'
+        controller: 'CaseDeferSpecialistsCtrl'
       }
     }
   };
