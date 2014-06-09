@@ -65,7 +65,7 @@
     views: {
       '@case_detail': {
         templateUrl: '/static/javascripts/app/partials/case_detail.decline_specialists.html',
-        controller: 'CaseDeclineSpecialists'
+        controller: 'CaseDeclineSpecialistsCtrl'
       }
     }
   };
@@ -75,7 +75,7 @@
     views: {
       '@case_detail': {
         templateUrl: '/static/javascripts/app/partials/case_detail.defer_assignment.html',
-        controller: 'CaseDeferSpecialists'
+        controller: 'CaseDeferSpecialistsCtrl'
       }
     }
   };

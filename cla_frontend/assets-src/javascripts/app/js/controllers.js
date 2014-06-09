@@ -51,8 +51,8 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('CaseDeclineSpecialists',
-    ['$scope', '$state', 'OutcomeCode', 'Case', function($scope, $state, OutcomeCode, Case) {
+    .controller('CaseDeclineSpecialistsCtrl',
+    ['$scope', '$state', 'OutcomeCode', function($scope, $state, OutcomeCode) {
 
       /*
        TODO:
@@ -75,8 +75,8 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('CaseDeferSpecialists',
-    ['$scope', '$state', 'OutcomeCode', 'Case', function($scope, $state, OutcomeCode, Case) {
+    .controller('CaseDeferSpecialistsCtrl',
+    ['$scope', '$state', 'OutcomeCode', function($scope, $state, OutcomeCode) {
 
       /*
        TODO:
