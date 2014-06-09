@@ -60,6 +60,7 @@
     }
   };
 
+
   states.CaseDetailDeclineSpecialistsState = {
     url: 'assign/decline_all/',
     views: {
