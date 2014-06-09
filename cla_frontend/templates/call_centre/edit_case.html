@@ -16,7 +16,7 @@
         {% endfor %}
         {{ form.notes|attr:"rows:11"|attr:"cols:20"|attr:"placeholder:Comments about this case "|add_class:"FormRow-field--full" }}
       </div>
-      
+
       <div class="FormRow">
         <label for="{{ form.in_scope.id_for_label }}" id="{{ form.in_scope.auto_id }}-label">
           <span class="FormRow-label">{{ form.in_scope.label }}</span>
@@ -52,6 +52,6 @@
       </div>
     {% endwith %}
   </form>
-  
+
   {% include "common/includes/means_test_summary.html" %}
 {% endblock %}

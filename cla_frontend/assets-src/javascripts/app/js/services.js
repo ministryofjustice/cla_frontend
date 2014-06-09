@@ -29,7 +29,10 @@
         'case_details_patch': {
           method:'PATCH',
           transformRequest: function(data, headers) {
-            return transformData($http, {notes: data.notes}, headers);
+            return transformData($http, {
+              notes: data.notes,
+              in_scope: data.in_scope
+            }, headers);
           }
         }
       });
@@ -47,7 +50,7 @@
       resource.prototype.get_suggested_providers = function(){
         return $http.get('/call_centre/proxy/case/'+this.reference+'/assign_suggest/');
       };
-      return resource
+      return resource;
     }]);
 
   angular.module('cla.services')
