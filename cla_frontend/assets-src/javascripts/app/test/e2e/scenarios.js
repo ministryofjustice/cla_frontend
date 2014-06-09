@@ -64,4 +64,13 @@ describe('operatorApp', function() {
     });
 
   });
+  
+  
+  it('should get case list when given non existant case reference', function() {
+    browser.get('operator/XX-0000-0000/');
+    browser.getLocationAbsUrl().then(function(url) {
+      expectUrl(url, 'operator/');
+    });
+  });
+  
 });

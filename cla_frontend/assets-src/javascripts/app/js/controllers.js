@@ -42,6 +42,11 @@
       };
 
     }]);
+  
+  angular.module('cla.controllers')
+  .controller('CaseDetailCtrl', ['$scope', 'case', function($scope, $case){
+    $scope.case = $case;
+  }]);
 
   angular.module('cla.controllers')
     .controller('CaseEditDetailCtrl', ['$scope', 'Category', 'EligibilityCheck', function($scope, Category, EligibilityCheck){
@@ -49,6 +54,9 @@
 
       $scope.case.$then(function(data) {
         $scope.eligibility_check = EligibilityCheck.get({ref: data.resource.eligibility_check});
+      },
+      function(err){
+        debugger;
       });
 
       $scope.in_scope_choices = [
