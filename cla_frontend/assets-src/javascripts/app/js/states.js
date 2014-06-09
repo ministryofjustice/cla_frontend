@@ -43,6 +43,7 @@
 
           $scope.submit = function(){
             $scope.case.$case_details_patch();
+            $scope.eligibility_check.$patch();
           };
         }]
       },
@@ -60,4 +61,35 @@
       }
     }
   };
+
+  states.CaseEditDetailAssignState = {
+    url: 'assign/',
+    views: {
+      '@case_detail': {
+        templateUrl:'/static/javascripts/app/partials/case_detail.edit.assign.html',
+        controller: 'AssignProviderCtrl'
+      }
+    }
+  };
+
+  states.CaseDetailDeclineSpecialistsState = {
+    url: 'assign/decline_all/',
+    views: {
+      '@case_detail': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.decline_specialists.html',
+        controller: 'CaseDeclineSpecialists'
+      }
+    }
+  };
+
+  states.CaseDetailDeferAssignmentState = {
+    url: 'assign/defer/',
+    views: {
+      '@case_detail': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.defer_assignment.html',
+        controller: 'CaseDeferSpecialists'
+      }
+    }
+  };
+
 })();
