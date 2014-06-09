@@ -112,11 +112,11 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('AssignProviderCtrl', ['$scope', '_', function($scope, _){
+    .controller('AssignProviderCtrl', ['$scope', function($scope){
 
       $scope.$watch('selected_provider', function(value){
         if ($scope.suggested_providers) {
-          $scope.is_manual = value.id != $scope.suggested_providers.suggested_provider.id;
+          $scope.is_manual = value.id !== $scope.suggested_providers.suggested_provider.id;
         }
       });
 
