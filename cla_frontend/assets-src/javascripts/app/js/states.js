@@ -45,11 +45,7 @@
       },
       'personalDetails': {
         templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
-        controller: ['$scope', function($scope){
-          $scope.submit = function(){
-            $scope.case.$personal_details_patch();
-          };
-        }]
+        controller: 'PersonalDetailsCtrl'
       }
     }
   };

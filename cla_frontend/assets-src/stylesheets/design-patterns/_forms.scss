@@ -32,6 +32,7 @@ $border-colour: #C2C2C2;
   padding-bottom: 0;
   position: relative;
   clear: both;
+  display: block;
 
   label {
     @include core-16;

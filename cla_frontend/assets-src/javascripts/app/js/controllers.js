@@ -1,6 +1,8 @@
 'use strict';
 
 (function(){
+  var saveDelay = 750;
+
   angular.module('cla.controllers')
     .controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
       $scope.search = $location.search().search || '';
@@ -18,18 +20,15 @@
       };
     }]);
 
+  angular.module('cla.controllers')
+    .controller('CaseCtrl', ['$scope', '$state', 'Case', function($scope, $state, Case) {
+      $scope.addCase = function() {
+        new Case().$save(function(data) {
+          $state.go('case_detail.edit', {caseref:data.reference});
+        });
 
-  angular.module('cla.controllers').controller('CaseCtrl', ['$scope', '$state', 'Case', function($scope, $state, Case) {
-
-    $scope.addCase = function() {
-      new Case().$save(function(data) {
-        //console.log(data.reference);
-        $state.go('case_detail.edit', {caseref:data.reference});
-      });
-
-    };
-  }]);
-
+      };
+    }]);
 
   angular.module('cla.controllers')
     .controller('SearchCtrl', ['$scope', '$state', '$location', function($scope, $state, $location) {
@@ -49,7 +48,40 @@
   }]);
 
   angular.module('cla.controllers')
-    .controller('CaseEditDetailCtrl', ['$scope', 'Category', 'EligibilityCheck', function($scope, Category, EligibilityCheck){
+    .controller('PersonalDetailsCtrl', ['$scope', '$timeout', function($scope, $timeout){
+      var timeout = null,
+          
+          watchChange = function(newVal, oldVal) {
+            if (newVal !== oldVal) {
+              if (timeout) {
+                $timeout.cancel(timeout);
+              }
+              timeout = $timeout($scope.save, saveDelay);
+            }
+          };
+      
+      // save personal details
+      $scope.save = function() {
+        $scope.case.$personal_details_patch();
+      };
+
+      // watch all fields
+      $scope.$watchCollection('case.personal_details', watchChange);
+    }]);
+
+  angular.module('cla.controllers')
+    .controller('CaseEditDetailCtrl', ['$scope', '$timeout', 'Category', 'EligibilityCheck', function($scope, $timeout, Category, EligibilityCheck){
+      var timeout = null,
+          
+          watchChange = function(newVal, oldVal) {
+            if (newVal !== oldVal) {
+              if (timeout) {
+                $timeout.cancel(timeout);
+              }
+              timeout = $timeout($scope.save, saveDelay);
+            }
+          };
+
       $scope.category_list = Category.query();
 
       $scope.case.$then(function(data) {
@@ -65,10 +97,13 @@
         { label: 'No', value: false}
       ];
 
-      $scope.submit = function(){
+      $scope.save = function(){
         $scope.case.$case_details_patch();
         $scope.eligibility_check.$patch();
       };
+
+      // watch fields
+      $scope.$watch('case.notes', watchChange);
     }]);
 
   angular.module('cla.controllers')
@@ -141,8 +176,8 @@
           $scope.complete = true;
         });
       };
-    }])}
-
-  )();
+    }]);
+    
+})();
 
 

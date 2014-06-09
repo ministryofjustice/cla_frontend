@@ -2,37 +2,25 @@
   <a ui-sref="case_list" class="SubNav-link SubNav-link--back">Back to cases</a>
 </nav>
 
-<form method="post" ng-submit="submit()">
-  <div class="FormRow IconRow IconRow--name">
-    <label for="id_full_name" class="visuallyhidden">Name</label>
-
-    <input class="FormRow-field--full" id="id_full_name" maxlength="300" name="full_name" placeholder="Name" type="text" ng-model="case.personal_details.full_name">
-  </div>
-  <div class="FormRow IconRow IconRow--address">
-    <label for="id_postcode" class="visuallyhidden">Post code</label>
-
-    <input class="FormRow-field--full" id="id_postcode" maxlength="10" name="postcode" placeholder="Post code" type="text" ng-model="case.personal_details.postcode">
-  </div>
-  <div class="FormRow IconRow">
-    <label for="id_street" class="visuallyhidden">Address</label>
-
+<form method="post" ng-submit="save()" novalidate class="PersonalDetails">
+  <label for="id_full_name" class="FormRow IconRow IconRow--name">
+    <span class="visuallyhidden">Name</span>
+    <input class="FormRow-field--full" id="id_full_name" maxlength="300" name="full_name" placeholder="Name" type="text" required ng-model="case.personal_details.full_name" ng-blur="save()">
+  </label>
+  <label for="id_postcode" class="FormRow IconRow IconRow--address">
+    <span class="visuallyhidden">Post code</span>
+    <input class="FormRow-field--full" id="id_postcode" maxlength="10" name="postcode" placeholder="Post code" type="text" required ng-model="case.personal_details.postcode">
+  </label>
+  <label for="id_street" class="FormRow IconRow">
+    <span class="visuallyhidden">Address</span>
     <textarea class="FormRow-field--full" cols="20" id="id_street" name="street" placeholder="Address" rows="3" ng-model="case.personal_details.street"></textarea>
-  </div>
-  <div class="FormRow IconRow IconRow--email">
-    <label for="" class="visuallyhidden">Email</label>
-
-  </div>
-  <div class="FormRow IconRow IconRow--phone">
-    <label for="id_home_phone" class="visuallyhidden">Home</label>
-
+  </label>
+  <label for="id_home_phone" class="FormRow IconRow IconRow--phone">
+    <span class="visuallyhidden">Home</span>
     <input class="FormRow-field--full" id="id_home_phone" maxlength="20" name="home_phone" placeholder="Home" type="text" ng-model="case.personal_details.home_phone">
-  </div>
-  <div class="FormRow IconRow IconRow--phone">
-    <label for="id_mobile_phone" class="visuallyhidden">Mobile</label>
-
+  </label>
+  <label for="id_mobile_phone" class="FormRow IconRow">
+    <span class="visuallyhidden">Mobile</span>
     <input class="FormRow-field--full" id="id_mobile_phone" maxlength="20" name="mobile_phone" placeholder="" type="text" ng-model="case.personal_details.mobile_phone">
-  </div>
-  <div class="IconRow cf">
-    <button type="submit" class="Button">Save details</button>
-  </div>
+  </label>
 </form>

@@ -24,6 +24,9 @@
           method:'PATCH',
           transformRequest: function(data, headers) {
             return transformData($http, {personal_details: data.personal_details}, headers);
+          },
+          transformResponse: function() {
+            return [];
           }
         },
         'case_details_patch': {
@@ -33,6 +36,9 @@
               notes: data.notes,
               in_scope: data.in_scope
             }, headers);
+          },
+          transformResponse: function() {
+            return [];
           }
         }
       });
