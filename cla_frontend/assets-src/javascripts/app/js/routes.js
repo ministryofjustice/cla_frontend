@@ -2,7 +2,7 @@
 (function(){
 //ROUTES
   angular.module('cla.app')
-    .config(function($stateProvider, $locationProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $locationProvider/*, $urlRouterProvider*/) {
       $locationProvider.html5Mode(true);
       var states = angular.module('cla.states');
       $stateProvider
