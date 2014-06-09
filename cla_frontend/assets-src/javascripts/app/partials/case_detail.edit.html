@@ -4,7 +4,7 @@
   <a ui-sref="case_detail.edit.assign" class="Button Button--secondary u-pullRight">Assign case</a>
 </header>
 
-<form method="post" ng-submit="submit()">
+<form method="post" ng-submit="save()">
   <div class="FormRow">
     <label for="id_case_notes-notes" id="id_case_notes-notes-label" class="visuallyhidden">Case Notes</label>
     <textarea class="FormRow-field--full" id="id_case_notes-notes" name="case_notes-notes" placeholder="Comments about this case" cols="20" rows="11" ng-model="case.notes"></textarea>

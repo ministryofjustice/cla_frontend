@@ -65,7 +65,18 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('CaseEditDetailCtrl', ['$scope', 'Category', 'EligibilityCheck', function($scope, Category, EligibilityCheck){
+    .controller('CaseEditDetailCtrl', ['$scope', '$timeout', 'Category', 'EligibilityCheck', function($scope, $timeout, Category, EligibilityCheck){
+      var timeout = null,
+          
+          watchChange = function(newVal, oldVal) {
+            if (newVal !== oldVal) {
+              if (timeout) {
+                $timeout.cancel(timeout);
+              }
+              timeout = $timeout($scope.save, saveDelay);
+            }
+          };
+
       $scope.category_list = Category.query();
 
       $scope.case.$then(function(data) {
@@ -78,10 +89,13 @@
         { label: 'No', value: false}
       ];
 
-      $scope.submit = function(){
+      $scope.save = function(){
         $scope.case.$case_details_patch();
         $scope.eligibility_check.$patch();
       };
+
+      // watch fields
+      $scope.$watch('case.notes', watchChange);
     }]);
 
   angular.module('cla.controllers')
