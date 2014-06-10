@@ -44,7 +44,15 @@
     }]);
 
   angular.module('cla.controllers')
-  .controller('CaseDetailCtrl', ['$scope', 'case', function($scope, $case){
+  .controller('CaseDetailCtrl', ['$scope', '$rootScope', 'case', function($scope, $rootScope, $case){
+    $rootScope.$on('$stateChangeSuccess', function() {
+      console.log('StateChangeSuccess called');
+    })
+
+    $rootScope.$on('$stateChangeError', function() {
+      console.log('StateChangeError called');
+    })
+
     $scope.case = $case;
   }]);
 
@@ -87,9 +95,6 @@
 
       $scope.case.$then(function(data) {
         $scope.eligibility_check = EligibilityCheck.get({ref: data.resource.eligibility_check});
-      },
-      function(err){
-        debugger;
       });
 
       $scope.in_scope_choices = [

@@ -110,7 +110,7 @@ def assign_case(request, case_reference):
     context = { 'case': case }
     assign_suggestions = client.case(case_reference).assign_suggest().get()
 
-
+    error = None
     if request.method == 'POST':
         form = CaseAssignForm(request.POST, client=client)
 
@@ -137,7 +137,7 @@ def assign_case(request, case_reference):
             try:
                 cd = form.cleaned_data
                 is_manual_assignment = int(cd['providers']) != cd['suggested_provider']
-                
+
                 # TODO add last argument - assignment notes
                 provider = form.save(case_reference, int(cd['providers']), is_manual_assignment, "")
 
@@ -151,25 +151,28 @@ def assign_case(request, case_reference):
                 pass
 
     else:
+        if not assign_suggestions or not assign_suggestions['suitable_providers']:
+            error = "No providers could be found"
+            form = None
+            # raise ValueError("Suggested provider not found")
+        else:
+            form = CaseAssignForm(client=client,
+                                  initial={'providers' : assign_suggestions['suggested_provider']['id'],
+                                           'suggested_provider' : assign_suggestions['suggested_provider']['id']
+                                          }
+                                  )
 
-        form = CaseAssignForm(client=client,
-                              initial={'providers' : assign_suggestions['suggested_provider']['id'],
-                                       'suggested_provider' : assign_suggestions['suggested_provider']['id']
-                                      }
-                              )
 
-        if not assign_suggestions:
-            raise ValueError("Suggested provider not found")
+            suggested = assign_suggestions['suggested_provider']
+            other_providers = [p for p in assign_suggestions['suitable_providers'] if p['id'] != suggested['id']]
+            all_providers = [assign_suggestions['suggested_provider'],] + other_providers
 
-        suggested = assign_suggestions['suggested_provider']
-        other_providers = [p for p in assign_suggestions['suitable_providers'] if p['id'] != suggested['id']]
-        all_providers = [assign_suggestions['suggested_provider'],] + other_providers
-
-        form.fields['providers'].choices = _get_provider_choices(all_providers)
-        form.fields['providers'].collection = all_providers
+            form.fields['providers'].choices = _get_provider_choices(all_providers)
+            form.fields['providers'].collection = all_providers
 
 
     context['form'] = form
+    context['error'] = error
     return render(request, 'call_centre/assign_case.html', context)
 
 @call_centre_zone_required

@@ -2,6 +2,12 @@
 
 {% block case_content %}
 
+  {% if error %}
+    {{ error }}
+    <p><a href="{% url zone.name|add:':edit_case' case.reference %}">{% trans "Cancel" %}</a></p>
+
+  {% else %}
+
   <form method="post" action=".">
     <div class="FormBlock FormBlock--yellow">
       {% csrf_token %}
@@ -35,5 +41,6 @@
       <a href="{% url zone.name|add:':defer_assignment' case.reference %}">{% trans "Defer assignment" %}</a>
       </div>
   </form>
+  {% endif %}
 
 {% endblock %}
