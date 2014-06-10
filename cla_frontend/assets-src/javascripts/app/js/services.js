@@ -17,16 +17,16 @@
 
 // SERVICES
   angular.module('cla.services')
-    .factory('Case', ['$http', 'djResource', function($http, djResource) {
+    .factory('Case', ['$http', '$resource', function($http, $resource) {
 
-      var resource = djResource('/call_centre/proxy/case/:caseref/', {caseref: '@reference'}, {
+      var resource = $resource('/call_centre/proxy/case/:caseref/', {caseref: '@reference'}, {
         'personal_details_patch': {
           method:'PATCH',
           transformRequest: function(data, headers) {
             return transformData($http, {personal_details: data.personal_details}, headers);
           },
           transformResponse: function() {
-            return [];
+            return null;
           }
         },
         'case_details_patch': {
@@ -38,7 +38,7 @@
             }, headers);
           },
           transformResponse: function() {
-            return [];
+            return null;
           }
         }
       });
@@ -66,20 +66,20 @@
     }]);
 
   angular.module('cla.services')
-    .factory('EligibilityCheck', ['$http', 'djResource', function($http, djResource) {
-      return djResource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
+    .factory('EligibilityCheck', ['$http', '$resource', function($http, $resource) {
+      return $resource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
         'patch': {method: 'PATCH'}
       });
     }]);
 
   angular.module('cla.services')
-    .factory('Category', ['$http', 'djResource', function($http, djResource) {
-      return djResource('/call_centre/proxy/category/:code/', {
+    .factory('Category', ['$http', '$resource', function($http, $resource) {
+      return $resource('/call_centre/proxy/category/:code/', {
       });
     }]);
 
   angular.module('cla.services')
-    .factory('OutcomeCode', ['$http', 'djResource', function($http, djResource) {
-      return djResource('/call_centre/proxy/outcome_code/:code/', {});
+    .factory('OutcomeCode', ['$http', '$resource', function($http, $resource) {
+      return $resource('/call_centre/proxy/outcome_code/:code/', {});
     }]);
 })();

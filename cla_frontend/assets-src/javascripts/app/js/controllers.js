@@ -84,13 +84,7 @@
           };
 
       $scope.category_list = Category.query();
-
-      $scope.case.$then(function(data) {
-        $scope.eligibility_check = EligibilityCheck.get({ref: data.resource.eligibility_check});
-      },
-      function(err){
-        debugger;
-      });
+      $scope.eligibility_check = EligibilityCheck.get({ref: $scope.case.eligibility_check});
 
       $scope.in_scope_choices = [
         { label: 'Unknown', value: null},

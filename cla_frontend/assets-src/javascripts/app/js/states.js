@@ -28,7 +28,7 @@
               console.log('fail');
               $state.go('case_list');
             }
-        );
+        ).$promise;
       }]
     }
   };
