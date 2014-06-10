@@ -24,9 +24,11 @@
       'case': ['Case', '$stateParams', '$state', 'flash', function(Case, $stateParams, $state, flash) {
         return Case.get({caseref: $stateParams.caseref}, {},
             function(){},
-            function(){
-              flash('error', 'The Case '+$stateParams.caseref+' could not be found!');
-              $state.go('case_list');
+            function(response){
+              if (response.status === 404) {
+                flash('error', 'The Case '+$stateParams.caseref+' could not be found!');
+                $state.go('case_list');
+              }
             }
         ).$promise;
       }]
