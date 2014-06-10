@@ -4,13 +4,11 @@
   var saveDelay = 750;
 
   angular.module('cla.controllers')
-    .controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
-      $scope.search = $location.search().search || '';
-      $scope.orderProp = $location.search().sort || '-created';
+    .controller('CaseListCtrl', ['$scope', 'cases', '$stateParams', function($scope, cases, $stateParams) {
+      $scope.orderProp = $stateParams.sort || '-created';
+      $scope.search = $stateParams.search;
 
-      Case.query({search: $scope.search}, function(data) {
-        $scope.cases = data;
-      });
+      $scope.cases = cases;
 
       $scope.sortToggle = function(currentOrderProp){
         if (currentOrderProp === $scope.orderProp) {
