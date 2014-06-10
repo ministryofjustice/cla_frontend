@@ -28,49 +28,56 @@ describe('operatorApp', function() {
     driver.findElement(by.css('form')).submit();
   });
 
-  it('should get case list', function() {
-    browser.get(APP_BASE_URL);
-    browser.getLocationAbsUrl().then(function(url) {
-      expectUrl(url, APP_BASE_URL);
+  describe('Case List', function() {
+    it('should get case list', function() {
+      browser.get(APP_BASE_URL);
+      browser.getLocationAbsUrl().then(function(url) {
+        expectUrl(url, APP_BASE_URL);
+      });
     });
   });
 
-  it('should create new case', function() {
-    // check that the case number in the URL matches that in the page title
 
-    var newCaseUrl;
+  describe('Create Case', function() {
+    it('should create new case', function() {
+      // check that the case number in the URL matches that in the page title
 
-    browser.get(APP_BASE_URL);
+      var newCaseUrl;
 
-    // after login this should be the url browser.get('operator/');
-    browser.getLocationAbsUrl().then(function(url) {
-      expectUrl(url, APP_BASE_URL);
+      browser.get(APP_BASE_URL);
+
+      // after login this should be the url browser.get('operator/');
+      browser.getLocationAbsUrl().then(function(url) {
+        expectUrl(url, APP_BASE_URL);
+      });
+
+      browser.findElement(by.id('create_case')).click();
+
+      browser.getLocationAbsUrl().then(function(url) {
+        // note: angular url, not from driver
+        newCaseUrl = url;
+      });
+
+      browser.findElement(by.css('.PageHeader h1')).getInnerHtml().then(function(h1) {
+        // console.log("h1 is: "+h1);
+        // h1 is: MK-1983-0912
+        expectUrl(APP_BASE_URL+ newCaseUrl, h1 + '/');
+      });
+
     });
-
-    browser.findElement(by.id('create_case')).click();
-
-    browser.getLocationAbsUrl().then(function(url) {
-      // note: angular url, not from driver
-      newCaseUrl = url;
-    });
-
-    browser.findElement(by.css('.PageHeader h1')).getInnerHtml().then(function(h1) {
-      // console.log("h1 is: "+h1);
-      // h1 is: MK-1983-0912
-      expectUrl(APP_BASE_URL+ newCaseUrl, h1 + '/');
-    });
-
   });
 
 
-  it('should get case list when given non existant case reference', function() {
-    browser.get('operator/XX-0000-0000/');
-    browser.getLocationAbsUrl().then(function(url) {
-      expectUrl(url, APP_BASE_URL);
+  describe('Case Detail', function() {
+    it('should get case list when given non existant case reference', function() {
+      browser.get('operator/XX-0000-0000/');
+      browser.getLocationAbsUrl().then(function(url) {
+        expectUrl(url, APP_BASE_URL);
 
-      browser.findElement(by.css('.Notice li')).getInnerHtml().then(function(el) {
-        expect(el).toBe('The Case XX-0000-0000 could not be found!');
-      })
+        browser.findElement(by.css('.Notice li')).getInnerHtml().then(function(el) {
+          expect(el).toBe('The Case XX-0000-0000 could not be found!');
+        })
+      });
     });
   });
 
