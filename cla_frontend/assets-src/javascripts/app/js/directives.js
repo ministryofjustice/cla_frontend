@@ -51,7 +51,7 @@
       replace: true,
       template:
       '<ul class="Notice" ng-show="messages">' +
-            '<li ng-repeat="m in messages" class="Notice-msg {{levelClassName(m.level)}}">{{ m.text }}</li>' +
+        '<li ng-repeat="m in messages" class="Notice-msg {{levelClassName(m.level)}}" ng-click=hide(m)>{{ m.text }}</li>' +
       '</ul>',
 
       controller: function($scope, $rootScope, $timeout) {
@@ -61,17 +61,27 @@
           return level;
         };
 
+        $scope.hide = function(_msg) {
+          // hides the msg after cancelling the timeout if defined
+          $timeout.cancel(_msg.timeout);
+          $scope.messages = _.reject($scope.messages, function(el) { return el === _msg;});
+        };
+
         $rootScope.$on('flash:message', function(__, messages, done) {
-          angular.forEach(messages, function(value) {
-            (function(_value) {
-              var f = function() {
-                $scope.messages = _.reject($scope.messages, function(el) { return el === _value;});
-              };
+          angular.forEach(messages, function(message) {
+            // adding timeout to make msg disappear only if not error msg
+            if (message.level !== 'error') {
+              (function(_msg) {
+                var f = function() {
+                  $scope.hide(_msg);
+                };
 
-              $timeout(f, 3000);
-            })(value);
+                _msg.timeout = $timeout(f, 3000);
+              })(message);
+            }
 
-            $scope.messages = $scope.messages.concat([value]);
+            // add msg to list
+            $scope.messages = $scope.messages.concat([message]);
           });
 
           done();
