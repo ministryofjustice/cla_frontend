@@ -127,6 +127,7 @@
 
     {% block before_content %}{% endblock %}
     <main id="wrapper" class="group">
+      {% block messages %}
       {% if messages %}
         <ul class="Notice">
           {% for message in messages %}
@@ -134,6 +135,7 @@
           {% endfor %}
         </ul>
       {% endif %}
+      {% endblock messages %}
 
       {% block full_content %}
         <div class="Grid">

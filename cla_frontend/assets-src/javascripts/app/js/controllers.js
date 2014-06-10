@@ -14,6 +14,7 @@
         if (currentOrderProp === $scope.orderProp) {
           return '-' + currentOrderProp;
         }
+
         return currentOrderProp;
       };
     }]);
@@ -76,7 +77,7 @@
 
   angular.module('cla.controllers')
     .controller('CaseDeferSpecialistsCtrl',
-    ['$scope', '$state', 'OutcomeCode', function($scope, $state, OutcomeCode) {
+    ['$scope', '$state', 'OutcomeCode', 'flash', function($scope, $state, OutcomeCode, flash) {
 
       /*
        TODO:
@@ -94,6 +95,7 @@
           'outcome_notes': $scope.outcome_notes
         }, function() {
           $state.go('case_list');
+          flash('success', 'Case '+$scope.case.reference+' deferred successfully');
         });
       };
     }]);
