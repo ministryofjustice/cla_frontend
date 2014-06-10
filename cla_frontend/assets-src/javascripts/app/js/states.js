@@ -23,7 +23,7 @@
     resolve: {
       'case': ['Case', '$stateParams', '$state', function(Case, $stateParams, $state) {
         return Case.get({caseref: $stateParams.caseref}, {},
-            function(){console.log('success')},
+            function(){console.log('success');},
             function(){
               console.log('fail');
               $state.go('case_list');

@@ -42,7 +42,7 @@
       };
 
     }]);
-  
+
   angular.module('cla.controllers')
   .controller('CaseDetailCtrl', ['$scope', 'case', function($scope, $case){
     $scope.case = $case;
@@ -51,7 +51,7 @@
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl', ['$scope', '$timeout', function($scope, $timeout){
       var timeout = null,
-          
+
           watchChange = function(newVal, oldVal) {
             if (newVal !== oldVal) {
               if (timeout) {
@@ -60,7 +60,7 @@
               timeout = $timeout($scope.save, saveDelay);
             }
           };
-      
+
       // save personal details
       $scope.save = function() {
         $scope.case.$personal_details_patch();
@@ -73,7 +73,7 @@
   angular.module('cla.controllers')
     .controller('CaseEditDetailCtrl', ['$scope', '$timeout', 'Category', 'EligibilityCheck', function($scope, $timeout, Category, EligibilityCheck){
       var timeout = null,
-          
+
           watchChange = function(newVal, oldVal) {
             if (newVal !== oldVal) {
               if (timeout) {
@@ -179,7 +179,5 @@
         });
       };
     }]);
-    
+
 })();
-
-
