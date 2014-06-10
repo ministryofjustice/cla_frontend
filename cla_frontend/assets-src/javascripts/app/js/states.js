@@ -14,7 +14,7 @@
     controller: 'CaseListCtrl',
     resolve: {
       cases: ['$stateParams', 'Case', function($stateParams, Case){
-        return Case.query({search: $stateParams.search, sort: $stateParams.sort}).$promise
+        return Case.query({search: $stateParams.search, sort: $stateParams.sort}).$promise;
       }]
     }
   };
