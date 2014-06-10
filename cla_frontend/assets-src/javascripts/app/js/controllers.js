@@ -151,13 +151,17 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('AssignProviderCtrl', ['$scope', function($scope){
+    .controller('AssignProviderCtrl', ['$scope', '_', function($scope, _){
       $scope.is_manual = false;
 
       $scope.case.get_suggested_providers().success(function(data){
-        $scope.suggested_providers = data;
+        $scope.suggested_providers = _.reject(data.suitable_providers, {id: data.suggested_provider.id});
         $scope.suggested_provider = data.suggested_provider;
         $scope.selected_provider = data.suggested_provider;
+
+        if (data.suggested_provider.id === undefined) {
+          $scope.is_manual = true;
+        }
       });
 
       $scope.assignManually = function(choice) {
