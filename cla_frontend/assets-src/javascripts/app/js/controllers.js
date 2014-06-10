@@ -152,24 +152,29 @@
 
   angular.module('cla.controllers')
     .controller('AssignProviderCtrl', ['$scope', function($scope){
-
-      $scope.$watch('selected_provider', function(value){
-        if ($scope.suggested_providers) {
-          $scope.is_manual = value.id !== $scope.suggested_providers.suggested_provider.id;
-        }
-      });
+      $scope.is_manual = false;
 
       $scope.case.get_suggested_providers().success(function(data){
         $scope.suggested_providers = data;
+        $scope.suggested_provider = data.suggested_provider;
         $scope.selected_provider = data.suggested_provider;
       });
+
+      $scope.assignManually = function(choice) {
+        $scope.is_manual = choice;
+
+        // reset selected to suggested provider
+        if (!choice) {
+          $scope.selected_provider = $scope.suggested_provider;
+        }
+      };
 
       $scope.assign = function() {
         $scope.case.$assign({
           provider_id: $scope.selected_provider.id,
           is_manual: $scope.is_manual
         }).success(function(){
-          $scope.complete = true;
+          $scope.is_complete = true;
         });
       };
     }]);

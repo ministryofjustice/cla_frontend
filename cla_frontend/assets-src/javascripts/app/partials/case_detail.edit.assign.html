@@ -2,48 +2,36 @@
   <h1 class="u-pullLeft">{{ case.reference }}</h1>
 </header>
 
-<form method="post" ng-submit="assign()" ng-show="suggested_providers && !!!complete">
-  <h2>Suggested Provider</h2>
-  <div class="FormBlock FormBlock--yellow">
-    <label>
-      <span class="radio">
-        <input name="provider" type="radio"
-               ng-model="selected_provider" ng-value="suggested_providers.suggested_provider">
-        {{ suggested_providers.suggested_provider.name }}
-      </span>
-    </label>
-    <tt></tt>
-  </div>
-  <h2>Manually Assign Provider</h2>
-
-  <div class="FormBlock FormBlock--yellow" ng-repeat="provider in suggested_providers.suitable_providers | filter:{id: '!'+suggested_providers.suggested_provider.id}">
-    <label>
-
-          <span class="radio">
-            <input name="provider" type="radio"
-                   ng-model="$parent.selected_provider" ng-value="provider">
-            {{ provider.name }}
-          </span>
-    </label>
-  </div>
-
-  <div class="FormBlock FormBlock--yellow">
-    <button type="submit" class="Button">Assign Provider</button>
-    <a ui-sref="case_detail.edit">Cancel</a>
-    <a ui-sref="case_detail.edit.decline_specialists">Decline all specialists</a>
-    <a ui-sref="case_detail.edit.defer_assignment">Defer assignment</a>
-  </div>
-</form>
-<div ng-show="complete">
+<form method="post" ng-submit="assign()">
   <div class="ContactBlock ContactBlock--grey clearfix">
-    <h2 class="ContactBlock-heading">CES</h2>
+    <h2 class="ContactBlock-heading">{{ selected_provider.name }}</h2>
 
-    <p>{{ selected_provider.telephone_frontdoor }} (Front door)
-      <br>
-      {{ selected_provider.telephone_backdoor }} (Back door)</p>
-
+    <p>{{ selected_provider.telephone_frontdoor }} (Front door)</p>
+    <p>{{ selected_provider.telephone_backdoor }} (Back door)</p>
   </div>
+
   <ul class="Notice">
     <li class="Notice-msg">Provider phone short code <strong>{{ selected_provider.short_code }}</strong></li>
   </ul>
-</div>
+
+  <div class="FormActions" ng-show="!is_manual && !is_complete">
+    <button type="submit" class="Button">Assign suggested provider</button>
+    <a href="" ng-click="assignManually(true)">Assign other provider manually</a>
+  </div>
+
+  <div ng-show="suggested_providers && is_manual && !is_complete">
+    <div class="FormRow FormRow--group" ng-repeat="provider in suggested_providers.suitable_providers | filter:{id: '!'+suggested_providers.suggested_provider.id}">
+      <label class="FormRow-label FormRow-label--odd">
+        <input name="provider" type="radio" ng-model="$parent.selected_provider" ng-value="provider">
+        {{ provider.name }}
+      </label>
+    </div>
+
+    <div class="FormActions">
+      <button type="submit" class="Button">Assign chosen Provider</button>
+      <a href="" ng-click="assignManually(false)">Cancel</a>
+      <a ui-sref="case_detail.edit.decline_specialists">Decline all specialists</a>
+      <a ui-sref="case_detail.edit.defer_assignment">Defer assignment</a>
+    </div>
+  </div>
+</form>
