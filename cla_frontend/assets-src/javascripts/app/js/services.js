@@ -66,15 +66,6 @@
     }]);
 
   angular.module('cla.services')
-    .factory('Case2', ['$http', function($http) {
-      return {
-        get: function (items_url, objId) {
-            return $http.get('http://localhost:8001/call_centre/proxy/case/E4-7063-2145sss/');
-          }
-      }
-    }]);
-
-  angular.module('cla.services')
     .factory('EligibilityCheck', ['$http', 'djResource', function($http, djResource) {
       return djResource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
         'patch': {method: 'PATCH'}

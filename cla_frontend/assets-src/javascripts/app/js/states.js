@@ -21,10 +21,14 @@
     templateUrl: '/static/javascripts/app/partials/case_detail.html',
     controller: 'CaseDetailCtrl',
     resolve: {
-      'case': ['Case', '$stateParams', '$state', '$http', function(Case, $stateParams, $state, $http) {
-        // debugger;
-        // return $http.get('http://localhost:8001/call_centre/proxy/case/E4-7063-2145sss/');
-        return Case.get({caseref: $stateParams.caseref});
+      'case': ['Case', '$stateParams', '$state', function(Case, $stateParams, $state) {
+        return Case.get({caseref: $stateParams.caseref}, {},
+            function(){console.log('success');},
+            function(){
+              console.log('fail');
+              $state.go('case_list');
+            }
+        );
       }]
     }
   };
