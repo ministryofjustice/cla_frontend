@@ -1,15 +1,16 @@
+<nav class="SubNav">
+  <a ui-sref="case_list({search:'', sort:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all cases</a>
+</nav>
+
 <header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}">
   <h1 class="u-pullLeft">
-      {{ search ? 'Results' : 'Cases' }} {{ search }}
+      {{ search ? 'Results' : 'Cases' }} {{ search ? '"'+search+'"' : '' }}
   </h1>
   <form name="newCaseForm" ng-controller="CaseCtrl" ng-submit="addCase()">
     <button id="create_case" type="submit" class="Button">Create a case</button>
   </form>
 
 </header>
-<nav class="SubNav">
-      <a ui-sref="case_list({search:'', sort:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all case_list</a>
-</nav>
 
 
 <table class="CaseList" cellpadding="0" cellspacing="0" border="0" width="100%">
