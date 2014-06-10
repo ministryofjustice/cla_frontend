@@ -34,4 +34,43 @@ describe('operatorApp', function() {
     });
   });
 
+  it('create new case', function() {
+    // check that the case number in the URL matches that in the page title
+
+    var pro = protractor.getInstance();
+    var driver = pro.driver;
+    var newCaseUrl;
+    var baseUrl = pro.baseUrl + 'operator/';
+
+    // just during Angular integration
+    driver.get(baseUrl);
+
+    // after login this should be the url browser.get('operator/');
+    browser.getLocationAbsUrl().then(function(url) {
+      expectUrl(url, 'operator/');
+    });
+
+    driver.findElement(by.id('create_case')).click();
+
+    browser.getLocationAbsUrl().then(function(url) {
+      // note: angular url, not from driver
+      newCaseUrl = url;
+    });
+
+    driver.findElement(by.css('.PageHeader h1')).getInnerHtml().then(function(h1) {
+      // console.log("h1 is: "+h1);
+      // h1 is: MK-1983-0912
+      expect(newCaseUrl).toMatch(baseUrl + h1 + '/');      
+    });
+
+  });
+  
+  
+  it('should get case list when given non existant case reference', function() {
+    browser.get('operator/XX-0000-0000/');
+    browser.getLocationAbsUrl().then(function(url) {
+      expectUrl(url, 'operator/');
+    });
+  });
+  
 });

@@ -2,6 +2,10 @@
   <h1 class="u-pullLeft">
       {{ search ? 'Results' : 'Cases' }} {{ search }}
   </h1>
+  <form name="newCaseForm" ng-controller="CaseCtrl" ng-submit="addCase()">
+    <button id="create_case" type="submit" class="Button">Create a case</button>
+  </form>
+
 </header>
 <nav class="SubNav">
       <a ui-sref="case_list({search:'', sort:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all case_list</a>
@@ -15,7 +19,7 @@
     <th>Name</th>
     <th><a ui-sref="case_list({sort:sortToggle('created')})" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
     <th><a ui-sref="case_list({sort:sortToggle('modified')})" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
-    <th><span class="visuallyhidden">Onwer</span></th>
+    <th><span class="visuallyhidden">Owner</span></th>
   </tr>
   </thead>
   <tbody>

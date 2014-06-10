@@ -1,5 +1,8 @@
 'use strict';
 (function(){
-  angular.module('cla.utils');
+  angular.module('cla.utils')
+    .factory('_', ['$window', function($window){
+    return $window._;
+  }]);
 })();
 

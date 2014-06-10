@@ -63,6 +63,7 @@ cla_frontend/static/
 
 # node
 node_modules/
+npm-debug.log
 
 # bower packages
 cla_frontend/assets-src/vendor/

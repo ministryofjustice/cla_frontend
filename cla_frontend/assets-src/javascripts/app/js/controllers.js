@@ -1,6 +1,8 @@
 'use strict';
 
 (function(){
+  var saveDelay = 750;
+
   angular.module('cla.controllers')
     .controller('CaseListCtrl', ['$scope', 'Case', '$location', function($scope, Case, $location) {
       $scope.search = $location.search().search || '';
@@ -20,6 +22,16 @@
     }]);
 
   angular.module('cla.controllers')
+    .controller('CaseCtrl', ['$scope', '$state', 'Case', function($scope, $state, Case) {
+      $scope.addCase = function() {
+        new Case().$save(function(data) {
+          $state.go('case_detail.edit', {caseref:data.reference});
+        });
+
+      };
+    }]);
+
+  angular.module('cla.controllers')
     .controller('SearchCtrl', ['$scope', '$state', '$location', function($scope, $state, $location) {
       $scope.$on('$locationChangeSuccess', function(){
         $scope.search = $location.search().search || '';
@@ -30,13 +42,54 @@
       };
 
     }]);
+  
+  angular.module('cla.controllers')
+  .controller('CaseDetailCtrl', ['$scope', 'case', function($scope, $case){
+    $scope.case = $case;
+  }]);
 
   angular.module('cla.controllers')
-    .controller('CaseEditDetailCtrl', ['$scope', 'Category', 'EligibilityCheck', function($scope, Category, EligibilityCheck){
+    .controller('PersonalDetailsCtrl', ['$scope', '$timeout', function($scope, $timeout){
+      var timeout = null,
+          
+          watchChange = function(newVal, oldVal) {
+            if (newVal !== oldVal) {
+              if (timeout) {
+                $timeout.cancel(timeout);
+              }
+              timeout = $timeout($scope.save, saveDelay);
+            }
+          };
+      
+      // save personal details
+      $scope.save = function() {
+        $scope.case.$personal_details_patch();
+      };
+
+      // watch all fields
+      $scope.$watchCollection('case.personal_details', watchChange);
+    }]);
+
+  angular.module('cla.controllers')
+    .controller('CaseEditDetailCtrl', ['$scope', '$timeout', 'Category', 'EligibilityCheck', function($scope, $timeout, Category, EligibilityCheck){
+      var timeout = null,
+          
+          watchChange = function(newVal, oldVal) {
+            if (newVal !== oldVal) {
+              if (timeout) {
+                $timeout.cancel(timeout);
+              }
+              timeout = $timeout($scope.save, saveDelay);
+            }
+          };
+
       $scope.category_list = Category.query();
 
       $scope.case.$then(function(data) {
         $scope.eligibility_check = EligibilityCheck.get({ref: data.resource.eligibility_check});
+      },
+      function(err){
+        debugger;
       });
 
       $scope.in_scope_choices = [
@@ -45,10 +98,13 @@
         { label: 'No', value: false}
       ];
 
-      $scope.submit = function(){
+      $scope.save = function(){
         $scope.case.$case_details_patch();
         $scope.eligibility_check.$patch();
       };
+
+      // watch fields
+      $scope.$watch('case.notes', watchChange);
     }]);
 
   angular.module('cla.controllers')
@@ -102,12 +158,28 @@
 
   angular.module('cla.controllers')
     .controller('AssignProviderCtrl', ['$scope', function($scope){
-      console.log('assign provider ctrl loaded', $scope.case);
+
+      $scope.$watch('selected_provider', function(value){
+        if ($scope.suggested_providers) {
+          $scope.is_manual = value.id !== $scope.suggested_providers.suggested_provider.id;
+        }
+      });
+
       $scope.case.get_suggested_providers().success(function(data){
         $scope.suggested_providers = data;
+        $scope.selected_provider = data.suggested_provider;
       });
-    }])}
 
-  )();
+      $scope.assign = function() {
+        $scope.case.$assign({
+          provider_id: $scope.selected_provider.id,
+          is_manual: $scope.is_manual
+        }).success(function(){
+          $scope.complete = true;
+        });
+      };
+    }]);
+    
+})();
 
 

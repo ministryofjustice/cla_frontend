@@ -19,12 +19,16 @@
     abstract: true,
     url: '/operator/:caseref/',
     templateUrl: '/static/javascripts/app/partials/case_detail.html',
-    controller: ['$scope', 'case', function($scope, $case){
-      $scope.case = $case;
-    }],
+    controller: 'CaseDetailCtrl',
     resolve: {
-      'case': ['Case', '$stateParams', function(Case, $stateParams) {
-        return Case.get({caseref: $stateParams.caseref});
+      'case': ['Case', '$stateParams', '$state', function(Case, $stateParams, $state) {
+        return Case.get({caseref: $stateParams.caseref}, {},
+            function(){console.log('success')},
+            function(){
+              console.log('fail');
+              $state.go('case_list');
+            }
+         );
       }]
     }
   };
@@ -41,11 +45,7 @@
       },
       'personalDetails': {
         templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
-        controller: ['$scope', function($scope){
-          $scope.submit = function(){
-            $scope.case.$personal_details_patch();
-          };
-        }]
+        controller: 'PersonalDetailsCtrl'
       }
     }
   };
@@ -59,6 +59,7 @@
       }
     }
   };
+
 
   states.CaseDetailDeclineSpecialistsState = {
     url: 'assign/decline_all/',

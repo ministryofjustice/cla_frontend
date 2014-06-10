@@ -2,7 +2,9 @@
   <div class="Grid-row cf">
     <div class="Grid-col Grid-col--1-5" ui-view="personalDetails"></div>
     <div class="Grid-col Grid-col--3-5" ui-view></div>
-    <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour" ui-view="outcome"></div>
+    <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour">
+      <div class="Grid-colInner" ui-view="outcome"></div>
+    </div>
   </div>
 </div>
 
