@@ -21,11 +21,11 @@
     templateUrl: '/static/javascripts/app/partials/case_detail.html',
     controller: 'CaseDetailCtrl',
     resolve: {
-      'case': ['Case', '$stateParams', '$state', function(Case, $stateParams, $state) {
+      'case': ['Case', '$stateParams', '$state', 'flash', function(Case, $stateParams, $state, flash) {
         return Case.get({caseref: $stateParams.caseref}, {},
-            function(){console.log('success');},
+            function(){},
             function(){
-              console.log('fail');
+              flash('error', 'The Case '+$stateParams.caseref+' could not be found!');
               $state.go('case_list');
             }
         ).$promise;
