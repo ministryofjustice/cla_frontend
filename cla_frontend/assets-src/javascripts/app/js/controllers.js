@@ -47,7 +47,7 @@
   }]);
 
   angular.module('cla.controllers')
-    .controller('PersonalDetailsCtrl', ['$scope', '_', 'form_utils', function($scope, _, form_utils){
+    .controller('PersonalDetailsCtrl', ['$scope', '_', 'form_utils', 'PersonalDetails', function($scope, _, form_utils, PersonalDetails){
       $scope.edit_mode = false;
 
       $scope.toggleEdit = function (edit) {
@@ -55,30 +55,22 @@
         $scope.editable_details = _.clone($scope.case.personal_details);
       };
 
+      if ($scope.case.personal_details) {
+        $scope.personal_details = PersonalDetails.get({ref: $scope.case.personal_details});
+      } else {
+        $scope.personal_details = new PersonalDetails()
+      }
       // save personal details
       $scope.save = function(isValid) {
         if (isValid) {
           $scope.case.personal_details = _.clone($scope.editable_details);
           $scope.edit_mode = false;
 
-          $scope.case.$personal_details_patch(
-            angular.noop,
-            angular.bind(this, function(response) {
-              // TODO: this is just until we implement personal_details as separate
-              // endpoint. When that happens just replace this with:
-              //
-              // $scope.case.$personal_details_patch(
-              //   angular.noop,
-              //   angular.bind(this, form_utils.ctrlFormErrorCallback, $scope)
-              // )
-
-              var data = response.data.personal_details[0];
-
-              form_utils.ctrlFormErrorCallback.call(this, $scope, data);
-            })
-          );
-        }
-      };
+          if ($scope.personal_details.reference) {
+            $scope.personal_details.$patch()
+          } else {
+            $scope.personal_details.$save()
+          }}}
     }]);
 
   angular.module('cla.controllers')
