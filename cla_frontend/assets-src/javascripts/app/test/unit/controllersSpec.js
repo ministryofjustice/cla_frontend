@@ -6,11 +6,11 @@ describe('OperatorApp controllers', function() {
   beforeEach(module('cla.app'));
 
   describe('CaseListCtrl', function(){
-    it('should init search param as empty', inject(function($controller) {
+    it('should init with cases empty if there are no cases', inject(function($controller) {
       var scope = {},
-          ctrl = $controller('CaseListCtrl', {$scope:scope});
+          ctrl = $controller('CaseListCtrl', {$scope:scope, cases:[]});
 
-      expect(scope.search.length).toBe(0);
+      expect(scope.cases.length).toBe(0);
     }));
   });
 });
