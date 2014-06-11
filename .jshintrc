@@ -25,7 +25,7 @@
     "angular": true
   },
 
-  "maxparams": 4,
+  "maxparams": 10,
   "maxdepth": 4,
   "maxstatements": 15,
   "maxcomplexity": 6

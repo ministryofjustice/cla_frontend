@@ -24,10 +24,11 @@
           method:'PATCH',
           transformRequest: function(data, headers) {
             return transformData($http, {personal_details: data.personal_details}, headers);
-          },
-          transformResponse: function() {
-            return null;
           }
+          // ,
+          // transformResponse: function() {
+          //   return null;
+          // }
         },
         'case_details_patch': {
           method:'PATCH',
@@ -36,10 +37,11 @@
               notes: data.notes,
               in_scope: data.in_scope
             }, headers);
-          },
-          transformResponse: function() {
-            return null;
           }
+          // ,
+          // transformResponse: function() {
+          //   return null;
+          // }
         }
       });
 

@@ -49,29 +49,46 @@
   }]);
 
   angular.module('cla.controllers')
-    .controller('PersonalDetailsCtrl', ['$scope', '$timeout', function($scope, $timeout){
-      var timeout = null,
+    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', function($scope, form_utils){
+      // var timeout = null,
 
-          watchChange = function(newVal, oldVal) {
-            if (newVal !== oldVal) {
-              if (timeout) {
-                $timeout.cancel(timeout);
-              }
-              timeout = $timeout($scope.save, saveDelay);
-            }
-          };
+          // watchChange = function(newVal, oldVal) {
+          //   if (newVal !== oldVal) {
+          //     if (timeout) {
+          //       $timeout.cancel(timeout);
+          //     }
+          //     timeout = $timeout($scope.save, saveDelay);
+          //   }
+          // };
 
       // save personal details
       $scope.save = function() {
-        $scope.case.$personal_details_patch();
+        $scope.case.$personal_details_patch(
+          angular.noop,
+          angular.bind(this, function(response) {
+            // TODO: this is just until we implement personal_details as separate
+            // endpoint. When that happens just replace this with:
+            //
+            // $scope.case.$personal_details_patch(
+            //   angular.noop,
+            //   angular.bind(this, form_utils.ctrlFormErrorCallback, $scope)
+            // )
+
+            var data = response.data.personal_details[0];
+
+            form_utils.ctrlFormErrorCallback.call(this, $scope, data);
+          })
+        );
       };
 
       // watch all fields
-      $scope.$watchCollection('case.personal_details', watchChange);
+      // $scope.$watchCollection('case.personal_details', watchChange);
     }]);
 
   angular.module('cla.controllers')
-    .controller('CaseEditDetailCtrl', ['$scope', '$timeout', 'Category', 'EligibilityCheck', function($scope, $timeout, Category, EligibilityCheck){
+    .controller('CaseEditDetailCtrl',
+      ['$scope', '$timeout', 'Category', 'EligibilityCheck', 'form_utils',
+      function($scope, $timeout, Category, EligibilityCheck, form_utils){
       var timeout = null,
 
           watchChange = function(newVal, oldVal) {
@@ -93,7 +110,10 @@
       ];
 
       $scope.save = function(){
-        $scope.case.$case_details_patch();
+        $scope.case.$case_details_patch(
+          angular.noop,
+          angular.bind(this, form_utils.ctrlFormErrorCallback, $scope)
+        );
         $scope.eligibility_check.$patch();
       };
 
