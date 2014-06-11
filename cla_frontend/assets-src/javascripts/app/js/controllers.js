@@ -47,40 +47,38 @@
   }]);
 
   angular.module('cla.controllers')
-    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', function($scope, form_utils){
-      // var timeout = null,
+    .controller('PersonalDetailsCtrl', ['$scope', '_', 'form_utils', function($scope, _, form_utils){
+      $scope.edit_mode = false;
 
-          // watchChange = function(newVal, oldVal) {
-          //   if (newVal !== oldVal) {
-          //     if (timeout) {
-          //       $timeout.cancel(timeout);
-          //     }
-          //     timeout = $timeout($scope.save, saveDelay);
-          //   }
-          // };
-
-      // save personal details
-      $scope.save = function() {
-        $scope.case.$personal_details_patch(
-          angular.noop,
-          angular.bind(this, function(response) {
-            // TODO: this is just until we implement personal_details as separate
-            // endpoint. When that happens just replace this with:
-            //
-            // $scope.case.$personal_details_patch(
-            //   angular.noop,
-            //   angular.bind(this, form_utils.ctrlFormErrorCallback, $scope)
-            // )
-
-            var data = response.data.personal_details[0];
-
-            form_utils.ctrlFormErrorCallback.call(this, $scope, data);
-          })
-        );
+      $scope.toggleEdit = function (edit) {
+        $scope.edit_mode = edit;
+        $scope.editable_details = _.clone($scope.case.personal_details);
       };
 
-      // watch all fields
-      // $scope.$watchCollection('case.personal_details', watchChange);
+      // save personal details
+      $scope.save = function(isValid) {
+        if (isValid) {
+          $scope.case.personal_details = _.clone($scope.editable_details);
+          $scope.edit_mode = false;
+
+          $scope.case.$personal_details_patch(
+            angular.noop,
+            angular.bind(this, function(response) {
+              // TODO: this is just until we implement personal_details as separate
+              // endpoint. When that happens just replace this with:
+              //
+              // $scope.case.$personal_details_patch(
+              //   angular.noop,
+              //   angular.bind(this, form_utils.ctrlFormErrorCallback, $scope)
+              // )
+
+              var data = response.data.personal_details[0];
+
+              form_utils.ctrlFormErrorCallback.call(this, $scope, data);
+            })
+          );
+        }
+      };
     }]);
 
   angular.module('cla.controllers')

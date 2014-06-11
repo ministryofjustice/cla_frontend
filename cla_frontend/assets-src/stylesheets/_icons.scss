@@ -1,3 +1,11 @@
+.Icon {
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  margin-left: 10px;
+  background-repeat:no-repeat;
+}
+
 .TextIcon {
   background: {
     repeat: no-repeat;
@@ -22,18 +30,30 @@
 }
 
 .IconRow {
-  padding-left: 28px;
+  display: block;
+  padding-left: 25px;
   background: {
-    position: left 1px;
+    position: left 2px;
     repeat: no-repeat;
   };
 
-  &.FormRow {
+  .FormRow & {
     background-position: left 7px;
   }
+
+  &--right {
+    padding-left: 0;
+    padding-right: 25px;
+    background-position: right 2px;
+
+    .FormRow & {
+      background-position: right 7px;
+    }
+  }
 }
-.IconRow--name { @include svg-bg("../images/icons/user") }
-.IconRow--address { @include svg-bg("../images/icons/address") }
-.IconRow--phone { @include svg-bg("../images/icons/phone") }
-.IconRow--email { @include svg-bg("../images/icons/email") }
-.IconRow--comments { @include svg-bg("../images/icons/comments") }
+.Icon--name { @include svg-bg("../images/icons/user") }
+.Icon--address { @include svg-bg("../images/icons/address") }
+.Icon--phone { @include svg-bg("../images/icons/phone") }
+.Icon--email { @include svg-bg("../images/icons/email") }
+.Icon--comments { @include svg-bg("../images/icons/comments") }
+.Icon--location { @include svg-bg("../images/icons/location") }
