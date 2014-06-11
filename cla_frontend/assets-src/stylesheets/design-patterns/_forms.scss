@@ -45,13 +45,14 @@ $border-colour: #C2C2C2;
     display: block;
 
     &--odd {
-      background-color: #f1f1f1;
+      background-color: $grey-4;
+      border: 1px solid #d8d8d8;
     }
   }
 
   .FormRow-inner {
-    padding: 10px 60px 0;
-    margin: 10px 0 0;
+    padding: 10px 40px 0;
+    margin: 0;
 
     label {
       display: block;
@@ -108,6 +109,7 @@ $border-colour: #C2C2C2;
     padding-top: 6px;
     padding-bottom: 6px;
     display: block;
+    width: 100%;
   }
   select {
     width: 230px;
@@ -172,7 +174,7 @@ $border-colour: #C2C2C2;
   
   // modifiers
   &--group {
-    margin: 0 0 1px;
+    margin: 0 0 10px;
     padding: 0;
 
     .FormRow-label {
