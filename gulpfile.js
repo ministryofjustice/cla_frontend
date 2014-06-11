@@ -16,6 +16,7 @@ var paths = {
     'cla_frontend/assets-src/vendor/handlebars/handlebars.js',
     // angular deps
     'cla_frontend/assets-src/vendor/angular/angular.js',
+    'cla_frontend/assets-src/vendor/angular-sanitize/angular-sanitize.js',
     'cla_frontend/assets-src/vendor/angular-animate/angular-animate.js',
     'cla_frontend/assets-src/vendor/angular-resource/angular-resource.js',
     'cla_frontend/assets-src/vendor/angular-ui-router/release/angular-ui-router.js',

@@ -3,6 +3,7 @@
 // APP
   angular.module('cla.app',
     [
+      'ngSanitize',
       'ui.router',
       'cla.controllers',
       'cla.services',
