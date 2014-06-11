@@ -5,18 +5,18 @@
 <section class="VCard" ng-class="{flip: edit_mode}">
   <div class="VCard-flip">
     <div ng-click="toggleEdit(true)" class="VCard-view">
-      <p ng-hide="case.personal_details.full_name">No name given yet</p>
+      <p ng-hide="personal_details.full_name">No name given yet</p>
 
-      <h1 class="VCard-title" ng-show="case.personal_details.full_name">{{ case.personal_details.full_name }}<span class="Icon Icon--name"></span></h1>
+      <h1 class="VCard-title" ng-show="personal_details.full_name">{{ personal_details.full_name }}<span class="Icon Icon--name"></span></h1>
 
-      <p class="VCard-row" ng-show="case.personal_details.postcode || case.personal_details.street">
-        {{ case.personal_details.postcode }}<span class="Icon Icon--location"></span><br>
-        <span ng-bind-html="case.personal_details.street|nl2br"></span>
+      <p class="VCard-row" ng-show="personal_details.postcode || personal_details.street">
+        {{ personal_details.postcode }}<span class="Icon Icon--location"></span><br>
+        <span ng-bind-html="personal_details.street|nl2br"></span>
       </p>
 
-      <p class="VCard-row" ng-show="case.personal_details.home_phone || case.personal_details.mobile_phone">
-        {{ case.personal_details.home_phone }}<span class="Icon Icon--phone"></span><br>
-        {{ case.personal_details.mobile_phone }}
+      <p class="VCard-row" ng-show="personal_details.home_phone || personal_details.mobile_phone">
+        {{ personal_details.home_phone }}<span class="Icon Icon--phone"></span><br>
+        {{ personal_details.mobile_phone }}
       </p>
     </div>
 

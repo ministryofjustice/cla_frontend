@@ -47,23 +47,23 @@
   }]);
 
   angular.module('cla.controllers')
-    .controller('PersonalDetailsCtrl', ['$scope', '_', 'form_utils', 'PersonalDetails', function($scope, _, form_utils, PersonalDetails){
+    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', 'PersonalDetails', function($scope, form_utils, PersonalDetails){
       $scope.edit_mode = false;
-
-      $scope.toggleEdit = function (edit) {
-        $scope.edit_mode = edit;
-        $scope.editable_details = _.clone($scope.case.personal_details);
-      };
-
       if ($scope.case.personal_details) {
         $scope.personal_details = PersonalDetails.get({ref: $scope.case.personal_details});
       } else {
         $scope.personal_details = new PersonalDetails()
       }
+
+      $scope.toggleEdit = function (edit) {
+        $scope.edit_mode = edit;
+        $scope.editable_details = angular.copy($scope.personal_details);
+      };
+
       // save personal details
       $scope.save = function(isValid) {
         if (isValid) {
-          $scope.case.personal_details = _.clone($scope.editable_details);
+          $scope.personal_details = angular.copy($scope.editable_details);
           $scope.edit_mode = false;
 
           if ($scope.personal_details.reference) {
