@@ -9,7 +9,6 @@ module.exports = function(config){
       '../../vendor/angular-resource/angular-resource.js',
       '../../vendor/angular-ui-router/release/angular-ui-router.js',
       '../../vendor/angular-i18n/angular-locale_en-gb.js',
-      '../../vendor/angular-django-rest-resource/angular-django-rest-resource.js',
       '../../vendor/angular-mocks/angular-mocks.js',
       'js/**/*.js',
       'test/unit/**/*.js'
