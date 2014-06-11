@@ -201,4 +201,11 @@
       };
     }]);
 
+  angular.module('cla.controllers')
+    .controller('CaseMeansTestCtrl', ['$scope', '$http', function($scope, $http) {
+      $http.get('/operator/case/'+$scope.case.reference+'/means_summary/').success(function(data) {
+        $scope.means_summary = data;
+      });
+    }]);
+
 })();

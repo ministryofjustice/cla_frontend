@@ -17,7 +17,10 @@ urlpatterns = patterns('',
 #     }, name='logout'),
 
 
+    url(r'^case/(?P<case_reference>.+)/means_summary/$', views.case_means_summary),
     url(r'^.*$', views.dashboard, name='dashboard'),
+
+
     # url(r'^case/new/$', views.create_case, name='create_case'),
     # url(r'^case/(?P<case_reference>.+)/assign/$', views.assign_case, name='assign_case'),
     # url(r'^case/(?P<case_reference>.+)/assign/decline_all/$', views.decline_specialists, name='decline_specialists'),
