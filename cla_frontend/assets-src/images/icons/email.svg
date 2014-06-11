@@ -1,19 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 17.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
-<g>
-	<defs>
-		<path id="SVGID_1_" d="M7.993,9L7,10l1,1l1-1L7.993,9z M1.994,2C0.893,2,0,2.902,0,4.009v7.983C0,13.101,0.895,14,1.994,14h12.012
-			C15.107,14,16,13.098,16,11.991V4.009C16,2.899,15.105,2,14.006,2H1.994z M12.443,12h0.554C13.551,12,14,11.547,14,11.003V4.997
-			C14,4.446,13.544,4,12.998,4h-0.301L14,5.311l-2.577,2.616l2.573,2.591L12.443,12z M3.506,12H3.002C2.456,12,2,11.554,2,11.003
-			v-0.461L3.506,12z M4.595,7.934L2,10.511V4.997C2,4.453,2.449,4,3.002,4h9.671L8.011,8.68l1.367,1.323l0.533-0.541L12.439,12
-			H3.558l2.566-2.555l0.568,0.561l1.322-1.319L3.323,4L2,5.371L4.595,7.934z"/>
-	</defs>
-	<clipPath id="SVGID_2_">
-		<use xlink:href="#SVGID_1_"  overflow="visible"/>
-	</clipPath>
-	<rect x="-5" y="-3" clip-path="url(#SVGID_2_)" fill-rule="evenodd" clip-rule="evenodd" fill="#6F777B" width="26" height="22"/>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="12px" viewBox="0 0 16 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
+    <title>Slice 1</title>
+    <description>Created with Sketch.</description>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <path d="M7.00986693,7.99006027 L7,8 L8,9 L9,8 L8.01230892,7.01949039 L8.0144477,7.01735162 L4.50714111,3.50360107 L3.51806641,4.53137209 L5.01262458,6.01175754 L3.49768066,7.50730658 L4.52545168,8.49638129 L6.0238234,7.01336728 L7.00986693,7.99006027 Z M10.0000269,7.03297604 L9.03924969,8.00295139 L8.01147867,7.01387668 L11.5252292,3.5065701 L12.513798,4.49513889 L11.0029064,6.02049527 L12.4671454,7.50372314 L11.4407783,8.48864746 L10.0000269,7.03297604 L10.0000269,7.03297604 Z M1.99406028,0 C0.892771196,0 0,0.901950359 0,2.0085302 L0,9.9914698 C0,11.1007504 0.894513756,12 1.99406028,12 L14.0059397,12 C15.1072288,12 16,11.0980496 16,9.9914698 L16,2.0085302 C16,0.899249601 15.1054862,0 14.0059397,0 L1.99406028,0 Z M3.00247329,2 C2.44882258,2 2,2.45303631 2,2.99703014 L2,9.00296986 C2,9.5536144 2.45576096,10 3.00247329,10 L12.9975267,10 C13.5511774,10 14,9.54696369 14,9.00296986 L14,2.99703014 C14,2.4463856 13.544239,2 12.9975267,2 L3.00247329,2 Z" id="email_icon" fill="#D8D8D8" sketch:type="MSShapeGroup"></path>
+    </g>
 </svg>

@@ -1,0 +1,79 @@
+.VCard {
+  width: 100%;
+  height: 290px;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+
+  .FormRow {
+    margin-bottom: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+
+  .FormActions {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .Error {
+    margin: 0 -10px;
+    padding-left: 7px;
+    padding-right: 10px;
+
+    &.IconRow--right {
+      background-position: right 17px;
+    }
+  }
+}
+
+.VCard-flip {
+  border: 1px solid $grey-2;
+  height: 290px;
+  @include box-shadow(1px 1px 3px $grey-3);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  position: relative;
+
+  .flip & {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+}
+
+.VCard-title {
+  @include bold-24;
+  margin: 0;
+  padding: 0 10px;
+}
+
+.VCard-row {
+  margin: 0;
+  padding: 10px 10px 0;
+}
+
+.VCard-view,
+.VCard-edit {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 290px;
+  padding: 10px 0;
+  @include box-sizing(border-box);
+}
+
+.VCard-view {
+  cursor: pointer;
+  z-index: 2;
+}
+
+.VCard-edit {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
