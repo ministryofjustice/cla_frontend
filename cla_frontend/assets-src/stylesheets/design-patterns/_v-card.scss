@@ -1,0 +1,36 @@
+.VCard {
+  border: 1px solid $grey-2;
+  padding: 10px;
+  @include box-shadow(1px 1px 3px $grey-3);
+
+  .FormRow {
+    margin-bottom: 0;
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+
+  .Error {
+    margin: 0 -10px;
+    padding-left: 7px;
+    padding-right: 10px;
+
+    &.IconRow--right {
+      background-position: right 17px;
+    }
+  }
+}
+
+.VCard-title {
+  @include bold-24;
+  margin: 0;
+  padding: 0;
+}
+
+.VCard-row {
+  margin: 0;
+  padding: 10px 0 0;
+}
+
+.VCard-edit {
+  cursor: pointer;
+}
