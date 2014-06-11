@@ -1,5 +1,5 @@
 <header class="PageHeader cf">
-  <h1 class="u-pullLeft">{{ case.reference }}</h1>
+  <h1 class="u-pullLeft">{{ title }}</h1>
 </header>
 
 <form method="post" ng-submit="assign()" ng-show="suggested_providers">
@@ -7,21 +7,33 @@
     <div class="ContactBlock ContactBlock--grey clearfix">
       <h2 class="ContactBlock-heading">{{ selected_provider.name }}</h2>
 
-      <p>{{ selected_provider.telephone_frontdoor }} (Front door)</p>
-      <p>{{ selected_provider.telephone_backdoor }} (Back door)</p>
+      <p>{{ selected_provider.telephone_frontdoor }} (Front door)
+        <br>{{ selected_provider.telephone_backdoor }} (Back door)</p>
     </div>
 
-    <ul class="Notice">
+    <ul class="Notice" ng-show="is_complete">
       <li class="Notice-msg">Provider phone short code <strong>{{ selected_provider.short_code }}</strong></li>
     </ul>
   </div>
 
   <div ng-show="is_manual && !is_complete">
-    <div class="FormRow FormRow--group" ng-repeat="provider in suggested_providers">
+    <div class="FormRow">
+      <input type="text" name="provider-search" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="provider_search">
+    </div>
+
+    <div class="FormRow FormRow--group" ng-repeat="provider in suggested_providers | filter:provider_search">
       <label class="FormRow-label FormRow-label--odd">
         <input name="provider" type="radio" ng-model="$parent.selected_provider" ng-value="provider">
-        {{ provider.name }}
+        <strong>{{ provider.name }}</strong>
+
+        <p class="FormRow-inner">{{ provider.telephone_frontdoor }} (Front door)
+          <br>{{ provider.telephone_backdoor }} (Back door)</p>
       </label>
+    </div>
+
+    <div class="FormRow">
+      <label for="assign_notes" class="visuallyhidden">Reassignment notes</label>
+      <textarea name="assign_notes" id="assign_notes" cols="30" rows="4" ng-model="assign_notes" placeholder="Provider reassignment comments"></textarea>
     </div>
   </div>
 
