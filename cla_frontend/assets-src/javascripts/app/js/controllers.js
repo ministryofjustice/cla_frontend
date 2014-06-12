@@ -93,8 +93,9 @@
                   $scope.case.personal_details = data.reference;
                 });
             });
-
-          }}};
+          }
+        }
+      };
     }]);
 
   angular.module('cla.controllers')
