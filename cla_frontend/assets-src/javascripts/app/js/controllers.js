@@ -63,37 +63,39 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', '_', 'PersonalDetails', function($scope, form_utils, _, PersonalDetails){
-      $scope.edit_mode = false;
       if ($scope.case.personal_details) {
         $scope.personal_details = PersonalDetails.get({ref: $scope.case.personal_details});
       } else {
         $scope.personal_details = new PersonalDetails();
       }
 
-      $scope.toggleEdit = function (edit) {
+      var clean_details;
+
+      $scope.toggleEdit = function (edit, save) {
         $scope.edit_mode = edit;
-        $scope.editable_details = angular.copy($scope.personal_details);
+        if (!edit) {
+          if (!!save) {
+            clean_details = angular.copy($scope.personal_details);
+          } else {
+            _.extend($scope.personal_details, clean_details);
+          }
+        } else {
+          clean_details = angular.copy($scope.personal_details);
+        }
       };
 
       // save personal details
       $scope.save = function(isValid) {
         if (isValid) {
+          $scope.personal_details.$update(function (data) {
+            $scope.toggleEdit(false, true);
 
-          _.extend($scope.personal_details, $scope.editable_details);
-          $scope.edit_mode = false;
-
-          if ($scope.personal_details.reference) {
-            $scope.personal_details.$patch();
-          } else {
-            $scope.personal_details.$save(function (data) {
-              $scope.editable_details = angular.copy($scope.personal_details);
-              $scope.case.$associate_personal_details(
-                data.reference,
-                function () {
-                  $scope.case.personal_details = data.reference;
-                });
-            });
-          }
+            if (!$scope.case.personal_details) {
+              $scope.case.$associate_personal_details(data.reference, function () {
+                $scope.case.personal_details = data.reference;
+              });
+            }
+          }, angular.bind(this, form_utils.ctrlFormErrorCallback, $scope));
         }
       };
     }]);

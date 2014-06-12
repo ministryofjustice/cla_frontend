@@ -83,9 +83,19 @@
 
   angular.module('cla.services')
     .factory('PersonalDetails', ['$resource', function($resource) {
-      return $resource('/call_centre/proxy/personal_details/:ref/', {ref:'@reference'}, {
+      var resource = $resource('/call_centre/proxy/personal_details/:ref/', {ref:'@reference'}, {
         'patch': {method: 'PATCH'}
       });
+
+      resource.prototype.$update = function(success, fail){
+        if (this.reference) {
+          return this.$patch(success, fail);
+        } else {
+          return this.$save(success, fail);
+        }
+      };
+
+      return resource;
     }]);
 
   angular.module('cla.services')
