@@ -80,7 +80,7 @@
       });
     }]);
 
-    angular.module('cla.services')
+  angular.module('cla.services')
     .factory('PersonalDetails', ['$resource', function($resource) {
       return $resource('/call_centre/proxy/personal_details/:ref/', {ref:'@reference'}, {
         'patch': {method: 'PATCH'}

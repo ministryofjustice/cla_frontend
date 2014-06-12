@@ -35,6 +35,8 @@
         </span>
       </label>
 
+          <input class="FormRow-field--full" id="id_ref" maxlength="10" name="reference" placeholder="Post code" type="text" ng-model="editable_details.reference" server-error>
+
       <label for="id_street" class="FormRow" ng-class="{Error: form.street.$invalid && submitted}">
         <span class="Error-message" ng-show="form.street.$error.server">{{ errors.street }}</span>
         <span class="IconRow IconRow--right">
