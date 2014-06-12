@@ -67,7 +67,7 @@
       if ($scope.case.personal_details) {
         $scope.personal_details = PersonalDetails.get({ref: $scope.case.personal_details});
       } else {
-        $scope.personal_details = new PersonalDetails()
+        $scope.personal_details = new PersonalDetails();
       }
 
       $scope.toggleEdit = function (edit) {
@@ -82,10 +82,17 @@
           $scope.edit_mode = false;
 
           if ($scope.personal_details.reference) {
-            $scope.personal_details.$patch()
+            $scope.personal_details.$patch();
           } else {
-            $scope.personal_details.$save()
-          }}}
+            $scope.personal_details.$save(function (data) {
+              $scope.case.$associate_personal_details(
+                data.reference,
+                function () {
+                  $scope.case.personal_details = data.reference;
+                });
+            });
+
+          }}};
     }]);
 
   angular.module('cla.controllers')
