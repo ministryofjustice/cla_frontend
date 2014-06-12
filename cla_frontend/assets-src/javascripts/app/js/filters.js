@@ -12,8 +12,9 @@
 
     .filter('nl2br', function(){
       return function(text) {
-        if (text === undefined)
+        if (text === undefined) {
           return;
+        }
         return text.replace(/\n/g, '<br/>');
       };
     });
