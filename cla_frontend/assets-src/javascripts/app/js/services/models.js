@@ -20,6 +20,7 @@
     .factory('Case', ['$http', '$resource', function($http, $resource) {
 
       var resource = $resource('/call_centre/proxy/case/:caseref/', {caseref: '@reference'}, {
+        'query':  {method:'GET', isArray:false},
         'personal_details_patch': {
           method:'PATCH',
           transformRequest: function(data, headers) {
@@ -74,7 +75,7 @@
       });
     }]);
 
-    angular.module('cla.services')
+  angular.module('cla.services')
     .factory('PersonalDetails', ['$resource', function($resource) {
       return $resource('/call_centre/proxy/personal_details/:ref/', {ref:'@reference'}, {
         'patch': {method: 'PATCH'}

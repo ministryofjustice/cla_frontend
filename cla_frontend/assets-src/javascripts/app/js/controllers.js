@@ -4,18 +4,33 @@
   var saveDelay = 750;
 
   angular.module('cla.controllers')
-    .controller('CaseListCtrl', ['$scope', 'cases', '$stateParams', function($scope, cases, $stateParams) {
-      $scope.orderProp = $stateParams.sort || '-created';
+    .controller('CaseListCtrl', ['$scope', 'cases', '$stateParams', '$state', function($scope, cases, $stateParams, $state) {
+      $scope.orderProp = $stateParams.ordering || '-created';
       $scope.search = $stateParams.search;
+      $scope.currentPage = $stateParams.page || 1;
 
       $scope.cases = cases;
 
+      function updatePage() {
+        $state.go('case_list', {
+          'page': $scope.currentPage,
+          'ordering': $scope.orderProp,
+          'search': $scope.search
+        });
+      }
+
+      $scope.pageChanged = function(newPage) {
+        $scope.currentPage = newPage;
+        updatePage();
+      };
+
       $scope.sortToggle = function(currentOrderProp){
         if (currentOrderProp === $scope.orderProp) {
-          return '-' + currentOrderProp;
+          $scope.orderProp = '-' + currentOrderProp;
+        } else {
+          $scope.orderProp = currentOrderProp;
         }
-
-        return currentOrderProp;
+        updatePage();
       };
     }]);
 
@@ -36,7 +51,7 @@
       });
 
       $scope.submit = function() {
-        $state.go('case_list', {search: $scope.search, sort:''});
+        $state.go('case_list', {search: $scope.search, ordering:'', page: 1});
       };
 
     }]);

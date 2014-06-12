@@ -18,13 +18,14 @@
   <tr>
     <th><span class="visuallyhidden">Reference</span></th>
     <th>Name</th>
-    <th><a ui-sref="case_list({sort:sortToggle('created')})" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
-    <th><a ui-sref="case_list({sort:sortToggle('modified')})" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
+    <th><a ng-click="sortToggle('created')" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
+    <th><a ng-click="sortToggle('modified')" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
     <th><span class="visuallyhidden">Owner</span></th>
   </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="case in cases | orderBy:orderProp">
+    <!-- <tr ng-repeat="case in cases.results | orderBy:orderProp"> -->
+    <tr dir-paginate="case in cases.results | itemsPerPage: 10" total-items="cases.count" current-page="currentPage">
       <td><a ui-sref="case_detail.edit({caseref:case.reference})">{{ case.reference }}</a></td>
       <td>{{ case.personal_details.full_name }}</td>
       <td>{{ case.created  | general_date }}</td>
@@ -33,3 +34,5 @@
     </tr>
   </tbody>
 </table>
+
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
