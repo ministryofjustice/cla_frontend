@@ -1,0 +1,29 @@
+.Flip {
+  @include perspective(1000);
+}
+
+.Flip-inner {
+  position: relative;
+  @include transition(all, 0.5s, ease);
+  @include transform-style(preserve-3d);
+
+  .is-flipped & {
+    @include rotateY(180deg);
+  }
+}
+
+.Flip-front,
+.Flip-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  @include backface-visibility(hidden);
+}
+
+.Flip-front {
+  z-index: 2;
+}
+
+.Flip-back {
+  @include rotateY(180deg); 
+}

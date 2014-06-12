@@ -2,10 +2,11 @@
   <a ui-sref="case_list" class="SubNav-link SubNav-link--back">Back to cases</a>
 </nav>
 
-<section class="VCard" ng-class="{flip: edit_mode}">
-  <div class="VCard-flip">
-    <div ng-click="toggleEdit(true)" class="VCard-view">
-      <p ng-hide="personal_details.full_name">No name given yet</p>
+<section class="Flip" ng-class="{'is-flipped': edit_mode}">
+  <div class="Flip-inner">
+    <div ng-click="toggleEdit(true)" class="VCard VCard-view Flip-front">
+      <!-- IF empty -->
+      <p class="Notice" ng-hide="personal_details.full_name">Please enter personal details</p>
 
       <h1 class="VCard-title" ng-show="personal_details.full_name">{{ personal_details.full_name }}<span class="Icon Icon--name"></span></h1>
 
@@ -15,23 +16,23 @@
       </p>
 
       <p class="VCard-row" ng-show="personal_details.home_phone || personal_details.mobile_phone">
-        {{ personal_details.home_phone }}<span class="Icon Icon--phone"></span><br>
-        {{ personal_details.mobile_phone }}
+        {{ personal_details.mobile_phone }}<span class="Icon Icon--phone"></span><br>
+        {{ personal_details.home_phone }}
       </p>
     </div>
 
-    <form method="post" ng-submit="save(form.$valid)" novalidate class="VCard-edit" name="form"  ng-class="{submitted: submitted}">
+    <form method="post" ng-submit="save(form.$valid)" novalidate class="VCard VCard-edit Flip-back" name="form"  ng-class="{submitted: submitted}">
       <label for="id_full_name" class="FormRow" ng-class="{Error: form.full_name.$invalid && submitted}">
         <span class="Error-message" ng-show="form.full_name.$error.server">{{ errors.full_name }}</span>
         <span class="IconRow IconRow--right Icon--name">
-          <input class="FormRow-field--full" id="id_full_name" maxlength="300" name="full_name" placeholder="Name" type="text" ng-model="editable_details.full_name" server-error required>
+          <input class="FormRow-field--full" id="id_full_name" maxlength="300" name="full_name" placeholder="Name" type="text" ng-model="editable_details.full_name" server-error>
         </span>
       </label>
 
       <label for="id_postcode" class="FormRow" ng-class="{Error: form.postcode.$invalid && submitted}">
         <span class="Error-message" ng-show="form.postcode.$error.server">{{ errors.postcode }}</span>
         <span class="IconRow IconRow--right Icon--location">
-          <input class="FormRow-field--full" id="id_postcode" maxlength="10" name="postcode" placeholder="Post code" type="text" ng-model="editable_details.postcode" server-error required>
+          <input class="FormRow-field--full" id="id_postcode" maxlength="10" name="postcode" placeholder="Post code" type="text" ng-model="editable_details.postcode" server-error>
         </span>
       </label>
 
@@ -40,7 +41,14 @@
       <label for="id_street" class="FormRow" ng-class="{Error: form.street.$invalid && submitted}">
         <span class="Error-message" ng-show="form.street.$error.server">{{ errors.street }}</span>
         <span class="IconRow IconRow--right">
-          <textarea class="FormRow-field--full" cols="20" id="id_street" name="street" placeholder="Address" rows="3" ng-model="editable_details.street" server-error required></textarea>
+          <textarea class="FormRow-field--full" cols="20" id="id_street" name="street" placeholder="Address" rows="3" ng-model="editable_details.street" server-error></textarea>
+        </span>
+      </label>
+
+      <label for="id_mobile_phone" class="FormRow" ng-class="{Error: form.mobile_phone.$invalid && submitted}">
+        <span class="Error-message" ng-show="form.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
+        <span class="IconRow IconRow--right">
+          <input class="FormRow-field--full" id="id_mobile_phone" maxlength="20" name="mobile_phone" placeholder="Mobile" type="text" ng-model="editable_details.mobile_phone" server-error>
         </span>
       </label>
 
@@ -48,13 +56,6 @@
         <span class="Error-message" ng-show="form.home_phone.$error.server">{{ errors.home_phone }}</span>
         <span class="IconRow IconRow--right Icon--phone">
           <input class="FormRow-field--full" id="id_home_phone" maxlength="20" name="home_phone" placeholder="Home" type="text" ng-model="editable_details.home_phone" server-error>
-        </span>
-      </label>
-
-      <label for="id_mobile_phone" class="FormRow" ng-class="{Error: form.mobile_phone.$invalid && submitted}">
-        <span class="Error-message" ng-show="form.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
-        <span class="IconRow IconRow--right">
-          <input class="FormRow-field--full" id="id_mobile_phone" maxlength="20" name="mobile_phone" placeholder="" type="text" ng-model="editable_details.mobile_phone" server-error>
         </span>
       </label>
 
