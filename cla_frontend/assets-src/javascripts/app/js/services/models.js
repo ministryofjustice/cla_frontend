@@ -57,8 +57,8 @@
       };
 
       resource.prototype.$associate_personal_details = function(reference, successCallback) {
-        var data = {reference: reference};
-        var url = '/call_centre/proxy/case/'+this.reference+'/associate_personal_details/';
+        var data = {reference: reference},
+            url = '/call_centre/proxy/case/'+this.reference+'/associate_personal_details/';
         return $http.post(url, data).success(successCallback);
       };
 
