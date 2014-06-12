@@ -12,10 +12,11 @@
 
     .filter('nl2br', function(){
       return function(text) {
-        if (text === undefined) {
+        if (typeof text !== 'undefined' && text) {
+          return text.replace(/\n/g, '<br/>');
+        } else {
           return;
         }
-        return text.replace(/\n/g, '<br/>');
       };
     });
 
