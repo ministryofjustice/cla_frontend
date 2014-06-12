@@ -9,12 +9,12 @@
 
   states.CaseListState = {
     parent: states.Layout,
-    url: '/operator/?search?sort',
+    url: '/operator/?search?ordering?page',
     templateUrl: '/static/javascripts/app/partials/case_list.html',
     controller: 'CaseListCtrl',
     resolve: {
       cases: ['$stateParams', 'Case', function($stateParams, Case){
-        return Case.query({search: $stateParams.search, sort: $stateParams.sort}).$promise;
+        return Case.query({search: $stateParams.search, ordering: $stateParams.ordering, page: $stateParams.page}).$promise;
       }]
     }
   };
