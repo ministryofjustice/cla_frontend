@@ -1,18 +1,19 @@
-<ul class="pagination" ng-if="1 < pages.length">
-  <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
-    <a href="" ng-click="setCurrent(1)">&laquo;</a>
-  </li>
-  <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }" class="ng-scope">
-    <a href="" ng-click="setCurrent(pagination.current - 1)" class="ng-binding">&lsaquo;</a>
-  </li>
-  <li ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
-    <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+<ul class="Pagination cf" ng-if="1 < pages.length" boundaryLinks>
+  <li ng-if="boundaryLinks" ng-class="{'is-disabled': pagination.current == 1}" class="Pagination-item">
+    <a href="" ng-click="setCurrent(1)">|&lsaquo; First</a>
   </li>
 
-  <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }" class="ng-scope">
-    <a href="" ng-click="setCurrent(pagination.current + 1)" class="ng-binding">&rsaquo;</a>
+  <li ng-if="directionLinks" ng-class="{'is-disabled': pagination.current == 1}" class="Pagination-item">
+    <a href="" ng-click="setCurrent(pagination.current - 1)" class="ng-binding">&lsaquo;&lsaquo; Prev</a>
   </li>
-  <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }">
-    <a href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+  <li ng-repeat="pageNumber in pages track by $index" ng-class="{'is-current': pagination.current == pageNumber, 'is-disabled': pageNumber == '...'}" class="Pagination-item Pagination-item--num">
+    <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+  </li>
+  <li ng-if="directionLinks" ng-class="{'is-disabled': pagination.current == pagination.last}" class="Pagination-item">
+    <a href="" ng-click="setCurrent(pagination.current + 1)" class="ng-binding">Next &rsaquo;&rsaquo;</a>
+  </li>
+  
+  <li ng-if="boundaryLinks"  ng-class="{'is-disabled': pagination.current == pagination.last}" class="Pagination-item">
+    <a href="" ng-click="setCurrent(pagination.last)">Last &rsaquo;|</a>
   </li>
 </ul>
