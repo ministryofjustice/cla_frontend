@@ -14,7 +14,19 @@
     controller: 'CaseListCtrl',
     resolve: {
       cases: ['$stateParams', 'Case', function($stateParams, Case){
-        return Case.query({search: $stateParams.search, ordering: $stateParams.ordering, page: $stateParams.page}).$promise;
+        var params = {
+          search: $stateParams.search,
+          ordering: $stateParams.ordering,
+          page: $stateParams.page
+        };
+
+        // by default, if no search params is defined, get dashboard cases
+        // this can be easily customised by backend
+        if (!params.search) {
+          params.dashboard = 1;
+        }
+
+        return Case.query(params).$promise;
       }]
     }
   };
