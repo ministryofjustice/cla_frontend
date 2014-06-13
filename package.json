@@ -22,7 +22,7 @@
     "jshint-stylish": "~0.1.5",
     "karma": "~0.10",
     "phantomjs": "^1.9.7-8",
-    "protractor": "~0.20.1",
+    "protractor": "^0.24.1",
     "run-sequence": "~0.3.6"
   },
   "scripts": {
