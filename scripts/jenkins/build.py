@@ -9,8 +9,10 @@ PROJECT_NAME = "cla_frontend"
 # use python scripts/jenkins/build.py integration
 
 # args
-parser = argparse.ArgumentParser(description='Build project ready for testing by Jenkins.')
-parser.add_argument('envname', metavar='envname', type=str, nargs=1, help='e.g. integration, production, etc.')
+parser = argparse.ArgumentParser(
+    description='Build project ready for testing by Jenkins.')
+parser.add_argument('envname', metavar='envname', type=str,
+                    nargs=1, help='e.g. integration, production, etc.')
 args = parser.parse_args()
 
 env = args.envname[0]
@@ -20,18 +22,18 @@ bin_path = "%s/bin" % env_path
 
 
 def run(command, **kwargs):
-	defaults = {
-		'shell': True
-	}
-	defaults.update(kwargs)
+    defaults = {
+        'shell': True
+    }
+    defaults.update(kwargs)
 
-	return_code = subprocess.call(command, **defaults)
-	if return_code:
-		sys.exit(return_code)
+    return_code = subprocess.call(command, **defaults)
+    if return_code:
+        sys.exit(return_code)
 
 # setting up virtualenv
 if not os.path.isdir(env_path):
-	run('virtualenv --no-site-packages %s' % env_path)
+    run('virtualenv --no-site-packages %s' % env_path)
 
 run('%s/pip install -r requirements/jenkins.txt' % bin_path)
 
@@ -40,4 +42,5 @@ run('%s/pip install -r requirements/jenkins.txt' % bin_path)
 run("find . -name '*.pyc' -delete")
 
 # run tests
-run("%s/python manage.py jenkins --coverage-rcfile=.coveragerc --settings=cla_frontend.settings.jenkins" % bin_path)
+run("%s/python manage.py jenkins --coverage-rcfile=.coveragerc --settings=cla_frontend.settings.jenkins" %
+    bin_path)
