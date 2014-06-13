@@ -49,6 +49,9 @@ def run_bg(command, **kwargs):
 
     return subprocess.Popen(command, **defaults)
 
+print 'starting...'
+run('pkill -f envs/cla_.*integration', ignore_rc=True)
+
 # setting up virtualenv
 if not os.path.isdir(env_path):
     run('virtualenv --no-site-packages %s' % env_path)
