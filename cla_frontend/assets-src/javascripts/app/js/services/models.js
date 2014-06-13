@@ -108,4 +108,10 @@
     .factory('OutcomeCode', ['$http', '$resource', function($http, $resource) {
       return $resource('/call_centre/proxy/outcome_code/:code/', {});
     }]);
+
+  angular.module('cla.services')
+    .factory('Provider', ['$http', '$resource', function($http, $resource) {
+      return $resource('/call_centre/proxy/provider/:id/', {
+      });
+    }]);
 })();

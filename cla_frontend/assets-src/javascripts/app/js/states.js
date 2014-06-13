@@ -79,6 +79,16 @@
     }
   };
 
+  states.CaseEditDetailAssignCompleteState = {
+    parent: states.CaseEditDetailAssignState,
+    url: 'complete/',
+    views: {
+      '@case_detail': {
+        templateUrl:'/static/javascripts/app/partials/case_detail.edit.assign.complete.html',
+        controller: 'AssignProviderCompleteCtrl'
+      }
+    }
+  };
 
   states.CaseDetailDeclineSpecialistsState = {
     url: 'assign/decline_all/',

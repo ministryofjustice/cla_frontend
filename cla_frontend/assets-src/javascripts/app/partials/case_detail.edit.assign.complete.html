@@ -1,0 +1,16 @@
+<header class="PageHeader cf">
+  <h1 class="u-pullLeft">Assigned to {{ selected_provider.name }}</h1>
+</header>
+
+<div ng-show="selected_provider.id">
+  <div class="ContactBlock ContactBlock--grey clearfix">
+    <h2 class="ContactBlock-heading">{{ selected_provider.name }}</h2>
+
+    <p>{{ selected_provider.telephone_frontdoor }} (Front door)
+      <br>{{ selected_provider.telephone_backdoor }} (Back door)</p>
+  </div>
+
+  <ul class="Notice">
+    <li class="Notice-msg">Provider phone short code <strong>{{ selected_provider.short_code }}</strong></li>
+  </ul>
+</div>
