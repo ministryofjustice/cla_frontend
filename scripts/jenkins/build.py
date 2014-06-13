@@ -64,7 +64,7 @@ run('npm install')
 run("bower install")
 
 # run python tests
-run(("%s/python manage.py jenkins --coverage-rcfile=.coveragerc"
+run(("%s/python manage.py jenkins --coverage-rcfile=.coveragerc "
      "--settings=cla_frontend.settings.jenkins") % bin_path)
 
 # start backend and frontend dev servers
@@ -77,7 +77,7 @@ run("wget http://localhost:8001/ -t 20 --retry-connrefused --waitretry=2 -T 60")
 
 # run protractor tests against SauceLabs
 run(
-    ('node_modules/protractor/bin/protractor'
+    ('node_modules/protractor/bin/protractor '
      'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js')
 )
 
