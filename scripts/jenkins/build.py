@@ -30,7 +30,7 @@ backend_env_path = "/tmp/jenkins/envs/%s" % backend_env_name
 backend_bin_path = "%s/bin" % backend_env_path
 
 
-def run(command, **kwargs):
+def run(command, ignore_rc=False, **kwargs):
     defaults = {
         'shell': True
     }
@@ -38,7 +38,8 @@ def run(command, **kwargs):
 
     return_code = subprocess.call(command, **defaults)
     if return_code:
-        sys.exit(return_code)
+        if not ignore_rc:
+            sys.exit(return_code)
 
 
 def run_bg(command, **kwargs):
