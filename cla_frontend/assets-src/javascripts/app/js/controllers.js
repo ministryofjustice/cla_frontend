@@ -214,7 +214,7 @@
           provider_id: $scope.selected_provider.id,
           is_manual: $scope.is_manual,
           assign_notes: $scope.assign_notes
-        }).success(function(data){
+        }).success(function(){
           $state.go('case_detail.edit.assign.complete', {}, {'reload': true});
         });
       };
