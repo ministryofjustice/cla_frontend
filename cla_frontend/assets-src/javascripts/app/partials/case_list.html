@@ -18,8 +18,8 @@
   <tr>
     <th><span class="visuallyhidden">Reference</span></th>
     <th>Name</th>
-    <th><a ng-click="sortToggle('created')" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
-    <th><a ng-click="sortToggle('modified')" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
+    <th><a href="" ng-click="sortToggle('created')" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
+    <th><a href="" ng-click="sortToggle('modified')" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
     <th><span class="visuallyhidden">Owner</span></th>
   </tr>
   </thead>
@@ -35,4 +35,4 @@
   </tbody>
 </table>
 
-<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" data-boundary-links="true"></dir-pagination-controls>
