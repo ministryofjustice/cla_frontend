@@ -6,10 +6,8 @@ exports.config = {
   ],
 
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'phantomjs',
   },
-
-  chromeOnly: true,
 
   baseUrl: 'http://localhost:8001/',
 
@@ -18,4 +16,5 @@ exports.config = {
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
   }
+
 };
