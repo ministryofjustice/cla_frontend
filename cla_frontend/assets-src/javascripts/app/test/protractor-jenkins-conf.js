@@ -7,9 +7,7 @@ exports.config = {
 
   multiCapabilities: [
     {
-      'browserName': 'chrome',
-      'platform': 'OS X 10.8',
-      'version': '35'
+      'browserName': 'chrome'
     }
   ],
 
