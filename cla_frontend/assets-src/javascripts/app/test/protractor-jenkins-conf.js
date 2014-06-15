@@ -20,4 +20,3 @@ exports.config = {
   }
 
 };
-
