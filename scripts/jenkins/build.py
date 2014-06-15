@@ -66,6 +66,7 @@ run("find . -name '*.pyc' -delete")
 # build js assets
 run('npm install')
 run("bower install")
+run("gulp build")
 
 # run python tests
 run(("%s/python manage.py jenkins --coverage-rcfile=.coveragerc "
@@ -82,8 +83,8 @@ run("wget http://localhost:8001/ -t 20 --retry-connrefused --waitretry=2 -T 60")
 # run protractor tests against SauceLabs
 run(
     ('node_modules/protractor/bin/protractor '
-     'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js '
-     '--sauceUser %s --sauceKey %s') % (
+     '--sauceUser %s --sauceKey %s '
+     'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js') % (
         os.environ.get('SAUCE_USER'),
         os.environ.get('SAUCE_KEY'))
 )
