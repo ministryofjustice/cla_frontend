@@ -56,10 +56,8 @@
     }]);
 
   angular.module('cla.controllers')
-  .controller('CaseDetailCtrl', ['$rootScope', '$window', '$scope', 'History', 'case',
-      function($rootScope, $window, $scope, History, $case){
-        $scope.case = $case;
-
+    .controller('LayoutCtrl', ['$rootScope', '$scope', '$window', 'History',
+      function($rootScope, $scope, $window, History){
         var offStateChange = $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
           if (from.name === 'case_list') {
             History.caseListStateParams = fromParams;
@@ -71,6 +69,12 @@
           offStateChange();
         });
 
+      }]);
+
+  angular.module('cla.controllers')
+  .controller('CaseDetailCtrl', ['$scope', 'case',
+      function($scope, $case){
+        $scope.case = $case;
       }]);
 
   angular.module('cla.controllers')
