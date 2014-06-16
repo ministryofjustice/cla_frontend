@@ -10,9 +10,11 @@
 
 {% block search %}{% verbatim %}
 <form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
-  <label for="case-search" class="CaseSearch-label">Search</label>
-  <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" ng-model="search" autocomplete="off">
-  <input class="CaseSearch-submit" type="submit" value="Search">
+  <div class="CaseSearch-inner cf">
+    <label for="case-search" class="CaseSearch-label">Search</label>
+    <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" ng-model="search" autocomplete="off">
+    <input class="CaseSearch-submit" type="submit" value="Search">
+  </div>
 </form>
 {% endverbatim %}{% endblock %}
 
