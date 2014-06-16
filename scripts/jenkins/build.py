@@ -84,7 +84,7 @@ run("wget http://localhost:8001/ -t 20 --retry-connrefused --waitretry=2 -T 60")
 run(
     ('node_modules/protractor/bin/protractor '
      '--sauceUser %s --sauceKey %s '
-     'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js') % (
+     'cla_frontend/assets-src/javascripts/app/test/protractor-conf.js') % (
         os.environ.get('SAUCE_USER'),
         os.environ.get('SAUCE_KEY'))
 )

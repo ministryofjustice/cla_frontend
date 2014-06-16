@@ -1,3 +1,18 @@
+var capabilities;
+
+if (process.env.SAUCE_ONDEMAND_BROWSERS === undefined){
+  capabilities = [{
+    'platform': process.env.SELENIUM_PLATFORM,
+    'browser': process.env.SELENIUM_BROWSER,
+    'browser-version': process.env.SELENIUM_VERSION,
+    'url': process.env.SELENIUM_DRIVER
+  }]
+} else {
+  capabilities = process.env.SAUCE_ONDEMAND_BROWSERS || [{
+    'browserName': 'phantomjs',
+  }];
+}
+
 exports.config = {
   allScriptsTimeout: 11000,
 
@@ -5,9 +20,7 @@ exports.config = {
     'e2e/*.js'
   ],
 
-  capabilities: {
-    'browserName': 'phantomjs',
-  },
+  multiCapabilities: capabilities,
 
   baseUrl: 'http://localhost:8001/',
 
