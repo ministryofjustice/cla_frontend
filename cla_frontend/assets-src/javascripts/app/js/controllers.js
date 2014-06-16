@@ -57,48 +57,61 @@
     }]);
 
   angular.module('cla.controllers')
-  .controller('CaseDetailCtrl', ['$scope', 'case', function($scope, $case){
-    $scope.case = $case;
-  }]);
+  .controller('CaseDetailCtrl', ['$rootScope', '$window', '$scope', 'History', 'case',
+      function($rootScope, $window, $scope, History, $case){
+        $scope.case = $case;
+
+        $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
+          if (from.name === 'case_list') {
+            History.caseListStateParams = fromParams;
+          }
+          $window.scrollTo(0,0);
+        });
+
+      }]);
 
   angular.module('cla.controllers')
-    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', '_', 'PersonalDetails', function($scope, form_utils, _, PersonalDetails){
-      if ($scope.case.personal_details) {
-        $scope.personal_details = PersonalDetails.get({ref: $scope.case.personal_details});
-      } else {
-        $scope.personal_details = new PersonalDetails();
-      }
+    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', '_', 'PersonalDetails', 'History',
+      function($scope, form_utils, _, PersonalDetails, History){
 
-      var clean_details;
+        $scope.caseListStateParams = History.caseListStateParams;
 
-      $scope.toggleEdit = function (edit, save) {
-        $scope.edit_mode = edit;
-        if (!edit) {
-          if (!!save) {
-            clean_details = angular.copy($scope.personal_details);
-          } else {
-            _.extend($scope.personal_details, clean_details);
-          }
+        if ($scope.case.personal_details) {
+          $scope.personal_details = PersonalDetails.get({ref: $scope.case.personal_details});
         } else {
-          clean_details = angular.copy($scope.personal_details);
+          $scope.personal_details = new PersonalDetails();
         }
-      };
 
-      // save personal details
-      $scope.save = function(isValid) {
-        if (isValid) {
-          $scope.personal_details.$update(function (data) {
-            $scope.toggleEdit(false, true);
+        var clean_details;
 
-            if (!$scope.case.personal_details) {
-              $scope.case.$associate_personal_details(data.reference, function () {
-                $scope.case.personal_details = data.reference;
-              });
+        $scope.toggleEdit = function (edit, save) {
+          $scope.edit_mode = edit;
+          if (!edit) {
+            if (!!save) {
+              clean_details = angular.copy($scope.personal_details);
+            } else {
+              _.extend($scope.personal_details, clean_details);
             }
-          }, angular.bind(this, form_utils.ctrlFormErrorCallback, $scope));
-        }
-      };
-    }]);
+          } else {
+            clean_details = angular.copy($scope.personal_details);
+          }
+        };
+
+        // save personal details
+        $scope.save = function(isValid) {
+          if (isValid) {
+            $scope.personal_details.$update(function (data) {
+              $scope.toggleEdit(false, true);
+
+              if (!$scope.case.personal_details) {
+                $scope.case.$associate_personal_details(data.reference, function () {
+                  $scope.case.personal_details = data.reference;
+                });
+              }
+            }, angular.bind(this, form_utils.ctrlFormErrorCallback, $scope));
+          }
+        };
+      }]);
 
   angular.module('cla.controllers')
     .controller('CaseEditDetailCtrl',
@@ -231,15 +244,4 @@
         $scope.means_summary = data;
       });
     }]);
-
-  angular.module('cla.controllers')
-    .controller('LayoutCtrl', ['$rootScope', '$window', '$scope', function($rootScope, $window, $scope) {
-      $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
-        if (from.name === 'case_list') {
-          $scope.caseListStateParams = fromParams;
-        }
-        $window.scrollTo(0,0);
-      });
-    }]);
-
 })();
