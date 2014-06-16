@@ -60,6 +60,13 @@ $fieldset-error-bg-colour: #FDF8F5;
   &.FormRow--group {
     padding: 0;
   }
+
+  &--basic {
+    margin: {
+      left: 0em;
+      right: 0em;
+    }
+  }
 }
 
 .Error-message {
