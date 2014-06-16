@@ -232,4 +232,11 @@
       });
     }]);
 
+  angular.module('cla.controllers')
+    .controller('LayoutCtrl', ['$rootScope', '$window', function($rootScope, $window) {
+      $rootScope.$on('$stateChangeSuccess', function(){
+        $window.scrollTo(0,0);
+      });
+    }]);
+
 })();

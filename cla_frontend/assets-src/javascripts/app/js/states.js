@@ -4,7 +4,8 @@
   var states = angular.module('cla.states');
   states.Layout = {
     abstract: true,
-    templateUrl: '/static/javascripts/app/partials/base.html'
+    templateUrl: '/static/javascripts/app/partials/base.html',
+    controller: 'LayoutCtrl'
   };
 
   states.CaseListState = {
