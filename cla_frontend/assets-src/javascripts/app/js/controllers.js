@@ -233,8 +233,11 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('LayoutCtrl', ['$rootScope', '$window', function($rootScope, $window) {
-      $rootScope.$on('$stateChangeSuccess', function(){
+    .controller('LayoutCtrl', ['$rootScope', '$window', '$scope', function($rootScope, $window, $scope) {
+      $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
+        if (from.name === 'case_list') {
+          $scope.caseListStateParams = fromParams;
+        }
         $window.scrollTo(0,0);
       });
     }]);
