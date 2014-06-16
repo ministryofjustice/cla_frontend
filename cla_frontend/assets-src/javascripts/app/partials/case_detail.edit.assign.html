@@ -2,9 +2,11 @@
   <h1 class="u-pullLeft">Assign a provider</h1>
 </header>
 
-<!-- no providers --> 
-<p class="Error Error--basic" ng-show="suggested_providers < 1">There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
-<p><a ui-sref="case_detail.edit">Return to case</a></p>
+<!-- no providers -->
+<div ng-show="suggested_providers < 1">
+  <p class="Error Error--basic">There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
+  <p><a ui-sref="case_detail.edit">Return to case</a></p>
+</div>
 
 <form method="post" ng-submit="assign()" ng-show="suggested_providers">
   <div ng-show="selected_provider.id">
