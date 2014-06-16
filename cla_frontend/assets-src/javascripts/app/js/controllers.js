@@ -40,7 +40,6 @@
         new Case().$save(function(data) {
           $state.go('case_detail.edit', {caseref:data.reference});
         });
-
       };
     }]);
 
@@ -61,11 +60,15 @@
       function($rootScope, $window, $scope, History, $case){
         $scope.case = $case;
 
-        $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
+        var offStateChange = $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
           if (from.name === 'case_list') {
             History.caseListStateParams = fromParams;
           }
           $window.scrollTo(0,0);
+        });
+
+        $scope.$on('$destroy', function () {
+          offStateChange();
         });
 
       }]);
