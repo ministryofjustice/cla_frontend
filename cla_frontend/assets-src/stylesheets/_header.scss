@@ -1,5 +1,9 @@
 // Overrides to allow header to be full width
 #global-header {
+  #logo {
+    @include bold-24;
+  }
+
   &.with-proposition {
     .header-wrapper {
       .header-global {
@@ -14,6 +18,7 @@
       .header-proposition {
         width: auto;
         float: left;
+        padding-top: 2px;
 
         .content {
           margin-right: 0;
@@ -42,9 +47,9 @@
       .content {
         margin: 0;
       }
-      #logo img {
-        padding-right: 0;
-      }
+      // #logo img {
+      //   padding-right: 0;
+      // }
     }
   }
 }
