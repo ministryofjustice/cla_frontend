@@ -8,9 +8,10 @@ if (process.env.SAUCE_ONDEMAND_BROWSERS === undefined){
     'url': process.env.SELENIUM_DRIVER
   }]
 } else {
-  capabilities = process.env.SAUCE_ONDEMAND_BROWSERS || [{
-    'browserName': 'phantomjs',
-  }];
+  capabilities = process.env.SAUCE_ONDEMAND_BROWSERS ?
+    JSON.parse(process.env.SAUCE_ONDEMAND_BROWSERS) : [{
+      'browserName': 'phantomjs',
+    }];
 }
 
 exports.config = {
