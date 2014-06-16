@@ -19,6 +19,7 @@
     "gulp-load-plugins": "~0.4.0",
     "gulp-ruby-sass": "~0.4.0",
     "gulp-uglify": "~0.2.1",
+    "jasmine-reporters": "^0.4.1",
     "jshint-stylish": "~0.1.5",
     "karma": "~0.10",
     "phantomjs": "^1.9.7-8",

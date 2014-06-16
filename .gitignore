@@ -72,3 +72,4 @@ generated/
 vendor/
 
 /phantomjsdriver.log
+reports/

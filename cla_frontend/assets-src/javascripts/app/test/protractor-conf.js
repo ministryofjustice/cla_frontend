@@ -13,8 +13,11 @@ exports.config = {
 
   framework: 'jasmine',
 
-  jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
+  onPrepare: function() {
+    require('jasmine-reporters');
+
+    jasmine.getEnv().addReporter(
+      new jasmine.JUnitXmlReporter('reports', true, true));
   }
 
 };
