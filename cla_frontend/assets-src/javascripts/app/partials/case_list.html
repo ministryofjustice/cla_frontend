@@ -18,8 +18,8 @@
   <tr>
     <th width="15%"><span class="visuallyhidden">Reference</span></th>
     <th>Name</th>
-    <th width="18%"><a href="" ng-click="sortToggle('created')" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
-    <th width="18%"><a href="" ng-click="sortToggle('modified')" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
+    <th width="17%"><a href="" ng-click="sortToggle('created')" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
+    <th width="17%"><a href="" ng-click="sortToggle('modified')" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
     <th width="10%"><span class="visuallyhidden">Owner</span></th>
   </tr>
   </thead>
@@ -27,8 +27,8 @@
     <tr dir-paginate="case in cases.results | itemsPerPage: 20" total-items="cases.count" current-page="currentPage">
       <td><a ui-sref="case_detail.edit({caseref:case.reference})">{{ case.reference }}</a></td>
       <td>{{ case.full_name }}</td>
-      <td>{{ case.created  | general_date }}</td>
-      <td>{{ case.modified | general_date }}</td>
+      <td><span am-time-ago="case.created"></span></td>
+      <td><span am-time-ago="case.modified"></span></td>
       <td>{{ case.locked_by }}</td>
     </tr>
   </tbody>
