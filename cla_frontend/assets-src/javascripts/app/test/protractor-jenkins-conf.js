@@ -13,5 +13,8 @@ exports.config = extend(defaults, {
       platform: 'Windows 7',
       version: '11'
     }
-  ]
+  ],
+  jasmineNodeOpts: {
+    showColors: false
+  }
 });
