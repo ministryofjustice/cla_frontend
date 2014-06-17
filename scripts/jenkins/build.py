@@ -63,6 +63,9 @@ run('%s/pip install -r requirements/jenkins.txt' % bin_path)
 # Remove .pyc files from the project
 run("find . -name '*.pyc' -delete")
 
+# make sure bower really does install the right versions every time
+run("rm -rf cla_frontend/assets-src/vendor")
+
 # build js assets
 run('npm install')
 run("bower install")
