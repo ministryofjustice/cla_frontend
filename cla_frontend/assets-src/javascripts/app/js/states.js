@@ -70,6 +70,16 @@
     }
   };
 
+  states.CaseEditDetailEligibilityState = {
+    url: 'eligibility/',
+    views: {
+      '@case_detail': {
+        templateUrl:'/static/javascripts/app/partials/case_detail.edit.eligibility.html',
+        controller: 'EligibilityCheckCtrl'
+      }
+    }
+  };
+
   states.CaseEditDetailAssignState = {
     url: 'assign/',
     views: {

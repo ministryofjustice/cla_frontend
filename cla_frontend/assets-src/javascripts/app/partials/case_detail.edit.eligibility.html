@@ -1,0 +1,824 @@
+<ul>
+  <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.id)}" ng-click="onClickTab(tab)">{{ tab.title }}</li>
+</ul>
+
+<div>
+
+  <!-- ##### PROBLEM ##### -->
+
+  <div ng-show="isActiveTab('ec_problem')">
+    <p>What is your problem about? What is putting you at immediate risk?</p>
+
+    <div ng-repeat="category in category_list">
+      <input type="radio" name="category" ng-model="eligibility_check.category" value="{{ category.code }}">
+      {{ category.name }}
+    </div>
+  </div>
+
+  <!-- ##### DETAILS ##### -->
+
+  <div ng-show="isActiveTab('ec_details')">
+    <div class="FormRow cf FormRow--details" role="radiogroup" aria-labelledby="id_your_details-has_partner-label">
+      <p class="FormRow-label" id="id_your_details-has_partner-label">
+        Do you have a partner?
+      </p>
+
+      <label for="id_your_details-has_partner_0" class="FormRow-option">
+        <input type="radio" name="your_details-has_partner" id="id_your_details-has_partner_0" value="1">Yes
+      </label>
+
+      <label for="id_your_details-has_partner_1" class="FormRow-option">
+        <input type="radio" name="your_details-has_partner" id="id_your_details-has_partner_1" value="0">No
+      </label>
+    </div>
+
+    <div class="FormRow cf FormRow--details" role="radiogroup" aria-labelledby="id_your_details-has_benefits-label">
+      <p class="FormRow-label" id="id_your_details-has_benefits-label">
+        Are you or your partner on any benefits?
+      </p>
+
+      <label for="id_your_details-has_benefits_0" class="FormRow-option">
+        <input type="radio" name="your_details-has_benefits" id="id_your_details-has_benefits_0" value="1">Yes
+      </label>
+
+      <label for="id_your_details-has_benefits_1" class="FormRow-option">
+        <input type="radio" name="your_details-has_benefits" id="id_your_details-has_benefits_1" value="0">No
+      </label>
+    </div>
+
+    <div class="FormRow cf FormRow--details" role="radiogroup" aria-labelledby="id_your_details-has_children-label">
+      <p class="FormRow-label" id="id_your_details-has_children-label">
+        Do you have children?
+      </p>
+
+      <label for="id_your_details-has_children_0" class="FormRow-option">
+        <input type="radio" name="your_details-has_children" id="id_your_details-has_children_0" value="1">Yes
+      </label>
+
+      <label for="id_your_details-has_children_1" class="FormRow-option">
+        <input type="radio" name="your_details-has_children" id="id_your_details-has_children_1" value="0">No
+      </label>
+    </div>
+
+    <div class="FormRow cf FormRow--details" role="radiogroup" aria-labelledby="id_your_details-caring_responsibilities-label">
+      <p class="FormRow-label" id="id_your_details-caring_responsibilities-label">
+        Do you any other caring responsibilities?
+      </p>
+
+      <label for="id_your_details-caring_responsibilities_0" class="FormRow-option">
+        <input type="radio" name="your_details-caring_responsibilities" id="id_your_details-caring_responsibilities_0" value="1">Yes
+      </label>
+
+      <label for="id_your_details-caring_responsibilities_1" class="FormRow-option">
+        <input type="radio" name="your_details-caring_responsibilities" id="id_your_details-caring_responsibilities_1" value="0">
+        No
+      </label>
+    </div>
+
+    <div class="FormRow cf FormRow--details" role="radiogroup" aria-labelledby="id_your_details-own_property-label">
+      <p class="FormRow-label" id="id_your_details-own_property-label">
+        Do you or your partner own a property?
+      </p>
+
+      <label for="id_your_details-own_property_0" class="FormRow-option">
+        <input type="radio" name="your_details-own_property" id="id_your_details-own_property_0" value="1">
+        Yes
+      </label>
+
+      <label for="id_your_details-own_property_1" class="FormRow-option">
+        <input type="radio" name="your_details-own_property" id="id_your_details-own_property_1" value="0">
+        No
+      </label>
+    </div>
+
+    <div class="FormRow cf FormRow--details" role="radiogroup" aria-labelledby="id_your_details-risk_homeless-label">
+      <p class="FormRow-label" id="id_your_details-risk_homeless-label">
+        Are you at immediate risk of losing your home or becoming homeless?
+      </p>
+
+      <label for="id_your_details-risk_homeless_0" class="FormRow-option">
+        <input type="radio" name="your_details-risk_homeless" id="id_your_details-risk_homeless_0" value="1">
+        Yes
+      </label>
+
+      <label for="id_your_details-risk_homeless_1" class="FormRow-option">
+        <input type="radio" name="your_details-risk_homeless" id="id_your_details-risk_homeless_1" value="0">
+        No
+      </label>
+
+    </div>
+
+    <div class="FormRow cf" role="radiogroup" aria-labelledby="id_your_details-older_than_sixty-label">
+      <p class="FormRow-label" id="id_your_details-older_than_sixty-label">
+        Are you or your partner aged 60 or over?
+      </p>
+
+      <label for="id_your_details-older_than_sixty_0" class="FormRow-option">
+        <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_0" value="1">
+        Yes
+      </label>
+
+      <label for="id_your_details-older_than_sixty_1" class="FormRow-option">
+        <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_1" value="0">
+        No
+      </label>
+    </div>
+  </div>
+
+  <!-- ##### BENEFITS ##### -->
+
+  <div ng-show="isActiveTab('ec_benefits')">
+    <p>Whether or not you qualify for legal aid depends on how much money you and your partner earn. To find out if you're financially eligible, please answer these questions as honestly and fully as you can.</p>
+
+    <p>Note: Benefits such as child benefit/tax credit should be declared as income in the subsequent income declaration.</p>
+
+    <div class="FormBlock FormBlock--grey">
+      <div class="FormRow ">
+        <label for="id_your_benefits-income_support" class="FormRow-label">
+          <input type="checkbox" name="your_benefits-income_support" id="id_your_benefits-income_support" class="js-Conditional">
+          Income Support
+        </label>
+      </div>
+
+      <div class="FormRow ">
+        <label for="id_your_benefits-job_seekers" class="FormRow-label">
+          <input type="checkbox" name="your_benefits-job_seekers" id="id_your_benefits-job_seekers" class="js-Conditional">
+          Income-Based Job Seeker's Allowance
+        </label>
+      </div>
+
+      <div class="FormRow ">
+        <label for="id_your_benefits-employment_allowance" class="FormRow-label">
+          <input type="checkbox" name="your_benefits-employment_allowance" id="id_your_benefits-employment_allowance" class="js-Conditional">
+          Income-Related Employment and Support Allowance
+        </label>
+      </div>
+
+      <div class="FormRow ">
+        <label for="id_your_benefits-universal_credit" class="FormRow-label">
+          <input type="checkbox" name="your_benefits-universal_credit" id="id_your_benefits-universal_credit" class="js-Conditional">
+          Guarantee Credit or Universal Credit
+        </label>
+      </div>
+
+      <div class="FormRow ">
+        <label for="id_your_benefits-nass_benefit" class="FormRow-label">
+          <input type="checkbox" name="your_benefits-nass_benefit" id="id_your_benefits-nass_benefit" class="js-Conditional">
+          Immigration/asylum
+        </label>
+      </div>
+
+      <div class="FormRow ">
+        <label for="id_your_benefits-none_of_above" class="FormRow-label">
+          <input type="checkbox" name="your_benefits-none_of_above" id="id_your_benefits-none_of_above" data-conditional-el="conditional-id_your_benefits-none_of_above" class="js-Conditional" aria-control="conditional-id_your_benefits-none_of_above">
+          None of the above
+        </label>
+
+        <div id="conditional-id_your_benefits-none_of_above" class="Conditional" aria-expanded="false" aria-hidden="true" style="display: none;">
+          <p class="Conditional-label"><strong>Please list which benefits you are on that are not listed:</strong></p>
+          <div class="FormRow-inner">
+            <textarea cols="80" id="id_your_problem-your_problem_notes" name="your_problem-your_problem_notes" rows="5"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ##### FINANCES ##### -->
+
+  <div ng-show="isActiveTab('ec_finances')">
+    <section>
+      <div class="clearfix">
+        <h2 id="property-0-label" class="FormBlock-label FormBlock-label--inline">Your  property</h2>
+      </div>
+
+      <div class="FormBlock FormBlock--grey" aria-labelledby="property-0-label" role="group">
+        <div class="FormRow cf">
+          <label for="id_property-0-worth" id="id_property-0-worth-label">
+            <span class="FormRow-label">
+              How much is it worth?
+            </span>
+            <span class="FormRow-prefix">£</span>
+            <input id="id_property-0-worth" max="9999999999" min="0" name="property-0-worth" step="0.01" type="number">
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_property-0-mortgage_left" id="id_property-0-mortgage_left-label">
+            <span class="FormRow-label">
+              How much is left to pay on the mortgage?
+            </span>
+            <span class="FormRow-prefix">£</span>
+            <input id="id_property-0-mortgage_left" max="9999999999" min="0" name="property-0-mortgage_left" step="0.01" type="number">
+          </label>
+        </div>
+
+        <div class="FormRow cf" role="radiogroup" aria-labelledby="id_property-0-owner-label">
+          <p class="FormRow-label" id="id_property-0-owner-label">
+            Is the property owned by you or is it in joint names?
+          </p>
+          <label for="id_property-0-owner_0" class="FormRow-option">
+            <input type="radio" name="property-0-owner" id="id_property-0-owner_0" value="1">
+            Owned by me
+          </label>
+
+          <label for="id_property-0-owner_1" class="FormRow-option">
+            <input type="radio" name="property-0-owner" id="id_property-0-owner_1" value="0">
+            Joint names
+          </label>
+        </div>
+
+        <div class="FormRow cf" role="radiogroup" aria-labelledby="id_property-0-disputed-label">
+          <p class="FormRow-label" id="id_property-0-disputed-label">
+            Is this property disputed?
+          </p>
+
+          <label for="id_property-0-disputed_0" class="FormRow-option">
+            <input type="radio" name="property-0-disputed" id="id_property-0-disputed_0" value="1">
+            Yes
+          </label>
+
+          <label for="id_property-0-disputed_1" class="FormRow-option">
+            <input type="radio" name="property-0-disputed" id="id_property-0-disputed_1" value="0">
+            No
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_property-0-share" id="id_property-0-share-label">
+            <span class="FormRow-label">
+              What is your share of the property?
+            </span>
+            <input class="FormRow-field--s" id="id_property-0-share" max="100" min="0" name="property-0-share" type="number">
+            <span class="FormRow-suffix">%</span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="FormBlock-actions">
+        <button class="Button Button--secondary" type="submit" name="submit" value="add-property">Add another property</button>
+      </div>
+    </section>
+
+    <section class="Grid">
+      <h2 id="your_savings-label" class="FormBlock-label">Your savings</h2>
+
+      <div class="FormBlock FormBlock--grey" aria-labelledby="your_savings-label" role="group">
+
+        <div class="FormRow cf">
+          <label for="id_your_savings-bank" id="id_your_savings-bank-label">
+            <span class="Grid-col Grid-col--2-3">
+              Do you have any money saved in a bank or building society?
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_savings-bank" max="9999999999" min="0" name="your_savings-bank" step="0.01" type="number">
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_your_savings-investments" id="id_your_savings-investments-label">
+            <span class="Grid-col Grid-col--2-3">
+              Do you have any investments, shares, ISAs?
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_savings-investments" max="9999999999" min="0" name="your_savings-investments" step="0.01" type="number">
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_your_savings-valuable_items" id="id_your_savings-valuable_items-label">
+            <span class="Grid-col Grid-col--2-3">
+              Do you have any valuable items over £££ each?
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_savings-valuable_items" max="9999999999" min="0" name="your_savings-valuable_items" step="0.01" type="number">
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_your_savings-money_owed" id="id_your_savings-money_owed-label">
+            <span class="Grid-col Grid-col--2-3">
+              Do you have any money owed to you?
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_savings-money_owed" max="9999999999" min="0" name="your_savings-money_owed" step="0.01" type="number">
+            </span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="Grid">
+      <h2 id="partners_savings-label" class="FormBlock-label">Your partner's savings</h2>
+
+      <div class="FormBlock FormBlock--grey" aria-labelledby="partners_savings-label" role="group">
+
+        <div class="FormRow cf">
+          <label for="id_partners_savings-bank" id="id_partners_savings-bank-label">
+            <span class="Grid-col Grid-col--2-3">
+              Do you have any money saved in a bank or building society?
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_savings-bank" max="9999999999" min="0" name="partners_savings-bank" step="0.01" type="number">
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_partners_savings-investments" id="id_partners_savings-investments-label">
+            <span class="Grid-col Grid-col--2-3">
+              Do you have any investments, shares, ISAs?
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_savings-investments" max="9999999999" min="0" name="partners_savings-investments" step="0.01" type="number">
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_partners_savings-valuable_items" id="id_partners_savings-valuable_items-label">
+            <span class="Grid-col Grid-col--2-3">
+              Do you have any valuable items over £££ each?
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_savings-valuable_items" max="9999999999" min="0" name="partners_savings-valuable_items" step="0.01" type="number">
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_partners_savings-money_owed" id="id_partners_savings-money_owed-label">
+            <span class="Grid-col Grid-col--2-3">
+              Do you have any money owed to you?
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_savings-money_owed" max="9999999999" min="0" name="partners_savings-money_owed" step="0.01" type="number">
+            </span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ##### INCOME ##### -->
+
+  <div ng-show="isActiveTab('ec_income')">
+    <section>
+      <h2 id="your_income-label" class="FormBlock-label">Your income</h2>
+
+      <div class="FormBlock FormBlock--grey" aria-labelledby="your_income-label" role="group">
+
+        <div class="FormRow cf">
+          <label for="id_your_income-earnings_0" id="id_your_income-earnings-label">
+            <span class="FormRow-label">
+              Earnings
+            </span>
+
+            <span class="FormRow-prefix">£</span>
+            <input id="id_your_income-earnings_0" max="2500000" min="0" name="your_income-earnings_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+            <select class="InlineField" id="id_your_income-earnings_1" name="your_income-earnings_1">
+              <option value="per_week">Week</option>
+              <option value="per_4week">4 Weekly</option>
+              <option value="per_month" selected="selected">Month</option>
+              <option value="per_year">Year</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_your_income-other_income_0" id="id_your_income-other_income-label">
+            <span class="FormRow-label">
+              Other income
+
+            </span>
+            <span class="FormRow-prefix">£</span>
+            <input id="id_your_income-other_income_0" max="2500000" min="0" name="your_income-other_income_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+            <select class="InlineField" id="id_your_income-other_income_1" name="your_income-other_income_1">
+              <option value="per_week">Week</option>
+              <option value="per_4week">4 Weekly</option>
+              <option value="per_month" selected="selected">Month</option>
+              <option value="per_year">Year</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="FormRow cf" role="radiogroup" aria-labelledby="id_your_income-self_employed-label">
+          <p class="FormRow-label" id="id_your_income-self_employed-label">
+            Are you self employed?
+          </p>
+
+          <label for="id_your_income-self_employed_0" class="FormRow-option">
+            <input type="radio" name="your_income-self_employed" id="id_your_income-self_employed_0" value="1">
+            Yes
+          </label>
+
+          <label for="id_your_income-self_employed_1" class="FormRow-option">
+            <input type="radio" name="your_income-self_employed" id="id_your_income-self_employed_1" value="0" checked="checked">
+            No
+          </label>
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <h2 id="partners_income-label" class="FormBlock-label">Your partner's income</h2>
+
+      <div class="FormBlock FormBlock--grey" aria-labelledby="partners_income-label" role="group">
+        <div class="FormRow cf">
+          <label for="id_partners_income-earnings_0" id="id_partners_income-earnings-label">
+            <span class="FormRow-label">
+              Earnings
+            </span>
+            <span class="FormRow-prefix">£</span>
+            <input id="id_partners_income-earnings_0" max="2500000" min="0" name="partners_income-earnings_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+            <select class="InlineField" id="id_partners_income-earnings_1" name="partners_income-earnings_1">
+              <option value="per_week">Week</option>
+              <option value="per_4week">4 Weekly</option>
+              <option value="per_month" selected="selected">Month</option>
+              <option value="per_year">Year</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_partners_income-other_income_0" id="id_partners_income-other_income-label">
+            <span class="FormRow-label">
+              Other income
+
+            </span>
+            <span class="FormRow-prefix">£</span>
+            <input id="id_partners_income-other_income_0" max="2500000" min="0" name="partners_income-other_income_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+            <select class="InlineField" id="id_partners_income-other_income_1" name="partners_income-other_income_1">
+              <option value="per_week">Week</option>
+              <option value="per_4week">4 Weekly</option>
+              <option value="per_month" selected="selected">Month</option>
+              <option value="per_year">Year</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="FormRow cf" role="radiogroup" aria-labelledby="id_partners_income-self_employed-label">
+          <p class="FormRow-label" id="id_partners_income-self_employed-label">
+            Are you self employed?
+          </p>
+
+          <label for="id_partners_income-self_employed_0" class="FormRow-option">
+            <input type="radio" name="partners_income-self_employed" id="id_partners_income-self_employed_0" value="1">
+            Yes
+          </label>
+
+          <label for="id_partners_income-self_employed_1" class="FormRow-option">
+            <input type="radio" name="partners_income-self_employed" id="id_partners_income-self_employed_1" value="0" checked="checked">
+            No
+          </label>
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <h2 id="dependants-label" class="FormBlock-label">Dependants</h2>
+
+      <div class="FormBlock FormBlock--grey" aria-labelledby="dependants-label" role="group">
+
+        <div class="FormRow cf">
+          <label for="id_dependants-dependants_old" id="id_dependants-dependants_old-label">
+            <span class="FormRow-label">
+              Children aged 16 and over
+            </span>
+            <input class="FormRow-field--xs" id="id_dependants-dependants_old" min="0" name="dependants-dependants_old" type="number">
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <label for="id_dependants-dependants_young" id="id_dependants-dependants_young-label">
+            <span class="FormRow-label">
+              Children aged 15 and under
+            </span>
+            <input class="FormRow-field--xs" id="id_dependants-dependants_young" min="0" name="dependants-dependants_young" type="number">
+          </label>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ##### EXPENSES ##### -->
+
+  <div ng-show="isActiveTab('ec_expenses')">
+
+    <section>
+      <h2 id="your_allowances-label" class="FormBlock-label">Your expenses</h2>
+
+      <div class="FormBlock FormBlock--grey Grid js-SubTotal" aria-labelledby="your_allowances-label" role="group">
+
+        <div class="FieldGroup">
+          <h3 class="FieldGroup-label">Housing costs</h3>
+
+          <div class="FormRow FormRow--help cf">
+            <label for="id_your_allowances-mortgage_0" id="id_your_allowances-mortgage-label">
+              <span class="FormRow-label Grid-col Grid-col--2-3">
+                Mortgage
+              </span>
+
+              <span class="Grid-col Grid-col--1-3">
+                <span class="FormRow-prefix">£</span>
+                <input id="id_your_allowances-mortgage_0" max="2500000" min="0" name="your_allowances-mortgage_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+                <select class="InlineField" id="id_your_allowances-mortgage_1" name="your_allowances-mortgage_1">
+                  <option value="per_week">Week</option>
+                  <option value="per_4week">4 Weekly</option>
+                  <option value="per_month" selected="selected">Month</option>
+                  <option value="per_year">Year</option>
+                </select>
+                <span class="FormRow-help">per month</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="FormRow FormRow--help cf">
+            <label for="id_your_allowances-rent_0" id="id_your_allowances-rent-label">
+              <span class="FormRow-label Grid-col Grid-col--2-3">
+                Rent
+              </span>
+              <span class="Grid-col Grid-col--1-3">
+                <span class="FormRow-prefix">£</span>
+                <input id="id_your_allowances-rent_0" max="2500000" min="0" name="your_allowances-rent_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+                <select class="InlineField" id="id_your_allowances-rent_1" name="your_allowances-rent_1">
+                  <option value="per_week">Week</option>
+                  <option value="per_4week">4 Weekly</option>
+                  <option value="per_month" selected="selected">Month</option>
+                  <option value="per_year">Year</option>
+                </select>
+                <span class="FormRow-help">per month</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_your_allowances-tax_0" id="id_your_allowances-tax-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              Tax
+
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_allowances-tax_0" max="2500000" min="0" name="your_allowances-tax_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+              <select class="InlineField" id="id_your_allowances-tax_1" name="your_allowances-tax_1">
+                <option value="per_week">Week</option>
+                <option value="per_4week">4 Weekly</option>
+                <option value="per_month" selected="selected">Month</option>
+                <option value="per_year">Year</option>
+              </select>
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_your_allowances-ni_0" id="id_your_allowances-ni-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              National Insurance
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_allowances-ni_0" max="2500000" min="0" name="your_allowances-ni_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+              <select class="InlineField" id="id_your_allowances-ni_1" name="your_allowances-ni_1">
+                <option value="per_week">Week</option>
+                <option value="per_4week">4 Weekly</option>
+                <option value="per_month" selected="selected">Month</option>
+                <option value="per_year">Year</option>
+              </select>
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_your_allowances-maintenance_0" id="id_your_allowances-maintenance-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              Maintenance
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_allowances-maintenance_0" max="2500000" min="0" name="your_allowances-maintenance_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+              <select class="InlineField" id="id_your_allowances-maintenance_1" name="your_allowances-maintenance_1">
+                <option value="per_week">Week</option>
+                <option value="per_4week">4 Weekly</option>
+                <option value="per_month" selected="selected">Month</option>
+                <option value="per_year">Year</option>
+              </select>
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_your_allowances-childcare_0" id="id_your_allowances-childcare-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              Childcare
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_allowances-childcare_0" max="2500000" min="0" name="your_allowances-childcare_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+              <select class="InlineField" id="id_your_allowances-childcare_1" name="your_allowances-childcare_1">
+                <option value="per_week">Week</option>
+                <option value="per_4week">4 Weekly</option>
+                <option value="per_month" selected="selected">Month</option>
+                <option value="per_year">Year</option>
+              </select>
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_your_allowances-criminal_legalaid_contributions" id="id_your_allowances-criminal_legalaid_contributions-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              Payments being made towards a contribution order
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_your_allowances-criminal_legalaid_contributions" max="9999999999" min="0" name="your_allowances-criminal_legalaid_contributions" step="0.01" type="number">
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <p class="SubTotal cf">
+          <span class="Grid-col Grid-col--1-3 Grid-colPush--2-3">
+            <span class="SubTotal-symbol">£</span> 0.00
+          </span>
+        </p>
+      </div>
+
+    </section>
+
+    <section>
+      <h2 id="partners_allowances-label" class="FormBlock-label">Your partner's expenses</h2>
+
+      <div class="FormBlock FormBlock--grey Grid js-SubTotal" aria-labelledby="partners_allowances-label" role="group">
+
+        <div class="FieldGroup">
+          <h3 class="FieldGroup-label">Housing costs</h3>
+
+          <div class="FormRow FormRow--help cf">
+            <label for="id_partners_allowances-mortgage_0" id="id_partners_allowances-mortgage-label">
+              <span class="FormRow-label Grid-col Grid-col--2-3">
+                Mortgage
+              </span>
+              <span class="Grid-col Grid-col--1-3">
+                <span class="FormRow-prefix">£</span>
+                <input id="id_partners_allowances-mortgage_0" max="2500000" min="0" name="partners_allowances-mortgage_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+                <select class="InlineField" id="id_partners_allowances-mortgage_1" name="partners_allowances-mortgage_1">
+                  <option value="per_week">Week</option>
+                  <option value="per_4week">4 Weekly</option>
+                  <option value="per_month" selected="selected">Month</option>
+                  <option value="per_year">Year</option>
+                </select>
+                <span class="FormRow-help">per month</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="FormRow FormRow--help cf">
+            <label for="id_partners_allowances-rent_0" id="id_partners_allowances-rent-label">
+              <span class="FormRow-label Grid-col Grid-col--2-3">
+                Rent
+              </span>
+              <span class="Grid-col Grid-col--1-3">
+                <span class="FormRow-prefix">£</span>
+                <input id="id_partners_allowances-rent_0" max="2500000" min="0" name="partners_allowances-rent_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+                <select class="InlineField" id="id_partners_allowances-rent_1" name="partners_allowances-rent_1">
+                  <option value="per_week">Week</option>
+                  <option value="per_4week">4 Weekly</option>
+                  <option value="per_month" selected="selected">Month</option>
+                  <option value="per_year">Year</option>
+                </select>
+                <span class="FormRow-help">per month</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_partners_allowances-tax_0" id="id_partners_allowances-tax-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              Tax
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_allowances-tax_0" max="2500000" min="0" name="partners_allowances-tax_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+              <select class="InlineField" id="id_partners_allowances-tax_1" name="partners_allowances-tax_1">
+                <option value="per_week">Week</option>
+                <option value="per_4week">4 Weekly</option>
+                <option value="per_month" selected="selected">Month</option>
+                <option value="per_year">Year</option>
+              </select>
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_partners_allowances-ni_0" id="id_partners_allowances-ni-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              National Insurance
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_allowances-ni_0" max="2500000" min="0" name="partners_allowances-ni_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+              <select class="InlineField" id="id_partners_allowances-ni_1" name="partners_allowances-ni_1">
+                <option value="per_week">Week</option>
+                <option value="per_4week">4 Weekly</option>
+                <option value="per_month" selected="selected">Month</option>
+                <option value="per_year">Year</option>
+              </select>
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_partners_allowances-maintenance_0" id="id_partners_allowances-maintenance-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              Maintenance
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_allowances-maintenance_0" max="2500000" min="0" name="partners_allowances-maintenance_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+              <select class="InlineField" id="id_partners_allowances-maintenance_1" name="partners_allowances-maintenance_1">
+                <option value="per_week">Week</option>
+                <option value="per_4week">4 Weekly</option>
+                <option value="per_month" selected="selected">Month</option>
+                <option value="per_year">Year</option>
+              </select>
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_partners_allowances-childcare_0" id="id_partners_allowances-childcare-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              Childcare
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_allowances-childcare_0" max="2500000" min="0" name="partners_allowances-childcare_0" step="0.01" type="number"><span class="FormRow-label FormRow-label--inline">per</span>
+              <select class="InlineField" id="id_partners_allowances-childcare_1" name="partners_allowances-childcare_1">
+                <option value="per_week">Week</option>
+                <option value="per_4week">4 Weekly</option>
+                <option value="per_month" selected="selected">Month</option>
+                <option value="per_year">Year</option>
+              </select>
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="FormRow FormRow--help cf">
+          <label for="id_partners_allowances-criminal_legalaid_contributions" id="id_partners_allowances-criminal_legalaid_contributions-label">
+            <span class="FormRow-label Grid-col Grid-col--2-3">
+              Payments being made towards a contribution order
+            </span>
+            <span class="Grid-col Grid-col--1-3">
+              <span class="FormRow-prefix">£</span>
+              <input id="id_partners_allowances-criminal_legalaid_contributions" max="9999999999" min="0" name="partners_allowances-criminal_legalaid_contributions" step="0.01" type="number">
+              <span class="FormRow-help">per month</span>
+            </span>
+          </label>
+        </div>
+
+        <p class="SubTotal cf">
+          <span class="Grid-col Grid-col--1-3 Grid-colPush--2-3">
+            <span class="SubTotal-symbol">£</span> 0.00
+          </span>
+        </p>
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <div class="FormActions">
+    <button type="submit" class="Button">Save</button>
+  </div>
+</div>

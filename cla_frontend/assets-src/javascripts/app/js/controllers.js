@@ -157,6 +157,46 @@
     }]);
 
   angular.module('cla.controllers')
+    .controller('EligibilityCheckCtrl',
+      ['$scope', 'Category', 'EligibilityCheck', 'form_utils',
+      function($scope, Category, EligibilityCheck, form_utils){
+        $scope.category_list = Category.query();
+        $scope.eligibility_check = EligibilityCheck.get({ref: $scope.case.eligibility_check});
+
+        $scope.tabs = [{
+            title: 'Problem',
+            id: 'ec_problem'
+          }, {
+            title: 'Details',
+            id: 'ec_details'
+          }, {
+            title: 'Finances',
+            id: 'ec_finances'
+          }, {
+            title: 'Benefits',
+            id: 'ec_benefits'
+          }, {
+            title: 'Income',
+            id: 'ec_income'
+          }, {
+            title: 'Expenses',
+            id: 'ec_expenses'
+          }
+        ];
+
+        $scope.currentTab = 'ec_problem';
+
+        $scope.onClickTab = function (tab) {
+          $scope.currentTab = tab.id;
+        };
+
+        $scope.isActiveTab = function(tabId) {
+          return tabId === $scope.currentTab;
+        };
+      }
+    ]);
+
+  angular.module('cla.controllers')
     .controller('CaseDeclineSpecialistsCtrl',
     ['$scope', '$state', 'OutcomeCode', function($scope, $state, OutcomeCode) {
 

@@ -10,6 +10,7 @@
         .state('case_list', states.CaseListState)
         .state('case_detail', states.CaseDetailState)
         .state('case_detail.edit', states.CaseEditDetailState)
+        .state('case_detail.edit.eligibility', states.CaseEditDetailEligibilityState)
         .state('case_detail.edit.assign', states.CaseEditDetailAssignState)
         .state('case_detail.edit.assign.complete', states.CaseEditDetailAssignCompleteState)
         .state('case_detail.edit.decline_specialists', states.CaseDetailDeclineSpecialistsState)
