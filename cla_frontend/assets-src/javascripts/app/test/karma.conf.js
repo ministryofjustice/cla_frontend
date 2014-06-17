@@ -19,16 +19,20 @@ module.exports = function(config){
 
     frameworks: ['jasmine'],
 
-    browsers : ['Chrome'],
+    browsers : ['PhantomJS'],
 
     plugins : [
             'karma-chrome-launcher',
             'karma-firefox-launcher',
-            'karma-jasmine'
+            'karma-phantomjs-launcher',
+            'karma-jasmine',
+            'karma-junit-reporter'
             ],
 
+    reporters: ['progress', 'junit'],
+
     junitReporter : {
-      outputFile: 'test_out/unit.xml',
+      outputFile: '../../../../reports/karma.xml',
       suite: 'unit'
     }
 
