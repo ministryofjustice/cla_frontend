@@ -80,6 +80,9 @@ run("wget http://localhost:8000/admin/ -t 20 --retry-connrefused --waitretry=2 -
 frontend_process = run_bg("%s/python manage.py runserver 0.0.0.0:8001" % bin_path)
 run("wget http://localhost:8001/ -t 20 --retry-connrefused --waitretry=2 -T 60")
 
+# run Karma unit tests
+run('npm run test-single-run')
+
 # run protractor tests against SauceLabs
 run(
     ('node_modules/protractor/bin/protractor '
