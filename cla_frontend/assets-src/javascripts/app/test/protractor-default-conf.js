@@ -5,10 +5,6 @@ exports.config = {
     'e2e/*.js'
   ],
 
-  capabilities: {
-    'browserName': 'phantomjs',
-  },
-
   baseUrl: 'http://localhost:8001/',
 
   framework: 'jasmine',
