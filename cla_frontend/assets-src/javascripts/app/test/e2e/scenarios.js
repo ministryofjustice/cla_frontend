@@ -3,7 +3,7 @@
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
 var protractor = require('protractor');
-var APP_BASE_URL = 'operator/';
+var APP_BASE_URL = 'call_centre/';
 
 // UTILS
 function expectUrl(absUrl, expectedUrl) {
@@ -46,7 +46,7 @@ describe('operatorApp', function() {
 
       browser.get(APP_BASE_URL);
 
-      // after login this should be the url browser.get('operator/');
+      // after login this should be the url browser.get('call_centre/');
       browser.getLocationAbsUrl().then(function(url) {
         expectUrl(url, APP_BASE_URL);
       });
@@ -70,7 +70,7 @@ describe('operatorApp', function() {
 
   describe('Case Detail', function() {
     it('should get case list when given non existant case reference', function() {
-      browser.get('operator/XX-0000-0000/');
+      browser.get('call_centre/XX-0000-0000/');
       browser.getLocationAbsUrl().then(function(url) {
         expectUrl(url, APP_BASE_URL);
 

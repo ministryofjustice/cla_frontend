@@ -1,8 +1,23 @@
-{% extends "common/dashboard.html" %}{% load humanize i18n %}
+{% extends app_base_template %}{% load humanize i18n static %}
 
-{% block actions %}
-<form action="{% url 'call_centre:create_case' %}" method="post" class="u-pullLeft">
-  {% csrf_token %}
-  <button type="submit" class="Button">{% trans "Create a case" %}</button>
+{% block html_attrs %}ng-app="cla.app"{% endblock %}
+
+{% block body_attrs %}ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
+
+{% block messages %}
+<flash-messages></flash-messages>
+{% endblock messages %}
+
+{% block search %}{% verbatim %}
+<form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
+  <div class="CaseSearch-inner cf">
+    <label for="case-search" class="CaseSearch-label">Search</label>
+    <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" ng-model="search" autocomplete="off">
+    <input class="CaseSearch-submit" type="submit" value="Search">
+  </div>
 </form>
+{% endverbatim %}{% endblock %}
+
+{% block full_content %}
+  <div ui-view></div>
 {% endblock %}

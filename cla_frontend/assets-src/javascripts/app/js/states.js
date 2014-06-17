@@ -10,7 +10,7 @@
 
   states.CaseListState = {
     parent: states.Layout,
-    url: '/operator/?search?ordering?page',
+    url: '/call_centre/?search?ordering?page',
     templateUrl: '/static/javascripts/app/partials/case_list.html',
     controller: 'CaseListCtrl',
     resolve: {
@@ -35,7 +35,7 @@
   states.CaseDetailState = {
     parent: states.Layout,
     abstract: true,
-    url: '/operator/:caseref/',
+    url: '/call_centre/:caseref/',
     templateUrl: '/static/javascripts/app/partials/case_detail.html',
     controller: 'CaseDetailCtrl',
     resolve: {
