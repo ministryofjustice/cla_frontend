@@ -173,9 +173,6 @@
             title: 'Finances',
             id: 'ec_finances'
           }, {
-            title: 'Benefits',
-            id: 'ec_benefits'
-          }, {
             title: 'Income',
             id: 'ec_income'
           }, {
@@ -192,6 +189,10 @@
 
         $scope.isActiveTab = function(tabId) {
           return tabId === $scope.currentTab;
+        };
+
+        $scope.save = function() {
+          $scope.eligibility_check.$patch();
         };
       }
     ]);
