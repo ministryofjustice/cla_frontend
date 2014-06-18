@@ -82,21 +82,23 @@
 
     <div ng-show="isActiveTab('ec_finances')">
 
-      <h1>TODO: Property not ng-modelled yet</h1>
-
       <section>
         <div class="clearfix">
           <h2 id="property-0-label" class="FormBlock-label FormBlock-label--inline">Your  property</h2>
         </div>
 
-        <div class="FormBlock FormBlock--grey" aria-labelledby="property-0-label" role="group">
+        <div ng-show="!eligibility_check.property_set || eligibility_check.property_set.length === 0">
+          <i>Currently no property</i>
+        </div>
+
+        <div class="FormBlock FormBlock--grey" aria-labelledby="property-0-label" role="group" ng-repeat="property in eligibility_check.property_set">
           <div class="FormRow cf">
             <label for="id_property-0-worth" id="id_property-0-worth-label">
               <span class="FormRow-label">
                 How much is it worth?
               </span>
               <span class="FormRow-prefix">£</span>
-              <input id="id_property-0-worth" max="9999999999" min="0" name="property-0-worth" step="0.01" type="number">
+              <input id="id_property-0-worth" max="9999999999" min="0" step="0.01" type="number" ng-model="property.value">
             </label>
           </div>
 
@@ -106,7 +108,7 @@
                 How much is left to pay on the mortgage?
               </span>
               <span class="FormRow-prefix">£</span>
-              <input id="id_property-0-mortgage_left" max="9999999999" min="0" name="property-0-mortgage_left" step="0.01" type="number">
+              <input id="id_property-0-mortgage_left" max="9999999999" min="0" step="0.01" type="number" ng-model="property.mortgage_left">
             </label>
           </div>
 
@@ -115,12 +117,12 @@
               Is the property owned by you or is it in joint names?
             </p>
             <label for="id_property-0-owner_0" class="FormRow-option">
-              <input type="radio" name="property-0-owner" id="id_property-0-owner_0" value="1">
+              <input type="radio" id="id_property-0-owner_0" value="1">
               Owned by me
             </label>
 
             <label for="id_property-0-owner_1" class="FormRow-option">
-              <input type="radio" name="property-0-owner" id="id_property-0-owner_1" value="0">
+              <input type="radio" id="id_property-0-owner_1" value="0">
               Joint names
             </label>
           </div>
@@ -131,12 +133,12 @@
             </p>
 
             <label for="id_property-0-disputed_0" class="FormRow-option">
-              <input type="radio" name="property-0-disputed" id="id_property-0-disputed_0" value="1">
+              <input type="radio" id="id_property-0-disputed_0" value="1" ng-model="property.disputed">
               Yes
             </label>
 
             <label for="id_property-0-disputed_1" class="FormRow-option">
-              <input type="radio" name="property-0-disputed" id="id_property-0-disputed_1" value="0">
+              <input type="radio" id="id_property-0-disputed_1" value="0" ng-model="property.disputed">
               No
             </label>
           </div>
@@ -146,15 +148,16 @@
               <span class="FormRow-label">
                 What is your share of the property?
               </span>
-              <input class="FormRow-field--s" id="id_property-0-share" max="100" min="0" name="property-0-share" type="number">
+              <input class="FormRow-field--s" id="id_property-0-share" max="100" min="0" type="number" ng-model="property.share">
               <span class="FormRow-suffix">%</span>
             </label>
           </div>
 
+          <a ng-click="removeProperty($index)">Remove this property</a>
         </div>
 
         <div class="FormBlock-actions">
-          <button class="Button Button--secondary" type="submit" name="submit" value="add-property">Add another property</button>
+          <a class="Button Button--secondary" ng-click="addProperty()">Add property</a>
         </div>
       </section>
 

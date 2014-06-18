@@ -181,7 +181,7 @@
           }
         ];
 
-        $scope.currentTab = 'ec_problem';
+        $scope.currentTab = 'ec_finances';
 
         $scope.onClickTab = function (tab) {
           $scope.currentTab = tab.id;
@@ -193,6 +193,18 @@
 
         $scope.save = function() {
           $scope.eligibility_check.$patch();
+        };
+
+        $scope.removeProperty = function(index) {
+          $scope.eligibility_check.property_set.splice(index, 1);
+        };
+
+        $scope.addProperty = function() {
+          if ($scope.eligibility_check.property_set === null) {
+            $scope.eligibility_check.property_set = [];
+          }
+
+          $scope.eligibility_check.property_set.push({});
         };
       }
     ]);
