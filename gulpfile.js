@@ -21,6 +21,7 @@ var paths = {
     'cla_frontend/assets-src/vendor/angular-resource/angular-resource.js',
     'cla_frontend/assets-src/vendor/angular-ui-router/release/angular-ui-router.js',
     'cla_frontend/assets-src/vendor/angular-i18n/angular-locale_en-gb.js',
+    'cla_frontend/assets-src/javascripts/vendor/xeditable.js',
     'cla_frontend/assets-src/vendor/moment/moment.js',
     'cla_frontend/assets-src/vendor/angular-moment/angular-moment.js',
     // angular app code
