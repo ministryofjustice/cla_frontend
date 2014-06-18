@@ -76,9 +76,19 @@
 
   angular.module('cla.services')
     .factory('EligibilityCheck', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
+      var that = this, resource;
+
+      this.BASE_URL = '/call_centre/proxy/eligibility_check/';
+
+      resource = $resource(this.BASE_URL + ':ref/', {ref: '@reference'}, {
         'patch': {method: 'PATCH'}
       });
+
+
+      resource.prototype.validate = function() {
+        return $http.get(that.BASE_URL+this.reference+'/validate/');
+      };
+      return resource;
     }]);
 
   angular.module('cla.services')

@@ -8,12 +8,18 @@
 
     <!-- ##### PROBLEM ##### -->
     <div ng-show="isActiveTab('ec_problem')">
-      <p>What is your problem about? What is putting you at immediate risk?</p>
-
-      <div ng-repeat="category in category_list">
-        <input type="radio" name="category" ng-model="eligibility_check.category" value="{{ category.code }}">
-        {{ category.name }}
-      </div>
+      <section class="question">
+        <p class="question">What is your problem about? What is putting you at immediate risk?</p>
+        <cla-server-warning data-for="category"></cla-server-warning>
+        <ul>
+          <li ng-repeat="category in category_list">
+            <label>
+              <input type="radio" name="category" ng-model="eligibility_check.category" value="{{ category.code }}" >
+              {{ category.name }}
+            </label>
+          </li>
+        </ul>
+      </section>
     </div>
 
     <!-- ##### DETAILS ##### -->

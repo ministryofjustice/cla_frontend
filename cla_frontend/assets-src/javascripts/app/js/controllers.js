@@ -162,6 +162,7 @@
       function($scope, Category, EligibilityCheck, form_utils){
         $scope.category_list = Category.query();
         $scope.eligibility_check = EligibilityCheck.get({ref: $scope.case.eligibility_check});
+        $scope.warnings = {};
 
         $scope.tabs = [{
             title: 'Problem',
@@ -192,7 +193,11 @@
         };
 
         $scope.save = function() {
-          $scope.eligibility_check.$patch();
+          $scope.eligibility_check.$patch().then(function () {
+            $scope.eligibility_check.validate().then(function (resp) {
+              $scope.warnings = resp.data.warnings;
+            });
+          });
         };
       }
     ]);
