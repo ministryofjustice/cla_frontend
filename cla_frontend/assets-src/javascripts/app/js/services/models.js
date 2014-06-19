@@ -62,6 +62,12 @@
         return $http.post(url, data).success(successCallback);
       };
 
+      resource.prototype.$associate_eligibility_check = function(reference, successCallback) {
+        var data = {reference: reference},
+            url = '/call_centre/proxy/case/'+this.reference+'/associate_eligibility_check/';
+        return $http.post(url, data).success(successCallback);
+      };
+
       resource.prototype.get_suggested_providers = function(){
         return $http.get('/call_centre/proxy/case/'+this.reference+'/assign_suggest/');
       };
@@ -84,6 +90,13 @@
         'patch': {method: 'PATCH'}
       });
 
+      resource.prototype.$update = function(success, fail){
+        if (this.reference) {
+          return this.$patch(success, fail);
+        } else {
+          return this.$save(success, fail);
+        }
+      };
 
       resource.prototype.validate = function() {
         return $http.get(that.BASE_URL+this.reference+'/validate/');
