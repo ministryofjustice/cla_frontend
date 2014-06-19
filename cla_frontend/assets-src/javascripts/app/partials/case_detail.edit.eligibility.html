@@ -10,7 +10,7 @@
     <div ng-show="isActiveTab('ec_problem')">
       <section class="question">
         <p class="question">What is your problem about? What is putting you at immediate risk?</p>
-        <cla-server-warning data-for="category"></cla-server-warning>
+        <cla-server-validate data-for="category"></cla-server-validate>
         <ul>
           <li ng-repeat="category in category_list">
             <label>
@@ -224,9 +224,7 @@
 
       <section class="Grid">
         <h2 id="partners_savings-label" class="FormBlock-label">Your partner's savings</h2>
-
         <div class="FormBlock FormBlock--grey" aria-labelledby="partners_savings-label" role="group">
-
           <div class="FormRow cf">
             <label for="id_partners_savings-bank" id="id_partners_savings-bank-label">
               <span class="Grid-col Grid-col--2-3">
@@ -299,6 +297,7 @@
 
           <div class="FormRow cf">
             <label for="id_your_income-other_income_0" id="id_your_income-other_income-label">
+
               <span class="FormRow-label">
                 Other income
               </span>
@@ -328,7 +327,7 @@
 
       <section>
         <h2 id="partners_income-label" class="FormBlock-label">Your partner's income</h2>
-
+        <cla-server-validate data-for="partner.income"></cla-server-validate>
         <div class="FormBlock FormBlock--grey" aria-labelledby="partners_income-label" role="group">
           <div class="FormRow cf">
             <label for="id_partners_income-earnings_0" id="id_partners_income-earnings-label">
