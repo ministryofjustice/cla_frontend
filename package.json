@@ -26,7 +26,7 @@
     "karma-junit-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "phantomjs": "^1.9.7-8",
-    "protractor": "^0.24.1",
+    "protractor": "^0.24.2",
     "run-sequence": "~0.3.6"
   },
   "scripts": {
@@ -35,7 +35,6 @@
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js",
-    "protractor-chrome": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js --browser chrome",
     "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js"
   }
 }

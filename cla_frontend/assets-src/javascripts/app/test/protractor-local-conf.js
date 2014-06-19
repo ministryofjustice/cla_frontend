@@ -3,6 +3,7 @@ var defaults = require('./protractor-default-conf').config;
 
 exports.config = extend(defaults, {
   capabilities: {
-    browserName: 'phantomjs'
-  }
+    browserName: 'chrome'
+  },
+  logfile: null
 });
