@@ -36,8 +36,6 @@
     parent: states.Layout,
     abstract: true,
     url: '/call_centre/:caseref/',
-    templateUrl: '/static/javascripts/app/partials/case_detail.html',
-    controller: 'CaseDetailCtrl',
     resolve: {
       'case': ['Case', '$stateParams', '$state', 'flash', function(Case, $stateParams, $state, flash) {
         return Case.get({caseref: $stateParams.caseref}, {},
@@ -52,36 +50,42 @@
       }],
       eligibility_check: ['case', 'EligibilityCheck', function(case_, EligibilityCheck){
         return case_.eligibility_check ? EligibilityCheck.get({ref: case_.eligibility_check}).$promise : new EligibilityCheck();
-      }]
-    }
-  };
-
-  states.CaseEditDetailState = {
-    url: '',
-    resolve: {
-      'personal_details': ['case', 'PersonalDetails', function(case_, PersonalDetails) {
+      }],
+      personal_details: ['case', 'PersonalDetails', function(case_, PersonalDetails) {
         return case_.personal_details ? PersonalDetails.get({ref: case_.personal_details}).$promise : new PersonalDetails();
       }]
     },
     views: {
       '': {
-        templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
-        controller: 'CaseEditDetailCtrl'
+        templateUrl: '/static/javascripts/app/partials/case_detail.html',
+        controller: 'CaseDetailCtrl'
       },
-      'outcome': {
+      'outcome@case_detail': {
         templateUrl: '/static/javascripts/app/partials/case_detail.outcome.html'
       },
-      'personalDetails': {
+      'personalDetails@case_detail': {
         templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
         controller: 'PersonalDetailsCtrl'
       }
     }
   };
 
-  states.CaseEditDetailEligibilityState = {
-    url: 'eligibility/',
+  states.CaseEditDetailState = {
+    parent: states.CaseDetailState,
+    url: '',
     views: {
       '@case_detail': {
+        templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
+        controller: 'CaseEditDetailCtrl'
+      }
+    }
+  };
+
+  states.CaseEditDetailEligibilityState = {
+    parent: states.CaseEditDetailState,
+    url: 'eligibility/',
+    views: {
+      '@case_detail.edit': {
         templateUrl:'/static/javascripts/app/partials/case_detail.edit.eligibility.html',
         controller: 'EligibilityCheckCtrl'
       }
@@ -89,10 +93,11 @@
   };
 
   states.CaseEditDetailAssignState = {
+    parent: states.CaseDetailState,
     url: 'assign/',
     views: {
       '@case_detail': {
-        templateUrl:'/static/javascripts/app/partials/case_detail.edit.assign.html',
+        templateUrl:'/static/javascripts/app/partials/case_detail.assign.html',
         controller: 'AssignProviderCtrl'
       }
     }
@@ -103,13 +108,14 @@
     url: 'complete/',
     views: {
       '@case_detail': {
-        templateUrl:'/static/javascripts/app/partials/case_detail.edit.assign.complete.html',
+        templateUrl:'/static/javascripts/app/partials/case_detail.assign.complete.html',
         controller: 'AssignProviderCompleteCtrl'
       }
     }
   };
 
   states.CaseDetailDeclineSpecialistsState = {
+    parent: states.CaseDetailState,
     url: 'assign/decline_all/',
     views: {
       '@case_detail': {
@@ -120,6 +126,7 @@
   };
 
   states.CaseDetailDeferAssignmentState = {
+    parent: states.CaseDetailState,
     url: 'assign/defer/',
     views: {
       '@case_detail': {

@@ -5,51 +5,55 @@
   </h1>
 </header>
 
-<form method="post" ng-submit="save()" name="form">
-  <div class="FormRow">
-    <label for="id_case_notes-notes" id="id_case_notes-notes-label" class="visuallyhidden">Case Notes</label>
-    <span class="Error-message" ng-show="form.notes.$error.server">{{ errors.notes }}</span>
-    <textarea class="FormRow-field--full" id="id_case_notes-notes" name="notes" placeholder="Comments about this case" cols="20" rows="11" ng-model="case.notes" server-error></textarea>
-  </div>
+<div ui-view="notes">
+  <form method="post" ng-submit="save()" name="form">
+    <div class="FormRow">
+      <label for="id_case_notes-notes" id="id_case_notes-notes-label" class="visuallyhidden">Case Notes</label>
+      <span class="Error-message" ng-show="form.notes.$error.server">{{ errors.notes }}</span>
+      <textarea class="FormRow-field--full" id="id_case_notes-notes" name="notes" placeholder="Comments about this case" cols="20" rows="11" ng-model="case.notes" server-error></textarea>
+    </div>
 
-  <div class="FormRow">
-    <label for="id_case_notes-in_scope" id="id_case_notes-in_scope-label">
-      <span class="FormRow-label">In Scope</span>
+    <div class="FormRow">
+      <label for="id_case_notes-in_scope" id="id_case_notes-in_scope-label">
+        <span class="FormRow-label">In Scope</span>
 
-      <select id="id_case_notes-in_scope" name="case_notes-in_scope" ng-model="case.in_scope" ng-options="choice.value as choice.label for choice in in_scope_choices">
-      </select>
-    </label>
-  </div>
+        <select id="id_case_notes-in_scope" name="case_notes-in_scope" ng-model="case.in_scope" ng-options="choice.value as choice.label for choice in in_scope_choices">
+        </select>
+      </label>
+    </div>
 
-  <div>
-    <button type="submit" class="Button">Save case details</button>
-  </div>
-</form>
+    <div>
+      <button type="submit" class="Button">Save case details</button>
+    </div>
+  </form>
+</div>
 
-<div ng-controller="EligibilityCheckSummaryCtrl">
-  <div ng-show="case.eligibility_check">
-    <p class="u-mute">Means test completed by user on {{ case.created | general_date }}</p>
+<div ui-view="">
+  <div ng-controller="EligibilityCheckSummaryCtrl">
+    <div ng-show="case.eligibility_check">
+      <p class="u-mute">Means test completed by user on {{ case.created | general_date }}</p>
 
-    <section class="SummaryBlock" ng-repeat="section in means_summary">
-      <h2 class="SummaryBlock-heading visuallyhidden">{{ section.header }}</h2>
-      <ul class="SummaryBlock-list">
-        <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
-      </ul>
-    </section>
+      <section class="SummaryBlock" ng-repeat="section in means_summary">
+        <h2 class="SummaryBlock-heading visuallyhidden">{{ section.header }}</h2>
+        <ul class="SummaryBlock-list">
+          <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
+        </ul>
+      </section>
 
-    <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
-      <figure class="SummaryBlock-list">
-        <div class="IconRow IconRow--name">
-          <figcaption>{{ case.created | general_date }} - {{ case.personal_details.full_name }} wrote:</figcaption>
-          <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
-        </div>
-      </figure>
-    </section>
+      <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
+        <figure class="SummaryBlock-list">
+          <div class="IconRow IconRow--name">
+            <figcaption>{{ case.created | general_date }} - {{ case.personal_details.full_name }} wrote:</figcaption>
+            <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
+          </div>
+        </figure>
+      </section>
 
-    <a class="Button" ui-sref="case_detail.edit.eligibility">Change Eligibility Check</a>
-  </div>
+      <a class="Button" ui-sref="case_detail.edit.eligibility">Change Eligibility Check</a>
+    </div>
 
-  <div ng-show="!case.eligibility_check">
-    <a class="Button" ui-sref="case_detail.edit.eligibility">New Eligibility Check</a>
+    <div ng-show="!case.eligibility_check">
+      <a class="Button" ui-sref="case_detail.edit.eligibility">New Eligibility Check</a>
+    </div>
   </div>
 </div>

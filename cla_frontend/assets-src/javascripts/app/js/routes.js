@@ -11,9 +11,9 @@
         .state('case_detail', states.CaseDetailState)
         .state('case_detail.edit', states.CaseEditDetailState)
         .state('case_detail.edit.eligibility', states.CaseEditDetailEligibilityState)
-        .state('case_detail.edit.assign', states.CaseEditDetailAssignState)
-        .state('case_detail.edit.assign.complete', states.CaseEditDetailAssignCompleteState)
-        .state('case_detail.edit.decline_specialists', states.CaseDetailDeclineSpecialistsState)
-        .state('case_detail.edit.defer_assignment', states.CaseDetailDeferAssignmentState);
+        .state('case_detail.assign', states.CaseEditDetailAssignState)
+        .state('case_detail.assign.complete', states.CaseEditDetailAssignCompleteState)
+        .state('case_detail.decline_specialists', states.CaseDetailDeclineSpecialistsState)
+        .state('case_detail.defer_assignment', states.CaseDetailDeferAssignmentState);
     });
 })();
