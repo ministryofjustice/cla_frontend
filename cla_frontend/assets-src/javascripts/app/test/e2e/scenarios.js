@@ -67,6 +67,35 @@ describe('operatorApp', function() {
     });
   });
 
+  describe('Case List Navigation', function () {
+    it('should keep query params from case_list when going back from case_detail', function () {
+      browser.get(APP_BASE_URL);
+
+      browser.getLocationAbsUrl().then(function(url) {
+        expectUrl(url, APP_BASE_URL);
+      });
+
+      // add some query params by sending a search
+      var searchBox = browser.findElement(by.name('q'));
+
+      searchBox.sendKeys('Foo123');
+      expect(searchBox.getAttribute('value')).toBe('Foo123');
+      browser.findElement(by.id('search')).submit();
+      browser.getLocationAbsUrl().then(function (url) {
+        var searched_url = url;
+
+        // create a case
+
+        browser.findElement(by.id('create_case')).click();
+        // go back & see that query params have been retained.
+
+        browser.findElement(by.cssContainingText('a','Back to cases')).click();
+        browser.getLocationAbsUrl().then(function (url2) {
+          expect(searched_url).toBe(url2);
+        });
+      });
+    });
+  });
 
   describe('Case Detail', function() {
     it('should get case list when given non existant case reference', function() {
