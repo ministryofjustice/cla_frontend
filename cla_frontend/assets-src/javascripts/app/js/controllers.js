@@ -118,8 +118,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseEditDetailCtrl',
-      ['$scope', '$timeout', 'Category', 'EligibilityCheck', 'form_utils',
-      function($scope, $timeout, Category, EligibilityCheck, form_utils){
+      ['$scope', '$timeout', 'form_utils',
+      function($scope, $timeout, form_utils){
       var timeout = null,
 
           watchChange = function(newVal, oldVal) {
