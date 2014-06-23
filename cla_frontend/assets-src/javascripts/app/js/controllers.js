@@ -72,9 +72,10 @@
       }]);
 
   angular.module('cla.controllers')
-  .controller('CaseDetailCtrl', ['$scope', 'case',
-      function($scope, $case){
+  .controller('CaseDetailCtrl', ['$scope', 'case', 'eligibility_check',
+      function($scope, $case, $eligibility_check){
         $scope.case = $case;
+        $scope.eligibility_check = $eligibility_check;
       }]);
 
   angular.module('cla.controllers')
@@ -150,11 +151,9 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', 'eligibility_check', 'form_utils',
-      function($scope, Category, eligibility_check, form_utils){
+      ['$scope', 'Category', 'form_utils',
+      function($scope, Category, form_utils){
         $scope.category_list = Category.query();
-
-        $scope.eligibility_check = eligibility_check;
 
         $scope.warnings = {};
 
