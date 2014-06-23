@@ -6,6 +6,7 @@
     "url": "https://github.com/ministryofjustice/cla_frontend"
   },
   "devDependencies": {
+    "extend": "^1.2.1",
     "govuk_frontend_toolkit": "0.42.0",
     "gulp": "~3.5.5",
     "gulp-clean": "~0.2.4",
@@ -19,18 +20,21 @@
     "gulp-load-plugins": "~0.4.0",
     "gulp-ruby-sass": "~0.4.0",
     "gulp-uglify": "~0.2.1",
+    "jasmine-reporters": "^0.4.1",
     "jshint-stylish": "~0.1.5",
-    "run-sequence": "~0.3.6",
     "karma": "~0.10",
-    "protractor": "~0.20.1"
+    "karma-junit-reporter": "^0.2.2",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "phantomjs": "^1.9.7-8",
+    "protractor": "^0.24.2",
+    "run-sequence": "~0.3.6"
   },
   "scripts": {
     "test": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js",
     "test-single-run": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js  --single-run",
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
-    "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-conf.js",
-    "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor-conf.js"
-    
+    "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js",
+    "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js"
   }
 }
