@@ -58,7 +58,7 @@ describe('operatorApp', function() {
         newCaseUrl = url;
       });
 
-      browser.findElement(by.css('.PageHeader h1')).getInnerHtml().then(function(h1) {
+      browser.findElement(by.css('.PageHeader h2')).getInnerHtml().then(function(h1) {
         // console.log("h1 is: "+h1);
         // h1 is: MK-1983-0912
         expectUrl(APP_BASE_URL+ newCaseUrl, h1 + '/');
