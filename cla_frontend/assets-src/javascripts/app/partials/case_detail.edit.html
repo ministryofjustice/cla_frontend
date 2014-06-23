@@ -20,48 +20,35 @@
     </label>
   </div>
 
-  <div class="FormRow">
-    <label for="id_eligibility_check-category" id="id_eligibility_check-category-label">
-      <span class="FormRow-label">Law Category:</span>
-      <select id="id_eligibility_check-category" name="eligibility_check-category" ng-model="eligibility_check.category" ng-options="category.code as category.name for category in category_list">
-      </select>
-    </label>
-  </div>
-
-  <div class="FormRow">
-    <label for="id_eligibility_check-state" id="id_eligibility_check-state-label">
-      <span class="FormRow-label">Means Test Passed?</span>
-
-      <select id="id_eligibility_check-state" name="eligibility_check-state" ng-model="eligibility_check.state">
-        <option value="maybe">Maybe</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-      </select>
-    </label>
-  </div>
-
   <div>
     <button type="submit" class="Button">Save case details</button>
   </div>
 </form>
 
-<div ng-controller="CaseMeansTestCtrl">
-  <p class="u-mute">Means test completed by user on {{ case.created | general_date }}</p>
+<div ng-controller="EligibilityCheckSummaryCtrl">
+  <div ng-show="case.eligibility_check">
+    <p class="u-mute">Means test completed by user on {{ case.created | general_date }}</p>
 
-  <section class="SummaryBlock" ng-repeat="section in means_summary">
-    <h2 class="SummaryBlock-heading visuallyhidden">{{ section.header }}</h2>
-    <ul class="SummaryBlock-list">
-      <li ng-repeat="item in section.items">{{ item }}</li>
-    </ul>
-  </section>
+    <section class="SummaryBlock" ng-repeat="section in means_summary">
+      <h2 class="SummaryBlock-heading visuallyhidden">{{ section.header }}</h2>
+      <ul class="SummaryBlock-list">
+        <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
+      </ul>
+    </section>
 
-  <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
-    <figure class="SummaryBlock-list">
-      <div class="IconRow IconRow--name">
-        <figcaption>{{ case.created | general_date }} - {{ case.personal_details.full_name }} wrote:</figcaption>
-        <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
-      </div>
-    </figure>
-  </section>
+    <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
+      <figure class="SummaryBlock-list">
+        <div class="IconRow IconRow--name">
+          <figcaption>{{ case.created | general_date }} - {{ case.personal_details.full_name }} wrote:</figcaption>
+          <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
+        </div>
+      </figure>
+    </section>
 
+    <a class="Button" ui-sref="case_detail.edit.eligibility">Change Eligibility Check</a>
+  </div>
+
+  <div ng-show="!case.eligibility_check">
+    <a class="Button" ui-sref="case_detail.edit.eligibility">New Eligibility Check</a>
+  </div>
 </div>

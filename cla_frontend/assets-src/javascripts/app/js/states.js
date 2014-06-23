@@ -55,6 +55,14 @@
 
   states.CaseEditDetailState = {
     url: '',
+    resolve: {
+      'personal_details': ['case', 'PersonalDetails', function(case_, PersonalDetails) {
+        return case_.personal_details ? PersonalDetails.get({ref: case_.personal_details}).$promise : new PersonalDetails();
+      }],
+      eligibility_check: ['case', 'EligibilityCheck', function(case_, EligibilityCheck){
+        return case_.eligibility_check ? EligibilityCheck.get({ref: case_.eligibility_check}).$promise : new EligibilityCheck();
+      }]
+    },
     views: {
       '': {
         templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
@@ -66,6 +74,16 @@
       'personalDetails': {
         templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
         controller: 'PersonalDetailsCtrl'
+      }
+    }
+  };
+
+  states.CaseEditDetailEligibilityState = {
+    url: 'eligibility/',
+    views: {
+      '@case_detail': {
+        templateUrl:'/static/javascripts/app/partials/case_detail.edit.eligibility.html',
+        controller: 'EligibilityCheckCtrl'
       }
     }
   };

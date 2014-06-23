@@ -62,6 +62,12 @@
         return $http.post(url, data).success(successCallback);
       };
 
+      resource.prototype.$associate_eligibility_check = function(reference, successCallback) {
+        var data = {reference: reference},
+            url = '/call_centre/proxy/case/'+this.reference+'/associate_eligibility_check/';
+        return $http.post(url, data).success(successCallback);
+      };
+
       resource.prototype.get_suggested_providers = function(){
         return $http.get('/call_centre/proxy/case/'+this.reference+'/assign_suggest/');
       };
@@ -76,9 +82,26 @@
 
   angular.module('cla.services')
     .factory('EligibilityCheck', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/eligibility_check/:ref/', {ref:'@reference'}, {
+      var that = this, resource;
+
+      this.BASE_URL = '/call_centre/proxy/eligibility_check/';
+
+      resource = $resource(this.BASE_URL + ':ref/', {ref: '@reference'}, {
         'patch': {method: 'PATCH'}
       });
+
+      resource.prototype.$update = function(success, fail){
+        if (this.reference) {
+          return this.$patch(success, fail);
+        } else {
+          return this.$save(success, fail);
+        }
+      };
+
+      resource.prototype.validate = function() {
+        return $http.get(that.BASE_URL+this.reference+'/validate/');
+      };
+      return resource;
     }]);
 
   angular.module('cla.services')
