@@ -131,9 +131,6 @@
             }
           };
 
-      $scope.category_list = Category.query();
-      $scope.eligibility_check = EligibilityCheck.get({ref: $scope.case.eligibility_check});
-
       $scope.in_scope_choices = [
         { label: 'Unknown', value: null},
         { label: 'Yes', value: true},
@@ -145,7 +142,6 @@
           angular.noop,
           angular.bind(this, form_utils.ctrlFormErrorCallback, $scope)
         );
-        $scope.eligibility_check.$patch();
       };
 
       // watch fields
@@ -180,7 +176,7 @@
           }
         ];
 
-        $scope.currentTab = 'ec_finances';
+        $scope.currentTab = 'ec_problem';
 
         $scope.onClickTab = function (tab) {
           $scope.currentTab = tab.id;
@@ -308,7 +304,7 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('CaseMeansTestCtrl', ['$scope', '$http', function($scope, $http) {
+    .controller('EligibilityCheckSummaryCtrl', ['$scope', '$http', function($scope, $http) {
       if ($scope.case.eligibility_check) {
         $http.get('/call_centre/case/'+$scope.case.reference+'/means_summary/').success(function(data) {
           $scope.means_summary = data;
