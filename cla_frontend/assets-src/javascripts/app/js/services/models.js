@@ -101,6 +101,16 @@
       resource.prototype.validate = function() {
         return $http.get(that.BASE_URL+this.reference+'/validate/');
       };
+
+      resource.prototype.isEligibilityTrue = function() {
+        return this.state === 'yes';
+      };
+      resource.prototype.isEligibilityFalse = function() {
+        return this.state === 'no';
+      };
+      resource.prototype.isEligibilityUnknown = function() {
+        return (this.state === undefined || this.state === 'maybe');
+      };
       return resource;
     }]);
 

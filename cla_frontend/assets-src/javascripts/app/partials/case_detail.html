@@ -3,6 +3,15 @@
     <div class="Grid-col Grid-col--1-5" ui-view="personalDetails"></div>
     <div class="Grid-col Grid-col--3-5" ui-view full-height></div>
     <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour">
+
+      <div class="Grid-colInner">
+        <header class="PageHeader cf">
+          <h2 class="u-pullLeft">{{ case.reference }}</h2>
+          <a ui-sref="case_detail.edit.close" class="Button Button--secondary u-pullRight">Close case</a>
+          <a ui-sref="case_detail.edit.assign" class="Button Button--secondary u-pullRight">Assign case</a>
+        </header>
+      </div>
+
       <div class="Grid-colInner" ui-view="outcome"></div>
     </div>
   </div>
