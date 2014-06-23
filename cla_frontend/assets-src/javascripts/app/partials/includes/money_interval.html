@@ -1,0 +1,12 @@
+<span class="FormRow-prefix">£</span>
+
+<input max="2500000" min="0" step="0.01" type="number" ng-model="miModel.per_interval_value">
+
+<span class="FormRow-label FormRow-label--inline">per</span>
+
+<select class="InlineField" ng-model="miModel.interval_period">
+  <option value="per_week">Week</option>
+  <option value="per_4week">4 Weekly</option>
+  <option value="per_month" selected="selected">Month</option>
+  <option value="per_year">Year</option>
+</select>

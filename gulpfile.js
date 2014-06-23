@@ -8,7 +8,7 @@ var paths = {
   src_dir: 'cla_frontend/assets-src/',
   styles: 'cla_frontend/assets-src/stylesheets/**/*.scss',
   templates: 'cla_frontend/assets-src/javascripts/templates/*.hbs',
-  partials: 'cla_frontend/assets-src/javascripts/app/partials/*.html',
+  partials: 'cla_frontend/assets-src/javascripts/app/partials/**/*.html',
   scripts: [
     // vendor scripts
     'cla_frontend/assets-src/vendor/lodash/dist/lodash.min.js',
