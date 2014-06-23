@@ -78,16 +78,12 @@
       }]);
 
   angular.module('cla.controllers')
-    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', '_', 'PersonalDetails', 'History',
-      function($scope, form_utils, _, PersonalDetails, History){
+    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', '_', 'History', 'personal_details',
+      function($scope, form_utils, _, History, personal_details){
 
         $scope.caseListStateParams = History.caseListStateParams;
 
-        if ($scope.case.personal_details) {
-          $scope.personal_details = PersonalDetails.get({ref: $scope.case.personal_details});
-        } else {
-          $scope.personal_details = new PersonalDetails();
-        }
+        $scope.personal_details = personal_details;
 
         var clean_details;
 
@@ -158,15 +154,11 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', 'EligibilityCheck', 'form_utils',
-      function($scope, Category, EligibilityCheck, form_utils){
+      ['$scope', 'Category', 'eligibility_check', 'form_utils',
+      function($scope, Category, eligibility_check, form_utils){
         $scope.category_list = Category.query();
 
-        if ($scope.case.eligibility_check) {
-          $scope.eligibility_check = EligibilityCheck.get({ref: $scope.case.eligibility_check});
-        } else {
-          $scope.eligibility_check = new EligibilityCheck();
-        }
+        $scope.eligibility_check = eligibility_check;
 
         $scope.warnings = {};
 
