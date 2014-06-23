@@ -78,16 +78,12 @@
       }]);
 
   angular.module('cla.controllers')
-    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', '_', 'PersonalDetails', 'History',
-      function($scope, form_utils, _, PersonalDetails, History){
+    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', '_', 'History', 'personal_details',
+      function($scope, form_utils, _, History, personal_details){
 
         $scope.caseListStateParams = History.caseListStateParams;
 
-        if ($scope.case.personal_details) {
-          $scope.personal_details = PersonalDetails.get({ref: $scope.case.personal_details});
-        } else {
-          $scope.personal_details = new PersonalDetails();
-        }
+        $scope.personal_details = personal_details;
 
         var clean_details;
 
@@ -135,9 +131,6 @@
             }
           };
 
-      $scope.category_list = Category.query();
-      $scope.eligibility_check = EligibilityCheck.get({ref: $scope.case.eligibility_check});
-
       $scope.in_scope_choices = [
         { label: 'Unknown', value: null},
         { label: 'Yes', value: true},
@@ -149,12 +142,77 @@
           angular.noop,
           angular.bind(this, form_utils.ctrlFormErrorCallback, $scope)
         );
-        $scope.eligibility_check.$patch();
       };
 
       // watch fields
       $scope.$watch('case.notes', watchChange);
     }]);
+
+  angular.module('cla.controllers')
+    .controller('EligibilityCheckCtrl',
+      ['$scope', 'Category', 'eligibility_check', 'form_utils',
+      function($scope, Category, eligibility_check, form_utils){
+        $scope.category_list = Category.query();
+
+        $scope.eligibility_check = eligibility_check;
+
+        $scope.warnings = {};
+
+        $scope.tabs = [{
+            title: 'Problem',
+            id: 'ec_problem'
+          }, {
+            title: 'Details',
+            id: 'ec_details'
+          }, {
+            title: 'Finances',
+            id: 'ec_finances'
+          }, {
+            title: 'Income',
+            id: 'ec_income'
+          }, {
+            title: 'Expenses',
+            id: 'ec_expenses'
+          }
+        ];
+
+        $scope.currentTab = 'ec_problem';
+
+        $scope.onClickTab = function (tab) {
+          $scope.currentTab = tab.id;
+        };
+
+        $scope.isActiveTab = function(tabId) {
+          return tabId === $scope.currentTab;
+        };
+
+        $scope.save = function() {
+          $scope.eligibility_check.$update(function (data) {
+            if (!$scope.case.eligibility_check) {
+              $scope.case.$associate_eligibility_check(data.reference, function () {
+                $scope.case.eligibility_check = data.reference;
+              });
+            }
+
+            $scope.eligibility_check.validate().then(function (resp) {
+              $scope.warnings = resp.data.warnings;
+            });
+          });
+        };
+
+        $scope.removeProperty = function(index) {
+          $scope.eligibility_check.property_set.splice(index, 1);
+        };
+
+        $scope.addProperty = function() {
+          if ($scope.eligibility_check.property_set === null) {
+            $scope.eligibility_check.property_set = [];
+          }
+
+          $scope.eligibility_check.property_set.push({});
+        };
+      }
+    ]);
 
   angular.module('cla.controllers')
     .controller('CaseDeclineSpecialistsCtrl',
@@ -246,9 +304,11 @@
     }]);
 
   angular.module('cla.controllers')
-    .controller('CaseMeansTestCtrl', ['$scope', '$http', function($scope, $http) {
-      $http.get('/call_centre/case/'+$scope.case.reference+'/means_summary/').success(function(data) {
-        $scope.means_summary = data;
-      });
+    .controller('EligibilityCheckSummaryCtrl', ['$scope', '$http', function($scope, $http) {
+      if ($scope.case.eligibility_check) {
+        $http.get('/call_centre/case/'+$scope.case.reference+'/means_summary/').success(function(data) {
+          $scope.means_summary = data;
+        });
+      }
     }]);
 })();
