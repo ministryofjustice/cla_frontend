@@ -111,7 +111,7 @@
               <span class="UserMenu-name">{{ user.username }}</span>
             </p>
             <ul class="UserMenu-options">
-              <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}">Sign out</a>{% endblock %}</li>
+              <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}" target="_self">Sign out</a>{% endblock %}</li>
             </ul>
           </nav>
         {% endif %}
