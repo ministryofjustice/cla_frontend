@@ -5,22 +5,6 @@
   word-wrap: break-word;
   @include box-shadow(1px 1px 3px $grey-3);
   @include box-sizing(border-box);
-
-  // .FormRow {
-  //   margin-bottom: 0;
-  //   padding-top: 3px;
-  //   padding-bottom: 3px;
-  // }
-
-  .Error {
-    // margin: 0 -10px;
-    // padding-left: 7px;
-    // padding-right: 10px;
-
-    &.IconRow--right {
-      background-position: right 17px;
-    }
-  }
 }
 
 .VCard-title {
@@ -41,8 +25,4 @@
 
 .VCard-view {
   cursor: pointer;
-}
-
-.class {
-  display: none;
 }

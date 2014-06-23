@@ -15,7 +15,6 @@
         // response can be response or data (if it needs to be overridden)
         var data = (response.status === undefined) ? response : response.data;
         // var data = response.data.personal_details[0];
-        // 
         $scope.errors = {};
         angular.forEach(data, function(errors, field) {
           form[field].$setValidity('server', false);
