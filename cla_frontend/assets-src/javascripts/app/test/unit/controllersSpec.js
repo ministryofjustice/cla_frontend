@@ -6,6 +6,11 @@ describe('OperatorApp controllers', function() {
   beforeEach(module('cla.app'));
 
   describe('CaseListCtrl', function(){
+
+    it("contains spec with an expectation", function() {
+      expect(true).toBe(true);
+    });
+
     // it('should init with cases empty if there are no cases', inject(function($controller) {
     //   var scope = {},
     //       cases = [],

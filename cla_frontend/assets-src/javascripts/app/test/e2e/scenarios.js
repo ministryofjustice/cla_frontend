@@ -76,7 +76,7 @@ describe('operatorApp', function() {
 
         browser.findElement(by.css('.Notice li')).getInnerHtml().then(function(el) {
           expect(el).toBe('The Case XX-0000-0000 could not be found!');
-        })
+        });
       });
     });
   });
