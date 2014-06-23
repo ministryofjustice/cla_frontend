@@ -5,6 +5,7 @@
     [
       'ngSanitize',
       'angularMoment',
+      'xeditable',
       'ui.router',
       'cla.controllers',
       'cla.services',

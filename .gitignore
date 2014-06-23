@@ -69,7 +69,7 @@ npm-debug.log
 cla_frontend/assets-src/vendor/
 .sass-cache/
 generated/
-vendor/
+assets-src/vendor/
 
 /phantomjsdriver.log
 reports/
