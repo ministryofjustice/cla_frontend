@@ -50,6 +50,17 @@ $border-colour: #C2C2C2;
     }
   }
 
+  .FormRow-optionLegend {
+    @include core-16;
+    margin: 15px 0 8px; 
+
+    &--divider {
+      border-top: 1px solid $border-colour;
+      padding-top: 15px;
+      margin-top: 20px;
+    }
+  }
+
   .FormRow-inner {
     padding: 10px 40px 0;
     margin: 0;
@@ -185,7 +196,7 @@ $border-colour: #C2C2C2;
 
   &--group {
     margin: 0;
-    padding: 10px 0 0;
+    padding: 0;
 
     .FormRow-label {
       margin: 0 0 10px;
@@ -208,12 +219,13 @@ $border-colour: #C2C2C2;
   .editable-radiolist {
     display: block;
     margin: 0;
-    padding: 10px 0 0;
+    padding: 0;
 
     label {
       margin: 0 0 10px;
       display: block;
       position: relative;
+      color: $grey-1;
 
       input {
         float: left;
