@@ -32,7 +32,7 @@
     <section class="SummaryBlock" ng-repeat="section in means_summary">
       <h2 class="SummaryBlock-heading visuallyhidden">{{ section.header }}</h2>
       <ul class="SummaryBlock-list">
-        <li ng-repeat="item in section.items">{{ item }}</li>
+        <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
       </ul>
     </section>
 
