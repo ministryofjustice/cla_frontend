@@ -151,7 +151,7 @@
 
             return {
                 restrict: 'AE',
-                templateUrl:  '/static/javascripts/app/partials/includes/pagination.html',
+                templateUrl:  'includes/pagination.html',
                 scope: {
                     maxSize: '=?',
                     onPageChange: '&?'

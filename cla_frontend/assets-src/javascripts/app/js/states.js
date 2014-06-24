@@ -4,14 +4,14 @@
   var states = angular.module('cla.states');
   states.Layout = {
     abstract: true,
-    templateUrl: '/static/javascripts/app/partials/base.html',
+    templateUrl: 'base.html',
     controller: 'LayoutCtrl'
   };
 
   states.CaseListState = {
     parent: states.Layout,
     url: '/call_centre/?search?ordering?page',
-    templateUrl: '/static/javascripts/app/partials/case_list.html',
+    templateUrl: 'case_list.html',
     controller: 'CaseListCtrl',
     resolve: {
       cases: ['$stateParams', 'Case', function($stateParams, Case){
@@ -57,14 +57,14 @@
     },
     views: {
       '': {
-        templateUrl: '/static/javascripts/app/partials/case_detail.html',
+        templateUrl: 'case_detail.html',
         controller: 'CaseDetailCtrl'
       },
       'outcome@case_detail': {
-        templateUrl: '/static/javascripts/app/partials/case_detail.outcome.html'
+        templateUrl: 'case_detail.outcome.html'
       },
       'personalDetails@case_detail': {
-        templateUrl: '/static/javascripts/app/partials/case_detail.personal_details.html',
+        templateUrl: 'case_detail.personal_details.html',
         controller: 'PersonalDetailsCtrl'
       }
     }
@@ -75,7 +75,7 @@
     url: '',
     views: {
       '@case_detail': {
-        templateUrl: '/static/javascripts/app/partials/case_detail.edit.html',
+        templateUrl: 'case_detail.edit.html',
         controller: 'CaseEditDetailCtrl'
       }
     }
@@ -86,7 +86,7 @@
     url: 'eligibility/',
     views: {
       '@case_detail.edit': {
-        templateUrl:'/static/javascripts/app/partials/case_detail.edit.eligibility.html',
+        templateUrl:'case_detail.edit.eligibility.html',
         controller: 'EligibilityCheckCtrl'
       }
     }
@@ -97,7 +97,7 @@
     url: 'assign/',
     views: {
       '@case_detail': {
-        templateUrl:'/static/javascripts/app/partials/case_detail.assign.html',
+        templateUrl:'case_detail.assign.html',
         controller: 'AssignProviderCtrl'
       }
     }
@@ -108,7 +108,7 @@
     url: 'complete/',
     views: {
       '@case_detail': {
-        templateUrl:'/static/javascripts/app/partials/case_detail.assign.complete.html',
+        templateUrl:'case_detail.assign.complete.html',
         controller: 'AssignProviderCompleteCtrl'
       }
     }
@@ -119,7 +119,7 @@
     url: 'assign/decline_all/',
     views: {
       '@case_detail': {
-        templateUrl: '/static/javascripts/app/partials/case_detail.decline_specialists.html',
+        templateUrl: 'case_detail.decline_specialists.html',
         controller: 'CaseDeclineSpecialistsCtrl'
       }
     }
@@ -130,7 +130,7 @@
     url: 'assign/defer/',
     views: {
       '@case_detail': {
-        templateUrl: '/static/javascripts/app/partials/case_detail.defer_assignment.html',
+        templateUrl: 'case_detail.defer_assignment.html',
         controller: 'CaseDeferSpecialistsCtrl'
       }
     }
