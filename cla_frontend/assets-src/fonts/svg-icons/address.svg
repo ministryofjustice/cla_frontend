@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+    <title>Address_icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Address_icon" sketch:type="MSArtboardGroup">
+            <rect id="Rectangle-55" stroke="#6F777B" stroke-width="2" sketch:type="MSShapeGroup" x="6" y="11" width="4" height="5"></rect>
+            <polygon id="Triangle-1" fill="#6F777B" sketch:type="MSShapeGroup" points="8 0 16 9 0 9 "></polygon>
+            <rect id="Rectangle-57" fill="#6F777B" sketch:type="MSShapeGroup" x="2" y="2" width="2" height="5"></rect>
+            <path d="M2,16 L14,16 L14,7 L2,7 L2,16 Z M2,9 L14,9 L12,7 L12,16 L14,14 L2,14 L4,16 L4,7 L2,9 Z" id="Rectangle-55" fill="#6F777B" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

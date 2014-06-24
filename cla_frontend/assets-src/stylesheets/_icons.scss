@@ -1,59 +1,94 @@
+@font-face {
+  font-family: 'cla-iconfont';
+  src:url('../fonts/cla-icons.eot?-imp8p3');
+  src:url('../fonts/cla-icons.eot?#iefix-imp8p3') format('embedded-opentype'),
+    url('../fonts/cla-icons.woff?-imp8p3') format('woff'),
+    url('../fonts/cla-icons.ttf?-imp8p3') format('truetype'),
+    url('../fonts/cla-icons.svg?-imp8p3#cla-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// Icon mixins
+@mixin icon-font ($font-name) {
+  display: inline;
+  font-family: $font-name;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1;
+  color: $grey-2;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin icon ($name, $content) {
+  .Icon--#{$name} { &:before, &:after { content: $content } }
+}
+
 .Icon {
-  display: inline-block;
-  height: 16px;
-  width: 16px;
-  margin-left: 10px;
-  background-repeat:no-repeat;
-}
+  &:before {
+    @include icon-font('cla-iconfont');
+    padding-right: 10px;
+  }
+  &:after {
+    display: none;
+  }
 
-.TextIcon {
-  background: {
-    repeat: no-repeat;
-    position: left top;
-  };
-}
+  // modifiers
+  &--row {
+    display: block;
+    position: relative;
+    padding-left: 26px;
 
-.TextIcon--tick {
-  @include svg-bg("../images/icons/tick");
-  background-position: left center;
-  padding-left: 60px;
-}
-.TextIcon--cross {
-  @include svg-bg("../images/icons/cross");
-  background-position: left center;
-  padding-left: 60px;
-}
-.TextIcon--account {
-  @include svg-bg("../images/icons/account");
-  padding-left: 22px;
-  background-position: left 1px;
-}
-
-.IconRow {
-  display: block;
-  padding-left: 25px;
-  background: {
-    position: left 2px;
-    repeat: no-repeat;
-  };
-
-  .FormRow & {
-    background-position: left 7px;
+    &:before,
+    &:after {
+      position: absolute;
+      left: 0;
+      top: 7px;
+    }
   }
 
   &--right {
-    padding-left: 0;
-    padding-right: 25px;
-    background-position: right 2px;
+    &:before { display: none; }
+    &:after {
+      @include icon-font('cla-iconfont');
+      padding-left: 10px;
+    }
 
-    .FormRow & {
-      background-position: right 7px;
+    &.Icon--row {
+      padding-left: 0;
+      padding-right: 26px;
+
+      &:after {
+        left: auto;
+        right: 0;
+      }
     }
   }
 }
-.Icon--name { @include svg-bg("../images/icons/user") }
-.Icon--address { @include svg-bg("../images/icons/address") }
-.Icon--phone { @include svg-bg("../images/icons/phone") }
-.Icon--email { @include svg-bg("../images/icons/email") }
-.Icon--comments { @include svg-bg("../images/icons/comments") }
-.Icon--location { @include svg-bg("../images/icons/location") }
+
+@include icon('add', '\e600');
+@include icon('address', '\e601');
+@include icon('call', '\e602');
+@include icon('callback', '\e603');
+@include icon('commentAdd', '\e604');
+@include icon('comments', '\e605');
+@include icon('edit', '\e606');
+@include icon('email', '\e607');
+@include icon('folderClosed', '\e608');
+@include icon('info', '\e609');
+@include icon('interpreter', '\e60a');
+@include icon('location', '\e60b');
+@include icon('print', '\e60c');
+@include icon('safe', '\e60d');
+@include icon('sms', '\e60e');
+@include icon('textphone', '\e60f');
+@include icon('thirdparty', '\e610');
+@include icon('timer', '\e611');
+@include icon('user', '\e612');
+@include icon('userform', '\e613');

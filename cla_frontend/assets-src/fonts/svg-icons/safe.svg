@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+    <title>Safe_icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Safe_icon" sketch:type="MSArtboardGroup">
+            <path d="M16.0379577,8.33570275 C16.0379577,12.423351 7.99876923,15.9828765 7.99876923,15.9828765 C7.99876923,15.9828765 0.0379576832,12.423351 0.0379576832,8.33570275 C0.0379576832,8.33570275 0.0871593187,2.00020793 0.11226007,1.82040428 C0.941322622,2.16521037 1.89137457,2.80640587 3,2.80640587 C5.76142375,2.80640587 8,-0.017123539 8,-0.017123539 C8,-0.017123539 10.2385763,2.80640587 13,2.80640587 C14.1093446,2.80640587 15.2086111,2.16494594 16.0379579,1.81973308 C16.0620137,2.00072667 16.0379577,8.33570275 16.0379577,8.33570275 Z" id="Shape" fill="#666666" sketch:type="MSShapeGroup"></path>
+            <path d="M3.5,8.35591777 C4.17860111,7.83189497 4.89825439,7.41355616 4.89825439,7.41355616 L6.38208008,9.50484642 L11.2355957,3.62561511 L12.6113281,4.47589954 C12.6113281,4.47589954 10.9303746,6.33812217 9.25295535,8.30982937 C7.94748294,9.84433503 6.64415121,11.4451547 6.13700694,12.2860691 C6.13700694,12.2860691 4.07939043,8.67251488 3.5,8.35591777 Z" id="Type-something" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

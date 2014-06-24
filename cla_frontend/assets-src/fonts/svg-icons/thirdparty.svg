@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+    <title>ThirdParty_icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="ThirdParty_icon" sketch:type="MSArtboardGroup">
+            <path d="M16,12.5 L16,16 L0,16 L0,12.5 C0,10.5669301 3.58148495,9 8,9 C12.4180747,9 16,10.5669301 16,12.5 Z" id="Shape" stroke="#6F777B" stroke-width="2" sketch:type="MSShapeGroup"></path>
+            <path d="M13,5 C13,7.76154151 10.7615415,10 8,10 C5.23845849,10 3,7.76154151 3,5 C3,2.23845849 5.23845849,0 8,0 C10.7615415,0 13,2.23845849 13,5 Z M11,5 C11,6.65697201 9.65697201,8 8,8 C6.34302799,8 5,6.65697201 5,5 C5,3.34302799 6.34302799,2 8,2 C9.65697201,2 11,3.34302799 11,5 Z" id="Path" fill="#6F777B" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

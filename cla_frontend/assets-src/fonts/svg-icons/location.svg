@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+    <title>locationpin_icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="locationpin_icon" sketch:type="MSArtboardGroup" fill="#666666">
+            <path d="M7.99907692,15.8506667 C7.99907692,15.8506667 2,9.79866667 2,5.74044444 L2,5.77688889 C2,2.58577778 4.68523077,0 7.99907692,0 C11.3147692,0 14,2.58577778 14,5.77688889 L14,5.74044444 C14,9.79866667 7.99907692,15.8506667 7.99907692,15.8506667 Z M12.3070769,5.85066675 C12.3070769,8.10044453 10.4129231,9.92355564 8.07569231,9.92355564 C5.74076923,9.92355564 3.84615385,8.10044453 3.84615385,5.85066675 C3.84615385,3.60000008 5.74076923,1.77777786 8.07569231,1.77777786 C10.4129231,1.77733341 12.3070769,3.59955564 12.3070769,5.85066675 Z" id="Shape" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>
