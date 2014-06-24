@@ -15,3 +15,4 @@ python-dateutil==2.2
 git+ssh://git@github.com/ministryofjustice/cla_common.git@0.1.25#egg=cla_common==0.1.25
 
 django-proxy==1.0.2
+django-csp==2.0.3
