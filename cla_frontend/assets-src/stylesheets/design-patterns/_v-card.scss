@@ -1,24 +1,25 @@
 .VCard {
   border: 1px solid $grey-2;
   padding: 10px;
+  margin-bottom: 20px;
   word-wrap: break-word;
   @include box-shadow(1px 1px 3px $grey-3);
   @include box-sizing(border-box);
 
-  .FormRow {
-    margin-bottom: 0;
-    padding-top: 3px;
-    padding-bottom: 3px;
+  &--dark {
+    border-color: $black;
   }
+}
 
-  .Error {
-    margin: 0 -10px;
-    padding-left: 7px;
-    padding-right: 10px;
+.VCard-legend {
+  @include bold-19;
+  color: #fff;
+  background-color: $grey-2;
+  margin: -10px -10px 10px;
+  padding: 4px 10px 1px;
 
-    &.IconRow--right {
-      background-position: right 17px;
-    }
+  .VCard--dark & {
+    background-color: $black;
   }
 }
 

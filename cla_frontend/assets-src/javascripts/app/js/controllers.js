@@ -72,48 +72,77 @@
       }]);
 
   angular.module('cla.controllers')
-  .controller('CaseDetailCtrl', ['$scope', 'case', 'eligibility_check',
-      function($scope, $case, $eligibility_check){
+  .controller('CaseDetailCtrl', ['$scope', 'case', 'eligibility_check', 'personal_details',
+      function($scope, $case, $eligibility_check, $personal_details){
         $scope.case = $case;
         $scope.eligibility_check = $eligibility_check;
+        $scope.personal_details = $personal_details;
       }]);
 
   angular.module('cla.controllers')
-    .controller('PersonalDetailsCtrl', ['$scope', 'form_utils', '_', 'History', 'personal_details',
-      function($scope, form_utils, _, History, personal_details){
-
+    .controller('PersonalDetailsCtrl', ['$scope', 'personal_details', 'ThirdParty', 'History', 'form_utils',
+      function($scope, personal_details, ThirdParty, History, form_utils){
         $scope.caseListStateParams = History.caseListStateParams;
-
         $scope.personal_details = personal_details;
+        $scope.third_party = $scope.case.thirdparty_details ? ThirdParty.get({ref: $scope.case.thirdparty_details}) : new ThirdParty();
 
-        var clean_details;
+        $scope.reasons = [
+          {value: 'CHILD_PATIENT', text: 'is a child or patient'},
+          {value: 'POWER_ATTORNEY', text: 'they are subject to a power of attorney'},
+          {value: 'NO_TELEPHONE_DISABILITY', text: 'they cannot communicate via the telephone, due to a disability'},
+          {value: 'NO_TELEPHONE_LANGUAGE', text: 'they cannot communicate via the telephone, due to a language requirement'},
+          {value: 'OTHER', text: 'other'}
+        ];
+        $scope.relationships = [
+          {value: 'PARENT_GUARDIAN', text: 'Parent or guardian'},
+          {value: 'FAMILY_FRIEND', text: 'Family friend'},
+          {value: 'PROFESSIONAL', text: 'Professional'},
+          {value: 'LEGAL_ADVISOR', text: 'Legal advisor'},
+          {value: 'OTHER', text: 'Other'}
+        ];
 
-        $scope.toggleEdit = function (edit, save) {
-          $scope.edit_mode = edit;
-          if (!edit) {
-            if (!!save) {
-              clean_details = angular.copy($scope.personal_details);
-            } else {
-              _.extend($scope.personal_details, clean_details);
-            }
+        $scope.validate = function (isValid) {
+          if (isValid) {
+            return true;
           } else {
-            clean_details = angular.copy($scope.personal_details);
+            return 'false';
           }
         };
 
-        // save personal details
-        $scope.save = function(isValid) {
-          if (isValid) {
-            $scope.personal_details.$update(function (data) {
-              $scope.toggleEdit(false, true);
-
-              if (!$scope.case.personal_details) {
-                $scope.case.$associate_personal_details(data.reference, function () {
-                  $scope.case.personal_details = data.reference;
-                });
-              }
-            }, angular.bind(this, form_utils.ctrlFormErrorCallback, $scope));
+        $scope.validateRadio = function (value) {
+          if (value !== undefined) {
+            return true;
+          } else {
+            return 'This field is required';
           }
+        };
+
+        $scope.savePersonalDetails = function(form) {
+          $scope.personal_details.$update(function (data) {
+            if (!$scope.case.personal_details) {
+              $scope.case.$associate_personal_details(data.reference, function () {
+                $scope.case.personal_details = data.reference;
+              });
+            }
+          }, function(response){
+            form_utils.ctrlFormErrorCallback($scope, response, form);
+            $scope.personal_details = personal_details;
+          });
+          return true;
+        };
+
+        $scope.saveThirdParty = function(form) {
+          $scope.third_party.$update(function (data) {
+            if (!$scope.case.thirdparty_details) {
+              $scope.case.$associate_thirdparty_details(data.reference, function () {
+                $scope.case.thirdparty_details = data.reference;
+              });
+            }
+          }, function(response){
+            form_utils.ctrlFormErrorCallback($scope, response, form);
+            $scope.third_party = $scope.case.thirdparty_details ? ThirdParty.get({ref: $scope.case.thirdparty_details}) : new ThirdParty();
+          });
+          return true;
         };
       }]);
 

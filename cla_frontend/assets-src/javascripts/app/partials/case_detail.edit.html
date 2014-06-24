@@ -31,25 +31,33 @@
 <div ui-view="">
   <div ng-controller="EligibilityCheckSummaryCtrl">
     <div ng-show="case.eligibility_check">
-      <p class="u-mute">Means test completed by user on {{ case.created | general_date }}</p>
+      <p class="u-mute">Your reference number: {{ case.reference }}</p>
 
-      <section class="SummaryBlock" ng-repeat="section in means_summary">
-        <h2 class="SummaryBlock-heading visuallyhidden">{{ section.header }}</h2>
-        <ul class="SummaryBlock-list">
-          <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
-        </ul>
-      </section>
+      <div ng-show="!eligibility_check.isEligibilityUnknown()">
+        <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
+          <figure class="SummaryBlock-list">
+            <div class="IconRow IconRow--name">
+              <figcaption>{{ case.created | general_date }} - {{ personal_details.full_name }} wrote:</figcaption>
+              <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
+            </div>
+          </figure>
+        </section>
 
-      <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
-        <figure class="SummaryBlock-list">
-          <div class="IconRow IconRow--name">
-            <figcaption>{{ case.created | general_date }} - {{ case.personal_details.full_name }} wrote:</figcaption>
-            <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
-          </div>
-        </figure>
-      </section>
+        <section class="SummaryBlock" ng-repeat="section in means_summary">
+          <h2 class="SummaryBlock-heading visuallyhidden">{{ section.header }}</h2>
+          <ul class="SummaryBlock-list">
+            <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
+          </ul>
+        </section>
 
-      <a class="Button" ui-sref="case_detail.edit.eligibility">Change Eligibility Check</a>
+
+        <a class="Button" ui-sref="case_detail.edit.eligibility">Change Eligibility Check</a>
+      </div>
+
+      <div ng-show="eligibility_check.isEligibilityUnknown()">
+        <p>Incomplete means test</p>
+        <a class="Button" ui-sref="case_detail.edit.eligibility">Complete Eligibility Check</a>
+      </div>
     </div>
 
     <div ng-show="!case.eligibility_check">

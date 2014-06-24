@@ -50,6 +50,17 @@ $border-colour: #C2C2C2;
     }
   }
 
+  .FormRow-optionLegend {
+    @include core-16;
+    margin: 15px 0 8px; 
+
+    &--divider {
+      border-top: 1px solid $border-colour;
+      padding-top: 15px;
+      margin-top: 20px;
+    }
+  }
+
   .FormRow-inner {
     padding: 10px 40px 0;
     margin: 0;
@@ -173,27 +184,59 @@ $border-colour: #C2C2C2;
   }
   
   // modifiers
+  &--narrow {
+    margin: 0;
+    padding: 3px 0;
+
+    &.Error {
+      margin: 0 -10px;
+      padding: 3px 10px 3px 7px;
+    }
+  }
+
   &--group {
-    margin: 0 0 10px;
+    margin: 0;
     padding: 0;
 
     .FormRow-label {
-      padding: 25px;
-      margin: 0;
+      margin: 0 0 10px;
       display: block;
       position: relative;
-      @include label-focusSelect;
 
       input {
-        margin-right: 20px;
+        float: left;
+        margin: 2px 0;
+      }
+
+      .FormRow-labelText {
+        display: block;
+        position: relative;
+        padding-left: 22px;
+        font-size: 14px;
       }
     }
+  }
+  .editable-radiolist {
+    display: block;
+    margin: 0;
+    padding: 0;
 
-    &:first-child {
-      margin-top: 25px;
-    }
-    &:last-child {
-      margin-bottom: 25px;
+    label {
+      margin: 0 0 10px;
+      display: block;
+      position: relative;
+      color: $grey-1;
+
+      input {
+        float: left;
+        margin: 2px 0;
+      }
+      span {
+        display: block;
+        position: relative;
+        padding-left: 22px;
+        font-size: 14px;
+      }
     }
   }
 
