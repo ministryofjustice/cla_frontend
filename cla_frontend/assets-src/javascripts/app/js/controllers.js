@@ -109,8 +109,10 @@
           }
         };
 
-        $scope.validateRadio = function (data) {
-          if (data === undefined) {
+        $scope.validateRadio = function (value) {
+          if (value !== undefined) {
+            return true;
+          } else {
             return 'This field is required';
           }
         };
