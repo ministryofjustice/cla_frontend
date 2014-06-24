@@ -1,13 +1,14 @@
 var gulp = require('gulp'),
   plugins = require('gulp-load-plugins')(),
   stylish = require('jshint-stylish'),
-  runSequence = require('run-sequence');
+  runSequence = require('run-sequence'),
+  angularTemplates = require('gulp-angular-templates');
 
 var paths = {
   dest_dir: 'cla_frontend/assets/',
+  templates_tmp_dest_dir: 'cla_frontend/templates-tmp/',
   src_dir: 'cla_frontend/assets-src/',
   styles: 'cla_frontend/assets-src/stylesheets/**/*.scss',
-  templates: 'cla_frontend/assets-src/javascripts/templates/*.hbs',
   partials: 'cla_frontend/assets-src/javascripts/app/partials/**/*.html',
   scripts: [
     // vendor scripts
@@ -26,11 +27,14 @@ var paths = {
     // angular app code
     'cla_frontend/assets-src/javascripts/app/js/app.js',
     'cla_frontend/assets-src/javascripts/app/js/**/*.js',
-    // templates
-    'cla_frontend/assets-src/javascripts/templates.js',
+    // compiled angular templates
+    'cla_frontend/templates-tmp/**',
     // CLA
     'cla_frontend/assets-src/javascripts/moj.Helpers.js',
     'cla_frontend/assets-src/javascripts/modules/*'
+  ],
+  scripts_misc: [
+    'cla_frontend/assets-src/javascripts/misc/*.js'
   ],
   vendor_scripts: 'cla_frontend/assets-src/javascripts/vendor/*',
   images: 'cla_frontend/assets-src/images/**/*'
@@ -55,42 +59,55 @@ gulp.task('sass', function() {
 
 // js templates
 gulp.task('templates', function(){
-  gulp.src(paths.templates)
-    .pipe(plugins.handlebars())
-    .pipe(plugins.defineModule('plain'))
-    .pipe(plugins.declare({
-      namespace: 'CLA.templates'
-    }))
-    .pipe(plugins.concat('templates.js'))
-    .pipe(gulp.dest(paths.src_dir + 'javascripts'));
+  return gulp.src(paths.partials)
+    .pipe(angularTemplates({module: 'cla.templates'}))
+    .pipe(gulp.dest(paths.templates_tmp_dest_dir));
 });
 
-// default js task
-gulp.task('js', ['templates'], function() {
+gulp.task('js-concat', ['templates'], function(){
   var prod = paths.scripts.slice(0);
+  console.log(prod);
 
   // ignore debug files
   prod.push('!' + paths.src_dir + '**/*debug*');
   // create concatinated js file
-  gulp
-    .src(prod)
+  return gulp
+    .src(prod.concat(paths.templates_tmp_dest_dir))
     .pipe(plugins.concat('cla.main.js'))
     .pipe(gulp.dest(paths.dest_dir + 'javascripts'));
+});
+
+gulp.task('js-vendor', function(){
   // copy static vendor files
-  gulp
+  return gulp
     .src(paths.vendor_scripts)
     .pipe(gulp.dest(paths.dest_dir + 'javascripts/vendor'));
-  // copy static template files
-  gulp
-    .src(paths.partials)
-    .pipe(gulp.dest(paths.dest_dir + 'javascripts/app/partials'));
+});
+
+gulp.task('js-debug', function(){
   // create debug js file
-  gulp
+  return gulp
     .src(paths.src_dir + 'javascripts/**/*debug*')
     .pipe(plugins.concat('cla.debug.js'))
     .pipe(gulp.dest(paths.dest_dir + 'javascripts/'));
 });
 
+gulp.task('js-standalone', function(){
+  // copy standalone scripts
+  return gulp
+    .src(paths.scripts_misc)
+    .pipe(gulp.dest(paths.dest_dir + 'javascripts/misc'));
+});
+
+// default js task
+gulp.task('js', ['js-concat', 'js-vendor', 'js-debug', 'js-standalone']);
+
+// remove tmp templates dir
+gulp.task('clean_tmp_templates', ['js'], function(){
+  return gulp
+    .src(paths.templates_tmp_dest_dir, {read: false})
+    .pipe(plugins.clean({force: true}));
+});
 
 // jshint js code
 gulp.task('lint', function() {
@@ -99,7 +116,8 @@ gulp.task('lint', function() {
   // files to ignore from linting
   files.push('!cla_frontend/assets-src/vendor/**');
   files.push('!cla_frontend/assets-src/javascripts/vendor/**');
-  files.push('!cla_frontend/assets-src/javascripts/templates.js');
+  files.push('!cla_frontend/assets-src/javascripts/app/templates/**');
+  files.push('!' + paths.templates_tmp_dest_dir + '/**');
 
   gulp
     .src(files)
@@ -124,7 +142,9 @@ gulp.task('watch', function() {
 
 // setup default tasks
 gulp.task('default', ['build']);
+
 // run build
 gulp.task('build', function() {
-  runSequence('clean', ['lint', 'templates', 'js', 'images', 'sass']);
+  runSequence('clean',
+    ['lint', 'templates', 'js', 'images', 'sass', 'clean_tmp_templates']);
 });
