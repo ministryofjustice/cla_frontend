@@ -1,46 +1,42 @@
-$complete-colour: #2C8CC5;
-
 .ProgressIndicator {
-  @include core-24;
+  list-style: none;
+  width: 100%;
   padding: 0;
-  margin: 30px 0 0;
+  margin: 20px 0;
+  display: table;
 
   .ProgressIndicator-step {
-    display: block;
-    padding: 8px 0;
+    @include core-19;
+    display: table-cell;
+    color: $black;
+    text-align: left;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 20%;
+    position: relative;
 
-    .ProgressIndicator-tick {
-      background: {
-        position: right center;
-        repeat: no-repeat;
-      }
-      @include svg-bg("../images/progress-indicator/tick");
-      padding-right: 25px;
-
-      &:link {
-        text-decoration: none;
-      }
+    a {
+      text-decoration: none;
       &:hover {
         text-decoration: underline;
       }
     }
 
-    &:last-child, 
-    .svg &:last-child {
-      padding-right: 15px;
-      background-image: none;
-
-      &.is-active {
-        background-image: none;
-      }
+    .ProgressIndicator-tick {
+      padding-right: 22px;
     }
 
     &.is-complete {
-      color: $complete-colour;
+      font-weight: 700;
     }
 
     &.is-active {
       font-weight: 700;
+      a {
+        color: $black;
+        text-decoration: none;
+      }
     }
   }
 }
