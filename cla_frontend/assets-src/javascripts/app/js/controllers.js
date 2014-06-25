@@ -296,13 +296,11 @@
       $scope.is_manual = false;
 
       $scope.case.get_suggested_providers().success(function(data){
-        $scope.suggested_providers = _.reject(data.suitable_providers, {id: data.suggested_provider.id});
+        $scope.suggested_providers = data.suggested_provider === null ? data.suitable_providers
+                          : _.reject(data.suitable_providers, {id: data.suggested_provider.id});
         $scope.suggested_provider = data.suggested_provider;
         $scope.selected_provider = data.suggested_provider;
-
-        if (data.suggested_provider.id === undefined) {
-          $scope.is_manual = true;
-        }
+        $scope.is_manual = data.suggested_provider === null;
       });
 
       $scope.assignManually = function(choice) {
