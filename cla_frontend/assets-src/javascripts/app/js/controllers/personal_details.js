@@ -3,12 +3,12 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'Adaptations', 'ThirdParty', 'History', 'form_utils',
-        function($scope, personal_details, Adaptations, ThirdParty, History, form_utils){
+      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'History', 'form_utils',
+        function($scope, personal_details, adaptation_details, thirdparty_details, History, form_utils){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.personal_details = personal_details;
-          $scope.adaptations = $scope.case.adaptation_details ? Adaptations.get({ref: $scope.case.adaptation_details}) : new Adaptations();
-          $scope.third_party = $scope.case.thirdparty_details ? ThirdParty.get({ref: $scope.case.thirdparty_details}) : new ThirdParty();
+          $scope.adaptations = adaptation_details;
+          $scope.third_party = thirdparty_details;
 
           $scope.toggle_adaptations = $scope.case.adaptation_details ? true : false;
 
@@ -75,7 +75,7 @@
               }
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
-              $scope.adaptations = $scope.case.adaptation_details ? Adaptations.get({ref: $scope.case.adaptation_details}) : new Adaptations();
+              $scope.adaptations = adaptation_details;
             });
             return true;
           };
@@ -89,7 +89,7 @@
               }
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
-              $scope.third_party = $scope.case.thirdparty_details ? ThirdParty.get({ref: $scope.case.thirdparty_details}) : new ThirdParty();
+              $scope.third_party = thirdparty_details;
             });
             return true;
           };
