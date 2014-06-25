@@ -5,7 +5,7 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="SMS_icon" sketch:type="MSArtboardGroup" fill="#6F777B">
+        <g id="SMS_icon" sketch:type="MSArtboardGroup" fill="#0B0C0C">
             <path d="M1.99406028,2 C0.892771196,2 0,2.90195036 0,4.0085302 L0,11.9914698 C0,13.1007504 0.894513756,14 1.99406028,14 L14.0059397,14 C15.1072288,14 16,13.0980496 16,11.9914698 L16,4.0085302 C16,2.8992496 15.1054862,2 14.0059397,2 L1.99406028,2 Z M3.00247329,4 C2.44882258,4 2,4.45303631 2,4.99703014 L2,11.0029699 C2,11.5536144 2.45576096,12 3.00247329,12 L12.9975267,12 C13.5511774,12 14,11.5469637 14,11.0029699 L14,4.99703014 C14,4.4463856 13.544239,4 12.9975267,4 L3.00247329,4 Z" id="Rectangle-76" sketch:type="MSShapeGroup"></path>
             <rect id="Rectangle-56" sketch:type="MSShapeGroup" x="6" y="5" width="2" height="6"></rect>
             <rect id="Rectangle-56" sketch:type="MSShapeGroup" transform="translate(11.000000, 6.000000) rotate(-90.000000) translate(-11.000000, -6.000000) " x="10" y="4" width="2" height="4"></rect>

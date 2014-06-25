@@ -5,7 +5,7 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Timer_icon" sketch:type="MSArtboardGroup" fill="#6F777B">
+        <g id="Timer_icon" sketch:type="MSArtboardGroup" fill="#0B0C0C">
             <path d="M16,8 C16,3.58172178 12.4182782,0 8,0 C3.58172178,0 0,3.58172178 0,8 C0,12.4182782 3.58172178,16 8,16 C12.4182782,16 16,12.4182782 16,8 Z M2,8 C2,4.68629128 4.68629128,2 8,2 C11.3137087,2 14,4.68629128 14,8 C14,11.3137087 11.3137087,14 8,14 C4.68629128,14 2,11.3137087 2,8 Z" id="Oval-21" sketch:type="MSShapeGroup"></path>
             <path d="M7.00439453,8.99768431 L7.00439453,10.6084166 L8.44798249,9.89391515 L12.7243497,7.77733436 L11.8371738,5.98487267 L7.56080657,8.10145347 L9.00439453,8.99768431 L9.00439453,3.11767578 L7.00439453,3.11767578 L7.00439453,8.99768431 Z" id="Path-35" sketch:type="MSShapeGroup"></path>
         </g>

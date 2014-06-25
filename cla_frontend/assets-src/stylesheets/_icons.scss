@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'cla-iconfont';
-  src:url('../fonts/cla-icons.eot?-imp8p3');
-  src:url('../fonts/cla-icons.eot?#iefix-imp8p3') format('embedded-opentype'),
-    url('../fonts/cla-icons.woff?-imp8p3') format('woff'),
-    url('../fonts/cla-icons.ttf?-imp8p3') format('truetype'),
-    url('../fonts/cla-icons.svg?-imp8p3#cla-icons') format('svg');
+  src:url('../fonts/cla-icons.eot?o5f9zu');
+  src:url('../fonts/cla-icons.eot?#iefixo5f9zu') format('embedded-opentype'),
+    url('../fonts/cla-icons.woff?o5f9zu') format('woff'),
+    url('../fonts/cla-icons.ttf?o5f9zu') format('truetype'),
+    url('../fonts/cla-icons.svg?o5f9zu#cla-icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -20,6 +20,7 @@
   text-transform: none;
   font-size: 16px;
   line-height: 1;
+  background-color: #fff;
   color: $grey-2;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
@@ -33,7 +34,7 @@
 .Icon {
   &:before {
     @include icon-font('cla-iconfont');
-    padding-right: 10px;
+    margin-right: 10px;
   }
   &:after {
     display: none;
@@ -57,7 +58,7 @@
     &:before { display: none; }
     &:after {
       @include icon-font('cla-iconfont');
-      padding-left: 10px;
+      margin-left: 10px;
     }
 
     &.Icon--row {
@@ -70,6 +71,17 @@
       }
     }
   }
+
+  &--dark {
+    &:before, &:after {
+      color: $black;
+    }
+  }
+  &--red {
+    &:before, &:after {
+      color: $red;
+    }
+  }
 }
 
 @include icon('add', '\e600');
@@ -78,17 +90,19 @@
 @include icon('callback', '\e603');
 @include icon('commentAdd', '\e604');
 @include icon('comments', '\e605');
-@include icon('edit', '\e606');
-@include icon('email', '\e607');
-@include icon('folderClosed', '\e608');
-@include icon('info', '\e609');
-@include icon('interpreter', '\e60a');
-@include icon('location', '\e60b');
-@include icon('print', '\e60c');
-@include icon('safe', '\e60d');
-@include icon('sms', '\e60e');
-@include icon('textphone', '\e60f');
-@include icon('thirdparty', '\e610');
-@include icon('timer', '\e611');
-@include icon('user', '\e612');
-@include icon('userform', '\e613');
+@include icon('cross', '\e606');
+@include icon('dontcall', '\e607');
+@include icon('edit', '\e608');
+@include icon('email', '\e609');
+@include icon('folder', '\e60a');
+@include icon('info', '\e60b');
+@include icon('interpreter', '\e60c');
+@include icon('location', '\e60d');
+@include icon('print', '\e60e');
+@include icon('safe', '\e60f');
+@include icon('sms', '\e610');
+@include icon('textphone', '\e611');
+@include icon('thirdparty', '\e612');
+@include icon('timer', '\e614');
+@include icon('user', '\e615');
+@include icon('userform', '\e616');
