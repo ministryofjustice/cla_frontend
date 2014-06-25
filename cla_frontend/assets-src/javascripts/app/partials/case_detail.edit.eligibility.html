@@ -1,7 +1,10 @@
-<ul>
-  <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.id)}" ng-click="onClickTab(tab)">{{ tab.title }}</li>
-</ul>
-
+<nav>
+  <ol class="ProgressIndicator">
+    <li class="ProgressIndicator-step" ng-repeat="tab in tabs" ng-class="{'is-active':isActiveTab(tab.id)}" ng-click="onClickTab(tab)">
+      <a href="" class="">{{ tab.title }}</a>
+    </li>
+  </ol>
+</nav>
 <div>
 
   <form ng-submit="save()" novalidate name="form">

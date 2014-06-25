@@ -8,6 +8,7 @@ var paths = {
   dest_dir: 'cla_frontend/assets/',
   src_dir: 'cla_frontend/assets-src/',
   styles: 'cla_frontend/assets-src/stylesheets/**/*.scss',
+  fonts: 'cla_frontend/assets-src/fonts/**',
   partials: 'cla_frontend/assets-src/javascripts/app/partials/**/*.html',
   scripts: {
     angular: [
@@ -190,6 +191,13 @@ gulp.task('lint', function() {
     .pipe(plugins.jshint.reporter(stylish));
 });
 
+// copy across web fonts
+gulp.task('fonts', function() {
+  return gulp
+    .src(paths.fonts)
+    .pipe(gulp.dest(paths.dest_dir + 'fonts'));
+});
+
 // optimise images
 gulp.task('images', function() {
   gulp
@@ -200,6 +208,8 @@ gulp.task('images', function() {
 
 // setup watches
 gulp.task('watch', function() {
+  gulp.watch(paths.fonts, ['fonts']);
+  gulp.watch(paths.src_dir + 'javascripts/**/*', ['lint', 'js']);
   gulp.watch(paths.styles, ['sass-release']);
   gulp.watch(paths.src_dir + 'javascripts/**/*', ['lint', 'js-release']);
   gulp.watch(paths.images, ['images']);
@@ -210,5 +220,5 @@ gulp.task('default', ['build']);
 
 gulp.task('build', function(){
   runSequence('clean',
-    ['lint', 'js-release', 'sass-release', 'images'])
+    ['lint', 'fonts', 'js-release', 'sass-release', 'images'])
 });
