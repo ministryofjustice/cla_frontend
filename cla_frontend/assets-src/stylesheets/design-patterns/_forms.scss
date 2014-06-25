@@ -123,11 +123,8 @@ $border-colour: #C2C2C2;
     width: 100%;
   }
   select {
+    @include core-16;
     width: 230px;
-    // height: 30px;
-    // border: 1px solid $border-colour;
-    // display: inline-block;
-    // @include box-sizing(border-box);
   }
 
   // size modifiers 
@@ -195,17 +192,18 @@ $border-colour: #C2C2C2;
   }
 
   &--group {
-    margin: 0;
+    margin: 0 0 10px;
     padding: 0;
 
     .FormRow-label {
-      margin: 0 0 10px;
+      padding: 15px 15px;
+      margin: 0;
       display: block;
       position: relative;
+      @include label-focusSelect;
 
       input {
-        float: left;
-        margin: 2px 0;
+        margin-right: 20px;
       }
 
       .FormRow-labelText {
@@ -216,7 +214,10 @@ $border-colour: #C2C2C2;
       }
     }
   }
-  .editable-radiolist {
+  // Duplicate to handle xeditable form styles
+  .editable-radiolist,
+  .editable-checklist,
+  .editable-checkbox {
     display: block;
     margin: 0;
     padding: 0;
@@ -225,7 +226,7 @@ $border-colour: #C2C2C2;
       margin: 0 0 10px;
       display: block;
       position: relative;
-      color: $grey-1;
+      // color: $grey-1;
 
       input {
         float: left;

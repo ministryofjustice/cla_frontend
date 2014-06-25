@@ -3,12 +3,26 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'ThirdParty', 'History', 'form_utils',
-        function($scope, personal_details, ThirdParty, History, form_utils){
+      ['$scope', 'personal_details', 'Adaptations', 'ThirdParty', 'History', 'form_utils',
+        function($scope, personal_details, Adaptations, ThirdParty, History, form_utils){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.personal_details = personal_details;
+          $scope.adaptations = $scope.case.adaptation_details ? Adaptations.get({ref: $scope.case.adaptation_details}) : new Adaptations();
           $scope.third_party = $scope.case.thirdparty_details ? ThirdParty.get({ref: $scope.case.thirdparty_details}) : new ThirdParty();
 
+          $scope.toggle_adaptations = $scope.case.adaptation_details ? true : false;
+
+          $scope.language_options = [
+            {value: 'WELSH', text: 'Language line'},
+            {value: 'OTHER', text: 'Some other line'},
+            {value: 'NONE', text: 'none'}
+          ];
+          $scope.adaptation_options = [
+            {value: 'CALLBACK_PHONE', text: 'callback requested by phone'},
+            {value: 'CALLBACK_TEXT', text: 'callback requested by text'},
+            {value: 'CALLBACK_WEBSITE', text: 'callback requested through website'},
+            {value: 'NONE', text: 'none'}
+          ];
           $scope.reasons = [
             {value: 'CHILD_PATIENT', text: 'is a child or patient'},
             {value: 'POWER_ATTORNEY', text: 'they are subject to a power of attorney'},
@@ -41,6 +55,7 @@
           };
 
           $scope.savePersonalDetails = function(form) {
+            // save personal details
             $scope.personal_details.$update(function (data) {
               if (!$scope.case.personal_details) {
                 $scope.case.$associate_personal_details(data.reference, function () {
@@ -50,6 +65,16 @@
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.personal_details = personal_details;
+            });
+            // save adaptations
+            $scope.adaptations.$update(function (data) {
+              if (!$scope.case.adaptations) {
+                $scope.case.$associate_adaptation_details(data.reference, function () {
+                  $scope.case.adaptation_details = data.reference;
+                });
+              }
+            }, function(response){
+              
             });
             return true;
           };
