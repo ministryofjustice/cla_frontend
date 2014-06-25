@@ -9,43 +9,43 @@
       <!-- IF empty -->
       <p class="Notice" ng-hide="personal_details.full_name">Please enter personal details</p>
 
-      <h2 class="VCard-title" ng-show="personal_details.full_name">{{ personal_details.full_name }}<span class="Icon Icon--name"></span></h2>
+      <h2 class="VCard-title Icon--right Icon--user" ng-show="personal_details.full_name">{{ personal_details.full_name }}</h2>
 
       <p class="VCard-row" ng-show="personal_details.postcode || personal_details.street">
-        {{ personal_details.postcode }}<span class="Icon Icon--location"></span><br>
+        {{ personal_details.postcode }}<span class="Icon--right Icon--location"></span><br>
         <span ng-bind-html="personal_details.street|nl2br"></span>
       </p>
 
-      <p class="VCard-row" ng-show="personal_details.mobile_phone">
-        {{ personal_details.mobile_phone }}<span class="Icon Icon--phone"></span>
+      <p class="VCard-row Icon--right Icon--call" ng-show="personal_details.mobile_phone">
+        {{ personal_details.mobile_phone }}
       </p>
     </div>
 
      <form novalidate method="post" name="personaldetails_frm" class="VCard VCard-edit Flip-back" ng-class="{submitted: personaldetails_submitted}" onbeforesave="validate(personaldetails_frm.$valid)" onaftersave="savePersonalDetails(personaldetails_frm)" editable-form>
       <label class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.full_name.$invalid && personaldetails_submitted}">
         <span class="Error-message" ng-show="personaldetails_frm.full_name.$error.server">{{ errors.full_name }}</span>
-        <span class="IconRow IconRow--right Icon--name">
+        <span class="Icon--row Icon--right Icon--user">
           <span editable-text="personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
         </span>
       </label>
 
       <label class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.postcode.$invalid && personaldetails_submitted}">
         <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
-        <span class="IconRow IconRow--right Icon--location">
+        <span class="Icon--row Icon--right Icon--location">
           <span editable-text="personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode"></span>
         </span>
       </label>
 
       <label class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.street.$invalid && personaldetails_submitted}">
         <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
-        <span class="IconRow IconRow--right">
+        <span class="Icon--row Icon--right Icon--address">
           <span editable-textarea="personal_details.street" e-name="street" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Address"></span>
         </span>
       </label>
 
       <label class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}">
         <span class="Error-message" ng-show="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
-        <span class="IconRow IconRow--right Icon--phone">
+        <span class="Icon--row Icon--right Icon--call">
           <span editable-text="personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
         </span>
       </label>
@@ -67,20 +67,16 @@
       <!-- IF empty -->
       <p class="Notice" ng-hide="third_party.personal_details.full_name">Please enter personal details</p>
 
-      <h3 class="VCard-title" ng-show="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}<span class="Icon Icon--name"></span></h3>
+      <h3 class="VCard-title Icon--right Icon--user" ng-show="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}</h3>
 
       <p class="VCard-row" ng-show="third_party.personal_details.postcode || third_party.personal_details.street">
-        {{ third_party.personal_details.postcode }}<span class="Icon Icon--location"></span><br>
+        {{ third_party.personal_details.postcode }}<span class="Icon--right Icon--location"></span><br>
         <span ng-bind-html="third_party.personal_details.street|nl2br"></span>
       </p>
 
-      <p class="VCard-row" ng-show="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone">
-        {{ third_party.personal_details.mobile_phone }}<span class="Icon Icon--phone"></span>
-      </p>
+      <p class="VCard-row Icon--right Icon--call" ng-show="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone">{{ third_party.personal_details.mobile_phone }}</p>
 
-      <p class="VCard-row" ng-show="third_party.pass_phrase">
-        {{ third_party.pass_phrase }}
-      </p>
+      <p class="VCard-row Icon--right Icon--safe" ng-show="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
     </div>
 
     <form novalidate method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit Flip-back" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" editable-form>
@@ -88,35 +84,35 @@
 
       <label class="FormRow FormRow--narrow" ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}">
         <span class="Error-message" ng-show="third_party_frm.full_name.$error.server">{{ errors.full_name }}</span>
-        <span class="IconRow IconRow--right Icon--name">
+        <span class="Icon--row Icon--right Icon--user">
           <span editable-text="third_party.personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
         </span>
       </label>
 
       <label class="FormRow FormRow--narrow" ng-class="{Error: third_party_frm.postcode.$invalid && thirdparty_submitted}">
         <span class="Error-message" ng-show="third_party_frm.postcode.$error.server">{{ errors.postcode }}</span>
-        <span class="IconRow IconRow--right Icon--location">
+        <span class="Icon--row Icon--right Icon--location">
           <span editable-text="third_party.personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode"></span>
         </span>
       </label>
 
       <label class="FormRow FormRow--narrow" ng-class="{Error: third_party_frm.street.$invalid && thirdparty_submitted}">
         <span class="Error-message" ng-show="third_party_frm.street.$error.server">{{ errors.street }}</span>
-        <span class="IconRow IconRow--right">
+        <span class="Icon--row Icon--right Icon--address">
           <span editable-textarea="third_party.personal_details.street" e-name="street" e-class="FormRow-field--full" e-placeholder="Address" e-rows="3" e-cols="20" e-maxlength="255"></span>
         </span>
       </label>
 
       <label class="FormRow FormRow--narrow" ng-class="{Error: third_party_frm.mobile_phone.$invalid && thirdparty_submitted}">
         <span class="Error-message" ng-show="third_party_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
-        <span class="IconRow IconRow--right Icon--phone">
+        <span class="Icon--row Icon--right Icon--call">
           <span editable-text="third_party.personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
         </span>
       </label>
 
       <label class="FormRow FormRow--narrow" ng-class="{Error: third_party_frm.pass_phrase.$invalid && thirdparty_submitted}">
         <span class="Error-message" ng-show="third_party_frm.pass_phrase.$error.server">{{ errors.pass_phrase }}</span>
-        <span class="IconRow IconRow--right">
+        <span class="Icon--row Icon--right Icon--safe">
           <span editable-text="third_party.pass_phrase" e-name="pass_phrase" e-class="FormRow-field--full" e-placeholder="Passphrase" e-required></span>
         </span>
       </label>

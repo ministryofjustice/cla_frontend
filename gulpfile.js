@@ -7,6 +7,7 @@ var paths = {
   dest_dir: 'cla_frontend/assets/',
   src_dir: 'cla_frontend/assets-src/',
   styles: 'cla_frontend/assets-src/stylesheets/**/*.scss',
+  fonts: 'cla_frontend/assets-src/fonts/**',
   templates: 'cla_frontend/assets-src/javascripts/templates/*.hbs',
   partials: 'cla_frontend/assets-src/javascripts/app/partials/**/*.html',
   scripts: [
@@ -108,6 +109,13 @@ gulp.task('lint', function() {
     .pipe(plugins.jshint.reporter(stylish));
 });
 
+// copy across web fonts
+gulp.task('fonts', function() {
+  gulp
+    .src(paths.fonts)
+    .pipe(gulp.dest(paths.dest_dir + 'fonts'));
+});
+
 // optimise images
 gulp.task('images', function() {
   gulp
@@ -118,6 +126,7 @@ gulp.task('images', function() {
 
 // setup watches
 gulp.task('watch', function() {
+  gulp.watch(paths.fonts, ['fonts']);
   gulp.watch(paths.styles, ['sass']);
   gulp.watch(paths.src_dir + 'javascripts/**/*', ['lint', 'js']);
   gulp.watch(paths.images, ['images']);
@@ -127,5 +136,5 @@ gulp.task('watch', function() {
 gulp.task('default', ['build']);
 // run build
 gulp.task('build', function() {
-  runSequence('clean', ['lint', 'templates', 'js', 'images', 'sass']);
+  runSequence('clean', ['lint', 'fonts', 'templates', 'js', 'images', 'sass']);
 });
