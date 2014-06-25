@@ -74,7 +74,8 @@
                 });
               }
             }, function(response){
-              
+              form_utils.ctrlFormErrorCallback($scope, response, form);
+              $scope.adaptations = $scope.case.adaptation_details ? Adaptations.get({ref: $scope.case.adaptation_details}) : new Adaptations();
             });
             return true;
           };
