@@ -1,8 +1,7 @@
 var gulp = require('gulp'),
   plugins = require('gulp-load-plugins')(),
   stylish = require('jshint-stylish'),
-  runSequence = require('run-sequence'),
-  ngmin = require('gulp-ngmin');
+  runSequence = require('run-sequence');
 
 var paths = {
   build_dir: 'cla_frontend/build/',
