@@ -53,7 +53,7 @@
       <a href="" class="BlockLink" ng-click="toggle_adaptations=!toggle_adaptations">Add adaptation or adjustment</a>
 
       <div ng-show="toggle_adaptations">
-        <div class="FormRow FormRow--narrow FormRow--group" ng-class="{Error: personaldetails_frm.$invalid && personaldetails_submitted}">
+        <div class="FormRow FormRow--group" ng-class="{Error: personaldetails_frm.$invalid && personaldetails_submitted}">
           <span class="Error-message" ng-show="personaldetails_frm.$error.server">{{ errors.personal_relationship }}</span>
           
           <span editable-radiolist="adapt" e-name="adapt" e-ng-options="s.value as s.text for s in adaptation_options"></span>
@@ -67,10 +67,10 @@
           <span editable-checkbox="language" e-name="bsl_webcam" e-title="Welsh"></span>
         </div>
 
-        <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.$invalid && personaldetails_submitted}">
-          <span class="Error-message" ng-show="personaldetails_frm.$error.server">{{ errors.language }}</span>
+        <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.language.$invalid && personaldetails_submitted}">
+          <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
           
-          <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full"></span>
+          <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-required></span>
         </div>
 
         <hr class="u-horLine">
