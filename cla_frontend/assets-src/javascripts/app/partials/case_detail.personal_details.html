@@ -52,15 +52,7 @@
 
       <a href="" class="BlockLink" ng-click="toggle_adaptations=!toggle_adaptations">Add adaptation or adjustment</a>
 
-      <div ng-show="toggle_adaptations">
-        <div class="FormRow FormRow--group" ng-class="{Error: personaldetails_frm.$invalid && personaldetails_submitted}">
-          <span class="Error-message" ng-show="personaldetails_frm.$error.server">{{ errors.personal_relationship }}</span>
-          
-          <span editable-radiolist="adapt" e-name="adapt" e-ng-options="s.value as s.text for s in adaptation_options"></span>
-        </div>
-
-        <hr class="u-horLine">
-        
+      <div ng-show="toggle_adaptations">        
         <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.bsl_webcam.$invalid && personaldetails_submitted}">
           <span class="Error-message" ng-show="personaldetails_frm.bsl_webcam.$error.server">{{ errors.bsl_webcam }}</span>
           
@@ -87,6 +79,9 @@
 
           <span class="Error-message" ng-show="personaldetails_frm.skype.$error.server">{{ errors.skype }}</span>
           <span editable-checkbox="adaptations.skype" e-name="skype" e-title="Skype"></span>
+
+          <span class="Error-message" ng-show="personaldetails_frm.callback.$error.server">{{ errors.callback }}</span>
+          <span editable-checkbox="adaptations.callback" e-name="callback" e-title="Callback requested"></span>
         </div>
 
         <label class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">

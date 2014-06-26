@@ -3,8 +3,9 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'History', 'form_utils',
-        function($scope, personal_details, adaptation_details, thirdparty_details, History, form_utils){
+      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'History', 'form_utils', 'case_states',
+        function($scope, personal_details, adaptation_details, thirdparty_details, History, form_utils, case_states){
+          console.log(case_states);
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
@@ -31,11 +32,11 @@
             {value: 'OTHER', text: 'other'}
           ];
           $scope.relationships = [
-            {value: 'PARENT_GUARDIAN', text: 'Parent or guardian'},
-            {value: 'FAMILY_FRIEND', text: 'Family friend'},
-            {value: 'PROFESSIONAL', text: 'Professional'},
-            {value: 'LEGAL_ADVISOR', text: 'Legal advisor'},
-            {value: 'OTHER', text: 'Other'}
+            {'PARENT_GUARDIAN': 'Parent or guardian'},
+            {'FAMILY_FRIEND': 'Family friend'},
+            {'PROFESSIONAL': 'Professional'},
+            {'LEGAL_ADVISOR': 'Legal advisor'},
+            {'OTHER': 'Other'}
           ];
 
           $scope.validate = function (isValid) {

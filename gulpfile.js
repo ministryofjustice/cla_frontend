@@ -124,6 +124,16 @@ gulp.task('images', function() {
     .pipe(gulp.dest(paths.dest_dir + 'images'));
 });
 
+// convert json config to angular config
+gulp.task('config', function () {
+  gulp.src(paths.src_dir + 'javascripts/app/config.json')
+    .pipe(plugins.ngConstant({
+      name: 'cla.config'
+    }))
+    // Writes config.js to dist/ folder
+    .pipe(gulp.dest(paths.src_dir + 'javascripts/app/js/'));
+});
+
 // setup watches
 gulp.task('watch', function() {
   gulp.watch(paths.fonts, ['fonts']);
