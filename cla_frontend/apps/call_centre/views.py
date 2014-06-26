@@ -46,8 +46,9 @@ def backend_proxy_view(request, path):
     """
     client = get_connection(request)
 
+
     extra_requests_args = {
-        'headers': dict([client._store['session'].auth.get_header()])
+        'headers': {k.upper(): v for k,v in dict([client._store['session'].auth.get_header()]).items()}
     }
     remoteurl = u"%s%s" % (client._store['base_url'], path)
     return proxy_view(request, remoteurl, extra_requests_args)
