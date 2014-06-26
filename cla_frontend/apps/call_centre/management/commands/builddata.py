@@ -23,16 +23,16 @@ class Command(BaseCommand):
         if 'constants_json' in args:
             l_count = 0
             l = {}
-            for json_name, iterator in [('case_states', CASE_STATES.CHOICES),
-                                        ('eligibility_states', ELIGIBILITY_STATES.CHOICES),
-                                        ('titles', TITLES.CHOICES),
-                                        ('thirdparty_reason', THIRDPARTY_REASON),
-                                        ('thirdparty_relationship', THIRDPARTY_RELATIONSHIP),
-                                        ('adaptation_languages', ADAPTATION_LANGUAGES)
+            for json_name, iterator in [('CASE_STATES', CASE_STATES.CHOICES),
+                                        ('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES),
+                                        ('TITLES', TITLES.CHOICES),
+                                        ('THIRDPARTY_REASON', THIRDPARTY_REASON),
+                                        ('THIRDPARTY_RELATIONSHIP', THIRDPARTY_RELATIONSHIP),
+                                        ('ADAPTATION_LANGUAGES', ADAPTATION_LANGUAGES)
                                         ]:
                 l[json_name] = []
                 for k, v in iterator:
-                    l[json_name].append((k,v))
+                    l[json_name].append({'value':k,'text':v})
                     l_count += 1
 
             as_json = json.dumps(l)
