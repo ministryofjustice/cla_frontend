@@ -2,12 +2,10 @@
 usage-
 ./manage.py builddata constants_json
 
-Creates derived dataset of constants used by JS Data is sourced from cla_common.
+Creates derived dataset of constants used by JS frontend. Data is sourced from cla_common.
 
 """
-from django.core.management.base import BaseCommand, CommandError
-from pprint import pprint
-
+from django.core.management.base import BaseCommand
 import json
 
 # used by constants_json
