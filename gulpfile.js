@@ -5,7 +5,7 @@ var gulp = require('gulp'),
   runSequence = require('run-sequence');
 
 var java_path = path.resolve('node_modules/closurecompiler/jre/bin');
-process.env.PATH = java_path + ':' + process.env.PATH;
+    process.env.PATH = java_path + ':' + process.env.PATH;
 
 var paths = {
   build_dir: 'cla_frontend/build/',
@@ -57,33 +57,19 @@ var paths = {
 };
 
 // clean out assets folder
-gulp.task('clean-assets', function() {
+gulp.task('clean', function() {
   return gulp
-    .src(paths.dest_dir, {read: false})
+    .src([paths.dest_dir, paths.build_dir], {read: false})
     .pipe(plugins.clean());
 });
-
-gulp.task('clean-build', function() {
-  return gulp
-    .src(paths.build_dir, {read: false})
-    .pipe(plugins.clean());
-});
-
-gulp.task('clean', ['clean-assets', 'clean-build']);
 
 // compile scss
-gulp.task('sass-build', function() {
+gulp.task('sass', function() {
   return gulp
     .src(paths.styles)
     .pipe(plugins.rubySass({
       loadPath: 'node_modules/govuk_frontend_toolkit/' // add node module toolkit path
     }))
-    .pipe(gulp.dest(paths.build_dir + 'stylesheets'));
-});
-
-gulp.task('sass-release', ['sass-build'], function(){
-  return gulp
-    .src(paths.build_dir + 'stylesheets/**')
     .pipe(gulp.dest(paths.dest_dir + 'stylesheets/'));
 });
 
@@ -213,8 +199,7 @@ gulp.task('images', function() {
 // setup watches
 gulp.task('watch', function() {
   gulp.watch(paths.fonts, ['fonts']);
-  gulp.watch(paths.src_dir + 'javascripts/**/*', ['lint', 'js']);
-  gulp.watch(paths.styles, ['sass-release']);
+  gulp.watch(paths.styles, ['sass']);
   gulp.watch(paths.src_dir + 'javascripts/**/*', ['lint', 'js-release']);
   gulp.watch(paths.images, ['images']);
 });
@@ -224,5 +209,5 @@ gulp.task('default', ['build']);
 
 gulp.task('build', function(){
   runSequence('clean',
-    ['lint', 'fonts', 'js-release', 'sass-release', 'images'])
+    ['lint', 'fonts', 'js-release', 'sass', 'images'])
 });
