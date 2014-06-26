@@ -57,7 +57,7 @@ gulp.task('sass', function() {
 
 // js templates
 gulp.task('templates', function(){
-  gulp.src(paths.templates)
+  return gulp.src(paths.templates)
     .pipe(plugins.handlebars())
     .pipe(plugins.defineModule('plain'))
     .pipe(plugins.declare({
@@ -68,7 +68,7 @@ gulp.task('templates', function(){
 });
 
 // default js task
-gulp.task('js', ['templates'], function() {
+gulp.task('js', ['templates', 'config'], function() {
   var prod = paths.scripts.slice(0);
 
   // ignore debug files
@@ -126,7 +126,7 @@ gulp.task('images', function() {
 
 // convert json config to angular config
 gulp.task('config', function () {
-  gulp.src(paths.src_dir + 'javascripts/app/config.json')
+  return gulp.src(paths.src_dir + 'javascripts/app/config.json')
     .pipe(plugins.ngConstant({
       name: 'cla.config'
     }))
