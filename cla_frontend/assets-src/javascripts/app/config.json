@@ -1,0 +1,11 @@
+{
+  "eligibility_states": [
+    ["maybe", "Maybe"],
+    ["yes", "Yes"],
+    ["no", "No"]
+  ],
+  "titles": [
+    ["mr", "Mr"],
+    ["mrs", "Mrs"]
+  ]
+}
