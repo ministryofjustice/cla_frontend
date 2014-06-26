@@ -1,7 +1,11 @@
 var gulp = require('gulp'),
+  path = require('path'),
   plugins = require('gulp-load-plugins')(),
   stylish = require('jshint-stylish'),
   runSequence = require('run-sequence');
+
+var java_path = path.resolve('node_modules/closurecompiler/jre/bin');
+process.env.PATH = java_path + ':' + process.env.PATH;
 
 var paths = {
   build_dir: 'cla_frontend/build/',
