@@ -3,9 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'History', 'form_utils', 'case_states',
-        function($scope, personal_details, adaptation_details, thirdparty_details, History, form_utils, case_states){
-          console.log(case_states);
+      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'History', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP',
+        function($scope, personal_details, adaptation_details, thirdparty_details, History, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
@@ -13,31 +12,9 @@
 
           $scope.toggle_adaptations = $scope.case.adaptation_details ? true : false;
 
-          $scope.language_options = [
-            {value: 'WELSH', text: 'Language line'},
-            {value: 'OTHER', text: 'Some other line'},
-            {value: 'NONE', text: 'none'}
-          ];
-          $scope.adaptation_options = [
-            {value: 'CALLBACK_PHONE', text: 'callback requested by phone'},
-            {value: 'CALLBACK_TEXT', text: 'callback requested by text'},
-            {value: 'CALLBACK_WEBSITE', text: 'callback requested through website'},
-            {value: 'NONE', text: 'none'}
-          ];
-          $scope.reasons = [
-            {value: 'CHILD_PATIENT', text: 'is a child or patient'},
-            {value: 'POWER_ATTORNEY', text: 'they are subject to a power of attorney'},
-            {value: 'NO_TELEPHONE_DISABILITY', text: 'they cannot communicate via the telephone, due to a disability'},
-            {value: 'NO_TELEPHONE_LANGUAGE', text: 'they cannot communicate via the telephone, due to a language requirement'},
-            {value: 'OTHER', text: 'other'}
-          ];
-          $scope.relationships = [
-            {'PARENT_GUARDIAN': 'Parent or guardian'},
-            {'FAMILY_FRIEND': 'Family friend'},
-            {'PROFESSIONAL': 'Professional'},
-            {'LEGAL_ADVISOR': 'Legal advisor'},
-            {'OTHER': 'Other'}
-          ];
+          $scope.language_options = ADAPTATION_LANGUAGES;
+          $scope.reasons = THIRDPARTY_REASON;
+          $scope.relationships = THIRDPARTY_RELATIONSHIP;
 
           $scope.validate = function (isValid) {
             if (isValid) {
