@@ -28,7 +28,8 @@
     "phantomjs": "^1.9.7-8",
     "protractor": "^0.24.2",
     "run-sequence": "~0.3.6",
-    "gulp-ng-constant": "~0.1.0"
+    "gulp-ng-constant": "~0.1.0",
+    "gulp-shell": "~0.2.7"
   },
   "scripts": {
     "test": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js",

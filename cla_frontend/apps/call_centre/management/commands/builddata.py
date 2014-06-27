@@ -16,7 +16,7 @@ class Command(BaseCommand):
     args = 'constants_json | another_derivation'
     help = 'Create a derived dataset. At present, just constants_json is implemented.'
     
-    constants_json_OUTPUT_FILE = 'cla_frontend/assets-src/javascripts/app/config.json'
+    constants_json_OUTPUT_FILE = 'cla_frontend/assets-src/javascripts/app/constants.json'
 
     def handle(self, *args, **options):
 

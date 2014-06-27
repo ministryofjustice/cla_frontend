@@ -68,7 +68,7 @@ gulp.task('templates', function(){
 });
 
 // default js task
-gulp.task('js', ['templates', 'config'], function() {
+gulp.task('js', ['templates', 'constants-angular'], function() {
   var prod = paths.scripts.slice(0);
 
   // ignore debug files
@@ -124,13 +124,21 @@ gulp.task('images', function() {
     .pipe(gulp.dest(paths.dest_dir + 'images'));
 });
 
-// convert json config to angular config
-gulp.task('config', function () {
-  return gulp.src(paths.src_dir + 'javascripts/app/config.json')
+// convert django cla_common constants into angular constants
+gulp.task('constants-django', function () {
+  return gulp
+    .src('')
+    .pipe(plugins.shell([
+      './manage.py builddata constants_json'
+    ]));
+});
+gulp.task('constants-angular', ['constants-django'], function () {
+  return gulp
+    .src(paths.src_dir + 'javascripts/app/constants.json')
     .pipe(plugins.ngConstant({
-      name: 'cla.config'
+      name: 'cla.constants'
     }))
-    // Writes config.js to dist/ folder
+    // Writes config.js to dist folder
     .pipe(gulp.dest(paths.src_dir + 'javascripts/app/js/'));
 });
 
