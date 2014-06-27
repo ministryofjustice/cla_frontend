@@ -68,7 +68,7 @@ gulp.task('templates', function(){
 });
 
 // default js task
-gulp.task('js', ['templates', 'constants-angular'], function() {
+gulp.task('js', ['templates', 'constants'], function() {
   var prod = paths.scripts.slice(0);
 
   // ignore debug files
@@ -125,14 +125,7 @@ gulp.task('images', function() {
 });
 
 // convert django cla_common constants into angular constants
-gulp.task('constants-django', function () {
-  return gulp
-    .src('')
-    .pipe(plugins.shell([
-      './manage.py builddata constants_json'
-    ]));
-});
-gulp.task('constants-angular', ['constants-django'], function () {
+gulp.task('constants', function () {
   return gulp
     .src(paths.src_dir + 'javascripts/app/constants.json')
     .pipe(plugins.ngConstant({
