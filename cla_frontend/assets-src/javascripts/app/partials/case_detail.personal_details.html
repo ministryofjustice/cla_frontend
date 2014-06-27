@@ -62,7 +62,7 @@
         <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.language.$invalid && personaldetails_submitted}">
           <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
           
-          <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-ng-disabled="disable_lang" e-required></span>
+          <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-ng-disabled="disable_lang"></span>
         </div>
 
         <hr class="u-horLine">
