@@ -29,7 +29,7 @@
             $scope.case.$assign({
               provider_id: $scope.selected_provider.id,
               is_manual: $scope.is_manual,
-              assign_notes: $scope.assign_notes
+              notes: $scope.notes
             }).success(function(){
               $state.go('case_detail.assign.complete', {}, {'reload': true});
             });
