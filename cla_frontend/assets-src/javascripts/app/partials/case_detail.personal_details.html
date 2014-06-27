@@ -53,16 +53,16 @@
       <a href="" class="BlockLink" ng-click="toggle_adaptations=!toggle_adaptations">Add adaptation or adjustment</a>
 
       <div ng-show="toggle_adaptations">        
-        <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.bsl_webcam.$invalid && personaldetails_submitted}">
-          <span class="Error-message" ng-show="personaldetails_frm.bsl_webcam.$error.server">{{ errors.bsl_webcam }}</span>
+        <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.welsh_override.$invalid && personaldetails_submitted}">
+          <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>
           
-          <span editable-checkbox="language" e-name="bsl_webcam" e-title="Welsh"></span>
+          <span editable-checkbox="welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
         </div>
 
         <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.language.$invalid && personaldetails_submitted}">
           <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
           
-          <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-required></span>
+          <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-ng-disabled="disable_lang" e-required></span>
         </div>
 
         <hr class="u-horLine">
@@ -92,7 +92,7 @@
 
       <div class="FormActions cf">
         <button type="submit" class="Button" ng-click="personaldetails_submitted=true">Save</button>
-        <button type="reset" class="Button Button--text" ng-click="personaldetails_frm.$cancel()">Cancel</button>
+        <button type="reset" class="Button Button--text" ng-click="cancelPersonalDetails()">Cancel</button>
       </div>
     </form>
   </div>
