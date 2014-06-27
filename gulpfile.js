@@ -57,7 +57,7 @@ gulp.task('sass', function() {
 
 // js templates
 gulp.task('templates', function(){
-  gulp.src(paths.templates)
+  return gulp.src(paths.templates)
     .pipe(plugins.handlebars())
     .pipe(plugins.defineModule('plain'))
     .pipe(plugins.declare({
@@ -68,7 +68,7 @@ gulp.task('templates', function(){
 });
 
 // default js task
-gulp.task('js', ['templates'], function() {
+gulp.task('js', ['templates', 'constants'], function() {
   var prod = paths.scripts.slice(0);
 
   // ignore debug files
@@ -122,6 +122,17 @@ gulp.task('images', function() {
     .src(paths.images)
     .pipe(plugins.imagemin({optimizationLevel: 5}))
     .pipe(gulp.dest(paths.dest_dir + 'images'));
+});
+
+// convert django cla_common constants into angular constants
+gulp.task('constants', function () {
+  return gulp
+    .src(paths.src_dir + 'javascripts/app/constants.json')
+    .pipe(plugins.ngConstant({
+      name: 'cla.constants'
+    }))
+    // Writes config.js to dist folder
+    .pipe(gulp.dest(paths.src_dir + 'javascripts/app/js/'));
 });
 
 // setup watches

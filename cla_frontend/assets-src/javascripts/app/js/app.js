@@ -7,6 +7,7 @@
       'angularMoment',
       'xeditable',
       'ui.router',
+      'cla.constants',
       'cla.controllers',
       'cla.services',
       'cla.filters',
