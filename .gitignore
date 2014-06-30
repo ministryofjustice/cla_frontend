@@ -77,4 +77,4 @@ reports/
 .gulptmp
 
 # js constants builds
-cla_frontend/assets-src/javascripts/app/**/constants.*
+cla_frontend/assets-src/javascripts/app/**/constants.js
