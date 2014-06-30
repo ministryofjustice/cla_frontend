@@ -181,17 +181,13 @@
     <script src="{% static 'javascripts/govuk-template.js' %}" type="text/javascript"></script>
 
     <!--[if gt IE 6]><!-->
-    <script src="{% static 'javascripts/vendor/jquery/jquery-1.11.0.min.js' %}" type="text/javascript"></script>
-    <script src="{% static 'javascripts/moj.js' %}" type="text/javascript"></script>
-
-    <script src="{% static 'javascripts/cla.main.js' %}"></script>
     {% if debug %}
+    <script src="{% static 'javascripts/cla.main.js' %}"></script>
+    {% else %}
     <!-- DEBUG MODE -->
-    <!--<script src="{% static 'javascripts/cla.debug.js' %}"></script>-->
+    <script src="{% static 'javascripts/cla.main.min.js' %}"></script>
     {% endif %}
     {% block javascripts %}{% endblock %}
-
-    <script type="text/javascript" src="{% static 'javascripts/vendor/mojinit.js' %}"></script>
     <!--<![endif]-->
 
     {% block body_end %}{% endblock %}
