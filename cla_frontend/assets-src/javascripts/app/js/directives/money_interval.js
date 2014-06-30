@@ -5,7 +5,7 @@
   .directive('moneyInterval', function() {
     return  {
       restrict: 'E',
-      templateUrl:  '/static/javascripts/app/partials/includes/money_interval.html',
+      templateUrl:  'partials/includes/money_interval.html',
       scope: {
         miModel: '='
       }

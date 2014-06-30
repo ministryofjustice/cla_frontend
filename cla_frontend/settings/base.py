@@ -88,6 +88,8 @@ STATIC_ROOT = root('static')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+CSP_DEFAULT_SRC = ("'self'",)
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     root('assets'),
@@ -117,6 +119,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cla_auth.middleware.ZoneMiddleware',
+    'csp.middleware.CSPMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS =  (

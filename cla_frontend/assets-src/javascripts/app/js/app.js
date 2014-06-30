@@ -13,7 +13,8 @@
       'cla.filters',
       'cla.directives',
       'cla.states',
-      'cla.utils'
+      'cla.utils',
+      'cla.templates'
     ])
     .config(function($resourceProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
@@ -28,4 +29,5 @@
   angular.module('cla.directives',[]);
   angular.module('cla.states',[]);
   angular.module('cla.utils',[]);
+  angular.module('cla.templates',[]);
 })();
