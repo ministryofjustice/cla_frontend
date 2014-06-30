@@ -26,11 +26,14 @@
           };
 
           $scope.assign = function() {
-            $scope.case.$assign({
+            var data = {
               provider_id: $scope.selected_provider.id,
-              is_manual: $scope.is_manual,
-              notes: $scope.notes
-            }).success(function(){
+              is_manual: $scope.is_manual
+            };
+            if ($scope.is_manual) {
+              data.notes = $scope.notes;
+            }
+            $scope.case.$assign(data).success(function(){
               $state.go('case_detail.assign.complete', {}, {'reload': true});
             });
           };
