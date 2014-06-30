@@ -157,6 +157,8 @@ gulp.task('watch', function() {
 });
 
 // setup default task
-gulp.task('default', function() {
+gulp.task('default', ['build']);
+// run build
+gulp.task('build', function() {
   runSequence('clean-pre', ['sass', 'fonts', 'images', 'vendor', 'lint', 'js-compile']);
 });
