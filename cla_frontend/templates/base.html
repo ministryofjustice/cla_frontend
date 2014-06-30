@@ -7,7 +7,7 @@
 
     <title>{% block page_title %}{{ app_title }}{% endblock %}</title>
 
-    <script type="text/javascript" src="{% static 'javascripts/misc/iemobile.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/vendor/iemobile.js' %}"></script>
 
     <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/govuk-template.css' %}" media="screen" rel="stylesheet" type="text/css" /><!--<![endif]-->
     <!--[if IE 6]><link href="{% static 'stylesheets/govuk-template-ie6.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
@@ -17,7 +17,7 @@
     <link href="{% static 'stylesheets/govuk-template-print.css' %}" media="print" rel="stylesheet" type="text/css" />
 
     <!--[if IE 8]>
-    <script type="text/javascript" src="{% static 'javascripts/misc/iefonts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/vendor/iefonts.js' %}"></script>
     <![endif]-->
     <!--[if gte IE 9]><!-->
       <link href="{% static 'stylesheets/fonts.css' %}" media="all" rel="stylesheet" type="text/css" />
@@ -53,14 +53,14 @@
     <!--[if IE 8]><link href="{% static 'stylesheets/cla.main-ie8.css' %}" media="screen" rel="stylesheet"><![endif]-->
 
     <!-- load modernizer -->
-    <script src="{% static 'javascripts/misc/modernizr.custom.92045.js' %}"></script>
+    <script src="{% static 'javascripts/vendor/modernizr.custom.92045.js' %}"></script>
 
     {% block stylesheets %}{% endblock %}
     {% block head %}{% endblock %}
   </head>
 
   <body class="{% block body_classes %}{{ product_type }} {{ phase }}{% endblock %}"{% block body_attrs %}{% endblock %}>
-    <script type="text/javascript" src="{% static 'javascripts/misc/jsenabled.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/vendor/jsenabled.js' %}"></script>
 
     <div id="skiplink-container">
       <div>
@@ -187,11 +187,11 @@
     <script src="{% static 'javascripts/cla.main.js' %}"></script>
     {% if debug %}
     <!-- DEBUG MODE -->
-    <script src="{% static 'javascripts/cla.debug.js' %}"></script>
+    <!--<script src="{% static 'javascripts/cla.debug.js' %}"></script>-->
     {% endif %}
     {% block javascripts %}{% endblock %}
 
-    <script type="text/javascript" src="{% static 'javascripts/misc/mojinit.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/vendor/mojinit.js' %}"></script>
     <!--<![endif]-->
 
     {% block body_end %}{% endblock %}
