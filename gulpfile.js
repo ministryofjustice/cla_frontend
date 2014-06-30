@@ -196,6 +196,17 @@ gulp.task('images', function() {
     .pipe(gulp.dest(paths.dest_dir + 'images'));
 });
 
+// convert django cla_common constants into angular constants
+gulp.task('constants', function () {
+  return gulp
+    .src(paths.src_dir + 'javascripts/app/constants.json')
+    .pipe(plugins.ngConstant({
+      name: 'cla.constants'
+    }))
+    // Writes config.js to dist folder
+    .pipe(gulp.dest(paths.src_dir + 'javascripts/app/js/'));
+});
+
 // setup watches
 gulp.task('watch', function() {
   gulp.watch(paths.fonts, ['fonts']);

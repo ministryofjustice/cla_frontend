@@ -53,6 +53,12 @@
       }],
       personal_details: ['case', 'PersonalDetails', function(case_, PersonalDetails) {
         return case_.personal_details ? PersonalDetails.get({ref: case_.personal_details}).$promise : new PersonalDetails();
+      }],
+      adaptation_details: ['case', 'Adaptations', function(case_, Adaptations) {
+        return case_.adaptation_details ? Adaptations.get({ref: case_.adaptation_details}).$promise : new Adaptations();
+      }],
+      thirdparty_details: ['case', 'ThirdParty', function(case_, ThirdParty) {
+        return case_.thirdparty_details ? ThirdParty.get({ref: case_.thirdparty_details}).$promise : new ThirdParty();
       }]
     },
     views: {

@@ -1,10 +1,40 @@
 'use strict';
 (function(){
+
+  var transformData = function($http, data, headers) {
+    var fns = $http.defaults.transformRequest;
+
+    if (angular.isFunction(fns)) {
+      return fns(data, headers);
+    }
+
+    angular.forEach(fns, function(fn) {
+      data = fn(data, headers);
+    });
+
+    return data;
+  };
+  
   // SERVICES
   angular.module('cla.services')
     .factory('Case', ['$http', '$resource', function($http, $resource) {
 
-      var resource = $resource('/call_centre/proxy/case/:caseref/', {caseref: '@reference'}, {'query':  {method:'GET', isArray:false}});
+      var resource = $resource(
+        '/call_centre/proxy/case/:caseref/', 
+        {caseref: '@reference'}, 
+        {
+          'query':  {method:'GET', isArray:false},
+          'case_details_patch': {
+            method:'PATCH',
+            transformRequest: function(data, headers) {
+              return transformData($http, {
+                notes: data.notes,
+                in_scope: data.in_scope
+              }, headers);
+            }
+          }
+        }
+      );
 
       resource.prototype.$decline_specialists = function(data, successCallback) {
         var url = '/call_centre/proxy/case/'+this.reference+'/decline_all_specialists/';
@@ -22,6 +52,12 @@
         return $http.post(url, data).success(successCallback);
       };
 
+      resource.prototype.$associate_adaptation_details = function(reference, successCallback) {
+        var data = {reference: reference},
+            url = '/call_centre/proxy/case/'+this.reference+'/associate_adaptation_details/';
+        return $http.post(url, data).success(successCallback);
+      };
+
       resource.prototype.$associate_eligibility_check = function(reference, successCallback) {
         var data = {reference: reference},
             url = '/call_centre/proxy/case/'+this.reference+'/associate_eligibility_check/';
@@ -36,6 +72,11 @@
 
       resource.prototype.get_suggested_providers = function(){
         return $http.get('/call_centre/proxy/case/'+this.reference+'/assign_suggest/');
+      };
+
+      resource.prototype.$assign = function(data){
+        var url = '/call_centre/proxy/case/'+this.reference+'/assign/';
+        return $http.post(url, data);
       };
 
       resource.prototype.$assign = function(data){
@@ -83,6 +124,23 @@
   angular.module('cla.services')
     .factory('PersonalDetails', ['$resource', function($resource) {
       var resource = $resource('/call_centre/proxy/personal_details/:ref/', {ref:'@reference'}, {
+        'patch': {method: 'PATCH'}
+      });
+
+      resource.prototype.$update = function(success, fail){
+        if (this.reference) {
+          return this.$patch(success, fail);
+        } else {
+          return this.$save(success, fail);
+        }
+      };
+
+      return resource;
+    }]);
+
+  angular.module('cla.services')
+    .factory('Adaptations', ['$resource', function($resource) {
+      var resource = $resource('/call_centre/proxy/adaptation_details/:ref/', {ref:'@reference'}, {
         'patch': {method: 'PATCH'}
       });
 
