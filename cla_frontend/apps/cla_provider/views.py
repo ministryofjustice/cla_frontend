@@ -14,6 +14,7 @@ from .forms import RejectCaseForm, AcceptCaseForm, CaseForm, CloseCaseForm
 @cla_provider_zone_required
 def dashboard(request):
     client = get_connection(request)
+
     cases = []
     q = request.GET.get('q')
     if q:
