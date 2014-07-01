@@ -19,14 +19,14 @@ class BaseCaseLogForm(APIFormMixin, forms.Form):
 class EventSpecificLogForm(BaseCaseLogForm):
     EVENT_KEY = None
 
-    code = forms.ChoiceField(required=True)
+    event_code = forms.ChoiceField(required=True)
 
     def __init__(self, *args, **kwargs):
         super(EventSpecificLogForm, self).__init__(*args, **kwargs)
 
         if self.client:
             self._codes = self.get_codes()
-            self.fields['code'].choices = tuple(
+            self.fields['event_code'].choices = tuple(
                 (x['code'], x['code']) for x in self._codes
             )
 

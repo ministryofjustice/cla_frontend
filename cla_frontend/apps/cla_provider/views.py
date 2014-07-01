@@ -39,11 +39,16 @@ def edit_case(request, case_reference):
         case_form = CaseForm(client=client, initial=case)
 
 
+    # getting eligibility check object only if it exists
+    eligibility_check = None
+    if case['eligibility_check']:
+        client.eligibility_check(case['eligibility_check']).get()
+
     context = {
         'case_reference': case_reference,
         'case': case,
         'case_form': case_form,
-        'eligibility_check': client.eligibility_check(case['eligibility_check']).get(),
+        'eligibility_check': eligibility_check,
         'accept_form': AcceptCaseForm(client=client),
         'is_open': case['state'] == CASE_STATES.OPEN  # TODO not looking great, refactor
     }

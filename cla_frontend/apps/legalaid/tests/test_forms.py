@@ -89,7 +89,7 @@ class ExplicitEventFormTestCaseMixin(ImplicitEventFormTestCaseMixin):
     def _get_default_post_data(self, data={}):
         default_data = {
             'notes': 'lorem ipsum',
-            'code': self.codes[0]['code']
+            'event_code': self.codes[0]['code']
         }
         default_data.update(data)
         return default_data
@@ -100,17 +100,17 @@ class ExplicitEventFormTestCaseMixin(ImplicitEventFormTestCaseMixin):
         )
 
         form = self._get_test_form()(client=self.client)
-        self.assertItemsEqual(form.fields['code'].choices, codes_expected)
+        self.assertItemsEqual(form.fields['event_code'].choices, codes_expected)
 
         self.assertEqual(getattr(self.client.event, form.EVENT_KEY).get.called, True)
 
     def test_invalid_if_code_is_invalid(self):
         data = self._get_default_post_data({
-            'code': 'invalid'
+            'event_code': 'invalid'
         })
         form = self._get_test_form()(client=self.client, data=data)
         self.assertFalse(form.is_valid())
         self.assertDictEqual(
             form.errors,
-            {'code': [u'Select a valid choice. invalid is not one of the available choices.']
+            {'event_code': [u'Select a valid choice. invalid is not one of the available choices.']
         })
