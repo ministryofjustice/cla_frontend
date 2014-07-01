@@ -3,7 +3,7 @@
     <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> total</span>
 </div>
 
-<ul class="CaseHistory" ng-repeat="outcome in case.caseoutcome_set">
+<ul class="CaseHistory" ng-repeat="outcome in case.log_set">
     <li class="CaseHistory-item">
       {{ outcome.created | general_date }}<br>
       <span ng-if="outcome.notes">{{ outcome.notes }}<br></span>
