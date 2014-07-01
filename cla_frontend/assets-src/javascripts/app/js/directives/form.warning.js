@@ -20,7 +20,7 @@
             offErrorWatch();
           });
         },
-        templateUrl: '/static/javascripts/app/partials/directives/form.warning.html'
+        templateUrl: 'directives/form.warning.html'
       };
     }]);
 })();

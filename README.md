@@ -57,6 +57,12 @@ Each time you start a new terminal instance you will need to run the following c
 
     ./manage.py runserver 8001
 
+If using the Django Toolbar, include the following in your `local.py`:
+
+    if DEBUG:
+      CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'ajax.googleapis.com', 'data:')
+
+
 ## Frontend
 
 Assets are managed using [gulp.js](http://gulpjs.com/). To compile the assets once, after a pull for example, run:

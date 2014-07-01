@@ -67,6 +67,7 @@ run("find . -name '*.pyc' -delete")
 run("rm -rf cla_frontend/assets-src/vendor")
 
 # build js assets
+run('%s/python manage.py builddata constants_json' % bin_path)
 run('npm install')
 run("bower install")
 run("gulp build")
