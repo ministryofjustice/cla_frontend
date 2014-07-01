@@ -75,7 +75,7 @@
         return this.state === 'no';
       };
       resource.prototype.isEligibilityUnknown = function() {
-        return (this.state === undefined || this.state === 'maybe');
+        return (this.state === undefined || this.state === 'unknown');
       };
       return resource;
     }]);
