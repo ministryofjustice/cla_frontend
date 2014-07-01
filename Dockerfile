@@ -62,8 +62,6 @@ RUN mkdir -p /root/.ssh
 ADD ./docker/deploy-key /root/.ssh/id_rsa
 ADD ./docker/config /root/.ssh/config
 
-# Add local.py for QA
-ADD ./docker/local.py /home/app/django/cla_frontend/settings/local.py
 # Define working directory.
 WORKDIR /home/app/django
 
@@ -80,10 +78,10 @@ RUN gulp build
 RUN python manage.py collectstatic --noinput
 
 # install service files for runit
-ADD nginx.service /etc/service/nginx/run
+ADD ./docker/nginx.service /etc/service/nginx/run
 
 # install service files for runit
-ADD uwsgi.service /etc/service/uwsgi/run
+ADD ./docker/uwsgi.service /etc/service/uwsgi/run
 
 # Expose ports.
 EXPOSE 80
