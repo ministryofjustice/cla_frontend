@@ -121,6 +121,36 @@
     }]);
 
   angular.module('cla.services')
+    .factory('Event', ['$http', function($http) {
+      var defaults = {
+        baseUrl: '/call_centre/proxy/event/'
+      };
+
+      function Event(options) {
+        if (options === undefined) {
+          options = {};
+        }
+
+        for (var i in defaults) {
+          if (options[i] === undefined) {
+            options[i] = defaults[i];
+          }
+        }
+
+        this.options = options;
+
+        return this;
+      }
+
+      Event.prototype.list_by_event_key = function(event_key, successCallback) {
+        var url = this.options.baseUrl + event_key + '/';
+        return $http.get(url).success(successCallback || angular.noop);
+      };
+
+      return Event;
+    }]);
+
+  angular.module('cla.services')
     .factory('Provider', ['$http', '$resource', function($http, $resource) {
       return $resource('/call_centre/proxy/provider/:id/', {
       });
