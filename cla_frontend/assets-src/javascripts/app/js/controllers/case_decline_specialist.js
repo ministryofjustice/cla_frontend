@@ -7,7 +7,7 @@
         function($scope, $state) {
           $scope.decline = function() {
             $scope.case.$decline_specialists({
-              'notes': $scope.outcome_notes
+              'notes': $scope.notes
             }, function() {
               $state.go('case_list');
             });
