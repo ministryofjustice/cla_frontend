@@ -42,10 +42,10 @@ $fieldset-error-bg-colour: #FDF8F5;
 .Error {
   background-color: $error-bg-colour;
   border-left: 3px solid $error-colour;
-  padding: 1em 1em;
+  padding: 1em 10px 1em 7px;
   margin: {
-    left: -1em;
-    right: -1em;
+    left: -10px;
+    right: -10px;
   }
 
   details summary {
@@ -58,7 +58,16 @@ $fieldset-error-bg-colour: #FDF8F5;
   }
 
   &.FormRow--group {
-    padding: 0;
+    padding: {
+      top: 0;
+      bottom: 0;
+    }
+  }
+  &.FormRow--narrow {
+    padding: {
+      top: 3px;
+      bottom: 3px;
+    }
   }
 
   &--basic {

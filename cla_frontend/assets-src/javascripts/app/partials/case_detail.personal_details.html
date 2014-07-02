@@ -50,9 +50,49 @@
         </span>
       </label>
 
+      <a href="" class="BlockLink" ng-click="toggle_adaptations=!toggle_adaptations">Add adaptation or adjustment</a>
+
+      <div ng-show="toggle_adaptations">        
+        <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.welsh_override.$invalid && personaldetails_submitted}">
+          <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>
+          
+          <span editable-checkbox="welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
+        </div>
+
+        <div class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.language.$invalid && personaldetails_submitted}">
+          <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
+          
+          <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-ng-disabled="disable_lang"></span>
+        </div>
+
+        <hr class="u-horLine">
+        
+        <div class="FormRow FormRow--narrow FormRow--group" ng-class="{Error: personaldetails_frm.bsl_webcam.$invalid && personaldetails_submitted}">
+          <span class="Error-message" ng-show="personaldetails_frm.bsl_webcam.$error.server">{{ errors.bsl_webcam }}</span>          
+          <span editable-checkbox="adaptations.bsl_webcam" e-name="bsl_webcam" e-title="BSL - webcam"></span>
+
+          <span class="Error-message" ng-show="personaldetails_frm.minicom.$error.server">{{ errors.minicom }}</span>
+          <span editable-checkbox="adaptations.minicom" e-name="minicom" e-title="Minicom"></span>
+
+          <span class="Error-message" ng-show="personaldetails_frm.text_relay.$error.server">{{ errors.text_relay }}</span>
+          <span editable-checkbox="adaptations.text_relay" e-name="text_relay" e-title="Text relay"></span>
+
+          <span class="Error-message" ng-show="personaldetails_frm.skype.$error.server">{{ errors.skype }}</span>
+          <span editable-checkbox="adaptations.skype" e-name="skype" e-title="Skype"></span>
+
+          <span class="Error-message" ng-show="personaldetails_frm.callback_preference.$error.server">{{ errors.callback_preference }}</span>
+          <span editable-checkbox="adaptations.callback_preference" e-name="callback_preference" e-title="Callback preference"></span>
+        </div>
+
+        <label class="FormRow FormRow--narrow" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">
+          <span class="Error-message" ng-show="personaldetails_frm.adaptation_notes.$error.server">{{ errors.adaptation_notes }}</span>
+          <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="User comments"></span>
+        </label>
+      </div>
+
       <div class="FormActions cf">
         <button type="submit" class="Button" ng-click="personaldetails_submitted=true">Save</button>
-        <button type="reset" class="Button Button--text" ng-click="personaldetails_frm.$cancel()">Cancel</button>
+        <button type="reset" class="Button Button--text" ng-click="cancelPersonalDetails()">Cancel</button>
       </div>
     </form>
   </div>

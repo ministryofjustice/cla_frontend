@@ -69,7 +69,12 @@ npm-debug.log
 cla_frontend/assets-src/vendor/
 .sass-cache/
 generated/
-assets-src/vendor/
 
 /phantomjsdriver.log
 reports/
+
+# gulp temp folder
+.gulptmp
+
+# js constants builds
+cla_frontend/assets-src/javascripts/app/**/constants.js
