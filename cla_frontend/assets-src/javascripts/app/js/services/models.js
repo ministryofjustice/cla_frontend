@@ -14,14 +14,14 @@
 
     return data;
   };
-  
+
   // SERVICES
   angular.module('cla.services')
     .factory('Case', ['$http', '$resource', function($http, $resource) {
 
       var resource = $resource(
-        '/call_centre/proxy/case/:caseref/', 
-        {caseref: '@reference'}, 
+        '/call_centre/proxy/case/:caseref/',
+        {caseref: '@reference'},
         {
           'query':  {method:'GET', isArray:false},
           'case_details_patch': {
