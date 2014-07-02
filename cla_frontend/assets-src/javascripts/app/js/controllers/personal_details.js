@@ -24,6 +24,22 @@
             {value: 'OTHER', text: 'Other'}
           ];
 
+          $scope.getRelationshipDisplay = function(value) {
+            var v = _.find($scope.relationships, function(r) { return r.value === value;});
+            if (v !== undefined) {
+              v = v.text;
+            }
+            return v;
+          };
+
+          $scope.getReasonDisplay = function(value) {
+            var v = _.find($scope.reasons, function(r) { return r.value === value;});
+            if (v !== undefined) {
+              v = v.text;
+            }
+            return v;
+          };
+
           $scope.validate = function (isValid) {
             if (isValid) {
               return true;
