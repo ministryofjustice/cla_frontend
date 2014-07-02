@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <div ng-show="is_manual">
+  <div ng-show="is_manual && suggested_providers.length > 0">
     <div class="FormRow">
       <input type="text" name="provider-search" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="provider_search">
     </div>
@@ -45,7 +45,7 @@
   </div>
 
   <div class="FormActions">
-    <button type="submit" class="Button">Assign provider</button>
+    <button type="submit" class="Button" ng-show="suggested_providers.length > 0 || suggested_provider">Assign provider</button>
 
     <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer assignment</a>
 
