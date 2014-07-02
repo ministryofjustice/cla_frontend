@@ -14,14 +14,14 @@
 
     return data;
   };
-  
+
   // SERVICES
   angular.module('cla.services')
     .factory('Case', ['$http', '$resource', function($http, $resource) {
 
       var resource = $resource(
-        '/call_centre/proxy/case/:caseref/', 
-        {caseref: '@reference'}, 
+        '/call_centre/proxy/case/:caseref/',
+        {caseref: '@reference'},
         {
           'query':  {method:'GET', isArray:false},
           'case_details_patch': {
@@ -179,8 +179,33 @@
     }]);
 
   angular.module('cla.services')
-    .factory('OutcomeCode', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/outcome_code/:code/', {});
+    .factory('Event', ['$http', function($http) {
+      var defaults = {
+        baseUrl: '/call_centre/proxy/event/'
+      };
+
+      function Event(options) {
+        if (options === undefined) {
+          options = {};
+        }
+
+        for (var i in defaults) {
+          if (options[i] === undefined) {
+            options[i] = defaults[i];
+          }
+        }
+
+        this.options = options;
+
+        return this;
+      }
+
+      Event.prototype.list_by_event_key = function(event_key, successCallback) {
+        var url = this.options.baseUrl + event_key + '/';
+        return $http.get(url).success(successCallback || angular.noop);
+      };
+
+      return Event;
     }]);
 
   angular.module('cla.services')

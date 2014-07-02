@@ -117,6 +117,12 @@
       <p class="VCard-row Icon--right Icon--call" ng-show="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone">{{ third_party.personal_details.mobile_phone }}</p>
 
       <p class="VCard-row Icon--right Icon--safe" ng-show="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
+
+      <p class="VCard-row Icon--right" ng-show="third_party.personal_relationship">{{ getRelationshipDisplay(third_party.personal_relationship) }}</p>
+
+      <hr>
+
+      <p class="VCard-row Icon--right" ng-show="third_party.reason">{{ getReasonDisplay(third_party.reason) }}</p>
     </div>
 
     <form novalidate method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit Flip-back" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" editable-form>
@@ -160,14 +166,14 @@
       <div class="FormRow FormRow--narrow FormRow--group" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
         <p class="FormRow-optionLegend">Reason</p>
         <span class="Error-message" ng-show="third_party_frm.reason.$error.server">{{ errors.reason }}</span>
-        
+
         <span editable-radiolist="third_party.reason" e-name="reason" e-ng-options="s.value as s.text for s in reasons" onbeforesave="validateRadio($data)"></span>
       </div>
 
       <div class="FormRow FormRow--narrow FormRow--group" ng-class="{Error: third_party_frm.personal_relationship.$invalid && thirdparty_submitted}">
         <p class="FormRow-optionLegend FormRow-optionLegend--divider">Relationship</p>
         <span class="Error-message" ng-show="third_party_frm.personal_relationship.$error.server">{{ errors.personal_relationship }}</span>
-        
+
         <span editable-radiolist="third_party.personal_relationship" e-name="personal_relationship" e-ng-options="s.value as s.text for s in relationships" onbeforesave="validateRadio($data)"></span>
       </div>
 

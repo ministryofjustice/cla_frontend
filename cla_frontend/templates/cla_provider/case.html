@@ -6,7 +6,7 @@
   <nav class="SubNav">
     <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
   </nav>
-  
+
   {% with details=case.personal_details %}
   <section class="UserDetails">
     {% if details %}
@@ -42,21 +42,21 @@
     <h1 class="u-pullLeft">{{ case.reference }}</h1>
     {% block case_actions %}{% endblock %}
   </header>
-  
+
   {% block case_content %}{% endblock %}
 {% endblock %}
 
 {% block right_content %}
-  {% if case.caseoutcome_set %}
+  {% if case.log_set %}
   <ul class="CaseHistory">
-    {% for outcome in case.caseoutcome_set %}
+    {% for log in case.log_set %}
     <li class="CaseHistory-item">
-      {{ outcome.created|as_date }}<br>
-      {% if outcome.notes %}
-        {{ outcome.notes }}<br>
+      {{ log.created|as_date }}<br>
+      {% if log.notes %}
+        {{ log.notes }}<br>
       {% endif %}
-      ({{ outcome.created_by }})<br>
-      <span class="CaseHistory-label">{{ outcome.code }}</span>
+      ({{ log.created_by }})<br>
+      <span class="CaseHistory-label">{{ log.code }}</span>
     </li>
     {% endfor %}
   </ul>

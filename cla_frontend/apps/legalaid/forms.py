@@ -9,21 +9,29 @@ class APIFormMixin(object):
         super(APIFormMixin, self).__init__(*args, **kwargs)
 
 
-class OutcomeForm(APIFormMixin, forms.Form):
-    outcome_code = forms.ChoiceField(required=True)
-    outcome_notes = forms.CharField(
+class BaseCaseLogForm(APIFormMixin, forms.Form):
+    notes = forms.CharField(
         required=False, max_length=500,
         widget=forms.Textarea(attrs={'rows': 4, 'cols': 30})
     )
 
+
+class EventSpecificLogForm(BaseCaseLogForm):
+    EVENT_KEY = None
+
+    event_code = forms.ChoiceField(required=True)
+
     def __init__(self, *args, **kwargs):
-        super(OutcomeForm, self).__init__(*args, **kwargs)
+        super(EventSpecificLogForm, self).__init__(*args, **kwargs)
 
         if self.client:
-            self._outcome_codes = self.get_outcome_code_queryset()
-            self.fields['outcome_code'].choices = tuple(
-                (x['code'], u'%s - %s' % (x['code'], x['description'])) for x in self._outcome_codes
+            self._codes = self.get_codes()
+            self.fields['event_code'].choices = tuple(
+                (x['code'], x['code']) for x in self._codes
             )
 
-    def get_outcome_code_queryset(self):
-        return self.client.outcome_code.get()
+    def get_codes(self):
+        endpoint = self.client.event
+        endpoint = getattr(endpoint, self.EVENT_KEY)
+
+        return endpoint.get()
