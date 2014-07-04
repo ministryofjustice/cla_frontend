@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$scope', 'cases', '$stateParams', '$state',
-        function($scope, cases, $stateParams, $state) {
+      ['$rootScope', '$scope', 'cases', '$stateParams', '$state',
+        function($rootScope, $scope, cases, $stateParams, $state) {
           $scope.orderProp = $stateParams.ordering || '-created';
           $scope.search = $stateParams.search;
           $scope.currentPage = $stateParams.page || 1;
@@ -32,6 +32,8 @@
             }
             updatePage();
           };
+
+          $rootScope.$emit('timer:check');
         }
       ]
     );
