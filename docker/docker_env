@@ -1,0 +1,12 @@
+CLA_ENV=development
+SECRET_KEY=odimf%y#bszp359fe5z-zhd77m7_=*m768^@rr8*hk5knvd^-p
+DEBUG=True
+ALLOWED_HOSTS=*
+APP_NAME=cla_frontend
+HOST_NAME=http://ec2-54-76-250-233.eu-west-1.compute.amazonaws.com
+BACKEND_BASE_URI=http://ip-172-31-27-7.eu-west-1.compute.internal
+CALL_CENTRE_CLIENT_ID=b4b9220ffcb11ebfdab1
+CALL_CENTRE_SECRET_ID=2df71313bdd38a2e1b815015e1b14387e7681d41
+CLA_PROVIDER_CLIENT_ID=59657ed22d980251cdd3
+CALL_PROVIDER_SECRET_ID=0494287c65bdf61d29f0eeed467ec8e090f0d80f
+

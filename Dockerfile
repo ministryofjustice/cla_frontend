@@ -4,7 +4,7 @@
 # https://github.com/dockerfile/nginx
 #
 # Pull base image.
-FROM phusion/baseimage:0.9.10
+FROM phusion/baseimage:0.9.11
 
 MAINTAINER Peter Idah <peter.idah@digital.justice.gov.uk>
 
@@ -62,6 +62,9 @@ RUN mkdir -p /root/.ssh
 ADD ./docker/deploy-key /root/.ssh/id_rsa
 ADD ./docker/config /root/.ssh/config
 
+# Add local.py for parameterized docker deployment
+ADD ./docker/local.py /home/app/django/cla_frontend/settings/local.py
+
 # Define working directory.
 WORKDIR /home/app/django
 
@@ -75,13 +78,13 @@ RUN npm install -g bower gulp && \
 
 RUN gulp build
 
-RUN python manage.py collectstatic --noinput
-
 # install service files for runit
 ADD ./docker/nginx.service /etc/service/nginx/run
 
 # install service files for runit
 ADD ./docker/uwsgi.service /etc/service/uwsgi/run
+
+ADD ./docker/rc.local /etc/rc.local
 
 # Expose ports.
 EXPOSE 80
