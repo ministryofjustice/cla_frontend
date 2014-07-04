@@ -95,6 +95,8 @@
 
         {% if zone %}
           <nav class="UserMenu cf">
+            {% block timer %}{% endblock timer %}
+
             <p class="UserMenu-status">
               {#{% if zone == "call_centre" %}Provider{% else %}Operator{% endif %}:#}
               <span class="UserMenu-name">{{ user.username }}</span>

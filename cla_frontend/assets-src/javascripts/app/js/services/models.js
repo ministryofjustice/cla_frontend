@@ -233,4 +233,27 @@
       return $resource('/call_centre/proxy/provider/:id/', {
       });
     }]);
+
+  angular.module('cla.services')
+    .factory('Timer', ['$http', function($http) {
+      var baseUrl = '/call_centre/proxy/timer/';
+
+      function Timer() {
+        return this;
+      }
+
+      Timer.prototype.start = function(successCallback, errorCallback) {
+        return $http.post(baseUrl).
+          success(successCallback || angular.noop).
+          error(errorCallback || angular.noop);
+      };
+
+      Timer.prototype.getCurrent = function(successCallback, errorCallback) {
+        return $http.get(baseUrl).
+          success(successCallback || angular.noop).
+          error(errorCallback || angular.noop);
+      };
+
+      return Timer;
+    }]);
 })();
