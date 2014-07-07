@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
 # Install Nginx.
 RUN DEBIAN_FRONTEND='noninteractive' add-apt-repository ppa:nginx/stable && apt-get update
 RUN DEBIAN_FRONTEND='noninteractive' apt-get -y --force-yes install nginx-full && \
-  chown -R www-data:www-data /var/lib/nginx
+  chown -R www-data:www-data /var/lib/nginx 
 
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
 RUN rm -f /etc/nginx/sites-enabled/default
@@ -43,7 +43,7 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y nodejs
 
 RUN pip install GitPython uwsgi
 
-RUN mkdir -p /var/log/wsgi
+RUN mkdir -p /var/log/wsgi && chown -R www-data:www-data
 
 RUN  mkdir -p /var/log/nginx/cla_frontend
 ADD ./docker/cla_frontend.ini /etc/wsgi/conf.d/cla_frontend.ini
