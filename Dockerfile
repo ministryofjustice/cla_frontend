@@ -43,7 +43,7 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y nodejs
 
 RUN pip install GitPython uwsgi
 
-RUN mkdir -p /var/log/wsgi && chown -R www-data:www-data
+RUN mkdir -p /var/log/wsgi && chown -R www-data:www-data /var/log/wsgi
 
 RUN  mkdir -p /var/log/nginx/cla_frontend
 ADD ./docker/cla_frontend.ini /etc/wsgi/conf.d/cla_frontend.ini
