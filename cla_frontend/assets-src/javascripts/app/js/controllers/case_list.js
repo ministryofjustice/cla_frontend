@@ -33,7 +33,10 @@
             updatePage();
           };
 
-          $rootScope.$emit('timer:check');
+          // checking the time after the template as been rendered
+          $scope.$evalAsync(function() {
+            $rootScope.$emit('timer:check');
+          });
         }
       ]
     );
