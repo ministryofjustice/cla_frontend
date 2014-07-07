@@ -14,16 +14,32 @@
 
     return data;
   };
-  
+
   // SERVICES
   angular.module('cla.services')
     .factory('Case', ['$http', '$resource', function($http, $resource) {
 
       var resource = $resource(
-        '/call_centre/proxy/case/:caseref/', 
-        {caseref: '@reference'}, 
+        '/call_centre/proxy/case/:caseref/',
+        {caseref: '@reference'},
         {
-          'query':  {method:'GET', isArray:false},
+          'query':  {
+            method:'GET',
+            isArray:false,
+            transformResponse: function(data) {
+              var _data = angular.fromJson(data),
+                  results = [];
+
+              angular.forEach(_data.results, function (item) {
+                // jshint -W055
+                results.push(new resource(item));
+                // jshint +W055
+              });
+
+              _data.results = results;
+              return _data;
+            }
+          },
           'case_details_patch': {
             method:'PATCH',
             transformRequest: function(data, headers) {
@@ -82,6 +98,10 @@
       resource.prototype.$assign = function(data){
         var url = '/call_centre/proxy/case/'+this.reference+'/assign/';
         return $http.post(url, data);
+      };
+
+      resource.prototype.isInScopeAndEligible = function(){
+        return this.in_scope && this.eligibility_state === 'yes';
       };
 
       return resource;

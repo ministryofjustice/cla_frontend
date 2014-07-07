@@ -35,7 +35,7 @@
     <tbody>
     {% for case in cases %}
       <tr{% if case|is_case_open %} class="is-new"{% endif %}>
-        <td><a href="{% url zone.name|add:':edit_case' case.reference %}">{{ case.reference}}</a></td>
+        <td><a href="{% url zone.name|add:':edit_case' case.reference %}">{{ case.reference}}</a> / {{ case.laa_reference }}</td>
         <td>{{ case.personal_details.full_name }}</td>
         <td>{{ case.created|as_date|naturaltime }}</td>
         <td>{{ case.modified|as_date|naturaltime }}</td>
