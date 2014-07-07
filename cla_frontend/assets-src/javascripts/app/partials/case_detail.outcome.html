@@ -1,13 +1,17 @@
 <div class="Timer cf">
-    <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
-    <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> total</span>
+  <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
+  <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> total</span>
 </div>
 
-<ul class="CaseHistory" ng-repeat="log in case.log_set">
-    <li class="CaseHistory-item">
-      {{ log.created | general_date }}<br>
-      <span ng-if="log.notes">{{ log.notes }}<br></span>
-      ({{ log.created_by | general_date }})<br>
-      <span class="CaseHistory-label">{{ log.code }}</span>
-  </li>
+<ul class="CaseHistory" ng-repeat="timerLog in logSet() | filter:filterLogItems">
+  <li class="CaseHistory-item">
+    {{ timerLog.created | general_date }}<br>
+    <ul>
+     <li ng-repeat="log in case.log_set | filter:{timer: timerLog.timer}">
+       <span ng-if="log.notes">{{ log.notes }}<br></span>
+       ({{ log.created_by | general_date }})<br>
+       <span class="CaseHistory-label" ng-show="log.type == 'outcome'">{{ log.code }}</span>
+     </li>
+   </ul>
+ </li>
 </ul>
