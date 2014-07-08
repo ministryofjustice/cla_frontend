@@ -31,6 +31,13 @@
 }
 
 .Icon {
+  &:link,
+  &:visited,
+  &:active {
+    color: $grey-2;
+    text-decoration: none;
+  }
+
   &:before {
     @include icon-font('cla-iconfont');
     margin-right: 10px;
@@ -79,6 +86,18 @@
     }
   }
 
+  &--lrg {
+    &:before, &:after {
+      font-size: 28px;
+    }
+  }
+
+  &--abs-r {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+  }
+
   &--dark {
     &:before, &:after {
       color: $black;
@@ -87,6 +106,11 @@
   &--red {
     &:before, &:after {
       color: $red;
+    }
+  }
+  &--green {
+    &:before, &:after {
+      color: $green;
     }
   }
 }
@@ -110,6 +134,7 @@
 @include icon('sms', '\e610');
 @include icon('textphone', '\e611');
 @include icon('thirdparty', '\e612');
+@include icon('tick', '\e613');
 @include icon('timer', '\e614');
 @include icon('user', '\e615');
 @include icon('userform', '\e616');

@@ -17,7 +17,6 @@
               template: 'includes/eligibility.details.html'
             }, {
               title: 'Finances',
-              show: true,
               template: 'includes/eligibility.finances.html'
             }, {
               title: 'Income',
@@ -27,8 +26,6 @@
               template: 'includes/eligibility.expenses.html'
             }
           ];
-
-          console.log($scope.eligibility_check.partner);
 
           $scope.save = function() {
             $scope.eligibility_check.$update(function (data) {
