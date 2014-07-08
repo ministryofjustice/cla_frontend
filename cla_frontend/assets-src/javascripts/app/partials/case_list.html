@@ -6,7 +6,7 @@
   <h1 class="u-pullLeft">
       {{ search ? 'Results' : 'Cases' }} {{ search ? '"'+search+'"' : '' }}
   </h1>
-  <form name="newCaseForm" ng-controller="CaseCtrl" ng-submit="addCase()">
+  <form name="newCaseForm" ng-submit="addCase()">
     <button id="create_case" type="submit" class="Button">Create a case</button>
   </form>
 
@@ -26,7 +26,7 @@
   <tbody>
     <tr dir-paginate="case in cases.results | itemsPerPage: 20" total-items="cases.count" current-page="currentPage">
       <td>
-        <a ui-sref="case_detail.edit({caseref:case.reference})">{{ case.reference }}</a>
+        <a href="" ng-click="goToCase(case.reference)">{{ case.reference }}</a>
         <span ng-show="case.isInScopeAndEligible()"> / {{ case.laa_reference }}</span>
       </td>
       <td>{{ case.full_name }}</td>

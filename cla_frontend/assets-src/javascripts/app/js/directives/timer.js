@@ -54,13 +54,13 @@
     var Timer = {
       baseUrl: '/call_centre/proxy/timer/',
 
-      start: function(successCallback, errorCallback) {
+      getOrCreate: function(successCallback, errorCallback) {
         return $http.post(this.baseUrl).
           success(successCallback || angular.noop).
           error(errorCallback || angular.noop);
       },
 
-      getCurrent: function(successCallback, errorCallback) {
+      get: function(successCallback, errorCallback) {
         return $http.get(this.baseUrl).
           success(successCallback || angular.noop).
           error(errorCallback || angular.noop);
@@ -69,20 +69,28 @@
 
     // EVENTS (actions)
 
+    function emitTimerChanged(dateCreated) {
+      var time = Math.ceil((new Date().getTime() - new Date(dateCreated).getTime()) / 1000);
+      $rootScope.$emit('timer:changed', time);
+    }
+
     $rootScope.$on('timer:check', function() {
-      Timer.getCurrent(function(data) {
-        var time = Math.ceil((new Date().getTime() - new Date(data.created).getTime()) / 1000);
-        $rootScope.$emit('timer:changed', time);
+      Timer.get(function(data) {
+        emitTimerChanged(data.created);
       }, function() {
         $rootScope.$emit('timer:stopped');
       });
     });
 
-    $rootScope.$on('timer:start', function() {
-      Timer.start(function() {
-        $rootScope.$emit('timer:changed', 0);
+    $rootScope.$on('timer:start', function(__, options) {
+      options = options || {};
+
+      Timer.getOrCreate(function(data) {
+        emitTimerChanged(data.created);
+        (options.success || angular.noop)();
       }, function(data) {
         flash('error', data.detail);
+        (options.error || angular.noop)();
       });
     });
 
