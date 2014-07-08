@@ -20,7 +20,6 @@
   text-transform: none;
   font-size: 16px;
   line-height: 1;
-  background-color: #fff;
   color: $grey-2;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
@@ -41,7 +40,8 @@
   }
 
   // modifiers
-  &--row {
+  &--row,
+  &--formRow {
     display: block;
     position: relative;
     padding-left: 26px;
@@ -50,6 +50,12 @@
     &:after {
       position: absolute;
       left: 0;
+      top: 2px;
+    }
+  }
+  &--formRow {
+    &:before,
+    &:after {
       top: 7px;
     }
   }
@@ -61,7 +67,8 @@
       margin-left: 10px;
     }
 
-    &.Icon--row {
+    &.Icon--row,
+    &.Icon--formRow {
       padding-left: 0;
       padding-right: 26px;
 

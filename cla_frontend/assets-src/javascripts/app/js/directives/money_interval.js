@@ -7,7 +7,8 @@
       restrict: 'E',
       templateUrl:  'includes/money_interval.html',
       scope: {
-        miModel: '='
+        miModel: '=',
+        miLabel: '@'
       }
     };
   });

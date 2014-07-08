@@ -15,11 +15,16 @@ $col-gutter: 20; // in pixels
     .Grid-col {
       float: left;
       width: 100%;
-      padding-bottom: 20px;
       @include box-sizing(border-box);
 
       &:last-child {
         margin-right: 0;
+      }
+      
+      // 2 column grid
+      &--1-2 {
+        width: 49%;
+        margin-right: 0.5%;
       }
       
       // 3 column grid

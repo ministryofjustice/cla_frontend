@@ -9,33 +9,26 @@
 
           $scope.warnings = {};
 
-          $scope.tabs = [{
+          $scope.sections = [{
               title: 'Problem',
-              id: 'ec_problem'
+              template: 'includes/eligibility.problem.html'
             }, {
               title: 'Details',
-              id: 'ec_details'
+              template: 'includes/eligibility.details.html'
             }, {
               title: 'Finances',
-              id: 'ec_finances'
+              show: true,
+              template: 'includes/eligibility.finances.html'
             }, {
               title: 'Income',
-              id: 'ec_income'
+              template: 'includes/eligibility.income.html'
             }, {
               title: 'Expenses',
-              id: 'ec_expenses'
+              template: 'includes/eligibility.expenses.html'
             }
           ];
 
-          $scope.currentTab = 'ec_problem';
-
-          $scope.onClickTab = function (tab) {
-            $scope.currentTab = tab.id;
-          };
-
-          $scope.isActiveTab = function(tabId) {
-            return tabId === $scope.currentTab;
-          };
+          console.log($scope.eligibility_check.partner);
 
           $scope.save = function() {
             $scope.eligibility_check.$update(function (data) {

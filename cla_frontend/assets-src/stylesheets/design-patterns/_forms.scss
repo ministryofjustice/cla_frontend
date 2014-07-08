@@ -8,8 +8,8 @@ $border-colour: #C2C2C2;
   margin: 0;
 
   &--grey {
-    padding: 1.5em 3.125em;
-    margin: 0 0 2em;
+    padding: 1.5em 1.25em;
+    margin: 0 0 1.5em;
     border-width: 1px 0;
     border-color: $border-colour;
     border-style: solid;
@@ -22,12 +22,21 @@ $border-colour: #C2C2C2;
   }
 }
 .FormBlock-label {
-  @include heading-24;
-  margin-bottom: 10px;
+  @include core-19;
+  margin-bottom: 0;
+
+  &--inline {
+    margin-right: 10px;
+    float: left;
+  }
+}
+.FormBlock-actions {
+  margin-top: -10px;
+  margin-bottom: 1.5em;
 }
 
 .FormRow {
-  margin: 0 0 15px;
+  margin: 0 0 10px;
   padding-top: 0;
   padding-bottom: 0;
   position: relative;
@@ -47,6 +56,11 @@ $border-colour: #C2C2C2;
     &--odd {
       background-color: $grey-4;
       border: 1px solid #d8d8d8;
+    }
+
+    &--inline {
+      padding: 6px 15px 0 0;
+      float: left;
     }
   }
 
@@ -75,9 +89,9 @@ $border-colour: #C2C2C2;
   .FormRow-suffix {
     display: inline-block;
     float: left;
-    height: 32px;
-    width: 32px;
-    line-height: 32px;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
     border: 1px solid $border-colour;
     text-align: center;
     @include box-sizing(border-box);
@@ -96,13 +110,14 @@ $border-colour: #C2C2C2;
     @include media(960px) {
       float: left;
       clear: none;
-      padding-top: 3px;
+      padding-top: 6px;
       margin-left: 15px;
     }
   }
   
   input[type=text],
   input[type=password],
+  input[type=email],
   input[type=number],
   textarea {
     @include core-16;
@@ -111,6 +126,7 @@ $border-colour: #C2C2C2;
     padding: 2px 5px;
     margin: 0;
     display: inline-block;
+    float: left;
     width: 230px;
     height: 30px;
     @include box-sizing(border-box);
@@ -124,7 +140,19 @@ $border-colour: #C2C2C2;
   }
   select {
     @include core-16;
-    width: 230px;
+    display: inline-block;
+    border: 1px solid $border-colour;
+    padding: 2px 4px;
+    margin: 0;
+    height: 30px;
+    background: #fff;
+    @include border-radius(0);
+    @include box-sizing(border-box);
+
+    &.FormRow-field--interval {
+      margin: 0 0 0 15px;
+      float: left;
+    }
   }
 
   // size modifiers 
@@ -175,6 +203,11 @@ $border-colour: #C2C2C2;
     input {
       margin-right: 20px;
     }
+
+    &--inline {
+      clear: none;
+      padding: 0 5px 0 0;
+    }
   }
   .QuestionPrompt-answer {
     margin: 0;
@@ -187,25 +220,12 @@ $border-colour: #C2C2C2;
   }
 
   &--group {
-    margin: 0 0 10px;
+    margin: 0 15px 5px;
     padding: 0;
 
     .FormRow-label {
-      padding: 15px 15px;
-      margin: 0;
-      display: block;
-      position: relative;
-      @include label-focusSelect;
-
       input {
         margin-right: 20px;
-      }
-
-      .FormRow-labelText {
-        display: block;
-        position: relative;
-        padding-left: 22px;
-        font-size: 14px;
       }
     }
   }
