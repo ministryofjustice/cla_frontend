@@ -49,7 +49,7 @@
     };
 
 
-  }).factory('Timer', ['$http', '$rootScope', 'flash', function($http, $rootScope, flash) {
+  }).factory('Timer', ['$http', function($http) {
     // API
     var Timer = {
       baseUrl: '/call_centre/proxy/timer/',
@@ -66,34 +66,6 @@
           error(errorCallback || angular.noop);
       }
     };
-
-    // EVENTS (actions)
-
-    function emitTimerChanged(dateCreated) {
-      var time = Math.ceil((new Date().getTime() - new Date(dateCreated).getTime()) / 1000);
-      $rootScope.$emit('timer:changed', time);
-    }
-
-    $rootScope.$on('timer:check', function() {
-      Timer.get(function(data) {
-        emitTimerChanged(data.created);
-      }, function() {
-        $rootScope.$emit('timer:stopped');
-      });
-    });
-
-    $rootScope.$on('timer:start', function(__, options) {
-      options = options || {};
-
-      Timer.getOrCreate(function(data) {
-        emitTimerChanged(data.created);
-        (options.success || angular.noop)();
-      }, function(data) {
-        flash('error', data.detail);
-        (options.error || angular.noop)();
-      });
-    });
-
     return Timer;
 
   }]).factory('Stopwatch', ['$interval', function($interval) {
@@ -158,6 +130,33 @@
     };
 
     return Stopwatch;
+  }]).run(['$rootScope', 'Timer', 'flash', function($rootScope, Timer, flash) {
+    // EVENTS (actions)
+
+    function emitTimerChanged(dateCreated) {
+      var time = Math.ceil((new Date().getTime() - new Date(dateCreated).getTime()) / 1000);
+      $rootScope.$emit('timer:changed', time);
+    }
+
+    $rootScope.$on('timer:check', function() {
+      Timer.get(function(data) {
+        emitTimerChanged(data.created);
+      }, function() {
+        $rootScope.$emit('timer:stopped');
+      });
+    });
+
+    $rootScope.$on('timer:start', function(__, options) {
+      options = options || {};
+
+      Timer.getOrCreate(function(data) {
+        emitTimerChanged(data.created);
+        (options.success || angular.noop)();
+      }, function(data) {
+        flash('error', data.detail);
+        (options.error || angular.noop)();
+      });
+    });
   }]);
 
 })();

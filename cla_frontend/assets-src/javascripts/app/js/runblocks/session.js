@@ -2,8 +2,8 @@
 (function () {
 	'use strict';
 
-	angular.module('cla.services')
-	.factory('Session', ['$rootScope', '$window', function($rootScope, $window) {
+	angular.module('cla.app')
+	.run(['$rootScope', '$window', function($rootScope, $window) {
 		var LOCAL_STORAGE_KEY = 'cla:tabs-open',
 				getTabs = function() {
 					var tabs = localStorage.getItem(LOCAL_STORAGE_KEY) || 0;
@@ -28,7 +28,5 @@
 				});
 			}
 		});
-
-		return {};
 	}]);
 })();
