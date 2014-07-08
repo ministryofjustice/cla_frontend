@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
 # Install Nginx.
 RUN DEBIAN_FRONTEND='noninteractive' add-apt-repository ppa:nginx/stable && apt-get update
 RUN DEBIAN_FRONTEND='noninteractive' apt-get -y --force-yes install nginx-full && \
-  chown -R www-data:www-data /var/lib/nginx 
+  chown -R www-data:www-data /var/lib/nginx
 
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
 RUN rm -f /etc/nginx/sites-enabled/default
@@ -64,17 +64,17 @@ RUN chmod 400 /root/.ssh/id_rsa
 ADD ./docker/config /root/.ssh/config
 
 # Define working directory.
-WORKDIR /home/app/django
+#WORKDIR /home/app/django
 
 # PIP INSTALL APPLICATION
-RUN pip install -r requirements/production.txt
+RUN cd /home/app/django && pip install -r requirements/production.txt
 
 #NPM bower and gulp
 RUN npm install -g bower gulp && \
-  bower install --allow-root && \
+  cd /home/app/django && bower install --allow-root && \
   npm install
 
-RUN gulp build
+RUN cd /home/app/django && gulp build
 
 # install service files for runit
 ADD ./docker/nginx.service /etc/service/nginx/run
