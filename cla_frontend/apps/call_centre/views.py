@@ -8,7 +8,7 @@ from api.client import get_connection
 from cla_auth.utils import call_centre_zone_required
 from django.views.decorators.csrf import csrf_exempt
 
-from legalaid.shortcuts import get_case_or_404
+from legalaid.shortcuts import get_case_or_404, get_eligibility_or_404
 
 from cla_common.templatetags.means_summary_tags import MeansSummaryFormatter
 from proxy.views import proxy_view
@@ -22,8 +22,7 @@ def dashboard(request):
 @call_centre_zone_required
 def case_means_summary(request, case_reference):
     client = get_connection(request)
-    case = get_case_or_404(client, case_reference)
-    eligibility_check = client.eligibility_check(case['eligibility_check']).get()
+    eligibility_check = get_eligibility_or_404(client, case_reference)
 
     formatter = MeansSummaryFormatter()
     output = formatter.format(eligibility_check)
