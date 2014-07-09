@@ -89,7 +89,7 @@
 
   states.CaseEditDetailEligibilityState = {
     parent: states.CaseEditDetailState,
-    url: 'eligibility/',
+    url: 'eligibility/:section',
     views: {
       '@case_detail.edit': {
         templateUrl:'case_detail.edit.eligibility.html',
