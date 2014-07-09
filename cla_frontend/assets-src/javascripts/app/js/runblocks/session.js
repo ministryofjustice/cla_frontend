@@ -6,8 +6,7 @@
 	.run(['$rootScope', '$window', function($rootScope, $window) {
 		var LOCAL_STORAGE_KEY = 'cla:tabs-open',
 				getTabs = function() {
-					var tabs = localStorage.getItem(LOCAL_STORAGE_KEY) || 0;
-					tabs = parseInt(tabs);
+					var tabs = parseInt(localStorage.getItem(LOCAL_STORAGE_KEY) || 0);
 					if (isNaN(tabs)) {
 						tabs = 0;
 					}
