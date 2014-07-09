@@ -20,6 +20,9 @@
   &.is-expanded {
     background: $grey-2;
   }
+  &.is-complete {
+    background: #E8F0F0;
+  }
 }
 .Accordion-section {
   padding: 0 15px 10px;

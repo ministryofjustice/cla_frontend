@@ -1,11 +1,11 @@
 <form ng-submit="save()" novalidate name="form" class="Accordion">
   <div ng-repeat="section in sections">
-    <h2 class="Accordion-sectionTitle" ng-click="section.show=!section.show" ng-class="{'is-expanded': section.show}">
+    <h2 class="Accordion-sectionTitle" ng-click="section.show=!section.show" ng-class="{'is-expanded': section.show, 'is-complete': isComplete(section.id)}">
       {{ section.title }}
       <span class="Icon Icon--add Icon--dark"></span>
     </h2>
 
-    <div class="Accordion-section" ng-show="section.show" ng-include="section.template"></div>
+    <div id="{{ section.id }}" class="Accordion-section" ng-show="section.show" ng-include="section.template"></div>
   </div>
 
   <div class="FormActions FormBlock FormBlock--yellow">
