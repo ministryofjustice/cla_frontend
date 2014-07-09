@@ -19,6 +19,40 @@
       <p class="VCard-row Icon--right Icon--call" ng-show="personal_details.mobile_phone">
         {{ personal_details.mobile_phone }}
       </p>
+
+      <div ng-show="adaptations.language">
+        <hr class="u-horLine">
+
+        <p class="VCard-row">
+          <strong>Language</strong>
+          <br>
+          {{ adaptations.language }}
+        </p>
+      </div>
+
+      <div ng-show="adaptations.bsl_webcam || adaptations.minicom || adaptations.text_relay || adaptations.skype || adaptations.callback_preference">
+        <hr class="u-horLine">
+
+        <p class="VCard-row">
+          <strong>Adaptations</strong>
+          <br>
+          <span ng-show="adaptations.bsl_webcam">Webcam, </span>
+          <span ng-show="adaptations.minicom">Minicom, </span>
+          <span ng-show="adaptations.text_relay">Text relay, </span>
+          <span ng-show="adaptations.skype">Sykpe, </span>
+          <span ng-show="adaptations.callback_preference">Callback</span>
+        </p>
+      </div>
+
+      <div ng-show="adaptations.notes">
+        <hr class="u-horLine">
+      
+        <p>
+          <strong>Notes</strong>
+          <br>
+          {{ adaptations.notes }}
+        </p>
+      </div>
     </div>
 
      <form novalidate method="post" name="personaldetails_frm" class="VCard VCard-edit Flip-back" ng-class="{submitted: personaldetails_submitted}" onbeforesave="validate(personaldetails_frm.$valid)" onaftersave="savePersonalDetails(personaldetails_frm)" editable-form>
@@ -118,11 +152,23 @@
 
       <p class="VCard-row Icon--right Icon--safe" ng-show="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
 
-      <p class="VCard-row Icon--right" ng-show="third_party.personal_relationship">{{ getRelationshipDisplay(third_party.personal_relationship) }}</p>
+      <div ng-show="third_party.personal_relationship">
+        <hr class="u-horLine">      
+        <p>
+          <strong>Relationship</strong>
+          <br>
+          {{ getRelationshipDisplay(third_party.personal_relationship) }}
+        </p>
+      </div>
 
-      <hr>
-
-      <p class="VCard-row Icon--right" ng-show="third_party.reason">{{ getReasonDisplay(third_party.reason) }}</p>
+      <div ng-show="third_party.reason">
+        <hr class="u-horLine">      
+        <p>
+          <strong>Relationship</strong>
+          <br>
+          {{ getReasonDisplay(third_party.reason) }}
+        </p>
+      </div>
     </div>
 
     <form novalidate method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit Flip-back" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" editable-form>
