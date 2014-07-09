@@ -28,14 +28,8 @@
           ];
 
           $scope.save = function() {
-            $scope.eligibility_check.$update(function (data) {
-              if (!$scope.case.eligibility_check) {
-                $scope.case.$associate_eligibility_check(data.reference, function () {
-                  $scope.case.eligibility_check = data.reference;
-                });
-              }
-
-              $scope.eligibility_check.validate().then(function (resp) {
+            $scope.eligibility_check.$update($scope.case.reference, function () {
+              $scope.eligibility_check.validate($scope.case.reference).then(function (resp) {
                 $scope.warnings = resp.data.warnings;
               });
             });
