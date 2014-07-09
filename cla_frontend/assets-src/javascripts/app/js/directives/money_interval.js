@@ -9,10 +9,10 @@
       scope: {
         miModel: '=',
         miLabel: '@'
-      },
-      link: function(scope) {
-        // scope.miModel = typeof scope.miModel === 'undefined' ? {interval_period: ''} : scope.miModel;
-      }
+      }//,
+      // link: function(scope) {
+      //   scope.miModel = typeof scope.miModel === 'undefined' ? {interval_period: ''} : scope.miModel;
+      // }
     };
   });
 

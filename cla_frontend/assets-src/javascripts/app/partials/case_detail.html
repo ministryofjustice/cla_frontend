@@ -7,12 +7,14 @@
       <div class="Grid-colInner">
         <header class="PageHeader cf">
           <div>
-            <p class="u-pullLeft">{{ case.reference }}</p>
+            <p>{{ case.reference }}</p>
             <small ng-show="case.isInScopeAndEligible()">entitlement reference: {{ case.laa_reference }}</small>
           </div>
-
-          <a ui-sref="case_detail.close" class="Button Button--secondary u-pullRight">Close case</a>
-          <a ui-sref="case_detail.assign" class="Button Button--secondary u-pullRight">Assign case</a>
+          
+          <div class="cf">
+            <a ui-sref="case_detail.close" class="Button Button--secondary u-pullRight">Close case</a>
+            <a ui-sref="case_detail.assign" class="Button Button--secondary u-pullRight">Assign case</a>
+          </div>
         </header>
       </div>
 
