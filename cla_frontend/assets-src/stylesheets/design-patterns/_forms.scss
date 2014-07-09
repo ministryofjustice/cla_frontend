@@ -209,7 +209,11 @@ $border-colour: #C2C2C2;
 
     &--inline {
       clear: none;
-      padding: 0 5px 0 0;
+      margin: {
+        left: 0;
+        right: 0;
+      };
+      padding: 0 35px 0 0;
     }
   }
   .QuestionPrompt-answer {
@@ -223,7 +227,7 @@ $border-colour: #C2C2C2;
   }
 
   &--group {
-    margin: 0 15px 5px;
+    margin: 0 0 5px;
     padding: 0;
 
     .FormRow-label {
