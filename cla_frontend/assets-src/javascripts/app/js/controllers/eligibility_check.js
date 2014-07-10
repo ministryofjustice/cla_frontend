@@ -44,7 +44,7 @@
                 return angular.element('[name=' + $this.attr('name') + ']:checked').val() === undefined;
               } else {
                 return $this.val() === '';
-              }              
+              }
             });
 
             if (emptyInputs.length) {

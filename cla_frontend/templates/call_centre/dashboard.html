@@ -4,9 +4,16 @@
 
 {% block body_attrs %}ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
 
+
 {% block messages %}
 <flash-messages></flash-messages>
 {% endblock messages %}
+
+
+{% block timer %}
+<timer start-button="true"></timer>
+{% endblock timer %}
+
 
 {% block search %}{% verbatim %}
 <form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
@@ -17,6 +24,7 @@
   </div>
 </form>
 {% endverbatim %}{% endblock %}
+
 
 {% block full_content %}
   <div ui-view></div>

@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$scope', 'cases', '$stateParams', '$state',
-        function($scope, cases, $stateParams, $state) {
+      ['$rootScope', '$scope', 'cases', '$stateParams', '$state', 'Case',
+        function($rootScope, $scope, cases, $stateParams, $state, Case) {
           $scope.orderProp = $stateParams.ordering || '-created';
           $scope.search = $stateParams.search;
           $scope.currentPage = $stateParams.page || 1;
@@ -32,6 +32,31 @@
             }
             updatePage();
           };
+
+          $scope.addCase = function() {
+            $rootScope.$emit('timer:start', {
+              success: function() {
+                new Case().$save(function(data) {
+                  $state.go('case_detail.edit', {caseref:data.reference});
+                });
+              }
+            });
+          };
+
+          $scope.goToCase = function(case_reference) {
+            $rootScope.$emit('timer:start', {
+              success: function() {
+                $state.go('case_detail.edit', {
+                  'caseref': case_reference
+                });
+              }
+            });
+          };
+
+          // checking the time after the template as been rendered
+          $scope.$evalAsync(function() {
+            $rootScope.$emit('timer:check');
+          });
         }
       ]
     );
