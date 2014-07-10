@@ -9,18 +9,17 @@
     <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour">
 
       <div class="Grid-colInner">
-        <header class="PageHeader cf">
-          <div>
-            <p class="u-mute"><strong class="Icon Icon--folder Icon--right">{{ case.reference }}</strong></p>
-            <small ng-show="case.isInScopeAndEligible()">entitlement reference: {{ case.laa_reference }}</small>
-          </div>
-          
-          <div class="cf">
-            <a href="" ng-click="suspend()">Suspend</a>
-            <hr>
-            <a ui-sref="case_detail.assign" class="Button">Assign provider</a>
-          </div>
+        <header>
+          <h1 class="CaseNumber Icon Icon--folder Icon--right">{{ case.reference }}</h1>
+          <p class="CaseNumber-entitlement" ng-show="case.isInScopeAndEligible()">entitlement reference: {{ case.laa_reference }}</p>
         </header>
+
+        <timer base-time="case.billable_time"></timer>
+
+        <nav class="cf">
+          <a ui-sref="case_detail.close" class="Button Button--secondary u-pullRight">Close case</a>
+          <a ui-sref="case_detail.assign" class="Button Button--secondary u-pullRight">Assign case</a>
+        </nav>
       </div>
 
       <div class="Grid-colInner" ui-view="outcome"></div>

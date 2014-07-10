@@ -1,7 +1,3 @@
-<div class="Timer cf">
-  <timer base-time="case.billable_time"></timer>
-</div>
-
 <ul class="CaseHistory">
   <li class="CaseHistory-card" ng-repeat="timerLog in logSet() | filter:filterLogItems">
     <span class="CaseHistory-date">{{ timerLog.created | general_date }}</span>
