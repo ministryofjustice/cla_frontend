@@ -227,12 +227,32 @@ $border-colour: #C2C2C2;
   }
 
   &--group {
-    margin: 0 0 5px;
+    margin: 0 0 10px;
     padding: 0;
 
     .FormRow-label {
+      padding: 15px 15px;
+      margin: 0;
+      display: block;
+      position: relative;
+      @include label-focusSelect;
+
       input {
         margin-right: 20px;
+      }
+
+      .FormRow-labelText {
+        display: block;
+        position: relative;
+        padding-left: 22px;
+        font-size: 14px;
+      }
+    }
+    &Narrow {
+      margin: 0 0 5px;
+
+      .FormRow-label {
+        padding: 0;
       }
     }
   }
