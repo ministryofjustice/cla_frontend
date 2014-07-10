@@ -32,16 +32,8 @@
           };
           $scope.setAdaptations();
 
-          $scope.getRelationshipDisplay = function(value) {
-            var v = _.find($scope.relationships, function(r) { return r.value === value;});
-            if (v !== undefined) {
-              v = v.text;
-            }
-            return v;
-          };
-
-          $scope.getReasonDisplay = function(value) {
-            var v = _.find($scope.reasons, function(r) { return r.value === value;});
+          $scope.getDisplayLabel = function(value, list) {
+            var v = _.find(list, function(r) { return r.value === value;});
             if (v !== undefined) {
               v = v.text;
             }

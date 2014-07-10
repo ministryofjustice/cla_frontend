@@ -152,7 +152,7 @@
         <p>
           <strong>Relationship</strong>
           <br>
-          {{ getRelationshipDisplay(third_party.personal_relationship) }}
+          {{ getDisplayLabel(third_party.personal_relationship, relationships) }}
         </p>
       </div>
 
@@ -161,7 +161,7 @@
         <p>
           <strong>Relationship</strong>
           <br>
-          {{ getReasonDisplay(third_party.reason) }}
+          {{ getDisplayLabel(third_party.reason, reasons) }}
         </p>
       </div>
     </div>
