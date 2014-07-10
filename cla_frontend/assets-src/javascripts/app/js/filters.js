@@ -28,6 +28,18 @@
             v = input % 100;
         return input + (s[(v - 20) % 10] || s[v] || s[0]);
       };
+    })
+
+    .filter('snakeCaseToHuman', function() {
+      return function(input) {
+        return input.charAt(0).toUpperCase() + input.substr(1).replace(/_/g, ' ');
+      }
+    })
+
+    .filter('camelCaseToHuman', function() {
+      return function(input) {
+        return input.charAt(0).toUpperCase() + input.substr(1).replace(/[A-Z]/g, ' $&');
+      }
     });
 
 })();

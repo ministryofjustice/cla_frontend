@@ -33,15 +33,10 @@
       <div ng-show="adaptations.bsl_webcam || adaptations.minicom || adaptations.text_relay || adaptations.skype || adaptations.callback_preference">
         <hr class="u-horLine">
 
-        <p class="VCard-row">
-          <strong>Adaptations</strong>
-          <br>
-          <span ng-show="adaptations.bsl_webcam">Webcam, </span>
-          <span ng-show="adaptations.minicom">Minicom, </span>
-          <span ng-show="adaptations.text_relay">Text relay, </span>
-          <span ng-show="adaptations.skype">Sykpe, </span>
-          <span ng-show="adaptations.callback_preference">Callback</span>
-        </p>
+        <div class="VCard-row"><strong>Adaptations</strong></div>
+        <ul class="InlineList">
+          <li class="InlineList-item" ng-repeat="item in selected_adaptations">{{ item | snakeCaseToHuman }}</li>
+        </ul>
       </div>
 
       <div ng-show="adaptations.notes">

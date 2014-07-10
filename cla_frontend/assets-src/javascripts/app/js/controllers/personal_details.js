@@ -22,6 +22,16 @@
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
 
+          $scope.setAdaptations = function () {
+            $scope.selected_adaptations = [];
+            for (var k in $scope.adaptations ) {
+              if ($scope.adaptations[k] === true && k.indexOf('$') === -1) {
+                $scope.selected_adaptations.push(k);
+              }
+            }
+          };
+          $scope.setAdaptations();
+
           $scope.getRelationshipDisplay = function(value) {
             var v = _.find($scope.relationships, function(r) { return r.value === value;});
             if (v !== undefined) {
@@ -68,6 +78,8 @@
           };
 
           $scope.savePersonalDetails = function(form) {
+            $scope.setAdaptations();
+
             if ($scope.welsh_override) {
               $scope.adaptations.language = 'WELSH';
             }
