@@ -22,16 +22,18 @@
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
 
-          $scope.getRelationshipDisplay = function(value) {
-            var v = _.find($scope.relationships, function(r) { return r.value === value;});
-            if (v !== undefined) {
-              v = v.text;
+          $scope.setAdaptations = function () {
+            $scope.selected_adaptations = [];
+            for (var k in $scope.adaptations ) {
+              if ($scope.adaptations[k] === true && k.indexOf('$') === -1) {
+                $scope.selected_adaptations.push(k);
+              }
             }
-            return v;
           };
+          $scope.setAdaptations();
 
-          $scope.getReasonDisplay = function(value) {
-            var v = _.find($scope.reasons, function(r) { return r.value === value;});
+          $scope.getDisplayLabel = function(value, list) {
+            var v = _.find(list, function(r) { return r.value === value;});
             if (v !== undefined) {
               v = v.text;
             }
@@ -68,26 +70,24 @@
           };
 
           $scope.savePersonalDetails = function(form) {
+            $scope.setAdaptations();
+
             if ($scope.welsh_override) {
               $scope.adaptations.language = 'WELSH';
             }
             // save personal details
-            $scope.personal_details.$update(function (data) {
+            $scope.personal_details.$update($scope.case.reference, function (data) {
               if (!$scope.case.personal_details) {
-                $scope.case.$associate_personal_details(data.reference, function () {
-                  $scope.case.personal_details = data.reference;
-                });
+                $scope.case.personal_details = data.reference;
               }
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.personal_details = personal_details;
             });
             // save adaptations
-            $scope.adaptations.$update(function (data) {
+            $scope.adaptations.$update($scope.case.reference, function (data) {
               if (!$scope.case.adaptation_details) {
-                $scope.case.$associate_adaptation_details(data.reference, function () {
-                  $scope.case.adaptation_details = data.reference;
-                });
+                $scope.case.adaptation_details = data.reference;
               }
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
@@ -97,11 +97,9 @@
           };
 
           $scope.saveThirdParty = function(form) {
-            $scope.third_party.$update(function (data) {
+            $scope.third_party.$update($scope.case.reference, function (data) {
               if (!$scope.case.thirdparty_details) {
-                $scope.case.$associate_thirdparty_details(data.reference, function () {
-                  $scope.case.thirdparty_details = data.reference;
-                });
+                $scope.case.thirdparty_details = data.reference;
               }
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);

@@ -3,63 +3,73 @@
   
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category',
-        function($scope, Category){
+      ['$scope', 'Category', '$stateParams',
+        function($scope, Category, $stateParams){
           $scope.category_list = Category.query();
-
           $scope.warnings = {};
-
-          $scope.tabs = [{
+          $scope.sections = [{
               title: 'Problem',
-              id: 'ec_problem'
+              id: 'problem',
+              show: $stateParams.section === 'your_problem' || $stateParams.sections === '',
+              template: 'includes/eligibility.problem.html'
             }, {
               title: 'Details',
-              id: 'ec_details'
+              id: 'details',
+              show: $stateParams.section === 'details',
+              template: 'includes/eligibility.details.html'
             }, {
               title: 'Finances',
-              id: 'ec_finances'
+              id: 'finances',
+              show: $stateParams.section === 'your_capital',
+              template: 'includes/eligibility.finances.html'
             }, {
               title: 'Income',
-              id: 'ec_income'
+              id: 'income',
+              show: $stateParams.section === 'your_income',
+              template: 'includes/eligibility.income.html'
             }, {
               title: 'Expenses',
-              id: 'ec_expenses'
+              id: 'expenses',
+              show: $stateParams.section === 'your_allowances',
+              template: 'includes/eligibility.expenses.html'
             }
           ];
 
-          $scope.currentTab = 'ec_problem';
+          $scope.isComplete = function (section) {
+            var emptyInputs = angular.element('#' + section).find('input, select, textarea').filter(function() {
+              var $this = angular.element(this),
+                  type = $this.attr('type');
 
-          $scope.onClickTab = function (tab) {
-            $scope.currentTab = tab.id;
-          };
-
-          $scope.isActiveTab = function(tabId) {
-            return tabId === $scope.currentTab;
-          };
-
-          $scope.save = function() {
-            $scope.eligibility_check.$update(function (data) {
-              if (!$scope.case.eligibility_check) {
-                $scope.case.$associate_eligibility_check(data.reference, function () {
-                  $scope.case.eligibility_check = data.reference;
-                });
+              if (type === 'radio' || type === 'checkbox') {
+                return angular.element('[name=' + $this.attr('name') + ']:checked').val() === undefined;
+              } else {
+                return $this.val() === '';
               }
+            });
 
-              $scope.eligibility_check.validate().then(function (resp) {
+            if (emptyInputs.length) {
+              return false;
+            } else {
+              return true;
+            }
+          };
+
+          $scope.save = function () {
+            $scope.eligibility_check.$update($scope.case.reference, function () {
+              $scope.eligibility_check.validate($scope.case.reference).then(function (resp) {
                 $scope.warnings = resp.data.warnings;
               });
             });
           };
 
-          $scope.removeProperty = function(index) {
+          $scope.removeProperty = function (index) {
             $scope.eligibility_check.property_set.splice(index, 1);
           };
 
-          $scope.addProperty = function() {
-            if ($scope.eligibility_check.property_set === null) {
+          $scope.addProperty = function () {
+            if (typeof $scope.eligibility_check.property_set === 'undefined') {
               $scope.eligibility_check.property_set = [];
             }
-
             $scope.eligibility_check.property_set.push({});
           };
         }

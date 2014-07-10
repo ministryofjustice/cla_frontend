@@ -1,0 +1,81 @@
+<p>Whether or not you qualify for legal aid depends on how much money you and your partner earn. To find out if you’re financially eligible, please answer these questions as honestly and fully as you can.</p>
+
+<section>
+  <h2 class="FormBlock-label">Your income</h2>
+
+  <div class="FormBlock FormBlock--grey" aria-labelledby="your_income-label" role="group">
+    <div class="FormRow cf">
+      <money-interval mi-model="eligibility_check.you.income.earnings" mi-label="Earnings" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval mi-model="eligibility_check.you.income.other_income" mi-label="Other income" />
+    </div>
+
+    <div class="FormRow cf">
+      <p class="FormRow-label">Is your partner self employed?</p>
+
+      <label for="id_your_income-self_employed_0" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="id_your_income-self_employed" id="id_your_income-self_employed_0" value="1" ng-model="eligibility_check.you.income.self_employed">Yes
+      </label>
+
+      <label for="id_your_income-self_employed_1" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="id_your_income-self_employed" id="id_your_income-self_employed_1" value="0" ng-model="eligibility_check.you.income.self_employed">No
+      </label>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="FormBlock-label">Your partner's income</h2>
+
+  <cla-server-validate data-for="partner.income"></cla-server-validate>
+
+  <div class="FormBlock FormBlock--grey" aria-labelledby="partners_income-label" role="group">
+    <div class="FormRow cf">
+      <money-interval mi-model="eligibility_check.partner.income.earnings" mi-label="Earnings" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval mi-model="eligibility_check.partner.income.other_income" mi-label="Other income" />
+    </div>
+
+    <div class="FormRow cf">
+      <p class="FormRow-label">Is your partner self employed?</p>
+
+      <label for="id_partners_income-self_employed_0" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="id_partners_income-self_employed" id="id_partners_income-self_employed_0" value="1" ng-model="eligibility_check.partner.income.self_employed">Yes
+      </label>
+
+      <label for="id_partners_income-self_employed_1" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="id_partners_income-self_employed" id="id_partners_income-self_employed_1" value="0" ng-model="eligibility_check.partner.income.self_employed">No
+      </label>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="FormBlock-label">Dependants</h2>
+
+  <div class="FormBlock FormBlock--grey Grid" aria-labelledby="dependants-label" role="group">
+    <div class="FormRow">
+      <div class="Grid-col Grid-col--1-2">
+        <label for="id_dependants-dependants_old" class="cf">
+          <span class="FormRow-label FormRow-label--inline">
+            Children aged 16 and over
+          </span>
+          <input class="FormRow-field--xs" id="id_dependants-dependants_old" min="0" type="number" ng-model="eligibility_check.dependants_old">
+        </label>
+      </div>
+
+      <div class="Grid-col Grid-col--1-2">
+        <label for="id_dependants-dependants_young" class="cf">
+          <span class="FormRow-label FormRow-label--inline">
+            Children aged 15 and under
+          </span>
+          <input class="FormRow-field--xs" id="id_dependants-dependants_young" min="0" type="number" ng-model="eligibility_check.dependants_young">
+        </label>
+      </div>
+    </div>
+  </div>
+</section>

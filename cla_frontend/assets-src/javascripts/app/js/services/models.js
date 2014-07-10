@@ -74,12 +74,6 @@
         return $http.post(url, data).success(successCallback);
       };
 
-      resource.prototype.$associate_eligibility_check = function(reference, successCallback) {
-        var data = {reference: reference},
-            url = '/call_centre/proxy/case/'+this.reference+'/associate_eligibility_check/';
-        return $http.post(url, data).success(successCallback);
-      };
-
       resource.prototype.$associate_thirdparty_details = function(reference, successCallback) {
         var data = {reference: reference},
             url = '/call_centre/proxy/case/'+this.reference+'/associate_thirdparty_details/';
@@ -111,22 +105,23 @@
     .factory('EligibilityCheck', ['$http', '$resource', function($http, $resource) {
       var that = this, resource;
 
-      this.BASE_URL = '/call_centre/proxy/eligibility_check/';
+      this.BASE_URL = '/call_centre/proxy/case/:case_reference/eligibility_check/';
 
-      resource = $resource(this.BASE_URL + ':ref/', {ref: '@reference'}, {
+      resource = $resource(this.BASE_URL, {case_reference: '@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
-      resource.prototype.$update = function(success, fail){
+      resource.prototype.$update = function(case_reference, success, fail){
         if (this.reference) {
-          return this.$patch(success, fail);
+          return this.$patch({case_reference: case_reference}, success, fail);
         } else {
-          return this.$save(success, fail);
+          return this.$save({case_reference: case_reference}, success, fail);
         }
       };
 
-      resource.prototype.validate = function() {
-        return $http.get(that.BASE_URL+this.reference+'/validate/');
+      resource.prototype.validate = function(case_reference) {
+        return $http.get(that.BASE_URL
+          .replace(':case_reference', case_reference)+'validate/');
       };
 
       resource.prototype.isEligibilityTrue = function() {
@@ -143,15 +138,15 @@
 
   angular.module('cla.services')
     .factory('PersonalDetails', ['$resource', function($resource) {
-      var resource = $resource('/call_centre/proxy/personal_details/:ref/', {ref:'@reference'}, {
+      var resource = $resource('/call_centre/proxy/case/:case_reference/personal_details/', {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
-      resource.prototype.$update = function(success, fail){
+      resource.prototype.$update = function(case_reference, success, fail){
         if (this.reference) {
-          return this.$patch(success, fail);
+          return this.$patch({case_reference: case_reference}, success, fail);
         } else {
-          return this.$save(success, fail);
+          return this.$save({case_reference: case_reference}, success, fail);
         }
       };
 
@@ -160,15 +155,15 @@
 
   angular.module('cla.services')
     .factory('Adaptations', ['$resource', function($resource) {
-      var resource = $resource('/call_centre/proxy/adaptation_details/:ref/', {ref:'@reference'}, {
+      var resource = $resource('/call_centre/proxy/case/:case_reference/adaptation_details/', {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
-      resource.prototype.$update = function(success, fail){
+      resource.prototype.$update = function(case_reference, success, fail){
         if (this.reference) {
-          return this.$patch(success, fail);
+          return this.$patch({case_reference: case_reference}, success, fail);
         } else {
-          return this.$save(success, fail);
+          return this.$save({case_reference: case_reference},success, fail);
         }
       };
 
@@ -177,15 +172,15 @@
 
   angular.module('cla.services')
     .factory('ThirdParty', ['$resource', function($resource) {
-      var resource = $resource('/call_centre/proxy/thirdparty_details/:ref/', {ref:'@reference'}, {
+      var resource = $resource('/call_centre/proxy/case/:case_reference/thirdparty_details/', {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
-      resource.prototype.$update = function(success, fail){
+      resource.prototype.$update = function(case_reference, success, fail){
         if (this.reference) {
-          return this.$patch(success, fail);
+          return this.$patch({case_reference: case_reference}, success, fail);
         } else {
-          return this.$save(success, fail);
+          return this.$save({case_reference: case_reference}, success, fail);
         }
       };
 

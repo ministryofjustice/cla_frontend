@@ -7,8 +7,12 @@
       restrict: 'E',
       templateUrl:  'includes/money_interval.html',
       scope: {
-        miModel: '='
-      }
+        miModel: '=',
+        miLabel: '@'
+      }//,
+      // link: function(scope) {
+      //   scope.miModel = typeof scope.miModel === 'undefined' ? {interval_period: ''} : scope.miModel;
+      // }
     };
   });
 

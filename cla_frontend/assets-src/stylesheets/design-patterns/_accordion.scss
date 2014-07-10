@@ -1,0 +1,29 @@
+.Accordion {
+  margin: 20px 0;
+}
+.Accordion-sectionTitle {
+  @include core-19;
+  background: $grey-4;
+  padding: 9px 15px 5px;
+  margin: 10px 0;
+  position: relative;
+
+  .Icon {
+    position: absolute;
+    right: 5px;
+  }
+
+  .js-enabled & {
+    cursor: pointer;
+  }
+
+  &.is-expanded {
+    background: $grey-2;
+  }
+  &.is-complete {
+    background: #E8F0F0;
+  }
+}
+.Accordion-section {
+  padding: 0 15px 10px;
+}
