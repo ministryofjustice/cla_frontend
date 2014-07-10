@@ -1,7 +1,5 @@
 #
-# CLA Dockerfile
-#
-# https://github.com/dockerfile/nginx
+# CLA_FRONTEND Dockerfile
 #
 # Pull base image.
 FROM phusion/baseimage:0.9.11
