@@ -1,7 +1,8 @@
 .CaseHistory {
   margin: 0;
-  padding: 0;
+  padding: 20px 0 0;
   color: $grey-1;
+  border-top: 1px solid $grey-2;
 
   a:link,
   a:visited {
@@ -9,18 +10,52 @@
   }
 }
 
-.CaseHistory-item {
+.CaseHistory-card {
   list-style: none;
   line-height: 1.4em;
   margin-bottom: 20px;
+  padding: 10px 10px;
+  background: #fff;
+}
+
+.CaseHistory-date {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.CaseHistory-card {
+  display: block;
+}
+
+.CaseHistory-log {
+  margin: 0;
+  padding: 0;
+}
+
+.CaseHistory-logItem {
+  padding: 0;
+  margin: 0 0 15px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.CaseHistory-logItemNotes {
+  display: block;
+}
+.CaseHistory-logItemAuthor {
+  display: block;
 }
 
 .CaseHistory-label {
+  @include core-16;
   @include border-radius(3px);
-  display: inline-block;
+  display: block;
+  float: right;
   padding: 5px 5px 3px;
-  margin-top: 5px;
+  margin-top: -2px;
   color: $white;
   line-height: 1em;
-  background-color: $grey-1;
+  background-color: $grey-2;
 }

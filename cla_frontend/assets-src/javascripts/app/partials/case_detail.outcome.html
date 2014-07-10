@@ -2,14 +2,14 @@
   <timer base-time="case.billable_time"></timer>
 </div>
 
-<ul class="CaseHistory" ng-repeat="timerLog in logSet() | filter:filterLogItems">
-  <li class="CaseHistory-item">
-    {{ timerLog.created | general_date }}<br>
-    <ul>
-     <li ng-repeat="log in case.log_set | filter:{timer: timerLog.timer}">
-       <span ng-if="log.notes">{{ log.notes }}<br></span>
-       ({{ log.created_by | general_date }})<br>
+<ul class="CaseHistory">
+  <li class="CaseHistory-card" ng-repeat="timerLog in logSet() | filter:filterLogItems">
+    <span class="CaseHistory-date">{{ timerLog.created | general_date }}</span>
+    <ul class="CaseHistory-log">
+     <li class="CaseHistory-logItem cf" ng-repeat="log in case.log_set | filter:{timer: timerLog.timer}">
        <span class="CaseHistory-label" ng-show="log.type == 'outcome'">{{ log.code }}</span>
+       <span class="CaseHistory-logItemNotes" ng-if="log.notes">{{ log.notes }}</span>
+       <span class="CaseHistory-logItemAuthor">({{ log.created_by }})</span>
      </li>
    </ul>
  </li>
