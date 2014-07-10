@@ -31,6 +31,7 @@ paths.vendor_static.push(paths.src + 'javascripts/vendor/**/*');
 paths.scripts = {
   vendor: [
     paths.src + 'vendor/lodash/dist/lodash.min.js',
+    paths.src + 'vendor/jquery/dist/jquery.min.js',
     // angular specific
     paths.src + 'vendor/angular/angular.js',
     paths.src + 'vendor/angular-sanitize/angular-sanitize.js',

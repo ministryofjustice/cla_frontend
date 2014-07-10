@@ -1,0 +1,65 @@
+<section class="FormBlock">
+  <div class="FormRow cf Grid">
+    <p class="FormRow-label Grid-col Grid-col--2-3">Do you have a partner?</p>
+
+    <div class="Grid-col Grid-col--1-3">
+      <div class="u-pullRight">
+        <label for="id_your_details-has_partner_0" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-has_partner" id="id_your_details-has_partner_0" value="1" ng-model="eligibility_check.has_partner">Yes
+        </label>
+
+        <label for="id_your_details-has_partner_1" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-has_partner" id="id_your_details-has_partner_1" value="0" ng-model="eligibility_check.has_partner">No
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="FormRow cf Grid">
+    <p class="FormRow-label Grid-col Grid-col--2-3">Are you on nass Benefits?</p>
+
+    <div class="Grid-col Grid-col--1-3">
+      <div class="u-pullRight">
+        <label for="id_your_details-nass_benefits_0" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-nass_benefits" id="id_your_details-nass_benefits_0" value="1" ng-model="eligibility_check.on_nass_benefits">Yes
+        </label>
+
+        <label for="id_your_details-nass_benefits_1" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-nass_benefits" id="id_your_details-nass_benefits_1" value="0" ng-model="eligibility_check.on_nass_benefits">No
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="FormRow cf Grid">
+    <p class="FormRow-label Grid-col Grid-col--2-3">Are you on Passported Benefits?</p>
+
+    <div class="Grid-col Grid-col--1-3">
+      <div class="u-pullRight">
+        <label for="id_your_details-passported_benefits_0" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_0" value="1" ng-model="eligibility_check.on_passported_benefits">Yes
+        </label>
+
+        <label for="id_your_details-passported_benefits_1" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_1" value="0" ng-model="eligibility_check.on_passported_benefits">No
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="FormRow cf Grid">
+    <p class="FormRow-label Grid-col Grid-col--2-3">Are you or your partner aged 60 or over?</p>
+
+    <div class="Grid-col Grid-col--1-3">
+      <div class="u-pullRight">
+        <label for="id_your_details-older_than_sixty_0" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_0" value="1" ng-model="eligibility_check.is_you_or_your_partner_over_60">Yes
+        </label>
+
+        <label for="id_your_details-older_than_sixty_1" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_1" value="0" ng-model="eligibility_check.is_you_or_your_partner_over_60">No
+        </label>
+      </div>
+    </div>
+  </div>
+</section>

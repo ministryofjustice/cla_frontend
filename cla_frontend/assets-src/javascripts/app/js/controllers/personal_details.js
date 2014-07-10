@@ -22,16 +22,18 @@
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
 
-          $scope.getRelationshipDisplay = function(value) {
-            var v = _.find($scope.relationships, function(r) { return r.value === value;});
-            if (v !== undefined) {
-              v = v.text;
+          $scope.setAdaptations = function () {
+            $scope.selected_adaptations = [];
+            for (var k in $scope.adaptations ) {
+              if ($scope.adaptations[k] === true && k.indexOf('$') === -1) {
+                $scope.selected_adaptations.push(k);
+              }
             }
-            return v;
           };
+          $scope.setAdaptations();
 
-          $scope.getReasonDisplay = function(value) {
-            var v = _.find($scope.reasons, function(r) { return r.value === value;});
+          $scope.getDisplayLabel = function(value, list) {
+            var v = _.find(list, function(r) { return r.value === value;});
             if (v !== undefined) {
               v = v.text;
             }
@@ -68,6 +70,8 @@
           };
 
           $scope.savePersonalDetails = function(form) {
+            $scope.setAdaptations();
+
             if ($scope.welsh_override) {
               $scope.adaptations.language = 'WELSH';
             }

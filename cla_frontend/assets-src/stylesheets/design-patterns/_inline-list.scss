@@ -1,0 +1,19 @@
+.InlineList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.InlineList-item {
+  display: inline;
+  padding: 0;
+  margin: 0;
+
+  &:after {
+    content: ",";
+    padding-right: 2px;
+  }
+  &:last-child:after {
+    content: "";
+    padding-right: 0;
+  }
+}
