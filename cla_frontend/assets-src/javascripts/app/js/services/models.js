@@ -62,24 +62,6 @@
         $http.post(url, data).success(successCallback);
       };
 
-      resource.prototype.$associate_personal_details = function(reference, successCallback) {
-        var data = {reference: reference},
-            url = '/call_centre/proxy/case/'+this.reference+'/associate_personal_details/';
-        return $http.post(url, data).success(successCallback);
-      };
-
-      resource.prototype.$associate_adaptation_details = function(reference, successCallback) {
-        var data = {reference: reference},
-            url = '/call_centre/proxy/case/'+this.reference+'/associate_adaptation_details/';
-        return $http.post(url, data).success(successCallback);
-      };
-
-      resource.prototype.$associate_thirdparty_details = function(reference, successCallback) {
-        var data = {reference: reference},
-            url = '/call_centre/proxy/case/'+this.reference+'/associate_thirdparty_details/';
-        return $http.post(url, data).success(successCallback);
-      };
-
       resource.prototype.get_suggested_providers = function(){
         return $http.get('/call_centre/proxy/case/'+this.reference+'/assign_suggest/');
       };
