@@ -41,7 +41,8 @@ paths.scripts = {
     paths.src + 'vendor/angular-i18n/angular-locale_en-gb.js',
     paths.src + 'vendor/moment/moment.js',
     paths.src + 'vendor/angular-moment/angular-moment.js',
-    paths.src + 'javascripts/vendor/xeditable.js'
+    paths.src + 'javascripts/vendor/xeditable.js',
+    paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js'
   ],
   app: [
     paths.src + 'javascripts/app/js/app.js',
