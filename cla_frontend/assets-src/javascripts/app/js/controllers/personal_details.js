@@ -5,8 +5,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'History', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP',
-        function($scope, personal_details, adaptation_details, thirdparty_details, History, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP){
+      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'History', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata',
+        function($scope, personal_details, adaptation_details, thirdparty_details, History, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
@@ -22,15 +22,13 @@
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
 
-          $scope.setAdaptations = function () {
-            $scope.selected_adaptations = [];
-            for (var k in $scope.adaptations ) {
-              if ($scope.adaptations[k] === true && k.indexOf('$') === -1) {
-                $scope.selected_adaptations.push(k);
-              }
+          $scope.adaptations_metadata = adaptations_metadata;
+          $scope.selected_adaptations = [];
+          angular.forEach(adaptations_metadata.actions.POST, function (item, i) {
+            if (item.type === 'boolean' && $scope.adaptations[i] === true) {
+              $scope.selected_adaptations.push(item.label);
             }
-          };
-          $scope.setAdaptations();
+          });
 
           $scope.getDisplayLabel = function(value, list) {
             var v = _.find(list, function(r) { return r.value === value;});
