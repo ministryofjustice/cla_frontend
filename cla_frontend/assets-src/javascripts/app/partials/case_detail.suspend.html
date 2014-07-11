@@ -1,0 +1,17 @@
+<div>
+  <h3>Suspend case</h3>
+</div>
+
+<form method="post" ng-submit="suspend()">
+  <div>
+    <div class="FormRow FormRow--group" ng-repeat="code in codes">
+      <input type="radio" value="{{ code.code }}" ng-model="$parent.event_code" name="code" required>{{ code.code }} - {{ code.description }}
+    </div>
+    <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="notes" placeholder="Notes"></textarea>
+  </div>
+
+  <div>
+    <button class="Button" type="submit">Suspend case</button>
+    <a href="" ng-click="cancel()">Cancel</a>
+  </div>
+</form>

@@ -14,7 +14,8 @@
       'cla.directives',
       'cla.states',
       'cla.utils',
-      'cla.templates'
+      'cla.templates',
+      'ui.bootstrap'
     ])
     .config(function($resourceProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;

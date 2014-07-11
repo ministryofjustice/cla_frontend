@@ -98,6 +98,11 @@
         return this.in_scope && this.eligibility_state === 'yes';
       };
 
+      resource.prototype.$suspend = function(data, successCallback) {
+        var url = '/call_centre/proxy/case/'+this.reference+'/suspend/';
+        $http.post(url, data).success(successCallback);
+      };
+
       return resource;
     }]);
 
