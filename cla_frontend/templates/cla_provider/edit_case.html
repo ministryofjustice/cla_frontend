@@ -1,7 +1,7 @@
 {% extends "cla_provider/case.html" %}{% load i18n widget_tweaks %}
 
 {% block case_actions %}
-  {% if is_open %}
+  {% if in_review %}
   <form action="{% url 'cla_provider:accept_case' case.reference %}" method="POST" class="u-pullRight">
     {% csrf_token %}
     {{ accept_form.as_p }}

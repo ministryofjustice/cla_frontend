@@ -6,7 +6,7 @@ from api.client import get_connection
 from cla_auth.utils import cla_provider_zone_required
 
 from legalaid.shortcuts import get_case_or_404
-from cla_common.constants import CASE_STATES
+from cla_common.constants import REQUIRES_ACTION_BY
 
 from .forms import RejectCaseForm, AcceptCaseForm, CaseForm, CloseCaseForm
 
@@ -50,7 +50,7 @@ def edit_case(request, case_reference):
         'case_form': case_form,
         'eligibility_check': eligibility_check,
         'accept_form': AcceptCaseForm(client=client),
-        'is_open': case['state'] == CASE_STATES.OPEN  # TODO not looking great, refactor
+        'in_review': case['requires_action_by'] == REQUIRES_ACTION_BY.PROVIDER_REVIEW  # TODO not looking great, refactor
     }
     return render(request, 'cla_provider/edit_case.html', context)
 
