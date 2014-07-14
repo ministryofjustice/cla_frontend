@@ -127,7 +127,7 @@ describe('operatorApp', function() {
     });
 
     function showPersonalDetailsForm() {
-      browser.findElement(by.css('.Flip-front')).click();
+      browser.findElement(by.css('#personal_details')).click();
     }
 
     function enterPersonalDetails(details) {
@@ -141,7 +141,7 @@ describe('operatorApp', function() {
     }
 
     function showAdaptationsOptions() {
-      browser.findElement(by.css('[name=personaldetails_frm] .BlockLink')).click();
+      browser.findElement(by.css('#show_adaptations')).click();
     }
 
     function selectAdaptations(checkboxes) {
@@ -151,7 +151,7 @@ describe('operatorApp', function() {
     }
 
     function saveCase() {
-      browser.findElement(by.css('.Flip .FormActions [type=submit]')).click();
+      browser.findElement(by.css('#personal_details [type=submit]')).click();
     }
 
     function displayedAdaptation() {

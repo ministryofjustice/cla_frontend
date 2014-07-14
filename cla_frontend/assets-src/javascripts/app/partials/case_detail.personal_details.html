@@ -3,7 +3,7 @@
   <a ui-sref="case_detail.edit" class="SubNav-link SubNav-link--back" ui-sref-active="visuallyhidden">Back to case summary</a>
 </nav>
 
-<section class="Flip" ng-class="{'is-flipped': personaldetails_frm.$visible}">
+<section id="personal_details" class="Flip" ng-class="{'is-flipped': personaldetails_frm.$visible}">
   <div class="Flip-inner">
     <div ng-click="personaldetails_frm.$show()" class="VCard VCard-view Flip-front">
       <!-- IF empty -->
@@ -79,7 +79,7 @@
         </span>
       </label>
 
-      <a href="" class="BlockLink" ng-click="toggle_adaptations=!toggle_adaptations">Add adaptation or adjustment</a>
+      <a href="" id="show_adaptations" class="BlockLink" ng-click="toggle_adaptations=!toggle_adaptations">Add adaptation or adjustment</a>
 
       <div ng-show="toggle_adaptations">        
         <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.welsh_override.$invalid && personaldetails_submitted}">
