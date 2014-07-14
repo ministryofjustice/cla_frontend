@@ -22,13 +22,23 @@
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
 
-          $scope.adaptations_metadata = adaptations_metadata;
           $scope.selected_adaptations = [];
+          $scope.adaptation_flags = {};
           angular.forEach(adaptations_metadata.actions.POST, function (item, i) {
-            if (item.type === 'boolean' && $scope.adaptations[i] === true) {
-              $scope.selected_adaptations.push(item.label);
+            if (item.type === 'boolean') {
+              $scope.adaptation_flags[i] = item;
             }
           });
+
+          $scope.setAdaptations = function () {
+            $scope.selected_adaptations = [];
+            angular.forEach($scope.adaptation_flags, function (item, i) {
+              if ($scope.adaptations[i] === true) {
+                $scope.selected_adaptations.push(item.label);
+              }
+            });
+          };
+          $scope.setAdaptations();
 
           $scope.getDisplayLabel = function(value, list) {
             var v = _.find(list, function(r) { return r.value === value;});

@@ -30,7 +30,7 @@
         </p>
       </div>
 
-      <div ng-show="adaptations.bsl_webcam || adaptations.minicom || adaptations.text_relay || adaptations.skype || adaptations.callback_preference">
+      <div ng-show="selected_adaptations.length">
         <hr class="u-horLine">
 
         <div class="VCard-row"><strong>Adaptations</strong></div>
@@ -97,20 +97,10 @@
         <hr class="u-horLine">
         
         <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: personaldetails_frm.bsl_webcam.$invalid && personaldetails_submitted}">
-          <span class="Error-message" ng-show="personaldetails_frm.bsl_webcam.$error.server">{{ errors.bsl_webcam }}</span>          
-          <span editable-checkbox="adaptations.bsl_webcam" e-name="bsl_webcam" e-title="BSL - webcam"></span>
-
-          <span class="Error-message" ng-show="personaldetails_frm.minicom.$error.server">{{ errors.minicom }}</span>
-          <span editable-checkbox="adaptations.minicom" e-name="minicom" e-title="Minicom"></span>
-
-          <span class="Error-message" ng-show="personaldetails_frm.text_relay.$error.server">{{ errors.text_relay }}</span>
-          <span editable-checkbox="adaptations.text_relay" e-name="text_relay" e-title="Text relay"></span>
-
-          <span class="Error-message" ng-show="personaldetails_frm.skype.$error.server">{{ errors.skype }}</span>
-          <span editable-checkbox="adaptations.skype" e-name="skype" e-title="Skype"></span>
-
-          <span class="Error-message" ng-show="personaldetails_frm.callback_preference.$error.server">{{ errors.callback_preference }}</span>
-          <span editable-checkbox="adaptations.callback_preference" e-name="callback_preference" e-title="Callback preference"></span>
+          <div ng-repeat="(name, adaptation) in adaptation_flags | filter: { 'type': 'boolean' }">
+            <span class="Error-message" ng-show="{{ 'personaldetails_frm.' + name + '.$error.server' }}">{{ errors[name] }}</span>
+            <span editable-checkbox="{{ 'adaptations.' + name }}" e-name="{{ name }}" e-title="{{ adaptation.label }}"></span>
+          </div>
         </div>
 
         <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">
