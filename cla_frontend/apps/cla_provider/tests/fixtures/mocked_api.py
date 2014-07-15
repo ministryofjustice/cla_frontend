@@ -34,7 +34,7 @@ CASE_LIST = [
         "created": "2014-04-09T09:34:27.595Z",
         "modified": "2014-04-09T09:34:27.609Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -51,7 +51,7 @@ CASE_LIST = [
         "created": "2014-04-09T09:31:52.484Z",
         "modified": "2014-04-09T09:31:52.504Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -68,7 +68,7 @@ CASE_LIST = [
         "created": "2014-04-04T16:27:39.531Z",
         "modified": "2014-04-04T16:49:40.235Z",
         "created_by": "ravi",
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -78,7 +78,7 @@ CASE_LIST = [
         "created": "2014-04-04T16:06:26.781Z",
         "modified": "2014-04-04T16:06:26.846Z",
         "created_by": "ravi",
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -88,7 +88,7 @@ CASE_LIST = [
         "created": "2014-04-04T15:45:38.153Z",
         "modified": "2014-04-04T15:45:38.170Z",
         "created_by": "ravi",
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -105,7 +105,7 @@ CASE_LIST = [
         "created": "2014-04-01T10:36:03.800Z",
         "modified": "2014-04-04T14:51:51.664Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -122,7 +122,7 @@ CASE_LIST = [
         "created": "2014-02-19T11:31:16.521Z",
         "modified": "2014-04-04T10:44:30.387Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -132,7 +132,7 @@ CASE_LIST = [
         "created": "2014-03-28T11:53:26.171Z",
         "modified": "2014-03-28T11:53:26.175Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -142,7 +142,7 @@ CASE_LIST = [
         "created": "2014-03-28T11:52:36.807Z",
         "modified": "2014-03-28T11:52:36.812Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -152,7 +152,7 @@ CASE_LIST = [
         "created": "2014-03-28T11:50:39.065Z",
         "modified": "2014-03-28T11:50:39.070Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -162,7 +162,7 @@ CASE_LIST = [
         "created": "2014-03-28T11:42:52.688Z",
         "modified": "2014-03-28T11:42:52.693Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -172,7 +172,7 @@ CASE_LIST = [
         "created": "2014-03-28T11:42:13.848Z",
         "modified": "2014-03-28T11:42:13.852Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -182,7 +182,7 @@ CASE_LIST = [
         "created": "2014-03-27T14:23:37.536Z",
         "modified": "2014-03-27T14:23:37.541Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -192,7 +192,7 @@ CASE_LIST = [
         "created": "2014-03-27T14:22:57.908Z",
         "modified": "2014-03-27T14:22:57.912Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -202,7 +202,7 @@ CASE_LIST = [
         "created": "2014-03-27T14:22:31.827Z",
         "modified": "2014-03-27T14:22:31.833Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -212,7 +212,7 @@ CASE_LIST = [
         "created": "2014-03-27T10:17:11.659Z",
         "modified": "2014-03-27T10:17:11.660Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     },
     {
@@ -229,7 +229,7 @@ CASE_LIST = [
         "created": "2014-03-26T12:06:35.278Z",
         "modified": "2014-03-26T12:06:35.295Z",
         "created_by": None,
-        "state": 0,
+        "requires_action_by": 'provider',
         "provider": None
     }
 ]
