@@ -57,6 +57,9 @@
       adaptation_details: ['case', 'Adaptations', function(case_, Adaptations) {
         return case_.adaptation_details ? Adaptations.get({case_reference: case_.reference}).$promise : new Adaptations({case_reference: case_.reference});
       }],
+      adaptations_metadata: ['AdaptationsMetadata', function(AdaptationsMetadata) {
+        return AdaptationsMetadata.options().$promise;
+      }],
       thirdparty_details: ['case', 'ThirdParty', function(case_, ThirdParty) {
         return case_.thirdparty_details ? ThirdParty.get({case_reference: case_.reference}).$promise : new ThirdParty({case_reference: case_.reference});
       }]
