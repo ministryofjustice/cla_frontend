@@ -19,7 +19,7 @@ function createCase() {
   browser.getLocationAbsUrl().then(function (url) {
     expectUrl(url, APP_BASE_URL);
   });
-  browser.findElement(by.id('create_case')).click();
+  browser.findElement(by.css('.newCaseForm')).submit();
 }
 
 describe('operatorApp', function() {
@@ -57,8 +57,6 @@ describe('operatorApp', function() {
         // note: angular url, not from driver
         newCaseUrl = url;
       });
-
-      browser.sleep(10000);
 
       browser.findElement(by.css('.CaseNumber')).getInnerHtml().then(function(h1) {
         // console.log("h1 is: "+h1);
