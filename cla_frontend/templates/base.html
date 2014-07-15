@@ -95,8 +95,6 @@
 
         {% if zone %}
           <nav class="UserMenu cf">
-            {% block timer %}{% endblock timer %}
-
             <p class="UserMenu-status">
               {#{% if zone == "call_centre" %}Provider{% else %}Operator{% endif %}:#}
               <span class="UserMenu-name">{{ user.username }}</span>
@@ -105,6 +103,8 @@
               <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}" target="_self">Sign out</a>{% endblock %}</li>
             </ul>
           </nav>
+          
+          {% block timer %}{% endblock timer %}
         {% endif %}
       </div>
     </header>

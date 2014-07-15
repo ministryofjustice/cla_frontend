@@ -1,4 +1,4 @@
-/*jshint maxstatements:20 */
+/*jshint maxstatements:30 */
 
 (function(){
   'use strict';
