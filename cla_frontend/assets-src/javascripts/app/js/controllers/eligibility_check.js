@@ -47,15 +47,13 @@
               }
             });
 
-            if (emptyInputs.length) {
-              return false;
-            } else {
-              return true;
-            }
+            return !emptyInputs.length;
           };
 
           $scope.save = function () {
-            $scope.eligibility_check.$update($scope.case.reference, function () {
+            $scope.eligibility_check.$update($scope.case.reference, function (data) {
+              $scope.case.eligibility_check = data.reference;
+              $scope.case.$get();
               $scope.eligibility_check.validate($scope.case.reference).then(function (resp) {
                 $scope.warnings = resp.data.warnings;
               });

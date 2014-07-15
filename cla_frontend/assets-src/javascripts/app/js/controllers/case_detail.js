@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'personal_details', '$modal',
-        function($rootScope, $scope, $case, $eligibility_check, $personal_details, $modal){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'personal_details', '$modal', '$state', 'MatterType',
+        function($rootScope, $scope, $case, $eligibility_check, $personal_details, $modal, $state, MatterType){
           $scope.case = $case;
           $scope.eligibility_check = $eligibility_check;
           $scope.personal_details = $personal_details;
@@ -40,10 +40,55 @@
               }
             });
           };
+
+
+          $scope.edit_matter_types = function (next) {
+            var child_scope = $scope.$new();
+            child_scope.next = next;
+            $modal.open({
+              templateUrl: 'case_detail.matter_type.html',
+              controller: 'SetMatterTypeCtrl',
+              scope: child_scope,
+              resolve: {
+                'matter_types': function () {
+                  return MatterType.get({category__code: $scope.eligibility_check.category}).$promise;
+                }
+              }
+            });
+          };
+
+          $scope.assign_to_provider = function () {
+            var transition_to = 'case_detail.assign';
+            if (!($scope.case.matter_type1 && $scope.case.matter_type2)) {
+              $scope.edit_matter_types(transition_to);
+            } else {
+              $state.go(transition_to);
+            }
+          };
         }
       ]
     );
 
+  angular.module('cla.controllers')
+    .controller('SetMatterTypeCtrl',
+    ['$scope', '$modalInstance', 'matter_types', '$state',
+      function ($scope, $modalInstance, matter_types, $state) {
+        $scope.matter_types = matter_types;
+
+        $scope.cancel = function () {
+          $modalInstance.dismiss('cancel');
+        };
+
+        $scope.save = function() {
+          $scope.case.$set_matter_types().then(function () {
+            $modalInstance.close();
+            if ($scope.next) {
+              $state.go($scope.next);
+            }
+          });
+
+        };
+  }]);
 
   angular.module('cla.controllers')
     .controller('SuspendCaseCtl',

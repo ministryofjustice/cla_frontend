@@ -48,6 +48,15 @@
                 in_scope: data.in_scope
               }, headers);
             }
+          },
+          'set_matter_types': {
+            method:'PATCH',
+            transformRequest: function (data, headers) {
+              return transformData($http, {
+                matter_type1: data.matter_type1,
+                matter_type2: data.matter_type2
+              }, headers);
+            }
           }
         }
       );
@@ -222,6 +231,17 @@
   angular.module('cla.services')
     .factory('Provider', ['$http', '$resource', function($http, $resource) {
       return $resource('/call_centre/proxy/provider/:id/', {
+      });
+    }]);
+
+
+  angular.module('cla.services')
+    .factory('MatterType', ['$http', '$resource', function($http, $resource) {
+      return $resource('/call_centre/proxy/mattertype/', {}, {
+        get: {
+          method:'GET',
+          isArray:true
+        }
       });
     }]);
 })();
