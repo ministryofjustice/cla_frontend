@@ -14,6 +14,14 @@ function expectUrl(absUrl, expectedUrl) {
   );
 }
 
+function createCase() {
+  browser.get(APP_BASE_URL);
+  browser.getLocationAbsUrl().then(function (url) {
+    expectUrl(url, APP_BASE_URL);
+  });
+  browser.findElement(by.id('create_case')).click();
+}
+
 describe('operatorApp', function() {
 
   // logs the user in before each test
@@ -42,17 +50,9 @@ describe('operatorApp', function() {
     it('should create new case', function() {
       // check that the case number in the URL matches that in the page title
 
+      createCase();
+
       var newCaseUrl;
-
-      browser.get(APP_BASE_URL);
-
-      // after login this should be the url browser.get('call_centre/');
-      browser.getLocationAbsUrl().then(function(url) {
-        expectUrl(url, APP_BASE_URL);
-      });
-
-      browser.findElement(by.id('create_case')).click();
-
       browser.getLocationAbsUrl().then(function(url) {
         // note: angular url, not from driver
         newCaseUrl = url;
@@ -108,6 +108,55 @@ describe('operatorApp', function() {
         });
       });
     });
+  });
+
+  describe('Create Case with Adaptations', function () {
+    it('should create a new case with the BSL - Webcam adaptation', function () {
+      createCase();
+      showPersonalDetailsForm();
+      enterPersonalDetails({
+        'full_name': 'Foo Bar Quux',
+        'postcode': 'F00 B4R',
+        'street': '1 Foo Bar',
+        'mobile_phone': '0123456789'
+      });
+      showAdaptationsOptions();
+      selectAdaptations(['bsl_webcam']);
+      saveCase();
+      expect(displayedAdaptation()).toBe('BSL - Webcam');
+    });
+
+    function showPersonalDetailsForm() {
+      browser.findElement(by.css('#personal_details')).click();
+    }
+
+    function enterPersonalDetails(details) {
+      for (var name in details) {
+        fillField(name, details[name]);
+      }
+    }
+
+    function fillField(name, value) {
+      browser.findElement(by.css('[name=' + name + ']')).sendKeys(value);
+    }
+
+    function showAdaptationsOptions() {
+      browser.findElement(by.css('#show_adaptations')).click();
+    }
+
+    function selectAdaptations(checkboxes) {
+      checkboxes.map(function (name) {
+        browser.findElement(by.css('[name=' + name + '] + span')).click();
+      });
+    }
+
+    function saveCase() {
+      browser.findElement(by.css('#personal_details [type=submit]')).click();
+    }
+
+    function displayedAdaptation() {
+      return browser.findElement(by.repeater('item in selected_adaptations').row(0)).getText();
+    }
   });
 
 });

@@ -141,6 +141,15 @@
     }]);
 
   angular.module('cla.services')
+    .factory('AdaptationsMetadata', ['$resource', function ($resource) {
+      var resource = $resource('/call_centre/proxy/adaptations/', {}, {
+        'options': {method: 'OPTIONS'}
+      });
+
+      return resource;
+    }]);
+
+  angular.module('cla.services')
     .factory('Adaptations', ['$resource', function($resource) {
       var resource = $resource('/call_centre/proxy/case/:case_reference/adaptation_details/', {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
