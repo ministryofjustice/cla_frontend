@@ -1,5 +1,5 @@
 .Timer {
-  padding: 15px 0;
+  padding: 0;
 }
 
 .Timer-current {
@@ -15,6 +15,7 @@
 }
 
 .Timer-total {
-  padding-top: 4px;
+  display: block;
+  padding-top: 5px;
   color: $grey-1;
 }

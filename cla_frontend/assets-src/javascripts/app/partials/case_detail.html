@@ -13,13 +13,15 @@
           <h1 class="CaseNumber Icon Icon--folder Icon--right">{{ case.reference }}</h1>
           <p class="CaseNumber-entitlement" ng-show="case.isInScopeAndEligible()">entitlement reference: {{ case.laa_reference }}</p>
         </header>
+        
+        <div class="cf">
+          <timer base-time="case.billable_time" class="u-pullLeft"></timer>
 
-        <timer base-time="case.billable_time"></timer>
-
-        <nav class="cf">
-          <a ui-sref="case_detail.close" class="Button Button--secondary u-pullRight">Close case</a>
-          <a ui-sref="case_detail.assign" class="Button Button--secondary u-pullRight">Assign case</a>
-        </nav>
+          <nav class="u-pullRight cf">
+            <a ui-sref="case_detail.close" class="Button Button--secondary u-pullRight">Close</a>
+            <a ui-sref="case_detail.assign" class="Button Button--secondary u-pullRight">Assign</a>
+          </nav>
+        </div>
       </div>
 
       <div class="Grid-colInner" ui-view="outcome"></div>
