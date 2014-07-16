@@ -21,6 +21,10 @@
             form[field].$setValidity('server', false);
             $scope.errors[field] = errors.join(', ');
           }
+          if (field === '__all__') {
+            form.$setValidity('server', false);
+            $scope.errors[field] = errors.join(', ');
+          }
         });
       }
     };

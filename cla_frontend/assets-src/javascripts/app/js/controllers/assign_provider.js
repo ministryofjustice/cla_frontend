@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('AssignProviderCtrl',
-      ['$scope', '_', '$state',
-        function($scope, _, $state){
+      ['$scope', '_', '$state', 'form_utils',
+        function($scope, _, $state, form_utils){
           $scope.is_manual = false;
 
           $scope.case.get_suggested_providers().success(function(data){
@@ -25,7 +25,7 @@
             }
           };
 
-          $scope.assign = function() {
+          $scope.assign = function(form) {
             var data = {
               provider_id: $scope.selected_provider.id,
               is_manual: $scope.is_manual
@@ -33,9 +33,12 @@
             if ($scope.is_manual) {
               data.notes = $scope.notes;
             }
-            $scope.case.$assign(data).success(function(){
+            $scope.case.$assign(data).then(function(){
               $state.go('case_detail.assign.complete', {}, {'reload': true});
-            });
+            },
+              function (data) {
+                form_utils.ctrlFormErrorCallback($scope, data, form);
+              });
           };
         }
       ]

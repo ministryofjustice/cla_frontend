@@ -12,14 +12,17 @@
         <header>
           <h1 class="CaseDetails-caseNum Icon Icon--folder Icon--right">{{ case.reference }}</h1>
           <p class="CaseDetails-entitlementNum" ng-show="case.isInScopeAndEligible()">entitlement reference: {{ case.laa_reference }}</p>
+          <div ng-click="edit_matter_types()" ng-show="case.matter_type1 || case.matter_type2">
+            <small ng-show="case.matter_type1"><strong>MT1</strong>: {{ case.matter_type1 }}</small> | <small ng-show="case.matter_type2"><strong>MT2</strong> {{ case.matter_type2 }}</small>
+          </div>
         </header>
         
         <div class="cf CaseDetails-actions">
           <timer base-time="case.billable_time" class="u-pullLeft"></timer>
 
           <nav class="u-pullRight cf">
-            <a ui-sref="case_detail.close" class="Button Button--secondary u-pullRight">Close</a>
-            <a ui-sref="case_detail.assign" class="Button Button--secondary u-pullRight">Assign</a>
+            <a href="" ng-click="suspend()" class="Button Button--secondary u-pullRight">Suspend</a>
+            <a href="" ng-click="assign_to_provider()" class="Button Button--secondary u-pullRight">Assign</a>
           </nav>
         </div>
       </div>
