@@ -4,8 +4,13 @@
 
 <form method="post" ng-submit="save()">
   <h2 class="FormBlock-label">Matter type 1</h2>
+
+  <div class="FormRow cf">
+    <input type="text" name="mt1_search" placeholder="Search matter type 1s" class="FormRow-field--l" ng-model="mt1_search">
+  </div>
+
   <div class="FormBlock FormBlock--yellow">
-    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="matter_type in matter_types | filter:{level: 1}">
+    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="matter_type in matter_types | filter:{level: 1, $:mt1_search}">
       <label class="FormRow-label">
         <input type="radio" value="{{ matter_type.code }}" ng-model="$parent.case.matter_type1" name="matter_type1" required>
         {{ matter_type.code }} <span class="u-mute">- {{ matter_type.description }}</span>
@@ -14,8 +19,13 @@
   </div>
 
   <h2 class="FormBlock-label">Matter type 2</h2>
+  
+  <div class="FormRow cf">
+    <input type="text" name="mt2_search" placeholder="Search matter type 2s" class="FormRow-field--l" ng-model="mt2_search">
+  </div>
+
   <div class="FormBlock FormBlock--yellow">
-    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="matter_type in matter_types | filter:{level: 2}">
+    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="matter_type in matter_types | filter:{level: 2, $:mt2_search}">
       <label class="FormRow-label">
         <input type="radio" value="{{ matter_type.code }}" ng-model="$parent.case.matter_type2" name="matter_type2" required>
         {{ matter_type.code }} <span class="u-mute">- {{ matter_type.description }}</span>
