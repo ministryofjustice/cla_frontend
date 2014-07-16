@@ -175,7 +175,7 @@ describe('operatorApp', function() {
     it('should show modal when trying to assign without matter types set', function () {
       createCase();
       open_modal();
-        expect(browser.findElement(by.css('.set-matter-type-modal h3')).getText()).toBe('Set Matter Types');
+        expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
     });
 
     it('should not allow saving modal without setting matter type 1 and 2', function () {
@@ -201,7 +201,7 @@ describe('operatorApp', function() {
     it('should go straight to assign page if MT1 and MT2 are already set', function () {
       createCase();
       open_modal();
-      expect(browser.findElement(by.css('.set-matter-type-modal h3')).getText()).toBe('Set Matter Types');
+      expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
       var modalEl = browser.findElement(by.css('div.modal'));
       modalEl.findElement(by.css("input[name='matter_type1']")).click();
       modalEl.findElement(by.css("input[name='matter_type2']")).click();
