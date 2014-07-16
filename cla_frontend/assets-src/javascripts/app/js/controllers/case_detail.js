@@ -77,6 +77,8 @@
 
         $scope.cancel = function () {
           $modalInstance.dismiss('cancel');
+          $scope.case.matter_type1 = null;
+          $scope.case.matter_type2 = null;
         };
 
         $scope.save = function() {

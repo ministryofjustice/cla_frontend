@@ -1,16 +1,30 @@
-<div>
-  <h3>Suspend case</h3>
-</div>
+<header>
+  <h2>Suspend case</h2>
+</header>
 
 <form method="post" ng-submit="suspend()">
-  <div>
-    <div class="FormRow FormRow--group" ng-repeat="code in codes">
-      <input type="radio" value="{{ code.code }}" ng-model="$parent.event_code" name="code" required>{{ code.code }} - {{ code.description }}
+  <div class="FormBlock FormBlock--yellow">
+    <div class="FormRow cf">
+      <input type="text" name="code_search" placeholder="Search matter type 1s" class="FormRow-field--l" ng-model="code_search">
     </div>
-    <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="notes" placeholder="Notes"></textarea>
+
+    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="code in codes | filter:code_search">
+      <label class="FormRow-label">
+        <input type="radio" value="{{ code.code }}" ng-model="$parent.event_code" name="code" required>
+        {{ code.code }} <span class="u-mute">- {{ code.description }}</span>
+      </label>
+    </div>
+    
+    <br>
+
+    <div class="FormRow cf">
+      <label>
+        <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="notes" placeholder="Notes"></textarea>
+      </label>
+    </div>
   </div>
 
-  <div>
+  <div class="FormActions">
     <button class="Button" type="submit">Suspend case</button>
     <a href="" ng-click="cancel()">Cancel</a>
   </div>
