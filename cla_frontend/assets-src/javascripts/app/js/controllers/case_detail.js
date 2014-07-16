@@ -10,19 +10,22 @@
           $scope.personal_details = $personal_details;
 
           // log set grouping
-          var indexedTimers = [];
-          $scope.logSet = function() {
-            indexedTimers = [];
-            return $scope.case.log_set;
-          };
-
-          $scope.filterLogItems = function(log) {
-            var timerIsNew = indexedTimers.indexOf(log.timer) === -1;
-            if (timerIsNew) {
-              indexedTimers.push(log.timer);
+          $scope.logSet = [];
+          var currentTimer = null;
+          angular.forEach($scope.case.log_set, function(log) {
+            if (!log.timer) {
+              $scope.logSet.push([log]);
+            } else {
+              if (log.timer !== currentTimer) {
+                currentTimer = log.timer;
+                $scope.logSet.push([log]);
+              } else {
+                var ll = $scope.logSet[$scope.logSet.length-1];
+                ll.push(log);
+                $scope.logSet[$scope.logSet.length-1] = ll;
+              }
             }
-            return timerIsNew;
-          };
+          });
 
           // checking the time after the template as been rendered
           $scope.$evalAsync(function() {
