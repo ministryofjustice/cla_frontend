@@ -1,0 +1,10 @@
+<div class="SafeToContact">
+  <a href="" class="Icon Icon--right" ng-click="showOpts=!showOpts" ng-class="iconClass()"></a>
+  <div class="SafeToContact-content" ng-show="showOpts">
+    <ul class="SafeToContact-list">
+      <li class="SafeToContact-listItem" ng-repeat="opt in options">
+        <a href="" class="SafeToContact-option Icon" ng-click="setSafe(opt.safe, opt.name)" ng-class="{'is-selected': person.contact_safety.name === opt.name, 'Icon--tick Icon--green': opt.safe, 'Icon--cross Icon--red': !opt.safe}">{{ opt.name }}</a>
+      </li>
+    </ul>
+  </div>
+</div>
