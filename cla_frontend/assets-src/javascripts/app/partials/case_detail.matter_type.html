@@ -1,22 +1,30 @@
-<div class="set-matter-type-modal">
-  <h3>Set Matter Types</h3>
-</div>
+<header>
+  <h2>Set Matter Types</h2>
+</header>
 
 <form method="post" ng-submit="save()">
-  <div>
-    <h4>Matter Type 1:</h4>
-    <div class="FormRow FormRow--group" ng-repeat="matter_type in matter_types | filter:{level: 1}">
-      <input type="radio" value="{{ matter_type.code }}" ng-model="$parent.case.matter_type1" name="matter_type1" required>{{ matter_type.code }} - {{ matter_type.description }}
-    </div>
-    <hr>
-    <h4>Matter Type 2:</h4>
-    <div class="FormRow FormRow--group" ng-repeat="matter_type in matter_types | filter:{level: 2}">
-      <input type="radio" value="{{ matter_type.code }}" ng-model="$parent.case.matter_type2" name="matter_type2" required>{{ matter_type.code }} - {{ matter_type.description }}
+  <h2 class="FormBlock-label">Matter type 1</h2>
+  <div class="FormBlock FormBlock--yellow">
+    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="matter_type in matter_types | filter:{level: 1}">
+      <label class="FormRow-label">
+        <input type="radio" value="{{ matter_type.code }}" ng-model="$parent.case.matter_type1" name="matter_type1" required>
+        {{ matter_type.code }} <span class="u-mute">- {{ matter_type.description }}</span>
+      </label>
     </div>
   </div>
 
-  <div>
-    <button class="Button" type="submit">Save</button>
+  <h2 class="FormBlock-label">Matter type 2</h2>
+  <div class="FormBlock FormBlock--yellow">
+    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="matter_type in matter_types | filter:{level: 2}">
+      <label class="FormRow-label">
+        <input type="radio" value="{{ matter_type.code }}" ng-model="$parent.case.matter_type2" name="matter_type2" required>
+        {{ matter_type.code }} <span class="u-mute">- {{ matter_type.description }}</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="FormActions">
+    <button class="Button" type="submit">Set matter types</button>
     <a href="" ng-click="cancel()">Cancel</a>
   </div>
 </form>
