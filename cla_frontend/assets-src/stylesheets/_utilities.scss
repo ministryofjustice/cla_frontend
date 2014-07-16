@@ -22,6 +22,10 @@
     content: " \25B2";
   }
 }
+.u-strike {
+  text-decoration: line-through;
+  color: $red;
+}
 .u-mute {
   color: $grey-1;
 }

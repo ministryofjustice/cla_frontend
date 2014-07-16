@@ -15,8 +15,8 @@
       <span ng-bind-html="personal_details.street|nl2br"></span>
     </p>
 
-    <p class="VCard-row Icon--right Icon--call" ng-show="personal_details.mobile_phone">
-      {{ personal_details.mobile_phone }}
+    <p class="VCard-row Icon--right Icon--call" ng-show="personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': personal_details.contact_safety.safe === false, 'Icon--green': personal_details.contact_safety.safe}">
+      <span ng-class="{'u-strike': personal_details.contact_safety.safe === false}">{{ personal_details.mobile_phone }}</span>
     </p>
 
     <div ng-show="adaptations.language">
@@ -74,7 +74,7 @@
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
       <span class="Icon--formRow Icon--right">
-        <span editable-text="personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
+        <span editable-text="personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number" e-ng-class="{'u-strike': personal_details.contact_safety.safe === false}"></span>
         <safe-to-contact person="personal_details"></safe-to-contact>
       </span>
     </label>
