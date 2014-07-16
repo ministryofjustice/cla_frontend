@@ -5,7 +5,7 @@
 <form method="post" ng-submit="suspend()">
   <div class="FormBlock FormBlock--yellow">
     <div class="FormRow cf">
-      <input type="text" name="code_search" placeholder="Search matter type 1s" class="FormRow-field--l" ng-model="code_search">
+      <input type="text" name="code_search" placeholder="Search codes" class="FormRow-field--l" ng-model="code_search">
     </div>
 
     <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="code in codes | filter:code_search">
