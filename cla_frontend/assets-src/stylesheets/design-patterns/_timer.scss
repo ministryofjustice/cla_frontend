@@ -1,20 +1,39 @@
 .Timer {
-  padding: 15px 0;
+  
+  &--inline {
+    padding: {
+      top: 6px;
+      right: 15px;
+    }
+  }
 }
 
-.Timer-current {
-  padding: {
-    top: 4px;
-    left: 22px;
-  }
-  background: {
-    position: left center;
-    repeat: no-repeat;
-  }
-  @include svg-bg("../images/icons/clock");
-}
-
-.Timer-total {
-  padding-top: 4px;
+.Timer-value {
+  display: block;
+  padding-top: 5px;
   color: $grey-1;
+
+  .Timer--inline & {
+    @include bold-14;
+    display: inline-block;
+    color: $grey-2;
+    padding-top: 0;
+    position: relative;
+    top: -2px;
+  }
+}
+
+.Timer-button {
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  background: $grey-1;
+  text-align: center;
+  margin-left: 10px;
+  @include border-radius(3px);
+
+  &:after {
+    margin: 0;
+    line-height: 18px;
+  }
 }

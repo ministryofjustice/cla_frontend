@@ -6,13 +6,7 @@
     return {
       restrict: 'E',
       replace: true,
-      template:
-      '<p class="UserMenu-status">' +
-        '<span class="Timer-total u-pullRight">' +
-          '<span class="js-Stopwatch">{{timer.value}}</span>' +
-          '<a class="button" ng-click="startTimer()" ng-show="startButton && !timer.running">start</a>' +
-        '</span>' +
-      '</p>',
+      templateUrl: 'directives/timer.html',
       scope: {
         baseTime: '=?',
         startButton: '=?'
