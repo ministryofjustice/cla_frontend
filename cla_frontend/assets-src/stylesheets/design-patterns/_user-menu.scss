@@ -1,5 +1,5 @@
 .UserMenu {
-  padding-top: 8px;
+  padding-top: 7px;
   color: #C1CACB;
 
   @include media(desktop) {
@@ -13,21 +13,19 @@
 }
 
 .UserMenu-status {
-  @include core-16;
+  @include core-14;
   float: left;
   margin: 0;
 }
 
 .UserMenu-name {
   margin-left: 5px;
-  padding-right: 10px;
-  border-right: 1px solid;
   display: inline-block;
   line-height: 0.9em;
 }
 
 .UserMenu-options {
-  @include core-16;
+  @include core-14;
   margin: 0;
   padding: 0;
   float: left;
