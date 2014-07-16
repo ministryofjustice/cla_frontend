@@ -24,6 +24,7 @@ function createCase() {
 
 describe('operatorApp', function() {
 
+
   // logs the user in before each test
   beforeEach(function() {
     var pro = protractor.getInstance();
@@ -34,6 +35,10 @@ describe('operatorApp', function() {
     driver.findElement(by.id('id_username')).sendKeys('test_operator');
     driver.findElement(by.id('id_password')).sendKeys('test_operator');
     driver.findElement(by.css('form')).submit();
+
+    // kill django debug toolbar if it's showing
+    pro.manage().addCookie('djdt', 'hide');
+
   });
 
   describe('Case List', function() {
@@ -126,6 +131,7 @@ describe('operatorApp', function() {
       expect(displayedAdaptation()).toBe('BSL - Webcam');
     });
 
+
     function showPersonalDetailsForm() {
       browser.findElement(by.css('#personal_details')).click();
     }
@@ -159,4 +165,59 @@ describe('operatorApp', function() {
     }
   });
 
+  describe('Case Set Matter Types and Assign', function () {
+
+    function open_modal() {
+      return browser.findElement(by.css("a.Button[ng-click^=assign_to_provider]")).click();
+    }
+
+
+    it('should show modal when trying to assign without matter types set', function () {
+      createCase();
+      open_modal();
+        expect(browser.findElement(by.css('.set-matter-type-modal h3')).getText()).toBe('Set Matter Types');
+    });
+
+    it('should not allow saving modal without setting matter type 1 and 2', function () {
+      createCase();
+      open_modal();
+      var modalEl = browser.findElement(by.css('div.modal'));
+      modalEl.findElement(by.css("button[type='submit'")).click();
+      expect(modalEl.isElementPresent(by.css("button[type='submit'"))).toBe(true);
+    });
+
+
+    it('should allow saving modal after setting matter type 1 and 2', function () {
+      createCase();
+      open_modal();
+
+      var modalEl = browser.findElement(by.css('div.modal'));
+      modalEl.findElement(by.css("input[name='matter_type1']")).click();
+      modalEl.findElement(by.css("input[name='matter_type2']")).click();
+      modalEl.findElement(by.css("button[type='submit'")).click();
+      expect(browser.isElementPresent(by.css("div.modal"))).toBe(false);
+    });
+
+    it('should go straight to assign page if MT1 and MT2 are already set', function () {
+      createCase();
+      open_modal();
+      expect(browser.findElement(by.css('.set-matter-type-modal h3')).getText()).toBe('Set Matter Types');
+      var modalEl = browser.findElement(by.css('div.modal'));
+      modalEl.findElement(by.css("input[name='matter_type1']")).click();
+      modalEl.findElement(by.css("input[name='matter_type2']")).click();
+      modalEl.findElement(by.css("button[type='submit'")).click();
+      expect(browser.isElementPresent(by.css("div.modal"))).toBe(false);
+      var assignCaseUrl;
+      browser.getLocationAbsUrl().then(function (url) {
+        assignCaseUrl = url;
+      });
+      browser.findElement(by.css("a[ui-sref='case_detail.edit']")).click();
+      browser.findElement(by.css("a.Button[ng-click^=assign_to_provider]")).click();
+      expect(browser.isElementPresent(by.css("div.modal"))).toBe(false);
+      browser.getLocationAbsUrl()
+        .then(function (url) {
+        expect(url).toBe(assignCaseUrl);
+      });
+    });
+  });
 });
