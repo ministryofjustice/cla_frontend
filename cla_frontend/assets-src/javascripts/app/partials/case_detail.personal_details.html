@@ -3,215 +3,212 @@
   <a ui-sref="case_detail.edit" class="SubNav-link SubNav-link--back" ui-sref-active="visuallyhidden">Back to case summary</a>
 </nav>
 
-<section id="personal_details" class="Flip" ng-class="{'is-flipped': personaldetails_frm.$visible}">
-  <div class="Flip-inner">
-    <div ng-click="personaldetails_frm.$show()" class="VCard VCard-view Flip-front">
-      <!-- IF empty -->
-      <p class="Notice" ng-hide="personal_details.full_name">Please enter personal details</p>
+<section id="personal_details">
+  <div ng-click="personaldetails_frm.$show()" ng-hide="personaldetails_frm.$visible" class="VCard VCard-view">
+    <!-- IF empty -->
+    <p class="Notice" ng-hide="personal_details.full_name">Please enter personal details</p>
 
-      <h2 class="VCard-title Icon--right Icon--user" ng-show="personal_details.full_name">{{ personal_details.full_name }}</h2>
+    <h2 class="VCard-title Icon--right Icon--user" ng-show="personal_details.full_name">{{ personal_details.full_name }}</h2>
 
-      <p class="VCard-row" ng-show="personal_details.postcode || personal_details.street">
-        {{ personal_details.postcode }}<span class="Icon--right Icon--location"></span><br>
-        <span ng-bind-html="personal_details.street|nl2br"></span>
+    <p class="VCard-row" ng-show="personal_details.postcode || personal_details.street">
+      {{ personal_details.postcode }}<span class="Icon--right Icon--location"></span><br>
+      <span ng-bind-html="personal_details.street|nl2br"></span>
+    </p>
+
+    <p class="VCard-row Icon--right Icon--call" ng-show="personal_details.mobile_phone">
+      {{ personal_details.mobile_phone }}
+    </p>
+
+    <div ng-show="adaptations.language">
+      <hr class="u-horLine">
+
+      <p class="VCard-row">
+        <strong>Language</strong>
+        <br>
+        {{ adaptations.language }}
       </p>
-
-      <p class="VCard-row Icon--right Icon--call" ng-show="personal_details.mobile_phone">
-        {{ personal_details.mobile_phone }}
-      </p>
-
-      <div ng-show="adaptations.language">
-        <hr class="u-horLine">
-
-        <p class="VCard-row">
-          <strong>Language</strong>
-          <br>
-          {{ adaptations.language }}
-        </p>
-      </div>
-
-      <div ng-show="selected_adaptations.length">
-        <hr class="u-horLine">
-
-        <div class="VCard-row"><strong>Adaptations</strong></div>
-        <ul class="InlineList">
-          <li class="InlineList-item" ng-repeat="item in selected_adaptations">{{ item }}</li>
-        </ul>
-      </div>
-
-      <div ng-show="adaptations.notes">
-        <hr class="u-horLine">
-      
-        <p>
-          <strong>Notes</strong>
-          <br>
-          {{ adaptations.notes }}
-        </p>
-      </div>
     </div>
 
-     <form novalidate method="post" name="personaldetails_frm" class="VCard VCard-edit Flip-back" ng-class="{submitted: personaldetails_submitted}" onbeforesave="validate(personaldetails_frm.$valid)" onaftersave="savePersonalDetails(personaldetails_frm)" editable-form>
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.full_name.$invalid && personaldetails_submitted}">
-        <span class="Error-message" ng-show="personaldetails_frm.full_name.$error.server">{{ errors.full_name }}</span>
-        <span class="Icon--formRow Icon--right Icon--user">
-          <span editable-text="personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
-        </span>
-      </label>
+    <div ng-show="selected_adaptations.length">
+      <hr class="u-horLine">
 
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.postcode.$invalid && personaldetails_submitted}">
-        <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
-        <span class="Icon--formRow Icon--right Icon--location">
-          <span editable-text="personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode"></span>
-        </span>
-      </label>
+      <div class="VCard-row"><strong>Adaptations</strong></div>
+      <ul class="InlineList">
+        <li class="InlineList-item" ng-repeat="item in selected_adaptations">{{ item }}</li>
+      </ul>
+    </div>
 
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.street.$invalid && personaldetails_submitted}">
-        <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
-        <span class="Icon--formRow Icon--right Icon--address">
-          <span editable-textarea="personal_details.street" e-name="street" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Address"></span>
-        </span>
-      </label>
-
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}">
-        <span class="Error-message" ng-show="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
-        <span class="Icon--formRow Icon--right Icon--call">
-          <span editable-text="personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
-        </span>
-      </label>
-
-      <a href="" id="show_adaptations" class="BlockLink" ng-click="toggle_adaptations=!toggle_adaptations">Add adaptation or adjustment</a>
-
-      <div ng-show="toggle_adaptations">        
-        <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.welsh_override.$invalid && personaldetails_submitted}">
-          <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>
-          
-          <span editable-checkbox="welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
-        </div>
-
-        <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.language.$invalid && personaldetails_submitted}">
-          <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
-          
-          <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-ng-disabled="disable_lang"></span>
-        </div>
-
-        <hr class="u-horLine">
-        
-        <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: personaldetails_frm.bsl_webcam.$invalid && personaldetails_submitted}">
-          <div ng-repeat="(name, adaptation) in adaptation_flags | filter: { 'type': 'boolean' }">
-            <span class="Error-message" ng-show="{{ 'personaldetails_frm.' + name + '.$error.server' }}">{{ errors[name] }}</span>
-            <span editable-checkbox="{{ 'adaptations.' + name }}" e-name="{{ name }}" e-title="{{ adaptation.label }}"></span>
-          </div>
-        </div>
-
-        <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">
-          <span class="Error-message" ng-show="personaldetails_frm.adaptation_notes.$error.server">{{ errors.adaptation_notes }}</span>
-          <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="User comments"></span>
-        </label>
-      </div>
-
-      <div class="FormActions cf">
-        <button type="submit" class="Button" ng-click="personaldetails_submitted=true">Save</button>
-        <button type="reset" class="Button Button--text" ng-click="cancelPersonalDetails()">Cancel</button>
-      </div>
-    </form>
+    <div ng-show="adaptations.notes">
+      <hr class="u-horLine">
+    
+      <p>
+        <strong>Notes</strong>
+        <br>
+        {{ adaptations.notes }}
+      </p>
+    </div>
   </div>
+
+   <form novalidate method="post" name="personaldetails_frm" class="VCard VCard-edit" ng-class="{submitted: personaldetails_submitted}" onbeforesave="validate(personaldetails_frm.$valid)" onaftersave="savePersonalDetails(personaldetails_frm)" ng-show="personaldetails_frm.$visible" editable-form>
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.full_name.$invalid && personaldetails_submitted}">
+      <span class="Error-message" ng-show="personaldetails_frm.full_name.$error.server">{{ errors.full_name }}</span>
+      <span class="Icon--formRow Icon--right Icon--user">
+        <span editable-text="personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
+      </span>
+    </label>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.postcode.$invalid && personaldetails_submitted}">
+      <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
+      <span class="Icon--formRow Icon--right Icon--location">
+        <span editable-text="personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode"></span>
+      </span>
+    </label>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.street.$invalid && personaldetails_submitted}">
+      <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
+      <span class="Icon--formRow Icon--right Icon--address">
+        <span editable-textarea="personal_details.street" e-name="street" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Address"></span>
+      </span>
+    </label>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}">
+      <span class="Error-message" ng-show="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
+      <span class="Icon--formRow Icon--right">
+        <span editable-text="personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
+        <safe-to-contact person="personal_details"></safe-to-contact>
+      </span>
+    </label>
+
+    <a href="" id="show_adaptations" class="BlockLink" ng-click="toggle_adaptations=!toggle_adaptations">Add adaptation or adjustment</a>
+
+    <div ng-show="toggle_adaptations">        
+      <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.welsh_override.$invalid && personaldetails_submitted}">
+        <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>
+        
+        <span editable-checkbox="welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
+      </div>
+
+      <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.language.$invalid && personaldetails_submitted}">
+        <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
+        
+        <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-ng-disabled="disable_lang"></span>
+      </div>
+
+      <hr class="u-horLine">
+      
+      <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: personaldetails_frm.bsl_webcam.$invalid && personaldetails_submitted}">
+        <div ng-repeat="(name, adaptation) in adaptation_flags | filter: { 'type': 'boolean' }">
+          <span class="Error-message" ng-show="{{ 'personaldetails_frm.' + name + '.$error.server' }}">{{ errors[name] }}</span>
+          <span editable-checkbox="{{ 'adaptations.' + name }}" e-name="{{ name }}" e-title="{{ adaptation.label }}"></span>
+        </div>
+      </div>
+
+      <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">
+        <span class="Error-message" ng-show="personaldetails_frm.adaptation_notes.$error.server">{{ errors.adaptation_notes }}</span>
+        <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="User comments"></span>
+      </label>
+    </div>
+
+    <div class="FormActions cf">
+      <button type="submit" class="Button" ng-click="personaldetails_submitted=true">Save</button>
+      <button type="reset" class="Button Button--text" ng-click="cancelPersonalDetails()">Cancel</button>
+    </div>
+  </form>
 </section>
 
 <a href="" class="BlockLink" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="add_thirdparty=true;third_party_frm.$show()">Add third party</a>
 
-<section class="Flip" ng-class="{'is-flipped': third_party_frm.$visible}" ng-show="case.thirdparty_details || add_thirdparty">
-  <div class="Flip-inner">
-    <div ng-click="third_party_frm.$show()" class="VCard VCard--dark VCard-view Flip-front">
-      <h2 class="VCard-legend">Third Party</h2>
-      <!-- IF empty -->
-      <p class="Notice" ng-hide="third_party.personal_details.full_name">Please enter personal details</p>
+<section ng-show="case.thirdparty_details || add_thirdparty">
+  <div ng-click="third_party_frm.$show()" ng-hide="third_party_frm.$visible" class="VCard VCard--dark VCard-view">
+    <h2 class="VCard-legend">Third Party</h2>
+    <!-- IF empty -->
+    <p class="Notice" ng-hide="third_party.personal_details.full_name">Please enter personal details</p>
 
-      <h3 class="VCard-title Icon--right Icon--user" ng-show="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}</h3>
+    <h3 class="VCard-title Icon--right Icon--user" ng-show="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}</h3>
 
-      <p class="VCard-row" ng-show="third_party.personal_details.postcode || third_party.personal_details.street">
-        {{ third_party.personal_details.postcode }}<span class="Icon--right Icon--location"></span><br>
-        <span ng-bind-html="third_party.personal_details.street|nl2br"></span>
+    <p class="VCard-row" ng-show="third_party.personal_details.postcode || third_party.personal_details.street">
+      {{ third_party.personal_details.postcode }}<span class="Icon--right Icon--location"></span><br>
+      <span ng-bind-html="third_party.personal_details.street|nl2br"></span>
+    </p>
+
+    <p class="VCard-row Icon--right Icon--call" ng-show="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone">{{ third_party.personal_details.mobile_phone }}</p>
+
+    <p class="VCard-row Icon--right Icon--safe" ng-show="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
+
+    <div ng-show="third_party.personal_relationship">
+      <hr class="u-horLine">      
+      <p>
+        <strong>Relationship</strong>
+        <br>
+        {{ getDisplayLabel(third_party.personal_relationship, relationships) }}
       </p>
-
-      <p class="VCard-row Icon--right Icon--call" ng-show="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone">{{ third_party.personal_details.mobile_phone }}</p>
-
-      <p class="VCard-row Icon--right Icon--safe" ng-show="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
-
-      <div ng-show="third_party.personal_relationship">
-        <hr class="u-horLine">      
-        <p>
-          <strong>Relationship</strong>
-          <br>
-          {{ getDisplayLabel(third_party.personal_relationship, relationships) }}
-        </p>
-      </div>
-
-      <div ng-show="third_party.reason">
-        <hr class="u-horLine">      
-        <p>
-          <strong>Reason</strong>
-          <br>
-          {{ getDisplayLabel(third_party.reason, reasons) }}
-        </p>
-      </div>
     </div>
 
-    <form novalidate method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit Flip-back" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" editable-form>
-      <h2 class="VCard-legend">Third Party</h2>
-
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}">
-        <span class="Error-message" ng-show="third_party_frm.full_name.$error.server">{{ errors.full_name }}</span>
-        <span class="Icon--formRow Icon--right Icon--user">
-          <span editable-text="third_party.personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
-        </span>
-      </label>
-
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.postcode.$invalid && thirdparty_submitted}">
-        <span class="Error-message" ng-show="third_party_frm.postcode.$error.server">{{ errors.postcode }}</span>
-        <span class="Icon--formRow Icon--right Icon--location">
-          <span editable-text="third_party.personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode"></span>
-        </span>
-      </label>
-
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.street.$invalid && thirdparty_submitted}">
-        <span class="Error-message" ng-show="third_party_frm.street.$error.server">{{ errors.street }}</span>
-        <span class="Icon--formRow Icon--right Icon--address">
-          <span editable-textarea="third_party.personal_details.street" e-name="street" e-class="FormRow-field--full" e-placeholder="Address" e-rows="3" e-cols="20" e-maxlength="255"></span>
-        </span>
-      </label>
-
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.mobile_phone.$invalid && thirdparty_submitted}">
-        <span class="Error-message" ng-show="third_party_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
-        <span class="Icon--formRow Icon--right Icon--call">
-          <span editable-text="third_party.personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
-        </span>
-      </label>
-
-      <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.pass_phrase.$invalid && thirdparty_submitted}">
-        <span class="Error-message" ng-show="third_party_frm.pass_phrase.$error.server">{{ errors.pass_phrase }}</span>
-        <span class="Icon--formRow Icon--right Icon--safe">
-          <span editable-text="third_party.pass_phrase" e-name="pass_phrase" e-class="FormRow-field--full" e-placeholder="Passphrase" e-required></span>
-        </span>
-      </label>
-
-      <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
-        <p class="FormRow-optionLegend">Reason</p>
-        <span class="Error-message" ng-show="third_party_frm.reason.$error.server">{{ errors.reason }}</span>
-
-        <span editable-radiolist="third_party.reason" e-name="reason" e-ng-options="s.value as s.text for s in reasons" onbeforesave="validateRadio($data)"></span>
-      </div>
-
-      <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: third_party_frm.personal_relationship.$invalid && thirdparty_submitted}">
-        <p class="FormRow-optionLegend FormRow-optionLegend--divider">Relationship</p>
-        <span class="Error-message" ng-show="third_party_frm.personal_relationship.$error.server">{{ errors.personal_relationship }}</span>
-
-        <span editable-radiolist="third_party.personal_relationship" e-name="personal_relationship" e-ng-options="s.value as s.text for s in relationships" onbeforesave="validateRadio($data)"></span>
-      </div>
-
-      <div class="FormActions cf">
-        <button type="submit" class="Button" ng-click="thirdparty_submitted=true">Save</button>
-        <button type="reset" class="Button Button--text" ng-click="add_thirdparty=false;third_party_frm.$cancel()">Cancel</button>
-      </div>
-    </form>
+    <div ng-show="third_party.reason">
+      <hr class="u-horLine">      
+      <p>
+        <strong>Reason</strong>
+        <br>
+        {{ getDisplayLabel(third_party.reason, reasons) }}
+      </p>
+    </div>
   </div>
+
+  <form novalidate method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" ng-show="third_party_frm.$visible" editable-form>
+    <h2 class="VCard-legend">Third Party</h2>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-show="third_party_frm.full_name.$error.server">{{ errors.full_name }}</span>
+      <span class="Icon--formRow Icon--right Icon--user">
+        <span editable-text="third_party.personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
+      </span>
+    </label>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.postcode.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-show="third_party_frm.postcode.$error.server">{{ errors.postcode }}</span>
+      <span class="Icon--formRow Icon--right Icon--location">
+        <span editable-text="third_party.personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode"></span>
+      </span>
+    </label>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.street.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-show="third_party_frm.street.$error.server">{{ errors.street }}</span>
+      <span class="Icon--formRow Icon--right Icon--address">
+        <span editable-textarea="third_party.personal_details.street" e-name="street" e-class="FormRow-field--full" e-placeholder="Address" e-rows="3" e-cols="20" e-maxlength="255"></span>
+      </span>
+    </label>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.mobile_phone.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-show="third_party_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
+      <span class="Icon--formRow Icon--right Icon--call">
+        <span editable-text="third_party.personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
+      </span>
+    </label>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.pass_phrase.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-show="third_party_frm.pass_phrase.$error.server">{{ errors.pass_phrase }}</span>
+      <span class="Icon--formRow Icon--right Icon--safe">
+        <span editable-text="third_party.pass_phrase" e-name="pass_phrase" e-class="FormRow-field--full" e-placeholder="Passphrase" e-required></span>
+      </span>
+    </label>
+
+    <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
+      <p class="FormRow-optionLegend">Reason</p>
+      <span class="Error-message" ng-show="third_party_frm.reason.$error.server">{{ errors.reason }}</span>
+
+      <span editable-radiolist="third_party.reason" e-name="reason" e-ng-options="s.value as s.text for s in reasons" onbeforesave="validateRadio($data)"></span>
+    </div>
+
+    <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: third_party_frm.personal_relationship.$invalid && thirdparty_submitted}">
+      <p class="FormRow-optionLegend FormRow-optionLegend--divider">Relationship</p>
+      <span class="Error-message" ng-show="third_party_frm.personal_relationship.$error.server">{{ errors.personal_relationship }}</span>
+
+      <span editable-radiolist="third_party.personal_relationship" e-name="personal_relationship" e-ng-options="s.value as s.text for s in relationships" onbeforesave="validateRadio($data)"></span>
+    </div>
+
+    <div class="FormActions cf">
+      <button type="submit" class="Button" ng-click="thirdparty_submitted=true">Save</button>
+      <button type="reset" class="Button Button--text" ng-click="add_thirdparty=false;third_party_frm.$cancel()">Cancel</button>
+    </div>
+  </form>
 </section>

@@ -16,6 +16,7 @@
 .Flip-back {
   top: 0;
   left: 0;
+  background: #fff;
   @include backface-visibility(hidden);
 }
 
