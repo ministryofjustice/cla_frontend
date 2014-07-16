@@ -8,13 +8,13 @@
     <div class="Grid-col Grid-col--3-5" ui-view full-height></div>
     <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour">
 
-      <div class="Grid-colInner">
+      <div class="Grid-colInner CaseDetails">
         <header>
-          <h1 class="CaseNumber Icon Icon--folder Icon--right">{{ case.reference }}</h1>
-          <p class="CaseNumber-entitlement" ng-show="case.isInScopeAndEligible()">entitlement reference: {{ case.laa_reference }}</p>
+          <h1 class="CaseDetails-caseNum Icon Icon--folder Icon--right">{{ case.reference }}</h1>
+          <p class="CaseDetails-entitlementNum" ng-show="case.isInScopeAndEligible()">entitlement reference: {{ case.laa_reference }}</p>
         </header>
         
-        <div class="cf">
+        <div class="cf CaseDetails-actions">
           <timer base-time="case.billable_time" class="u-pullLeft"></timer>
 
           <nav class="u-pullRight cf">

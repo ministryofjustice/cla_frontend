@@ -1,4 +1,4 @@
-.CaseNumber {
+.CaseDetails-caseNum {
   @include bold-24;
   margin: 20px 0 0;
   padding: 0;
@@ -9,9 +9,17 @@
     color: $grey-1;
   }
 }
-.CaseNumber-entitlement {
+.CaseDetails-entitlementNum {
   @include core-14;
   padding: 0;
-  margin: 0 0 15px;
+  margin: 0;
   color: $grey-1;
+}
+
+.CaseDetails-actions {
+  margin: 15px 0 0;
+
+  .Button {
+    margin-left: 10px;
+  }
 }
