@@ -112,6 +112,30 @@
     }
   };
 
+  states.CaseEditDetailAlternativeHelpState = {
+    parent: states.CaseDetailState,
+    url: 'alternative_help/?keyword?category?page',
+    views: {
+      '@case_detail': {
+        templateUrl:'case_detail.alternative_help.html',
+        controller: 'AlternativeHelpCtrl'
+      }
+    },
+    resolve: {
+      kb_providers: ['$stateParams', 'KnowledgeBase', function($stateParams, KnowledgeBase){
+        var params = {
+          search: $stateParams.keyword,
+          article_category: $stateParams.category,
+          page: $stateParams.page
+        };
+        return KnowledgeBase.get(params).$promise;
+      }],
+      kb_categories: ['KnowledgeBaseCategories', function(KnowledgeBaseCategories){
+        return KnowledgeBaseCategories.get().$promise;
+      }]
+    }
+  };
+
   states.CaseEditDetailAssignCompleteState = {
     parent: states.CaseEditDetailAssignState,
     url: 'complete/',

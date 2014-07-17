@@ -13,6 +13,7 @@
         .state('case_detail.edit.eligibility', states.CaseEditDetailEligibilityState)
         .state('case_detail.assign', states.CaseEditDetailAssignState)
         .state('case_detail.assign.complete', states.CaseEditDetailAssignCompleteState)
-        .state('case_detail.defer_assignment', states.CaseDetailDeferAssignmentState);
+        .state('case_detail.defer_assignment', states.CaseDetailDeferAssignmentState)
+        .state('case_detail.alternative_help', states.CaseEditDetailAlternativeHelpState);
     });
 })();

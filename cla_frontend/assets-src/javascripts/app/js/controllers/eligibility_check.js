@@ -10,7 +10,7 @@
           $scope.sections = [{
               title: 'Problem',
               id: 'problem',
-              show: $stateParams.section === 'your_problem' || $stateParams.sections === '',
+              show: $stateParams.section === 'your_problem' || $stateParams.section === '',
               template: 'includes/eligibility.problem.html'
             }, {
               title: 'Details',

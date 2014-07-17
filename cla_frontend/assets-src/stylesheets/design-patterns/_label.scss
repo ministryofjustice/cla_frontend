@@ -1,0 +1,33 @@
+.Label {
+  @include core-14;
+  display: inline-block;
+  padding: 3px 6px 1px;
+  margin: 3px 6px 3px 0;
+  background-color: #E8F0F0;
+  color: $light-blue;
+  text-decoration: none;
+  @include border-radius(3px);
+
+  input + & {
+    margin-left: 10px;
+  }
+
+  &.Icon {
+    position: relative;
+    padding-left: 26px;
+    &:before, &:after {
+      position: absolute;
+      left: 6px;
+    }
+  }
+
+  &.is-selected {
+    background-color: $light-blue;
+    color: #fff;
+    &.Icon {
+      &:before, &:after {
+        color: #fff;
+      }
+    }
+  }
+}

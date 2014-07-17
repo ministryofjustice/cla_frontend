@@ -234,6 +234,20 @@
       });
     }]);
 
+  angular.module('cla.services')
+    .factory('KnowledgeBase', ['$http', '$resource', function($http, $resource) {
+      return $resource('/call_centre/proxy/knowledgebase/article/:articleref', {articleref: '@reference'}, {});
+    }]);
+
+  angular.module('cla.services')
+    .factory('KnowledgeBaseCategories', ['$http', '$resource', function($http, $resource) {
+      return $resource('/call_centre/proxy/knowledgebase/category/', {}, {
+        get: {
+          method:'GET',
+          isArray:true
+        }
+      });
+    }]);
 
   angular.module('cla.services')
     .factory('MatterType', ['$http', '$resource', function($http, $resource) {

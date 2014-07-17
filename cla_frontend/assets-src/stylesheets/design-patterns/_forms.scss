@@ -79,16 +79,6 @@ $border-colour: #C2C2C2;
     }
   }
 
-  .FormRow-inner {
-    padding: 10px 40px 0;
-    margin: 0;
-
-    label {
-      display: block;
-      margin: 0 0 15px;
-    }
-  }
-
   .FormRow-prefix,
   .FormRow-suffix {
     display: inline-block;
@@ -349,6 +339,38 @@ $border-colour: #C2C2C2;
     .FormRow-label {
       font-weight: 700;
     }
+  }
+}
+
+.FormRow-inner {
+  padding: 10px 37px 0;
+  margin: 0;
+  display: block;
+
+  .FormRow--group & {
+    @include core-14;
+  }
+
+  label {
+    display: block;
+    margin: 0 0 15px;
+  }
+}
+
+.Search-submit {
+  width: 30px;
+  height: 30px;
+  background: url(../images/icons/search-button.png) -2px -20px $grey-1;
+  text-indent: -1000px;
+  overflow: hidden;
+  border: 0;
+  margin-left: -1px;
+  z-index: 1;
+  float: left;
+  display: block;
+
+  &:hover {
+    background-color: lighten($grey-1, 5%);
   }
 }
 

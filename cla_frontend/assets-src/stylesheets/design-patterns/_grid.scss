@@ -6,9 +6,15 @@ $col-gutter: 20; // in pixels
   position: relative;
   z-index: 1;
   margin: 0 -10px;
+  display: block;
 
   .Grid-row {
-    padding: 0 10px;
+    display: block;
+    padding: 0 10px 20px;
+  }
+
+  .Grid-row {
+    display: block;
   }
 
   @include media (tablet) {
