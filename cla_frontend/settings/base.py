@@ -116,6 +116,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cla_auth.middleware.ZoneMiddleware',
@@ -152,6 +153,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'widget_tweaks',
+    'session_security',
 )
 
 PROJECT_APPS = (
@@ -223,6 +225,10 @@ LOGIN_URL = 'auth:global_login'
 # AUTHENTICATION_BACKENDS from ZONE_PROFILES
 AUTHENTICATION_BACKENDS = [v['AUTHENTICATION_BACKEND'] for k,v in ZONE_PROFILES.items()]
 
+# Settings for django-session-security.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SECURITY_WARN_AFTER = 3360
+SESSION_SECURITY_EXPIRE_AFTER = 3600
 
 # EMAILS
 
