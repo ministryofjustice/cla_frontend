@@ -53,7 +53,7 @@
     <a class="Button Button--secondary" ng-click="assignManually(true)" ng-show="!is_manual && suggested_providers.length > 0">Assign other provider manually</a>
     <a ui-sref="case_detail.edit" ng-show="!is_manual">Cancel</a>
 
-    <a ui-sref="case_detail.decline_specialists" class="Button Button--secondary" ng-show="is_manual && suggested_provider.id">Decline all providers</a>
+    <a ng-click="decline_help()" class="Button Button--secondary" ng-show="is_manual && suggested_provider.id">Decline help</a>
     <a href="" ng-click="assignManually(false)" ng-show="is_manual && suggested_provider.id">Cancel</a>
   </div>
 </form>

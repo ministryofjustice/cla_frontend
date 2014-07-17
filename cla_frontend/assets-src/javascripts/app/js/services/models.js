@@ -61,11 +61,6 @@
         }
       );
 
-      resource.prototype.$decline_specialists = function(data, successCallback) {
-        var url = '/call_centre/proxy/case/'+this.reference+'/decline_all_specialists/';
-        $http.post(url, data).success(successCallback);
-      };
-
       resource.prototype.$defer_assignment = function(data, successCallback) {
         var url = '/call_centre/proxy/case/'+this.reference+'/defer_assignment/';
         $http.post(url, data).success(successCallback);
@@ -89,8 +84,13 @@
         return this.in_scope && this.eligibility_state === 'yes';
       };
 
-      resource.prototype.$suspend = function(data, successCallback) {
+      resource.prototype.$suspend_case = function(data, successCallback) {
         var url = '/call_centre/proxy/case/'+this.reference+'/suspend/';
+        $http.post(url, data).success(successCallback);
+      };
+
+      resource.prototype.$decline_help = function(data, successCallback) {
+        var url = '/call_centre/proxy/case/'+this.reference+'/decline_help/';
         $http.post(url, data).success(successCallback);
       };
 
