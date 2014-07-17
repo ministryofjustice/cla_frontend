@@ -123,17 +123,6 @@
     }
   };
 
-  states.CaseDetailDeclineSpecialistsState = {
-    parent: states.CaseDetailState,
-    url: 'assign/decline_all/',
-    views: {
-      '@case_detail': {
-        templateUrl: 'case_detail.decline_specialists.html',
-        controller: 'CaseDeclineSpecialistsCtrl'
-      }
-    }
-  };
-
   states.CaseDetailDeferAssignmentState = {
     parent: states.CaseDetailState,
     url: 'assign/defer/',

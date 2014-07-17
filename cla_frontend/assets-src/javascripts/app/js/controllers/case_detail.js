@@ -35,15 +35,30 @@
           $scope.suspend = function() {
             $modal.open({
               templateUrl: 'case_detail.suspend.html',
-              controller: 'SuspendCaseCtl',
+              controller: 'OutcomesModalCtl',
               resolve: {
                 'case': function() {
                   return $scope.case;
-                }
+                },
+                'event_key': function() { return 'suspend_case'; },  //this is also the function name on Case model
+                'success_msg': function() { return 'Case '+$scope.case.reference+' suspended successfully'; }
               }
             });
           };
 
+          $scope.decline_help = function() {
+            $modal.open({
+              templateUrl: 'case_detail.decline_help.html',
+              controller: 'OutcomesModalCtl',
+              resolve: {
+                'case': function() {
+                  return $scope.case;
+                },
+                'event_key': function() { return 'decline_help'; },  //this is also the function name on Case model
+                'success_msg': function() { return 'Declined help for Case '+$scope.case.reference; }
+              }
+            });
+          };
 
           $scope.edit_matter_types = function (next) {
             var child_scope = $scope.$new();
@@ -93,13 +108,15 @@
           });
 
         };
-  }]);
+      }
+    ]
+  );
 
   angular.module('cla.controllers')
-    .controller('SuspendCaseCtl',
-      ['$scope', '$modalInstance', 'case', 'Event', '$state', 'flash',
-        function($scope, $modalInstance, _case, Event, $state, flash) {
-          new Event().list_by_event_key('suspend_case', function(data) {
+    .controller('OutcomesModalCtl',
+      ['$scope', '$modalInstance', 'case', 'event_key', 'success_msg', 'Event', '$state', 'flash',
+        function($scope, $modalInstance, _case, event_key, success_msg, Event, $state, flash) {
+          new Event().list_by_event_key(event_key, function(data) {
             $scope.codes = data;
           });
 
@@ -107,13 +124,13 @@
             $modalInstance.dismiss('cancel');
           };
 
-          $scope.suspend = function() {
-            _case.$suspend({
+          $scope.submit = function() {
+            _case['$'+event_key]({
               'event_code': this.event_code,
               'notes': this.notes || ''
             }, function() {
               $state.go('case_list');
-              flash('success', 'Case '+_case.reference+' suspended successfully');
+              flash('success', success_msg);
               $modalInstance.dismiss('cancel');
             });
 
