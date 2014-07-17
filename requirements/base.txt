@@ -17,3 +17,4 @@ git+git://github.com/ministryofjustice/cla_common.git@0.1.31#egg=cla_common==0.1
 django-proxy==1.0.2
 django-csp==2.0.3
 raven==4.2.3
+django-session-security==2.2.0
