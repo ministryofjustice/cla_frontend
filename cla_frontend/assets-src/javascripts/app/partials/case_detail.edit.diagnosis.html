@@ -1,1 +1,23 @@
-Hey, you
+<form ng-submit="save()" novalidate name="form">
+  <div>
+    <h2>
+      Diagnosis for Operator
+    </h2>
+  </div>
+
+  <ul>
+    <li ng-repeat="statement in diagnosis.nodes">{{statement.label}}</li>
+  </ul>    
+
+  <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="choice in diagnosis.choices">
+    <label class="FormRow-label">
+      <input type="radio" value="{{ choice.id }}" name="choice" ng-model="diagnosis.current_node_id" required>
+      <span class="u-mute">{{ choice.label }}</span>
+    </label>
+  </div>
+
+
+  <div class="FormActions FormBlock FormBlock--yellow">
+    <button type="submit" class="Button">Submit</button>
+  </div>
+</form>
