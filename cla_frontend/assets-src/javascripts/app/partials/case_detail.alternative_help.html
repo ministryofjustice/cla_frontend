@@ -58,6 +58,7 @@
 
   <div class="FormActions">
     <button type="submit" class="Button" ng-disabled="value.length==0">Assign aternative help</button>
-    <a href="">User declines all specialist providers</a>
+    <button type="button" class="Button Button--secondary" ng-click="decline_help()">User declines all specialist providers</button>
+    <a ui-sref="case_detail.edit">Cancel</a>
   </div>
 </form>

@@ -57,9 +57,9 @@
           $scope.submit = function () {
             $scope.validateSelected(true);
 
-            if ($scope.valid) {
-              console.log('submitting');
-            }
+            // if ($scope.valid) {
+              // TO DO - store data
+            // }
           };
         }
       ]
