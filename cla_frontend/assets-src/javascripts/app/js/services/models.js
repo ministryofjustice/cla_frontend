@@ -134,7 +134,7 @@
 
   angular.module('cla.services')
     .factory('Diagnosis', ['$http', '$resource', function($http, $resource) {
-      var that = this, resource;
+      var resource;
 
       this.BASE_URL = '/call_centre/proxy/case/:case_reference/diagnosis/';
 
