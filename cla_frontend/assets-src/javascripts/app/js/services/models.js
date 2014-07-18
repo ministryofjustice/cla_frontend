@@ -133,6 +133,19 @@
     }]);
 
   angular.module('cla.services')
+    .factory('Diagnosis', ['$http', '$resource', function($http, $resource) {
+      var that = this, resource;
+
+      this.BASE_URL = '/call_centre/proxy/case/:case_reference/diagnosis/';
+
+      resource = $resource(this.BASE_URL, {case_reference: '@case_reference'}, {
+        'patch': {method: 'PATCH'}
+      });
+
+      return resource;
+    }]);
+
+  angular.module('cla.services')
     .factory('PersonalDetails', ['$resource', function($resource) {
       var resource = $resource('/call_centre/proxy/case/:case_reference/personal_details/', {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
