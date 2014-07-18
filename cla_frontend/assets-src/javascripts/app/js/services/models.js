@@ -239,21 +239,7 @@
       return $resource('/call_centre/proxy/knowledgebase/article/:articleref', {articleref: '@reference'}, {
         get: {
           method: 'GET',
-          isArray: false,
-          transformResponse: function (data) {
-            // remove duplicates
-            var _data = angular.fromJson(data),
-                results = [];
-
-            angular.forEach(_data.results, function (item) {
-              if (_.findWhere(results, {id: item.id}) === undefined) {
-                results.push(item);
-              }
-            });
-
-            _data.results = results;
-            return _data;
-          }
+          isArray: false
         }
       });
     }]);
