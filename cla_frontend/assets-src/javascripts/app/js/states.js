@@ -101,6 +101,17 @@
     }
   };
 
+  states.CaseEditDetailDiagnosisState = {
+    parent: states.CaseEditDetailState,
+    url: 'diagnosis/',
+    views: {
+      '@case_detail.edit': {
+        templateUrl:'case_detail.edit.diagnosis.html',
+        controller: 'DiagnosisCtrl'
+      }
+    }
+  };
+
   states.CaseEditDetailAssignState = {
     parent: states.CaseDetailState,
     url: 'assign/',
