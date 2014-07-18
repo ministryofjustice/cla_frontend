@@ -236,15 +236,34 @@
 
   angular.module('cla.services')
     .factory('KnowledgeBase', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/knowledgebase/article/:articleref', {articleref: '@reference'}, {});
+      return $resource('/call_centre/proxy/knowledgebase/article/:articleref', {articleref: '@reference'}, {
+        get: {
+          method: 'GET',
+          isArray: false,
+          transformResponse: function (data) {
+            // remove duplicates
+            var _data = angular.fromJson(data),
+                results = [];
+
+            angular.forEach(_data.results, function (item) {
+              if (_.findWhere(results, {id: item.id}) === undefined) {
+                results.push(item);
+              }
+            });
+
+            _data.results = results;
+            return _data;
+          }
+        }
+      });
     }]);
 
   angular.module('cla.services')
     .factory('KnowledgeBaseCategories', ['$http', '$resource', function($http, $resource) {
       return $resource('/call_centre/proxy/knowledgebase/category/', {}, {
         get: {
-          method:'GET',
-          isArray:true
+          method: 'GET',
+          isArray: true
         }
       });
     }]);
@@ -253,8 +272,8 @@
     .factory('MatterType', ['$http', '$resource', function($http, $resource) {
       return $resource('/call_centre/proxy/mattertype/', {}, {
         get: {
-          method:'GET',
-          isArray:true
+          method: 'GET',
+          isArray: true
         }
       });
     }]);

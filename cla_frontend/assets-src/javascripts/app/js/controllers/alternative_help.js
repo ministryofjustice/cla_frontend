@@ -12,6 +12,8 @@
           $scope.categories = kb_categories;
           $scope.providers = kb_providers;
 
+          $scope.selected_providers = {};
+
           function updatePage() {
             $state.go('case_detail.alternative_help', {
               'type': $scope.type,
@@ -36,6 +38,28 @@
             $scope.currentPage = 1;
             $scope.keyword = query;
             updatePage();
+          };
+
+          $scope.validateSelected = function (submit) {
+            var count = _.filter($scope.selected_providers, function(v){ 
+              return v === true;
+            });
+
+            if (typeof count !== 'undefined' && count.length > 3) {
+              $scope.valid = false;
+            } else if (submit === true && typeof count !== 'undefined' && count.length < 3) {
+              $scope.valid = false;
+            } else {
+              $scope.valid = true;
+            }
+          };
+
+          $scope.submit = function () {
+            $scope.validateSelected(true);
+
+            if ($scope.valid) {
+              console.log('submitting');
+            }
           };
         }
       ]
