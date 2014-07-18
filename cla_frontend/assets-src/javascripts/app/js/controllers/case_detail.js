@@ -3,10 +3,11 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'personal_details', '$modal', '$state', 'MatterType',
-        function($rootScope, $scope, $case, $eligibility_check, $personal_details, $modal, $state, MatterType){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', '$state', 'MatterType',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, $state, MatterType){
           $scope.case = $case;
           $scope.eligibility_check = $eligibility_check;
+          $scope.diagnosis = $diagnosis;
           $scope.personal_details = $personal_details;
 
           // log set grouping
