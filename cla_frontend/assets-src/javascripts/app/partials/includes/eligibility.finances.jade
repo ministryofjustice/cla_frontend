@@ -1,0 +1,80 @@
+section
+  div(ng-show="!eligibility_check.property_set || eligibility_check.property_set.length === 0")
+    p
+      em No properties have been added
+  div(ng-repeat="property in eligibility_check.property_set")
+    .clearfix
+      h2.FormBlock-label.FormBlock-label--inline {{ $index+1 | ordinal }} property
+      button.Button--text(type="button", value="remove-property", ng-click="removeProperty($index)") Remove property
+    .FormBlock.FormBlock--grey
+      .FormRow.cf
+        label
+          span.FormRow-label How much is it worth?
+          span.FormRow-prefix &pound;
+          input(max="9999999999", min="0", step="0.01", type="number", ng-model="property.value")
+      .FormRow.cf
+        label
+          span.FormRow-label How much is left to pay on the mortgage?
+          span.FormRow-prefix &pound;
+          input(max="9999999999", min="0", step="0.01", type="number", ng-model="property.mortgage_left")
+      .FormRow.cf
+        p.FormRow-label Is this property disputed?
+        label.FormRow-option.FormRow-option--inline
+          input(type="radio", value="1", name="property_disputed-{{ $index }}", ng-model="property.disputed")
+          | Yes
+        label.FormRow-option.FormRow-option--inline
+          input(type="radio", value="0", name="property_disputed-{{ $index }}", ng-model="property.disputed")
+          | No
+      .FormRow.cf
+        label
+          span.FormRow-label What is your share of the property?
+          input.FormRow-field--s(max="100", min="0", type="number", ng-model="property.share")
+          span.FormRow-suffix %
+  .FormBlock-actions
+    a.Button.Button--secondary(ng-click="addProperty()") Add property
+section
+  h2.FormBlock-label Your savings
+  .FormBlock.FormBlock--grey
+    .FormRow.cf
+      label
+        span.FormRow-label Do you have any money saved in a bank or building society?
+        span.FormRow-prefix &pound;
+        input(max="9999999999", min="0", step="0.01", type="number", ng-model="eligibility_check.you.savings.bank_balance")
+    .FormRow.cf
+      label
+        span.FormRow-label Do you have any investments, shares, ISAs?
+        span.FormRow-prefix &pound;
+        input(max="9999999999", min="0", step="0.01", type="number", ng-model="eligibility_check.you.savings.investment_balance")
+    .FormRow.cf
+      label
+        span.FormRow-label Do you have any valuable items over &pound;500 each?
+        span.FormRow-prefix &pound;
+        input(max="9999999999", min="0", step="0.01", type="number", ng-model="eligibility_check.you.savings.asset_balance")
+    .FormRow.cf
+      label
+        span.FormRow-label Do you have any money owed to you?
+        span.FormRow-prefix &pound;
+        input(max="9999999999", min="0", step="0.01", type="number", ng-model="eligibility_check.you.savings.credit_balance")
+section
+  h2#partners_savings-label.FormBlock-label Your partner&apos;s savings
+  .FormBlock.FormBlock--grey
+    .FormRow.cf
+      label
+        span.FormRow-label Do you have any money saved in a bank or building society?
+        span.FormRow-prefix &pound;
+        input(max="9999999999", min="0", step="0.01", type="number", ng-model="eligibility_check.partner.savings.bank_balance")
+    .FormRow.cf
+      label
+        span.FormRow-label Do you have any investments, shares, ISAs?
+        span.FormRow-prefix &pound;
+        input(max="9999999999", min="0", step="0.01", type="number", ng-model="eligibility_check.partner.savings.investment_balance")
+    .FormRow.cf
+      label
+        span.FormRow-label Do you have any valuable items over &pound;500 each?
+        span.FormRow-prefix &pound;
+        input(max="9999999999", min="0", step="0.01", type="number", ng-model="eligibility_check.partner.savings.asset_balance")
+    .FormRow.cf
+      label
+        span.FormRow-label Do you have any money owed to you?
+        span.FormRow-prefix &pound;
+        input(max="9999999999", min="0", step="0.01", type="number", ng-model="eligibility_check.partner.savings.credit_balance")

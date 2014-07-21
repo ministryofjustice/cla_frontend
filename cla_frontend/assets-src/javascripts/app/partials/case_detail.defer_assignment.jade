@@ -1,0 +1,9 @@
+header.PageHeader.cf
+  h1.u-pullLeft Defer specialist provider assignment
+.FormBlock.FormBlock--yellow
+  form(method="post", ng-submit="defer()")
+    .FormRow.cf
+      label.visuallyhidden(for="id_event_notes") notes
+      textarea#id_event_notes.FormRow-field--full(cols="20", name="notes", rows="6", ng-model="notes", placeholder="Notes")
+    button.Button(type="submit") Defer Assignment
+    a(ui-sref="case_detail.assign") Cancel

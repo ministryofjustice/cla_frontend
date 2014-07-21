@@ -1,0 +1,81 @@
+section.FormBlock
+  .FormRow.cf.Grid
+    p.FormRow-label.Grid-col.Grid-col--2-3 Do you have a partner?
+    .Grid-col.Grid-col--1-3
+      .u-pullRight
+        label.FormRow-option.FormRow-option--inline(for="id_your_details-has_partner_0")
+          input#id_your_details-has_partner_0(
+            type="radio",
+            name="your_details-has_partner",
+            value="1",
+            ng-model="eligibility_check.has_partner"
+          )
+          | Yes
+        label.FormRow-option.FormRow-option--inline(for="id_your_details-has_partner_1")
+          input#id_your_details-has_partner_1(
+            type="radio",
+            name="your_details-has_partner",
+            value="0",
+            ng-model="eligibility_check.has_partner"
+          )
+          | No
+  .FormRow.cf.Grid
+    p.FormRow-label.Grid-col.Grid-col--2-3 Are you on nass Benefits?
+    .Grid-col.Grid-col--1-3
+      .u-pullRight
+        label.FormRow-option.FormRow-option--inline(for="id_your_details-nass_benefits_0")
+          input#id_your_details-nass_benefits_0(
+            type="radio",
+            name="your_details-nass_benefits",
+            value="1",
+            ng-model="eligibility_check.on_nass_benefits"
+          )
+          | Yes
+        label.FormRow-option.FormRow-option--inline(for="id_your_details-nass_benefits_1")
+          input#id_your_details-nass_benefits_1(
+            type="radio",
+            name="your_details-nass_benefits",
+            value="0",
+            ng-model="eligibility_check.on_nass_benefits"
+          )
+          | No
+  .FormRow.cf.Grid
+    p.FormRow-label.Grid-col.Grid-col--2-3 Are you on Passported Benefits?
+    .Grid-col.Grid-col--1-3
+      .u-pullRight
+        label.FormRow-option.FormRow-option--inline(for="id_your_details-passported_benefits_0")
+          input#id_your_details-passported_benefits_0(
+            type="radio",
+            name="your_details-passported_benefits",
+            value="1",
+            ng-model="eligibility_check.on_passported_benefits"
+          )
+          | Yes
+        label.FormRow-option.FormRow-option--inline(for="id_your_details-passported_benefits_1")
+          input#id_your_details-passported_benefits_1(
+            type="radio",
+            name="your_details-passported_benefits",
+            value="0",
+            ng-model="eligibility_check.on_passported_benefits"
+          )
+          | No
+  .FormRow.cf.Grid
+    p.FormRow-label.Grid-col.Grid-col--2-3 Are you or your partner aged 60 or over?
+    .Grid-col.Grid-col--1-3
+      .u-pullRight
+        label.FormRow-option.FormRow-option--inline(for="id_your_details-older_than_sixty_0")
+          input#id_your_details-older_than_sixty_0(
+            type="radio",
+            name="your_details-older_than_sixty",
+            value="1",
+            ng-model="eligibility_check.is_you_or_your_partner_over_60"
+          )
+          | Yes
+        label.FormRow-option.FormRow-option--inline(for="id_your_details-older_than_sixty_1")
+          input#id_your_details-older_than_sixty_1(
+            type="radio",
+            name="your_details-older_than_sixty",
+            value="0",
+            ng-model="eligibility_check.is_you_or_your_partner_over_60"
+          )
+          | No

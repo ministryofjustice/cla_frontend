@@ -1,0 +1,8 @@
+ul.CaseHistory
+  li.CaseHistory-card(ng-repeat="logList in logSet")
+    span.CaseHistory-date {{ logList[0].created | general_date }}
+    ul.CaseHistory-log
+      li.CaseHistory-logItem.cf(ng-repeat="log in logList")
+        span.CaseHistory-label(ng-show="log.type == 'outcome'") {{ log.code }}
+        span.CaseHistory-logItemNotes(ng-if="log.notes") {{ log.notes }}
+        span.CaseHistory-logItemAuthor ({{ log.created_by }})

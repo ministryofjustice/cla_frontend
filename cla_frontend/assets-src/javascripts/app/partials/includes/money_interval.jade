@@ -1,0 +1,9 @@
+label
+  span.FormRow-label {{ miLabel }}
+  span.FormRow-prefix &pound;
+  input(max="2500000", min="0", step="0.01", type="number", ng-model="miModel.per_interval_value")
+  select.FormRow-field--interval(ng-model="miModel.interval_period")
+    option(value="per_week") per week
+    option(value="per_4week") 4 weekly
+    option(value="per_month") per month
+    option(value="per_year") per year

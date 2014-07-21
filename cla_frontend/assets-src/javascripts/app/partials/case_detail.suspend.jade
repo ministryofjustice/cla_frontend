@@ -1,0 +1,18 @@
+header
+  h2 Suspend case
+form(method="post", ng-submit="submit()")
+  .FormBlock.FormBlock--yellow
+    .FormRow.cf
+      input.FormRow-field--l(type="text", name="code_search", placeholder="Search codes", ng-model="code_search")
+    .FormRow.FormRow--group.FormRow--groupNarrow(ng-repeat="code in codes | filter:code_search")
+      label.FormRow-label
+        input(type="radio", value="{{ code.code }}", ng-model="$parent.event_code", name="code", required="")
+        | {{ code.code }} 
+        span.u-mute - {{ code.description }}
+    br
+    .FormRow.cf
+      label
+        textarea.FormRow-field--full(cols="20", rows="6", name="notes", ng-model="notes", placeholder="Notes")
+  .FormActions
+    button.Button(type="submit") Suspend case
+    a(href="", ng-click="cancel()") Cancel

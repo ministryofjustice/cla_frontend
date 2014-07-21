@@ -1,0 +1,8 @@
+.Timer.cf
+  span.Icon.Icon--timer(ng-show="startButton")
+  span.Timer-value {{timer.value}}
+  a.Icon.Icon--right.Timer-button(
+    href="#", 
+    ng-click="startTimer()", 
+    ng-class="{'Icon--pause': timer.running, 'Icon--play': !timer.running}", 
+    ng-show="startButton")

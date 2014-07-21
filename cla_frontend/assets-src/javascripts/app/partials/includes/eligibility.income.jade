@@ -1,0 +1,44 @@
+p Whether or not you qualify for legal aid depends on how much money you and your partner earn. To find out if you&rsquo;re financially eligible, please answer these questions as honestly and fully as you can.
+section
+  h2.FormBlock-label Your income
+  .FormBlock.FormBlock--grey(aria-labelledby="your_income-label", role="group")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.you.income.earnings", mi-label="Earnings")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.you.income.other_income", mi-label="Other income")
+    .FormRow.cf
+      p.FormRow-label Is your partner self employed?
+      label.FormRow-option.FormRow-option--inline(for="id_your_income-self_employed_0")
+        input#id_your_income-self_employed_0(type="radio", name="id_your_income-self_employed", value="1", ng-model="eligibility_check.you.income.self_employed")
+        | Yes
+      label.FormRow-option.FormRow-option--inline(for="id_your_income-self_employed_1")
+        input#id_your_income-self_employed_1(type="radio", name="id_your_income-self_employed", value="0", ng-model="eligibility_check.you.income.self_employed")
+        | No
+section
+  h2.FormBlock-label Your partner&apos;s income
+  cla-server-validate(data-for="partner.income")
+  .FormBlock.FormBlock--grey(aria-labelledby="partners_income-label", role="group")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.partner.income.earnings", mi-label="Earnings")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.partner.income.other_income", mi-label="Other income")
+    .FormRow.cf
+      p.FormRow-label Is your partner self employed?
+      label.FormRow-option.FormRow-option--inline(for="id_partners_income-self_employed_0")
+        input#id_partners_income-self_employed_0(type="radio", name="id_partners_income-self_employed", value="1", ng-model="eligibility_check.partner.income.self_employed")
+        | Yes
+      label.FormRow-option.FormRow-option--inline(for="id_partners_income-self_employed_1")
+        input#id_partners_income-self_employed_1(type="radio", name="id_partners_income-self_employed", value="0", ng-model="eligibility_check.partner.income.self_employed")
+        | No
+section
+  h2.FormBlock-label Dependants
+  .FormBlock.FormBlock--grey.Grid(aria-labelledby="dependants-label", role="group")
+    .FormRow
+      .Grid-col.Grid-col--1-2
+        label.cf(for="id_dependants-dependants_old")
+          span.FormRow-label.FormRow-label--inline Children aged 16 and over
+          input#id_dependants-dependants_old.FormRow-field--xs(min="0", type="number", ng-model="eligibility_check.dependants_old")
+      .Grid-col.Grid-col--1-2
+        label.cf(for="id_dependants-dependants_young")
+          span.FormRow-label.FormRow-label--inline Children aged 15 and under
+          input#id_dependants-dependants_young.FormRow-field--xs(min="0", type="number", ng-model="eligibility_check.dependants_young")

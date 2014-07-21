@@ -1,0 +1,13 @@
+header.PageHeader.cf
+  h1.u-pullLeft Assigned to {{ selected_provider.name }}
+div(ng-show="selected_provider.id")
+  .ContactBlock.ContactBlock--grey.clearfix
+    h2.ContactBlock-heading {{ selected_provider.name }}
+    p
+      | {{ selected_provider.telephone_frontdoor }} (Front door)
+      br
+      | {{ selected_provider.telephone_backdoor }} (Back door)
+  ul.Notice
+    li.Notice-msg
+      | Provider phone short code 
+      strong {{ selected_provider.short_code }}
