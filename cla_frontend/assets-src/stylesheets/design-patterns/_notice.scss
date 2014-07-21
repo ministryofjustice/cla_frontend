@@ -5,7 +5,9 @@
   margin: 10px 0;
   list-style: none;
 
-  #wrapper & {
-    margin: 20px 0;
+  .VCard & {
+    margin: -10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 }

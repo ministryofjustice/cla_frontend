@@ -59,4 +59,17 @@
   &:hover {
     text-decoration: underline;
   }
+
+  &.is-closed,
+  &.is-open {
+    &:before {
+      content: "+";
+      margin-right: 5px;
+    }
+  }
+  &.is-open {
+    &:before {
+      content: "-";
+    }
+  }
 }
