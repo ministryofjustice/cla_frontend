@@ -57,6 +57,14 @@
                 matter_type2: data.matter_type2
               }, headers);
             }
+          },
+          'set_media_code': {
+            method:'PATCH',
+            transformRequest: function(data, headers) {
+              return transformData($http, {
+                media_code: data.media_code
+              }, headers);
+            }
           }
         }
       );
@@ -263,4 +271,15 @@
         }
       });
     }]);
+
+  angular.module('cla.services')
+    .factory('MediaCode', ['$resource', function ($resource) {
+      return $resource('/call_centre/proxy/mediacode/', {}, {
+        get: {
+          method: 'GET',
+          isArray: true
+        }
+      });
+    }]);
+
 })();
