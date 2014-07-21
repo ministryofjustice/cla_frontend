@@ -49,13 +49,13 @@
     </div>
 
 
-    <div ng-show="media_codes">
+    <div ng-show="media_code">
       <hr class="u-horLine">
 
       <p>
         <strong>Media Code</strong>
         <br>
-        {{ case.media_code.name }}
+        {{ mediaCode(media_code.selected).name }}
       </p>
     </div>
 
@@ -124,10 +124,9 @@
         <hr class="u-horLine">
         <p>
           <ui-select ng-model="case.media_code" theme="selectize" ng-disabled="disabled">
-            <ui-select-match placeholder="Select or search a media code in the list ...">{{$select.selected.name}}</ui-select-match>
-            <ui-select-choices repeat="code in media_codes | filter: $select.search">
-              <span ng-bind-html="code.name | highlight: $select.search"></span>
-              <small ng-bind-html="code.code | highlight: $select.search"></small>
+            <ui-select-match placeholder="Select or search a media code in the list ...">{{ mediaCode($select.selected).name }}</ui-select-match>
+            <ui-select-choices group-by="mediaCodeGroup" repeat="code in media_codes | filter:$select.search:filterMediaCodes">
+              <span ng-bind-html="mediaCode(code).name | highlight: $select.search"></span>
             </ui-select-choices>
           </ui-select>
         </p>

@@ -40,7 +40,37 @@
           };
           $scope.setAdaptations();
 
-          $scope.media_codes = mediacodes;
+          $scope.media_codes = mediacodes.map(function (mc) {
+            return mc.code;
+          });
+          $scope.media_code = {};
+          if ($scope.case.media_code) {
+            $scope.media_code.selected = $scope.case.media_code;
+          }
+          $scope.$watch('media_code', function () {
+            if ($scope.case.media_code != $scope.media_code.selected) {
+              $scope.case.media_code = $scope.media_code.selected;
+            }
+          });
+
+          $scope.mediaCode = function (code) {
+            var matches = mediacodes.filter(function (mediacode) {
+              return mediacode.code === code;
+            });
+            if (matches.length) {
+              return matches[0];
+            }
+          };
+
+          $scope.filterMediaCodes = function (actual, expected) {
+            var r = new RegExp(expected, 'i');
+            var mc = $scope.mediaCode(actual);
+            return r.test(mc.code) || r.test(mc.name);
+          };
+
+          $scope.mediaCodeGroup = function (code) {
+            return $scope.mediaCode(code).group;
+          };
 
           $scope.getDisplayLabel = function(value, list) {
             var v = _.find(list, function(r) { return r.value === value;});
@@ -103,7 +133,9 @@
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.adaptations = adaptation_details;
             });
-            $scope.case.$media_code_patch();
+            $scope.case.$set_media_code().then(function () {
+              $scope.media_code.selected = $scope.case.media_code;
+            });
             return true;
           };
 

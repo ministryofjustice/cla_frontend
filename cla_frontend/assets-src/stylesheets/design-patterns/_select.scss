@@ -94,9 +94,17 @@
 .selectize-dropdown [data-selectable] {
   overflow: hidden;
   cursor: pointer;
-  padding: 5px 5px;
+  padding: 5px 5px 5px 10px;
 }
 
 .ui-select-highlight {
   font-weight: bold;
+}
+
+.selectize-dropdown .optgroup-header {
+  background: #f8f8f8;
+  font-weight: bold;
+  font-size: 80%;
+  padding: 5px;
+  overflow: hidden;
 }

@@ -58,7 +58,7 @@
               }, headers);
             }
           },
-          'media_code_patch': {
+          'set_media_code': {
             method:'PATCH',
             transformRequest: function(data, headers) {
               return transformData($http, {
