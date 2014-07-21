@@ -32,14 +32,27 @@
 
 
 <div ui-view="">
-  <div>
+  <div ng-controller="DiagnosisSummaryCtrl">
     <h3>Diagnosis</h3>
     <ul ng-show="case.diagnosis">
       <li ng-repeat="statement in diagnosis.nodes">{{statement.label}}</li>
     </ul>
 
+    <div ng-show="diagnosis.isInScopeTrue()">You are in scope</div>
+    <div ng-show="diagnosis.isInScopeFalse()">You are not in scope</div>
+
     <div class="FormActions">
-      <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis">{{case.diagnosis ? 'Edit' : 'New'}} Diagnosis</button>
+      <div ng-show="!case.diagnosis">
+        <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis">New Diagnosis</button>
+      </div>
+
+      <div ng-show="case.diagnosis && diagnosis.isInScopeUnknown()">
+        <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis">Complete Diagnosis</button>
+      </div>
+
+      <div ng-show="case.diagnosis">
+        <button type="submit" class="Button" ng-click="delete()">Delete Diagnosis</button>
+      </div>
     </div>
   </div>
 

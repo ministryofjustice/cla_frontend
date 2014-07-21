@@ -16,8 +16,10 @@
     </label>
   </div>
 
+  <div ng-show="diagnosis.isInScopeTrue()">You are in scope</div>
+  <div ng-show="diagnosis.isInScopeFalse()">You are not in scope</div>
 
-  <div class="FormActions FormBlock FormBlock--yellow">
+  <div class="FormActions FormBlock FormBlock--yellow" ng-show="diagnosis.isInScopeUnknown()">
     <button type="submit" class="Button">Submit</button>
   </div>
 </form>
