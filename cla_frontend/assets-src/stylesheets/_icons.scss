@@ -34,7 +34,6 @@
   &:link,
   &:visited,
   &:active {
-    color: $grey-2;
     text-decoration: none;
   }
 
@@ -101,6 +100,11 @@
   &--dark {
     &:before, &:after {
       color: $black;
+    }
+  }
+  &--blue {
+    &:before, &:after {
+      color: $light-blue;
     }
   }
   &--red {
