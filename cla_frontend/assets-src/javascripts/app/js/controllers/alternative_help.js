@@ -14,6 +14,11 @@
 
           $scope.selected_providers = {};
 
+          // if search value, focus on element
+          if ($scope.keyword) {
+            angular.element('[name="keyword"]').focus();
+          }
+
           function updatePage() {
             $state.go('case_detail.alternative_help', {
               'type': $scope.type,
