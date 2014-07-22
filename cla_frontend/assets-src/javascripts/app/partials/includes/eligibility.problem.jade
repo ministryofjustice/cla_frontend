@@ -1,0 +1,7 @@
+p What is your problem about? What is putting you at immediate risk?
+section.FormBlock
+  cla-server-validate(data-for="category")
+  .FormRow.FormRow--group.FormRow--groupNarrow(ng-repeat="category in category_list")
+    label.FormRow-label
+      input(type="radio", name="category", ng-model="eligibility_check.category", value="{{ category.code }}")
+      | {{ category.name }}

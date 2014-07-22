@@ -1,0 +1,24 @@
+header
+  h2 Set Matter Types
+form(method="post", ng-submit="save()")
+  h2.FormBlock-label Matter type 1
+  .FormRow.cf
+    input.FormRow-field--l(type="text", name="mt1_search", placeholder="Search matter type 1s", ng-model="mt1_search")
+  .FormBlock.FormBlock--yellow
+    .FormRow.FormRow--group.FormRow--groupNarrow(ng-repeat="matter_type in matter_types | filter:{level: 1, $:mt1_search}")
+      label.FormRow-label
+        input(type="radio", value="{{ matter_type.code }}", ng-model="$parent.case.matter_type1", name="matter_type1", required="")
+        | {{ matter_type.code }} 
+        span.u-mute - {{ matter_type.description }}
+  h2.FormBlock-label Matter type 2
+  .FormRow.cf
+    input.FormRow-field--l(type="text", name="mt2_search", placeholder="Search matter type 2s", ng-model="mt2_search")
+  .FormBlock.FormBlock--yellow
+    .FormRow.FormRow--group.FormRow--groupNarrow(ng-repeat="matter_type in matter_types | filter:{level: 2, $:mt2_search}")
+      label.FormRow-label
+        input(type="radio", value="{{ matter_type.code }}", ng-model="$parent.case.matter_type2", name="matter_type2", required="")
+        | {{ matter_type.code }} 
+        span.u-mute - {{ matter_type.description }}
+  .FormActions
+    button.Button(type="submit") Set matter types
+    a(href="", ng-click="cancel()") Cancel

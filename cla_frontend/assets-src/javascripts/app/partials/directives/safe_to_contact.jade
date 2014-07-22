@@ -1,0 +1,14 @@
+.SafeToContact
+  a.Icon.Icon--right(
+    href="",
+    ng-click="showOpts=!showOpts",
+    ng-class="iconClass()"
+  )
+  .SafeToContact-content(ng-show="showOpts")
+    .SafeToContact-list
+      .SafeToContact-listItem(ng-repeat="opt in options")
+        a.SafeToContact-option.Icon(
+          href="",
+          ng-click="setSafe(opt.safe, opt.name)",
+          ng-class="{'is-selected': person.contact_safety.name === opt.name, 'Icon--tick Icon--green': opt.safe, 'Icon--cross Icon--red': !opt.safe}"
+        ) {{ opt.name }}

@@ -1,0 +1,8 @@
+form.Accordion(ng-submit="save()", novalidate="", name="form")
+  div(ng-repeat="section in sections")
+    h2.Accordion-sectionTitle(ng-click="section.show=!section.show", ng-class="{'is-expanded': section.show, 'is-complete': isComplete(section.id)}")
+      | {{ section.title }}
+      span.u-pullRight(ng-class="{'u-sortAsc u-sortAsc--lrg': section.show, 'u-sortDesc u-sortDesc--lrg': !section.show}")
+    .Accordion-section(id="{{ section.id }}", ng-show="section.show", ng-include="section.template")
+  .FormActions.FormBlock.FormBlock--yellow
+    button.Button(type="submit") Save eligibility check

@@ -1,0 +1,42 @@
+section
+  h2.FormBlock-label You
+  .FormBlock.FormBlock--grey
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.you.deductions.mortgage", mi-label="Mortgage")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.you.deductions.rent", mi-label="Rent")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.you.deductions.income_tax", mi-label="Tax")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.you.deductions.national_insurance", mi-label="National Insurance Contributions")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.you.deductions.maintenance", mi-label="Maintenance")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.you.deductions.childcare", mi-label="Childcare")
+    .FormRow.cf
+      label
+        span.FormRow-label Contribution order
+        span.FormRow-prefix &pound;
+        input(max="2500000", min="0", step="0.01", type="number", ng-model="eligibility_check.you.deductions.criminal_legalaid_contributions")
+        span.FormRow-help per month
+section
+  h2.FormBlock-label Your partner
+  .FormBlock.FormBlock--grey
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.partner.deductions.mortgage", mi-label="Mortgage")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.partner.deductions.rent", mi-label="Rent")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.partner.deductions.income_tax", mi-label="Tax")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.partner.deductions.national_insurance", mi-label="National Insurance Contributions")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.partner.deductions.maintenance", mi-label="Maintenance")
+    .FormRow.cf
+      money-interval(mi-model="eligibility_check.partner.deductions.childcare", mi-label="Childcare")
+    .FormRow.cf
+      label
+        span.FormRow-label Contribution order
+        span.FormRow-prefix &pound;
+        input(max="2500000", min="0", step="0.01", type="number", ng-model="eligibility_check.partner.deductions.criminal_legalaid_contributions")
+        span.FormRow-help per month

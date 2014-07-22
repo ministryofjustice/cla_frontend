@@ -1,0 +1,42 @@
+header.PageHeader.cf
+  h1.u-pullLeft
+    span(ng-show="eligibility_check.isEligibilityTrue()")
+      i.Icon.Icon--lrg.Icon--tick.Icon--green
+      | You might be able to get Legal Aid
+    span(ng-show="eligibility_check.isEligibilityFalse()")
+      i.Icon.Icon--lrg.Icon--cross.Icon--red
+      | You might not be able to get Legal Aid
+div(ui-view="notes")
+  form(method="post", ng-submit="save()", name="form")
+    .FormRow.cf
+      label#id_case_notes-notes-label.visuallyhidden(for="id_case_notes-notes") Case Notes
+      span.Error-message(ng-show="form.notes.$error.server") {{ errors.notes }}
+      textarea#id_case_notes-notes.FormRow-field--full(name="notes", placeholder="Comments about this case", cols="20", rows="11", ng-model="case.notes", server-error="")
+    .FormRow
+      label#id_case_notes-in_scope-label(for="id_case_notes-in_scope")
+        span.FormRow-label In Scope
+        select#id_case_notes-in_scope(name="case_notes-in_scope", ng-model="case.in_scope", ng-options="choice.value as choice.label for choice in in_scope_choices")
+    .FormActions
+      button.Button(type="submit") Save case details
+hr.u-horLine
+div(ui-view="", ng-controller="EligibilityCheckSummaryCtrl")
+  div(ng-show="case.eligibility_check")
+    div(ng-show="!eligibility_check.isEligibilityUnknown()")
+      section.SummaryBlock.CommentBlock(ng-show="eligibility_check.notes")
+        figure.SummaryBlock-content
+          .Icon.Icon--row.Icon--user
+            figcaption {{ case.created | general_date }} - {{ personal_details.full_name }} wrote:
+            blockquote.Quote {{ eligibility_check.notes }}
+      section.SummaryBlock.Grid(ng-repeat="section in means_summary")
+        .Grid-row
+          .SummaryBlock-content.cf
+            a.Icon.Icon--abs-r.Icon--edit(ui-sref="case_detail.edit.eligibility({section:section.step})")
+            h2.SummaryBlock-heading.Grid-col.Grid-col--1-3 {{ section.header }}
+            ul.Grid-col.Grid-col--2-3
+              li(ng-repeat="item in section.items")
+                span(ng-bind-html="item")
+    div(ng-show="eligibility_check.isEligibilityUnknown()")
+      p Incomplete means test
+      button.Button(type="submit", ui-sref="case_detail.edit.eligibility") Complete Eligibility Check
+  .FormActions(ng-show="!case.eligibility_check")
+    button.Button(type="submit", ui-sref="case_detail.edit.eligibility") New Eligibility Check

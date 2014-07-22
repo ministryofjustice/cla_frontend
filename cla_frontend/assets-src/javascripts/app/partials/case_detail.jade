@@ -1,0 +1,24 @@
+.Notice(ng-show="!timerRunning") Timer not running, please note that whatever you do will not be billable.
+.Grid
+  .Grid-row.cf
+    .Grid-col.Grid-col--1-5(ui-view="personalDetails")
+    .Grid-col.Grid-col--3-5(ui-view="", full-height="")
+    .Grid-col.Grid-col--1-5.Grid-col--bg-colour
+      .Grid-colInner.CaseDetails
+        header
+          h1.CaseDetails-caseNum.Icon.Icon--folder.Icon--right {{ case.reference }}
+          p.CaseDetails-entitlementNum(ng-show="case.isInScopeAndEligible()") entitlement reference: {{ case.laa_reference }}
+          p.CaseDetails-entitlementNum(ng-show="case.matter_type1 || case.matter_type2")
+            a.Icon.Icon--edit(href="", ng-click="edit_matter_types()")
+            strong(ng-show="case.matter_type1") MT1:
+            | {{ case.matter_type1 }}
+            span(ng-show="case.matter_type1 && case.matter_type2")  | 
+            strong(ng-show="case.matter_type2") MT2:
+            | {{ case.matter_type2 }}
+        .cf.CaseDetails-actions
+          timer.u-pullLeft(base-time="case.billable_time")
+          nav.u-pullRight.cf
+            a.Button.Button--secondary.u-pullRight(href="", ng-click="suspend()") Suspend
+            a.Button.Button--secondary.u-pullRight(href="", ng-click="assign_to_provider()") Assign
+            a.Button.Button--secondary.u-pullRight(ui-sref="case_detail.alternative_help") Alternative help
+      .Grid-colInner(ui-view="outcome")

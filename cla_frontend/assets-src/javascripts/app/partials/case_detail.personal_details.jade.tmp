@@ -1,0 +1,129 @@
+nav.SubNav
+  a.SubNav-link.SubNav-link--back(ui-sref="case_list(caseListStateParams)") Back to cases
+  a.SubNav-link.SubNav-link--back(ui-sref="case_detail.edit", ui-sref-active="visuallyhidden") Back to case summary
+section#personal_details
+  .VCard.VCard-view(ng-click="personaldetails_frm.$show()", ng-hide="personaldetails_frm.$visible")
+    // IF empty
+    p.Notice(ng-hide="personal_details.full_name") Please enter personal details
+    h2.VCard-title.Icon--right.Icon--user(ng-show="personal_details.full_name") {{ personal_details.full_name }}
+    p.VCard-row(ng-show="personal_details.postcode || personal_details.street")
+      | {{ personal_details.postcode }}
+      span.Icon--right.Icon--location
+      br
+      span(ng-bind-html="personal_details.street|nl2br")
+    p.VCard-row.Icon--right.Icon--call(ng-show="personal_details.mobile_phone", ng-class="{'Icon--red Icon--dontcall': personal_details.contact_safety.safe === false, 'Icon--green': personal_details.contact_safety.safe}")
+      span(ng-class="{'u-strike': personal_details.contact_safety.safe === false}") {{ personal_details.mobile_phone }}
+    div(ng-show="adaptations.language")
+      hr.u-horLine
+      p.VCard-row
+        strong Language
+        br
+        | {{ adaptations.language }}
+    div(ng-show="selected_adaptations.length")
+      hr.u-horLine
+      .VCard-row
+        strong Adaptations
+      ul.InlineList
+        li.InlineList-item(ng-repeat="item in selected_adaptations") {{ item }}
+    div(ng-show="adaptations.notes")
+      hr.u-horLine
+      p
+        strong Notes
+        br
+        | {{ adaptations.notes }}
+  form.VCard.VCard-edit(novalidate="", method="post", name="personaldetails_frm", ng-class="{submitted: personaldetails_submitted}", onbeforesave="validate(personaldetails_frm.$valid)", onaftersave="savePersonalDetails(personaldetails_frm)", ng-show="personaldetails_frm.$visible", editable-form="")
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: personaldetails_frm.full_name.$invalid && personaldetails_submitted}")
+      span.Error-message(ng-show="personaldetails_frm.full_name.$error.server") {{ errors.full_name }}
+      span.Icon--formRow.Icon--right.Icon--user
+        span(editable-text="personal_details.full_name", e-name="full_name", e-class="FormRow-field--full", e-placeholder="Name")
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: personaldetails_frm.postcode.$invalid && personaldetails_submitted}")
+      span.Error-message(ng-show="personaldetails_frm.postcode.$error.server") {{ errors.postcode }}
+      span.Icon--formRow.Icon--right.Icon--location
+        span(editable-text="personal_details.postcode", e-name="postcode", e-class="FormRow-field--full", e-placeholder="Postcode")
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: personaldetails_frm.street.$invalid && personaldetails_submitted}")
+      span.Error-message(ng-show="personaldetails_frm.street.$error.server") {{ errors.street }}
+      span.Icon--formRow.Icon--right.Icon--address
+        span(editable-textarea="personal_details.street", e-name="street", e-rows="3", e-cols="20", e-maxlength="255", e-class="FormRow-field--full", e-placeholder="Address")
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}")
+      span.Error-message(ng-show="personaldetails_frm.mobile_phone.$error.server") {{ errors.mobile_phone }}
+      span.Icon--formRow.Icon--right
+        span(editable-text="personal_details.mobile_phone", e-name="mobile_phone", e-class="FormRow-field--full", e-placeholder="Contact number", e-ng-class="{'u-strike': personal_details.contact_safety.safe === false}")
+        safe-to-contact(person="personal_details")
+    a#show_adaptations.BlockLink(href="", ng-click="toggle_adaptations=!toggle_adaptations", ng-class="{'is-open': toggle_adaptations, 'is-closed': !toggle_adaptations}") Add adaptation or adjustment
+    div(ng-show="toggle_adaptations")
+      .FormRow.FormRow--narrow.cf(ng-class="{Error: personaldetails_frm.welsh_override.$invalid && personaldetails_submitted}")
+        span.Error-message(ng-show="personaldetails_frm.welsh_override.$error.server") {{ errors.welsh_override }}
+        span(editable-checkbox="welsh_override", e-name="welsh_override", e-title="Welsh", e-ng-click="toggleWelsh($data)")
+      .FormRow.FormRow--narrow.cf(ng-class="{Error: personaldetails_frm.language.$invalid && personaldetails_submitted}")
+        span.Error-message(ng-show="personaldetails_frm.language.$error.server") {{ errors.language }}
+        span(editable-select="adaptations.language", e-name="language", e-ng-options="s.value as s.text for s in language_options", e-class="FormRow-field--full", e-ng-disabled="disable_lang")
+      hr.u-horLine
+      .FormRow.FormRow--narrow.cf.FormRow--group(ng-class="{Error: personaldetails_frm.bsl_webcam.$invalid && personaldetails_submitted}")
+        div(ng-repeat="(name, adaptation) in adaptation_flags | filter: { 'type': 'boolean' }")
+          span.Error-message(ng-show="{{ 'personaldetails_frm.' + name + '.$error.server' }}") {{ errors[name] }}
+          span(editable-checkbox="{{ 'adaptations.' + name }}", e-name="{{ name }}", e-title="{{ adaptation.label }}")
+      label.FormRow.FormRow--narrow.cf(ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}")
+        span.Error-message(ng-show="personaldetails_frm.adaptation_notes.$error.server") {{ errors.adaptation_notes }}
+        span(editable-textarea="adaptations.notes", e-name="adaptation_notes", e-rows="3", e-cols="20", e-maxlength="255", e-class="FormRow-field--full", e-placeholder="User comments")
+    .FormActions.cf
+      button.Button(type="submit", ng-click="personaldetails_submitted=true") Save
+      button.Button.Button--text(type="reset", ng-click="cancelPersonalDetails()") Cancel
+a.BlockLink(href="", ng-hide="case.thirdparty_details || add_thirdparty", ng-click="add_thirdparty=true;third_party_frm.$show()") Add third party
+section(ng-show="case.thirdparty_details || add_thirdparty")
+  .VCard.VCard--dark.VCard-view(ng-click="third_party_frm.$show()", ng-hide="third_party_frm.$visible")
+    h2.VCard-legend Third Party
+    // IF empty
+    p.Notice(ng-hide="third_party.personal_details.full_name") Please enter personal details
+    h3.VCard-title.Icon--right.Icon--user(ng-show="third_party.personal_details.full_name") {{ third_party.personal_details.full_name }}
+    p.VCard-row(ng-show="third_party.personal_details.postcode || third_party.personal_details.street")
+      | {{ third_party.personal_details.postcode }}
+      span.Icon--right.Icon--location
+      br
+      span(ng-bind-html="third_party.personal_details.street|nl2br")
+    p.VCard-row.Icon--right.Icon--call(ng-show="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone") {{ third_party.personal_details.mobile_phone }}
+    p.VCard-row.Icon--right.Icon--safe(ng-show="third_party.pass_phrase") {{ third_party.pass_phrase }}
+    div(ng-show="third_party.personal_relationship")
+      hr.u-horLine
+      p
+        strong Relationship
+        br
+        | {{ getDisplayLabel(third_party.personal_relationship, relationships) }}
+    div(ng-show="third_party.reason")
+      hr.u-horLine
+      p
+        strong Reason
+        br
+        | {{ getDisplayLabel(third_party.reason, reasons) }}
+  form.VCard.VCard--dark.VCard-edit(novalidate="", method="post", name="third_party_frm", ng-class="{submitted: thirdparty_submitted}", onbeforesave="validate(third_party_frm.$valid)", onaftersave="saveThirdParty(third_party_frm)", ng-show="third_party_frm.$visible", editable-form="")
+    h2.VCard-legend Third Party
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}")
+      span.Error-message(ng-show="third_party_frm.full_name.$error.server") {{ errors.full_name }}
+      span.Icon--formRow.Icon--right.Icon--user
+        span(editable-text="third_party.personal_details.full_name", e-name="full_name", e-class="FormRow-field--full", e-placeholder="Name")
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: third_party_frm.postcode.$invalid && thirdparty_submitted}")
+      span.Error-message(ng-show="third_party_frm.postcode.$error.server") {{ errors.postcode }}
+      span.Icon--formRow.Icon--right.Icon--location
+        span(editable-text="third_party.personal_details.postcode", e-name="postcode", e-class="FormRow-field--full", e-placeholder="Postcode")
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: third_party_frm.street.$invalid && thirdparty_submitted}")
+      span.Error-message(ng-show="third_party_frm.street.$error.server") {{ errors.street }}
+      span.Icon--formRow.Icon--right.Icon--address
+        span(editable-textarea="third_party.personal_details.street", e-name="street", e-class="FormRow-field--full", e-placeholder="Address", e-rows="3", e-cols="20", e-maxlength="255")
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: third_party_frm.mobile_phone.$invalid && thirdparty_submitted}")
+      span.Error-message(ng-show="third_party_frm.mobile_phone.$error.server") {{ errors.mobile_phone }}
+      span.Icon--formRow.Icon--right.Icon--call
+        span(editable-text="third_party.personal_details.mobile_phone", e-name="mobile_phone", e-class="FormRow-field--full", e-placeholder="Contact number")
+    label.FormRow.FormRow--narrow.cf(ng-class="{Error: third_party_frm.pass_phrase.$invalid && thirdparty_submitted}")
+      span.Error-message(ng-show="third_party_frm.pass_phrase.$error.server") {{ errors.pass_phrase }}
+      span.Icon--formRow.Icon--right.Icon--safe
+        span(editable-text="third_party.pass_phrase", e-name="pass_phrase", e-class="FormRow-field--full", e-placeholder="Passphrase", e-required="")
+    .FormRow.FormRow--narrow.cf.FormRow--group(ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}")
+      p.FormRow-optionLegend Reason
+      span.Error-message(ng-show="third_party_frm.reason.$error.server") {{ errors.reason }}
+      span(editable-radiolist="third_party.reason", e-name="reason", e-ng-options="s.value as s.text for s in reasons", onbeforesave="validateRadio($data)")
+    .FormRow.FormRow--narrow.cf.FormRow--group(ng-class="{Error: third_party_frm.personal_relationship.$invalid && thirdparty_submitted}")
+      p.FormRow-optionLegend.FormRow-optionLegend--divider Relationship
+      span.Error-message(ng-show="third_party_frm.personal_relationship.$error.server") {{ errors.personal_relationship }}
+      span(editable-radiolist="third_party.personal_relationship", e-name="personal_relationship", e-ng-options="s.value as s.text for s in relationships", onbeforesave="validateRadio($data)")
+    .FormActions.cf
+      button.Button(type="submit", ng-click="thirdparty_submitted=true") Save
+      button.Button.Button--text(type="reset", ng-click="add_thirdparty=false;third_party_frm.$cancel()") Cancel
