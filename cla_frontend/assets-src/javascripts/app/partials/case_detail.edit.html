@@ -30,40 +30,71 @@
 
 <hr class="u-horLine">
 
-<div ui-view="" ng-controller="EligibilityCheckSummaryCtrl">
-  <div ng-show="case.eligibility_check">
-    <div ng-show="!eligibility_check.isEligibilityUnknown()">
-      <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
-        <figure class="SummaryBlock-content">
-          <div class="Icon Icon--row Icon--user">
-            <figcaption>{{ case.created | general_date }} - {{ personal_details.full_name }} wrote:</figcaption>
-            <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
-          </div>
-        </figure>
-      </section>
 
-      <section class="SummaryBlock Grid" ng-repeat="section in means_summary">
-        <div class="Grid-row">
-          <div class="SummaryBlock-content cf">
-            <a ui-sref="case_detail.edit.eligibility({section:section.step})" class="Icon Icon--abs-r Icon--edit"></a>
+<div ui-view="">
+  <div ng-controller="DiagnosisSummaryCtrl">
+    <h3>Diagnosis</h3>
+    <ul ng-show="case.diagnosis">
+      <li ng-repeat="statement in diagnosis.nodes">{{statement.label}}</li>
+    </ul>
 
-            <h2 class="SummaryBlock-heading Grid-col Grid-col--1-3">{{ section.header }}</h2>
-          
-            <ul class="Grid-col Grid-col--2-3">
-              <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </div>
+    <div ng-show="diagnosis.isInScopeTrue()">You are in scope</div>
+    <div ng-show="diagnosis.isInScopeFalse()">You are not in scope</div>
 
-    <div ng-show="eligibility_check.isEligibilityUnknown()">
-      <p>Incomplete means test</p>
-      <button type="submit" class="Button" ui-sref="case_detail.edit.eligibility">Complete Eligibility Check</button>
+    <div class="FormActions">
+      <div ng-show="!case.diagnosis">
+        <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis">New Diagnosis</button>
+      </div>
+
+      <div ng-show="case.diagnosis && diagnosis.isInScopeUnknown()">
+        <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis">Complete Diagnosis</button>
+      </div>
+
+      <div ng-show="case.diagnosis">
+        <button type="submit" class="Button" ng-click="delete()">Delete Diagnosis</button>
+      </div>
     </div>
   </div>
 
-  <div class="FormActions" ng-show="!case.eligibility_check">
-    <button type="submit" class="Button" ui-sref="case_detail.edit.eligibility">New Eligibility Check</button>
+  <hr class="u-horLine">
+
+  <div ng-controller="EligibilityCheckSummaryCtrl">
+    <h3>Means Test</h3>
+
+    <div ng-show="case.eligibility_check">
+      <div ng-show="!eligibility_check.isEligibilityUnknown()">
+        <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
+          <figure class="SummaryBlock-content">
+            <div class="Icon Icon--row Icon--user">
+              <figcaption>{{ case.created | general_date }} - {{ personal_details.full_name }} wrote:</figcaption>
+              <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
+            </div>
+          </figure>
+        </section>
+
+        <section class="SummaryBlock Grid" ng-repeat="section in means_summary">
+          <div class="Grid-row">
+            <div class="SummaryBlock-content cf">
+              <a ui-sref="case_detail.edit.eligibility({section:section.step})" class="Icon Icon--abs-r Icon--edit"></a>
+
+              <h2 class="SummaryBlock-heading Grid-col Grid-col--1-3">{{ section.header }}</h2>
+            
+              <ul class="Grid-col Grid-col--2-3">
+                <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div ng-show="eligibility_check.isEligibilityUnknown()">
+        <p>Incomplete means test</p>
+        <button type="submit" class="Button" ui-sref="case_detail.edit.eligibility">Complete Eligibility Check</button>
+      </div>
+    </div>
+
+    <div class="FormActions" ng-show="!case.eligibility_check">
+      <button type="submit" class="Button" ui-sref="case_detail.edit.eligibility">New Eligibility Check</button>
+    </div>
   </div>
 </div>

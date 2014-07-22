@@ -51,6 +51,9 @@
       eligibility_check: ['case', 'EligibilityCheck', function(case_, EligibilityCheck){
         return case_.eligibility_check ? EligibilityCheck.get({case_reference: case_.reference}).$promise : new EligibilityCheck({case_reference: case_.reference});
       }],
+      diagnosis: ['case', 'Diagnosis', function(case_, Diagnosis){
+        return case_.diagnosis ? Diagnosis.get({case_reference: case_.reference}).$promise : new Diagnosis({case_reference: case_.reference});
+      }],
       personal_details: ['case', 'PersonalDetails', function(case_, PersonalDetails) {
         return case_.personal_details ? PersonalDetails.get({case_reference: case_.reference}).$promise : new PersonalDetails({case_reference: case_.reference});
       }],
@@ -97,6 +100,17 @@
       '@case_detail.edit': {
         templateUrl:'case_detail.edit.eligibility.html',
         controller: 'EligibilityCheckCtrl'
+      }
+    }
+  };
+
+  states.CaseEditDetailDiagnosisState = {
+    parent: states.CaseEditDetailState,
+    url: 'diagnosis/',
+    views: {
+      '@case_detail.edit': {
+        templateUrl:'case_detail.edit.diagnosis.html',
+        controller: 'DiagnosisCtrl'
       }
     }
   };

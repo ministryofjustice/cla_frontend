@@ -133,6 +133,34 @@
     }]);
 
   angular.module('cla.services')
+    .factory('Diagnosis', ['$http', '$resource', 'DIAGNOSIS_SCOPE', function($http, $resource, DIAGNOSIS_SCOPE) {
+      var resource;
+
+      this.BASE_URL = '/call_centre/proxy/case/:case_reference/diagnosis/';
+
+      resource = $resource(this.BASE_URL, {case_reference: '@case_reference'}, {
+        'patch': {method: 'PATCH'},
+        'delete': {method: 'DELETE',
+          transformResponse: function() {
+            return {};
+          }
+        }
+      });
+
+      resource.prototype.isInScopeTrue = function() {
+        return this.state === DIAGNOSIS_SCOPE.INSCOPE;
+      };
+      resource.prototype.isInScopeFalse = function() {
+        return this.state === DIAGNOSIS_SCOPE.OUTOFSCOPE;
+      };
+      resource.prototype.isInScopeUnknown = function() {
+        return (this.state === undefined || this.state === DIAGNOSIS_SCOPE.UNKNOWN);
+      };
+
+      return resource;
+    }]);
+
+  angular.module('cla.services')
     .factory('PersonalDetails', ['$resource', function($resource) {
       var resource = $resource('/call_centre/proxy/case/:case_reference/personal_details/', {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}

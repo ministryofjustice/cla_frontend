@@ -11,7 +11,9 @@ import json
 
 # used by constants_json
 from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
-    TITLES, REQUIRES_ACTION_BY, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP
+    TITLES, REQUIRES_ACTION_BY, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, \
+    DIAGNOSIS_SCOPE
+
 
 class Command(BaseCommand):
     args = 'constants_json | another_derivation'
@@ -25,7 +27,6 @@ class Command(BaseCommand):
             l_count = 0
             l = {}
             for json_name, iterator in [('REQUIRES_ACTION_BY', REQUIRES_ACTION_BY.CHOICES),
-                                        ('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES),
                                         ('TITLES', TITLES.CHOICES),
                                         ('THIRDPARTY_REASON', THIRDPARTY_REASON),
                                         ('THIRDPARTY_RELATIONSHIP', THIRDPARTY_RELATIONSHIP),
@@ -35,6 +36,11 @@ class Command(BaseCommand):
                 for k, v in iterator:
                     l[json_name].append({'value':k,'text':v})
                     l_count += 1
+
+            for json_name, iterator in [('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES_CONST_DICT),
+                                        ('DIAGNOSIS_SCOPE', DIAGNOSIS_SCOPE.CHOICES_CONST_DICT)
+                                        ]:
+                l[json_name] = iterator
 
             as_json = json.dumps(l)
             f = open(self.constants_json_OUTPUT_FILE, "w")
