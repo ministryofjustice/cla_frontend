@@ -1,4 +1,5 @@
 {
+  "strict": true,
   "globals": {
     "browser": true,
     "protractor": true,
@@ -10,7 +11,8 @@
     "before": true,
     "beforeEach": true,
     "by": true,
-    "it": true
+    "it": true,
+    "module": true
   },
   "inherit": "../../../../../../.jshintrc"
 }
