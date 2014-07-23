@@ -89,6 +89,7 @@ STATIC_ROOT = root('static')
 STATIC_URL = '/static/'
 
 CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 # Additional locations of static files
 STATICFILES_DIRS = (
