@@ -39,6 +39,18 @@
       </div>
 
       <div class="FormRow cf">
+        <p class="FormRow-label">Is this your main property?</p>
+
+        <label class="FormRow-option FormRow-option--inline">
+          <input type="radio" value="1" name="property_main-{{ $index }}" ng-model="property.main">Yes
+        </label>
+
+        <label class="FormRow-option FormRow-option--inline">
+          <input type="radio" value="0" name="property_main-{{ $index }}" ng-model="property.main">No
+        </label>
+      </div>
+
+      <div class="FormRow cf">
         <label>
           <span class="FormRow-label">What is your share of the property?</span>
           <input class="FormRow-field--s" max="100" min="0" type="number" ng-model="property.share">
