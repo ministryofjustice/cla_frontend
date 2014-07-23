@@ -65,7 +65,10 @@
       }],
       thirdparty_details: ['case', 'ThirdParty', function(case_, ThirdParty) {
         return case_.thirdparty_details ? ThirdParty.get({case_reference: case_.reference}).$promise : new ThirdParty({case_reference: case_.reference});
-      }]
+      }],
+      mediacodes: ['MediaCode', function(MediaCode) {
+        return MediaCode.get().$promise;
+      }],
     },
     views: {
       '': {

@@ -22,6 +22,24 @@ function createCase() {
   browser.findElement(by.css('.newCaseForm')).submit();
 }
 
+function showPersonalDetailsForm() {
+  browser.findElement(by.css('#personal_details')).click();
+}
+
+function enterPersonalDetails(details) {
+  for (var name in details) {
+    fillField(name, details[name]);
+  }
+}
+
+function fillField(name, value) {
+  browser.findElement(by.css('[name=' + name + ']')).sendKeys(value);
+}
+
+function saveCase() {
+  browser.findElement(by.css('#personal_details [type=submit]')).click();
+}
+
 describe('operatorApp', function() {
 
 
@@ -131,21 +149,6 @@ describe('operatorApp', function() {
       expect(displayedAdaptation()).toBe('BSL - Webcam');
     });
 
-
-    function showPersonalDetailsForm() {
-      browser.findElement(by.css('#personal_details')).click();
-    }
-
-    function enterPersonalDetails(details) {
-      for (var name in details) {
-        fillField(name, details[name]);
-      }
-    }
-
-    function fillField(name, value) {
-      browser.findElement(by.css('[name=' + name + ']')).sendKeys(value);
-    }
-
     function showAdaptationsOptions() {
       browser.findElement(by.css('#show_adaptations')).click();
     }
@@ -154,10 +157,6 @@ describe('operatorApp', function() {
       checkboxes.map(function (name) {
         browser.findElement(by.css('[name=' + name + '] + span')).click();
       });
-    }
-
-    function saveCase() {
-      browser.findElement(by.css('#personal_details [type=submit]')).click();
     }
 
     function displayedAdaptation() {
@@ -219,5 +218,32 @@ describe('operatorApp', function() {
         expect(url).toBe(assignCaseUrl);
       });
     });
+  });
+
+  describe('Set media code on case', function () {
+    it('should set a media code on a new case', function () {
+      createCase();
+      showPersonalDetailsForm();
+      enterPersonalDetails({
+        'full_name': 'Foo Bar Quux',
+        'postcode': 'F00 B4R',
+        'street': '1 Foo Bar',
+        'mobile_phone': '0123456789'
+      });
+      selectMediaCode('Age Concern');
+      saveCase();
+      expect(displayedMediaCode()).toBe('Age Concern');
+    });
+
+    function selectMediaCode(code_name) {
+      browser.findElement(by.css('.selectize-control')).click();
+      var field = browser.findElement(by.css('.ui-select-search'));
+      field.sendKeys(code_name);
+      field.sendKeys(protractor.Key.ENTER);
+    }
+
+    function displayedMediaCode() {
+      return browser.findElement(by.binding('mediaCode(media_code.selected).name')).getText();
+    }
   });
 });
