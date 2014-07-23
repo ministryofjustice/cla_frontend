@@ -41,7 +41,7 @@
 
       it("can ignore bad user input", function() {
         scope.form.num.$setViewValue('$10');
-        expect(scope.testModel).toBe(0);
+        expect(scope.testModel).toBe(void(0));
       });
 
     });
