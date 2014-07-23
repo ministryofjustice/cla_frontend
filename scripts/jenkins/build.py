@@ -88,13 +88,13 @@ run("wget http://localhost:8001/ -t 20 --retry-connrefused --waitretry=2 -T 60")
 run('npm run test-single-run')
 
 # run protractor tests against SauceLabs
-run(
-    ('node_modules/protractor/bin/protractor '
-     '--sauceUser %s --sauceKey %s '
-     'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js') % (
-        os.environ.get('SAUCE_USER'),
-        os.environ.get('SAUCE_KEY'))
-)
+# run(
+#     ('node_modules/protractor/bin/protractor '
+#      '--sauceUser %s --sauceKey %s '
+#      'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js') % (
+#         os.environ.get('SAUCE_USER'),
+#         os.environ.get('SAUCE_KEY'))
+# )
 
 print 'exiting...'
 run('pkill -f envs/cla_.*integration', ignore_rc=True)
