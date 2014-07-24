@@ -27,8 +27,7 @@
         name="selected_providers" 
         type="checkbox" 
         value="{{ provider.id }}" 
-        ng-model="selected_providers[provider.id]" 
-        ng-change="validateSelected(false)">
+        ng-model="selected_providers[provider.id]">
       <strong>
         {{ provider.service_name }}
         <span ng-show="provider.organisation"> - {{ provider.organisation }}</span>
