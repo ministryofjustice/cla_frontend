@@ -3,11 +3,6 @@
   padding: 20px 0 0;
   color: $grey-1;
   border-top: 1px solid $grey-2;
-
-  a:link,
-  a:visited {
-    color: $grey-1;
-  }
 }
 
 .CaseHistory-card {
@@ -26,6 +21,7 @@
 
 .CaseHistory-card {
   display: block;
+  @include core-14;
 }
 
 .CaseHistory-log {
@@ -43,6 +39,14 @@
 }
 .CaseHistory-logItemNotes {
   display: block;
+  word-wrap: break-word;
+
+  &--indent {
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-left: 3px solid $grey-2;
+  }
 }
 .CaseHistory-logItemAuthor {
   display: block;
