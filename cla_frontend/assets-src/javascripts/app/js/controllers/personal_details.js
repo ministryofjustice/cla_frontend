@@ -1,5 +1,3 @@
-/*jshint maxstatements:30 */
-
 (function(){
   'use strict';
 
@@ -48,7 +46,7 @@
             $scope.media_code.selected = $scope.case.media_code;
           }
           $scope.$watch('media_code', function () {
-            if ($scope.case.media_code != $scope.media_code.selected) {
+            if ($scope.case.media_code !== $scope.media_code.selected) {
               $scope.case.media_code = $scope.media_code.selected;
             }
           });
