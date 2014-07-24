@@ -6,15 +6,15 @@
       <li class="CaseHistory-logItem cf" ng-repeat="log in logList">
         <span class="CaseHistory-label" ng-show="log.type == 'outcome'">{{ log.code }}</span>
         
-        <span ng-show="log.code === 'MT_CHANGED'">
-          <a href="" ng-click="toggle=!toggle">Means test changed</a>
-          <span class="CaseHistory-logItemNotes CaseHistory-logItemNotes--indent" ng-show="toggle">{{ log.notes }}</span>
-        </span>
+        <details ng-show="log.code === 'MT_CHANGED'">
+          <summary role="button">Means test changed</summary>
+          <span class="CaseHistory-logItemNotes CaseHistory-logItemNotes--indent">{{ log.notes }}</span>
+        </details>
 
-        <span ng-show="log.code === 'MT_CREATED'">
-          <a href="" ng-click="toggle=!toggle">Means test created</a>
-          <span class="CaseHistory-logItemNotes CaseHistory-logItemNotes--indent" ng-show="toggle">{{ log.notes }}</span>
-        </span>
+        <details ng-show="log.code === 'MT_CREATED'">
+          <summary role="button">Means test created</summary>
+          <span class="CaseHistory-logItemNotes CaseHistory-logItemNotes--indent">{{ log.notes }}</span>
+        </details>
 
         <span class="CaseHistory-logItemNotes" ng-if="log.notes" ng-show="log.code !== 'MT_CREATED' && log.code !== 'MT_CHANGED'">{{ log.notes }}</span>
 
