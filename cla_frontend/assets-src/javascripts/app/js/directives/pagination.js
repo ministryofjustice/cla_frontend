@@ -151,7 +151,7 @@
 
             return {
                 restrict: 'AE',
-                templateUrl:  'includes/pagination.html',
+                templateUrl:  'directives/pagination.html',
                 scope: {
                     maxSize: '=?',
                     onPageChange: '&?'
