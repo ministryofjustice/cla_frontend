@@ -102,8 +102,8 @@
             }
           };
 
-          $scope.cancelPersonalDetails = function () {
-            $scope.personaldetails_frm.$cancel();
+          $scope.cancelPersonalDetails = function (form) {
+            form.$cancel();
             $scope.disable_lang = $scope.adaptations.language === 'WELSH' ? true : false;
           };
 
