@@ -1,3 +1,7 @@
+<h2 ng-show="!eligibility_check.isEligibilityTrue() && !eligibility_check.isEligibilityFalse()">Eligibility check</h2>
+<h2 ng-show="eligibility_check.isEligibilityTrue()"><i class="Icon Icon--lrg Icon--tick Icon--green"></i>Eligible for Legal Aid</h2>
+<h2 ng-show="eligibility_check.isEligibilityFalse()"><i class="Icon Icon--lrg Icon--cross Icon--red"></i>Not eligible for Legal Aid</h2>
+
 <form ng-submit="save()" novalidate name="form" class="Accordion">
   <div ng-repeat="section in sections">
     <h2 class="Accordion-sectionTitle" ng-click="section.show=!section.show" ng-class="{'is-expanded': section.show, 'is-complete': isComplete(section.id)}">
@@ -10,5 +14,6 @@
 
   <div class="FormActions FormBlock FormBlock--yellow">
     <button type="submit" class="Button">Save eligibility check</button>
+    <a ui-sref="case_detail.edit">Return to case</a>
   </div>
 </form>

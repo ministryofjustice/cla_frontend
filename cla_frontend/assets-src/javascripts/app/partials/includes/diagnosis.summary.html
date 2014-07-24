@@ -1,0 +1,9 @@
+<h2 ng-show="!diagnosis.isInScopeTrue() && !diagnosis.isInScopeFalse()">Scope diagnosis</h2>
+<h2 ng-show="diagnosis.isInScopeTrue()"><i class="Icon Icon--lrg Icon--tick Icon--green"></i>In scope</h2>
+<h2 ng-show="diagnosis.isInScopeFalse()"><i class="Icon Icon--lrg Icon--cross Icon--red"></i>Not in scope</h2>
+
+<section class="SummaryBlock" ng-show="diagnosis.nodes">
+  <div class="SummaryBlock-content">
+    <p ng-repeat="statement in diagnosis.nodes">{{ statement.label }}</p>
+  </div>
+</section>

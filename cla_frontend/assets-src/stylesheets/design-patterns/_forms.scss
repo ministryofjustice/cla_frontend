@@ -228,15 +228,16 @@ $border-colour: #C2C2C2;
       position: relative;
       @include label-focusSelect;
 
-      input {
+      input[type="radio"],
+      input[type="checkbox"] {
+        float: left;
         margin-right: 20px;
       }
 
       .FormRow-labelText {
-        display: block;
         position: relative;
-        padding-left: 22px;
-        font-size: 14px;
+        padding-left: 35px;
+        display: block;
       }
     }
     &Narrow {
