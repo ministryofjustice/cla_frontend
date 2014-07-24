@@ -23,7 +23,6 @@ RUN DEBIAN_FRONTEND='noninteractive' add-apt-repository ppa:nginx/stable && apt-
 RUN DEBIAN_FRONTEND='noninteractive' apt-get -y --force-yes install nginx-full && \
   chown -R www-data:www-data /var/lib/nginx
 
-ADD ./docker/nginx.conf /etc/nginx/nginx.conf
 ADD ./docker/htpassword /etc/nginx/conf.d/htpassword
 RUN rm -f /etc/nginx/sites-enabled/default && chown www-data:www-data /etc/nginx/conf.d/htpassword
 
@@ -47,8 +46,17 @@ RUN mkdir -p /var/log/wsgi && chown -R www-data:www-data /var/log/wsgi && chmod 
 RUN  mkdir -p /var/log/nginx/cla_frontend
 ADD ./docker/cla_frontend.ini /etc/wsgi/conf.d/cla_frontend.ini
 
+# install service files for runit
+ADD ./docker/nginx.service /etc/service/nginx/run
+
+# install service files for runit
+ADD ./docker/uwsgi.service /etc/service/uwsgi/run
+
 # Define mountable directories.
 VOLUME ["/data", "/var/log/nginx", "/var/log/wsgi"]
+
+# Expose ports.
+EXPOSE 80
 
 # APP_HOME
 ENV APP_HOME /home/app/django
@@ -62,19 +70,15 @@ ADD ./ /home/app/django
 # PIP INSTALL APPLICATION
 RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 
+RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
+
 #NPM bower and gulp
 RUN npm install -g bower gulp && \
   cd /home/app/django && bower install --allow-root && \
   npm install
 
-RUN cd /home/app/django && gulp build
+RUN export LANG='en_US.UTF-8' && cd /home/app/django && gulp build
 
-# install service files for runit
-ADD ./docker/nginx.service /etc/service/nginx/run
+RUN locale-gen --purge  en_US.UTF-8 && echo export LANG=''
 
-# install service files for runit
-ADD ./docker/uwsgi.service /etc/service/uwsgi/run
-
-RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
-# Expose ports.
-EXPOSE 80
+ADD ./docker/nginx.conf /etc/nginx/nginx.conf
