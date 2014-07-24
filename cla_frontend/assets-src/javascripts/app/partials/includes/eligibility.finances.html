@@ -66,7 +66,7 @@
 </section>
 
 <section>
-  <h2 class="FormBlock-label">Your savings</h2>
+  <h2 class="FormBlock-label">Your undisputed savings</h2>
 
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
@@ -104,7 +104,7 @@
 </section>
 
 <section>
-  <h2 id="partners_savings-label" class="FormBlock-label">Your partner's savings</h2>
+  <h2 id="partners_savings-label" class="FormBlock-label">Your partner's undisputed savings</h2>
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
       <label>
@@ -135,6 +135,44 @@
         <span class="FormRow-label">Do you have any money owed to you?</span>
         <span class="FormRow-prefix">£</span>
         <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.credit_balance">
+      </label>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="FormBlock-label">Disputed Savings</h2>
+
+  <div class="FormBlock FormBlock--grey">
+    <div class="FormRow cf">
+      <label>
+        <span class="FormRow-label">Do you have any money saved in a bank or building society?</span>
+        <span class="FormRow-prefix">£</span>
+        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.bank_balance">
+      </label>
+    </div>
+
+    <div class="FormRow cf">
+      <label>
+        <span class="FormRow-label">Do you have any investments, shares, ISAs?</span>
+        <span class="FormRow-prefix">£</span>
+        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.investment_balance">
+      </label>
+    </div>
+
+    <div class="FormRow cf">
+      <label>
+        <span class="FormRow-label">Do you have any valuable items over £££ each?</span>
+        <span class="FormRow-prefix">£</span>
+        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.asset_balance">
+      </label>
+    </div>
+
+    <div class="FormRow cf">
+      <label>
+        <span class="FormRow-label">Do you have any money owed to you?</span>
+        <span class="FormRow-prefix">£</span>
+        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.credit_balance">
       </label>
     </div>
   </div>
