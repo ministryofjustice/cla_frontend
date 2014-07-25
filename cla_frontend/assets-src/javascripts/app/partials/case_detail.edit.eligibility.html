@@ -1,3 +1,5 @@
+<h2 ng-class="eligibilityTitleClass()">{{ eligibilityTitle() }}</h2>
+
 <form ng-submit="save()" novalidate name="form" class="Accordion">
   <div ng-repeat="section in sections">
     <h2 class="Accordion-sectionTitle" ng-click="section.show=!section.show" ng-class="{'is-expanded': section.show, 'is-complete': isComplete(section.id)}">
@@ -10,5 +12,6 @@
 
   <div class="FormActions FormBlock FormBlock--yellow">
     <button type="submit" class="Button">Save eligibility check</button>
+    <a ui-sref="case_detail.edit">Return to case</a>
   </div>
 </form>

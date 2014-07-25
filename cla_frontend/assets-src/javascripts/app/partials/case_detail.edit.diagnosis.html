@@ -1,25 +1,16 @@
 <form ng-submit="save()" novalidate name="form">
-  <div>
-    <h2>
-      Diagnosis for Operator
-    </h2>
-  </div>
-
-  <ul>
-    <li ng-repeat="statement in diagnosis.nodes">{{statement.label}}</li>
-  </ul>
+  <div ng-include="'includes/diagnosis.summary.html'" ng-controller="DiagnosisSummaryCtrl"></div>
 
   <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="choice in diagnosis.choices">
     <label class="FormRow-label">
       <input type="radio" value="{{ choice.id }}" name="choice" ng-model="diagnosis.current_node_id" required>
-      <span class="u-mute">{{ choice.label }}</span>
+      <span class="FormRow-labelText">{{ choice.label }}</span>
     </label>
   </div>
 
-  <div ng-show="diagnosis.isInScopeTrue()">You are in scope</div>
-  <div ng-show="diagnosis.isInScopeFalse()">You are not in scope</div>
-
-  <div class="FormActions FormBlock FormBlock--yellow" ng-show="diagnosis.isInScopeUnknown()">
-    <button type="submit" class="Button">Submit</button>
+  <div class="FormActions FormBlock FormBlock--yellow">
+    <button type="submit" class="Button" ng-show="diagnosis.isInScopeUnknown()">Next</button>
+    <a ui-sref="case_detail.edit.eligibility" class="Button" ng-show="!diagnosis.isInScopeUnknown()">Create eligibility check</a>
+    <a ui-sref="case_detail.edit">Return to case</a>
   </div>
 </form>

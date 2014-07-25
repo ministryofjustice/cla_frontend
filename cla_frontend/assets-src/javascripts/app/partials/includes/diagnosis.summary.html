@@ -1,0 +1,7 @@
+<h2 ng-class="diagnosisTitleClass()">{{ diagnosisTitle() }}</h2>
+
+<section class="SummaryBlock" ng-show="diagnosis.nodes">
+  <div class="SummaryBlock-content">
+    <p ng-repeat="statement in diagnosis.nodes">{{ statement.label }}</p>
+  </div>
+</section>
