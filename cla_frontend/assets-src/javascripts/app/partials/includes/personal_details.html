@@ -115,17 +115,16 @@
         <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="User comments"></span>
       </label>
     </div>
+    
+    <hr class="u-horLine">
 
     <div class="FormRow FormRow--narrow cf">
-      <hr class="u-horLine">
-      <p>
-        <ui-select ng-model="case.media_code" theme="selectize" ng-disabled="disabled">
-          <ui-select-match placeholder="Select or search a media code in the list ...">{{ mediaCode($select.selected).name }}</ui-select-match>
-          <ui-select-choices group-by="mediaCodeGroup" repeat="code in media_codes | filter:$select.search:filterMediaCodes">
-            <span ng-bind-html="mediaCode(code).name | highlight: $select.search"></span>
-          </ui-select-choices>
-        </ui-select>
-      </p>
+      <ui-select ng-model="case.media_code" theme="selectize" ng-disabled="disabled">
+        <ui-select-match placeholder="Select or search a media code">{{ mediaCode($select.selected).name }}</ui-select-match>
+        <ui-select-choices group-by="mediaCodeGroup" repeat="code in media_codes | filter:$select.search:filterMediaCodes">
+          <span ng-bind-html="mediaCode(code).name | highlight: $select.search"></span>
+        </ui-select-choices>
+      </ui-select>
     </div>
 
     <div class="FormActions cf">
