@@ -1,3 +1,5 @@
+from django.conf import settings
+
 def globals(request):
   context = {
     'app_title': 'Civil Legal Advice',
@@ -6,6 +8,7 @@ def globals(request):
     'product_type': 'service',
     'feedback_url': '#',
     'ga_id': '',
+    'raven_config_site': settings.RAVEN_CONFIG['site'] or ''
   }
 
   if hasattr(request, 'zone') and request.zone:
