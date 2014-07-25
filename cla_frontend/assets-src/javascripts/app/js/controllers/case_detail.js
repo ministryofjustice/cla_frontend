@@ -3,8 +3,9 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', '$state', 'MatterType',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, $state, MatterType){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', '$state', 'MatterType', 'History',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, $state, MatterType, History){
+          $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.eligibility_check = $eligibility_check;
           $scope.diagnosis = $diagnosis;
