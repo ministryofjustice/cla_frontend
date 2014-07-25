@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'widget_tweaks',
     'session_security',
+    'raven.contrib.django.raven_compat',
 )
 
 PROJECT_APPS = (
@@ -265,16 +266,12 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SECURITY_WARN_AFTER = 3360
 SESSION_SECURITY_EXPIRE_AFTER = 3600
 
+RAVEN_CONFIG = {
+    'dsn': os.environ.get('RAVEN_CONFIG_DSN', ''),
+    'site': os.environ.get('RAVEN_CONFIG_SITE', '')
+}
+
 if 'RAVEN_CONFIG_DSN' in os.environ:
-    RAVEN_CONFIG = {
-        'dsn': os.environ.get('RAVEN_CONFIG_DSN'),
-        'site': os.environ.get('RAVEN_CONFIG_SITE')
-    }
-
-    INSTALLED_APPS += (
-        'raven.contrib.django.raven_compat',
-    )
-
     MIDDLEWARE_CLASSES = (
         'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
         'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
