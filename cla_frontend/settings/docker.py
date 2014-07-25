@@ -38,11 +38,3 @@ ZONE_PROFILES = {
         'AUTHENTICATION_BACKEND': 'cla_provider.backend.ClaProviderBackend'
     }
 }
-
-RAVEN_CONFIG = {
-    'dsn': 'https://451cd4f006bf49afbee7e9b670cc09c5:cf917ff8e5e44ec09efa73685cc75295@app.getsentry.com/26716',
-}
-
-INSTALLED_APPS = INSTALLED_APPS + (
-    'raven.contrib.django.raven_compat',
-)

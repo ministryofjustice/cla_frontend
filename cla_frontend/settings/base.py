@@ -1,4 +1,5 @@
 import sys
+import os
 from os.path import join, abspath, dirname
 
 # PATH vars
@@ -263,6 +264,21 @@ AUTHENTICATION_BACKENDS = [v['AUTHENTICATION_BACKEND'] for k,v in ZONE_PROFILES.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SECURITY_WARN_AFTER = 3360
 SESSION_SECURITY_EXPIRE_AFTER = 3600
+
+if 'RAVEN_CONFIG_DSN' in os.environ:
+    RAVEN_CONFIG = {
+        'dsn': os.environ.get('RAVEN_CONFIG_DSN'),
+        'site': os.environ.get('RAVEN_CONFIG_SITE')
+    }
+
+    INSTALLED_APPS += (
+        'raven.contrib.django.raven_compat',
+    )
+
+    MIDDLEWARE_CLASSES = (
+        'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+        'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+    ) + MIDDLEWARE_CLASSES
 
 # EMAILS
 
