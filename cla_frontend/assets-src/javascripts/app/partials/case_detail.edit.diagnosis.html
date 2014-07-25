@@ -1,5 +1,5 @@
 <form ng-submit="save()" novalidate name="form">
-  <div ng-include="'includes/diagnosis.summary.html'"></div>
+  <div ng-include="'includes/diagnosis.summary.html'" ng-controller="DiagnosisSummaryCtrl"></div>
 
   <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="choice in diagnosis.choices">
     <label class="FormRow-label">
@@ -8,13 +8,9 @@
     </label>
   </div>
 
-  <div class="FormActions FormBlock FormBlock--yellow" ng-show="diagnosis.isInScopeUnknown()">
-    <button type="submit" class="Button">Next</button>
-    <a ui-sref="case_detail.edit">Return to case</a>
-  </div>
-
-  <div class="FormActions FormBlock FormBlock--yellow" ng-show="!diagnosis.isInScopeUnknown()">
-    <a class="Button" ui-sref="case_detail.edit.eligibility">Create eligibility check</a>
+  <div class="FormActions FormBlock FormBlock--yellow">
+    <button type="submit" class="Button" ng-show="diagnosis.isInScopeUnknown()">Next</button>
+    <a ui-sref="case_detail.edit.eligibility" class="Button" ng-show="!diagnosis.isInScopeUnknown()">Create eligibility check</a>
     <a ui-sref="case_detail.edit">Return to case</a>
   </div>
 </form>

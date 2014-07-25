@@ -63,12 +63,18 @@
           $scope.removeProperty = function (index) {
             $scope.eligibility_check.property_set.splice(index, 1);
           };
-
           $scope.addProperty = function () {
             if (typeof $scope.eligibility_check.property_set === 'undefined') {
               $scope.eligibility_check.property_set = [];
             }
             $scope.eligibility_check.property_set.push({});
+          };
+
+          $scope.eligibilityTitle = function () {
+            return $scope.eligibility_check.isEligibilityTrue() ? 'Eligible for Legal Aid' : ($scope.eligibility_check.isEligibilityFalse() ? 'Not eligible for Legal Aid' : 'Means test');
+          };
+          $scope.eligibilityTitleClass = function () {
+            return $scope.eligibility_check.isEligibilityTrue() ? 'Icon Icon--lrg Icon--tick Icon--green' : ($scope.eligibility_check.isEligibilityFalse() ? 'Icon Icon--lrg Icon--cross Icon--red' : '');
           };
         }
       ]

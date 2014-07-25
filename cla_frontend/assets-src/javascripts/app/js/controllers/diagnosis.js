@@ -17,10 +17,8 @@
             $scope.diagnosis.$patch({
               'case_reference': $scope.case.reference
             });
-          };
-          
+          };    
         }
-
       ]
     );
 })();

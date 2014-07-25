@@ -32,8 +32,7 @@
     <div ng-include="'includes/diagnosis.summary.html'"></div>
 
     <div class="FormActions">
-      <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis" ng-show="!case.diagnosis">New scope diagnosis</button>
-      <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis" ng-show="case.diagnosis && diagnosis.isInScopeUnknown()">Complete scope diagnosis</button>
+      <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis">{{ !case.diagnosis ? 'New' : 'Complete' }} scope diagnosis</button>
       <button type="submit" class="Button" ng-click="delete()" ng-show="case.diagnosis">Delete scope diagnosis</button>
     </div>
   </div>
@@ -41,9 +40,7 @@
   <hr class="u-horLine">
 
   <div ng-controller="EligibilityCheckSummaryCtrl">
-    <h2 ng-show="!eligibility_check.isEligibilityTrue() && !eligibility_check.isEligibilityFalse()">Eligibility check</h2>
-    <h2 ng-show="eligibility_check.isEligibilityTrue()"><i class="Icon Icon--lrg Icon--tick Icon--green"></i>Eligible for Legal Aid</h2>
-    <h2 ng-show="eligibility_check.isEligibilityFalse()"><i class="Icon Icon--lrg Icon--cross Icon--red"></i>Not eligible for Legal Aid</h2>
+    <h2 ng-class="eligibilityTitleClass()">{{ eligibilityTitle() }}</h2>
 
     <div ng-show="case.eligibility_check">
       <div ng-show="!eligibility_check.isEligibilityUnknown()">
