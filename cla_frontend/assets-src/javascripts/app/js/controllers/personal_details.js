@@ -3,9 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'History', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes',
-        function($scope, personal_details, adaptation_details, thirdparty_details, History, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes){
-          $scope.caseListStateParams = History.caseListStateParams;
+      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes',
+        function($scope, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
