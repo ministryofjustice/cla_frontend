@@ -1,80 +1,70 @@
 .selectize-control {
   position: relative;
+  width: 100%;
 }
 
 .selectize-input {
+  @include core-14;
   position: relative;
   z-index: 1;
-  display: inline-block;
-  width: 100%;
-  padding: 2px 24px 2px 5px;
-  overflow: hidden;
-  border: 1px solid #c2c2c2;
-  box-sizing: border-box;
-  font-size: 14px;
-  line-height: 30px;
-}
+  padding: 0 24px 0 0;
+  background: $grey-4;
+  border: 1px solid $grey-2;
+  min-height: 30px;
+  @include border-radius(2px);
 
-.selectize-input::after {
-  position: absolute;
-  top: 50%;
-  right: 8px;
-  display: block;
-  width: 0;
-  height: 0;
-  margin-top: -3px;
-  border-color: #000 transparent transparent transparent;
-  border-style: solid;
-  border-width: 5px 5px 0 5px;
-  content: ' ';
-  clear: left;
-}
+  &:after {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    display: block;
+    margin-top: -2px;
+    border-color: #000 transparent transparent transparent;
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    content: ' ';
+    clear: left;
+  }
 
-.selectize-input > * {
-  display: -moz-inline-stack;
-  display: inline-block;
-  vertical-align: baseline;
-  zoom: 1;
-}
+  > * {
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: baseline;
+    zoom: 1;
+  }
 
-.selectize-input > input {
-  width: 100% !important;
-  border: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  line-height: normal !important;
+  input[type="text"] {
+    @include border-radius(2px 0 0 2px);
+    width: 100%;
+    border: 0;
+    background: $grey-4;
 
-  &:focus {
-    outline: none !important;
+    &:focus {
+      background: #fff;
+    }
   }
 }
 
 .ui-select-match {
-  height: 30px;
+  span {
+    display: block;
+    padding: 7px 5px 4px 5px;
+  }
 }
 
 .selectize-control > .selectize-dropdown {
-  top: 36px;
-}
-
-.selectize-dropdown.single {
-  border-color: #c2c2c2;
-}
-
-.selectize-control > .selectize-dropdown {
+  top: 34px;
   width: 100%;
 }
 
 .selectize-dropdown {
+  @include box-sizing(border-box);
+  @include box-shadow(1px 1px 3px $grey-3);
+  @include core-14;
   position: absolute;
   z-index: 10;
-  margin: -1px 0 0;
   background: #fff;
-  border: 1px solid #c2c2c2;
-  border-top: 0 none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  font-size: 14px;
+  border: 1px solid $grey-2;
 }
 
 .ui-select-offscreen {
@@ -91,10 +81,14 @@
   overflow-y: auto;
 }
 
-.selectize-dropdown [data-selectable] {
-  overflow: hidden;
+.option[data-selectable] {
   cursor: pointer;
-  padding: 5px 5px 5px 10px;
+  padding: 5px 10px 2px 10px;
+
+  &:hover,
+  .active & {
+    background-color: $light-blue-25;
+  }
 }
 
 .ui-select-highlight {
@@ -102,9 +96,7 @@
 }
 
 .selectize-dropdown .optgroup-header {
-  background: #f8f8f8;
-  font-weight: bold;
-  font-size: 80%;
-  padding: 5px;
-  overflow: hidden;
+  @include bold-14;
+  background: $grey-4;
+  padding: 5px 10px 2px 10px;
 }
