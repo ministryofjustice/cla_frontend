@@ -126,7 +126,7 @@ describe('operatorApp', function() {
       browser.getLocationAbsUrl().then(function(url) {
         expectUrl(url, APP_BASE_URL);
 
-        browser.findElement(by.css('.Notice li')).getInnerHtml().then(function(el) {
+        browser.findElement(by.css('.Notice.error')).getInnerHtml().then(function(el) {
           expect(el).toBe('The Case XX-0000-0000 could not be found!');
         });
       });
@@ -167,6 +167,7 @@ describe('operatorApp', function() {
   describe('Case Set Matter Types and Assign', function () {
 
     function open_modal() {
+      browser.findElement(by.css(".CaseDetails-actions button.Button--dropdown")).click();
       return browser.findElement(by.css("a.Button[ng-click^=assign_to_provider]")).click();
     }
 
@@ -211,6 +212,7 @@ describe('operatorApp', function() {
         assignCaseUrl = url;
       });
       browser.findElement(by.css("a[ui-sref='case_detail.edit']")).click();
+      browser.findElement(by.css(".CaseDetails-actions button.Button--dropdown")).click();
       browser.findElement(by.css("a.Button[ng-click^=assign_to_provider]")).click();
       expect(browser.isElementPresent(by.css("div.modal"))).toBe(false);
       browser.getLocationAbsUrl()
