@@ -11,7 +11,7 @@
               toggleShow;
 
           // return if browser already has native support
-          if (hasNativeSupport) return;
+          if (hasNativeSupport) { return; }
 
           notSummaryChildren = element.children(':not(summary)');
           // hide on load

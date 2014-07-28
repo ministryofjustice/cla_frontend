@@ -5,9 +5,14 @@
 {% block body_attrs %}ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
 
 
-{% block messages %}
-<flash-messages></flash-messages>
-{% endblock messages %}
+{% block messages %}{% verbatim %}
+<div class="NoticeContainer--fixed" sticky>
+  <div class="Notice warning ng-cloak" ng-show="multipleTabsOpen > 1">You currently have <strong>{{ multipleTabsOpen }} tabs open</strong>.</div>
+  <div class="Notice warning ng-cloak" ng-show="!timerRunning"><strong>Timer not running</strong>: please note that whatever you do will not be billable.</div>
+
+  <flash-messages></flash-messages>
+</div>
+{% endverbatim %}{% endblock messages %}
 
 
 {% block timer %}
