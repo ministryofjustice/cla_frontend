@@ -7,8 +7,8 @@
 
 {% block messages %}{% verbatim %}
 <div class="NoticeContainer--fixed" sticky>
-  <div class="Notice warning" ng-show="multipleTabsOpen > 1">You currently have <strong>{{ multipleTabsOpen }} tabs open</strong>.</div>
-  <div class="Notice warning" ng-show="!timerRunning"><strong>Timer not running</strong>: please note that whatever you do will not be billable.</div>
+  <div class="Notice warning ng-cloak" ng-show="multipleTabsOpen > 1">You currently have <strong>{{ multipleTabsOpen }} tabs open</strong>.</div>
+  <div class="Notice warning ng-cloak" ng-show="!timerRunning"><strong>Timer not running</strong>: please note that whatever you do will not be billable.</div>
 
   <flash-messages></flash-messages>
 </div>
