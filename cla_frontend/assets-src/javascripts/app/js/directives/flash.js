@@ -49,11 +49,7 @@
     return {
       restrict: 'E',
       replace: true,
-      template:
-      '<ul class="Notice" ng-show="messages">' +
-        '<li ng-repeat="m in messages" class="Notice-msg {{levelClassName(m.level)}}" ng-click=hide(m)>{{ m.text }}</li>' +
-      '</ul>',
-
+      templateUrl: 'directives/flash_messages.html',
       controller: function($scope, $rootScope, $timeout) {
         $scope.messages = [];
 
