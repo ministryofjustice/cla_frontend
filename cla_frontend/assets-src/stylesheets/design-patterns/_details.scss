@@ -40,20 +40,19 @@ details {
   &[open] div {
     display: block;
   }
-}
-  
-.no-details {
-  details {
+
+  // no native support
+  &.is-notnative {
     summary:before {
       content: "►";
       float: left;
-      width: 25px;
+      width: 18px;
       font-size: 0.8em;
       line-height: 1.7em;
     }
 
-    &.open summary:before {
+    &.is-open summary:before {
       content: "▼ ";
     }
-  }  
+  }
 }
