@@ -60,6 +60,8 @@ VOLUME ["/data", "/var/log/nginx", "/var/log/wsgi"]
 # Expose ports.
 EXPOSE 80
 
+EXPOSE 443
+
 # APP_HOME
 ENV APP_HOME /home/app/django
 
