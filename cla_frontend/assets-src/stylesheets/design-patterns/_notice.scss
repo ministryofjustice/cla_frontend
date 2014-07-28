@@ -1,14 +1,20 @@
 .NoticeContainer {
   &--fixed {
-    top: 20px;
+    top: 109px;
     left: 0;
     margin: 0;
-    padding: 0;
+    padding: 10px 0 0;
     z-index: 1000;
-    position: fixed;
+    position: absolute;
     width: 100%;
+
+    &.stuck {
+      position: fixed;
+      top: 0;
+    }
     
     @include media (tablet) {
+      top: 48px;
       left: 50%;
       width: 59.375%; // 3/5 column width
       margin-left: -29.687%;
@@ -22,6 +28,7 @@
 }
 
 .Notice {
+  @include core-14;
   border: solid $orange;
   border-width: 0 0 0 3px;
   background-color: lighten($orange-25, 6%);
@@ -32,7 +39,7 @@
 
   .NoticeContainer--fixed & {
     margin: 0 10px 0.375em;
-    padding: 0.5em 1em;
+    padding: 0.85em 1em;
     border-width: 1px 1px 1px 4px;
 
     @include media (tablet) {
@@ -53,10 +60,10 @@
     &:before {
       @include icon-font('cla-iconfont');
       position: absolute;
-      top: 0.7em;
-      left: 0.625em;
+      top: 0.8em;
+      left: 0.65em;
     }
-    padding-left: 2.125em;
+    padding-left: 2.5em;
   }
   &.error {
     &:before {

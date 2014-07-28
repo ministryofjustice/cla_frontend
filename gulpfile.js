@@ -36,6 +36,7 @@ paths.scripts = {
     paths.src + 'vendor/angular/angular.js',
     paths.src + 'vendor/angular-sanitize/angular-sanitize.js',
     paths.src + 'vendor/angular-animate/angular-animate.js',
+    paths.src + 'vendor/angular-sticky/sticky.js',
     paths.src + 'vendor/angular-resource/angular-resource.js',
     paths.src + 'vendor/angular-ui-router/release/angular-ui-router.js',
     paths.src + 'vendor/angular-ui-select/dist/select.js',
