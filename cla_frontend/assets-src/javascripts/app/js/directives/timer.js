@@ -166,9 +166,6 @@
           $rootScope.timerRunning = false;
         };
 
-
-    $rootScope.timerRunning = false;
-
     // ACTION EVENTS
     // emitting timer:check and timer:start triggers this module
     // to call the backend and check if the timer is running or not
