@@ -3,17 +3,19 @@
 
   angular.module('cla.controllers')
     .controller('AlternativeHelpCtrl',
-      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories',
-        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories){
+      ['$scope', '_', '$stateParams', '$state', 'form_utils',
+        'kb_providers', 'kb_categories', 'AlternativeHelpService',
+        function($scope, _, $stateParams, $state, form_utils,
+                 kb_providers, kb_categories, AlternativeHelpService){
           $scope.category = $stateParams.category || null;
           $scope.keyword = $stateParams.keyword;
           $scope.currentPage = $stateParams.page || 1;
 
           $scope.categories = kb_categories;
           $scope.providers = kb_providers;
+          $scope.alternativeHelpService = AlternativeHelpService;
 
-          $scope.selected_providers = {};
-
+          $scope.code = 'IRKB';
           // if search value, focus on element
           if ($scope.keyword) {
             angular.element('[name="keyword"]').focus();
@@ -45,9 +47,20 @@
             updatePage();
           };
 
+
           $scope.submit = function () {
-            // TO DO - store data
+            $scope.case.$assign_alternative_help({
+              selected_providers: AlternativeHelpService.get_selected_provider_ids(),
+              notes: AlternativeHelpService.notes,
+              event_code: this.code
+            }).then(function () {
+              AlternativeHelpService.clear();
+              $state.go('case_list');
+            }, function(response){
+              console.log('something went wrong', response);
+            });
           };
+
         }
       ]
     );
