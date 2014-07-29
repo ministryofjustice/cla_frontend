@@ -18,18 +18,18 @@
             scope.per_interval_value = viewValue.per_interval_value;
             scope.interval_period = viewValue.interval_period;
           } else {
-            scope.per_interval_value = null;
-            scope.interval_period = null;
+            scope.per_interval_value = undefined;
+            scope.interval_period = undefined;
           }
           return viewValue;
         }
 
         scope.$watch('per_interval_value + interval_period', function () {
-          if (scope.per_interval_value && !scope.interval_period) {
+          if (scope.per_interval_value !== undefined && !scope.interval_period) {
             scope.interval_period = 'per_month';
           }
 
-          if (scope.per_interval_value) {
+          if (scope.per_interval_value !== undefined) {
             scope.per_interval_value = parseInt(scope.per_interval_value);
           }
 
@@ -47,8 +47,8 @@
             scope.per_interval_value = ngModelCtrl.$viewValue.per_interval_value;
             scope.interval_period  = ngModelCtrl.$viewValue.interval_period;
           } else {
-            scope.per_interval_value = null;
-            scope.interval_period = null;
+            scope.per_interval_value = undefined;
+            scope.interval_period = undefined;
           }
         };
 
