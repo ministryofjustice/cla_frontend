@@ -34,7 +34,11 @@
     "run-sequence": "~0.3.6",
     "gulp-ng-constant": "~0.1.0",
     "gulp-shell": "~0.2.7",
-    "gulp-livereload": "~2.1.0"
+    "gulp-livereload": "~2.1.0",
+    "lunr": "~0.5.4",
+    "gulp-markdown-to-json": "git://github.com/SparkartGroupInc/gulp-markdown-to-json.git",
+    "through2": "^0.5.1",
+    "string": "^1.9.0"
   },
   "scripts": {
     "test": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js",
