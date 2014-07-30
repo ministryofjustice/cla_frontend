@@ -73,6 +73,7 @@ gulp.task('sass', function() {
     .pipe(plugins.rubySass({
       loadPath: 'node_modules/govuk_frontend_toolkit/' // add node module toolkit path
     }))
+    .on('error', function (err) { console.log(err.message); })
     .pipe(gulp.dest(paths.dest + 'stylesheets/'));
 });
 
@@ -156,11 +157,16 @@ gulp.task('lint', function() {
 
 // setup watches
 gulp.task('watch', function() {
+  var lr = require('gulp-livereload');
+  lr.listen();
+
   gulp.watch(paths.fonts, ['fonts']);
   gulp.watch(paths.styles, ['sass']);
   gulp.watch(paths.images, ['images']);
   gulp.watch(paths.vendor_static, ['vendor']);
   gulp.watch(paths.src + 'javascripts/**/*', ['lint', 'js-concat']);
+  // watch built files and send reload event
+  gulp.watch(paths.dest + '**/*').on('change', lr.changed);
 });
 
 // setup default task
