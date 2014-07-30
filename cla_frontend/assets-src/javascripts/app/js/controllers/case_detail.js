@@ -48,7 +48,7 @@
             });
           };
 
-          $scope.decline_help = function() {
+          $scope.decline_help = function(notes) {
             $modal.open({
               templateUrl: 'case_detail.decline_help.html',
               controller: 'OutcomesModalCtl',
@@ -57,6 +57,7 @@
                   return $scope.case;
                 },
                 'event_key': function() { return 'decline_help'; },  //this is also the function name on Case model
+                'notes': function() { return notes || ''; },
                 'success_msg': function() { return 'Declined help for Case '+$scope.case.reference; }
               }
             });
@@ -116,11 +117,15 @@
 
   angular.module('cla.controllers')
     .controller('OutcomesModalCtl',
-      ['$scope', '$modalInstance', 'case', 'event_key', 'success_msg', 'Event', '$state', 'flash',
-        function($scope, $modalInstance, _case, event_key, success_msg, Event, $state, flash) {
+      ['$scope', '$modalInstance', 'case', 'event_key',
+        'success_msg', 'Event', '$state', 'flash', 'notes',
+        function($scope, $modalInstance, _case, event_key, success_msg,
+                 Event, $state, flash, notes) {
           new Event().list_by_event_key(event_key, function(data) {
             $scope.codes = data;
           });
+
+          $scope.notes = notes || '';
 
           $scope.cancel = function () {
             $modalInstance.dismiss('cancel');

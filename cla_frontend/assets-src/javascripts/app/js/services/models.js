@@ -102,6 +102,11 @@
         $http.post(url, data).success(successCallback);
       };
 
+      resource.prototype.$assign_alternative_help = function (data) {
+        var url = '/call_centre/proxy/case/'+this.reference+'/assign_alternative_help/';
+        return $http.post(url, data);
+      };
+
       return resource;
     }]);
 
