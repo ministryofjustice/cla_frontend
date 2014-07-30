@@ -1,7 +1,7 @@
 'use strict';
 (function(){
   angular.module('cla.services')
-    .factory('cla.guidance', ['lunr', '$http', '$q', function(lunr, $http, $q) {
+    .factory('cla.guidance', ['lunr', '$http', '$q', 'STATIC_ROOT', function(lunr, $http, $q, STATIC_ROOT) {
       var _index;
 
       function getIndex() {
@@ -11,7 +11,7 @@
           deferred.resolve(_index);
         } else {
           // TODO hardcoded path
-          $http.get('/static/javascripts/guidance_index.json').success(function(data) {
+          $http.get(STATIC_ROOT+'javascripts/guidance_index.json').success(function(data) {
             _index = lunr.Index.load(data);
             _index._claTitles = data._claTitles;
 
@@ -28,7 +28,7 @@
           return getIndex().then(function(index) {
             return index.search(query).map(function (result) {
               result.title = index._claTitles[result.ref];
-              result.source = '/static/guidance/'+result.ref+'.html';
+              result.source = STATIC_ROOT+'guidance/'+result.ref+'.html';
               return result;
             });
           });
