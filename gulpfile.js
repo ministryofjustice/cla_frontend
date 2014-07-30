@@ -70,13 +70,7 @@ gulp.task('clean-post', function() {
 gulp.task('sass', function() {
   gulp
     .src(paths.styles)
-    .pipe(gulp.dest(paths.dest + 'scss/'));
-
-  gulp
-    .src(paths.styles)
     .pipe(plugins.rubySass({
-      sourcemap: true,
-      sourcemapPath: '../scss',
       loadPath: 'node_modules/govuk_frontend_toolkit/' // add node module toolkit path
     }))
     .on('error', function (err) { console.log(err.message); })
@@ -167,12 +161,12 @@ gulp.task('watch', function() {
   lr.listen();
 
   gulp.watch(paths.fonts, ['fonts']);
-  gulp.watch(paths.styles, ['sass'])
+  gulp.watch(paths.styles, ['sass']);
   gulp.watch(paths.images, ['images']);
   gulp.watch(paths.vendor_static, ['vendor']);
   gulp.watch(paths.src + 'javascripts/**/*', ['lint', 'js-concat']);
   // watch built files and send reload event
-  gulp.watch([paths.dest + '**/*', '!' + paths.dest + '**/*.scss']).on('change', lr.changed);
+  gulp.watch(paths.dest + '**/*').on('change', lr.changed);
 });
 
 // setup default task
