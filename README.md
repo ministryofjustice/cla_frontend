@@ -99,6 +99,14 @@ When making frequent changes to the assets you can run a gulp watch command to i
 
     gulp watch
 
+The gulp `watch` task allows you to use [livereload](http://livereload.com/) with this project. The easiest way to utilise livereload is to:
+
+- Install the [chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
+- Run `gulp watch`
+- Enabled livereload by clicking the icon in Chrome
+
+Now any changes in the assets folder will automatically reload the site in Chrome.
+
 
 ## To Build Individual Parts
 
