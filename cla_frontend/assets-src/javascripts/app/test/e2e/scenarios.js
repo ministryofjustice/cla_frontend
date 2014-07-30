@@ -3,67 +3,23 @@
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
 var protractor = require('protractor');
-var APP_BASE_URL = 'call_centre/';
 
 // UTILS
-function expectUrl(absUrl, expectedUrl) {
-  var pro = protractor.getInstance();
+var utils = require('./_utils');
 
-  expect((new RegExp(expectedUrl+'$')).test(absUrl)).toBe(true,
-    ['Expected', absUrl, 'to be', pro.baseUrl+expectedUrl].join(' ')
-  );
-}
-
-function createCase() {
-  browser.get(APP_BASE_URL);
-  browser.getLocationAbsUrl().then(function (url) {
-    expectUrl(url, APP_BASE_URL);
-  });
-  browser.findElement(by.css('.newCaseForm')).submit();
-}
-
-function showPersonalDetailsForm() {
-  browser.findElement(by.css('#personal_details')).click();
-}
-
-function enterPersonalDetails(details) {
-  for (var name in details) {
-    fillField(name, details[name]);
-  }
-}
-
-function fillField(name, value) {
-  browser.findElement(by.css('[name=' + name + ']')).sendKeys(value);
-}
-
-function saveCase() {
-  browser.findElement(by.css('#personal_details [type=submit]')).click();
-}
+var APP_BASE_URL = utils.APP_BASE_URL;
 
 describe('operatorApp', function() {
 
 
   // logs the user in before each test
-  beforeEach(function() {
-    var pro = protractor.getInstance();
-    var driver = pro.driver;
-
-    driver.get(pro.baseUrl + 'call_centre/login/');
-
-    driver.findElement(by.id('id_username')).sendKeys('test_operator');
-    driver.findElement(by.id('id_password')).sendKeys('test_operator');
-    driver.findElement(by.css('form')).submit();
-
-    // kill django debug toolbar if it's showing
-    pro.manage().addCookie('djdt', 'hide');
-
-  });
+  beforeEach(utils.setUp);
 
   describe('Case List', function() {
     it('should get case list', function() {
       browser.get(APP_BASE_URL);
       browser.getLocationAbsUrl().then(function(url) {
-        expectUrl(url, APP_BASE_URL);
+        utils.expectUrl(url, APP_BASE_URL);
       });
     });
   });
@@ -73,7 +29,7 @@ describe('operatorApp', function() {
     it('should create new case', function() {
       // check that the case number in the URL matches that in the page title
 
-      createCase();
+      utils.createCase();
 
       var newCaseUrl;
       browser.getLocationAbsUrl().then(function(url) {
@@ -84,7 +40,7 @@ describe('operatorApp', function() {
       browser.findElement(by.css('.CaseDetails-caseNum')).getInnerHtml().then(function(h1) {
         // console.log("h1 is: "+h1);
         // h1 is: MK-1983-0912
-        expectUrl(APP_BASE_URL+ newCaseUrl, h1 + '/');
+        utils.expectUrl(APP_BASE_URL+ newCaseUrl, h1 + '/');
       });
 
     });
@@ -95,7 +51,7 @@ describe('operatorApp', function() {
       browser.get(APP_BASE_URL);
 
       browser.getLocationAbsUrl().then(function(url) {
-        expectUrl(url, APP_BASE_URL);
+        utils.expectUrl(url, APP_BASE_URL);
       });
 
       // add some query params by sending a search
@@ -124,7 +80,7 @@ describe('operatorApp', function() {
     it('should get case list when given non existant case reference', function() {
       browser.get('call_centre/XX-0000-0000/');
       browser.getLocationAbsUrl().then(function(url) {
-        expectUrl(url, APP_BASE_URL);
+        utils.expectUrl(url, APP_BASE_URL);
 
         browser.findElement(by.css('.Notice.error')).getInnerHtml().then(function(el) {
           expect(el).toBe('The Case XX-0000-0000 could not be found!');
@@ -135,9 +91,9 @@ describe('operatorApp', function() {
 
   describe('Create Case with Adaptations', function () {
     it('should create a new case with the BSL - Webcam adaptation', function () {
-      createCase();
-      showPersonalDetailsForm();
-      enterPersonalDetails({
+      utils.createCase();
+      utils.showPersonalDetailsForm();
+      utils.enterPersonalDetails({
         'full_name': 'Foo Bar Quux',
         'postcode': 'F00 B4R',
         'street': '1 Foo Bar',
@@ -145,7 +101,7 @@ describe('operatorApp', function() {
       });
       showAdaptationsOptions();
       selectAdaptations(['bsl_webcam']);
-      saveCase();
+      utils.saveCase();
       expect(displayedAdaptation()).toBe('BSL - Webcam');
     });
 
@@ -173,13 +129,13 @@ describe('operatorApp', function() {
 
 
     it('should show modal when trying to assign without matter types set', function () {
-      createCase();
+      utils.createCase();
       open_modal();
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
     });
 
     it('should not allow saving modal without setting matter type 1 and 2', function () {
-      createCase();
+      utils.createCase();
       open_modal();
       var modalEl = browser.findElement(by.css('div.modal'));
       modalEl.findElement(by.css("button[type='submit'")).click();
@@ -188,7 +144,7 @@ describe('operatorApp', function() {
 
 
     it('should allow saving modal after setting matter type 1 and 2', function () {
-      createCase();
+      utils.createCase();
       open_modal();
 
       var modalEl = browser.findElement(by.css('div.modal'));
@@ -199,7 +155,7 @@ describe('operatorApp', function() {
     });
 
     it('should go straight to assign page if MT1 and MT2 are already set', function () {
-      createCase();
+      utils.createCase();
       open_modal();
       expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
       var modalEl = browser.findElement(by.css('div.modal'));
@@ -224,16 +180,16 @@ describe('operatorApp', function() {
 
   describe('Set media code on case', function () {
     it('should set a media code on a new case', function () {
-      createCase();
-      showPersonalDetailsForm();
-      enterPersonalDetails({
+      utils.createCase();
+      utils.showPersonalDetailsForm();
+      utils.enterPersonalDetails({
         'full_name': 'Foo Bar Quux',
         'postcode': 'F00 B4R',
         'street': '1 Foo Bar',
         'mobile_phone': '0123456789'
       });
       selectMediaCode('Age Concern');
-      saveCase();
+      utils.saveCase();
       expect(displayedMediaCode()).toBe('Age Concern');
     });
 

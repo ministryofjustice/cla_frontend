@@ -5,10 +5,9 @@
 
   angular.module('cla.controllers')
     .controller('CaseEditDetailCtrl',
-      ['$scope', '$timeout', 'form_utils',
-        function($scope, $timeout, form_utils){
+      ['$scope', '$timeout', 'form_utils', 'AlternativeHelpService',
+        function($scope, $timeout, form_utils, AlternativeHelpService){
           var timeout = null,
-
           watchChange = function(newVal, oldVal) {
             if (newVal !== oldVal) {
               if (timeout) {
@@ -17,6 +16,11 @@
               timeout = $timeout($scope.save, saveDelay);
             }
           };
+
+
+          // when viewing coming back to the details view
+          // clear out the Alternative Help selections.
+          AlternativeHelpService.clear();
 
           $scope.in_scope_choices = [
             { label: 'Unknown', value: null},
