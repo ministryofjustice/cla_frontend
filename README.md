@@ -102,8 +102,15 @@ When making frequent changes to the assets you can run a gulp watch command to i
 The gulp `watch` task allows you to use [livereload](http://livereload.com/) with this project. The easiest way to utilise livereload is to:
 
 - Install the [chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
+- Allow websocket connections locally on CSP (Content Security Policy) by adding `'ws://'` to `CSP_DEFAULT_SRC` in `local.py`. Full example:
+
+  ```
+  if DEBUG:
+    CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'ajax.googleapis.com', 'data:', 'cdn.ravenjs.com', 'app.getsentry.com', 'ws://')
+  ```
+
 - Run `gulp watch`
-- Enabled livereload by clicking the icon in Chrome
+- Enable livereload by clicking the icon in Chrome
 
 Now any changes in the assets folder will automatically reload the site in Chrome.
 
