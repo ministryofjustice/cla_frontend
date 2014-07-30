@@ -39,10 +39,9 @@
               templateUrl: 'case_detail.suspend.html',
               controller: 'OutcomesModalCtl',
               resolve: {
-                'case': function() {
-                  return $scope.case;
-                },
+                'case': function() { return $scope.case; },
                 'event_key': function() { return 'suspend_case'; },  //this is also the function name on Case model
+                'notes': function() { return ''; },
                 'success_msg': function() { return 'Case '+$scope.case.reference+' suspended successfully'; }
               }
             });
@@ -53,9 +52,7 @@
               templateUrl: 'case_detail.decline_help.html',
               controller: 'OutcomesModalCtl',
               resolve: {
-                'case': function() {
-                  return $scope.case;
-                },
+                'case': function() { return $scope.case; },
                 'event_key': function() { return 'decline_help'; },  //this is also the function name on Case model
                 'notes': function() { return notes || ''; },
                 'success_msg': function() { return 'Declined help for Case '+$scope.case.reference; }
