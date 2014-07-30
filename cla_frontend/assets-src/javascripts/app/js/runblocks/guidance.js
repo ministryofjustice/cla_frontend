@@ -2,7 +2,11 @@
 (function(){
   angular.module('cla.services')
     .factory('cla.guidance', ['lunr', '$http', '$q', 'STATIC_ROOT', function(lunr, $http, $q, STATIC_ROOT) {
-      var _index;
+      var _index,
+          indexPath = STATIC_ROOT+'javascripts/guidance_index.json',
+          guidanceHtmlPath = function(fileName) {
+            return STATIC_ROOT+'guidance/'+fileName+'.html';
+          };
 
       function getIndex() {
         var deferred = $q.defer();
@@ -10,8 +14,7 @@
         if (_index !== undefined) {
           deferred.resolve(_index);
         } else {
-          // TODO hardcoded path
-          $http.get(STATIC_ROOT+'javascripts/guidance_index.json').success(function(data) {
+          $http.get(indexPath).success(function(data) {
             _index = lunr.Index.load(data);
             _index._claTitles = data._claTitles;
 
@@ -28,7 +31,7 @@
           return getIndex().then(function(index) {
             return index.search(query).map(function (result) {
               result.title = index._claTitles[result.ref];
-              result.source = STATIC_ROOT+'guidance/'+result.ref+'.html';
+              result.source = guidanceHtmlPath(result.ref);
               return result;
             });
           });
