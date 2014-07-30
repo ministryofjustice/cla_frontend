@@ -47,6 +47,7 @@ module.exports = {
       expectUrl(url, APP_BASE_URL);
     });
     browser.findElement(by.css('.newCaseForm')).submit();
+    return element.all(by.binding('case.reference')).get(0).getText();
   },
 
   showPersonalDetailsForm: function() {
