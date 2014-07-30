@@ -114,8 +114,7 @@ $border-colour: $grey-2;
   input[type=email],
   input[type=number],
   textarea {
-    @include core-16;
-    font-size: 14px;
+    @include core-14;
     border: 1px solid $border-colour;
     padding: 2px 5px;
     margin: 0;

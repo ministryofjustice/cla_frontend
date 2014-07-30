@@ -120,6 +120,9 @@
     }
   }
   &.is-open {
+    background-color: $light-blue;
+    color: #fff;
+
     &:before {
       content: "\25bc";
     }

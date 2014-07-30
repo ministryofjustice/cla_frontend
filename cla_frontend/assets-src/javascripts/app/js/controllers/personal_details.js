@@ -27,6 +27,8 @@
             }
           });
 
+          console.log($scope.case.adaptation_details);
+
           $scope.setAdaptations = function () {
             $scope.selected_adaptations = [];
             angular.forEach($scope.adaptation_flags, function (item, i) {
@@ -45,6 +47,7 @@
             $scope.media_code.selected = $scope.case.media_code;
           }
           $scope.$watch('media_code', function () {
+            console.log('a');
             if ($scope.case.media_code !== $scope.media_code.selected) {
               $scope.case.media_code = $scope.media_code.selected;
             }

@@ -1,6 +1,7 @@
 .Timer {
   
   &--inline {
+    color: $grey-2;
     padding: {
       top: 6px;
       right: 15px;
@@ -32,6 +33,10 @@
   text-align: center;
   margin-left: 5px;
   @include border-radius(3px);
+
+  &:link, &:visited, &:active {
+    color: $grey-2;
+  }
 
   &:after {
     margin: 0;
