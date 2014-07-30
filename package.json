@@ -41,6 +41,7 @@
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js",
-    "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js"
+    "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js",
+    "protractor-phantom": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-phantom-conf.js"
   }
 }
