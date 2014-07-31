@@ -1,10 +1,10 @@
-<a href="" class="BlockLink" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="add_thirdparty=true;third_party_frm.$show()">Add third party</a>
+<a href="" class="BlockLink BlockLink--add" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="add_thirdparty=true;third_party_frm.$show()"><span class="BlockLink-text">Add third party</span></a>
 
 <section ng-show="case.thirdparty_details || add_thirdparty">
   <div ng-click="third_party_frm.$show()" ng-hide="third_party_frm.$visible" class="VCard VCard--dark VCard-view">
     <h2 class="VCard-legend">Third Party</h2>
     <!-- IF empty -->
-    <p class="Notice" ng-hide="third_party.personal_details.full_name">Please enter personal details</p>
+    <p class="Notice" ng-hide="third_party.personal_details.full_name">Please enter third party details</p>
 
     <h3 class="VCard-title Icon Icon--formRow Icon--user" ng-show="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}</h3>
 

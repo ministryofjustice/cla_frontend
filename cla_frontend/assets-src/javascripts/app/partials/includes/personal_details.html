@@ -79,32 +79,40 @@
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.ni_number.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.ni_number.$error.server">{{ errors.ni_number }}</span>
-      <span class="Icon Icon--formRow">
-        <span editable-text="personal_details.ni_number" e-name="ni_number" e-class="FormRow-field--full" e-placeholder="National Insurance Number"></span>
-      </span>
+      <span editable-text="personal_details.ni_number" e-name="ni_number" e-class="FormRow-field--full" e-placeholder="National Insurance Number"></span>
     </label>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.vulnerable.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.vulnerable.$error.server">{{ errors.vulnerable }}</span>
-      
-      <span editable-checkbox="vulnerable" e-name="vulnerable" e-title="Deemed vulnerable"></span>
-    </div>
-    
-    <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.welsh_override.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>
-      
-      <span editable-checkbox="welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
+      <span class="Error-message" ng-show="personaldetails_frm.vulnerable.$error.server">{{ errors.vulnerable }}</span>      
+      <span editable-checkbox="vulnerable" e-name="vulnerable" e-title="User is deemed vulnerable"></span>
     </div>
 
-    <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.language.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
-      
+    <fieldset class="FormRow FormRow--wide">
+      <p class="u-compact"><strong>Date of birth</strong></p>
+      <span editable-text="personal_details.dob.day" e-name="dob_day" e-class="FormRow-field--xs FormRow-field--inline" e-placeholder="DD"></span>
+      <span editable-text="personal_details.dob.month" e-name="dob_month" e-class="FormRow-field--xs FormRow-field--inline" e-placeholder="MM"></span>
+      <span editable-text="personal_details.dob.year" e-name="dob_year" e-class="FormRow-field--s" e-placeholder="YYYY"></span>
+    </fieldset>
+    
+    <div class="FormRow FormRow--wide cf" ng-class="{Error: personaldetails_frm.welsh_override.$invalid || personaldetails_frm.language.$invalid && personaldetails_submitted}">
+      <p class="u-compact"><strong>Language</strong></p>
+      <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>      
+      <span editable-checkbox="welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
+
+      <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>      
       <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-ng-disabled="disable_lang"></span>
     </div>
-
-    <hr class="u-horLine">
     
-    <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: personaldetails_frm.bsl_webcam.$invalid && personaldetails_submitted}">
+    <div class="FormRow FormRow--narrow cf FormRow--group">
+      <p class="u-compact"><strong>Adaptations</strong></p>
+      <multi-select    
+        input-model="adaptation_opts"
+        button-label="title"
+        item-label="title"
+        tick-property="ticked"
+        helper-elements="filter"
+        separator=""
+      ></multi-select>
       <div ng-repeat="(name, adaptation) in adaptation_flags | filter: { 'type': 'boolean' }">
         <span class="Error-message" ng-show="{{ 'personaldetails_frm.' + name + '.$error.server' }}">{{ errors[name] }}</span>
         <span editable-checkbox="{{ 'adaptations.' + name }}" e-name="{{ name }}" e-title="{{ adaptation.label }}"></span>
@@ -112,6 +120,7 @@
     </div>
 
     <div class="FormRow cf">
+      <p class="u-compact"><strong>Media code</strong></p>
       <ui-select ng-model="case.media_code" theme="selectize">
         <ui-select-match placeholder="Select or search a media code">{{ mediaCode($select.selected).name }}</ui-select-match>
         <ui-select-choices group-by="mediaCodeGroup" repeat="code in media_codes | filter:$select.search:filterMediaCodes">
@@ -121,8 +130,9 @@
     </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">
+      <p class="u-compact"><strong>User comments</strong></p>
       <span class="Error-message" ng-show="personaldetails_frm.adaptation_notes.$error.server">{{ errors.adaptation_notes }}</span>
-      <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="User comments"></span>
+      <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Add comments"></span>
     </label>
 
     <div class="FormActions cf">

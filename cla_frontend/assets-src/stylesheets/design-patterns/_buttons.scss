@@ -94,14 +94,32 @@
 .BlockLink {
   @include core-14;
   @include border-radius(3px);
-  background-color: $grey-4;
+  background-color: $grey-3;
   display: block;
   padding: 6px 10px 4px;
   margin: 10px 0;
   text-decoration: none;
+  position: relative;
 
+  &:link,
+  &:active,
+  &:visited {
+    color: $black;
+  }
   &:hover {
-    text-decoration: underline;
+    .BlockLink-text {
+      text-decoration: underline;
+    }
+  }
+
+  &--add {
+    &:after {
+      position: absolute;
+      right: 7px;
+      top: 0;
+      content: "+";
+      font-size: 24px;
+    }
   }
 
   &.is-closed,
@@ -110,13 +128,6 @@
       content: "\25b6";
       margin-right: 5px;
       font-size: 12px;
-    }
-    // to avoid underline on before element
-    &:hover {
-      text-decoration: none;
-      .BlockLink-text {
-        text-decoration: underline;
-      }
     }
   }
   &.is-open {

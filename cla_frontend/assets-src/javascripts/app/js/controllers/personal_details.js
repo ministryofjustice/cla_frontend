@@ -27,8 +27,6 @@
             }
           });
 
-          console.log($scope.case.adaptation_details);
-
           $scope.setAdaptations = function () {
             $scope.selected_adaptations = [];
             angular.forEach($scope.adaptation_flags, function (item, i) {
@@ -47,11 +45,17 @@
             $scope.media_code.selected = $scope.case.media_code;
           }
           $scope.$watch('media_code', function () {
-            console.log('a');
             if ($scope.case.media_code !== $scope.media_code.selected) {
               $scope.case.media_code = $scope.media_code.selected;
             }
           });
+
+          // adaptations -- TEST
+          $scope.adaptation_opts = [
+            {id: 1, title: 'Opt 1', ticked: false},
+            {id: 2, title: 'Opt 2', ticked: false},
+            {id: 3, title: 'Opt 3', ticked: false}
+          ];
 
           $scope.mediaCode = function (code) {
             var matches = mediacodes.filter(function (mediacode) {
@@ -133,9 +137,12 @@
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.adaptations = adaptation_details;
             });
-            $scope.case.$set_media_code().then(function () {
-              $scope.media_code.selected = $scope.case.media_code;
-            });
+            // save media code
+            if ($scope.case.media_code !== undefined) {
+              $scope.case.$set_media_code().then(function () {
+                $scope.media_code.selected = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
+              });
+            }
             return true;
           };
 

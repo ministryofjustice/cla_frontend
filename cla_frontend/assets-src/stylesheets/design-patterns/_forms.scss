@@ -159,10 +159,13 @@ $border-colour: $grey-2;
       width: 420px;
     }
     &.FormRow-field--s {
-      width: 100px;
+      width: 60px;
     }
     &.FormRow-field--xs {
-      width: 50px;
+      width: 40px;
+    }
+    &.FormRow-field--inline {
+      margin-right: 10px;
     }
   }
   
@@ -214,6 +217,10 @@ $border-colour: $grey-2;
   &--narrow {
     margin: 0;
     padding: 3px 0;
+  }
+  &--wide {
+    margin: 0;
+    padding: 10px 0;
   }
 
   &--group {
