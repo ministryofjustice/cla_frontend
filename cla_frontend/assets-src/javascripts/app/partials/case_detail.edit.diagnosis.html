@@ -1,4 +1,4 @@
-<form ng-submit="save()" novalidate name="form">
+<form ng-submit="moveDown()" novalidate name="form">
   <div ng-include="'includes/diagnosis.summary.html'" ng-controller="DiagnosisSummaryCtrl"></div>
 
   <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="choice in diagnosis.choices">
@@ -9,6 +9,7 @@
   </div>
 
   <div class="FormActions FormBlock FormBlock--yellow">
+    <a href="" class="Button" ng-show="diagnosis.nodes" ng-click="moveUp()">Back</a>
     <button type="submit" class="Button" ng-show="diagnosis.isInScopeUnknown()">Next</button>
     <a ui-sref="case_detail.edit.eligibility" class="Button" ng-show="!diagnosis.isInScopeUnknown()">Create eligibility check</a>
     <a ui-sref="case_detail.edit">Return to case</a>
