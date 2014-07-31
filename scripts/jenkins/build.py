@@ -87,7 +87,7 @@ run("wget http://localhost:8001/ -t 20 --retry-connrefused --waitretry=2 -T 60")
 # run Karma unit tests
 run('npm run test-single-run')
 
-run protractor tests against SauceLabs
+# run protractor tests against SauceLabs
 run(
     ('node_modules/protractor/bin/protractor '
      '--sauceUser %s --sauceKey %s '
