@@ -152,14 +152,23 @@
       this.BASE_URL = '/call_centre/proxy/case/:case_reference/diagnosis/';
 
       resource = $resource(this.BASE_URL, {case_reference: '@case_reference'}, {
-        'patch': {method: 'PATCH'},
-        'delete': {method: 'DELETE',
-          transformResponse: function() {
-            return {};
-          }
+          // 'patch': {method: 'PATCH'},
+          'delete': {method: 'DELETE',
+            transformResponse: function() {
+              return {};
+            },
+          },
+          'move_down': {
+            method:'POST',
+            url: this.BASE_URL + 'move_down/'
+          },
+          'move_up': {
+            method:'POST',
+            url: this.BASE_URL + 'move_up/'
+          },
         }
-      });
-
+      );
+      
       resource.prototype.isInScopeTrue = function() {
         return this.state === DIAGNOSIS_SCOPE.INSCOPE;
       };

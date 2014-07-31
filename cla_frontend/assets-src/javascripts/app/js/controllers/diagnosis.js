@@ -13,11 +13,17 @@
             });
           }
 
-          $scope.save = function() {
-            $scope.diagnosis.$patch({
+          $scope.moveDown = function() {
+            $scope.diagnosis.$move_down({
               'case_reference': $scope.case.reference
             });
-          };    
+          };
+
+          $scope.moveUp = function() {
+            $scope.diagnosis.$move_up({
+              'case_reference': $scope.case.reference
+            });
+          };
         }
       ]
     );
