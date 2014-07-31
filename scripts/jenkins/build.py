@@ -78,7 +78,7 @@ run(("%s/python manage.py jenkins --coverage-rcfile=.coveragerc "
 
 # start backend and frontend dev servers
 backend_process = run_bg(
-    "cd %s && %s/python manage.py testserver initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json --addrport 8000 --noinput --settings=cla_backend.settings.jenkins" % (backend_workspace.replace(' ', '\ '), backend_bin_path, ))
+    "cd %s && %s/python manage.py testserver kb_from_spreadsheet.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json --addrport 8000 --noinput --settings=cla_backend.settings.jenkins" % (backend_workspace.replace(' ', '\ '), backend_bin_path, ))
 run("wget http://localhost:8000/admin/ -t 20 --retry-connrefused --waitretry=2 -T 60")
 
 frontend_process = run_bg("%s/python manage.py runserver 0.0.0.0:8001" % bin_path)
