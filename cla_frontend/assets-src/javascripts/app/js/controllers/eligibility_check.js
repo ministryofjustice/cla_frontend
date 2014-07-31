@@ -1,10 +1,11 @@
 (function(){
   'use strict';
-  
+
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
       ['$scope', 'Category', '$stateParams',
         function($scope, Category, $stateParams){
+          console.log('hello')
           $scope.category_list = Category.query();
           $scope.warnings = {};
           $scope.sections = [{

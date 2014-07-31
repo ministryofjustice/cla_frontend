@@ -98,7 +98,11 @@
 
   states.CaseEditDetailEligibilityState = {
     parent: states.CaseEditDetailState,
-    url: 'eligibility/:section',
+    url: 'eligibility/?section',
+    onEnter: ['eligibility_check', 'diagnosis', 'flash', 'EligibilityCheckService',
+      function(eligibility_check, diagnosis, flash, EligibilityCheckService){
+        EligibilityCheckService.onEnter(eligibility_check, diagnosis, flash);
+      }],
     views: {
       '@case_detail.edit': {
         templateUrl:'case_detail.edit.eligibility.html',
