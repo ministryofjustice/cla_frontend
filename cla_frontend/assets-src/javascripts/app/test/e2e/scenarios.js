@@ -120,7 +120,7 @@ describe('operatorApp', function() {
     }
   });
 
-  describe('Case Set Matter Types and Assign', function () {
+  ddescribe('Case Set Matter Types and Assign', function () {
 
     function open_modal() {
       browser.findElement(by.css(".CaseDetails-actions button.Button--dropdown")).click();
@@ -176,6 +176,97 @@ describe('operatorApp', function() {
         expect(url).toBe(assignCaseUrl);
       });
     });
+
+    it('should not allow assigning a case without required fields', function () {
+      utils.createCase();
+      open_modal();
+      expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+      var modalEl = browser.findElement(by.css('div.modal'));
+      modalEl.findElement(by.css("input[name='matter_type1']")).click();
+      modalEl.findElement(by.css("input[name='matter_type2']")).click();
+      modalEl.findElement(by.css("button[type='submit'")).click();
+      expect(browser.isElementPresent(by.css("div.modal"))).toBe(false);
+
+      browser.findElement(by.css("input[name='provider']:first-child")).click();
+      browser.findElement(by.css("button[name='assign-provider']")).click();
+
+      expect(browser.isElementPresent(by.css(".Error[data-case-errors]"))).toBe(true);
+      expect(browser.findElement(by.css('.Error[data-case-errors]')).getText()).toContain('Name is required to close a case');
+
+      expect(browser.isElementPresent(by.css(".Notice[data-case-warnings]"))).toBe(true);
+      expect(browser.findElement(by.css('.Notice[data-case-warnings]')).getText()).toContain('It is recommended to include postcode before closing a case');
+    });
+
+    it('should warn when assigning a case without address fields but still allow assigning', function () {
+      utils.createCase();
+
+      utils.fillField('notes', 'This case was assigned without an address.');
+      browser.findElement(by.css("button[name='save-case']")).click();
+      utils.setCategory('debt');
+
+      utils.showPersonalDetailsForm();
+      utils.fillField('full_name', 'Foo Bar');
+      utils.fillField('mobile_phone', '0123456789');
+      utils.saveCase();
+
+      open_modal();
+      expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+      var modalEl = browser.findElement(by.css('div.modal'));
+      modalEl.findElement(by.css("input[name='matter_type1']")).click();
+      modalEl.findElement(by.css("input[name='matter_type2']")).click();
+      modalEl.findElement(by.css("button[type='submit'")).click();
+      expect(browser.isElementPresent(by.css("div.modal"))).toBe(false);
+
+      browser.findElement(by.css("input[name='provider']:first-child")).click();
+      browser.findElement(by.css("button[name='assign-provider']")).click();
+
+      expect(browser.isElementPresent(by.css(".Notice[data-case-warnings]"))).toBe(true);
+      expect(browser.findElement(by.css('.Notice[data-case-warnings]')).getText()).toContain('It is recommended to include postcode before closing a case');
+
+      browser.findElement(by.css("button[name='assign-provider']")).click();
+
+      checkAssign();
+    });
+
+    it('should not throw warnings/errors when assigning case with personal details completed', function () {
+      utils.createCase();
+
+      utils.fillField('notes', 'This case was assigned without all required data.');
+      browser.findElement(by.css("button[name='save-case']")).click();
+      utils.setCategory('debt');
+
+      utils.showPersonalDetailsForm();
+      utils.enterPersonalDetails({
+        'full_name': 'Foo Bar Quux',
+        'postcode': 'F00 B4R',
+        'street': '1 Foo Bar',
+        'mobile_phone': '0123456789'
+      });
+      utils.saveCase();
+
+      open_modal();
+      expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+      var modalEl = browser.findElement(by.css('div.modal'));
+      modalEl.findElement(by.css("input[name='matter_type1']")).click();
+      modalEl.findElement(by.css("input[name='matter_type2']")).click();
+      modalEl.findElement(by.css("button[type='submit'")).click();
+      expect(browser.isElementPresent(by.css("div.modal"))).toBe(false);
+
+      browser.findElement(by.css("input[name='provider']:first-child")).click();
+      browser.findElement(by.css("button[name='assign-provider']")).click();
+
+      checkAssign();
+    });
+
+    function checkAssign () {
+      expect(browser.isElementPresent(by.css(".Errors[data-case-errors]"))).toBe(false);
+      expect(browser.isElementPresent(by.css(".Notice[data-case-warnings]"))).toBe(false);
+
+      expect(browser.isElementPresent(by.css(".ContactBlock"))).toBe(true);
+      expect(browser.isElementPresent(by.css("[data-centre-col] .Notice"))).toBe(true);
+      expect(browser.findElement(by.css('.PageHeader h1')).getText()).toContain('Assigned to');
+      expect(browser.findElement(by.css('[data-centre-col] .Notice')).getText()).toContain('Provider phone short code');
+    }
   });
 
   describe('Set media code on case', function () {
