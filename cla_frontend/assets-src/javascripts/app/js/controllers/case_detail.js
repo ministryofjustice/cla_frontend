@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', '$state', 'MatterType', 'History',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, $state, MatterType, History){
+      ['_', '$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', '$state', 'MatterType', 'History',
+        function(_, $rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, $state, MatterType, History){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.eligibility_check = $eligibility_check;
@@ -83,6 +83,66 @@
               $state.go(transition_to);
             }
           };
+
+          // Case validation
+          $scope.resetCaseErrors = function () {
+            $scope.case_validations = 0;
+            $scope.case_errors = [];
+            $scope.case_warnings = [];
+          };
+          $scope.resetCaseErrors();
+
+          $scope.validateCase = function () {
+            var required_fields = [
+                  {object: 'case', field: 'notes', message: 'Case notes must be added to close a case'},
+                  {object: 'personal_details', field: 'full_name', message: 'Name is required to close a case'},
+                  {object: 'personal_details', field: 'mobile_phone', message: 'A contact number is required to close a case'}
+                ],
+                warning_fields = [
+                  {field: 'postcode', message: 'It is recommended to include postcode before closing a case'},
+                  {field: 'street', message: 'It is recommended to include an address before closing a case'}
+                ];
+
+            // clear errors
+            $scope.case_errors = [];
+            $scope.case_warnings = [];
+
+            // find errors
+            angular.forEach(required_fields, function (obj) {
+              var field = $scope[obj.object][obj.field];
+              if (field === undefined || (field !== undefined && !field)) {
+                $scope.case_errors.push({message: obj.message});
+              }
+            });
+            // find warning errors
+            angular.forEach(warning_fields, function (obj) {
+              if ($scope.personal_details[obj.field] === undefined || ($scope.personal_details[obj.field] !== undefined && !$scope.personal_details[obj.field])) {
+                $scope.case_warnings.push({message: obj.message});
+              }
+            });
+
+            if ($scope.case_warnings.length > 0) {
+              $scope.case_validations++;
+            }
+
+            if (
+              $scope.case_errors.length === 0 && 
+              (
+                $scope.case_warnings.length === 0 ||
+                $scope.case_warnings.length > 0 && $scope.case_validations > 1
+              )
+            ) {
+              return true;
+            } else {
+              return false;
+            }
+          };
+          var offStateChange = $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
+            $scope.resetCaseErrors();
+          });
+          $scope.$on('$destroy', function () {
+            offStateChange();
+          });
         }
       ]
     );

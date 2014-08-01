@@ -7,11 +7,8 @@
   <p class="Error Error--basic">There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
   <p><a ui-sref="case_detail.edit">Return to case</a></p>
 </div>
-
-<div ng-show="!suggested_provider && suggested_providers.length > 0">
-  <p class="Error Error--basic">This case has <strong>no category assigned</strong> but you can still manually assign a provider.</p>
-  <p><a ui-sref="case_detail.edit">Return to case</a></p>
-</div>
+<!-- no category -->
+<p class="Error Error--basic" ng-show="!suggested_provider && suggested_providers.length > 0">This case has <strong>no category of law assigned</strong> but you can still manually assign a provider.</p>
 
 <form method="post" name="assign_provider_form" ng-submit="assign(assign_provider_form)">
   <div ng-show="selected_provider.id">
@@ -42,6 +39,20 @@
       <label for="notes" class="visuallyhidden">Reassignment notes</label>
       <textarea name="notes" id="notes" cols="30" rows="4" ng-model="notes" placeholder="Provider reassignment comments"></textarea>
     </div>
+  </div>
+
+  <div class="Error Error--basic" ng-show="case_errors.length > 0">
+    <p>The following errors were found:</p>
+    <ul>
+      <li ng-repeat="error in case_errors">{{ error.message }}</li>
+    </ul>
+  </div>
+
+  <div class="Notice" ng-show="case_warnings.length > 0">
+    <p>Please note the following warnings before proceeding:</p>
+    <ul>
+      <li ng-repeat="warning in case_warnings">{{ warning.message }}</li>
+    </ul>
   </div>
 
   <div class="FormActions">
