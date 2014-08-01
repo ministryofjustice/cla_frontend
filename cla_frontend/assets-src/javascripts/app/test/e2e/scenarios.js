@@ -99,15 +99,10 @@ describe('operatorApp', function() {
         'street': '1 Foo Bar',
         'mobile_phone': '0123456789'
       });
-      showAdaptationsOptions();
       selectAdaptations(['bsl_webcam']);
       utils.saveCase();
       expect(displayedAdaptation()).toBe('BSL - Webcam');
     });
-
-    function showAdaptationsOptions() {
-      browser.findElement(by.css('#show_adaptations')).click();
-    }
 
     function selectAdaptations(checkboxes) {
       checkboxes.map(function (name) {
