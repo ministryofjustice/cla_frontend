@@ -70,7 +70,7 @@
         function($scope, $modal){
           $scope.openGuidance = function() {
             $modal.open({
-              template: '<div><input type="text" name="query" ng-model="query" /><button ng-click="search()">Search</button></div><div ng-show="!doc"><ul><li ng-repeat="result in results"><a href="" ng-click="loadDocument(result)">{{result.title}}</a></li></div><p ng-bind-html="doc"></p>',
+              template: '<form ng-submit="search()"><input type="text" name="query" ng-model="query" /><button type="submit">Search</button></form><div ng-show="!doc"><ul><li ng-repeat="result in results"><a href="" ng-click="loadDocument(result)">{{result.title}}</a></li></div><p ng-bind-html="doc"></p>',
               controller: 'GuidanceModalCtrl',
               resolve: {}
             });
@@ -81,6 +81,6 @@
 
   angular.module('cla.app')
     .run(function() {
-      $(document.body).prepend('<div ng-controller="GuidanceCtrl"><a href="" ng-click="openGuidance()">Guidance</a></div>');
+      $(document.body).append('<div ng-controller="GuidanceCtrl"><a href="" ng-click="openGuidance()">Guidance</a></div>');
     });
 })();

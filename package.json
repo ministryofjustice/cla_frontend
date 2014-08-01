@@ -36,7 +36,7 @@
     "gulp-shell": "~0.2.7",
     "gulp-livereload": "~2.1.0",
     "lunr": "~0.5.4",
-    "gulp-markdown-to-json": "git://github.com/SparkartGroupInc/gulp-markdown-to-json.git",
+    "gulp-markdown-to-json": "SparkartGroupInc/gulp-markdown-to-json#4dc86c38e65d2736fa00975a82e35905e570dad2",
     "through2": "^0.5.1",
     "string": "^1.9.0",
     "gulp-util": "^3.0.0"
