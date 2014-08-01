@@ -122,7 +122,7 @@
             });
 
             if ($scope.case_warnings.length > 0) {
-              $scope.case_validations++;
+              $scope.case_validations = $scope.case_validations + 1;
             }
 
             if (
@@ -137,7 +137,7 @@
               return false;
             }
           };
-          var offStateChange = $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
+          var offStateChange = $rootScope.$on('$stateChangeSuccess', function() {
             $scope.resetCaseErrors();
           });
           $scope.$on('$destroy', function () {
