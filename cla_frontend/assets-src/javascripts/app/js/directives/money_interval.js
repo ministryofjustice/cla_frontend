@@ -9,10 +9,10 @@
       templateUrl:  'directives/money_interval.html',
       scope: {
         model: '=ngModel',
-        miLabel: '@'
+        miLabel: '@',
+        guidanceLink: '=?'
       },
       link: function(scope, elem, attrs, ngModelCtrl) {
-
         function toMoneyInterval(viewValue){
           if (viewValue) {
             scope.per_interval_value = viewValue.per_interval_value;
