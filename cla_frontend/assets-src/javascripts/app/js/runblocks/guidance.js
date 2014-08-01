@@ -35,30 +35,64 @@
               return result;
             });
           });
+        },
+
+        getDoc: function(docRef) {
+          return getIndex().then(function(index) {
+            return {
+              title: index._claTitles[docRef],
+              source: guidanceHtmlPath(docRef)
+            };
+          });
         }
       };
     }
   ]);
 
+// FOR DOM: START RUBBISH
+
   angular.module('cla.controllers')
     .controller('GuidanceModalCtrl',
-      ['$scope', '$http', 'cla.guidance',
-        function($scope, $http, guidance){
+      ['$scope', '$http', 'cla.guidance', 'docRef', '$sce', '$location', '$modalInstance',
+        function($scope, $http, guidance, docRef, $sce, $location, $modalInstance){
           $scope.results = [];
           $scope.query = '';
-          $scope.doc = null;
+          $scope.htmlDoc = null;
+          $scope.docRef = docRef;
+
           $scope.search = function() {
             guidance.search(this.query).then(function(data) {
-              $scope.doc = null;
+              $scope.htmlDoc = null;
               $scope.results = data;
             });
           };
 
-          $scope.loadDocument = function(doc) {
-            $http.get(doc.source).success(function(data) {
-              $scope.doc = data;
-            });
+          $scope.setDocRef = function(docRef) {
+            $scope.docRef = docRef;
           };
+
+          $scope.$watch('docRef', function(newVal) {
+            if (!newVal) {
+              $scope.htmlDoc = null;
+            } else {
+              var parts = newVal.split('#'),
+                  docRef = parts[0],
+                  section = parts.length === 2 ? parts[1] : null;
+
+              guidance.getDoc(docRef).then(function(doc) {
+                $http.get(doc.source).success(function(data) {
+                  $scope.htmlDoc = $sce.trustAsHtml(data);
+                  if (section) {
+                    $location.hash(section);
+                  }
+                });
+              });
+            }
+          });
+
+          $modalInstance.result.then(function() {}, function() {
+            $location.hash('no_scroll');
+          });
         }
       ]
     );
@@ -66,15 +100,21 @@
 
   angular.module('cla.controllers')
     .controller('GuidanceCtrl',
-      ['$scope', '$modal',
-        function($scope, $modal){
-          $scope.openGuidance = function() {
+      ['$scope', '$rootScope', '$modal',
+        function($scope, $rootScope, $modal){
+          $scope.openGuidance = function(docRef) {
             $modal.open({
-              template: '<form ng-submit="search()"><input type="text" name="query" ng-model="query" /><button type="submit">Search</button></form><div ng-show="!doc"><ul><li ng-repeat="result in results"><a href="" ng-click="loadDocument(result)">{{result.title}}</a></li></div><p ng-bind-html="doc"></p>',
+              template: '<form ng-submit="search()"><input type="text" name="query" ng-model="query" /><button type="submit">Search</button></form><div ng-show="!htmlDoc"><ul><li ng-repeat="result in results"><a href="" ng-click="setDocRef(result.ref)">{{result.title}}</a></li></div><p ng-bind-html="htmlDoc"></p>',
               controller: 'GuidanceModalCtrl',
-              resolve: {}
+              resolve: {
+                docRef: function() { return docRef; }
+              }
             });
           };
+
+          $rootScope.$on('guidance:openDoc', function(__, docRef) {
+            $scope.openGuidance(docRef);
+          });
         }
       ]
     );
@@ -83,4 +123,23 @@
     .run(function() {
       $(document.body).append('<div ng-controller="GuidanceCtrl"><a href="" ng-click="openGuidance()">Guidance</a></div>');
     });
+
+// FOR DOM: END RUBBISH
+
+  angular.module('cla.directives')
+    .directive('guidanceLink', [function() {
+      return {
+        restrict: 'E',
+        scope: {
+          doc: '@doc'
+        },
+        template: '<a href="" ng-click="openGuidance()" class="Icon Icon--right Icon--info"></a>',
+        link: function(scope) {
+          scope.openGuidance = function() {
+            scope.$emit('guidance:openDoc', scope.doc);
+          };
+        }
+      };
+    }]
+  );
 })();
