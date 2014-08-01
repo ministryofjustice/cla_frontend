@@ -1,9 +1,13 @@
 ---
-title: document 2
-date: "2013-03-15 16:00"
+title: Discrimination Prompts
+date: "2014-08-01 18:04"
 tags:
-  - Test2
-  - Toast2
+  - discrimination
+  - questions
+  - disability
+  - pregnancy
+  - intimidation
+  - harrassment
 
 ---
 
