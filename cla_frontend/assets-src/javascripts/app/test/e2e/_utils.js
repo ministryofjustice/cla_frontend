@@ -42,11 +42,14 @@ module.exports = {
   getCase: getCase,
 
   createCase: function() {
+    var pro = protractor.getInstance();
+
     browser.get(APP_BASE_URL);
     browser.getLocationAbsUrl().then(function (url) {
       expectUrl(url, APP_BASE_URL);
     });
-    browser.findElement(by.id('create_case')).click();
+    browser.findElement(by.css('.newCaseForm')).submit();
+    pro.waitForAngular();
     return element.all(by.binding('case.reference')).get(0).getText();
   },
 
