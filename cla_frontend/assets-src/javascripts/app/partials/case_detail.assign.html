@@ -8,7 +8,7 @@
   <p><a ui-sref="case_detail.edit">Return to case</a></p>
 </div>
 <!-- no category -->
-<p class="Error Error--basic" ng-show="!suggested_provider && suggested_providers.length > 0">This case has <strong>no category of law assigned</strong> but you can still manually assign a provider.</p>
+<p class="Error Error--basic" ng-show="!eligibility_check.category">This case has <strong>no category of law assigned</strong> but you can still manually assign a provider.</p>
 
 <form method="post" name="assign_provider_form" ng-submit="assign(assign_provider_form)">
   <div ng-show="selected_provider.id">
