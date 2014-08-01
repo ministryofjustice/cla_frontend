@@ -46,7 +46,7 @@ module.exports = {
     browser.getLocationAbsUrl().then(function (url) {
       expectUrl(url, APP_BASE_URL);
     });
-    browser.findElement(by.css('.newCaseForm')).submit();
+    browser.findElement(by.id('create_case')).click();
     return element.all(by.binding('case.reference')).get(0).getText();
   },
 
