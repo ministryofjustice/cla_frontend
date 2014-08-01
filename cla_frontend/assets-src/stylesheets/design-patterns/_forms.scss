@@ -69,8 +69,8 @@ $border-colour: $grey-2;
   }
 
   .FormRow-optionLegend {
-    @include core-16;
-    margin: 15px 0 8px; 
+    margin: 15px 0 2px;
+    font-weight: 700;
 
     &--divider {
       border-top: 1px solid $border-colour;
@@ -244,6 +244,11 @@ $border-colour: $grey-2;
         position: relative;
         padding-left: 35px;
         display: block;
+
+        p {
+          padding: 0;
+          margin: 0;
+        }
       }
     }
     &Narrow {
@@ -393,5 +398,5 @@ $border-colour: $grey-2;
 }
 
 .FormActions {
-  margin: 20px 0 0;
+  margin: 20px 0;
 }

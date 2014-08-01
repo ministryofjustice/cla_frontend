@@ -76,10 +76,24 @@
     </div>
 
     <div class="FormRow FormRow--narrow cf FormRow--group" ng-class="{Error: third_party_frm.personal_relationship.$invalid && thirdparty_submitted}">
-      <p class="FormRow-optionLegend FormRow-optionLegend--divider">Relationship</p>
+      <p class="FormRow-optionLegend">Relationship</p>
       <span class="Error-message" ng-show="third_party_frm.personal_relationship.$error.server">{{ errors.personal_relationship }}</span>
 
       <span editable-radiolist="third_party.personal_relationship" e-name="personal_relationship" e-ng-options="s.value as s.text for s in relationships" onbeforesave="validateRadio($data)"></span>
+    </div>
+
+    <div>
+      <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.legal_advisor.$invalid && thirdparty_submitted}">
+        <span class="Error-message" ng-show="third_party_frm.legal_advisor.$error.server">{{ errors.legal_advisor }}</span>
+        <span class="Icon--formRow Icon">
+          <span editable-text="third_party.personal_details.legal_advisor" e-name="legal_advisor" e-class="FormRow-field--full" e-placeholder="Legal advisor"></span>
+        </span>
+      </label>
+
+      <div class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.spoken_w_client.$invalid && personaldetails_submitted}">
+        <span class="Error-message" ng-show="third_party_frm.spoken_w_client.$error.server">{{ errors.spoken_w_client }}</span>      
+        <span editable-checkbox="third_party.personal_details.spoken_w_client" e-name="spoken_w_client" e-title="Have spoken with client"></span>
+      </div>
     </div>
 
     <div class="FormActions cf">

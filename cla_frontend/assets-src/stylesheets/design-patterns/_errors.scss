@@ -39,7 +39,9 @@ $fieldset-error-bg-colour: #FDF8F5;
   }
 }
 
-.Error {
+.Error,
+.editable-error {
+  @include core-14;
   background-color: $error-bg-colour;
   border-left: 3px solid $error-colour;
   padding: 1em;

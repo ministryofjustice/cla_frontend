@@ -105,14 +105,14 @@
     
     <div class="FormRow FormRow--narrow cf FormRow--group">
       <p class="u-compact"><strong>Adaptations</strong></p>
-      <multi-select    
+      <!-- <multi-select    
         input-model="adaptation_opts"
         button-label="title"
         item-label="title"
         tick-property="ticked"
         helper-elements="filter"
         separator=""
-      ></multi-select>
+      ></multi-select> -->
       <div ng-repeat="(name, adaptation) in adaptation_flags | filter: { 'type': 'boolean' }">
         <span class="Error-message" ng-show="{{ 'personaldetails_frm.' + name + '.$error.server' }}">{{ errors[name] }}</span>
         <span editable-checkbox="{{ 'adaptations.' + name }}" e-name="{{ name }}" e-title="{{ adaptation.label }}"></span>

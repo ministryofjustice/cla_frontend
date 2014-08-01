@@ -100,6 +100,10 @@
             }
           };
 
+          $scope.relationshipChange = function (value) {
+            console.log(value);
+          };
+
           $scope.toggleWelsh = function (value) {
             if (value) {
               $scope.disable_lang = false;
