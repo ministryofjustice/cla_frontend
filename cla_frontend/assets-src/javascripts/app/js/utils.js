@@ -7,6 +7,11 @@
     }
   ]);
 
+  angular.module('cla.utils')
+    .factory('lunr', ['$window', function($window){
+      return $window.lunr;
+    }
+  ]);
 
   angular.module('cla.utils')
     .factory('form_utils', function(){

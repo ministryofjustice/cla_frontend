@@ -6,8 +6,10 @@ Creates derived dataset of constants used by JS frontend.
 Data is sourced from cla_common.
 
 """
-from django.core.management.base import BaseCommand
 import json
+
+from django.core.management.base import BaseCommand
+from django.templatetags.static import static
 
 # used by constants_json
 from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
@@ -34,13 +36,17 @@ class Command(BaseCommand):
                                         ]:
                 l[json_name] = []
                 for k, v in iterator:
-                    l[json_name].append({'value':k,'text':v})
+                    l[json_name].append({'value': k, 'text': v})
                     l_count += 1
 
             for json_name, iterator in [('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES_CONST_DICT),
                                         ('DIAGNOSIS_SCOPE', DIAGNOSIS_SCOPE.CHOICES_CONST_DICT)
                                         ]:
                 l[json_name] = iterator
+                l_count += 1
+
+            l['STATIC_ROOT'] = static('.')
+            l_count += 1
 
             as_json = json.dumps(l)
             f = open(self.constants_json_OUTPUT_FILE, "w")
