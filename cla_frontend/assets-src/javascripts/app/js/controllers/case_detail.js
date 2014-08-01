@@ -76,8 +76,18 @@
           };
 
           $scope.assign_to_provider = function () {
-            var transition_to = 'case_detail.assign';
-            if (!($scope.case.matter_type1 && $scope.case.matter_type2)) {
+            var child_scope = $scope.$new(),
+                transition_to = 'case_detail.assign';
+
+            child_scope.next = transition_to;
+
+            if (!$scope.validateCase() && !$scope.case.warned) {
+              $modal.open({
+                templateUrl: 'case_detail.invalid.html',
+                controller: 'InvalidCtrl',
+                scope: child_scope
+              });
+            } else if (!($scope.case.matter_type1 && $scope.case.matter_type2)) {
               $scope.edit_matter_types(transition_to);
             } else {
               $state.go(transition_to);
@@ -86,7 +96,6 @@
 
           // Case validation
           $scope.resetCaseErrors = function () {
-            $scope.case_validations = 0;
             $scope.case_errors = [];
             $scope.case_warnings = [];
           };
@@ -121,16 +130,8 @@
               }
             });
 
-            if ($scope.case_warnings.length > 0) {
-              $scope.case_validations = $scope.case_validations + 1;
-            }
-
             if (
-              $scope.case_errors.length === 0 && 
-              (
-                $scope.case_warnings.length === 0 ||
-                $scope.case_warnings.length > 0 && $scope.case_validations > 1
-              )
+              $scope.case_errors.length === 0 && $scope.case_warnings.length === 0
             ) {
               return true;
             } else {
@@ -146,6 +147,23 @@
         }
       ]
     );
+
+  angular.module('cla.controllers')
+    .controller('InvalidCtrl',
+    ['$scope', '$modalInstance',
+      function ($scope, $modalInstance) {
+        $scope.close = function () {
+          $modalInstance.dismiss('cancel');
+        };
+
+        $scope.proceed = function() {
+          $modalInstance.close();
+          $scope.case.warned = true;
+          $scope.assign_to_provider();
+        };
+      }
+    ]
+  );
 
   angular.module('cla.controllers')
     .controller('SetMatterTypeCtrl',

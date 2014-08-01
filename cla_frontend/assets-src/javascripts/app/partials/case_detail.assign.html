@@ -41,20 +41,6 @@
     </div>
   </div>
 
-  <div class="Error Error--basic" ng-show="case_errors.length > 0" data-case-errors>
-    <p>The following errors were found:</p>
-    <ul>
-      <li ng-repeat="error in case_errors">{{ error.message }}</li>
-    </ul>
-  </div>
-
-  <div class="Notice" ng-show="case_warnings.length > 0" data-case-warnings>
-    <p>Please note the following warnings before proceeding:</p>
-    <ul>
-      <li ng-repeat="warning in case_warnings">{{ warning.message }}</li>
-    </ul>
-  </div>
-
   <div class="FormActions">
     <span class="Error-message" ng-show="errors.__all__">{{ errors.__all__ }}</span>
     <button type="submit" name="assign-provider" class="Button" ng-show="suggested_providers.length > 0 || suggested_provider" ng-disabled="!selected_provider.id">Assign provider</button>
