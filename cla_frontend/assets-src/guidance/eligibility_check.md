@@ -81,7 +81,7 @@ sectetur adipiscing elit. Aliquam vitae massa nibh. Etiam eros felis, ornare nec
 
 da velit. Proin consectetur enim eu tellus dapibus egestas. Vestibulum tellus diam, aliquam eu dapibus eu, ultrices sed mi
 
-<h3 id="ecg-savings_valuable_items">Do you have any valuable items over £££ each?</h3>
+<h3 id="ecg-savings_valuable_items">Do you have any valuable items over £500 each?</h3>
 
 re. Donec nec arcu et nisi facilisis cursus. Morbi convallis cursus libero, ut consectetur ligula tempor a. Vivamus nisi mauris, bibendum vel convallis vitae, placerat blandit augue. Aenean euismod aliquam cursus. Nullam sit amet turpis non o
 
