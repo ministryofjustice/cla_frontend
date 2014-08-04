@@ -27,25 +27,23 @@
         };
 
         $scope.assign = function(form) {
-          if($scope.validateCase() === true) {
-            var data = {
-              provider_id: $scope.selected_provider.id,
-              is_manual: $scope.is_manual
-            };
-            if ($scope.is_manual) {
-              data.notes = $scope.notes;
-            }
-            $scope.case.$assign(data).then(
-              function() {
-                $state.go('case_detail.assign.complete', {}, {
-                  'reload': true
-                });
-              },
-              function(data) {
-                form_utils.ctrlFormErrorCallback($scope, data, form);
-              }
-            );
+          var data = {
+            provider_id: $scope.selected_provider.id,
+            is_manual: $scope.is_manual
+          };
+          if ($scope.is_manual) {
+            data.notes = $scope.notes;
           }
+          $scope.case.$assign(data).then(
+            function() {
+              $state.go('case_detail.assign.complete', {}, {
+                'reload': true
+              });
+            },
+            function(data) {
+              form_utils.ctrlFormErrorCallback($scope, data, form);
+            }
+          );
         };
       }
     ]);

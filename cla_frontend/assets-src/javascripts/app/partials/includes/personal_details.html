@@ -44,28 +44,28 @@
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.full_name.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.full_name.$error.server">{{ errors.full_name }}</span>
       <span class="Icon Icon--formRow Icon--user">
-        <span editable-text="personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
+        <span editable-text="personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name" e-server-error></span>
       </span>
     </label>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.postcode.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
       <span class="Icon Icon--formRow Icon--location">
-        <span editable-text="personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode"></span>
+        <span editable-text="personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode" e-server-error></span>
       </span>
     </label>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.street.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
       <span class="Icon Icon--formRow Icon--address">
-        <span editable-textarea="personal_details.street" e-name="street" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Address"></span>
+        <span editable-textarea="personal_details.street" e-name="street" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Address" e-server-error></span>
       </span>
     </label>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
       <span class="Icon Icon--formRow">
-        <span editable-text="personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Phone" e-ng-class="{'u-strike': personal_details.contact_safety.safe === false}"></span>
+        <span editable-text="personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Phone" e-ng-class="{'u-strike': personal_details.contact_safety.safe === false}" e-server-error></span>
         <safe-to-contact person="personal_details"></safe-to-contact>
       </span>
     </label>
@@ -73,13 +73,13 @@
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.email.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.email.$error.server">{{ errors.email }}</span>
       <span class="Icon Icon--formRow Icon--email">
-        <span editable-text="personal_details.email" e-name="email" e-class="FormRow-field--full" e-placeholder="Email"></span>
+        <span editable-text="personal_details.email" e-name="email" e-class="FormRow-field--full" e-placeholder="Email" e-server-error></span>
       </span>
     </label>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.ni_number.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.ni_number.$error.server">{{ errors.ni_number }}</span>
-      <span editable-text="personal_details.ni_number" e-name="ni_number" e-class="FormRow-field--full" e-placeholder="National Insurance Number"></span>
+      <span editable-text="personal_details.ni_number" e-name="ni_number" e-class="FormRow-field--full" e-placeholder="National Insurance Number" e-server-error></span>
     </label>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.vulnerable.$invalid && personaldetails_submitted}">
@@ -132,7 +132,7 @@
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">
       <p class="u-compact"><strong>User comments</strong></p>
       <span class="Error-message" ng-show="personaldetails_frm.adaptation_notes.$error.server">{{ errors.adaptation_notes }}</span>
-      <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Add comments"></span>
+      <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Add comments" e-server-error></span>
     </label>
 
     <div class="FormActions cf">
