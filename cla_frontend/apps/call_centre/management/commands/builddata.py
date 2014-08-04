@@ -14,7 +14,7 @@ from django.templatetags.static import static
 # used by constants_json
 from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
     TITLES, REQUIRES_ACTION_BY, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, \
-    DIAGNOSIS_SCOPE
+    DIAGNOSIS_SCOPE, CONTACT_SAFETY
 
 
 class Command(BaseCommand):
@@ -40,7 +40,8 @@ class Command(BaseCommand):
                     l_count += 1
 
             for json_name, iterator in [('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES_CONST_DICT),
-                                        ('DIAGNOSIS_SCOPE', DIAGNOSIS_SCOPE.CHOICES_CONST_DICT)
+                                        ('DIAGNOSIS_SCOPE', DIAGNOSIS_SCOPE.CHOICES_CONST_DICT),
+                                        ('CONTACT_SAFETY', CONTACT_SAFETY.CHOICES_CONST_DICT)
                                         ]:
                 l[json_name] = iterator
                 l_count += 1
