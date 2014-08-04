@@ -12,8 +12,8 @@
       <p class="u-compact" ng-bind-html="personal_details.street|nl2br"></p>
     </div>
 
-    <p class="VCard-row Icon Icon--row Icon--call" ng-show="personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': personal_details.contact_safety.safe === false, 'Icon--green': personal_details.contact_safety.safe}">
-      <span ng-class="{'u-strike': personal_details.contact_safety.safe === false}">{{ personal_details.mobile_phone }}</span>
+    <p class="VCard-row Icon Icon--row Icon--call" ng-show="personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': personal_details.safe_to_contact !== 'SAFE', 'Icon--green': personal_details.safe_to_contact === 'SAFE'}">
+      <span ng-class="{'u-strike': personal_details.safe_to_contact !== 'SAFE'}">{{ personal_details.mobile_phone }}</span>
     </p>
 
     <p class="VCard-row Icon Icon--row Icon--email" ng-show="personal_details.email">{{ personal_details.email }}</p>
