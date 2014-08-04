@@ -97,6 +97,11 @@
             $scope.htmlDoc = null;
             $scope.docRef = null;
           });
+
+          $rootScope.$on('guidance:toggle', function(__, toggle) {
+            console.log(toggle);
+            $scope.show_guidance = toggle;
+          });
         }
       ]
     );
