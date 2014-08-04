@@ -1,17 +1,17 @@
 <form ng-submit="moveDown()" novalidate name="form">
   <div ng-include="'includes/diagnosis.summary.html'" ng-controller="DiagnosisSummaryCtrl"></div>
 
-  <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="choice in diagnosis.choices">
+  <div class="FormRow FormRow--group FormRow--groupNarrow FormRow--details" ng-repeat="choice in diagnosis.choices">
     <label class="FormRow-label">
       <input type="radio" value="{{ choice.id }}" name="choice" ng-model="diagnosis.current_node_id" required>
       <div class="FormRow-labelText">
         <span ng-bind-html="choice.label"></span>
-        <details ng-show="choice.help_text">
-          <summary>Help</summary>
-          <span ng-bind-html="choice.help_text"></span>
-        </details>
       </div>
     </label>
+    <details ng-show="choice.help_text">
+      <summary>Help</summary>
+      <div ng-bind-html="choice.help_text"></div>
+    </details>
   </div>
 
   <div class="FormActions FormBlock FormBlock--yellow">
