@@ -9,6 +9,9 @@
           $scope.search = $stateParams.search;
           $scope.currentPage = $stateParams.page || 1;
 
+          // hide guidance
+          $scope.$emit('guidance:toggle', false);
+
           $scope.cases = cases;
 
           function updatePage() {
