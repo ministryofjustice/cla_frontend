@@ -18,6 +18,7 @@
   <tr>
     <th width="23%"><span class="visuallyhidden">Reference</span></th>
     <th>Name</th>
+    <th>Postcode</th>
     <th width="17%"><a href="" ng-click="sortToggle('created')" ng-class="{'u-sortDesc': orderProp=='-created', 'u-sortAsc': orderProp=='created'}">Created</a></th>
     <th width="17%"><a href="" ng-click="sortToggle('modified')" ng-class="{'u-sortDesc': orderProp=='-modified', 'u-sortAsc': orderProp=='modified'}">Modified</th>
     <th width="10%"><span class="visuallyhidden">Owner</span></th>
@@ -30,8 +31,17 @@
         <span ng-show="case.isInScopeAndEligible()"> / {{ case.laa_reference }}</span>
       </td>
       <td>{{ case.full_name }}</td>
-      <td><span am-time-ago="case.created"></span></td>
-      <td><span am-time-ago="case.modified"></span></td>
+      <td>{{ case.postcode }}</td>
+      <td>
+        <span am-time-ago="case.created"></span>
+        <br>
+        <small>{{ case.created|date:'MMM d, y, h:mma' }}</small>
+      </td>
+      <td>
+        <span am-time-ago="case.modified"></span>
+        <br>
+        <small>{{ case.modified|date:'MMM d, y, h:mma' }}</small>
+      </td>
       <td>{{ case.locked_by }}</td>
     </tr>
   </tbody>

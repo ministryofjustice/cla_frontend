@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes',
-        function($scope, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes){
+      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes', '$q',
+        function($scope, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes, $q){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -14,7 +14,7 @@
             $scope.welsh_override = true;
             $scope.disable_lang = true;
           }
-          
+
           $scope.language_options = ADAPTATION_LANGUAGES;
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
@@ -49,6 +49,13 @@
               $scope.case.media_code = $scope.media_code.selected;
             }
           });
+
+          // adaptations -- TEST
+          $scope.adaptation_opts = [
+            {id: 1, title: 'Opt 1', ticked: false},
+            {id: 2, title: 'Opt 2', ticked: false},
+            {id: 3, title: 'Opt 3', ticked: false}
+          ];
 
           $scope.mediaCode = function (code) {
             var matches = mediacodes.filter(function (mediacode) {
@@ -93,6 +100,10 @@
             }
           };
 
+          $scope.relationshipChange = function (value) {
+            console.log(value);
+          };
+
           $scope.toggleWelsh = function (value) {
             if (value) {
               $scope.disable_lang = false;
@@ -107,6 +118,10 @@
           };
 
           $scope.savePersonalDetails = function(form) {
+            var pdPromise = $q.defer(),
+                adaptationsPromise = $q.defer(),
+                mcPromise = $q.defer();
+
             $scope.setAdaptations();
 
             if ($scope.welsh_override) {
@@ -117,23 +132,33 @@
               if (!$scope.case.personal_details) {
                 $scope.case.personal_details = data.reference;
               }
+              pdPromise.resolve();
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.personal_details = personal_details;
+              pdPromise.reject('fail');
             });
             // save adaptations
             $scope.adaptations.$update($scope.case.reference, function (data) {
               if (!$scope.case.adaptation_details) {
                 $scope.case.adaptation_details = data.reference;
               }
+              adaptationsPromise.resolve();
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.adaptations = adaptation_details;
             });
-            $scope.case.$set_media_code().then(function () {
-              $scope.media_code.selected = $scope.case.media_code;
-            });
-            return true;
+            // save media code
+            if ($scope.case.media_code !== undefined) {
+              $scope.case.$set_media_code().then(function () {
+                $scope.media_code.selected = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
+
+                mcPromise.resolve();
+              });
+            } else {
+              mcPromise.resolve();
+            }
+            return $q.all([pdPromise.promise, adaptationsPromise.promise, mcPromise.promise]);
           };
 
           $scope.saveThirdParty = function(form) {

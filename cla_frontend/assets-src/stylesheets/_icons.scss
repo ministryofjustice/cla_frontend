@@ -20,7 +20,7 @@
   text-transform: none;
   font-size: 16px;
   line-height: 1;
-  color: $grey-2;
+  // color: $black;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -56,7 +56,7 @@
     &:after {
       position: absolute;
       left: 0;
-      top: 2px;
+      top: 1px;
     }
   }
   &--formRow {

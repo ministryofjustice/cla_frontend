@@ -29,6 +29,7 @@
 
 .Notice {
   @include core-14;
+  color: $black;
   border: solid $orange;
   border-width: 0 0 0 3px;
   background-color: lighten($orange-25, 6%);
@@ -47,10 +48,9 @@
     }
   }
 
-  .VCard & {
-    margin: -10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+  .VCard-view & {
+    margin: -11px;
+    border-width: 1px 1px 1px 4px;
   }
 
   &.error,

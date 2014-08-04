@@ -17,10 +17,19 @@
       'cla.templates',
       'ui.bootstrap',
       'ui.select',
+      'multi-select',
       'sticky'
     ])
-    .config(function($resourceProvider) {
+    .config(function($resourceProvider, $provide) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
+      // console.log();
+      // multi select
+      $provide.decorator('multiSelectDirective', function($delegate) {
+        var directive = $delegate[0];
+        directive.template = undefined;
+        directive.templateUrl = 'directives/multi_select.html';
+        return $delegate;
+      });
     })
     .run(function ($rootScope, $state, $stateParams) {
       $rootScope.$state = $state;

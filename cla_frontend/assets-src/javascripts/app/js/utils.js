@@ -24,12 +24,11 @@
         angular.forEach(data, function(errors, field) {
           if (form[field] !== undefined) {
             form[field].$setValidity('server', false);
-            $scope.errors[field] = errors.join(', ');
           }
           if (field === '__all__') {
             form.$setValidity('server', false);
-            $scope.errors[field] = errors.join(', ');
           }
+          $scope.errors[field] = errors.join(', ');
         });
       }
     };

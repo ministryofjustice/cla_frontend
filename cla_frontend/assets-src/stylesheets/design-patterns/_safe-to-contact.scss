@@ -1,14 +1,21 @@
 .SafeToContact {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 7px;
+
+  a:visited,
+  a:active,
+  a:link {
+    color: $black;
+  }
 }
 .SafeToContact-content {
   position: absolute;
   z-index: 10;
-  top: -10px;
-  left: 100%;
-  margin-left: 13px;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 11px;
+  margin-left: -3px;
   background: #fff;
   border: 1px solid $grey-2;
   padding: 5px 6px;
@@ -18,13 +25,13 @@
     content: "";
     display: block;
     height: 10px;
-    width: 8px;
+    width: 10px;
     position: absolute;
-    left: -8px;
-    top: 12px;
+    left: 5px;
+    bottom: -9px;
     background-position: 0 0;
     background-repeat: no-repeat;
-    @include svg-bg('../images/icons/callout-arrow');
+    @include svg-bg('../images/icons/callout-arrow--down');
   }
 }
 .SafeToContact-list {
@@ -52,7 +59,7 @@
   &:visited,
   &:active,
   &:link {
-    color: $black;    
+    color: $black;
   }
   &.is-selected,
   &:hover {

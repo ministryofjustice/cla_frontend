@@ -57,6 +57,9 @@
               $scope.eligibility_check.validate($scope.case.reference).then(function (resp) {
                 $scope.warnings = resp.data.warnings;
               });
+
+              // updates the state of case.eligibility_state after each save
+              $scope.case.state = data.state;
             });
           };
 
