@@ -25,7 +25,12 @@ the leap into electronic typesetting, remaining essentially unchanged. It was po
 
 <h3 id="ecg-on_passported_benefits">Are you on Passported Benefits?</h3>
 
- Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malor
+* Income Support
+* Income-Based Job Seeker's Allowance *(not contributions-based)*
+* Income-Related Employment and Support Allowance
+* Guarantee Credit or Universal Credit
+
+Search guidance for "disregarded benefits" in order to see benefits that need not be included. All other benefits should be declared as income.
 
 <h3 id="ecg-over_60">Are you or your partner aged 60 or over?</h3>
 
@@ -47,7 +52,9 @@ Is a partner seeking to claim the property? Is a creditor or mortgage company se
 
 <h3 id="ecg-property_main">Is this your main property?</h3>
 
-This is the property in which the client lives. If they have separated and are now living elsewhere their former house is no longer the main property.
+This is the property in which the client lives. If they have separated and are now living elsewhere their former house is no longer the main property. 
+
+Legal aid is based on how much money you have. That means any property you own must be considered, even if you don't live in it. Your 'home' is where you live as your only or main residence and includes caravans, houseboats or other vehicles.
 
 <h3 id="ecg-property_share">What is your share of the property?</h3>
 
