@@ -14,6 +14,20 @@
       <span ng-class="{'u-strike': personal_details.contact_safety.safe === false}">{{ personal_details.mobile_phone }}</span>
     </p>
 
+    <p class="VCard-row Icon Icon--row Icon--email" ng-show="personal_details.email">{{ personal_details.email }}</p>
+
+    <p class="VCard-row" ng-show="personal_details.ni_number">
+      <strong>National Insurance number</strong>
+      <br>
+      {{ personal_details.ni_number }}
+    </p>
+
+    <p class="VCard-row" ng-show="personal_details.dob">
+      <strong>Date of birth</strong>
+      <br>
+      {{ personal_details.dob | dob }} (Age {{ personal_details.dob | ageFromDate }})
+    </p>
+
     <p class="VCard-row" ng-show="adaptations.language">
       <strong>Language</strong>
       <br>
@@ -91,7 +105,6 @@
       <p class="u-compact"><strong>Date of birth</strong></p>
       <span class="Error-message" ng-show="personaldetails_frm.dob.$error.server">{{ errors.dob }}</span>
       <span editable-tpde="personal_details.dob" e-name="dob" e-server-error></span>
-      <!--<three-part-date-input ng-model="personal_details.dob" name="dob" server-error></three-part-date-input>-->
     </fieldset>
 
     <div class="FormRow FormRow--wide cf" ng-class="{Error: personaldetails_frm.welsh_override.$invalid || personaldetails_frm.language.$invalid && personaldetails_submitted}">

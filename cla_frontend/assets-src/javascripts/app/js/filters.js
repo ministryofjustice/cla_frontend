@@ -40,6 +40,21 @@
       return function(input) {
         return input.charAt(0).toUpperCase() + input.substr(1).replace(/[A-Z]/g, ' $&');
       };
+    })
+
+    .filter('ageFromDate', function() {
+      return function(input) {
+        var diff = Date.now() - new Date(input.month + '/' + input.day + '/' + input.year).getTime(),
+            diffDays = diff / 1000 / (60 * 60 * 24);
+
+        return Math.floor(diffDays / 365.25);
+      };
+    })
+
+    .filter('dob', function() {
+      return function(input) {
+        return input.day + '/' + input.month + '/' + input.year;
+      };
     });
 
 })();
