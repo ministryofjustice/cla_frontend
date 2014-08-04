@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes',
-        function($scope, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes){
+      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes', '$q',
+        function($scope, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes, $q){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -14,7 +14,7 @@
             $scope.welsh_override = true;
             $scope.disable_lang = true;
           }
-          
+
           $scope.language_options = ADAPTATION_LANGUAGES;
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
@@ -118,6 +118,10 @@
           };
 
           $scope.savePersonalDetails = function(form) {
+            var pdPromise = $q.defer(),
+                adaptationsPromise = $q.defer(),
+                mcPromise = $q.defer();
+
             $scope.setAdaptations();
 
             if ($scope.welsh_override) {
@@ -128,15 +132,18 @@
               if (!$scope.case.personal_details) {
                 $scope.case.personal_details = data.reference;
               }
+              pdPromise.resolve();
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.personal_details = personal_details;
+              pdPromise.reject('fail');
             });
             // save adaptations
             $scope.adaptations.$update($scope.case.reference, function (data) {
               if (!$scope.case.adaptation_details) {
                 $scope.case.adaptation_details = data.reference;
               }
+              adaptationsPromise.resolve();
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.adaptations = adaptation_details;
@@ -145,9 +152,13 @@
             if ($scope.case.media_code !== undefined) {
               $scope.case.$set_media_code().then(function () {
                 $scope.media_code.selected = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
+
+                mcPromise.resolve();
               });
+            } else {
+              mcPromise.resolve();
             }
-            return true;
+            return $q.all([pdPromise.promise, adaptationsPromise.promise, mcPromise.promise]);
           };
 
           $scope.saveThirdParty = function(form) {

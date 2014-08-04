@@ -83,29 +83,29 @@
     </label>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.vulnerable.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.vulnerable.$error.server">{{ errors.vulnerable }}</span>      
+      <span class="Error-message" ng-show="personaldetails_frm.vulnerable.$error.server">{{ errors.vulnerable }}</span>
       <span editable-checkbox="vulnerable" e-name="vulnerable" e-title="User is deemed vulnerable"></span>
     </div>
 
-    <fieldset class="FormRow FormRow--wide">
+    <fieldset class="FormRow FormRow--wide"  ng-class="{Error: personaldetails_frm.dob.$invalid || personaldetails_frm.dob_year.$invalid && personaldetails_submitted}">
       <p class="u-compact"><strong>Date of birth</strong></p>
-      <span editable-text="personal_details.dob.day" e-name="dob_day" e-class="FormRow-field--xs FormRow-field--inline" e-placeholder="DD"></span>
-      <span editable-text="personal_details.dob.month" e-name="dob_month" e-class="FormRow-field--xs FormRow-field--inline" e-placeholder="MM"></span>
-      <span editable-text="personal_details.dob.year" e-name="dob_year" e-class="FormRow-field--s" e-placeholder="YYYY"></span>
+      <span class="Error-message" ng-show="personaldetails_frm.dob.$error.server">{{ errors.dob }}</span>
+      <span editable-tpde="personal_details.dob" e-name="dob" e-server-error></span>
+      <!--<three-part-date-input ng-model="personal_details.dob" name="dob" server-error></three-part-date-input>-->
     </fieldset>
-    
+
     <div class="FormRow FormRow--wide cf" ng-class="{Error: personaldetails_frm.welsh_override.$invalid || personaldetails_frm.language.$invalid && personaldetails_submitted}">
       <p class="u-compact"><strong>Language</strong></p>
-      <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>      
+      <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>
       <span editable-checkbox="welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
 
-      <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>      
+      <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
       <span editable-select="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options" e-class="FormRow-field--full" e-ng-disabled="disable_lang"></span>
     </div>
-    
+
     <div class="FormRow FormRow--narrow cf FormRow--group">
       <p class="u-compact"><strong>Adaptations</strong></p>
-      <!-- <multi-select    
+      <!-- <multi-select
         input-model="adaptation_opts"
         button-label="title"
         item-label="title"
