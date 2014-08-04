@@ -123,7 +123,12 @@
         utils.showPersonalDetailsForm();
         utils.enterPersonalDetails({
           'full_name': 'Foo Bar Quux',
-          'mobile_phone': '0123456789'
+          'mobile_phone': '0123456789',
+          'ni_number': '0123456789',
+          'dob_day': '01',
+          'dob_month': '01',
+          'dob_year': '2014',
+          'media_code': 'Age Concern'
         });
         utils.saveCase();
       }
@@ -251,19 +256,12 @@
           'full_name': 'Foo Bar Quux',
           'postcode': 'F00 B4R',
           'street': '1 Foo Bar',
-          'mobile_phone': '0123456789'
+          'mobile_phone': '0123456789',
+          'media_code': 'Age Concern'
         });
-        selectMediaCode('Age Concern');
         utils.saveCase();
         expect(displayedMediaCode()).toBe('Age Concern');
       });
-
-      function selectMediaCode(code_name) {
-        browser.findElement(by.css('.selectize-control')).click();
-        var field = browser.findElement(by.css('.ui-select-search'));
-        field.sendKeys(code_name);
-        field.sendKeys(protractor.Key.ENTER);
-      }
 
       function displayedMediaCode() {
         return browser.findElement(by.binding('mediaCode(media_code.selected).name')).getText();

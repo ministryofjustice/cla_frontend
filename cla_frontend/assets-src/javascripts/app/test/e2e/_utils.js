@@ -56,8 +56,16 @@ module.exports = {
 
   enterPersonalDetails: function(details) {
     for (var name in details) {
-      fillField(name, details[name]);
+      if (name == 'media_code') {
+        browser.findElement(by.css('.selectize-control')).click();
+        var field = browser.findElement(by.css('.ui-select-search'));
+        field.sendKeys(details[name]);
+        field.sendKeys(protractor.Key.ENTER);
+      } else {
+        fillField(name, details[name]);
+      }
     }
+
   },
 
   fillField: fillField,
