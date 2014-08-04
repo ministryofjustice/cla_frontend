@@ -49,26 +49,25 @@
     }
   ]);
 
-// FOR DOM: START RUBBISH
-
   angular.module('cla.controllers')
-    .controller('GuidanceModalCtrl',
-      ['$scope', '$http', 'cla.guidance', 'docRef', '$sce', '$location', '$modalInstance',
-        function($scope, $http, guidance, docRef, $sce, $location, $modalInstance){
+    .controller('GuidanceCtrl',
+      ['$scope', '$rootScope', '$http', 'cla.guidance', '$sce', '$location',
+        function($scope, $rootScope, $http, guidance, $sce, $location){
           $scope.results = [];
-          $scope.query = '';
           $scope.htmlDoc = null;
-          $scope.docRef = docRef;
 
           $scope.search = function() {
-            guidance.search(this.query).then(function(data) {
-              $scope.htmlDoc = null;
+            guidance.search(this.guidance.query).then(function(data) {
               $scope.results = data;
             });
           };
 
-          $scope.setDocRef = function(docRef) {
+          $scope.addDoc = function(docRef) {
             $scope.docRef = docRef;
+          };
+
+          $scope.closeDoc = function() {
+            $scope.htmlDoc = null;
           };
 
           $scope.$watch('docRef', function(newVal) {
@@ -90,30 +89,13 @@
             }
           });
 
-          $modalInstance.result.then(function() {}, function() {
-            $location.hash('no_scroll');
-          });
-        }
-      ]
-    );
-
-
-  angular.module('cla.controllers')
-    .controller('GuidanceCtrl',
-      ['$scope', '$rootScope', '$modal',
-        function($scope, $rootScope, $modal){
-          $scope.openGuidance = function(docRef) {
-            $modal.open({
-              template: '<form ng-submit="search()"><input type="text" name="query" ng-model="query" /><button type="submit">Search</button></form><div ng-show="!htmlDoc"><ul><li ng-repeat="result in results"><a href="" ng-click="setDocRef(result.ref)">{{result.title}}</a></li></div><p ng-bind-html="htmlDoc"></p>',
-              controller: 'GuidanceModalCtrl',
-              resolve: {
-                docRef: function() { return docRef; }
-              }
-            });
-          };
-
           $rootScope.$on('guidance:openDoc', function(__, docRef) {
-            $scope.openGuidance(docRef);
+            $scope.addDoc(docRef);
+          });
+
+          $rootScope.$on('guidance:closeDoc', function() {
+            $scope.htmlDoc = null;
+            $scope.docRef = null;
           });
         }
       ]
@@ -121,10 +103,18 @@
 
   angular.module('cla.app')
     .run(function() {
-      $(document.body).append('<div ng-controller="GuidanceCtrl"><a href="" ng-click="openGuidance()">Guidance</a></div>');
+      $(document.body).append('<div ng-controller="GuidanceCtrl"><guidance></guidance></div>');
     });
 
-// FOR DOM: END RUBBISH
+
+  angular.module('cla.directives')
+    .directive('guidance', [function() {
+      return {
+        restrict: 'E',
+        templateUrl: 'directives/guidance.html'
+      };
+    }]
+  );
 
   angular.module('cla.directives')
     .directive('guidanceLink', [function() {
@@ -133,10 +123,28 @@
         scope: {
           doc: '@doc'
         },
-        template: '<a href="" ng-click="openGuidance()" class="Icon Icon--right Icon--info"></a>',
+        templateUrl: 'directives/guidance.inline_link.html',
         link: function(scope) {
           scope.openGuidance = function() {
             scope.$emit('guidance:openDoc', scope.doc);
+          };
+        }
+      };
+    }]
+  );
+
+  angular.module('cla.directives')
+    .directive('guidanceItem', [function() {
+      return {
+        restrict: 'E',
+        scope: {
+          content: '=',
+          ref: '='
+        },
+        templateUrl: 'directives/guidance.tab.html',
+        link: function(scope) {
+          scope.closeDoc = function() {
+            scope.$emit('guidance:closeDoc', scope.ref);
           };
         }
       };

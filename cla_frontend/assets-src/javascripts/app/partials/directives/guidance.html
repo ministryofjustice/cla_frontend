@@ -1,0 +1,16 @@
+<div class="Guidance-searchResults Grid-col Grid-col--1-5">
+  <h1>Guidance</h1>
+
+  <form ng-submit="search()" class="FormRow cf">
+    <input type="text" name="query" ng-model="guidance.query" class="FormRow-field--full" />
+    <button class="Search-submit" type="submit">Search</button>
+  </form>
+
+  <ul class="Guidance-results">
+    <li class="Guidance-resultItem" ng-repeat="result in results">
+      <a href="" ng-click="addDoc(result.ref)">{{ result.title }}</a>
+    </li>
+  </ul>
+</div>
+
+<guidance-item content="htmlDoc" ref="docRef"></guidance-item>
