@@ -11,23 +11,13 @@ tags:
 
 <h3 id="ecg-your_problem">What is your problem about? What is putting you at immediate risk?</h3>
 
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+*Overall guidance text to be added.*
 
 ## Your Details
 
 <h3 id="ecg-has_partner">Do you have a partner?</h3>
 
-English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
+Legal aid is calculated on both you and your partner's money. A 'partner' is a person you're married to or a person you live with as if you're married
 
 <h3 id="ecg-on_nass_benefits">Are you on nass Benefits?</h3>
 
@@ -39,25 +29,25 @@ the leap into electronic typesetting, remaining essentially unchanged. It was po
 
 <h3 id="ecg-over_60">Are you or your partner aged 60 or over?</h3>
 
-sum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanie
+A person who is over 60 is entitled to additional capital allowances on the means test, based on their income.
 
 ## Your properties
 
 <h3 id="ecg-property_worth">How much is it worth?</h3>
 
-ard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the w
+Use client's estimate, or online price comparison site.
 
 <h3 id="ecg-property_mortgage_left">How much is left to pay on the mortgage?</h3>
 
-words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators 
+Include the full amount - a shared ownership will still have one mortgage. 
 
 <h3 id="ecg-property_disputed">Is this property disputed?</h3>
 
-words, combined with a handful of model sentence structures
+Is a partner seeking to claim the property? Is a creditor or mortgage company seeking to force the sale? Additional allowances will apply if so. Look in guidance for SMOD for additional guidance on scenarios.
 
 <h3 id="ecg-property_main">Is this your main property?</h3>
 
- vel convallis vitae, placerat blandit augue. Aenean euismod aliquam cursus. Nullam sit amet turpis non odio ullamcorper ornare.
+This is the property in which the client lives. If they have separated and are now living elsewhere their former house is no longer the main property.
 
 <h3 id="ecg-property_share">What is your share of the property?</h3>
 
