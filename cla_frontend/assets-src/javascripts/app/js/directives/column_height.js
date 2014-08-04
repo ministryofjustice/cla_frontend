@@ -7,7 +7,7 @@
         link: function(scope, element) {
           var headerAndFooter = 48;
           scope.initializeWindowSize = function () {
-            $(element).css('min-height', ($window.innerHeight - headerAndFooter) + 350);
+            $(element).css('min-height', $window.innerHeight - headerAndFooter);
           };
           scope.initializeWindowSize();
           angular.element($window).bind('resize', function () {
