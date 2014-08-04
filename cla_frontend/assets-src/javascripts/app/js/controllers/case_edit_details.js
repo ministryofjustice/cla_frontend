@@ -22,12 +22,6 @@
           // clear out the Alternative Help selections.
           AlternativeHelpService.clear();
 
-          $scope.in_scope_choices = [
-            { label: 'Unknown', value: null},
-            { label: 'Yes', value: true},
-            { label: 'No', value: false}
-          ];
-
           $scope.save = function(){
             $scope.case.$case_details_patch(
               angular.noop,
