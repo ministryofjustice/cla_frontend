@@ -1,0 +1,100 @@
+.Guidance-padding {
+  padding-bottom: 350px;
+}
+
+.Guidance-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  .Grid {
+    margin: 0;
+    overflow: visible;
+  }
+  .Grid-col {
+    position: relative;
+    height: 350px;
+  }
+}
+.Guidance-searchResults {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  height: 330px;
+  width: 220px;
+  padding: 10px;
+  z-index: 10;
+
+  h1 {
+    @include bold-24;
+    color: $grey-1;
+    padding-bottom: 5px;
+    padding-top: 0;
+  }
+
+  .FormRow {
+    position: relative;
+    padding-right: 29px;
+  }
+  .Search-submit {
+    position: absolute;
+    right: 0;
+  }
+}
+
+.Guidance-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.Guidance-resultItem {
+  margin: 0 0 10px;
+}
+
+.Guidance-tab {
+  background-color: #fff;
+  border: 1px solid $grey-2;
+  position: fixed;
+  bottom: 0;
+  right: 10px;
+  z-index: 10;
+  width: 78.3%;
+  @include box-shadow(1px -1px 3px $grey-3);
+
+}
+.Guidance-tabContent {
+  padding: 15px 20px;
+  height: 320px;
+  overflow: scroll;
+
+  // basic content styles
+  h1 {
+    @include bold-27;
+  }
+  h2 {
+    @include core-24;
+  }
+  h3 {
+    @include core-19;
+  }
+  p {
+    @include core-14;
+  }
+}
+.Guidance-tabClose {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  font-size: 18px;
+  line-height: 1em;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:link,
+  &:active,
+  &:visited {
+    color: $black;
+  }
+}
