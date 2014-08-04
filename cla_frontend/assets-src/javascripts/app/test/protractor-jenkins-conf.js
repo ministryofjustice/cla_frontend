@@ -9,5 +9,8 @@ exports.config = extend(defaults, {
       version: '31'
     }
   ],
-  allScriptsTimeout: 60000
+  allScriptsTimeout: 60000,
+  jasmineNodeOpts: {
+    defaultTimeoutInterval: 60000
+  }
 });
