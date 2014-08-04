@@ -22,7 +22,7 @@
     ])
     .config(function($resourceProvider, $provide) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
-      // console.log();
+      
       // multi select
       $provide.decorator('multiSelectDirective', function($delegate) {
         var directive = $delegate[0];

@@ -44,6 +44,9 @@
 
     .filter('ageFromDate', function() {
       return function(input) {
+        // return early if not date
+        if (!input) { return; }
+
         var diff = Date.now() - new Date(input.month + '/' + input.day + '/' + input.year).getTime(),
             diffDays = diff / 1000 / (60 * 60 * 24);
 
@@ -53,7 +56,7 @@
 
     .filter('dob', function() {
       return function(input) {
-        return input.day + '/' + input.month + '/' + input.year;
+        return input ? input.day + '/' + input.month + '/' + input.year : '';
       };
     });
 
