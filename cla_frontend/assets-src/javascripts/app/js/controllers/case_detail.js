@@ -76,16 +76,92 @@
           };
 
           $scope.assign_to_provider = function () {
-            var transition_to = 'case_detail.assign';
-            if (!($scope.case.matter_type1 && $scope.case.matter_type2)) {
+            var child_scope = $scope.$new(),
+                transition_to = 'case_detail.assign';
+
+            child_scope.next = transition_to;
+
+            if (!$scope.validateCase() && !$scope.case.warned) {
+              $modal.open({
+                templateUrl: 'case_detail.invalid.html',
+                controller: 'InvalidCtrl',
+                scope: child_scope
+              });
+            } else if (!($scope.case.matter_type1 && $scope.case.matter_type2)) {
               $scope.edit_matter_types(transition_to);
             } else {
               $state.go(transition_to);
             }
           };
+
+          // Case validation
+          $scope.resetCaseErrors = function () {
+            $scope.case_errors = [];
+            $scope.case_warnings = [];
+          };
+          $scope.resetCaseErrors();
+
+          $scope.validateCase = function () {
+            var required_fields = [
+                  {object: 'case', field: 'notes', message: 'Case notes must be added to close a case'},
+                  {object: 'personal_details', field: 'full_name', message: 'Name is required to close a case'},
+                  {object: 'personal_details', field: 'mobile_phone', message: 'A contact number is required to close a case'}
+                ],
+                warning_fields = [
+                  {field: 'postcode', message: 'It is recommended to include postcode before closing a case'},
+                  {field: 'street', message: 'It is recommended to include an address before closing a case'}
+                ];
+
+            // clear errors
+            $scope.case_errors = [];
+            $scope.case_warnings = [];
+
+            // find errors
+            angular.forEach(required_fields, function (obj) {
+              var field = $scope[obj.object][obj.field];
+              if (field === undefined || (field !== undefined && !field)) {
+                $scope.case_errors.push({message: obj.message});
+              }
+            });
+            // find warning errors
+            angular.forEach(warning_fields, function (obj) {
+              if ($scope.personal_details[obj.field] === undefined || ($scope.personal_details[obj.field] !== undefined && !$scope.personal_details[obj.field])) {
+                $scope.case_warnings.push({message: obj.message});
+              }
+            });
+
+            if ($scope.case_errors.length === 0 && $scope.case_warnings.length === 0) {
+              return true;
+            } else {
+              return false;
+            }
+          };
+          var offStateChange = $rootScope.$on('$stateChangeSuccess', function() {
+            $scope.resetCaseErrors();
+          });
+          $scope.$on('$destroy', function () {
+            offStateChange();
+          });
         }
       ]
     );
+
+  angular.module('cla.controllers')
+    .controller('InvalidCtrl',
+    ['$scope', '$modalInstance',
+      function ($scope, $modalInstance) {
+        $scope.close = function () {
+          $modalInstance.dismiss('cancel');
+        };
+
+        $scope.proceed = function() {
+          $modalInstance.close();
+          $scope.case.warned = true;
+          $scope.assign_to_provider();
+        };
+      }
+    ]
+  );
 
   angular.module('cla.controllers')
     .controller('SetMatterTypeCtrl',

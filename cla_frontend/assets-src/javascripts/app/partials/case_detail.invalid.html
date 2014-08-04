@@ -1,0 +1,22 @@
+<header>
+  <h2>Incomplete case</h2>
+</header>
+
+<div class="Error Error--basic" ng-show="case_errors.length > 0" data-case-errors>
+  <p>You must correct the following errors before you can assign a provider:</p>
+  <ul>
+    <li ng-repeat="error in case_errors">{{ error.message }}</li>
+  </ul>
+</div>
+
+<div class="Notice" ng-show="case_warnings.length > 0" data-case-warnings>
+  <p>Please make sure you have checked the following warnings before assigning a provider:</p>
+  <ul>
+    <li ng-repeat="warning in case_warnings">{{ warning.message }}</li>
+  </ul>
+</div>
+
+<div class="FormActions">
+  <button type="button" name="assign-provider" class="Button" ng-show="case_errors.length === 0" ng-click="proceed()">Continue</button>
+  <a href="" ng-click="close()">Close</a>
+</div>
