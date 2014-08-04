@@ -17,7 +17,8 @@
 
   // SERVICES
   angular.module('cla.services')
-    .factory('Case', ['$http', '$resource', function($http, $resource) {
+    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 
+      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES) {
 
       var resource = $resource(
         '/call_centre/proxy/case/:caseref/',
@@ -44,8 +45,7 @@
             method:'PATCH',
             transformRequest: function(data, headers) {
               return transformData($http, {
-                notes: data.notes,
-                in_scope: data.in_scope
+                notes: data.notes
               }, headers);
             }
           },
@@ -89,7 +89,7 @@
       };
 
       resource.prototype.isInScopeAndEligible = function(){
-        return this.in_scope && this.eligibility_state === 'yes';
+        return this.diagnosis_state === DIAGNOSIS_SCOPE.INSCOPE && this.eligibility_state === ELIGIBILITY_STATES.YES;
       };
 
       resource.prototype.$suspend_case = function(data, successCallback) {
