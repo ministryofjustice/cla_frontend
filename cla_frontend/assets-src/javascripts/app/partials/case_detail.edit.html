@@ -10,17 +10,8 @@
       <textarea class="FormRow-field--full" id="id_case_notes-notes" name="notes" placeholder="Comments about this case" cols="20" rows="11" ng-model="case.notes" server-error></textarea>
     </div>
 
-    <div class="FormRow">
-      <label for="id_case_notes-in_scope" id="id_case_notes-in_scope-label">
-        <span class="FormRow-label">In Scope</span>
-
-        <select id="id_case_notes-in_scope" name="case_notes-in_scope" ng-model="case.in_scope" ng-options="choice.value as choice.label for choice in in_scope_choices">
-        </select>
-      </label>
-    </div>
-
     <div class="FormActions">
-      <button type="submit" class="Button" name="save-case">Save case details</button>
+      <button type="submit" class="Button" name="save-case">Save case notes</button>
     </div>
   </form>
 </div>
