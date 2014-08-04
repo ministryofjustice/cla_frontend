@@ -119,20 +119,20 @@ Money you pay your landlord to live in your home. Check your most recent bank st
 
 <h3 id="ecg-expenses_tax">Tax</h3>
 
-rra tincidunt nibh, in dignissim odio porta ac. Vivamus laoreet mollis pellentesque. Integer sed ligula vitae tellus sodales posue
+Money deducted from your pay by your employer - check your most recent payslip. If you work for yourself instead of for a company check your most recent tax bill. 
 
 <h3 id="ecg-expenses_nic">National Insurance Contributions</h3>
 
-cibus, lectus sed varius rutrum, justo tellus elementum nibh, eu pretium eros ante id enim. Phasellus gravida, sapien et rhoncu
+Money deducted from your pay by your employer - check your most recent payslip. If you work for yourself instead of for a company check your most recent tax bill.
 
 <h3 id="ecg-expenses_maintenance">Maintenance</h3>
 
-quam nibh lobortis libero, fringilla imperdiet justo massa nec ligula. Suspendisse justo dui, elementum et adipiscing non, gravida non lorem. Nulla semper, purus ut laoreet pharetra, enim enim aliquam libero, vel porttitor ante augue sit amet sem
+Regular payments you make to an ex-partner to help with their living costs or the living costs of your child who no longer lives with you. 
 
 <h3 id="ecg-expenses_childcare">Childcare</h3>
 
-Vivamus rutrum nisi in orci suscipit, quis porttitor turpis varius. Sed nec neque iaculis, iaculis magna quis, convallis leo. Maecenas volutpat urna id eros venenatis luctus. Praesent mollis sed lorem eget elementum. Morbi sed auctor urna, vitae porta mauris. Nam sodales rhoncus turpis. Vestibulum libero eros, tincidunt vel est non, cursus dignissim diam. Donec accumsan bibendum tortor, in porttitor neque semper ac. Integer tempor, massa tempus sollicitudin fermentum, mi tortor tempor dolor, quis imperdiet leo lorem eget sem. Praesent est nisi, varius sit amet augue vel, cursus imperdiet justo.
+Money you pay for your child to be looked after while you work or study. 
 
 <h3 id="ecg-expenses_contribution_order">Contribution order</h3>
 
-Sed lorem dui, congue quis dapibus ac, pretium quis leo. Integer ac augue nisl. Donec eu mi porttitor, tincidunt turpis a, vulputate est. Phasellus et lobortis enim, sed convallis purus. Aliquam ullamcorper vestibulum tortor id gravida. Nunc dolor quam, facilisis a vestibulum a, congue quis magna. Praesent vitae tincidunt tortor.
+Money you pay towards the cost of legal help following a criminal conviction. 
