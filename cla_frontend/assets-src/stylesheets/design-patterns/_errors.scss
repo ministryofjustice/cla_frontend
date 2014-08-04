@@ -40,7 +40,9 @@ $fieldset-error-bg-colour: #FDF8F5;
   }
 }
 
-.Error {
+.Error,
+.editable-error {
+  @include core-14;
   background-color: $error-bg-colour;
   border-left: 3px solid $error-colour;
   padding: 1em;
@@ -73,6 +75,15 @@ $fieldset-error-bg-colour: #FDF8F5;
     }
   }
 
+  &.FormRow--wide {
+    padding: {
+      top: 10px;
+      bottom: 10px;
+      left: 7px;
+      right: 10px;
+    }
+  }
+
   &--basic {
     margin: {
       left: 0em;
@@ -91,7 +102,7 @@ $fieldset-error-bg-colour: #FDF8F5;
 .FormBlock--grey {
   &.FieldsetError {
     background-color: $fieldset-error-bg-colour;
-  }   
+  }
 
  .Error {
     margin: {
