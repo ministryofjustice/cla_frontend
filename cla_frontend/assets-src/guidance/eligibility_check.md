@@ -86,19 +86,18 @@ re. Donec nec arcu et nisi facilisis cursus. Morbi convallis cursus libero, ut c
 
 ctetur adipiscing elit. Aliquam vitae massa nibh. Etiam eros felis, ornare nec nibh eu, egestas cursus nulla. Aliquam viverra,
 
-## Income
+## Your income
 
-<h3 id="ecg-earnings">Earnings</h3>
+<h3 id="ecg-earnings">Earnings last month</h3>
 
-Donec leo est, semper ac ornare a, mollis ut sapien. Ut euismod turpis neque, id viverra nibh semper vel. Donec hendrerit 
+The total amount of money you earned before tax. Check your most recent payslips. 
 
 <h3 id="ecg-other_income">Other income</h3>
 
-nsectetur enim eu tellus dapibus egestas. Vestibulum tellus diam, aliquam eu dapibus eu, ultrices sed mi. Maecenas rutr
+Include child benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 
-allis. Nam semper turpis eu facilisis fringilla. Etiam at sollicitudin arcu.
 
 <h3 id="ecg-dependants_over_16">Children aged 16 and over</h3>
 
@@ -112,11 +111,11 @@ uis scelerisque quis, sodales et enim. Pellentesque at sagittis quam. Nam molest
 
 <h3 id="ecg-expenses_mortgage">Mortgage</h3>
 
-cu malesuada. Mauris id est a neque condimentum mollis. Cras nulla augue, placerat id libero a, eleifend rutrum sem. Nulla neque
+Homeowner payments to a bank or building society. Check your most recent mortgage or bank statement. 
 
 <h3 id="ecg-expenses_rent">Rent</h3>
 
-gestas enim, sit amet viverra purus. Cras ut feugiat arcu. Praesent venenatis, velit vel semper tempor, tortor sapien condimentum massa, quis tristique turpis velit eu felis. Maecenas sit amet arcu at magna consectetur blandit. Proin eget tellus ultricies, imperdiet lectus auctor, ornare ipsum. Curabitur lectus felis, ultricies quis mollis et, pulvinar at diam. Nam sapien le
+Money you pay your landlord to live in your home. Check your most recent bank statement or rentbook. 
 
 <h3 id="ecg-expenses_tax">Tax</h3>
 
