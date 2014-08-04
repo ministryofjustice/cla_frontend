@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['_', '$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', '$state', 'MatterType', 'History',
-        function(_, $rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, $state, MatterType, History){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', '$state', 'MatterType', 'History',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, $state, MatterType, History){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.eligibility_check = $eligibility_check;
@@ -130,9 +130,7 @@
               }
             });
 
-            if (
-              $scope.case_errors.length === 0 && $scope.case_warnings.length === 0
-            ) {
+            if ($scope.case_errors.length === 0 && $scope.case_warnings.length === 0) {
               return true;
             } else {
               return false;
