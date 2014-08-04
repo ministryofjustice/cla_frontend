@@ -48,11 +48,11 @@ $border-colour: $grey-2;
   display: block;
 
   label {
-    @include core-16;
+    @include core-14;
   }
 
   .FormRow-label {
-    @include core-16;
+    @include core-14;
     margin: 0 0 3px;
     padding: 0 0 0 0;
     display: block;
