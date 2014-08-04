@@ -4,7 +4,13 @@
   <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="choice in diagnosis.choices">
     <label class="FormRow-label">
       <input type="radio" value="{{ choice.id }}" name="choice" ng-model="diagnosis.current_node_id" required>
-      <span class="FormRow-labelText" ng-bind-html="choice.label"></span>
+      <div class="FormRow-labelText">
+        <span ng-bind-html="choice.label"></span>
+        <details ng-show="choice.help_text">
+          <summary>Help</summary>
+          <span ng-bind-html="choice.help_text"></span>
+        </details>
+      </div>
     </label>
   </div>
 
