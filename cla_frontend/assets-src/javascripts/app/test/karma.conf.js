@@ -11,6 +11,7 @@ module.exports = function(config){
       '../../vendor/angular-i18n/angular-locale_en-gb.js',
       '../../vendor/angular-sanitize/angular-sanitize.js',
       '../../vendor/angular-mocks/angular-mocks.js',
+      '../vendor/xeditable.js',
       'js/**/*.js',
       'test/unit/**/*.js'
     ],
