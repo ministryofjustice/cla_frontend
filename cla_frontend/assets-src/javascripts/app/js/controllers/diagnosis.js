@@ -16,7 +16,7 @@
 
           // if choices.length === 1 => check it by default
           $scope.$watch('diagnosis.choices', function(newVal) {
-            if (newVal.length === 1) {
+            if (newVal && newVal.length === 1) {
               $scope.diagnosis.current_node_id = newVal[0].id;
             }
           });
