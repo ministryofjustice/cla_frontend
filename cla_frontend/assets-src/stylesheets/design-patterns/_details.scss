@@ -2,6 +2,7 @@ details {
   display: block;
 
   summary {
+    @include core-14;
     display: block;
     color: $link-colour;
     cursor: pointer;

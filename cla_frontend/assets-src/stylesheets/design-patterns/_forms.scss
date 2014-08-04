@@ -314,6 +314,20 @@ $border-colour: $grey-2;
         }
       }
     }
+
+    &.FormRow--groupNarrow {
+      details {
+        summary {
+          top: 0px;
+          right: 25px;
+        }
+        > div {
+          padding-right: 60px;
+          padding-left: 15px;
+          margin: 10px 0 10px 35px;
+        }
+      }
+    }
   }
 
   &--help {
