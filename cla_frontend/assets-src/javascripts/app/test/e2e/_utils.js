@@ -61,9 +61,18 @@ module.exports = {
       fillField(name, details[name]);
     }
   },
+
   fillField: fillField,
+
   saveCase: function() {
     browser.findElement(by.css('#personal_details [type=submit]')).click();
+  },
+
+  setCategory: function(category) {
+    browser.findElement(by.cssContainingText('button','New means test')).click();
+    browser.findElement(by.css('.Accordion-sectionTitle')).click();
+    browser.findElement(by.css('input[name="category"][value="' + category + '"]')).click();
+    browser.findElement(by.css("button[name='save-means-test']")).click();
   }
 
 
