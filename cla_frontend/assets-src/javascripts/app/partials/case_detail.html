@@ -16,10 +16,10 @@
           <h1 class="CaseDetails-caseNum Icon Icon--folder Icon--right">{{ case.reference }}</h1>
           <p class="CaseDetails-entitlementNum" ng-show="case.isInScopeAndEligible()">entitlement reference: {{ case.laa_reference }}</p>
           <p class="CaseDetails-entitlementNum" ng-show="case.matter_type1 || case.matter_type2">
-            <a class="Icon Icon--edit" href="" ng-click="edit_matter_types()"></a>
             <strong ng-show="case.matter_type1">MT1:</strong> {{ case.matter_type1 }}</span>
             <span ng-show="case.matter_type1 && case.matter_type2"> | </span>
             <strong ng-show="case.matter_type2">MT2:</strong> {{ case.matter_type2 }}
+            <a class="Icon Icon--edit Icon--right" href="" ng-click="edit_matter_types()"></a>
           </p>
         </header>
         
