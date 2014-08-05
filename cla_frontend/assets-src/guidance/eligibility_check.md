@@ -21,7 +21,7 @@ Legal aid is calculated on both you and your partner's money. A 'partner' is a p
 
 <h3 id="ecg-on_nass_benefits">Are you on nass Benefits?</h3>
 
-the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software 
+NASS (National Asylum Support Service) benefits are paid to eligible destitute asylum seekers as vouchers. Note that NASS benefits will only passport the means test if the matter is an immigration one.
 
 <h3 id="ecg-on_passported_benefits">Are you on Passported Benefits?</h3>
 
@@ -98,6 +98,7 @@ Include child benefit, pensions, tax credits, income from investments, maintenan
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 
+If client has both employment and self-employment choose 'employed' as they will be eligible for the additional £45 allowance.
 
 <h3 id="ecg-dependants_over_16">Children aged 16 and over</h3>
 
