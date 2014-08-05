@@ -11,9 +11,6 @@
           $scope.diagnosis = $diagnosis;
           $scope.personal_details = $personal_details;
 
-          // show guidance
-          $scope.$emit('guidance:toggle', true);
-
           // log set grouping
           $scope.logSet = [];
           var currentTimer = null;
