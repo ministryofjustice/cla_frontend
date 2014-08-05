@@ -18,5 +18,6 @@
 
 <div class="FormActions">
   <button type="button" name="assign-provider" class="Button" ng-show="case_errors.length === 0" ng-click="proceed()">Continue</button>
-  <a href="" ng-click="close()">Close</a>
+  <a href="" ng-show="case.diagnosis_state !== 'INSCOPE' || case.eligibility_state !== 'yes'" ng-click="proceed()">Refer for second opinion</a>
+  <a href="" ng-click="close()">Cancel</a>
 </div>
