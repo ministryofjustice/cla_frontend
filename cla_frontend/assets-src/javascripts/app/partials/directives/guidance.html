@@ -1,16 +1,20 @@
-<div class="Guidance-searchResults Grid-col Grid-col--1-5" ng-hide="!show_guidance">
-  <h1>Guidance</h1>
+<div>
+  <div class="Guidance-searchContainer">
+    <form ng-submit="search()" class="Guidance-search">
+      <div class="FormRow cf">
+        <input type="text" name="query" placeholder="Search guidance" ng-model="guidance.query" class="FormRow-field--full" ng-focus="toggleResults(true)" />
+        <button class="Search-submit" type="submit">Search</button>
+      </div>
+    </form>
+    
+    <div class="Guidance-resultContainer" ng-show="show_results">
+      <ul class="Guidance-results" ng-show="results">
+        <li class="Guidance-resultItem" ng-repeat="result in results">
+          <a href="" ng-click="addDoc(result.ref)">{{ result.title }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-  <form ng-submit="search()" class="FormRow cf">
-    <input type="text" name="query" ng-model="guidance.query" class="FormRow-field--full" />
-    <button class="Search-submit" type="submit">Search</button>
-  </form>
-
-  <ul class="Guidance-results">
-    <li class="Guidance-resultItem" ng-repeat="result in results">
-      <a href="" ng-click="addDoc(result.ref)">{{ result.title }}</a>
-    </li>
-  </ul>
+  <guidance-item content="htmlDoc" ref="docRef"></guidance-item>
 </div>
-
-<guidance-item content="htmlDoc" ref="docRef"></guidance-item>

@@ -63,11 +63,27 @@
           };
 
           $scope.addDoc = function(docRef) {
+            $scope.toggleResults(false);
             $scope.docRef = docRef;
           };
 
           $scope.closeDoc = function() {
             $scope.htmlDoc = null;
+          };
+
+          $scope.toggleResults = function(toggle) {
+            $scope.show_results = toggle;
+
+            // bind/unbind click listener to show/hide results
+            if (toggle) {
+              angular.element('body').on('click.guidanceDelegate', function (e) {
+                if (angular.element(e.target).parents('.Guidance-searchContainer').length < 1) {
+                  $scope.toggleResults(false);
+                }
+              });
+            } else {
+              angular.element('body').off('click.guidanceDelegate');
+            }
           };
 
           $scope.$watch('docRef', function(newVal) {
@@ -96,10 +112,6 @@
           $rootScope.$on('guidance:closeDoc', function() {
             $scope.htmlDoc = null;
             $scope.docRef = null;
-          });
-
-          $rootScope.$on('guidance:toggle', function(__, toggle) {
-            $scope.show_guidance = toggle;
           });
         }
       ]
@@ -150,6 +162,12 @@
           scope.closeDoc = function() {
             scope.$emit('guidance:closeDoc', scope.ref);
           };
+
+          scope.$watch('content', function(newVal) {
+            if (newVal) {
+              scope.minimise = false;
+            }
+          });
         }
       };
     }]

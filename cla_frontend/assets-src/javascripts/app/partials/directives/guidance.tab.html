@@ -1,4 +1,6 @@
-<div class="Guidance-tab" ng-show="content">
-  <a href="" ng-click="closeDoc(ref)" class="Guidance-tabClose" data-ref="{{ref}}">x</a>
+<div class="Guidance-tab" ng-show="content" ng-class="{'is-minimised': minimise}">
+  <a href="" ng-click="closeDoc()" class="Guidance-tabClose">x</a>
+  <a href="" ng-click="minimise=!minimise" class="Guidance-tabMinMax">_</a>
+  <h1 class="Guidance-tabHeading" ng-show="minimise" ng-click="minimise=!minimise">Guidance (1)</h1>
   <div class="Guidance-tabContent" ng-bind-html="content"></div>
 </div>
