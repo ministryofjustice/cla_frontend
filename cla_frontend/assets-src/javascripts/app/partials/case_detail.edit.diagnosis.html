@@ -15,9 +15,9 @@
   </div>
 
   <div class="FormActions FormBlock FormBlock--yellow">
-    <a href="" class="Button" ng-show="diagnosis.nodes" ng-click="moveUp()">Back</a>
     <button type="submit" class="Button" ng-show="diagnosis.isInScopeUnknown()">Next</button>
     <a ui-sref="case_detail.edit.eligibility" class="Button" ng-show="!diagnosis.isInScopeUnknown()">Create eligibility check</a>
+    <button type="button" class="Button Button--secondary" ng-show="diagnosis.nodes" ng-click="moveUp()">Back</button>
     <a ui-sref="case_detail.edit">Return to case</a>
   </div>
 </form>
