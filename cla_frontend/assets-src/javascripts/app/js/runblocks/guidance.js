@@ -73,6 +73,17 @@
 
           $scope.toggleResults = function(toggle) {
             $scope.show_results = toggle;
+
+            // bind/unbind click listener to show/hide results
+            if (toggle) {
+              angular.element('body').on('click.guidanceDelegate', function (e) {
+                if (angular.element(e.target).parents('.Guidance-searchContainer').length < 1) {
+                  $scope.toggleResults(false);
+                }
+              });
+            } else {
+              angular.element('body').off('click.guidanceDelegate');
+            }
           };
 
           $scope.$watch('docRef', function(newVal) {
@@ -92,16 +103,6 @@
                 });
               });
             }
-          });
-
-          angular.element('body').on('click.guidanceDelegate', function (e) {
-            if (angular.element(e.target).parents('.Guidance-searchContainer').length < 1) {
-              $scope.toggleResults(false);
-            }
-          });
-          // When the scope is destroyed, clean up.
-          $scope.$on('$destroy', function() {
-            angular.element('body').off('click.guidanceDelegate');
           });
 
           $rootScope.$on('guidance:openDoc', function(__, docRef) {
