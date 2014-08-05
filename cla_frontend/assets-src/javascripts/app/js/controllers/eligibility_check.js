@@ -62,7 +62,7 @@
               $scope.case.state = data.state;
 
               // fire a save notification
-              flash('success', 'The means test has been saved. The current result is <strong>' + $scope.eligibilityText(data.state)) + '</strong>';
+              flash('success', 'The means test has been saved. The current result is <strong>' + $scope.eligibilityText(data.state) + '</strong>');
             });
           };
 
