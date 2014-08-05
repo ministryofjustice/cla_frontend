@@ -162,6 +162,12 @@
           scope.closeDoc = function() {
             scope.$emit('guidance:closeDoc', scope.ref);
           };
+
+          scope.$watch('content', function(newVal) {
+            if (newVal) {
+              scope.minimise = false;
+            }
+          });
         }
       };
     }]
