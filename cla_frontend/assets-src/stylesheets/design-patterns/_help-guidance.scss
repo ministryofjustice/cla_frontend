@@ -2,41 +2,17 @@
   padding-bottom: 350px;
 }
 
-.Guidance-bar {
+.Guidance-search {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
-  .Grid {
-    margin: 0;
-    overflow: visible;
-  }
-  .Grid-col {
-    position: relative;
-    height: 350px;
-  }
-}
-.Guidance-searchResults {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  background: #fff;
-  height: 330px;
-  width: 220px;
-  padding: 10px;
+  bottom: 10px;
+  right: 10px;
+  width: 18.493%;
   z-index: 10;
-
-  h1 {
-    @include bold-24;
-    color: $grey-1;
-    padding-bottom: 5px;
-    padding-top: 0;
-  }
 
   .FormRow {
     position: relative;
-    padding-right: 29px;
+    padding: 0 29px 0 10px;
+    margin: 0;
   }
   .Search-submit {
     position: absolute;
@@ -44,13 +20,40 @@
   }
 }
 
+.Guidance-resultContainer {
+  padding-left: 10px;
+  position: absolute;
+  z-index: 10;
+  bottom: 100%;
+  left: 0;
+}
+
 .Guidance-results {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  width: 100%;
+  margin: 0 0 5px 0;
+  padding: 8px 10px 0;
+  background: #fff;
+  border: 1px solid $grey-2;
+  @include box-shadow(1px 1px 3px $grey-3);
+  @include box-sizing(border-box);
+
+  &:before {
+    content: "";
+    display: block;
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    left: 15px;
+    bottom: -3px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    @include svg-bg('../images/icons/callout-arrow--down');
+  }
 }
+
 .Guidance-resultItem {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .Guidance-tab {
@@ -58,9 +61,9 @@
   border: 1px solid $grey-2;
   position: fixed;
   bottom: 0;
-  right: 10px;
+  left: 10px;
   z-index: 10;
-  width: 78.3%;
+  width: 78.595%;
   @include box-shadow(1px -1px 3px $grey-3);
 
 }

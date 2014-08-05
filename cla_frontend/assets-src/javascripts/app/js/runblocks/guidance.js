@@ -63,11 +63,16 @@
           };
 
           $scope.addDoc = function(docRef) {
+            $scope.toggleResults(false);
             $scope.docRef = docRef;
           };
 
           $scope.closeDoc = function() {
             $scope.htmlDoc = null;
+          };
+
+          $scope.toggleResults = function(toggle) {
+            $scope.show_results = toggle;
           };
 
           $scope.$watch('docRef', function(newVal) {
@@ -87,6 +92,16 @@
                 });
               });
             }
+          });
+
+          angular.element('body').on('click.guidanceDelegate', function (e) {
+            if (angular.element(e.target).parents('.Guidance-searchContainer').length < 1) {
+              $scope.toggleResults(false);
+            }
+          });
+          // When the scope is destroyed, clean up.
+          $scope.$on('$destroy', function() {
+            angular.element('body').off('click.guidanceDelegate');
           });
 
           $rootScope.$on('guidance:openDoc', function(__, docRef) {
