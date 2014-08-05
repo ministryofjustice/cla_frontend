@@ -185,7 +185,7 @@
         onTimerChangedAPICallback(data.created);
         (options.success || angular.noop)();
       }, function(data) {
-        flash('error', data.detail);
+        flash('error', data.detail || '');
         (options.error || angular.noop)();
       });
     });
