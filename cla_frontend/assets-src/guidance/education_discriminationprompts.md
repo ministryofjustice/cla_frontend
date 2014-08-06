@@ -15,6 +15,8 @@ The table below contains examples of discrimination cases and the questions you 
 | Client situation | You could ask... |
 |---|---|
 | A school is planning a trip but excludes the caller's child. This is because the child is disabled and the school believes the child will not be able to adequately participate. | Do you think your child has been singled out, treated differently or experienced worse treatment than someone else? Was there a particular reason why your child was excluded from the school trip? |
-| A pupil reports that they are being bullied and the school is taking no action. they have told the school they believe this is due to them being gay. | Do you think you have been singled out, treated differently or experienced worse treatment than someone else? Why do you think you are being bullied? |
-| A school is not willing to adapt their school uniform to meet the needs of disabled children | 
+| A pupil reports that they are being bullied and the school is taking no action. They have told the school they believe this is due to them being gay. | Do you think you have been singled out, treated differently or experienced worse treatment than someone else? Why do you think you are being bullied? |
+| A school is not willing to adapt their school uniform to meet the needs of disabled children | Do you think you have been singled out, treated differently or experienced worse treatment than someone else? Why do you feel the school is not willing to adapt the school uniform to meet your child's needs? |
+| A child is excluded from school due to behavior in class linked to a disability. | Why has the child been excluded from school? Do you think they have been singled out, treated differently or experienced worse treatment than someone else? |
+
 
