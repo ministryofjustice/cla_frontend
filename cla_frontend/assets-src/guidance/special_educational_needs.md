@@ -17,4 +17,15 @@ Legal aid is available for all advice and assistance about the provision of educ
 
 * thinks that their child has SEN that are not being addressed by their school or local authority
 * objects to or is disputing a Statement of SEN
-* does not agree with the content of the 
+* does not agree with what the Statement of SEN says in terms of their child's specific needs and their learning difficulties. This would cover disputes about the type of special education that would meet their child's needs (eg facilities, therapy, staffing, monitoring arrangments and any non-educational requirements like specialist transport). 
+* believes that the school or local authority is not meeting the child's needs as set out in the Statement
+
+A child or student with SEN is some who:
+
+a) is under 19 and
+b) has a significantly greater difficulty in learning than the majority of pupils of their age or has a disability which means that they can't make full use of the general educational facilities provided for pupils of their age.
+
+### Post-16 education
+Legal aid is 
+
+
