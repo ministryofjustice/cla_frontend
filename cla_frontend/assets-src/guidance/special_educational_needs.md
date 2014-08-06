@@ -23,6 +23,7 @@ Legal aid is available for all advice and assistance about the provision of educ
 A child or student with SEN is some who:
 
 a) is under 19 and
+
 b) has a significantly greater difficulty in learning than the majority of pupils of their age or has a disability which means that they can't make full use of the general educational facilities provided for pupils of their age.
 
 ### Post-16 education
