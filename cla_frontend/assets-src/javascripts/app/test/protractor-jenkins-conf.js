@@ -5,7 +5,7 @@ exports.config = extend(defaults, {
   multiCapabilities: [
     {
       browserName: 'chrome',
-      platform: 'OS X 10.6',
+      platform: 'OS X 10.9',
       version: ''
     }
   ],
