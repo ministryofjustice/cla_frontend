@@ -32,4 +32,3 @@ To decide if the case is in scope, you will need to identify that what the clien
 * someone is using animals to make the client or the client's family afraid
 * someone is purposefully taking actions to wilfully or knowingly cause the client distress, or actions that the perpetrator should know would cause alarm or distress
 * the landlord is harassing the client
-*
