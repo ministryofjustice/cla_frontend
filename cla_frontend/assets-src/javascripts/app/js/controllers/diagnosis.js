@@ -14,6 +14,13 @@
             });
           }
 
+          // if choices.length === 1 => check it by default
+          $scope.$watch('diagnosis.choices', function(newVal) {
+            if (newVal && newVal.length === 1) {
+              $scope.diagnosis.current_node_id = newVal[0].id;
+            }
+          });
+
           // updates the state of case.diagnosis_state after each save
           function saveCallback(data) {
             $scope.case.diagnosis_state = data.state;

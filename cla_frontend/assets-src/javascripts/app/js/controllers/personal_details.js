@@ -10,9 +10,10 @@
           $scope.third_party = thirdparty_details;
 
           $scope.toggle_adaptations = $scope.case.adaptation_details ? true : false;
+          $scope.language = {};
           if ($scope.adaptations.language === 'WELSH') {
-            $scope.welsh_override = true;
-            $scope.disable_lang = true;
+            $scope.language.welsh_override = true;
+            $scope.language.disable = true;
           }
 
           $scope.language_options = ADAPTATION_LANGUAGES;
@@ -105,16 +106,12 @@
           };
 
           $scope.toggleWelsh = function (value) {
-            if (value) {
-              $scope.disable_lang = false;
-            } else {
-              $scope.disable_lang = true;
-            }
+            $scope.language.disable = value ? false : true;
           };
 
           $scope.cancelPersonalDetails = function (form) {
             form.$cancel();
-            $scope.disable_lang = $scope.adaptations.language === 'WELSH' ? true : false;
+            $scope.language.disable = $scope.adaptations.language === 'WELSH' ? true : false;
           };
 
           $scope.savePersonalDetails = function(form) {
@@ -124,9 +121,10 @@
 
             $scope.setAdaptations();
 
-            if ($scope.welsh_override) {
+            if ($scope.language.welsh_override) {
               $scope.adaptations.language = 'WELSH';
             }
+
             // save personal details
             $scope.personal_details.$update($scope.case.reference, function (data) {
               if (!$scope.case.personal_details) {
@@ -147,6 +145,7 @@
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.adaptations = adaptation_details;
+              adaptationsPromise.reject();
             });
             // save media code
             if ($scope.case.media_code !== undefined) {

@@ -48,11 +48,11 @@ $border-colour: $grey-2;
   display: block;
 
   label {
-    @include core-16;
+    @include core-14;
   }
 
   .FormRow-label {
-    @include core-16;
+    @include core-14;
     margin: 0 0 3px;
     padding: 0 0 0 0;
     display: block;
@@ -311,6 +311,20 @@ $border-colour: $grey-2;
         div {
           padding-left: 60px;
           padding-right: 60px;
+        }
+      }
+    }
+
+    &.FormRow--groupNarrow {
+      details {
+        summary {
+          top: 0px;
+          right: 25px;
+        }
+        > div {
+          padding-right: 60px;
+          padding-left: 15px;
+          margin: 10px 0 10px 35px;
         }
       }
     }

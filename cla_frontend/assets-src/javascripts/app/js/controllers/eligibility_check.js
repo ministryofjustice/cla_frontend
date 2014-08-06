@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams',
-        function($scope, Category, $stateParams){
+      ['$scope', 'Category', '$stateParams', 'flash',
+        function($scope, Category, $stateParams, flash){
           $scope.category_list = Category.query();
           $scope.warnings = {};
           $scope.sections = [{
@@ -60,6 +60,9 @@
 
               // updates the state of case.eligibility_state after each save
               $scope.case.state = data.state;
+
+              // fire a save notification
+              flash('success', 'The means test has been saved. The current result is <strong>' + $scope.eligibilityText(data.state) + '</strong>');
             });
           };
 
@@ -71,6 +74,10 @@
               $scope.eligibility_check.property_set = [];
             }
             $scope.eligibility_check.property_set.push({});
+          };
+
+          $scope.eligibilityText = function (eligible) {
+            return eligible === 'yes' ? 'eligible for Legal Aid' : (eligible === 'no' ? 'not eligible for Legal Aid' : 'unknown');
           };
 
           $scope.eligibilityTitle = function () {

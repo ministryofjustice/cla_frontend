@@ -21,11 +21,16 @@ Legal aid is calculated on both you and your partner's money. A 'partner' is a p
 
 <h3 id="ecg-on_nass_benefits">Are you on nass Benefits?</h3>
 
-the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software 
+NASS (National Asylum Support Service) benefits are paid to eligible destitute asylum seekers as vouchers. Note that NASS benefits will only passport the means test if the matter is an immigration one.
 
 <h3 id="ecg-on_passported_benefits">Are you on Passported Benefits?</h3>
 
- Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malor
+* Income Support
+* Income-Based Job Seeker's Allowance *(not contributions-based)*
+* Income-Related Employment and Support Allowance
+* Guarantee Credit or Universal Credit
+
+Search guidance for "disregarded benefits" in order to see benefits that need not be included. All other benefits should be declared as income.
 
 <h3 id="ecg-over_60">Are you or your partner aged 60 or over?</h3>
 
@@ -47,7 +52,9 @@ Is a partner seeking to claim the property? Is a creditor or mortgage company se
 
 <h3 id="ecg-property_main">Is this your main property?</h3>
 
-This is the property in which the client lives. If they have separated and are now living elsewhere their former house is no longer the main property.
+This is the property in which the client lives. If they have separated and are now living elsewhere their former house is no longer the main property. 
+
+Legal aid is based on how much money you have. That means any property you own must be considered, even if you don't live in it. Your 'home' is where you live as your only or main residence and includes caravans, houseboats or other vehicles.
 
 <h3 id="ecg-property_share">What is your share of the property?</h3>
 
@@ -79,19 +86,19 @@ re. Donec nec arcu et nisi facilisis cursus. Morbi convallis cursus libero, ut c
 
 ctetur adipiscing elit. Aliquam vitae massa nibh. Etiam eros felis, ornare nec nibh eu, egestas cursus nulla. Aliquam viverra,
 
-## Income
+## Your income
 
-<h3 id="ecg-earnings">Earnings</h3>
+<h3 id="ecg-earnings">Earnings last month</h3>
 
-Donec leo est, semper ac ornare a, mollis ut sapien. Ut euismod turpis neque, id viverra nibh semper vel. Donec hendrerit 
+The total amount of money you earned before tax. Check your most recent payslips. 
 
 <h3 id="ecg-other_income">Other income</h3>
 
-nsectetur enim eu tellus dapibus egestas. Vestibulum tellus diam, aliquam eu dapibus eu, ultrices sed mi. Maecenas rutr
+Include child benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 
-allis. Nam semper turpis eu facilisis fringilla. Etiam at sollicitudin arcu.
+If client has both employment and self-employment choose 'employed' as they will be eligible for the additional £45 allowance.
 
 <h3 id="ecg-dependants_over_16">Children aged 16 and over</h3>
 
@@ -105,28 +112,28 @@ uis scelerisque quis, sodales et enim. Pellentesque at sagittis quam. Nam molest
 
 <h3 id="ecg-expenses_mortgage">Mortgage</h3>
 
-cu malesuada. Mauris id est a neque condimentum mollis. Cras nulla augue, placerat id libero a, eleifend rutrum sem. Nulla neque
+Homeowner payments to a bank or building society. Check your most recent mortgage or bank statement. 
 
 <h3 id="ecg-expenses_rent">Rent</h3>
 
-gestas enim, sit amet viverra purus. Cras ut feugiat arcu. Praesent venenatis, velit vel semper tempor, tortor sapien condimentum massa, quis tristique turpis velit eu felis. Maecenas sit amet arcu at magna consectetur blandit. Proin eget tellus ultricies, imperdiet lectus auctor, ornare ipsum. Curabitur lectus felis, ultricies quis mollis et, pulvinar at diam. Nam sapien le
+Money you pay your landlord to live in your home. Check your most recent bank statement or rentbook. 
 
 <h3 id="ecg-expenses_tax">Tax</h3>
 
-rra tincidunt nibh, in dignissim odio porta ac. Vivamus laoreet mollis pellentesque. Integer sed ligula vitae tellus sodales posue
+Money deducted from your pay by your employer - check your most recent payslip. If you work for yourself instead of for a company check your most recent tax bill. 
 
 <h3 id="ecg-expenses_nic">National Insurance Contributions</h3>
 
-cibus, lectus sed varius rutrum, justo tellus elementum nibh, eu pretium eros ante id enim. Phasellus gravida, sapien et rhoncu
+Money deducted from your pay by your employer - check your most recent payslip. If you work for yourself instead of for a company check your most recent tax bill.
 
 <h3 id="ecg-expenses_maintenance">Maintenance</h3>
 
-quam nibh lobortis libero, fringilla imperdiet justo massa nec ligula. Suspendisse justo dui, elementum et adipiscing non, gravida non lorem. Nulla semper, purus ut laoreet pharetra, enim enim aliquam libero, vel porttitor ante augue sit amet sem
+Regular payments you make to an ex-partner to help with their living costs or the living costs of your child who no longer lives with you. 
 
 <h3 id="ecg-expenses_childcare">Childcare</h3>
 
-Vivamus rutrum nisi in orci suscipit, quis porttitor turpis varius. Sed nec neque iaculis, iaculis magna quis, convallis leo. Maecenas volutpat urna id eros venenatis luctus. Praesent mollis sed lorem eget elementum. Morbi sed auctor urna, vitae porta mauris. Nam sodales rhoncus turpis. Vestibulum libero eros, tincidunt vel est non, cursus dignissim diam. Donec accumsan bibendum tortor, in porttitor neque semper ac. Integer tempor, massa tempus sollicitudin fermentum, mi tortor tempor dolor, quis imperdiet leo lorem eget sem. Praesent est nisi, varius sit amet augue vel, cursus imperdiet justo.
+Money you pay for your child to be looked after while you work or study. 
 
 <h3 id="ecg-expenses_contribution_order">Contribution order</h3>
 
-Sed lorem dui, congue quis dapibus ac, pretium quis leo. Integer ac augue nisl. Donec eu mi porttitor, tincidunt turpis a, vulputate est. Phasellus et lobortis enim, sed convallis purus. Aliquam ullamcorper vestibulum tortor id gravida. Nunc dolor quam, facilisis a vestibulum a, congue quis magna. Praesent vitae tincidunt tortor.
+Money you pay towards the cost of legal help following a criminal conviction. 

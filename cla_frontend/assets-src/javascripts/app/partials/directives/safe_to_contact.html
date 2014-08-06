@@ -3,7 +3,7 @@
   <div class="SafeToContact-content" ng-show="showOpts">
     <ul class="SafeToContact-list">
       <li class="SafeToContact-listItem" ng-repeat="opt in options">
-        <a href="" class="SafeToContact-option Icon" ng-click="setSafe(opt.safe, opt.name)" ng-class="{'is-selected': person.contact_safety.name === opt.name, 'Icon--call Icon--green': opt.safe, 'Icon--dontcall Icon--red': !opt.safe}">{{ opt.name }}</a>
+        <a href="" class="SafeToContact-option Icon" ng-click="setSafe(opt.name)" ng-class="{'is-selected': person.safe_to_contact === opt.value, 'Icon--call Icon--green': opt.value === 'SAFE', 'Icon--dontcall Icon--red': opt.value !== 'SAFE'}">{{ opt.name }}</a>
       </li>
     </ul>
   </div>
