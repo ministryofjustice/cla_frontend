@@ -3,8 +3,9 @@
 
 # def login_redirect_url(request):
 #     return reverse('call_centre:dashboard')
+import json
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
@@ -12,7 +13,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.utils.http import is_safe_url
 from django.shortcuts import resolve_url
 from django.contrib.sites.models import get_current_site
-from django.template.response import TemplateResponse
+from django.template.response import TemplateResponse, HttpResponse
 
 from .forms import AuthenticationForm
 
@@ -27,6 +28,7 @@ def login(request, template_name='accounts/login.html',
     """
     Displays the login form and handles the login action.
     """
+    is_json = 'application/json' in request.META.get('HTTP_ACCEPT', '')
     redirect_to = request.REQUEST.get(redirect_field_name, '')
 
     if request.method == "POST":
@@ -41,7 +43,16 @@ def login(request, template_name='accounts/login.html',
             # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
 
+            if is_json:
+                return HttpResponse(status=204)
             return HttpResponseRedirect(redirect_to)
+        else:
+            if is_json:
+                return HttpResponse(
+                    json.dumps(form.errors),
+                    status=400,
+                    content_type='application/json'
+                )
     else:
         form = authentication_form(request, zone_name=zone_name)
 
@@ -55,5 +66,9 @@ def login(request, template_name='accounts/login.html',
     }
     if extra_context is not None:
         context.update(extra_context)
-    return TemplateResponse(request, template_name, context,
-                            current_app=current_app)
+
+    if is_json:
+        raise Http404()
+    else:
+        return TemplateResponse(request, template_name, context,
+                               current_app=current_app)

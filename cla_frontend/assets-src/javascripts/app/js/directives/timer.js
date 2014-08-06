@@ -47,15 +47,22 @@
     // API
     var Timer = {
       baseUrl: '/call_centre/proxy/timer/',
+      defaults: {
+        ignoreExceptions: [404]
+      },
 
-      getOrCreate: function(successCallback, errorCallback) {
-        return $http.post(this.baseUrl).
+      getOrCreate: function(successCallback, errorCallback, ignoreExceptions) {
+        return $http.post(this.baseUrl, {}, {
+            'ignoreExceptions': ignoreExceptions || this.defaults.ignoreExceptions
+          }).
           success(successCallback || angular.noop).
           error(errorCallback || angular.noop);
       },
 
-      get: function(successCallback, errorCallback) {
-        return $http.get(this.baseUrl).
+      get: function(successCallback, errorCallback, ignoreExceptions) {
+        return $http.get(this.baseUrl, {
+            'ignoreExceptions': ignoreExceptions || this.defaults.ignoreExceptions
+          }).
           success(successCallback || angular.noop).
           error(errorCallback || angular.noop);
       }
@@ -184,8 +191,10 @@
       Timer.getOrCreate(function(data) {
         onTimerChangedAPICallback(data.created);
         (options.success || angular.noop)();
-      }, function(data) {
-        flash('error', data.detail);
+      }, function(data, status) {
+        if (status === 400) {
+          flash('error', data.detail || '');
+        }
         (options.error || angular.noop)();
       });
     });

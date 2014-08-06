@@ -1,9 +1,7 @@
 'use strict';
 (function(){
 
-  var transformData = function($http, data, headers) {
-    var fns = $http.defaults.transformRequest;
-
+  var transformData = function(data, headers, fns) {
     if (angular.isFunction(fns)) {
       return fns(data, headers);
     }
@@ -24,11 +22,14 @@
         '/call_centre/proxy/case/:caseref/',
         {caseref: '@reference'},
         {
+          'get':    {method:'GET', ignoreExceptions: [404]},
           'query':  {
             method:'GET',
             isArray:false,
-            transformResponse: function(data) {
-              var _data = angular.fromJson(data),
+            transformResponse: function(data, headers) {
+              var _data = transformData(
+                    data, headers, $http.defaults.transformResponse
+                  ),
                   results = [];
 
               angular.forEach(_data.results, function (item) {
@@ -44,26 +45,26 @@
           'case_details_patch': {
             method:'PATCH',
             transformRequest: function(data, headers) {
-              return transformData($http, {
+              return transformData({
                 notes: data.notes
-              }, headers);
+              }, headers, $http.defaults.transformRequest);
             }
           },
           'set_matter_types': {
             method:'PATCH',
             transformRequest: function (data, headers) {
-              return transformData($http, {
+              return transformData({
                 matter_type1: data.matter_type1,
                 matter_type2: data.matter_type2
-              }, headers);
+              }, headers, $http.defaults.transformRequest);
             }
           },
           'set_media_code': {
             method:'PATCH',
             transformRequest: function(data, headers) {
-              return transformData($http, {
+              return transformData({
                 media_code: data.media_code
-              }, headers);
+              }, headers, $http.defaults.transformRequest);
             }
           }
         }
