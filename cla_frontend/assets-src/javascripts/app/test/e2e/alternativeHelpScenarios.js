@@ -13,6 +13,13 @@ describe('operatorApp', function() {
   // logs the user in before each test
   beforeEach(utils.setUp);
 
+  afterEach(function() {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      //expect(browserLog.length).toEqual(0);
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
+  });
+
   describe('Assign Alternative Help', function () {
     it('should have a disabled assign button if no alternative help providers selected', function () {
       utils.createCase();
