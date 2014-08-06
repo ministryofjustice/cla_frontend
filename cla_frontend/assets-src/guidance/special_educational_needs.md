@@ -26,6 +26,6 @@ a) is under 19 and
 b) has a significantly greater difficulty in learning than the majority of pupils of their age or has a disability which means that they can't make full use of the general educational facilities provided for pupils of their age.
 
 ### Post-16 education
-Legal aid is 
+Legal aid is available for advice in relation to a local authority's assessment (or lack of assessment) of a young person's post-16 educational requirements and support. This could include helping them make a complaint to the local authority or the Local Government Ombudsman, or, if the circumstances justify it, lodging an application for judicial review. 
 
 
