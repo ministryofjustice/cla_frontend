@@ -19,7 +19,7 @@ function setUp(){
 
 
 function fillField(name, value) {
-  browser.findElement(by.css('[name=' + name + ']')).sendKeys(value);
+  browser.findElement(by.css('[name="' + name + '"]')).sendKeys(value);
 }
 function expectUrl(absUrl, expectedUrl) {
   var pro = protractor.getInstance();
@@ -35,6 +35,12 @@ function getCase(case_id) {
 
 module.exports = {
   APP_BASE_URL: APP_BASE_URL,
+
+  scrollTo: function (element) {
+    browser.executeScript(function () {
+      arguments[0].scrollIntoView();
+    }, element);
+  },
 
   expectUrl: expectUrl,
   setUp: setUp,
@@ -53,16 +59,16 @@ module.exports = {
   },
 
   showPersonalDetailsForm: function() {
-    browser.findElement(by.css('#personal_details')).click();
+    browser.findElement(by.css('#personal_details .VCard-view')).click();
   },
 
   enterPersonalDetails: function(details) {
     for (var name in details) {
       if (name == 'media_code') {
         browser.findElement(by.css('.selectize-control')).click();
-        var field = browser.findElement(by.css('.ui-select-search'));
+        var field = browser.findElement(by.css('input.ui-select-search'));
         field.sendKeys(details[name]);
-        field.sendKeys(protractor.Key.ENTER);
+        field.sendKeys(protractor.Key.RETURN);
       } else {
         fillField(name, details[name]);
       }
@@ -73,7 +79,8 @@ module.exports = {
   fillField: fillField,
 
   saveCase: function() {
-    browser.findElement(by.css('#personal_details [type=submit]')).click();
+    browser.findElement(by.css('button[name="save-personal-details"]')).click();
+    this.scrollTo(browser.findElement(by.id('personal_details')));
   },
 
   setCategory: function(category) {
