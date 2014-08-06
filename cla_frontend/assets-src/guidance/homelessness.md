@@ -1,105 +1,14 @@
-Local authorities have a
+Local authorities have a statutory obligation to provide accommodation and assistance to an individual who is homeless or threatened with homelessness (i.e. will become homeless within 28 days)
 
-statutory obligation to provide 
+To be in scope the client will currently be homeless or have been threatened with losing their home within 28 days and need to access accommodation and/or assistance from the local housing authority.
 
-accommodation and assistance to 
+Alternatively, they may have received a letter from the local authority on their ineligibility for accommodation and assistance that they wish to challenge.
 
-an individual who is homeless or 
+Are you homeless or are you threatened with homelessness within the next 28 days? You will be considered as homeless if you:
 
-threatened with homelessness (i.e. 
+* have no accommodation physically available to occupy in the UK or elsewhere, or
+* have no accommodation available which you are legally entitled to occupy, or
+* have accommodation which is available and which you are entitled to occupy but cannot secure entry into it, or
+* have accommodation available which you are entitled to occupy, but that accommodation consists of a moveable structure and there is no place where you are entitled or permitted both to place and reside in it, or
+* have accommodation available, which you are entitled to occupy and it is not reasonable to continue to occupy
 
-will become homeless within 28 
-
-days)
-
-To be in scope the client will 
-
-currently be homeless or have 
-
-been threatened with losing their 
-
-home within 28 days and need 
-
-to access accommodation and/or 
-
-assistance from the local housing 
-
-authority.
-
-Alternatively, they may have 
-
-received a letter from the local 
-
-authority on their ineligibility for 
-
-accommodation and assistance 
-
-that they wish to challenge.
-
-Are you homeless or are you 
-
-threatened with homelessness 
-
-within the next 28 days? You will 
-
-be considered as homeless if 
-
-you are:
-
-You will be considered as 
-
-homeless if you:
-
-• Have no accommodation 
-
-physically available to 
-
-Definition Common/potential scenarios Questions that may help in 
-
-occupy in the UK or 
-
-elsewhere, or
-
-• Have no accommodation 
-
-available which you are 
-
-legally entitled to occupy, or
-
-Have accommodation •
-
-which is available and 
-
-which you are entitled to 
-
-occupy but cannot secure 
-
-entry into it, or
-
-Have accommodation •
-
-available which you are 
-
-entitled to occupy, but that 
-
-accommodation consists of 
-
-a moveable structure and 
-
-there is no place where you 
-
-are entitled or permitted 
-
-both to place and reside in 
-
-it, or
-
-Have accommodation •
-
-available, which you are 
-
-entitled to occupy and it is 
-
-not reasonable to continue 
-
-to occupy.
