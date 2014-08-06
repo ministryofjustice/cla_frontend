@@ -8,4 +8,4 @@ tags:
 
 ---
 ##Discrimination in education
-
+It's important to find out if there is a potential discrimination case in any education problem. 
