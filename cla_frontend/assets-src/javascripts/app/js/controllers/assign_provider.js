@@ -2,11 +2,14 @@
   'use strict';
 
   angular.module('cla.controllers')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils',
-      function($scope, _, $state, form_utils) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', '$stateParams',
+      function($scope, _, $state, form_utils, $stateParams) {
         $scope.is_manual = false;
 
-        $scope.case.get_suggested_providers().success(function(data) {
+
+        var as_of = $stateParams.as_of;
+
+        $scope.case.get_suggested_providers(as_of).success(function(data) {
           $scope.suggested_providers = data.suggested_provider === null ? data.suitable_providers : _.reject(data.suitable_providers, {
             id: data.suggested_provider.id
           });

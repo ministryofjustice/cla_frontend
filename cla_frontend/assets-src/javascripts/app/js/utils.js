@@ -16,6 +16,12 @@
   ]);
 
   angular.module('cla.utils')
+    .factory('moment', ['$window', function($window){
+      return $window.moment;
+    }
+    ]);
+
+  angular.module('cla.utils')
     .factory('form_utils', function(){
     return {
       ctrlFormErrorCallback: function($scope, response, form) {

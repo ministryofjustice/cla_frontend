@@ -124,7 +124,7 @@
 
   states.CaseEditDetailAssignState = {
     parent: states.CaseDetailState,
-    url: 'assign/',
+    url: 'assign/?as_of',
     views: {
       '@case_detail': {
         templateUrl:'case_detail.assign.html',
