@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.4 (8053) - http://www.bohemiancoding.com/sketch -->
-    <title>icon-accordionOpen</title>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>arrowDown</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="icon-accordionOpen" sketch:type="MSArtboardGroup" stroke="#0B0C0C" stroke-width="2">
-            <path d="M0,14 L8,2 L16,14" id="Triangle-7" sketch:type="MSShapeGroup" transform="translate(8.000000, 8.000000) scale(1, -1) translate(-8.000000, -8.000000) "></path>
+        <g id="arrowDown" sketch:type="MSArtboardGroup" stroke="#0B0C0C" stroke-width="60">
+            <g id="icon-arrow-down" sketch:type="MSLayerGroup" transform="translate(0.000000, 64.000000)">
+                <path d="M0,384 L256,0 L512,384" id="Triangle-9" sketch:type="MSShapeGroup" transform="translate(256.000000, 192.000000) scale(1, -1) translate(-256.000000, -192.000000) "></path>
+            </g>
         </g>
     </g>
 </svg>

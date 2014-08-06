@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
-    <title>AddComment_icon</title>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>commentAdd</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="AddComment_icon" sketch:type="MSArtboardGroup" fill="#0B0C0C">
-            <path d="M3,13 L3,14.9924225 C3,14.9924225 3.23205566,16.8161127 5.00832222,15.5564784 C6.02471203,14.8357084 7.51230568,13.775336 8.59906644,13 L14.0059397,13 C15.1072288,13 16,12.1064574 16,10.9972399 L16,2.00276013 C16,0.896666251 15.1054862,0 14.0059397,0 L1.99406028,0 C0.892771196,0 0,0.893542647 0,2.00276013 L0,10.9972399 C0,12.1033337 0.894513756,13 1.99406028,13 L3,13 L3,13 Z M3.00247329,2 C2.44882258,2 2,2.4463114 2,2.99754465 L2,10.0024554 C2,10.553384 2.45576096,11 3.00247329,11 L12.9975267,11 C13.5511774,11 14,10.5536886 14,10.0024554 L14,2.99754465 C14,2.44661595 13.544239,2 12.9975267,2 L3.00247329,2 Z M5,11 L5,13 L8,11 L5,11 Z" id="Rectangle-220" sketch:type="MSShapeGroup"></path>
-            <rect id="Path" sketch:type="MSShapeGroup" x="7" y="3" width="2" height="6"></rect>
-            <rect id="Path" sketch:type="MSShapeGroup" x="5" y="5" width="6" height="2"></rect>
+        <g id="commentAdd" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <g id="icon-AddComment" sketch:type="MSLayerGroup">
+                <path d="M96,416 L96,479.757522 C96,479.757522 103.425781,538.115606 160.266311,497.807308 C192.790785,474.74267 240.393782,440.810751 275.170126,416 L509.990355,416 C511.100251,416 512,415.100041 512,414.005585 L512,1.99441517 C512,0.892930087 511.099374,0 509.990355,0 L2.0096451,0 C0.899748761,0 0,0.899959085 0,1.99441517 L0,414.005585 C0,415.10707 0.900626183,416 2.0096451,416 L96,416 L96,416 Z M65.0017095,64 C64.4484806,64 64,64.4480781 64,65.0003436 L64,350.999656 C64,351.552131 64.4555384,352 65.0017095,352 L446.998291,352 C447.551519,352 448,351.551922 448,350.999656 L448,65.0003436 C448,64.4478691 447.544462,64 446.998291,64 L65.0017095,64 Z M160,352 L160,416 L256,352 L160,352 Z" id="Rectangle-221" sketch:type="MSShapeGroup"></path>
+                <rect id="Path-5" sketch:type="MSShapeGroup" x="224" y="96" width="64" height="192"></rect>
+                <rect id="Path-6" sketch:type="MSShapeGroup" x="160" y="160" width="192" height="64"></rect>
+            </g>
         </g>
     </g>
 </svg>

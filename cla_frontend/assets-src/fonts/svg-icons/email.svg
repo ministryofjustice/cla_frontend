@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
-    <title>Email_icon</title>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>email</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Email_icon" sketch:type="MSArtboardGroup" fill="#0B0C0C">
-            <path d="M1.99406028,2 C0.892771196,2 0,2.90195036 0,4.0085302 L0,11.9914698 C0,13.1007504 0.894513756,14 1.99406028,14 L14.0059397,14 C15.1072288,14 16,13.0980496 16,11.9914698 L16,4.0085302 C16,2.8992496 15.1054862,2 14.0059397,2 L1.99406028,2 Z M3.00247329,4 C2.44882258,4 2,4.45303631 2,4.99703014 L2,11.0029699 C2,11.5536144 2.45576096,12 3.00247329,12 L12.9975267,12 C13.5511774,12 14,11.5469637 14,11.0029699 L14,4.99703014 C14,4.4463856 13.544239,4 12.9975267,4 L3.00247329,4 Z" id="Rectangle-72" sketch:type="MSShapeGroup"></path>
-            <path d="M6.5742179,8.87991266 L5.16000434,7.46569909 L2.08940201,10.5363014 L3.50361557,11.950515 L6.5742179,8.87991266 Z" id="Path-40" sketch:type="MSShapeGroup"></path>
-            <path d="M7.28752474,10.7075149 L7.99422316,11.4133978 L8.70092157,10.7075149 L13.7066984,5.70751491 L12.2933016,4.29248509 L7.28752474,9.29248509 L8.70092157,9.29248509 L3.70669841,4.30402544 L2.29330159,5.71905526 L7.28752474,10.7075149 Z" id="Path-39" sketch:type="MSShapeGroup"></path>
-            <path d="M10.8399957,7.46569909 L9.4257821,8.87991266 L12.4963844,11.950515 L13.910598,10.5363014 L10.8399957,7.46569909 Z" id="Path-38" sketch:type="MSShapeGroup"></path>
+        <g id="email" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <g id="icon-Email" sketch:type="MSLayerGroup" transform="translate(0.000000, 64.000000)">
+                <path d="M2.0096451,0 C0.899748761,0 0,0.891091581 0,1.99719584 L0,382.002804 C0,383.105825 0.900626183,384 2.0096451,384 L509.990355,384 C511.100251,384 512,383.108908 512,382.002804 L512,1.99719584 C512,0.894175037 511.099374,0 509.990355,0 L2.0096451,0 Z M65.0017095,64 C64.4484806,64 64,64.4503131 64,65.0048226 L64,318.995177 C64,319.550126 64.4555384,320 65.0017095,320 L446.998291,320 C447.551519,320 448,319.549687 448,318.995177 L448,65.0048226 C448,64.4498744 447.544462,64 446.998291,64 L65.0017095,64 Z" id="Rectangle-73" sketch:type="MSShapeGroup"></path>
+                <path d="M210.374973,220.157205 L165.120139,174.902371 L66.8608643,273.161646 L112.115698,318.416479 L210.374973,220.157205 Z" id="Path-43" sketch:type="MSShapeGroup"></path>
+                <path d="M233.200792,278.640477 L255.815141,301.228729 L278.42949,278.640477 L438.614349,118.640477 L393.385651,73.3595228 L233.200792,233.359523 L278.42949,233.359523 L118.614349,73.7288141 L73.3856507,119.009768 L233.200792,278.640477 Z" id="Path-40" sketch:type="MSShapeGroup"></path>
+                <path d="M346.879861,174.902371 L301.625027,220.157205 L399.884302,318.416479 L445.139136,273.161646 L346.879861,174.902371 Z" id="Path-39" sketch:type="MSShapeGroup"></path>
+            </g>
         </g>
     </g>
 </svg>

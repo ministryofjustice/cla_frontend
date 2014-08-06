@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
-    <title>Print_icon</title>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>print</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Print_icon" sketch:type="MSArtboardGroup" fill="#0B0C0C">
-            <rect id="Rectangle-59" sketch:type="MSShapeGroup" x="4" y="10" width="8" height="2"></rect>
-            <path d="M0,8.9973917 L0,14.0026083 C0,15.1057373 0.894513756,16 1.99406028,16 L14.0059397,16 C15.1072288,16 16,15.1041422 16,14.0026083 L16,8.9973917 C16,7.89426273 15.1054862,7 14.0059397,7 L1.99406028,7 C0.892771196,7 0,7.89585781 0,8.9973917 Z M14.0059397,9 C14.0010411,9 14,14.0026083 14,14.0026083 C14,14.0011166 1.99406028,14 1.99406028,14 C1.9989589,14 2,8.9973917 2,8.9973917 C2,8.99888337 14.0059397,9 14.0059397,9 Z" id="Rectangle-55" sketch:type="MSShapeGroup"></path>
-            <path d="M2,1.9973917 L2,7.0026083 C2,8.10573727 2.90195036,9 4.0085302,9 L11.9914698,9 C13.1007504,9 14,8.10414219 14,7.0026083 L14,1.9973917 C14,0.894262725 13.0980496,0 11.9914698,0 L4.0085302,0 C2.8992496,0 2,0.895857811 2,1.9973917 Z M11.9914698,2 C11.9973078,2 12,7.0026083 12,7.0026083 C12,6.99787454 4.0085302,7 4.0085302,7 C4.00269216,7 4,1.9973917 4,1.9973917 C4,2.00212546 11.9914698,2 11.9914698,2 Z" id="Rectangle-55" sketch:type="MSShapeGroup"></path>
+        <g id="print" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <g id="icon-Print" sketch:type="MSLayerGroup">
+                <rect id="Rectangle-60" sketch:type="MSShapeGroup" x="128" y="320" width="256" height="64"></rect>
+                <path d="M0,287.916534 L0,448.083466 C0,483.383593 28.6244402,512 63.8099289,512 L448.190071,512 C483.431322,512 512,483.33255 512,448.083466 L512,287.916534 C512,252.616407 483.37556,224 448.190071,224 L63.8099289,224 C28.5686783,224 0,252.66745 0,287.916534 Z M448.190071,288 C448.033315,288 448,448.083466 448,448.083466 C448,448.035732 63.8099289,448 63.8099289,448 C63.9666847,448 64,287.916534 64,287.916534 C64,287.964268 448.190071,288 448.190071,288 Z" id="Rectangle-57" sketch:type="MSShapeGroup"></path>
+                <path d="M64,63.9165344 L64,224.083466 C64,259.383593 92.8624115,288 128.272966,288 L383.727034,288 C419.224013,288 448,259.33255 448,224.083466 L448,63.9165344 C448,28.6164072 419.137589,0 383.727034,0 L128.272966,0 C92.7759872,0 64,28.66745 64,63.9165344 Z M383.727034,64 C383.913851,64 384,224.083466 384,224.083466 C384,223.931985 128.272966,224 128.272966,224 C128.086149,224 128,63.9165344 128,63.9165344 C128,64.0680149 383.727034,64 383.727034,64 Z" id="Rectangle-58" sketch:type="MSShapeGroup"></path>
+            </g>
         </g>
     </g>
 </svg>

@@ -49,5 +49,13 @@
     "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js",
     "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js",
     "protractor-phantom": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-phantom-conf.js"
+  },
+  "dependencies": {
+    "gulp-iconfont": "~0.1.1",
+    "gulp-consolidate": "~0.1.2",
+    "lodash": "~2.4.1",
+    "q": "~1.0.1",
+    "gulp-rename": "~1.2.0",
+    "gulp-sketch": "0.0.3"
   }
 }

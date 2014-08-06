@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
-    <title>SMS_icon</title>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>sms</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="SMS_icon" sketch:type="MSArtboardGroup" fill="#0B0C0C">
-            <path d="M1.99406028,2 C0.892771196,2 0,2.90195036 0,4.0085302 L0,11.9914698 C0,13.1007504 0.894513756,14 1.99406028,14 L14.0059397,14 C15.1072288,14 16,13.0980496 16,11.9914698 L16,4.0085302 C16,2.8992496 15.1054862,2 14.0059397,2 L1.99406028,2 Z M3.00247329,4 C2.44882258,4 2,4.45303631 2,4.99703014 L2,11.0029699 C2,11.5536144 2.45576096,12 3.00247329,12 L12.9975267,12 C13.5511774,12 14,11.5469637 14,11.0029699 L14,4.99703014 C14,4.4463856 13.544239,4 12.9975267,4 L3.00247329,4 Z" id="Rectangle-76" sketch:type="MSShapeGroup"></path>
-            <rect id="Rectangle-56" sketch:type="MSShapeGroup" x="6" y="5" width="2" height="6"></rect>
-            <rect id="Rectangle-56" sketch:type="MSShapeGroup" transform="translate(11.000000, 6.000000) rotate(-90.000000) translate(-11.000000, -6.000000) " x="10" y="4" width="2" height="4"></rect>
-            <rect id="Rectangle-56" sketch:type="MSShapeGroup" transform="translate(11.000000, 9.000000) rotate(-90.000000) translate(-11.000000, -9.000000) " x="10" y="7" width="2" height="4"></rect>
+        <g id="sms" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <g id="icon-SMS" sketch:type="MSLayerGroup" transform="translate(0.000000, 64.000000)">
+                <path d="M2.0096451,0 C0.899748761,0 0,0.891091581 0,1.99719584 L0,382.002804 C0,383.105825 0.900626183,384 2.0096451,384 L509.990355,384 C511.100251,384 512,383.108908 512,382.002804 L512,1.99719584 C512,0.894175037 511.099374,0 509.990355,0 L2.0096451,0 Z M65.0017095,64 C64.4484806,64 64,64.4503131 64,65.0048226 L64,318.995177 C64,319.550126 64.4555384,320 65.0017095,320 L446.998291,320 C447.551519,320 448,319.549687 448,318.995177 L448,65.0048226 C448,64.4498744 447.544462,64 446.998291,64 L65.0017095,64 Z" id="Rectangle-77" sketch:type="MSShapeGroup"></path>
+                <rect id="Rectangle-59" sketch:type="MSShapeGroup" x="192" y="96" width="64" height="192"></rect>
+                <rect id="Rectangle-61" sketch:type="MSShapeGroup" transform="translate(352.000000, 128.000000) rotate(-90.000000) translate(-352.000000, -128.000000) " x="320" y="64" width="64" height="128"></rect>
+                <rect id="Rectangle-62" sketch:type="MSShapeGroup" transform="translate(352.000000, 224.000000) rotate(-90.000000) translate(-352.000000, -224.000000) " x="320" y="160" width="64" height="128"></rect>
+            </g>
         </g>
     </g>
 </svg>

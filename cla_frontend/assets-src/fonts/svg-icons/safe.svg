@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
-    <title>Safe_icon</title>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>safe</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Safe_icon" sketch:type="MSArtboardGroup" fill="#0B0C0C">
-            <path d="M16.0379577,8.33570275 C16.0379577,12.423351 7.99876923,15.9828765 7.99876923,15.9828765 C7.99876923,15.9828765 0.0379576832,12.423351 0.0379576832,8.33570275 L0.11226007,1.82040428 L8,-0.017123539 L16.0379579,1.81973308 L16.0379577,8.33570275 Z M6.68916041,12 L13,4.25876933 L11.5459075,3 L6.68916041,8.96405283 L4.45409254,6.21589909 L3,7.47466842 L6.68916041,12 Z" id="Shape" sketch:type="MSShapeGroup"></path>
+        <g id="safe" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <g id="icon-Security" sketch:type="MSLayerGroup">
+                <path d="M513.214646,266.742488 C513.214646,397.547233 255.960615,511.452047 255.960615,511.452047 C255.960615,511.452047 1.21464586,397.547233 1.21464586,266.742488 L3.59232225,58.2529368 L256,-0.547953248 L513.214652,58.2314585 L513.214646,266.742488 Z M214.053133,384 L416,136.280618 L369.469039,96 L214.053133,286.84969 L142.530961,198.908771 L96,239.189389 L214.053133,384 Z" id="Shape-2" sketch:type="MSShapeGroup"></path>
+            </g>
         </g>
     </g>
 </svg>
