@@ -5,8 +5,12 @@ exports.config = extend(defaults, {
   multiCapabilities: [
     {
       browserName: 'chrome',
-      platform: 'OS X 10.8',
-      version: '35'
+      platform: 'OS X 10.6',
+      version: ''
     }
-  ]
+  ],
+  allScriptsTimeout: 120000,
+  jasmineNodeOpts: {
+    defaultTimeoutInterval: 120000
+  }
 });

@@ -42,6 +42,8 @@ module.exports = {
   getCase: getCase,
 
   createCase: function() {
+    var pro = protractor.getInstance();
+
     browser.get(APP_BASE_URL);
     browser.getLocationAbsUrl().then(function (url) {
       expectUrl(url, APP_BASE_URL);
