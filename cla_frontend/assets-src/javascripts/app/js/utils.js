@@ -34,5 +34,11 @@
     };
   });
 
+  angular.module('ErrorCatcher', [])
+    .factory('$exceptionHandler', [function() {
+    return function(exception, cause) {
+      Raven.captureException(exception, cause);
+    };
+  }]);
 })();
 
