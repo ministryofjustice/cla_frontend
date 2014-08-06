@@ -26,7 +26,7 @@ describe('operatorApp', function() {
         var modalEl = browser.findElement(by.css('div.modal'));
         modalEl.findElement(by.css("input[type='radio'][value='TERM']")).click();
         modalEl.findElement(by.css("textarea[name='notes']")).sendKeys('This case was suspended.');
-        modalEl.findElement(by.css("button[type='submit'")).click();
+        modalEl.findElement(by.css("button[type='submit']")).click();
         expect(browser.isElementPresent(by.css("div.modal"))).toBe(false);
 
         utils.getCase(caseNum);

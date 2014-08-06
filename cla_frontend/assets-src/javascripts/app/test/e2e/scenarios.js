@@ -183,8 +183,8 @@
         goto_assign();
 
         var modalEl = browser.findElement(by.css('div.modal'));
-        modalEl.findElement(by.css('button[type="submit"')).click();
-        expect(modalEl.isElementPresent(by.css('button[type="submit"'))).toBe(true);
+        modalEl.findElement(by.css('button[type="submit"]')).click();
+        expect(modalEl.isElementPresent(by.css('button[type="submit"]'))).toBe(true);
       });
 
 
@@ -197,7 +197,7 @@
         var modalEl = browser.findElement(by.css('div.modal'));
         modalEl.findElement(by.css('input[name="matter_type1"]')).click();
         modalEl.findElement(by.css('input[name="matter_type2"]')).click();
-        modalEl.findElement(by.css('button[type="submit"')).click();
+        modalEl.findElement(by.css('button[type="submit"]')).click();
         expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
       });
 
@@ -212,7 +212,7 @@
         var modalEl = browser.findElement(by.css('div.modal'));
         modalEl.findElement(by.css('input[name="matter_type1"]')).click();
         modalEl.findElement(by.css('input[name="matter_type2"]')).click();
-        modalEl.findElement(by.css('button[type="submit"')).click();
+        modalEl.findElement(by.css('button[type="submit"]')).click();
         expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
         var assignCaseUrl;
@@ -238,7 +238,7 @@
         var modalEl = browser.findElement(by.css('div.modal'));
         modalEl.findElement(by.css('input[name="matter_type1"]')).click();
         modalEl.findElement(by.css('input[name="matter_type2"]')).click();
-        modalEl.findElement(by.css('button[type="submit"')).click();
+        modalEl.findElement(by.css('button[type="submit"]')).click();
         expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
         // browser.findElement(by.css("input[name='provider']:first-child")).click();
