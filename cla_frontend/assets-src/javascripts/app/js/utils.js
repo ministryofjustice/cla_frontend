@@ -5,11 +5,13 @@
     .factory('_', ['$window', function($window){
       return $window._;
     }
-  ]);
-
-  angular.module('cla.utils')
+  ])
     .factory('lunr', ['$window', function($window){
       return $window.lunr;
+    }
+  ])
+    .factory('Raven', ['$window', function($window){
+      return $window.Raven;
     }
   ]);
 
@@ -35,7 +37,7 @@
   });
 
   angular.module('ErrorCatcher', [])
-    .factory('$exceptionHandler', [function() {
+    .factory('$exceptionHandler', ['Raven', function(Raven) {
     return function(exception, cause) {
       Raven.captureException(exception, cause);
     };
