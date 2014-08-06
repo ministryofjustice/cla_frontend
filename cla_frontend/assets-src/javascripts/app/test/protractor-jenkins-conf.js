@@ -4,9 +4,9 @@ var defaults = require('./protractor-default-conf').config;
 exports.config = extend(defaults, {
   multiCapabilities: [
     {
-      browserName: 'firefox',
-      platform: 'Windows 7',
-      version: '31'
+      browserName: 'chrome',
+      platform: 'OS X 10.6',
+      version: ''
     }
   ],
   allScriptsTimeout: 120000,
