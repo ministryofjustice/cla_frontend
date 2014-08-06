@@ -15,4 +15,6 @@ In general, you would record the details of the case as for any other in scope m
 
 However, current practice is that the client must be asked if they are willing to share case details with the specialist and also if they are happy for us to record their details on the CHS. 
 
-If they answer 'no', you should still put them through to the specialist but don't record any case notes an use the non-specific matter type codes 
+If they answer 'no', you should still put them through to the specialist but don't record any case notes and use the non-specific matter type codes (MTON - Matter Type One not specified and MTTN - Matter Type Two not specified) for this case.
+
+Please see the CLA confidentiality policy for more information. 
