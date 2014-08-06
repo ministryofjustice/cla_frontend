@@ -1,3 +1,13 @@
+---
+title: Homelessness
+date: "2014-08-01 18:51"
+tags:
+  - homeless
+  - homelessness
+  - housing
+
+---
+
 Local authorities have a statutory obligation to provide accommodation and assistance to an individual who is homeless or threatened with homelessness (i.e. will become homeless within 28 days)
 
 To be in scope the client will currently be homeless or have been threatened with losing their home within 28 days and need to access accommodation and/or assistance from the local housing authority.
