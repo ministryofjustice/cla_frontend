@@ -1,0 +1,35 @@
+<main id="wrapper" class="group">
+  <div class="Grid">
+    <div class="Grid-row cf">
+      <div class="Grid-col Grid-col--3-5 Grid-colPush--1-5">
+        <header class="PageHeader">
+          <h1>Sign in</h1>
+        </header>
+        <form action="" method="post" ng-submit="login(login_frm)" name="login_frm">
+          <span class="Error-message" ng-show="login_frm.$error.server">{{ errors.__all__ }}</span>
+          <input type="hidden" name="csrfmiddlewaretoken" value="ouXbtrw2UtE9fg0dRwExncwVkP3MVgpP">
+            <div class="FormRow cf">
+              <label for="id_username" id="id_username-label">
+                <span class="Error-message" ng-show="login_frm.username.$error.server">{{ errors.username }}</span>
+                <span class="FormRow-label">
+                  Username
+                </span>
+                <input id="id_username" maxlength="254" name="username" type="text" ng-model="username">
+              </label>
+            </div>
+          
+            <div class="FormRow cf">
+              <label for="id_password" id="id_password-label">
+                <span class="Error-message" ng-show="login_frm.password.$error.server">{{ errors.password }}</span>
+                <span class="FormRow-label">
+                  Password
+                </span>
+                <input id="id_password" name="password" type="password" ng-model="password">
+              </label>
+            </div>
+          <input type="submit" value="Signin" class="Button">
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

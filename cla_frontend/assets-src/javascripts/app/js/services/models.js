@@ -22,6 +22,7 @@
         '/call_centre/proxy/case/:caseref/',
         {caseref: '@reference'},
         {
+          'get':    {method:'GET', ignoreExceptions: [404]},
           'query':  {
             method:'GET',
             isArray:false,
