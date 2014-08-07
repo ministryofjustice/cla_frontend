@@ -9,6 +9,11 @@ exports.config = extend(defaults, {
       browserName: 'chrome',
       platform: 'OS X 10.9',
       version: ''
+    },
+    {
+      browserName: 'firefox',
+      platform: 'OS X 10.9',
+      version: '30'
     }
   ],
   allScriptsTimeout: 120000,

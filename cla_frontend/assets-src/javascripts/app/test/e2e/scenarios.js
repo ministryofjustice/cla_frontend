@@ -1,3 +1,4 @@
+/* jshint unused:false */
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
@@ -92,6 +93,7 @@
 
     describe('Create Case with Adaptations', function () {
       it('should create a new case with the BSL - Webcam adaptation', function () {
+        var selected_adaptations = ['BSL - Webcam', 'Callback preference', 'Minicom', 'Skype', 'Text relay'];
         utils.createCase();
         utils.showPersonalDetailsForm();
         utils.enterPersonalDetails({
@@ -100,26 +102,37 @@
           'street': '1 Foo Bar',
           'mobile_phone': '0123456789'
         });
-        selectAdaptations(['bsl_webcam']);
+        selectAdaptations(selected_adaptations);
         utils.saveCase();
-        expect(displayedAdaptation()).toBe('BSL - Webcam');
+
+        expect(element.all(by.binding('personal_details.full_name')).get(0).getText()).toEqual('Foo Bar Quux');
+        expect(element.all(by.binding('personal_details.postcode')).get(0).getText()).toEqual('F00 B4R');
+        expect(element.all(by.binding('personal_details.street')).get(0).getText()).toEqual('1 Foo Bar');
+        expect(element.all(by.binding('personal_details.mobile_phone')).get(0).getText()).toEqual('0123456789');
+
+        // check adaptations have been added
+        var adaptations = element.all(by.repeater('item in selected_adaptations')).map(function (el) {
+          return el.getText();
+        });
+        adaptations.then(function (result) {
+          for (var i = 0; i < selected_adaptations.length; i++) {
+            expect(result).toContain(selected_adaptations[i]);
+          }
+        });      
       });
 
       function selectAdaptations(checkboxes) {
         checkboxes.map(function (name) {
-          browser.findElement(by.css('[name=' + name + '] + span')).click();
+          browser.findElement(by.css('input[type="checkbox"][title="' + name + '"]')).click();
         });
-      }
-
-      function displayedAdaptation() {
-        return browser.findElement(by.repeater('item in selected_adaptations').row(0)).getText();
       }
     });
 
     describe('Case Set Matter Types and Assign', function() {
       function goto_assign() {
-        browser.findElement(by.css('.CaseDetails-actions button.Button--dropdown')).click();
-        return browser.findElement(by.css('a.Button[ng-click^=assign_to_provider]')).click();
+        utils.scrollTo(browser.findElement(by.css('.CaseDetails-actions')));
+        browser.findElement(by.css('.CaseDetails-actions button[name="close-case"]')).click();
+        browser.findElement(by.css('.CaseDetails-actions button[name="close--assign-provider"]')).click();
       }
 
       function fill_required_fields() {
@@ -227,8 +240,7 @@
           assignCaseUrl = url;
         });
         browser.findElement(by.css('a[ui-sref="case_detail.edit"]')).click();
-        browser.findElement(by.css('.CaseDetails-actions button.Button--dropdown')).click();
-        browser.findElement(by.css('a.Button[ng-click^=assign_to_provider]')).click();
+        goto_assign();
         expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
         browser.getLocationAbsUrl().then(function (url) {
           expect(url).toBe(assignCaseUrl);

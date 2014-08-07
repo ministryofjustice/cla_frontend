@@ -28,12 +28,12 @@
         
           <nav class="u-pullRight cf">
             <div class="BtnDropdown BtnDropdown--right">
-              <button class="Button Button--secondary Button--dropdown" ng-class="{'is-open': btnOpts}" ng-click="btnOpts=!btnOpts">Close</button>
+              <button class="Button Button--secondary Button--dropdown" ng-class="{'is-open': btnOpts}" ng-click="btnOpts=!btnOpts" name="close-case">Close</button>
               <div class="BtnDropdown-content" ng-show="btnOpts" ng-click="btnOpts=false">
                 <a href="" ng-click="suspend()" class="u-block">Suspend</a>
                 <a ui-sref="case_detail.alternative_help" class="u-block">Alternative help</a>
                 <hr class="u-horLine">
-                <a href="" ng-click="assign_to_provider()" class="Button u-block">Assign provider</a>
+                <button ng-click="assign_to_provider()" class="Button u-block" name="close--assign-provider">Assign provider</button>
               </div>
             </div>
           </nav>

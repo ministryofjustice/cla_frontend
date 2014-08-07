@@ -275,6 +275,8 @@ $border-colour: $grey-2;
 
       input {
         float: left;
+        position: relative;
+        z-index: 2;
         margin: 2px 0;
       }
       span {
