@@ -8,12 +8,16 @@ exports.config = extend(defaults, {
     {
       browserName: 'chrome',
       platform: 'OS X 10.9',
-      version: ''
+      version: '',
+      shardTestFiles: true,
+      maxInstances: 5
     },
     {
       browserName: 'firefox',
       platform: 'OS X 10.9',
-      version: '30'
+      version: '30',
+      shardTestFiles: true,
+      maxInstances: 5
     }
   ],
   allScriptsTimeout: 120000,
