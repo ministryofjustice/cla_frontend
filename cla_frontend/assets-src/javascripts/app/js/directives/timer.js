@@ -43,10 +43,10 @@
     };
 
 
-  }).factory('Timer', ['$http', function($http) {
+  }).factory('Timer', ['$http', 'url_utils', function($http, url_utils) {
     // API
     var Timer = {
-      baseUrl: '/call_centre/proxy/timer/',
+      baseUrl: url_utils.proxy('timer/'),
       defaults: {
         ignoreExceptions: [404]
       },

@@ -15,11 +15,11 @@
 
   // SERVICES
   angular.module('cla.services')
-    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'moment',
-      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, Moment) {
+    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'moment', 'url_utils',
+      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, Moment, url_utils) {
 
       var resource = $resource(
-        '/call_centre/proxy/case/:caseref/',
+        url_utils.proxy('case/:caseref/'),
         {caseref: '@reference'},
         {
           'get':    {method:'GET', ignoreExceptions: [404]},
@@ -71,7 +71,7 @@
       );
 
       resource.prototype.$defer_assignment = function(data, successCallback) {
-        var url = '/call_centre/proxy/case/'+this.reference+'/defer_assignment/';
+        var url = url_utils.proxy('case/'+this.reference+'/defer_assignment/');
         $http.post(url, data).success(successCallback);
       };
 
@@ -89,12 +89,12 @@
       };
 
       resource.prototype.$assign = function(data){
-        var url = '/call_centre/proxy/case/'+this.reference+'/assign/';
+        var url = url_utils.proxy('case/'+this.reference+'/assign/');
         return $http.post(url, data);
       };
 
       resource.prototype.$assign = function(data){
-        var url = '/call_centre/proxy/case/'+this.reference+'/assign/';
+        var url = url_utils.proxy('case/'+this.reference+'/assign/');
         return $http.post(url, data);
       };
 
@@ -103,17 +103,17 @@
       };
 
       resource.prototype.$suspend_case = function(data, successCallback) {
-        var url = '/call_centre/proxy/case/'+this.reference+'/suspend/';
+        var url = url_utils.proxy('case/'+this.reference+'/suspend/');
         $http.post(url, data).success(successCallback);
       };
 
       resource.prototype.$decline_help = function(data, successCallback) {
-        var url = '/call_centre/proxy/case/'+this.reference+'/decline_help/';
+        var url = url_utils.proxy('case/'+this.reference+'/decline_help/');
         $http.post(url, data).success(successCallback);
       };
 
       resource.prototype.$assign_alternative_help = function (data) {
-        var url = '/call_centre/proxy/case/'+this.reference+'/assign_alternative_help/';
+        var url = url_utils.proxy('case/'+this.reference+'/assign_alternative_help/');
         return $http.post(url, data);
       };
 
@@ -121,10 +121,10 @@
     }]);
 
   angular.module('cla.services')
-    .factory('EligibilityCheck', ['$http', '$resource', function($http, $resource) {
+    .factory('EligibilityCheck', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
       var that = this, resource;
 
-      this.BASE_URL = '/call_centre/proxy/case/:case_reference/eligibility_check/';
+      this.BASE_URL = url_utils.proxy('case/:case_reference/eligibility_check/');
 
       resource = $resource(this.BASE_URL, {case_reference: '@case_reference'}, {
         'patch': {method: 'PATCH'}
@@ -156,10 +156,10 @@
     }]);
 
   angular.module('cla.services')
-    .factory('Diagnosis', ['$http', '$resource', 'DIAGNOSIS_SCOPE', function($http, $resource, DIAGNOSIS_SCOPE) {
+    .factory('Diagnosis', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'url_utils', function($http, $resource, DIAGNOSIS_SCOPE, url_utils) {
       var resource;
 
-      this.BASE_URL = '/call_centre/proxy/case/:case_reference/diagnosis/';
+      this.BASE_URL = url_utils.proxy('case/:case_reference/diagnosis/');
 
       resource = $resource(this.BASE_URL, {case_reference: '@case_reference'}, {
           // 'patch': {method: 'PATCH'},
@@ -193,8 +193,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('PersonalDetails', ['$resource', function($resource) {
-      var resource = $resource('/call_centre/proxy/case/:case_reference/personal_details/', {case_reference:'@case_reference'}, {
+    .factory('PersonalDetails', ['$resource', 'url_utils', function($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/personal_details/'), {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
@@ -210,8 +210,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('AdaptationsMetadata', ['$resource', function ($resource) {
-      var resource = $resource('/call_centre/proxy/adaptations/', {}, {
+    .factory('AdaptationsMetadata', ['$resource', 'url_utils', function ($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/adaptations/'), {}, {
         'options': {method: 'OPTIONS'}
       });
 
@@ -219,8 +219,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('Adaptations', ['$resource', function($resource) {
-      var resource = $resource('/call_centre/proxy/case/:case_reference/adaptation_details/', {case_reference:'@case_reference'}, {
+    .factory('Adaptations', ['$resource', 'url_utils', function($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/adaptation_details/'), {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
@@ -236,8 +236,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('ThirdParty', ['$resource', function($resource) {
-      var resource = $resource('/call_centre/proxy/case/:case_reference/thirdparty_details/', {case_reference:'@case_reference'}, {
+    .factory('ThirdParty', ['$resource', 'url_utils', function($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/thirdparty_details/'), {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
@@ -253,15 +253,15 @@
     }]);
 
   angular.module('cla.services')
-    .factory('Category', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/category/:code/', {
+    .factory('Category', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+      return $resource(url_utils.proxy('category/:code/'), {
       });
     }]);
 
   angular.module('cla.services')
-    .factory('Event', ['$http', function($http) {
+    .factory('Event', ['$http', 'url_utils', function($http, url_utils) {
       var defaults = {
-        baseUrl: '/call_centre/proxy/event/'
+        baseUrl: url_utils.proxy('event/')
       };
 
       function Event(options) {
@@ -289,14 +289,14 @@
     }]);
 
   angular.module('cla.services')
-    .factory('Provider', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/provider/:id/', {
+    .factory('Provider', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+      return $resource(url_utils.proxy('provider/:id/'), {
       });
     }]);
 
   angular.module('cla.services')
-    .factory('KnowledgeBase', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/knowledgebase/article/:articleref', {articleref: '@reference'}, {
+    .factory('KnowledgeBase', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+      return $resource(url_utils.proxy('knowledgebase/article/:articleref'), {articleref: '@reference'}, {
         get: {
           method: 'GET',
           isArray: false
@@ -305,8 +305,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('KnowledgeBaseCategories', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/knowledgebase/category/', {}, {
+    .factory('KnowledgeBaseCategories', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+      return $resource(url_utils.proxy('knowledgebase/category/'), {}, {
         get: {
           method: 'GET',
           isArray: true
@@ -315,8 +315,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('MatterType', ['$http', '$resource', function($http, $resource) {
-      return $resource('/call_centre/proxy/mattertype/', {}, {
+    .factory('MatterType', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+      return $resource(url_utils.proxy('mattertype/'), {}, {
         get: {
           method: 'GET',
           isArray: true
@@ -325,8 +325,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('MediaCode', ['$resource', function ($resource) {
-      return $resource('/call_centre/proxy/mediacode/', {}, {
+    .factory('MediaCode', ['$resource', 'url_utils', function ($resource, url_utils) {
+      return $resource(url_utils.proxy('mediacode/'), {}, {
         get: {
           method: 'GET',
           isArray: true

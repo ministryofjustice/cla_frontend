@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 // APP
-  angular.module('cla.app',
+  var app = angular.module('cla.app',
     [
       'ngSanitize',
       'angularMoment',
@@ -33,4 +33,9 @@
   angular.module('cla.states',[]);
   angular.module('cla.utils',[]);
   angular.module('cla.templates',[]);
+
+  app.config(function($provide) {
+    $provide.value('BASE_URL', '/call_centre/');
+  });
+
 })();
