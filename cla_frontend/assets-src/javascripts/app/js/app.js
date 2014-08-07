@@ -34,8 +34,8 @@
   angular.module('cla.utils',[]);
   angular.module('cla.templates',[]);
 
-  app.config(function($provide) {
-    $provide.value('BASE_URL', '/call_centre/');
+  app.constant('AppSettings', {
+    BASE_URL: '/call_centre/'
   });
 
 })();

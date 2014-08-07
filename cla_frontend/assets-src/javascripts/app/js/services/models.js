@@ -211,7 +211,7 @@
 
   angular.module('cla.services')
     .factory('AdaptationsMetadata', ['$resource', 'url_utils', function ($resource, url_utils) {
-      var resource = $resource(url_utils.proxy('case/:case_reference/adaptations/'), {}, {
+      var resource = $resource(url_utils.proxy('adaptations/'), {}, {
         'options': {method: 'OPTIONS'}
       });
 
