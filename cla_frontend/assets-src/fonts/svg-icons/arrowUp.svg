@@ -5,10 +5,8 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="arrowUp" sketch:type="MSArtboardGroup" stroke="#0B0C0C" stroke-width="60">
-            <g id="icon-arrow-up" sketch:type="MSLayerGroup" transform="translate(0.000000, 64.000000)">
-                <path d="M0,384 L256,0 L512,384" id="Triangle-8" sketch:type="MSShapeGroup"></path>
-            </g>
+        <g id="arrowUp" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <path d="M0.47265625,447.628906 L95.8662109,447.693359 L256.507812,207.412109 L417.191406,447.648438 L512.314453,447.825195 L256.123047,64.1962891 L0.47265625,447.628906 Z" id="Path-48" sketch:type="MSShapeGroup"></path>
         </g>
     </g>
 </svg>

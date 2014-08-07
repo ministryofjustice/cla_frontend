@@ -6,9 +6,7 @@
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="tick" sketch:type="MSArtboardGroup" fill="#0B0C0C">
-            <g id="icon-check" sketch:type="MSLayerGroup">
-                <path d="M188.885013,512 L512,71.6099883 L437.550462,0 L188.885013,339.288339 L74.4495381,182.948926 L0,254.558914 L188.885013,512 Z" id="Path-16" sketch:type="MSShapeGroup"></path>
-            </g>
+            <path d="M188.885013,512 L512,71.6099883 L437.550462,0 L188.885013,339.288339 L74.4495381,182.948926 L0,254.558914 L188.885013,512 Z" sketch:type="MSShapeGroup"></path>
         </g>
     </g>
 </svg>

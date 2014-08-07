@@ -5,6 +5,8 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="add" sketch:type="MSArtboardGroup"></g>
+        <g id="add" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <path d="M206,206 L206,0 L306,0 L306,206 L512,206 L512,306 L306,306 L306,512 L206,512 L206,306 L0,306 L0,206 L206,206 Z" sketch:type="MSShapeGroup"></path>
+        </g>
     </g>
 </svg>
