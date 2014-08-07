@@ -3,10 +3,10 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckSummaryCtrl',
-      ['$scope', '$http',
-        function($scope, $http) {
+      ['$scope', '$http', 'url_utils',
+        function($scope, $http, url_utils) {
           if ($scope.case.eligibility_check) {
-            $http.get('/call_centre/case/'+$scope.case.reference+'/means_summary/').success(function(data) {
+            $http.get(url_utils.url('case/'+$scope.case.reference+'/means_summary/')).success(function(data) {
               $scope.means_summary = data;
             });
           }

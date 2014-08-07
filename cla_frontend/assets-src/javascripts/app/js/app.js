@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 // APP
-  angular.module('cla.app',
+  var app = angular.module('cla.app',
     [
       'ngSanitize',
       'angularMoment',
@@ -20,7 +20,7 @@
       'multi-select',
       'sticky'
     ])
-    .config(function($resourceProvider, $provide) {
+    .config(['$resourceProvider', '$provide', function($resourceProvider, $provide) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
       
       // multi select
@@ -30,7 +30,7 @@
         directive.templateUrl = 'directives/multi_select.html';
         return $delegate;
       });
-    })
+    }])
     .run(function ($rootScope, $state, $stateParams) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
@@ -42,4 +42,9 @@
   angular.module('cla.states',[]);
   angular.module('cla.utils',[]);
   angular.module('cla.templates',[]);
+
+  app.config(function($provide) {
+    $provide.value('BASE_URL', '/call_centre/');
+  });
+
 })();

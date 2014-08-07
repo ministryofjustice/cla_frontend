@@ -36,6 +36,24 @@
     };
   });
 
+  angular.module('cla.utils')
+    .factory('url_utils', ['BASE_URL', function($BASE_URL){
+      var url_utils = (function() {
+        return {
+          BASE_URL: $BASE_URL,
+          url: function(suffix) {
+            return url_utils.BASE_URL + suffix;
+          },
+          proxy: function(suffix) {
+            return url_utils.url('proxy/'+suffix);
+          }
+        };
+      })();
+
+      return url_utils;
+    }
+  ]);
+
   angular.module('ErrorCatcher', [])
     .factory('$exceptionHandler', ['Raven', function(Raven) {
     return function(exception, cause) {

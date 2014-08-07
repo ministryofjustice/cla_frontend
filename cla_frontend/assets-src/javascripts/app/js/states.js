@@ -2,6 +2,7 @@
 (function() {
 // STATES
   var states = angular.module('cla.states');
+
   states.Layout = {
     abstract: true,
     templateUrl: 'base.html',
