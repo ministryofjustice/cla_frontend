@@ -118,7 +118,7 @@
           for (var i = 0; i < selected_adaptations.length; i++) {
             expect(result).toContain(selected_adaptations[i]);
           }
-        });      
+        });
       });
 
       function selectAdaptations(checkboxes) {
@@ -128,7 +128,7 @@
       }
     });
 
-    ddescribe('Case Set Matter Types and Assign', function() {
+    describe('Case Set Matter Types and Assign', function() {
 
 
       /**
@@ -141,8 +141,10 @@
        * @returns {!webdriver.promise.Promise.<void>}
        */
       function goto_assign(as_of) {
-        browser.findElement(by.css('.CaseDetails-actions button.Button--dropdown')).click();
-        var clicked = browser.findElement(by.css('a.Button[ng-click^="assign_to_provider"]')).click();
+        utils.scrollTo(browser.findElement(by.css('.CaseDetails-actions')));
+        browser.findElement(by.css('.CaseDetails-actions button[name="close-case"]')).click();
+        var clicked = browser.findElement(by.css('.CaseDetails-actions button[name="close--assign-provider"]')).click();
+
         if (as_of) {
           browser.getLocationAbsUrl().then(function(url) {
             return browser.get(url+'?as_of='+encodeURIComponent(as_of));
