@@ -37,10 +37,10 @@
   });
 
   angular.module('cla.utils')
-    .factory('url_utils', ['BASE_URL', function($BASE_URL){
+    .factory('url_utils', ['AppSettings', function(AppSettings){
       var url_utils = (function() {
         return {
-          BASE_URL: $BASE_URL,
+          BASE_URL: AppSettings.BASE_URL,
           url: function(suffix) {
             return url_utils.BASE_URL + suffix;
           },

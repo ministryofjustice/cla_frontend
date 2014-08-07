@@ -2,9 +2,10 @@
 (function(){
 //ROUTES
   angular.module('cla.app')
-    .config(function($stateProvider, $locationProvider/*, $urlRouterProvider*/) {
+    .config(['AppSettings', '$stateProvider', '$locationProvider', 
+    function(AppSettings, $stateProvider, $locationProvider) {
       $locationProvider.html5Mode(true);
-      var states = angular.module('cla.states');
+      var states = angular.module('cla.states').getStates(AppSettings.BASE_URL);
       $stateProvider
         .state('layout', states.Layout)
         .state('case_list', states.CaseListState)
@@ -16,5 +17,5 @@
         .state('case_detail.assign.complete', states.CaseEditDetailAssignCompleteState)
         .state('case_detail.defer_assignment', states.CaseDetailDeferAssignmentState)
         .state('case_detail.alternative_help', states.CaseEditDetailAlternativeHelpState);
-    });
+    }]);
 })();
