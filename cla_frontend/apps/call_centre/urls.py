@@ -19,6 +19,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include('call_centre.admin.urls', namespace='admin',)),
 
-    url(r'^proxy/(?P<path>.*)', views.backend_proxy_view, name="backend_proxy"),
+    url(r'^proxy/(?P<path>.*)', auth_views.backend_proxy_view, name="backend_proxy"),
     url(r'^.*$', views.dashboard, name='dashboard'),
 )

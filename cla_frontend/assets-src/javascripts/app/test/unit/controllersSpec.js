@@ -3,7 +3,7 @@
 /* jasmine specs for controllers go here */
 describe('OperatorApp controllers', function() {
 
-  beforeEach(module('cla.app'));
+  beforeEach(module('cla.operatorApp'));
 
   describe('CaseListCtrl', function(){
 
