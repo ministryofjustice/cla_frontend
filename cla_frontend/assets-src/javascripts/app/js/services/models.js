@@ -15,8 +15,8 @@
 
   // SERVICES
   angular.module('cla.services')
-    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 
-      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES) {
+    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'moment',
+      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, Moment) {
 
       var resource = $resource(
         '/call_centre/proxy/case/:caseref/',
@@ -75,8 +75,17 @@
         $http.post(url, data).success(successCallback);
       };
 
-      resource.prototype.get_suggested_providers = function(){
-        return $http.get('/call_centre/proxy/case/'+this.reference+'/assign_suggest/');
+      resource.prototype.get_suggested_providers = function(as_of){
+        var url = '/call_centre/proxy/case/'+this.reference+'/assign_suggest/',
+          as_of_datetime;
+        if (as_of) {
+          as_of_datetime = new Moment(as_of);
+          if (as_of_datetime.isValid()) {
+            url += '?' + $.param({'as_of': as_of_datetime.format()});
+          }
+        }
+
+        return $http.get(url);
       };
 
       resource.prototype.$assign = function(data){
@@ -169,7 +178,7 @@
           },
         }
       );
-      
+
       resource.prototype.isInScopeTrue = function() {
         return this.state === DIAGNOSIS_SCOPE.INSCOPE;
       };
