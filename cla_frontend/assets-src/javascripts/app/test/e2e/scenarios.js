@@ -128,11 +128,27 @@
       }
     });
 
-    describe('Case Set Matter Types and Assign', function() {
-      function goto_assign() {
-        utils.scrollTo(browser.findElement(by.css('.CaseDetails-actions')));
-        browser.findElement(by.css('.CaseDetails-actions button[name="close-case"]')).click();
-        browser.findElement(by.css('.CaseDetails-actions button[name="close--assign-provider"]')).click();
+    ddescribe('Case Set Matter Types and Assign', function() {
+
+
+      /**
+       * Go to the assign page; if an option as_of parameter is given, it
+       * will reload the page in 'mocked-time' mode.
+       * If you are using this 'mocked-time' mode then make sure you
+       * have set the matter types first.
+       *
+       * @param as_of datetime string in format (iso) yyyy-mm-ddThh:mm
+       * @returns {!webdriver.promise.Promise.<void>}
+       */
+      function goto_assign(as_of) {
+        browser.findElement(by.css('.CaseDetails-actions button.Button--dropdown')).click();
+        var clicked = browser.findElement(by.css('a.Button[ng-click^="assign_to_provider"]')).click();
+        if (as_of) {
+          browser.getLocationAbsUrl().then(function(url) {
+            return browser.get(url+'?as_of='+encodeURIComponent(as_of));
+          });
+        }
+        return clicked;
       }
 
       function fill_required_fields() {
@@ -247,7 +263,7 @@
         });
       });
 
-      it('should not throw warnings/errors when assigning case with personal details completed', function () {
+      it('should not throw warnings/errors when assigning case with personal details completed (inside office hours)', function () {
         utils.createCase();
         fill_required_fields();
         fill_recommended_fields();
@@ -260,9 +276,54 @@
         modalEl.findElement(by.css('button[type="submit"]')).click();
         expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
-        // browser.findElement(by.css("input[name='provider']:first-child")).click();
+        goto_assign('2014-08-06T11:50');
         browser.findElement(by.css('button[name="assign-provider"]')).click();
 
+        checkAssign();
+      });
+
+
+      it('should assign case to rota provider (outside office hours)', function () {
+        utils.createCase();
+        fill_required_fields();
+        fill_recommended_fields();
+        goto_assign();
+
+        expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+        var modalEl = browser.findElement(by.css('div.modal'));
+        modalEl.findElement(by.css('input[name="matter_type1"]')).click();
+        modalEl.findElement(by.css('input[name="matter_type2"]')).click();
+        modalEl.findElement(by.css('button[type="submit"]')).click();
+        expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+
+        goto_assign('2014-08-06T19:50');
+        browser.findElement(by.css('button[name="assign-provider"]')).click();
+
+        checkAssign();
+      });
+
+
+      it('should assign case outside office hours without rota set', function () {
+        utils.createCase();
+        fill_required_fields();
+        fill_recommended_fields();
+        goto_assign();
+
+        expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+        var modalEl = browser.findElement(by.css('div.modal'));
+        modalEl.findElement(by.css('input[name="matter_type1"]')).click();
+        modalEl.findElement(by.css('input[name="matter_type2"]')).click();
+        modalEl.findElement(by.css('button[type="submit"]')).click();
+        expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+
+        goto_assign('2014-08-01T19:30');
+        expect(browser.findElement(by.css('button[name="assign-provider"]')).isEnabled()).toBe(false);
+        browser.findElements(by.repeater('provider in suggested_providers | filter:provider_search')).then(function(providers){
+          providers[0].findElement(by.css('input[name="provider"]')).click();
+        });
+
+        expect(browser.findElement(by.css('button[name="assign-provider"]')).isEnabled()).toBe(true);
+        browser.findElement(by.css('button[name="assign-provider"]')).click();
         checkAssign();
       });
     });
