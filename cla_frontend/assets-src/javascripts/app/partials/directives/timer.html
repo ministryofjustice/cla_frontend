@@ -1,5 +1,8 @@
 <div class="Timer cf">
   <span class="Icon Icon--timer" ng-show="startButton"></span>
   <span class="Timer-value">{{timer.value}}</span>
-  <a href="#" class="Icon Icon--right Timer-button" ng-click="startTimer()" ng-class="{'Icon--pause': timer.running, 'Icon--play': !timer.running}" ng-show="startButton"></a>
+  <a href="#" class="Timer-button Icon" ng-click="startTimer()" ng-show="startButton" ng-class="{'Icon--pause': timer.running, 'Icon--play': !timer.running}"></a>
+  <!-- <a href="#" class="Timer-button">
+    <span class="Icon Icon--right" ng-class="{'Icon--pause': timer.running, 'Icon--play': !timer.running}"></span>
+  </a> -->
 </div>

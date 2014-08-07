@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>form</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="form" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <path d="M32.0036842,0 C14.3285375,0 0,14.3292507 0,32.0036842 L0,479.996316 C0,497.671463 14.3292507,512 32.0036842,512 L479.996316,512 C497.671463,512 512,497.670749 512,479.996316 L512,32.0036842 C512,14.3285375 497.670749,0 479.996316,0 L32.0036842,0 Z M95.9969832,64 C78.3255373,64 64,78.3235467 64,95.9969832 L64,416.003017 C64,433.674463 78.3235467,448 95.9969832,448 L416.003017,448 C433.674463,448 448,433.676453 448,416.003017 L448,95.9969832 C448,78.3255373 433.676453,64 416.003017,64 L95.9969832,64 Z M224,128 L224,192 L384,192 L384,128 L224,128 Z M225,224 L225,288 L385,288 L385,224 L225,224 Z M128,128 L128,192 L192,192 L192,128 L128,128 Z M128,224 L128,288 L192,288 L192,224 L128,224 Z M128,320 L128,384 L192,384 L192,320 L128,320 Z" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

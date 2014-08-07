@@ -2,6 +2,8 @@ var gulp = require('gulp'),
     path = require('path'),
     plugins = require('gulp-load-plugins')(),
     stylish = require('jshint-stylish'),
+    lodash = require('lodash'),
+    Q = require('q'),
     runSequence = require('run-sequence'),
     java_path = path.resolve('node_modules/closurecompiler/jre/bin');
     process.env.PATH = java_path + ':' + process.env.PATH,
@@ -9,6 +11,7 @@ var gulp = require('gulp'),
       tmp: '.gulptmp/',
       dest: 'cla_frontend/assets/',
       src: 'cla_frontend/assets-src/',
+      icons: [],
       images: [],
       fonts: [],
       styles: [],
@@ -20,8 +23,10 @@ var gulp = require('gulp'),
 
 // styles
 paths.styles.push(paths.src + 'stylesheets/**/*.scss');
+// icons
+paths.icons.push(paths.src + 'fonts/svg-icons/*.svg');
 // fonts
-paths.fonts.push(paths.src + 'fonts/**/*');
+paths.fonts.push(paths.src + 'fonts/*.*');
 // images
 paths.images.push(paths.src + 'images/**/*');
 // partials
@@ -70,22 +75,52 @@ gulp.task('clean-post', function() {
     .pipe(plugins.clean());
 });
 
-// compile scss
-gulp.task('sass', function() {
-  gulp
+// copy across web fonts
+gulp.task('iconfont', ['sass-copy'], function(cb) {
+  var deferred = Q.defer(),
+      fontName = 'cla-icons';
+
+  gulp.src(paths.icons)
+    .pipe(plugins.iconfont({ fontName: fontName }))
+    .on('codepoints', function(codepoints) {
+      var options = {
+        glyphs: codepoints,
+        fontName: fontName,
+        fontPath: '../fonts/',
+        className: 'Icon'
+      };
+      gulp.src(paths.tmp + 'stylesheets/_icons.scss')
+        .pipe(plugins.consolidate('lodash', options))
+        .pipe(gulp.dest(paths.tmp + 'stylesheets/'));
+        
+      gulp.src(paths.src + 'fonts/icon-template.html')
+        .pipe(plugins.consolidate('lodash', options))
+        .pipe(plugins.rename({ basename: fontName }))
+        .pipe(gulp.dest(paths.dest + 'fonts/'));
+
+      setTimeout(function() {
+        deferred.resolve();
+      }, 1000);
+    })
+    .pipe(gulp.dest(paths.dest + 'fonts/'));
+
+  return deferred.promise;
+});
+
+// copy & compile scss
+gulp.task('sass-copy', function() {
+  return gulp
     .src(paths.styles)
+    .pipe(gulp.dest(paths.tmp + 'stylesheets/'));
+});
+gulp.task('sass', ['iconfont'], function() {
+  gulp
+    .src(paths.tmp + 'stylesheets/**/*.scss')
     .pipe(plugins.rubySass({
       loadPath: 'node_modules/govuk_frontend_toolkit/' // add node module toolkit path
     }))
     .on('error', function (err) { console.log(err.message); })
     .pipe(gulp.dest(paths.dest + 'stylesheets/'));
-});
-
-// copy across web fonts
-gulp.task('fonts', function() {
-  gulp
-    .src(paths.fonts)
-    .pipe(gulp.dest(paths.dest + 'fonts'));
 });
 
 // optimise images
@@ -224,17 +259,18 @@ gulp.task('watch', function() {
 
   gulp.watch(paths.fonts, ['fonts']);
   gulp.watch(paths.styles, ['sass']);
+  gulp.watch(paths.icons, ['sass']);
   gulp.watch(paths.images, ['images']);
   gulp.watch(paths.vendor_static, ['vendor']);
   gulp.watch(paths.src + 'javascripts/**/*', ['lint', 'js-concat']);
+  gulp.watch(paths.guidance, ['guidance-build']);
   // watch built files and send reload event
   gulp.watch(paths.dest + '**/*').on('change', lr.changed);
-  gulp.watch(paths.guidance, ['guidance-build']);
 });
 
 // setup default task
 gulp.task('default', ['build']);
 // run build
 gulp.task('build', function() {
-  runSequence('clean-pre', ['sass', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-compile']);
+  runSequence('clean-pre', ['sass', 'images', 'vendor', 'guidance-build', 'lint', 'js-compile']);
 });

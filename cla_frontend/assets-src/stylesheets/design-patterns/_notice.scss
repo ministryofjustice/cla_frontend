@@ -58,7 +58,7 @@
   &.warning,
   &.success {
     &:before {
-      @include icon-font('cla-iconfont');
+      @extend %icon-base-styles;
       position: absolute;
       top: 0.8em;
       left: 0.65em;
