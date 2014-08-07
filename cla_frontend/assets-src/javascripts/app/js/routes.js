@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 //ROUTES
-  angular.module('cla.app')
+  angular.module('cla.routes')
     .config(['AppSettings', '$stateProvider', '$locationProvider', 
     function(AppSettings, $stateProvider, $locationProvider) {
       $locationProvider.html5Mode(true);

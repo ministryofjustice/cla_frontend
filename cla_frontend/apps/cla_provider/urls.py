@@ -17,7 +17,11 @@ urlpatterns = patterns('',
     }, name='logout'),
 
 
+    url(r'^proxy/(?P<path>.*)', auth_views.backend_proxy_view, name="backend_proxy"),
     url(r'^$', views.dashboard, name='dashboard'),
+    
+
+    # TODO: to be removed
     url(r'^case/(?P<case_reference>.+)/edit/$', views.edit_case, name='edit_case'),
     url(r'^case/(?P<case_reference>.+)/accept/$', views.accept_case, name='accept_case'),
     url(r'^case/(?P<case_reference>.+)/reject/$', views.reject_case, name='reject_case'),

@@ -14,6 +14,11 @@ from django.utils.http import is_safe_url
 from django.shortcuts import resolve_url
 from django.contrib.sites.models import get_current_site
 from django.template.response import TemplateResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from proxy.views import proxy_view
+
+from api.client import get_connection
 
 from .forms import AuthenticationForm
 
@@ -72,3 +77,21 @@ def login(request, template_name='accounts/login.html',
     else:
         return TemplateResponse(request, template_name, context,
                                current_app=current_app)
+
+
+@csrf_exempt
+def backend_proxy_view(request, path):
+    """
+        TODO: hacky as it's getting the base_url and the auth header from the
+            get_connection slumber object.
+
+            Also, we should limit the endpoint accessible from this proxy
+    """
+    client = get_connection(request)
+
+
+    extra_requests_args = {
+        'headers': {k.upper(): v for k,v in dict([client._store['session'].auth.get_header()]).items()}
+    }
+    remoteurl = u"%s%s" % (client._store['base_url'], path)
+    return proxy_view(request, remoteurl, extra_requests_args)
