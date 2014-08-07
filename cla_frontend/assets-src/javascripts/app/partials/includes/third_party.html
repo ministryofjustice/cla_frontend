@@ -6,7 +6,7 @@
     <!-- IF empty -->
     <p class="Notice" ng-hide="third_party.personal_details.full_name">Please enter third party details</p>
 
-    <h3 class="VCard-title Icon Icon--formRow Icon--user" ng-show="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}</h3>
+    <h3 class="VCard-title Icon Icon--formRow Icon--thirdparty" ng-show="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}</h3>
 
     <p class="VCard-row Icon Icon--row Icon--location" ng-show="third_party.personal_details.postcode || third_party.personal_details.street">
       {{ third_party.personal_details.postcode }}<br>
@@ -19,16 +19,16 @@
 
     <p class="VCard-row Icon Icon--row Icon--safe" ng-show="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
 
-    <p class="VCard-row" ng-show="third_party.personal_relationship">
-      <strong>Relationship</strong>
-      <br>
-      {{ getDisplayLabel(third_party.personal_relationship, relationships) }}
-    </p>
-
     <p class="VCard-row" ng-show="third_party.reason">
       <strong>Reason</strong>
       <br>
       {{ getDisplayLabel(third_party.reason, reasons) }}
+    </p>
+
+    <p class="VCard-row" ng-show="third_party.personal_relationship">
+      <strong>Relationship</strong>
+      <br>
+      {{ getDisplayLabel(third_party.personal_relationship, relationships) }}
     </p>
   </div>
 
@@ -37,7 +37,7 @@
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}">
       <span class="Error-message" ng-show="third_party_frm.full_name.$error.server">{{ errors.full_name }}</span>
-      <span class="Icon--formRow Icon Icon--user">
+      <span class="Icon--formRow Icon Icon--thirdparty">
         <span editable-text="third_party.personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
       </span>
     </label>
@@ -94,7 +94,7 @@
     <div>
       <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.legal_advisor.$invalid && thirdparty_submitted}">
         <span class="Error-message" ng-show="third_party_frm.legal_advisor.$error.server">{{ errors.legal_advisor }}</span>
-        <span>
+        <span class="Icon--formRow Icon Icon--briefcase">
           <span editable-text="third_party.personal_details.legal_advisor" e-name="legal_advisor" e-class="FormRow-field--full" e-placeholder="Legal advisor"></span>
         </span>
       </label>

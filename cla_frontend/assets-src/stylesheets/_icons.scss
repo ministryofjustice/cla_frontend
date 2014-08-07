@@ -43,9 +43,6 @@ $icons: (
     @extend %icon-base-styles;
     margin-right: 10px;
   }
-  &:after {
-    display: none;
-  }
 
   // modifiers
   &--row,
@@ -123,6 +120,7 @@ $icons: (
 
 @each $name, $icon in $icons {
   .<%= className %>--#{$name}{
-    &:before, &:after { content: $icon; }
+    &:before { content: $icon; }
+    &.<%= className %>--right:after { content: $icon; }
   }
 }

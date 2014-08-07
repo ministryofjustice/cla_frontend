@@ -1,5 +1,4 @@
-.Timer {
-  
+.Timer {  
   &--inline {
     color: $grey-2;
     padding: {
@@ -26,20 +25,12 @@
 }
 
 .Timer-button {
-  display: inline-block;
-  height: 18px;
-  width: 18px;
-  background: $grey-1;
-  text-align: center;
   margin-left: 5px;
-  @include border-radius(3px);
 
   &:link, &:visited, &:active {
     color: $grey-2;
   }
-
-  &:after {
+  &:before {
     margin: 0;
-    line-height: 18px;
   }
 }
