@@ -52,9 +52,11 @@
         return $delegate;
       });
     }])
-    .run(function ($rootScope, $state, $stateParams) {
+    .run(function ($rootScope, $state, $stateParams, Timer) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
+
+      Timer.install();
     });
 
 
@@ -99,9 +101,11 @@
         return $delegate;
       });
     }])
-    .run(function ($rootScope, $state, $stateParams) {
+    .run(function ($rootScope, $state, $stateParams, Timer) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
+
+      Timer.install();
     });
 
 })();
