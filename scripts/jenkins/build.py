@@ -98,14 +98,14 @@ karma = run_bg('npm run test-single-run')
 wget_backend.wait()
 wget_frontend.wait()
 
-# # run protractor tests against SauceLabs
-# run(
-#     ('node_modules/protractor/bin/protractor '
-#      '--sauceUser %s --sauceKey %s '
-#      'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js') % (
-#         os.environ.get('SAUCE_USER'),
-#         os.environ.get('SAUCE_KEY'))
-# )
+# run protractor tests against SauceLabs
+run(
+    ('node_modules/protractor/bin/protractor '
+     '--sauceUser %s --sauceKey %s '
+     'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js') % (
+        os.environ.get('SAUCE_USER'),
+        os.environ.get('SAUCE_KEY'))
+)
 
 karma.wait()
 print 'exiting...'
