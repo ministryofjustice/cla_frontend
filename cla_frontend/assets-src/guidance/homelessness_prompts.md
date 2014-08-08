@@ -27,6 +27,16 @@ tags:
 
 ## Common scenarios
 
+### Already homeless
+* homeless, living on the street
+* living in women's refuge
+* living in a night shelter
+
+### At risk of homelessness
+* housed, but being subjected to violence or threats of violence
+* housed, but property has been condemned due to disrepair
+* housed, but property has repair issues that are affecting client's health
+* 
 
 
 
