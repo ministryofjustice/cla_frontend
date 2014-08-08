@@ -26,7 +26,8 @@ paths.styles.push(paths.src + 'stylesheets/**/*.scss');
 // icons
 paths.icons.push(paths.src + 'fonts/svg-icons/*.svg');
 // fonts
-paths.fonts.push(paths.src + 'fonts/*.*');
+paths.fonts.push(paths.src + 'fonts/*.{eot,svg,ttf,woff}');
+paths.fonts.push(paths.tmp + 'fonts/*.{eot,svg,ttf,woff}');
 // images
 paths.images.push(paths.src + 'images/**/*');
 // partials
@@ -77,34 +78,34 @@ gulp.task('clean-post', function() {
 
 // copy across web fonts
 gulp.task('iconfont', ['sass-copy'], function(cb) {
-  var deferred = Q.defer(),
-      fontName = 'cla-icons';
+  var fontName = 'cla-icons';
 
-  gulp.src(paths.icons)
+  return gulp.src(paths.icons)
+    .pipe(plugins.iconfontCss({
+      fontName: fontName,
+      path: paths.src + 'stylesheets/_icons.scss',
+      targetPath: '../stylesheets/_icons.scss',
+      fontPath: '../fonts/'
+    }))
     .pipe(plugins.iconfont({ fontName: fontName }))
     .on('codepoints', function(codepoints) {
       var options = {
         glyphs: codepoints,
         fontName: fontName,
-        fontPath: '../fonts/',
         className: 'Icon'
       };
-      gulp.src(paths.tmp + 'stylesheets/_icons.scss')
-        .pipe(plugins.consolidate('lodash', options))
-        .pipe(gulp.dest(paths.tmp + 'stylesheets/'));
-        
+      // create template containing all fonts
       gulp.src(paths.src + 'fonts/icon-template.html')
         .pipe(plugins.consolidate('lodash', options))
         .pipe(plugins.rename({ basename: fontName }))
         .pipe(gulp.dest(paths.dest + 'fonts/'));
-
-      setTimeout(function() {
-        deferred.resolve();
-      }, 1000);
     })
+    .pipe(gulp.dest(paths.tmp + 'fonts/'));
+});
+// copy fonts
+gulp.task('fonts', ['iconfont'], function(cb) {
+  gulp.src(paths.fonts)
     .pipe(gulp.dest(paths.dest + 'fonts/'));
-
-  return deferred.promise;
 });
 
 // copy & compile scss
@@ -272,5 +273,5 @@ gulp.task('watch', function() {
 gulp.task('default', ['build']);
 // run build
 gulp.task('build', function() {
-  runSequence('clean-pre', ['sass', 'images', 'vendor', 'guidance-build', 'lint', 'js-compile']);
+  runSequence('clean-pre', ['sass', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-compile']);
 });
