@@ -1,3 +1,14 @@
+---
+title: Harassment
+date: "2014-08-01 18:51"
+tags:
+  - harassment
+  - violence
+  - abuse
+  - housing
+
+---
+
 Legal aid is available to apply for an injunction or restraining order to protect someone who lives in rented property from harassment. 
 
 To identify whether the call is in scope, you must decide if what the client is describing amounts to harassment and the key points to look out for are:
