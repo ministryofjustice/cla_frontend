@@ -39,8 +39,15 @@
           $scope.setAdaptations();
 
           $scope.media_codes = mediacodes.map(function (mc) {
-            return mc.code;
+            var opt = {};
+
+            opt.code = mc.code;
+            opt.label = mc.name;
+            opt.group = mc.group;
+
+            return opt;
           });
+
           $scope.media_code = {};
           if ($scope.case.media_code) {
             $scope.media_code.selected = $scope.case.media_code;

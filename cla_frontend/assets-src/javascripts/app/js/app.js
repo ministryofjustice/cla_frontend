@@ -17,6 +17,7 @@
       'cla.templates',
       'ui.bootstrap',
       'ui.select',
+      'ui.select2',
       'multi-select',
       'sticky'
     ])
