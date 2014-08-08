@@ -1,0 +1,10 @@
+Legal aid is available to apply for an injunction or restraining order to protect someone who lives in rented property from harassment. 
+
+To identify whether the call is in scope, you must decide if what the client is describing amounts to harassment and the key points to look out for are:
+
+* the perpetrator's actions are causing the client alarm or distress
+* the client is in fear of violence
+* there have been at least two occasions of the harassing behaviour
+
+The definition of "causing alarm and distress" can be very subjective, so you should apply a commonsense approach and consider whether the behaviour would cause any reasonable person alarm or distress. 
+
