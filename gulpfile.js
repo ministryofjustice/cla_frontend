@@ -3,7 +3,6 @@ var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     stylish = require('jshint-stylish'),
     lodash = require('lodash'),
-    Q = require('q'),
     runSequence = require('run-sequence'),
     java_path = path.resolve('node_modules/closurecompiler/jre/bin');
     process.env.PATH = java_path + ':' + process.env.PATH,
