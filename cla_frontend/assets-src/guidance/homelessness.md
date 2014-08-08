@@ -20,5 +20,5 @@ Are you homeless or are you threatened with homelessness within the next 28 days
 * have no accommodation available which you are legally entitled to occupy, or
 * have accommodation which is available and which you are entitled to occupy but cannot secure entry into it, or
 * have accommodation available which you are entitled to occupy, but that accommodation consists of a moveable structure and there is no place where you are entitled or permitted both to place and reside in it, or
-* have accommodation available, which you are entitled to occupy and it is not reasonable to continue to occupy
+* have accommodation available, which you are entitled to occupy but it is not reasonable to continue to occupy
 
