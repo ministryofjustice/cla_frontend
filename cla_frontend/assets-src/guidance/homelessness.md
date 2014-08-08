@@ -8,17 +8,17 @@ tags:
 
 ---
 
-Local authorities have a statutory obligation to provide accommodation and assistance to an individual who is homeless or threatened with homelessness (i.e. will become homeless within 28 days)
+Local authorities have a statutory obligation to provide accommodation and assistance to anyone who is homeless or threatened with homelessness (i.e. will become homeless within 28 days).
 
-To be in scope the client will currently be homeless or have been threatened with losing their home within 28 days and need to access accommodation and/or assistance from the local housing authority.
+To be in scope, the client will currently be homeless or have been threatened with losing their home within 28 days and need to get accommodation and/or help from the local housing authority.
 
-Alternatively, they may have received a letter from the local authority on their ineligibility for accommodation and assistance that they wish to challenge.
+Alternatively, they may wish to challenge a letter they've received from the local authority, which says that they are not eligible for accommodation and assistance.
 
-Are you homeless or are you threatened with homelessness within the next 28 days? You will be considered as homeless if you:
+A client will be considered to be homeless if they:
 
 * have no accommodation physically available to occupy in the UK or elsewhere, or
-* have no accommodation available which you are legally entitled to occupy, or
-* have accommodation which is available and which you are entitled to occupy but cannot secure entry into it, or
-* have accommodation available which you are entitled to occupy, but that accommodation consists of a moveable structure and there is no place where you are entitled or permitted both to place and reside in it, or
-* have accommodation available, which you are entitled to occupy but it is not reasonable to continue to occupy
+* have no accommodation available which they are legally entitled to live in, or
+* have accommodation that is available and that they are entitled to live in but can't gain entry into it, or
+* have accommodation available that they are entitled to occupy, but that accommodation is a moveable structure and there is no place where they are entitled or permitted both to place and live in it, or
+* have accommodation available, which they are entitled to live in but it is not reasonable to continue to do so
 
