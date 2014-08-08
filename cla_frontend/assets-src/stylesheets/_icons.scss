@@ -27,10 +27,11 @@
 }
 
 $icons: (
-  <%= glyphs.map(function(glyph){ return glyph.name + ': "' + '\\' + glyph.codepoint.toString(16).toUpperCase() + '"' }).join(',\n  ') %>
+  <% _.each(glyphs, function(glyph) { %><%= glyph.fileName %>: "\<%= glyph.codePoint %>",
+  <% }); %>
 );
 
-.<%= className %> {
+.Icon {
   // reset link styles
   &:link,
   &:visited,
@@ -72,8 +73,8 @@ $icons: (
       margin-left: 10px;
     }
 
-    &.<%= className %>--row,
-    &.<%= className %>--formRow {
+    &.Icon--row,
+    &.Icon--formRow {
       padding-left: 0;
       padding-right: 26px;
 
@@ -119,8 +120,8 @@ $icons: (
 }
 
 @each $name, $icon in $icons {
-  .<%= className %>--#{$name}{
+  .Icon--#{$name}{
     &:before { content: $icon; }
-    &.<%= className %>--right:after { content: $icon; }
+    &.Icon--right:after { content: $icon; }
   }
 }
