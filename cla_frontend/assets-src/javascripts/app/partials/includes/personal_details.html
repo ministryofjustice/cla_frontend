@@ -129,7 +129,7 @@
       <span editable-checkbox="language.welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
 
       <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
-      <span editable-filterselect="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options track by s.value" e-class="FormRow-field--full" e-ng-disabled="language.disable"></span>
+      <span editable-filterselect="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options track by s.value" e-class="FormRow-field--full" e-data-placeholder="Choose a language" e-ng-disabled="language.disable"></span>
     </div>
 
     <div class="FormRow FormRow--narrow cf FormRow--group">
