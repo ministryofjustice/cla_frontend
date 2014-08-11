@@ -22,7 +22,7 @@
     var select_matching = function (options) {
       if (options) {
         options[0].getText().then(function (text) {
-          if (text.indexOf(choice) >= 0) {
+          if (text.toLowerCase().indexOf(choice.toLowerCase()) >= 0) {
             options[0].click();
           } else {
             select_matching(options.slice(1));
