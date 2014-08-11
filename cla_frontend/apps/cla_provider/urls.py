@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
 
     url(r'^proxy/(?P<path>.*)', auth_views.backend_proxy_view, name="backend_proxy"),
-    url(r'^$', views.dashboard, name='dashboard'),
+    url(r'^.*$', views.dashboard, name='dashboard'),
     
 
     # TODO: to be removed
