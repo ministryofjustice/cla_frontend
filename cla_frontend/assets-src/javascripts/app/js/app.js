@@ -16,21 +16,11 @@
       'cla.utils',
       'cla.templates',
       'ui.bootstrap',
-      'ui.select',
       'ui.select2',
-      'multi-select',
       'sticky'
     ])
-    .config(function($resourceProvider, $provide) {
+    .config(function($resourceProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
-      
-      // multi select
-      $provide.decorator('multiSelectDirective', function($delegate) {
-        var directive = $delegate[0];
-        directive.template = undefined;
-        directive.templateUrl = 'directives/multi_select.html';
-        return $delegate;
-      });
     })
     .run(function ($rootScope, $state, $stateParams) {
       $rootScope.$state = $state;
