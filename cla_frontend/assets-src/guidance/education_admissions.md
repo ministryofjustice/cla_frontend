@@ -1,3 +1,14 @@
+---
+title: School admissions
+date: "2014-08-06 18:51"
+tags:
+  - education
+  - admissions
+  - school
+  - school admissions
+
+---
+
 If the client has not yet appealed to the Independent Appeal Panel, this will be out of scope.
 
  Select a) if the client has already appealed to the Independent Appeal Panel.
