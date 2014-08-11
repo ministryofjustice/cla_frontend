@@ -174,9 +174,7 @@
   padding: 7px 7px 5px;
 }
 
-/*
-disabled look for disabled choices in the results dropdown
-*/
+/* disabled look for disabled choices in the results dropdown */
 .select2-results .select2-disabled.select2-highlighted {
     color: #666;
     background: #f4f4f4;
@@ -195,20 +193,17 @@ disabled look for disabled choices in the results dropdown
 
 /* disabled styles */
 .select2-container.select2-container-disabled .select2-choice {
-    background-color: #f4f4f4;
-    background-image: none;
-    border: 1px solid #ddd;
-    cursor: default;
-}
+  background-color: $grey-4;
+  border-color: $grey-3;
+  color: $grey-1;
+  cursor: default;
 
-.select2-container.select2-container-disabled .select2-choice .select2-arrow {
-    background-color: #f4f4f4;
-    background-image: none;
-    border-left: 0;
-}
-
-.select2-container.select2-container-disabled .select2-choice abbr {
+  .select2-arrow:after {
+    color: $grey-2;
+  }
+  abbr {
     display: none;
+  }
 }
 
 /* multiselect */

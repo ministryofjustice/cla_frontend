@@ -84,8 +84,10 @@
           };
 
           $scope.relationshipChange = function (value) {
-            console.log(value);
+            $scope.is_legal_advisor = value === 'LEGAL_ADVISOR' ? true : false;
           };
+          // trigger on first load
+          $scope.relationshipChange($scope.third_party.personal_relationship);
 
           $scope.toggleWelsh = function (value) {
             $scope.language.disable = value ? false : true;
