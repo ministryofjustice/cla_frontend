@@ -37,7 +37,7 @@
     <div class="VCard-row" ng-show="selected_adaptations.length">
       <p class="u-compact"><strong>Adaptations</strong></p>
       <ul class="InlineList">
-        <li class="InlineList-item" ng-repeat="item in selected_adaptations">{{ item }}</li>
+        <li class="InlineList-item" ng-repeat="item in selected_adaptations">{{ getAdaptationLabel(item) }}</li>
       </ul>
     </div>
 
@@ -50,7 +50,7 @@
     <p class="VCard-row" ng-show="case.media_code">
       <strong>Media Code</strong>
       <br>
-      <span>{{ mediaCode(media_code.selected).name }}</span>
+      <span>{{ mediaCode(media_code).label }}</span>
     </p>
 
     <p class="VCard-row u-highlightRed" ng-show="personal_details.vulnerable_user">User is deemed vulnerable</p>
@@ -134,30 +134,13 @@
 
     <div class="FormRow FormRow--narrow cf FormRow--group">
       <p class="u-compact"><strong>Adaptations</strong></p>
-      <!-- <multi-select
-        input-model="adaptation_opts"
-        button-label="title"
-        item-label="title"
-        tick-property="ticked"
-        helper-elements="filter"
-        separator=""
-      ></multi-select> -->
-      <div ng-repeat="(name, adaptation) in adaptation_flags | filter: { 'type': 'boolean' }">
-        <span class="Error-message" ng-show="{{ 'personaldetails_frm.' + name + '.$error.server' }}">{{ errors[name] }}</span>
-        <span editable-checkbox="{{ 'adaptations.' + name }}" e-name="{{ name }}" e-title="{{ adaptation.label }}"></span>
-      </div>
+
+      <span editable-multiselect="selected_adaptations" e-ng-options="k as v for (k,v) in adaptation_flags" e-name="adaptations2" e-data-placeholder="Choose adaptations" e-server-error></span>
     </div>
 
     <div class="FormRow cf">
       <p class="u-compact"><strong>Media code</strong></p>
-      <span editable-filterselect="case.media_code" e-ng-options="s.code as s.label group by s.group for s in media_codes track by s.code" e-name="media_code" e-server-error></span>
-
-      <!-- <ui-select ng-model="case.media_code" theme="selectize">
-        <ui-select-match placeholder="Select or search a media code">{{ mediaCode($select.selected).name }}</ui-select-match>
-        <ui-select-choices group-by="mediaCodeGroup" repeat="code in media_codes | filter:$select.search:filterMediaCodes">
-          <span ng-bind-html="mediaCode(code).name | highlight: $select.search"></span>
-        </ui-select-choices>
-      </ui-select> -->
+      <span editable-filterselect="media_code" e-ng-options="s.code as s.label group by s.group for s in media_codes track by s.code" e-name="media_code" e-data-placeholder="Choose media code" e-server-error></span>
     </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">
@@ -177,3 +160,5 @@
     </div>
   </form>
 </section>
+
+{{adaptations2}}

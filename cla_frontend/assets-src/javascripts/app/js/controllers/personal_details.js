@@ -3,42 +3,39 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes', '$q',
-        function($scope, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes, $q){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes', '$q',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes, $q){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
+          $scope.language_options = ADAPTATION_LANGUAGES;
+          $scope.reasons = THIRDPARTY_REASON;
+          $scope.relationships = THIRDPARTY_RELATIONSHIP;
 
-          $scope.toggle_adaptations = $scope.case.adaptation_details ? true : false;
           $scope.language = {};
           if ($scope.adaptations.language === 'WELSH') {
             $scope.language.welsh_override = true;
             $scope.language.disable = true;
           }
 
-          $scope.language_options = ADAPTATION_LANGUAGES;
-          $scope.reasons = THIRDPARTY_REASON;
-          $scope.relationships = THIRDPARTY_RELATIONSHIP;
-
           $scope.selected_adaptations = [];
           $scope.adaptation_flags = {};
           angular.forEach(adaptations_metadata.actions.POST, function (item, i) {
+            // add available flags to array
             if (item.type === 'boolean') {
-              $scope.adaptation_flags[i] = item;
+              $scope.adaptation_flags[i] = item.label;
+            }
+            // add server data to local array
+            if ($scope.adaptations[i] === true) {
+              $scope.selected_adaptations.push(i);
             }
           });
 
-          $scope.setAdaptations = function () {
-            $scope.selected_adaptations = [];
-            angular.forEach($scope.adaptation_flags, function (item, i) {
-              if ($scope.adaptations[i] === true) {
-                $scope.selected_adaptations.push(item.label);
-              }
-            });
+          $scope.getAdaptationLabel = function (code) {
+            return $scope.adaptation_flags[code];
           };
-          $scope.setAdaptations();
 
-          $scope.media_codes = mediacodes.map(function (mc) {
+          var media_codes = mediacodes.map(function (mc) {
             var opt = {};
 
             opt.code = mc.code;
@@ -47,41 +44,19 @@
 
             return opt;
           });
+          $scope.media_codes = _.sortBy(media_codes, 'group');
 
-          $scope.media_code = {};
           if ($scope.case.media_code) {
-            $scope.media_code.selected = $scope.case.media_code;
+            $scope.media_code = $scope.case.media_code;
           }
-          $scope.$watch('media_code', function () {
-            if ($scope.case.media_code !== $scope.media_code.selected) {
-              $scope.case.media_code = $scope.media_code.selected;
-            }
-          });
-
-          // adaptations -- TEST
-          $scope.adaptation_opts = [
-            {id: 1, title: 'Opt 1', ticked: false},
-            {id: 2, title: 'Opt 2', ticked: false},
-            {id: 3, title: 'Opt 3', ticked: false}
-          ];
 
           $scope.mediaCode = function (code) {
-            var matches = mediacodes.filter(function (mediacode) {
+            var matches = media_codes.filter(function (mediacode) {
               return mediacode.code === code;
             });
             if (matches.length) {
               return matches[0];
             }
-          };
-
-          $scope.filterMediaCodes = function (actual, expected) {
-            var r = new RegExp(expected, 'i');
-            var mc = $scope.mediaCode(actual);
-            return r.test(mc.code) || r.test(mc.name);
-          };
-
-          $scope.mediaCodeGroup = function (code) {
-            return $scope.mediaCode(code).group;
           };
 
           $scope.getDisplayLabel = function(value, list) {
@@ -126,8 +101,6 @@
                 adaptationsPromise = $q.defer(),
                 mcPromise = $q.defer();
 
-            $scope.setAdaptations();
-
             if ($scope.language.welsh_override) {
               $scope.adaptations.language = 'WELSH';
             }
@@ -143,6 +116,16 @@
               $scope.personal_details = personal_details;
               pdPromise.reject('fail');
             });
+
+            // set adaptations
+            var selected = this.selected_adaptations;
+            angular.forEach($scope.adaptation_flags, function (label, key) {
+              if (selected.indexOf(key) !== -1) {
+                $scope.adaptations[key] = true;
+              } else {
+                $scope.adaptations[key] = false;
+              }
+            });
             // save adaptations
             $scope.adaptations.$update($scope.case.reference, function (data) {
               if (!$scope.case.adaptation_details) {
@@ -154,11 +137,13 @@
               $scope.adaptations = adaptation_details;
               adaptationsPromise.reject();
             });
-            // save media code
-            if ($scope.case.media_code !== undefined) {
-              $scope.case.$set_media_code().then(function () {
-                $scope.media_code.selected = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
 
+            // save media code
+            if ($scope.case.media_code !== this.media_code && this.media_code !== undefined) {
+              $scope.case.media_code = this.media_code;
+
+              $scope.case.$set_media_code().then(function () {
+                $scope.media_code = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
                 mcPromise.resolve();
               });
             } else {
