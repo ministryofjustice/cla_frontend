@@ -14,7 +14,7 @@
     afterEach(function() {
       browser.manage().logs().get('browser').then(function(browserLog) {
         //expect(browserLog.length).toEqual(0);
-        console.log('log: ' + require('util').inspect(browserLog));
+        // console.log('log: ' + require('util').inspect(browserLog));
       });
     });
 
@@ -123,7 +123,7 @@
 
       function selectAdaptations(checkboxes) {
         checkboxes.map(function (name) {
-          browser.findElement(by.css('input[type="checkbox"][title="' + name + '"]')).click();
+          browser.findElement(by.cssContainingText('[name="adaptations"] option', name)).click();
         });
       }
     });
@@ -346,7 +346,7 @@
       });
 
       function displayedMediaCode() {
-        return browser.findElement(by.binding('mediaCode(media_code.selected).name')).getText();
+        return browser.findElement(by.binding('mediaCode(media_code).label')).getText();
       }
     });
   });

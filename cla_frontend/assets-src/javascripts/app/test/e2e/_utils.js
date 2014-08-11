@@ -65,8 +65,9 @@ module.exports = {
   enterPersonalDetails: function(details) {
     for (var name in details) {
       if (name == 'media_code') {
-        var select = browser.findElement(by.css('[name="media_code"]'));
-        select.findElement(by.css('option:nth-child(2)')).click();
+        // var select = browser.findElement(by.css('[name="media_code"]'));
+        // select.findElement(by.css('option:nth-child(2)')).click();
+        browser.findElement(by.cssContainingText('[name="media_code"] option', details[name])).click();
       } else {
         fillField(name, details[name]);
       }
