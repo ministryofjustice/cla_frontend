@@ -1,5 +1,5 @@
 ---
-title: School admissions
+title: Education admissions
 date: "2014-08-06 18:51"
 tags:
   - education
