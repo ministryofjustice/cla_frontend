@@ -25,7 +25,7 @@
     "gulp-ruby-sass": "~0.7.1",
     "gulp-uglify": "~0.2.1",
     "jasmine-reporters": "^0.4.1",
-    "jasmine-spec-reporter": "~0.4.0",
+    //"jasmine-spec-reporter": "~0.4.0",
     "jshint-stylish": "~0.1.5",
     "karma": "~0.10",
     "karma-junit-reporter": "^0.2.2",

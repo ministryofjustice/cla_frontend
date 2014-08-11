@@ -10,13 +10,13 @@ exports.config = extend(defaults, {
       browserName: 'firefox'
     }
   ],
-  logfile: null,
-  specs: [
-    'reporter-hack.js',
-    'e2e/*.js',
-  ],
-  onPrepare: function () {
-    require('jasmine-spec-reporter');
-    jasmine.getEnv().addReporter(new jasmine.SpecReporter({displayStacktrace: true}));
-  }
+  logfile: null//,
+  //specs: [
+    //'reporter-hack.js',
+    //'e2e/*.js',
+  //],
+  //onPrepare: function () {
+    //require('jasmine-spec-reporter');
+    //jasmine.getEnv().addReporter(new jasmine.SpecReporter({displayStacktrace: true}));
+  //}
 });
