@@ -24,7 +24,7 @@
 
     <div class="FormActions">
       <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis" ng-show="!case.diagnosis || case.diagnosis && diagnosis.isInScopeUnknown()">{{ !case.diagnosis ? 'New' : 'Complete' }} scope diagnosis</button>
-      <button type="submit" class="Button" ng-click="delete()" ng-show="case.diagnosis">Delete scope diagnosis</button>
+      <button type="submit" class="Button Button--secondary" ng-click="delete()" ng-show="case.diagnosis">Delete scope diagnosis</button>
     </div>
   </div>
 

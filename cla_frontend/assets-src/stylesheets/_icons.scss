@@ -107,6 +107,11 @@ $icons: (
       color: $light-blue;
     }
   }
+  &--mellowred {
+    &:before, &:after {
+      color: $mellow-red;
+    }
+  }
   &--red {
     &:before, &:after {
       color: $red;
