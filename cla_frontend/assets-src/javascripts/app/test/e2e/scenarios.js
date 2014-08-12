@@ -11,12 +11,8 @@
     // logs the user in before each test
     beforeEach(utils.setUp);
 
-    afterEach(function() {
-      browser.manage().logs().get('browser').then(function(browserLog) {
-        //expect(browserLog.length).toEqual(0);
-        console.log('log: ' + require('util').inspect(browserLog));
-      });
-    });
+    // USERFUL FOR DEBUGGING:
+    // afterEach(utils.debugTeardown);
 
     describe('Case List', function() {
       it('should get case list', function() {
@@ -30,7 +26,6 @@
     describe('Create Case', function() {
       it('should create new case', function() {
         // check that the case number in the URL matches that in the page title
-
         utils.createCase();
 
         var newCaseUrl;
@@ -40,8 +35,6 @@
         });
 
         browser.findElement(by.css('.CaseDetails-caseNum')).getInnerHtml().then(function(h1) {
-          // console.log("h1 is: "+h1);
-          // h1 is: MK-1983-0912
           utils.expectUrl(APP_BASE_URL+ newCaseUrl, h1 + '/');
         });
 
@@ -66,10 +59,9 @@
           var searched_url = url;
 
           // create a case
-
           browser.findElement(by.id('create_case')).click();
-          // go back & see that query params have been retained.
 
+          // go back & see that query params have been retained.
           browser.findElement(by.cssContainingText('a','Back to cases')).click();
           browser.getLocationAbsUrl().then(function (url2) {
             expect(searched_url).toBe(url2);
@@ -123,7 +115,7 @@
 
       function selectAdaptations(checkboxes) {
         checkboxes.map(function (name) {
-          browser.findElement(by.css('input[type="checkbox"][title="' + name + '"]')).click();
+          browser.findElement(by.cssContainingText('[name="adaptations"] option', name)).click();
         });
       }
     });
@@ -346,7 +338,7 @@
       });
 
       function displayedMediaCode() {
-        return browser.findElement(by.binding('mediaCode(media_code.selected).name')).getText();
+        return browser.findElement(by.binding('mediaCode(media_code).label')).getText();
       }
     });
   });

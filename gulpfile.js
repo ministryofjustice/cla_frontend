@@ -38,6 +38,7 @@ paths.scripts = {
   vendor: [
     paths.src + 'vendor/lodash/dist/lodash.min.js',
     paths.src + 'vendor/jquery/dist/jquery.min.js',
+    paths.src + 'vendor/select2/select2.js',
     // angular specific
     paths.src + 'vendor/angular/angular.js',
     paths.src + 'vendor/angular-sanitize/angular-sanitize.js',
@@ -45,8 +46,7 @@ paths.scripts = {
     paths.src + 'vendor/angular-sticky/sticky.js',
     paths.src + 'vendor/angular-resource/angular-resource.js',
     paths.src + 'vendor/angular-ui-router/release/angular-ui-router.js',
-    paths.src + 'vendor/angular-ui-select/dist/select.js',
-    paths.src + 'vendor/angular-multi-select/angular-multi-select.js',
+    paths.src + 'vendor/angular-ui-select2/src/select2.js',
     paths.src + 'vendor/angular-i18n/angular-locale_en-gb.js',
     paths.src + 'vendor/moment/moment.js',
     paths.src + 'vendor/angular-moment/angular-moment.js',
