@@ -9,7 +9,7 @@
             return $scope.diagnosis.isInScopeTrue() ? 'In scope' : ($scope.diagnosis.isInScopeFalse() ? 'Not in scope' : 'Scope diagnosis');
           };
           $scope.diagnosisTitleClass = function () {
-            return $scope.diagnosis.isInScopeTrue() ? 'Icon Icon--lrg Icon--tick Icon--green' : ($scope.diagnosis.isInScopeFalse() ? 'Icon Icon--lrg Icon--cross Icon--red' : '');
+            return $scope.diagnosis.isInScopeTrue() ? 'Icon Icon--lrg Icon--solidTick Icon--green' : ($scope.diagnosis.isInScopeFalse() ? 'Icon Icon--lrg Icon--solidCross Icon--red' : '');
           };
           
           $scope.delete = function() {
