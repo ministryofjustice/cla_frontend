@@ -68,7 +68,7 @@
   &.error {
     @extend .Icon;
     @extend .Icon--solidCross;
-    @extend .Icon--red;
+    @extend .Icon--mellowred;
     border-color: $mellow-red;
     background-color: #FAEBEC;
   }
