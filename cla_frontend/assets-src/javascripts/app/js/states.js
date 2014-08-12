@@ -1,19 +1,23 @@
 'use strict';
 (function() {
 // STATES
-  var states = angular.module('cla.states');
+  var states = angular.module('cla.states'),
+    operatorStates = angular.module('cla.states.operator'),
+    providerStates = angular.module('cla.states.provider');
 
   states.getStates = function(APP_BASE_URL) {
     var defs = {};
 
     defs.Layout = {
+      name: 'layout',
       abstract: true,
       templateUrl: 'base.html',
       controller: 'LayoutCtrl'
     };
 
     defs.CaseListState = {
-      parent: defs.Layout,
+      name: 'case_list',
+      parent: 'layout',
       url: APP_BASE_URL+'?search?ordering?page',
       templateUrl: 'case_list.html',
       controller: 'CaseListCtrl',
@@ -37,7 +41,8 @@
     };
 
     defs.CaseDetailState = {
-      parent: defs.Layout,
+      parent: 'layout',
+      name: 'case_detail',
       abstract: true,
       url: APP_BASE_URL+':caseref/',
       resolve: {
@@ -90,7 +95,8 @@
     };
 
     defs.CaseEditDetailState = {
-      parent: defs.CaseDetailState,
+      parent: 'case_detail',
+      name: 'case_detail.edit',
       url: '',
       views: {
         '@case_detail': {
@@ -101,7 +107,8 @@
     };
 
     defs.CaseEditDetailEligibilityState = {
-      parent: defs.CaseEditDetailState,
+      parent: 'case_detail.edit',
+      name: 'case_detail.edit.eligibility',
       url: 'eligibility/?section',
       onEnter: ['eligibility_check', 'diagnosis', 'flash', 'EligibilityCheckService',
         function(eligibility_check, diagnosis, flash, EligibilityCheckService){
@@ -116,7 +123,9 @@
     };
 
     defs.CaseEditDetailDiagnosisState = {
-      parent: defs.CaseEditDetailState,
+      parent: 'case_detail.edit',
+      name: 'case_detail.edit.diagnosis',
+
       url: 'diagnosis/',
       views: {
         '@case_detail.edit': {
@@ -127,7 +136,8 @@
     };
 
     defs.CaseEditDetailAssignState = {
-      parent: defs.CaseDetailState,
+      parent: 'case_detail',
+      name: 'case_detail.assign',
       url: 'assign/',
       views: {
         '@case_detail': {
@@ -138,7 +148,8 @@
     };
 
     defs.CaseEditDetailAlternativeHelpState = {
-      parent: defs.CaseDetailState,
+      parent: 'case_detail',
+      name: 'case_detail.alternative_help',
       url: 'alternative_help/?keyword?category?page',
       views: {
         '@case_detail': {
@@ -162,7 +173,8 @@
     };
 
     defs.CaseEditDetailAssignCompleteState = {
-      parent: defs.CaseEditDetailAssignState,
+      parent: 'case_detail.assign',
+      name: 'case_detail.assign.complete',
       url: 'complete/',
       views: {
         '@case_detail': {
@@ -173,7 +185,8 @@
     };
 
     defs.CaseDetailDeferAssignmentState = {
-      parent: defs.CaseDetailState,
+      parent: 'case_detail',
+      name: 'case_detail.defer_assignment',
       url: 'assign/defer/',
       views: {
         '@case_detail': {
@@ -186,4 +199,19 @@
     return defs;
   };
 
+
+  operatorStates.getStates = function(APP_BASE_URL){
+    return states.getStates(APP_BASE_URL);
+  };
+
+  providerStates.getStates = function(APP_BASE_URL){
+    var providerStates = states.getStates(APP_BASE_URL);
+    providerStates.CaseEditDetailState.views['acceptReject@case_detail.edit'] = {
+      templateUrl: 'case_detail.edit.acceptreject.html',
+      controller: 'AcceptRejectCaseCtrl'
+    };
+    return providerStates;
+  };
+
 })();
+

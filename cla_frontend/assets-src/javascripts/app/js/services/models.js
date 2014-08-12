@@ -110,6 +110,22 @@
         return $http.post(url, data);
       };
 
+      // Provider only endpoints
+      resource.prototype.$accept_case = function() {
+        var url = url_utils.proxy('case/'+this.reference+'/accept/');
+        return $http.post(url, {});
+      };
+
+      resource.prototype.$reject_case = function(data, successCallback) {
+        var url = url_utils.proxy('case/'+this.reference+'/reject/');
+        return $http.post(url, data).success(successCallback);
+      };
+
+      resource.prototype.$close_case = function(data, successCallback) {
+        var url = url_utils.proxy('case/'+this.reference+'/close/');
+        return $http.post(url, data).success(successCallback);
+      };
+
       return resource;
     }]);
 
@@ -171,7 +187,7 @@
           },
         }
       );
-      
+
       resource.prototype.isInScopeTrue = function() {
         return this.state === DIAGNOSIS_SCOPE.INSCOPE;
       };
