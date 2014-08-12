@@ -6,7 +6,7 @@
   var protractor = require('protractor'),
       utils = require('./_utils');
 
-  xdescribe('operatorApp', function() {
+  describe('operatorApp', function() {
     // logs the user in before each test
     beforeEach(utils.setUp);
 
