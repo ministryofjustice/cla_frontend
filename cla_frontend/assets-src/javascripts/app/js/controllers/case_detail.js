@@ -222,4 +222,22 @@
       ]
     );
 
+  angular.module('cla.controllers').
+    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', function($scope, $modal){
+      $scope.accept = function() {
+        this.case.$accept_case();
+      };
+      $scope.reject = function() {
+        $modal.open({
+          templateUrl: 'case_detail.suspend.html', //TODO: use own template
+          controller: 'OutcomesModalCtl',
+          resolve: {
+            'case': function() { return $scope.case; },
+            'event_key': function() { return 'reject_case'; },  //this is also the function name on Case model
+            'notes': function() { return ''; },
+            'success_msg': function() { return 'Case '+$scope.case.reference+' rejected successfully'; }
+          }
+        });
+      };
+    }]);
 })();

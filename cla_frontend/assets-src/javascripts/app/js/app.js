@@ -8,7 +8,9 @@
   angular.module('cla.states',[]);
   angular.module('cla.utils',[]);
   angular.module('cla.templates',[]);
-  angular.module('cla.routes',[]);
+  angular.module('cla.states.provider',['cla.states']);
+  angular.module('cla.states.operator',['cla.states']);
+  angular.module('cla.routes', ['cla.states']);
 
 
   // Operator App
@@ -17,12 +19,14 @@
     BASE_URL: '/call_centre/',
     timerEnabled: function() {
       return true;
-    }
+    },
+    statesModule: 'cla.states.operator'
   });
-  
+
   angular.module('cla.operatorApp',
     [
       'cla.operatorSettings',
+      'cla.states',
       'ngSanitize',
       'angularMoment',
       'xeditable',
@@ -32,7 +36,6 @@
       'cla.services',
       'cla.filters',
       'cla.directives',
-      'cla.states',
       'cla.utils',
       'cla.templates',
       'cla.routes',
@@ -57,7 +60,8 @@
     BASE_URL: '/provider/',
     timerEnabled: function() {
       return false;
-    }
+    },
+    statesModule: 'cla.states.provider'
   });
 
   angular.module('cla.providerApp',
@@ -75,6 +79,7 @@
       'cla.states',
       'cla.utils',
       'cla.templates',
+      'cla.states',
       'cla.routes',
       'ui.bootstrap',
       'ui.select',
@@ -83,7 +88,7 @@
     ])
     .config(['$resourceProvider', '$provide', function($resourceProvider, $provide) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
-      
+
       // multi select
       $provide.decorator('multiSelectDirective', function($delegate) {
         var directive = $delegate[0];
