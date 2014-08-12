@@ -11,7 +11,9 @@
         baseTime: '=?',
         startButton: '=?'
       },
-      controller: ['$scope', '$rootScope', 'TimerFactory', 'Stopwatch', function($scope, $rootScope, TimerFactory, Stopwatch) {
+      controller: ['$scope', '$rootScope', 'TimerFactory', 'Timer', 'Stopwatch', function($scope, $rootScope, TimerFactory, Timer, Stopwatch) {
+        $scope.isEnabled = Timer.isEnabled();
+
         $scope.timer = new Stopwatch({
           baseTime: ($scope.baseTime || 0)
         });
@@ -157,6 +159,9 @@
 
     this.$get = ['$rootScope', 'TimerFactory', 'flash', '$window', 'AppSettings', function($rootScope, TimerFactory, flash, $window, AppSettings) {
         return {
+            isEnabled: function() {
+              return AppSettings.timerEnabled();
+            },
             install: function() {
               if (!AppSettings.timerEnabled()) {
                 // we need to mock some events listners
