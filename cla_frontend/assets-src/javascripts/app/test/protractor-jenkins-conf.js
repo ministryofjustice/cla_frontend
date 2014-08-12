@@ -2,7 +2,7 @@ var extend = require('extend');
 var defaults = require('./protractor-default-conf').config;
 
 exports.config = extend(defaults, {
-  baseUrl: 'http://jenkins.local.dsd.io:8001/',
+  baseUrl: 'http://localhost:8001/',
 
   multiCapabilities: [
     {
