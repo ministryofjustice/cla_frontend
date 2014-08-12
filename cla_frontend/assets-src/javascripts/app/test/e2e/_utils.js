@@ -43,7 +43,14 @@ module.exports = {
   },
 
   expectUrl: expectUrl,
+
   setUp: setUp,
+
+  debugTeardown: function () {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
+  },
 
   getCase: getCase,
 

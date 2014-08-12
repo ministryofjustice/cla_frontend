@@ -10,12 +10,8 @@
     // logs the user in before each test
     beforeEach(utils.setUp);
 
-    afterEach(function() {
-      browser.manage().logs().get('browser').then(function(browserLog) {
-        //expect(browserLog.length).toEqual(0);
-        console.log('log: ' + require('util').inspect(browserLog));
-      });
-    });
+    // USERFUL FOR DEBUGGING:
+    // afterEach(utils.debugTeardown);
     
     describe('Suspend a case', function () {
       it('should suspend a case', function () {
