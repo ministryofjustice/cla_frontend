@@ -66,26 +66,23 @@
     padding-left: 2.5em;
   }
   &.error {
-    &:before {
-      color: $mellow-red;
-      content: "\e606";
-    }
+    @extend .Icon;
+    @extend .Icon--solidCross;
+    @extend .Icon--red;
     border-color: $mellow-red;
     background-color: #FAEBEC;
   }
   &.success {
-    &:before {
-      color: $green;
-      content: "\e613";
-    }
+    @extend .Icon;
+    @extend .Icon--solidTick;
+    @extend .Icon--green;
     border-color: $green;
     background-color: $green-25;    
   }
   &.warning {
-    &:before {
-      color: $orange;
-      content: "\e619";
-    }
+    @extend .Icon;
+    @extend .Icon--alert;
+    @extend .Icon--orange;
   }
   &--closeable {
     cursor: pointer;
