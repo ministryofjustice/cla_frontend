@@ -5,7 +5,7 @@
     .controller('CaseListCtrl',
       ['$rootScope', '$scope', 'cases', '$stateParams', '$state', 'Case',
         function($rootScope, $scope, cases, $stateParams, $state, Case) {
-          $scope.orderProp = $stateParams.ordering || '-created';
+          $scope.orderProp = $stateParams.ordering || '-modified';
           $scope.search = $stateParams.search;
           $scope.currentPage = $stateParams.page || 1;
 
@@ -31,6 +31,14 @@
               $scope.orderProp = currentOrderProp;
             }
             updatePage();
+          };
+          
+          $scope.sortClass = function(orderProp) {
+            if ($scope.orderProp === orderProp) {
+              return 'u-sortAsc';
+            } else if ($scope.orderProp === '-' + orderProp) {
+              return 'u-sortDesc';
+            }
           };
 
           $scope.addCase = function() {
