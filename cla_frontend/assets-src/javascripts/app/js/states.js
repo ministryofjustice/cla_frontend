@@ -216,6 +216,8 @@
       controller: 'AcceptRejectCaseCtrl'
     };
 
+    providerStates.CaseDetailState.views[''].templateUrl = 'provider/case_detail.html';
+
     providerStates.CaseEditDetailState.views['@case_detail'].templateUrl = 'provider/case_detail.edit.html';
     return providerStates;
   };
