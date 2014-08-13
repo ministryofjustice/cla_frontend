@@ -15,8 +15,8 @@
 
   // SERVICES
   angular.module('cla.services')
-    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'moment', 'url_utils',
-      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, Moment, url_utils) {
+    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'REQUIRES_ACTION_BY', 'url_utils', 'moment'
+      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, REQUIRES_ACTION_BY, url_utils, Moment) {
 
       var resource = $resource(
         url_utils.proxy('case/:caseref/'),
@@ -94,11 +94,6 @@
         return $http.post(url, data);
       };
 
-      resource.prototype.$assign = function(data){
-        var url = url_utils.proxy('case/'+this.reference+'/assign/');
-        return $http.post(url, data);
-      };
-
       resource.prototype.isInScopeAndEligible = function(){
         return this.diagnosis_state === DIAGNOSIS_SCOPE.INSCOPE && this.eligibility_state === ELIGIBILITY_STATES.YES;
       };
@@ -119,6 +114,10 @@
       };
 
       // Provider only endpoints
+      resource.prototype.isRequiresActionByProviderPreview = function(){
+        return this.requires_action_by === REQUIRES_ACTION_BY.PROVIDER_REVIEW;
+      };
+
       resource.prototype.$accept_case = function() {
         var url = url_utils.proxy('case/'+this.reference+'/accept/');
         return $http.post(url, {});

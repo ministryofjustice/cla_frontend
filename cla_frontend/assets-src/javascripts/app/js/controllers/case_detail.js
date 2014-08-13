@@ -36,9 +36,14 @@
 
           $scope.suspend = function() {
             $modal.open({
-              templateUrl: 'case_detail.suspend.html',
+              templateUrl: 'case_detail.outcome_modal.html',
               controller: 'OutcomesModalCtl',
               resolve: {
+                'tplVars': function() {
+                  return {
+                    title: 'Suspend Case'
+                  };
+                },
                 'case': function() { return $scope.case; },
                 'event_key': function() { return 'suspend_case'; },  //this is also the function name on Case model
                 'notes': function() { return ''; },
@@ -49,9 +54,14 @@
 
           $scope.decline_help = function(notes) {
             $modal.open({
-              templateUrl: 'case_detail.decline_help.html',
+              templateUrl: 'case_detail.outcome_modal.html',
               controller: 'OutcomesModalCtl',
               resolve: {
+                'tplVars': function() {
+                  return {
+                    'title': 'Decline Help'
+                  };
+                },
                 'case': function() { return $scope.case; },
                 'event_key': function() { return 'decline_help'; },  //this is also the function name on Case model
                 'notes': function() { return notes || ''; },
@@ -194,9 +204,19 @@
   angular.module('cla.controllers')
     .controller('OutcomesModalCtl',
       ['$scope', '$modalInstance', 'case', 'event_key',
-        'success_msg', 'Event', '$state', 'flash', 'notes',
+        'success_msg', 'Event', '$state', 'flash', 'notes', 'tplVars',
         function($scope, $modalInstance, _case, event_key, success_msg,
-                 Event, $state, flash, notes) {
+                 Event, $state, flash, notes, tplVars) {
+
+          // template vars
+          tplVars = angular.extend({
+            'title': 'Outcome code'
+          }, tplVars);
+          tplVars.buttonText = tplVars.buttonText || tplVars.title;
+          $scope.tplVars = tplVars;
+
+          // action
+
           new Event().list_by_event_key(event_key, function(data) {
             $scope.codes = data;
           });
@@ -223,15 +243,24 @@
     );
 
   angular.module('cla.controllers').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', function($scope, $modal){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', function($scope, $modal, flash){
       $scope.accept = function() {
-        this.case.$accept_case();
+        this.case.$accept_case().then(function(data) {
+          flash('Case accepted successfully.');
+          $scope.case = data;
+        });
       };
+
       $scope.reject = function() {
         $modal.open({
-          templateUrl: 'case_detail.suspend.html', //TODO: use own template
+          templateUrl: 'case_detail.outcome_modal.html',
           controller: 'OutcomesModalCtl',
           resolve: {
+            'tplVars': function() { 
+              return {
+                title: 'Reject Case'
+              };
+            },
             'case': function() { return $scope.case; },
             'event_key': function() { return 'reject_case'; },  //this is also the function name on Case model
             'notes': function() { return ''; },
