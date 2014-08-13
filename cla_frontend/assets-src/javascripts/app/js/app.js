@@ -8,13 +8,12 @@
   angular.module('cla.states',[]);
   angular.module('cla.utils',[]);
   angular.module('cla.templates',[]);
-  angular.module('cla.states.provider',['cla.states']);
-  angular.module('cla.states.operator',['cla.states']);
   angular.module('cla.routes', ['cla.states']);
 
 
   // Operator App
 
+  angular.module('cla.states.operator',['cla.states']);
   angular.module('cla.controllers.operator',[]);
   angular.module('cla.settings.operator', []).constant('AppSettings', {
     BASE_URL: '/call_centre/',
@@ -59,6 +58,7 @@
 
   // Provider App
 
+  angular.module('cla.states.provider',['cla.states']);
   angular.module('cla.controllers.provider',[]);
   angular.module('cla.settings.provider', []).constant('AppSettings', {
     BASE_URL: '/provider/',

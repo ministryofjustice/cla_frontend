@@ -31,6 +31,7 @@
 
           // watch fields
           $scope.$watch('case.notes', watchChange);
+          $scope.$watch('case.provider_notes', watchChange);
         }
       ]
     );
