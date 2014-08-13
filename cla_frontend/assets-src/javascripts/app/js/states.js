@@ -201,15 +201,22 @@
 
 
   operatorStates.getStates = function(APP_BASE_URL){
-    return states.getStates(APP_BASE_URL);
+    var operatorStates = states.getStates(APP_BASE_URL);
+
+    operatorStates.CaseListState.templateUrl = 'call_centre/case_list.html';
+
+    return operatorStates;
   };
 
   providerStates.getStates = function(APP_BASE_URL){
     var providerStates = states.getStates(APP_BASE_URL);
+
     providerStates.CaseEditDetailState.views['acceptReject@case_detail.edit'] = {
-      templateUrl: 'case_detail.edit.acceptreject.html',
+      templateUrl: 'provider/includes/case_detail.edit.acceptreject.html',
       controller: 'AcceptRejectCaseCtrl'
     };
+
+    providerStates.CaseEditDetailState.views['@case_detail'].templateUrl = 'provider/case_detail.edit.html';
     return providerStates;
   };
 
