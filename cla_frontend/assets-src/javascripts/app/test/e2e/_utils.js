@@ -267,6 +267,44 @@
     show_means_test: show_means_test,
     show_means_test_section: show_means_test_section,
     fill_model_field: fill_model_field,
-    set_money_interval: set_money_interval
+    set_money_interval: set_money_interval,
+
+    out_of_scope: function () {
+      set_diagnosis_choices([
+        'Debt & Housing',
+        'Client owns a house and lives in it',
+        'None of the above'
+      ]);
+    },
+
+    in_scope: function () {
+      set_diagnosis_choices([
+        'Family',
+        'Client wants to protect themselves',
+        'Child abuse'
+      ]);
+    },
+
+    eligible: function () {
+      complete_means_test({
+        'Problem': 'Debt',
+        'Details': {
+          'has_partner': 'no',
+          'nass_benefits': 'no',
+          'passported_benefits': 'no',
+          'older_than_sixty': 'yes'
+        },
+        'Finances': {
+          'properties': [],
+          'you.savings.bank_balance': '45600'
+        },
+        'Income': {
+          'self_employed': 'No'
+        },
+        'Expenses': {
+        }
+      });
+    }
+
   };
 })();
