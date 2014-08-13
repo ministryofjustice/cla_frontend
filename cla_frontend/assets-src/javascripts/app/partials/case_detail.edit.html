@@ -3,15 +3,18 @@
 </header>
 
 <div ui-view="notes">
-  <form method="post" ng-submit="save()" name="form">
-    <div class="FormRow cf">
-      <label for="id_case_notes-notes" id="id_case_notes-notes-label" class="visuallyhidden">Case Notes</label>
-      <span class="Error-message" ng-show="form.notes.$error.server">{{ errors.notes }}</span>
-      <textarea class="FormRow-field--full" id="id_case_notes-notes" name="notes" placeholder="Comments about this case" cols="20" rows="11" ng-model="case.notes" server-error></textarea>
-    </div>
+  <form method="post" ng-submit="save()" name="caseFrm" ng-controller="CaseNotesCtrl">
+    <div class="FormRow" ng-class="{'Error': caseFrm.notes.$invalid}">
+      <!-- error messages -->
+      <ul class="ErrorSummary-list" ng-messages="caseFrm.notes.$error">
+        <li class="ErrorSummary-listItem" ng-message="server">{{ errors.notes }}</li>
+        <li class="ErrorSummary-listItem" ng-message="maxlength">This field is limited to 500 characters</li>
+      </ul>
 
-    <div class="FormActions">
-      <button type="submit" class="Button" name="save-case">Save case notes</button>
+      <label for="id_case_notes-notes" class="cf">
+        <span class="visuallyhidden">Case Notes</span>
+        <textarea class="FormRow-field--full" name="notes" placeholder="Comments about this case" cols="20" rows="6" ng-model="case.notes" ng-maxlength="5000" server-error></textarea>
+      </label>
     </div>
   </form>
 </div>

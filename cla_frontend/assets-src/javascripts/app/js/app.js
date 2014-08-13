@@ -4,6 +4,7 @@
   angular.module('cla.app',
     [
       'ngSanitize',
+      'ngMessages',
       'angularMoment',
       'xeditable',
       'ui.router',

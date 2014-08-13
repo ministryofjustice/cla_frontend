@@ -42,6 +42,7 @@ paths.scripts = {
     // angular specific
     paths.src + 'vendor/angular/angular.js',
     paths.src + 'vendor/angular-sanitize/angular-sanitize.js',
+    paths.src + 'vendor/angular-messages/angular-messages.js',
     paths.src + 'vendor/angular-animate/angular-animate.js',
     paths.src + 'vendor/angular-sticky/sticky.js',
     paths.src + 'vendor/angular-resource/angular-resource.js',
