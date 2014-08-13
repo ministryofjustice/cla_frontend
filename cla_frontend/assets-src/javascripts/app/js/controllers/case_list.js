@@ -30,6 +30,7 @@
             } else {
               $scope.orderProp = currentOrderProp;
             }
+            $scope.currentPage = 1;
             updatePage();
           };
           
