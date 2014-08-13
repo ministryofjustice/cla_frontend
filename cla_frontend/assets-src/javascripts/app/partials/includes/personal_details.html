@@ -102,9 +102,9 @@
       <span editable-text="personal_details.ni_number" e-name="ni_number" e-class="FormRow-field--full" e-placeholder="National Insurance Number" e-server-error></span>
     </label>
 
-    <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.vulnerable.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.vulnerable.$error.server">{{ errors.vulnerable }}</span>
-      <span editable-checkbox="personal_details.vulnerable" e-name="vulnerable" e-title="User is deemed vulnerable"></span>
+    <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.vulnerable_user.$invalid && personaldetails_submitted}">
+      <span class="Error-message" ng-show="personaldetails_frm.vulnerable_user.$error.server">{{ errors.vulnerable_user }}</span>
+      <span editable-checkbox="personal_details.vulnerable_user" e-name="vulnerable_user" e-title="User is deemed vulnerable"></span>
     </div>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user.$invalid && personaldetails_submitted}">
