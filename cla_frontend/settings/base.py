@@ -114,6 +114,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django_statsd.middleware.GraphiteRequestTimingMiddleware',
+    'django_statsd.middleware.GraphiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -156,6 +158,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django_statsd',
     'widget_tweaks',
     'session_security',
     'raven.contrib.django.raven_compat',
@@ -291,4 +294,13 @@ try:
 except ImportError:
     pass
 
+STATSD_CLIENT = 'django_statsd.clients.normal'
+STATSD_PREFIX = 'frontend'
 
+STATSD_RECORD_KEYS = [
+    'window.performance.timing.domComplete',
+    'window.performance.timing.domInteractive',
+    'window.performance.timing.domLoading',
+    'window.performance.navigation.redirectCount',
+    'window.performance.navigation.type',
+]
