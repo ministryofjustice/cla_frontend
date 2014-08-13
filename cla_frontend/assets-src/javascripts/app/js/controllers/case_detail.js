@@ -93,7 +93,7 @@
 
             if (!$scope.validateCase() && !$scope.case.warned) {
               $modal.open({
-                templateUrl: 'case_detail.invalid.html',
+                templateUrl: 'call_centre/case_detail.invalid.html',
                 controller: 'InvalidCtrl',
                 scope: child_scope
               });

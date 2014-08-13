@@ -135,18 +135,6 @@
       }
     };
 
-    defs.CaseEditDetailAssignState = {
-      parent: 'case_detail',
-      name: 'case_detail.assign',
-      url: 'assign/?as_of',
-      views: {
-        '@case_detail': {
-          templateUrl:'case_detail.assign.html',
-          controller: 'AssignProviderCtrl'
-        }
-      }
-    };
-
     defs.CaseEditDetailAlternativeHelpState = {
       parent: 'case_detail',
       name: 'case_detail.alternative_help',
@@ -172,30 +160,6 @@
       }
     };
 
-    defs.CaseEditDetailAssignCompleteState = {
-      parent: 'case_detail.assign',
-      name: 'case_detail.assign.complete',
-      url: 'complete/',
-      views: {
-        '@case_detail': {
-          templateUrl:'case_detail.assign.complete.html',
-          controller: 'AssignProviderCompleteCtrl'
-        }
-      }
-    };
-
-    defs.CaseDetailDeferAssignmentState = {
-      parent: 'case_detail',
-      name: 'case_detail.defer_assignment',
-      url: 'assign/defer/',
-      views: {
-        '@case_detail': {
-          templateUrl: 'case_detail.defer_assignment.html',
-          controller: 'CaseDeferSpecialistsCtrl'
-        }
-      }
-    };
-
     return defs;
   };
 
@@ -204,6 +168,46 @@
     var operatorStates = states.getStates(APP_BASE_URL);
 
     operatorStates.CaseListState.templateUrl = 'call_centre/case_list.html';
+
+    operatorStates.CaseDetailState.views[''].templateUrl = 'call_centre/case_detail.html';
+
+    operatorStates.CaseEditDetailState.views['@case_detail'].templateUrl = 'call_centre/case_detail.edit.html';
+
+    operatorStates.CaseEditDetailAssignState = {
+      parent: 'case_detail',
+      name: 'case_detail.assign',
+      url: 'assign/?as_of',
+      views: {
+        '@case_detail': {
+          templateUrl:'call_centre/case_detail.assign.html',
+          controller: 'AssignProviderCtrl'
+        }
+      }
+    };
+
+    operatorStates.CaseEditDetailAssignCompleteState = {
+      parent: 'case_detail.assign',
+      name: 'case_detail.assign.complete',
+      url: 'complete/',
+      views: {
+        '@case_detail': {
+          templateUrl:'call_centre/case_detail.assign.complete.html',
+          controller: 'AssignProviderCompleteCtrl'
+        }
+      }
+    };
+
+    operatorStates.CaseDetailDeferAssignmentState = {
+      parent: 'case_detail',
+      name: 'case_detail.defer_assignment',
+      url: 'assign/defer/',
+      views: {
+        '@case_detail': {
+          templateUrl: 'call_centre/case_detail.defer_assignment.html',
+          controller: 'CaseDeferSpecialistsCtrl'
+        }
+      }
+    };
 
     return operatorStates;
   };
