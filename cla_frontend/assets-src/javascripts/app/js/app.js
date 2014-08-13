@@ -15,7 +15,8 @@
 
   // Operator App
 
-  angular.module('cla.operatorSettings', []).constant('AppSettings', {
+  angular.module('cla.controllers.operator',[]);
+  angular.module('cla.settings.operator', []).constant('AppSettings', {
     BASE_URL: '/call_centre/',
     timerEnabled: function() {
       return true;
@@ -25,7 +26,7 @@
 
   angular.module('cla.operatorApp',
     [
-      'cla.operatorSettings',
+      'cla.settings.operator',
       'cla.states',
       'ngSanitize',
       'angularMoment',
@@ -34,6 +35,7 @@
       'ui.router',
       'cla.constants',
       'cla.controllers',
+      'cla.controllers.operator',
       'cla.services',
       'cla.filters',
       'cla.directives',
@@ -57,7 +59,8 @@
 
   // Provider App
 
-  angular.module('cla.providerSettings', []).constant('AppSettings', {
+  angular.module('cla.controllers.provider',[]);
+  angular.module('cla.settings.provider', []).constant('AppSettings', {
     BASE_URL: '/provider/',
     timerEnabled: function() {
       return false;
@@ -67,7 +70,7 @@
 
   angular.module('cla.providerApp',
     [
-      'cla.providerSettings',
+      'cla.settings.provider',
       'cla.states',
       'ngSanitize',
       'angularMoment',
@@ -76,6 +79,7 @@
       'ui.router',
       'cla.constants',
       'cla.controllers',
+      'cla.controllers.provider',
       'cla.services',
       'cla.filters',
       'cla.directives',

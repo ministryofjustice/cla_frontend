@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  angular.module('cla.controllers')
+  angular.module('cla.controllers.operator')
     .controller('CaseDeferSpecialistsCtrl',
       ['$scope', '$state', 'flash',
         function($scope, $state, flash) {
