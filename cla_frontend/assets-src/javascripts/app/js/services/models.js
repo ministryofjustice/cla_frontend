@@ -15,7 +15,7 @@
 
   // SERVICES
   angular.module('cla.services')
-    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'REQUIRES_ACTION_BY', 'url_utils', 'moment'
+    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'REQUIRES_ACTION_BY', 'url_utils', 'moment',
       function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, REQUIRES_ACTION_BY, url_utils, Moment) {
 
       var resource = $resource(

@@ -68,6 +68,7 @@
   angular.module('cla.providerApp',
     [
       'cla.providerSettings',
+      'cla.states',
       'ngSanitize',
       'angularMoment',
       'angular-blocks',
@@ -78,27 +79,16 @@
       'cla.services',
       'cla.filters',
       'cla.directives',
-      'cla.states',
       'cla.utils',
       'cla.templates',
-      'cla.states',
       'cla.routes',
       'ui.bootstrap',
-      'ui.select',
-      'multi-select',
+      'ui.select2',
       'sticky'
     ])
-    .config(['$resourceProvider', '$provide', function($resourceProvider, $provide) {
+    .config(function($resourceProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
-
-      // multi select
-      $provide.decorator('multiSelectDirective', function($delegate) {
-        var directive = $delegate[0];
-        directive.template = undefined;
-        directive.templateUrl = 'directives/multi_select.html';
-        return $delegate;
-      });
-    }])
+    })
     .run(function ($rootScope, $state, $stateParams, Timer) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
