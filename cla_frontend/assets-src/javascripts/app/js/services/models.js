@@ -46,7 +46,8 @@
             method:'PATCH',
             transformRequest: function(data, headers) {
               return transformData({
-                notes: data.notes
+                notes: data.notes,
+                provider_notes: data.provider_notes
               }, headers, $http.defaults.transformRequest);
             }
           },
