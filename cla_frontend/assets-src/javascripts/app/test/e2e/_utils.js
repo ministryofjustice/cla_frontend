@@ -10,14 +10,18 @@
       var pro = protractor.getInstance(),
           driver = pro.driver;
 
-      driver.get(pro.baseUrl + 'call_centre/login/');
+      pro.manage().getCookie('sessionid').then(function(cookie) {
+        if (!cookie) {
+          driver.get(pro.baseUrl + 'call_centre/login/');
 
-      driver.findElement(by.id('id_username')).sendKeys('test_operator');
-      driver.findElement(by.id('id_password')).sendKeys('test_operator');
-      driver.findElement(by.css('form')).submit();
-
-      // kill django debug toolbar if it's showing
-      pro.manage().addCookie('djdt', 'hide');
+          driver.findElement(by.id('id_username')).sendKeys('test_operator');
+          driver.findElement(by.id('id_password')).sendKeys('test_operator');
+          driver.findElement(by.css('form')).submit();
+          
+          // kill django debug toolbar if it's showing
+          pro.manage().addCookie('djdt', 'hide');
+        }
+      });
     },
 
     debugTeardown: function () {
