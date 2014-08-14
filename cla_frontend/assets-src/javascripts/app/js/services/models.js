@@ -349,4 +349,14 @@
       });
     }]);
 
+  angular.module('cla.services')
+    .factory('User', ['$resource', 'url_utils', function ($resource, url_utils) {
+      return $resource(url_utils.proxy('user/me/'), {}, {
+        get: {
+          method: 'GET',
+          isArray: false
+        }
+      });
+    }]);
+
 })();
