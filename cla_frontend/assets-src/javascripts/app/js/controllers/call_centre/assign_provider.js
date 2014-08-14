@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('cla.controllers')
+  angular.module('cla.controllers.operator')
     .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', '$stateParams',
       function($scope, _, $state, form_utils, $stateParams) {
         $scope.is_manual = false;

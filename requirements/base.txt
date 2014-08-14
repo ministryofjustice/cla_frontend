@@ -18,3 +18,4 @@ django-proxy==1.0.2
 django-csp==2.0.3
 raven==4.2.3
 django-session-security==2.2.0
+django-statsd-mozilla==0.3.13

@@ -1,36 +1,3 @@
-{% extends app_base_template %}{% load humanize i18n static %}
+{% extends "common/dashboard.html" %}
 
-{% block html_attrs %}ng-app="cla.app" ng-csp{% endblock %}
-
-{% block body_attrs %}ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
-
-
-{% block messages %}{% verbatim %}
-<div class="NoticeContainer--fixed" sticky>
-  <div class="Notice warning ng-cloak" ng-show="multipleTabsOpen > 1">You currently have <strong>{{ multipleTabsOpen }} tabs open</strong>.</div>
-  <div class="Notice warning ng-cloak" ng-show="timerRunning === false"><strong>Timer not running</strong>: please note that whatever you do will not be billable.</div>
-
-  <flash-messages></flash-messages>
-</div>
-{% endverbatim %}{% endblock messages %}
-
-
-{% block timer %}
-<timer start-button="true" class="Timer--inline u-pullRight"></timer>
-{% endblock timer %}
-
-
-{% block search %}{% verbatim %}
-<form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
-  <div class="CaseSearch-inner cf">
-    <label for="case-search" class="CaseSearch-label">Search</label>
-    <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" ng-model="search" autocomplete="off" ng-class="{'is-focused': focused || search}" ng-focus="focused=true" ng-blur="focused=false">
-    <input class="CaseSearch-submit" type="submit" value="Search">
-  </div>
-</form>
-{% endverbatim %}{% endblock %}
-
-
-{% block full_content %}
-  <div ui-view></div>
-{% endblock %}
+{% block ng_app %}ng-app="cla.operatorApp"{% endblock %}

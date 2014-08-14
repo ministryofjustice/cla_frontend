@@ -28,8 +28,7 @@ class Command(BaseCommand):
         if 'constants_json' in args:
             l_count = 0
             l = {}
-            for json_name, iterator in [('REQUIRES_ACTION_BY', REQUIRES_ACTION_BY.CHOICES),
-                                        ('TITLES', TITLES.CHOICES),
+            for json_name, iterator in [('TITLES', TITLES.CHOICES),
                                         ('THIRDPARTY_REASON', THIRDPARTY_REASON),
                                         ('THIRDPARTY_RELATIONSHIP', THIRDPARTY_RELATIONSHIP),
                                         ('ADAPTATION_LANGUAGES', ADAPTATION_LANGUAGES)
@@ -39,7 +38,8 @@ class Command(BaseCommand):
                     l[json_name].append({'value': k, 'text': v})
                     l_count += 1
 
-            for json_name, iterator in [('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES_CONST_DICT),
+            for json_name, iterator in [('REQUIRES_ACTION_BY', REQUIRES_ACTION_BY.CHOICES_CONST_DICT),
+                                        ('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES_CONST_DICT),
                                         ('DIAGNOSIS_SCOPE', DIAGNOSIS_SCOPE.CHOICES_CONST_DICT),
                                         ('CONTACT_SAFETY', CONTACT_SAFETY.CHOICES_CONST_DICT)
                                         ]:
