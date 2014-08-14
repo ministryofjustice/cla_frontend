@@ -107,7 +107,7 @@
             _case['$'+event_key]({
               'event_code': this.event_code,
               'notes': this.notes || ''
-            }, function() {
+            }).then(function() {
               $state.go('case_list');
               flash('success', success_msg);
               $modalInstance.dismiss('cancel');

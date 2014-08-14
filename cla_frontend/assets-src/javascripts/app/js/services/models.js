@@ -67,6 +67,10 @@
                 media_code: data.media_code
               }, headers, $http.defaults.transformRequest);
             }
+          },
+          'accept_case': {
+            method:'POST',
+            url: url_utils.proxy('case/:caseref/accept/')
           }
         }
       );
@@ -98,14 +102,14 @@
         return this.diagnosis_state === DIAGNOSIS_SCOPE.INSCOPE && this.eligibility_state === ELIGIBILITY_STATES.YES;
       };
 
-      resource.prototype.$suspend_case = function(data, successCallback) {
+      resource.prototype.$suspend_case = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/suspend/');
-        $http.post(url, data).success(successCallback);
+        return $http.post(url, data);
       };
 
-      resource.prototype.$decline_help = function(data, successCallback) {
+      resource.prototype.$decline_help = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/decline_help/');
-        $http.post(url, data).success(successCallback);
+        $http.post(url, data);
       };
 
       resource.prototype.$assign_alternative_help = function (data) {
@@ -118,19 +122,14 @@
         return this.requires_action_by === REQUIRES_ACTION_BY.PROVIDER_REVIEW;
       };
 
-      resource.prototype.$accept_case = function() {
-        var url = url_utils.proxy('case/'+this.reference+'/accept/');
-        return $http.post(url, {});
-      };
-
-      resource.prototype.$reject_case = function(data, successCallback) {
+      resource.prototype.$reject_case = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/reject/');
-        return $http.post(url, data).success(successCallback);
+        return $http.post(url, data);
       };
 
-      resource.prototype.$close_case = function(data, successCallback) {
+      resource.prototype.$close_case = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/close/');
-        return $http.post(url, data).success(successCallback);
+        return $http.post(url, data);
       };
 
       return resource;

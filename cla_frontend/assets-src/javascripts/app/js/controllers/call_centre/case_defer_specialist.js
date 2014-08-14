@@ -9,7 +9,7 @@
           $scope.defer = function() {
             $scope.case.$defer_assignment({
               'notes': $scope.notes
-            }, function() {
+            }).then(function() {
               $state.go('case_list');
               flash('success', 'Case '+$scope.case.reference+' deferred successfully');
             });
