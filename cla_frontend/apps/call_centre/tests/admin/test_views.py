@@ -6,25 +6,25 @@ from django.conf import settings
 from core.testing.test_base import CLATFrontEndTestCase
 from cla_auth.models import ClaUser
 
-from ..fixtures import mocked_api
-
 
 class RotaTests(CLATFrontEndTestCase):
 
     zone = 'call_centre'
 
     @mock.patch('cla_auth.backend.get_raw_connection')
-    @mock.patch('call_centre.views.get_connection')
-    def __call__(self, result,
-        mocked_get_connection, mocked_get_raw_connection,
-        *args, **kwargs
-    ):
+    def __call__(self, result, mocked_get_raw_connection, *args, **kwargs):
         self.mocked_get_raw_connection = mocked_get_raw_connection
 
         self.connection = mock.MagicMock()
 
         ### Mock get_raw_connection API
-        self.connection.user.me.get.return_value = mocked_api.USER_ME
+        self.connection.user.me.get.return_value = USER_ME = {
+            "username": "test_operator",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_manager": False
+        }
         self.mocked_get_raw_connection.return_value = self.connection
 
         super(RotaTests, self).__call__(result, *args, **kwargs)
