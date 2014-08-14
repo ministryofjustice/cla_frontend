@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  angular.module('cla.app')
+  angular.module('cla.operatorApp')
   .run(['$rootScope', '$window', '$interval', function($rootScope, $window, $interval) {
     var LOCAL_STORAGE_KEY = 'cla:tabs-open',
         Tab = function () {

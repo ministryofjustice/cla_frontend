@@ -117,7 +117,7 @@
       ]
     );
 
-  angular.module('cla.app')
+  angular.module('cla.operatorApp')
     .run(function() {
       $(document.body).append('<div ng-controller="GuidanceCtrl"><guidance></guidance></div>');
     });
