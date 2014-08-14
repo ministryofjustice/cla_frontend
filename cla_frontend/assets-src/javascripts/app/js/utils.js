@@ -42,6 +42,24 @@
     };
   });
 
+  angular.module('cla.utils')
+    .factory('url_utils', ['AppSettings', function(AppSettings){
+      var url_utils = (function() {
+        return {
+          BASE_URL: AppSettings.BASE_URL,
+          url: function(suffix) {
+            return url_utils.BASE_URL + suffix;
+          },
+          proxy: function(suffix) {
+            return url_utils.url('proxy/'+suffix);
+          }
+        };
+      })();
+
+      return url_utils;
+    }
+  ]);
+
   angular.module('ErrorCatcher', [])
     .factory('$exceptionHandler', ['Raven', function(Raven) {
     return function(exception, cause) {

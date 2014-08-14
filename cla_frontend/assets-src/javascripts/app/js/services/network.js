@@ -2,7 +2,7 @@
 (function(){
   // register the interceptor as a service
   angular.module('cla.services')
-    .factory('cla.httpInterceptor', ['$q', 'flash', '$injector', '$sce', 'form_utils', function($q, flash, $injector, $sce, form_utils) {
+    .factory('cla.httpInterceptor', ['$q', 'flash', '$injector', '$sce', 'form_utils', 'url_utils', function($q, flash, $injector, $sce, form_utils, url_utils) {
     return {
       // optional method
       responseError: function(rejection) {
@@ -27,7 +27,7 @@
                   controller: function($scope) {
                     $scope.login = function(form) {
                       $http({
-                        url: '/call_centre/login/',
+                        url: url_utils.url('login/'),
                         method: 'POST',
                         data: $.param({
                           username: this.username,

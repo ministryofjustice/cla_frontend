@@ -21,6 +21,16 @@ The abuse could be (but is not limited to):
 * emotional
 
 ###Definition of controlling behaviour
-Controlling behaviour covers 
+Controlling behaviour covers a range of actions designed to make someone subordinate and/or dependent by:
+
+* isolating them from sources of support
+* exploiting their resources and capacities for personal gain
+* depriving them of the means needed for independence, resistance and escape
+* regulating their everyday behaviour
+
+###Definition of coercive behaviour
+
+Coercive behaviour is an act or pattern of acts of assault, threats, humiliation and intimidation or other abuse that is used to harm, punish or frighten the victim. 
+
 
 

@@ -1,0 +1,14 @@
+<form method="post" ng-submit="save()" name="notesFrm">
+  <div class="FormRow cf" ng-class="{'Error': notesFrm.notes.$invalid}">
+    <!-- error messages -->
+    <ul class="ErrorSummary-list" ng-messages="notesFrm.notes.$error">
+      <li class="ErrorSummary-listItem" ng-message="server">{{ errors.notes }}</li>
+      <li class="ErrorSummary-listItem" ng-message="maxlength">This field is limited to 5000 characters</li>
+    </ul>
+
+    <label for="id_case_notes-notes" class="cf">
+      <span class="visuallyhidden">Case Notes</span>
+      <textarea class="FormRow-field--full" name="notes" placeholder="Comments about this case" cols="20" rows="6" ng-model="model" ng-maxlength="5000" server-error></textarea>
+    </label>
+  </div>
+</form>

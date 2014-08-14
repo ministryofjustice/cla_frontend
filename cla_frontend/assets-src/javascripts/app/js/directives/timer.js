@@ -11,7 +11,9 @@
         baseTime: '=?',
         startButton: '=?'
       },
-      controller: ['$scope', '$rootScope', 'Timer', 'Stopwatch', function($scope, $rootScope, Timer, Stopwatch) {
+      controller: ['$scope', '$rootScope', 'TimerFactory', 'Timer', 'Stopwatch', function($scope, $rootScope, TimerFactory, Timer, Stopwatch) {
+        $scope.isEnabled = Timer.isEnabled();
+
         $scope.timer = new Stopwatch({
           baseTime: ($scope.baseTime || 0)
         });
@@ -43,10 +45,10 @@
     };
 
 
-  }).factory('Timer', ['$http', function($http) {
+  }).factory('TimerFactory', ['$http', 'url_utils', function($http, url_utils) {
     // API
-    var Timer = {
-      baseUrl: '/call_centre/proxy/timer/',
+    var TimerFactory = {
+      baseUrl: url_utils.proxy('timer/'),
       defaults: {
         ignoreExceptions: [404]
       },
@@ -67,7 +69,7 @@
           error(errorCallback || angular.noop);
       }
     };
-    return Timer;
+    return TimerFactory;
 
   }]).factory('Stopwatch', ['$interval', function($interval) {
     var Stopwatch = function (options) {
@@ -132,7 +134,8 @@
 
     return Stopwatch;
 
-  }]).run(['$rootScope', 'Timer', 'flash', '$window', function($rootScope, Timer, flash, $window) {
+  }])
+  .provider('Timer', [function() {
     /*
       This deals with 2 types of events:
 
@@ -154,65 +157,83 @@
           is not running.
     */
 
-    var LOCAL_STORAGE_KEY = 'cla:timer',
-        onTimerChangedAPICallback = function(dateCreated) {
-          var time = Math.ceil((new Date().getTime() - new Date(dateCreated).getTime()) / 1000);
-          localStorage.setItem(LOCAL_STORAGE_KEY, time);
-          emitTimerChanged(time);
-        },
-        onTimerStoppedAPICallback = function() {
-          localStorage.setItem(LOCAL_STORAGE_KEY, null);
-          emitTimerStopped();
-        },
-        emitTimerChanged = function(time) {
-          $rootScope.$emit('timer:changed', time);
-          $rootScope.timerRunning = true;
-        },
-        emitTimerStopped = function() {
-          $rootScope.$emit('timer:stopped');
-          $rootScope.timerRunning = false;
+    this.$get = ['$rootScope', 'TimerFactory', 'flash', '$window', 'AppSettings', function($rootScope, TimerFactory, flash, $window, AppSettings) {
+        return {
+            isEnabled: function() {
+              return AppSettings.timerEnabled();
+            },
+            install: function() {
+              if (!AppSettings.timerEnabled()) {
+                // we need to mock some events listners
+                $rootScope.$on('timer:start', function(__, options) {
+                  options = options || {};
+                  (options.success || angular.noop)();
+                });
+
+              } else {
+
+                var LOCAL_STORAGE_KEY = 'cla:timer',
+                    onTimerChangedAPICallback = function(dateCreated) {
+                      var time = Math.ceil((new Date().getTime() - new Date(dateCreated).getTime()) / 1000);
+                      localStorage.setItem(LOCAL_STORAGE_KEY, time);
+                      emitTimerChanged(time);
+                    },
+                    onTimerStoppedAPICallback = function() {
+                      localStorage.setItem(LOCAL_STORAGE_KEY, null);
+                      emitTimerStopped();
+                    },
+                    emitTimerChanged = function(time) {
+                      $rootScope.$emit('timer:changed', time);
+                      $rootScope.timerRunning = true;
+                    },
+                    emitTimerStopped = function() {
+                      $rootScope.$emit('timer:stopped');
+                      $rootScope.timerRunning = false;
+                    };
+
+                // ACTION EVENTS
+                // emitting timer:check and timer:start triggers this module
+                // to call the backend and check if the timer is running or not
+
+                $rootScope.$on('timer:check', function() {
+                  TimerFactory.get(function(data) {
+                    onTimerChangedAPICallback(data.created);
+                  }, function() {
+                    onTimerStoppedAPICallback();
+                  });
+                });
+
+                $rootScope.$on('timer:start', function(__, options) {
+                  options = options || {};
+
+                  TimerFactory.getOrCreate(function(data) {
+                    onTimerChangedAPICallback(data.created);
+                    (options.success || angular.noop)();
+                  }, function(data, status) {
+                    if (status === 400) {
+                      flash('error', data.detail || '');
+                    }
+                    (options.error || angular.noop)();
+                  });
+                });
+
+                // listener which starts/stops timer if the timer has been stopped
+                // or started in another window/tab
+
+                $window.addEventListener('storage', function(event) {
+                  if (event.key === LOCAL_STORAGE_KEY) {
+                    var time = parseInt(localStorage.getItem(LOCAL_STORAGE_KEY));
+                    if (isNaN(time)) {
+                      emitTimerStopped();
+                    } else {
+                      emitTimerChanged(time);
+                    }
+                  }
+                });
+              }
+            }
         };
-
-    // ACTION EVENTS
-    // emitting timer:check and timer:start triggers this module
-    // to call the backend and check if the timer is running or not
-
-    $rootScope.$on('timer:check', function() {
-      Timer.get(function(data) {
-        onTimerChangedAPICallback(data.created);
-      }, function() {
-        onTimerStoppedAPICallback();
-      });
-    });
-
-    $rootScope.$on('timer:start', function(__, options) {
-      options = options || {};
-
-      Timer.getOrCreate(function(data) {
-        onTimerChangedAPICallback(data.created);
-        (options.success || angular.noop)();
-      }, function(data, status) {
-        if (status === 400) {
-          flash('error', data.detail || '');
-        }
-        (options.error || angular.noop)();
-      });
-    });
-
-    // listener which starts/stops timer if the timer has been stopped
-    // or started in another window/tab
-
-    $window.addEventListener('storage', function(event) {
-      if (event.key === LOCAL_STORAGE_KEY) {
-        var time = parseInt(localStorage.getItem(LOCAL_STORAGE_KEY));
-        if (isNaN(time)) {
-          emitTimerStopped();
-        } else {
-          emitTimerChanged(time);
-        }
-      }
-    });
-
+    }];
   }]);
 
 })();
