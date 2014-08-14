@@ -11,14 +11,14 @@ class RotaTests(CLATFrontEndTestCase):
 
     zone = 'call_centre'
 
-    @mock.patch('cla_auth.backend.get_raw_connection')
+    @mock.patch('cla_auth.models.get_raw_connection')
     def __call__(self, result, mocked_get_raw_connection, *args, **kwargs):
         self.mocked_get_raw_connection = mocked_get_raw_connection
 
         self.connection = mock.MagicMock()
 
         ### Mock get_raw_connection API
-        self.connection.user.me.get.return_value = USER_ME = {
+        self.connection.user.me.get.return_value = {
             "username": "test_operator",
             "first_name": "",
             "last_name": "",
