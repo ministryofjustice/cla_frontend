@@ -2,14 +2,14 @@
 (function(){
 
   angular.module('cla.directives')
-  .factory('flash', ['$rootScope', '$timeout', function($rootScope, $timeout){
+  .factory('flash', ['$rootScope', '$interval', function($rootScope, $interval){
     var messages = [],
     default_message = 'something happened, but we are not sure what',
     reset, cleanup, emit, asMessage, asArrayOfMessages;
 
     cleanup = function() {
-      $timeout.cancel(reset);
-      reset = $timeout(function() {
+      $interval.cancel(reset);
+      reset = $interval(function() {
         messages = [];
       });
     };
@@ -50,7 +50,7 @@
       restrict: 'E',
       replace: true,
       templateUrl: 'directives/flash_messages.html',
-      controller: function($scope, $rootScope, $timeout) {
+      controller: function($scope, $rootScope, $interval) {
         $scope.messages = [];
 
         $scope.levelClassName = function(level) {
@@ -59,11 +59,11 @@
 
         $scope.hide = function(_msg) {
           // hides the msg after cancelling the timeout if defined
-          $timeout.cancel(_msg.timeout);
+          $interval.cancel(_msg.timeout);
           $scope.messages = _.reject($scope.messages, function(el) { return el === _msg;});
         };
 
-        $rootScope.$on('flash:message', function(__, messages, done) {
+        $rootScope.$on('flash:message', function(__, messages) {
           angular.forEach(messages, function(message) {
             // adding timeout to make msg disappear only if not error msg
             if (message.level !== 'error') {
@@ -72,15 +72,13 @@
                   $scope.hide(_msg);
                 };
 
-                _msg.timeout = $timeout(f, 3000);
+                _msg.timeout = $interval(f, 3000);
               })(message);
             }
 
             // add msg to list
             $scope.messages = $scope.messages.concat([message]);
           });
-
-          done();
         });
       }
     };

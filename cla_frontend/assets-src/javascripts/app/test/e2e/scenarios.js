@@ -147,9 +147,15 @@
 
       function fill_required_fields() {
         utils.fillField('notes', 'Case notes.');
-        browser.findElement(by.css('button[name="save-case"]')).click();
-        utils.setCategory('debt');
 
+        var flashMsg = by.css('.Notice-group .Notice.success');
+        browser.wait(function() {
+          return browser.isElementPresent(flashMsg);
+        }, 10000);
+        expect(browser.isElementPresent(flashMsg)).toBe(true);
+        expect(browser.findElement(flashMsg).getText()).toContain('Case notes saved successfully');
+
+        utils.setCategory('debt');
         utils.showPersonalDetailsForm();
         utils.enterPersonalDetails({
           'full_name': 'Foo Bar Quux',
@@ -257,7 +263,7 @@
         });
       });
 
-      it('should not throw warnings/errors when assigning case with personal details completed (inside office hours)', function () {
+      it('should assign a case to recommended provider (inside office hours)', function () {
         utils.createCase();
         fill_required_fields();
         fill_recommended_fields();

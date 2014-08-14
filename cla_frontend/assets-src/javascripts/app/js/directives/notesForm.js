@@ -13,7 +13,7 @@
           model: '=ngModel',
           case: '='
         },
-        link: function(scope, elem, attrs, ctrl) {
+        link: function(scope) {
           var timeout = null,
               saveInProgress = false,
               saveFinished = function() {
@@ -29,11 +29,13 @@
               };
 
           scope.save = function(){
-            if (scope.notesFrm.$valid) {
+            $timeout.cancel(timeout);
+            
+            if (scope.notesFrm.$valid && !saveInProgress) {
               saveInProgress = true;
               scope.case.$case_details_patch(
                 function() {
-                  flash('success', 'Case notes successfully saved.');
+                  flash('success', 'Case notes saved successfully');
                 },
                 function(response){
                   form_utils.ctrlFormErrorCallback(scope, response, scope.notesFrm);
