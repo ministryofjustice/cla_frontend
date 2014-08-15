@@ -42,6 +42,9 @@
               return _data;
             }
           },
+          'patch': {
+            method: 'PATCH',
+          },
           'case_details_patch': {
             method:'PATCH',
             transformRequest: function(data, headers) {
