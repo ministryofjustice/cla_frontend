@@ -4,7 +4,8 @@
   'use strict';
 
   var protractor = require('protractor'),
-      utils = require('./_utils');
+      utils = require('./_utils'),
+      modelsRecipe = require('./_modelsRecipe');
 
   describe('operatorApp', function() {
     // logs the user in before each test
@@ -16,8 +17,8 @@
     describe('Suspend a case', function () {
       it('should suspend a case', function () {
 
-        utils.createCase().then(function(_case) {
-          var caseNum = _case;
+        modelsRecipe.createCase().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
 
           browser.findElement(by.cssContainingText('.CaseDetails-actions button', 'Close')).click();
 
@@ -30,11 +31,28 @@
           modalEl.findElement(by.css('textarea[name="notes"]')).sendKeys('This case was suspended.');
           modalEl.findElement(by.css('button[type="submit"]')).click();
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
-
-          utils.getCase(caseNum);
-
-          checkOutcomeCode('TERM');
         });
+
+
+        // utils.createCase().then(function(_case) {
+        //   var caseNum = _case;
+
+        //   browser.findElement(by.cssContainingText('.CaseDetails-actions button', 'Close')).click();
+
+        //   var suspend_link = by.cssContainingText('.CaseDetails-actions a', 'Suspend');
+        //   expect(browser.isElementPresent(suspend_link)).toBe(true);
+        //   browser.findElement(suspend_link).click();
+
+        //   var modalEl = browser.findElement(by.css('div.modal'));
+        //   modalEl.findElement(by.css('input[type="radio"][value="TERM"]')).click();
+        //   modalEl.findElement(by.css('textarea[name="notes"]')).sendKeys('This case was suspended.');
+        //   modalEl.findElement(by.css('button[type="submit"]')).click();
+        //   expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+
+        //   utils.getCase(caseNum);
+
+        //   checkOutcomeCode('TERM');
+        // });
       });
 
       function checkOutcomeCode(code) {

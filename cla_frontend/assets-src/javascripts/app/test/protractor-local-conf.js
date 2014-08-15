@@ -5,9 +5,6 @@ exports.config = extend(defaults, {
   multiCapabilities: [
     {
       browserName: 'chrome'
-    },
-    {
-      browserName: 'firefox'
     }
   ],
   logfile: null,
