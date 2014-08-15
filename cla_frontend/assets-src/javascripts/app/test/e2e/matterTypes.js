@@ -6,14 +6,14 @@
   var protractor = require('protractor'),
       utils = require('./_utils'); // UTILS
 
-  ddescribe('operatorApp', function() {
+  describe('operatorApp', function() {
     // logs the user in before each test
     beforeEach(utils.setUp);
 
     // USERFUL FOR DEBUGGING:
     // afterEach(utils.debugTeardown);
 
-    ddescribe('Case Set Matter Types and Assign', function() {
+    describe('Case Set Matter Types and Assign', function() {
 
 
       /**
@@ -80,7 +80,7 @@
         expect(browser.findElement(by.css('[data-centre-col] .Notice')).getText()).toContain('Provider phone short code');
       }
 
-      iit('should not allow assigning a case without required fields', function () {
+      it('should not allow assigning a case without required fields', function () {
         utils.createCase();
         goto_assign();
 
@@ -93,7 +93,7 @@
         expect(messages.getText()).toContain('A contact number');
       });
 
-      iit('should give a warning when assigning a case without address fields', function () {
+      it('should give a warning when assigning a case without address fields', function () {
         utils.createCase();
         fill_fields();
         goto_assign();
