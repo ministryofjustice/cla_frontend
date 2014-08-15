@@ -150,4 +150,3 @@ To run the tests, use the following make command:
 
 By default, tests will be run on `http://0.0.0.0:8001/`. To change this you can pass the `--url` argument on the command called in the make file. To see what command is called look at the `Makefile` at the project root.
 
-
