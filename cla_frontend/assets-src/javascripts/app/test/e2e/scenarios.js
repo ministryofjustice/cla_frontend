@@ -150,12 +150,11 @@
           var $scope = angular.element('[name="notesFrm"]').scope(),
               $case = $scope.case; 
           
-          $case.notes = 'Case notes'; 
+          $case.notes = 'Case notes';
+          $case.media_code = 'AA';
 
-          $case.$case_details_patch().then(function() {
-            $case.media_code = 'AA'; 
-            $case.$set_media_code();
-          });
+          $case.$case_details_patch();
+          $case.$set_media_code();
 
           var $pd = angular.element('[ui-view="personalDetails"]').scope().personal_details;
           $pd.full_name = 'Foo Bar Quux';
