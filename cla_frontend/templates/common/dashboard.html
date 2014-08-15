@@ -27,8 +27,7 @@
 {% block search %}{% verbatim %}
 <form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
   <div class="CaseSearch-inner cf">
-    <label for="case-search" class="CaseSearch-label">Search</label>
-    <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query js-LabelPlaceholder" ng-model="search" autocomplete="off" ng-class="{'is-focused': focused || search}" ng-focus="focused=true" ng-blur="focused=false">
+    <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query" ng-model="search" autocomplete="off" placeholder="Search cases">
     <input class="CaseSearch-submit" type="submit" value="Search">
   </div>
 </form>
