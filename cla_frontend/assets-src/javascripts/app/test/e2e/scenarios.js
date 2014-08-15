@@ -145,37 +145,42 @@
         return clicked;
       }
 
-      function fill_required_fields() {
-        utils.fillField('notes', 'Case notes.');
+      function fill_required_fields(fill_recommended) {
+        function _fill_required_fields() {
+          var $scope = angular.element('[name="notesFrm"]').scope(),
+              $case = $scope.case; 
+          
+          $case.notes = 'Case notes'; 
 
-        var flashMsg = by.css('.Notice-group .Notice.success');
-        browser.wait(function() {
-          return browser.isElementPresent(flashMsg);
-        }, 10000);
-        expect(browser.isElementPresent(flashMsg)).toBe(true);
-        expect(browser.findElement(flashMsg).getText()).toContain('Case notes saved successfully');
+          $case.$case_details_patch().then(function() {
+            $case.media_code = 'AA'; 
+            $case.$set_media_code();
+          });
+
+          var $pd = angular.element('[ui-view="personalDetails"]').scope().personal_details;
+          $pd.full_name = 'Foo Bar Quux';
+          $pd.mobile_phone = '0123456789';
+          $pd.ni_number = '0123456789';
+          $pd.dob = {
+            day: '01',
+            month: '01',
+            year: '2014'
+          };
+          if (window.__fill_recommended) {
+            $pd.postcode = 'F00 B4R';
+            $pd.street = '1 Foo Bar';
+          };
+          
+          $pd.$update($case.reference);
+        }
+
+        protractor.getInstance().driver.executeScript(
+          "window.__fill_recommended="+!!fill_recommended+";"+
+          "("+_fill_required_fields.toString()+")();"+
+          "window.__fill_recommended=undefined;"
+        );
 
         utils.setCategory('debt');
-        utils.showPersonalDetailsForm();
-        utils.enterPersonalDetails({
-          'full_name': 'Foo Bar Quux',
-          'mobile_phone': '0123456789',
-          'ni_number': '0123456789',
-          'dob_day': '01',
-          'dob_month': '01',
-          'dob_year': '2014',
-          'media_code': 'Age Concern'
-        });
-        utils.saveCase();
-      }
-
-      function fill_recommended_fields() {
-        utils.showPersonalDetailsForm();
-        utils.enterPersonalDetails({
-          'postcode': 'F00 B4R',
-          'street': '1 Foo Bar'
-        });
-        utils.saveCase();
       }
 
       function checkAssign() {
@@ -205,8 +210,7 @@
 
       it('should show modal when trying to assign without matter types set', function () {
         utils.createCase();
-        fill_required_fields();
-        fill_recommended_fields();
+        fill_required_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -214,8 +218,7 @@
 
       it('should not allow saving modal without setting matter type 1 and 2', function () {
         utils.createCase();
-        fill_required_fields();
-        fill_recommended_fields();
+        fill_required_fields(true);
         goto_assign();
 
         var modalEl = browser.findElement(by.css('div.modal'));
@@ -226,8 +229,7 @@
 
       it('should allow saving modal after setting matter type 1 and 2', function () {
         utils.createCase();
-        fill_required_fields();
-        fill_recommended_fields();
+        fill_required_fields(true);
         goto_assign();
 
         var modalEl = browser.findElement(by.css('div.modal'));
@@ -239,8 +241,7 @@
 
       it('should go straight to assign page if MT1 and MT2 are already set', function () {
         utils.createCase();
-        fill_required_fields();
-        fill_recommended_fields();
+        fill_required_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -265,8 +266,7 @@
 
       it('should assign a case to recommended provider (inside office hours)', function () {
         utils.createCase();
-        fill_required_fields();
-        fill_recommended_fields();
+        fill_required_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -285,8 +285,7 @@
 
       it('should assign case to rota provider (outside office hours)', function () {
         utils.createCase();
-        fill_required_fields();
-        fill_recommended_fields();
+        fill_required_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -305,8 +304,7 @@
 
       it('should assign case outside office hours without rota set', function () {
         utils.createCase();
-        fill_required_fields();
-        fill_recommended_fields();
+        fill_required_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');

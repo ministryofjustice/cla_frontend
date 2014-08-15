@@ -4,6 +4,10 @@
 
 {% block html_attrs %}{% block ng_app %}{% endblock ng_app %} ng-csp{% endblock %}
 
+{% block user_details %}{% verbatim %}
+  <span class="UserMenu-name">{{ user.username }}</span>
+{% endverbatim %}{% endblock user_details %}
+
 
 {% block messages %}{% verbatim %}
 <div class="NoticeContainer--fixed" sticky>

@@ -13,8 +13,10 @@
     <script src="//cdn.ravenjs.com/1.1.15/jquery,native/raven.min.js"></script>
     <script type="text/javascript" src="{% static 'javascripts/vendor/raven.config.js' %}"></script>
 
+    {% if not debug %}
     <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/boomerang.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/config.js' %}"></script>
+    {% endif %}
 
     <script type="text/javascript" src="{% static 'javascripts/vendor/iemobile.js' %}"></script>
 
@@ -106,7 +108,9 @@
           <nav class="UserMenu cf">
             <p class="UserMenu-status">
               {#{% if zone == "call_centre" %}Provider{% else %}Operator{% endif %}:#}
+              {% block user_details %}
               <span class="UserMenu-name">{{ user.username }}</span>
+              {% endblock user_details %}
             </p>
             <ul class="UserMenu-options">
               <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}" target="_self">Sign out</a>{% endblock %}</li>
