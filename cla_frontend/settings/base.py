@@ -304,3 +304,6 @@ STATSD_RECORD_KEYS = [
     'window.performance.navigation.redirectCount',
     'window.performance.navigation.type',
 ]
+
+STATSD_HOST = os.environ.get('STATSD_HOST', 'localhost')
+STATSD_PORT = os.environ.get('STATSD_PORT', 8125)
