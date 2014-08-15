@@ -4,4 +4,13 @@
     <span class="Error-message" ng-show="form.notes.$error.server">{{ errors.notes }}</span>
     <textarea class="FormRow-field--full" id="id_case_notes-notes" name="notes" placeholder="Comments about this case" cols="20" rows="11" ng-model="case.notes" server-error></textarea>
   </div>
+
+  <div data-block="case-notes-summary" ng-show="case.provider_notes">
+    <hr class="u-horLine">
+
+    <section class="SummaryBlock">
+      <h2 class="SummaryBlock-heading">Provider notes</h2>
+      <div class="SummaryBlock-list">{{ case.provider_notes }}</div>
+    </section>
+  </div>
 </div>
