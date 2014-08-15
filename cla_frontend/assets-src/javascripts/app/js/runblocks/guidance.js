@@ -59,6 +59,7 @@
           $scope.search = function() {
             guidance.search(this.guidance.query).then(function(data) {
               $scope.results = data;
+              $scope.no_results = data.length > 0 ? false : true;
             });
           };
 
