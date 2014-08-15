@@ -99,7 +99,7 @@
     }
   }
 
-  ddescribe('Operator Case Details', function (){
+  describe('Operator Case Details', function (){
     beforeEach(utils.setUp);
 
     describe('A non-existant Case', function (){

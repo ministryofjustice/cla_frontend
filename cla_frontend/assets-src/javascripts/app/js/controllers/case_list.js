@@ -122,7 +122,9 @@
             $rootScope.$emit('timer:check');
           });
 
+
           // push
+          /*
           var newCaseSubscriber = postal.subscribe({
             channel: 'cla.operator',
             topic: 'case.new',
@@ -139,6 +141,7 @@
           $scope.$on('$destroy', function () {
             newCaseSubscriber.unsubscribe();
           });
+          */
         }
       ]
     );
