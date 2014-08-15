@@ -151,11 +151,8 @@
               $case = $scope.case; 
           
           $case.notes = 'Case notes'; 
-
-          $case.$case_details_patch().then(function() {
-            $case.media_code = 'AA'; 
-            $case.$set_media_code();
-          });
+          $case.media_code = 'AA'; 
+          $case.$patch();
 
           var $pd = angular.element('[ui-view="personalDetails"]').scope().personal_details;
           $pd.full_name = 'Foo Bar Quux';
