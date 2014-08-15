@@ -89,10 +89,14 @@
     },
 
     setCategory: function(category) {
-      browser.findElement(by.cssContainingText('button','New means test')).click();
-      browser.findElement(by.css('.Accordion-sectionTitle')).click();
-      browser.findElement(by.css('input[name="category"][value="' + category + '"]')).click();
-      browser.findElement(by.css("button[name='save-means-test']")).click();
+      protractor.getInstance().driver.executeScript(
+        "var $case = angular.element('[name=\"form\"]').scope().case; " +
+        "var $ec = angular.element('[name=\"form\"]').scope().eligibility_check; " +
+        "$ec.category = '"+category+"';" +
+        "$ec.$update($case.reference, function(data) { " + 
+        "   $case.eligibility_check = data.reference; " +
+        "});"
+      );
     }
   };
 })();
