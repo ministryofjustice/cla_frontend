@@ -1,6 +1,5 @@
 'use strict';
 (function(){
-
   angular.module('cla.controllers',[]);
   angular.module('cla.services',['ngResource']);
   angular.module('cla.filters',[]);
@@ -28,6 +27,7 @@
       'cla.settings.operator',
       'cla.states',
       'ngSanitize',
+      'ngMessages',
       'angularMoment',
       'angular-blocks',
       'xeditable',
@@ -73,6 +73,7 @@
       'cla.settings.provider',
       'cla.states',
       'ngSanitize',
+      'ngMessages',
       'angularMoment',
       'angular-blocks',
       'xeditable',

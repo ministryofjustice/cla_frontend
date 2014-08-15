@@ -1,7 +1,5 @@
 <div data-extend-template="case_detail.edit.html">
   <div data-block="case-notes">
-    <label for="id_case_notes-provider_notes" id="id_case_notes-provider_notes-label" class="visuallyhidden">Case Notes</label>
-      <span class="Error-message" ng-show="form.provider_notes.$error.server">{{ errors.provider_notes }}</span>
-      <textarea class="FormRow-field--full" id="id_case_notes-provider_notes" name="provider_notes" placeholder="Comments about this case" cols="20" rows="11" ng-model="case.provider_notes" server-error></textarea>
+    <notes-form ng-model="case.provider_notes" case="case"></notes-form>
   </div>
 </div>

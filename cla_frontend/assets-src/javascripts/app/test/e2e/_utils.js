@@ -90,8 +90,8 @@
 
     setCategory: function(category) {
       protractor.getInstance().driver.executeScript(
-        "var $case = angular.element('[name=\"form\"]').scope().case; " +
-        "var $ec = angular.element('[name=\"form\"]').scope().eligibility_check; " +
+        "var $case = angular.element('[name=\"notesFrm\"]').scope().case; " +
+        "var $ec = angular.element('[ng-controller=\"EligibilityCheckSummaryCtrl\"]').scope().eligibility_check; " +
         "$ec.category = '"+category+"';" +
         "$ec.$update($case.reference, function(data) { " + 
         "   $case.eligibility_check = data.reference; " +

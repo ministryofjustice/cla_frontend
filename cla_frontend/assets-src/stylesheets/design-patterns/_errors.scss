@@ -24,6 +24,11 @@ $fieldset-error-bg-colour: #FDF8F5;
   @include core-14;
   color: $error-colour;
   padding-left: 0;
+  margin: 5px 0 8px;
+
+  &.ng-inactive {
+    display: none;
+  }
 }
 
 .ErrorSummary-listItem {
@@ -45,7 +50,7 @@ $fieldset-error-bg-colour: #FDF8F5;
   @include core-14;
   background-color: $error-bg-colour;
   border-left: 3px solid $error-colour;
-  padding: 1em;
+  padding: 5px 10px 5px 7px;
   margin: {
     left: -10px;
     right: -10px;
@@ -93,7 +98,7 @@ $fieldset-error-bg-colour: #FDF8F5;
 }
 
 .Error-message {
-  @include core-16;
+  @include core-14;
   display: block;
   padding: 0.2em 0;
   color: $error-colour;

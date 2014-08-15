@@ -147,7 +147,7 @@
 
       function fill_required_fields(fill_recommended) {
         function _fill_required_fields() {
-          var $scope = angular.element('[name="form"]').scope(),
+          var $scope = angular.element('[name="notesFrm"]').scope(),
               $case = $scope.case; 
           
           $case.notes = 'Case notes'; 
@@ -172,7 +172,7 @@
           };
           
           $pd.$update($case.reference);
-        };
+        }
 
         protractor.getInstance().driver.executeScript(
           "window.__fill_recommended="+!!fill_recommended+";"+
@@ -264,7 +264,7 @@
         });
       });
 
-      it('should not throw warnings/errors when assigning case with personal details completed (inside office hours)', function () {
+      it('should assign a case to recommended provider (inside office hours)', function () {
         utils.createCase();
         fill_required_fields(true);
         goto_assign();
