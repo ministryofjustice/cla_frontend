@@ -55,6 +55,15 @@
     .controller('CaseDetailAssignProviderCtrl',
       ['$rootScope', '$scope', '$modal', '$state',
         function($rootScope, $scope, $modal, $state){
+          // function to create a list of warnings/errors from an obj
+          function setMessages (fields, list) {
+            angular.forEach(fields, function (obj) {
+              var field = $scope[obj.object][obj.field];
+              if (field === undefined || (field !== undefined && !field)) {
+                list.push({message: obj.message});
+              }
+            });
+          }
 
           // Case validation
           $scope.resetCaseErrors = function () {
@@ -72,9 +81,9 @@
                   {object: 'personal_details', field: 'mobile_phone', message: 'A contact number is required to close a case'}
                 ],
                 warning_fields = [
-                  {field: 'postcode', message: 'It is recommended to include postcode before closing a case'},
-                  {field: 'street', message: 'It is recommended to include an address before closing a case'},
-                  {field: 'ni_number', message: 'National Insurance number is not required to close a case but the specialist will ask for it once assigned'}
+                  {object: 'personal_details', field: 'postcode', message: 'It is recommended to include postcode before closing a case'},
+                  {object: 'personal_details', field: 'street', message: 'It is recommended to include an address before closing a case'},
+                  {object: 'personal_details', field: 'ni_number', message: 'National Insurance number is not required to close a case but the specialist will ask for it once assigned'}
                 ];
 
             // clear errors
@@ -82,18 +91,8 @@
             $scope.case_warnings = [];
 
             // find errors
-            angular.forEach(required_fields, function (obj) {
-              var field = $scope[obj.object][obj.field];
-              if (field === undefined || (field !== undefined && !field)) {
-                $scope.case_errors.push({message: obj.message});
-              }
-            });
-            // find warning errors
-            angular.forEach(warning_fields, function (obj) {
-              if ($scope.personal_details[obj.field] === undefined || ($scope.personal_details[obj.field] !== undefined && !$scope.personal_details[obj.field])) {
-                $scope.case_warnings.push({message: obj.message});
-              }
-            });
+            setMessages(required_fields, $scope.case_errors);
+            setMessages(warning_fields, $scope.case_warnings);
 
             if ($scope.case_errors.length === 0 && $scope.case_warnings.length === 0) {
               return true;
