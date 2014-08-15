@@ -1,16 +1,15 @@
 .CaseSearch {
   position: relative;
   clear: left;
-  margin-top: 1px;
+  margin: 0 0 15px;
 
   @include media(desktop) {
     float: left;
     width: 18.75%;
-    margin-right: 1.5625%;
+    margin: 0 1.5625% 0 0;
   }
 }
 .CaseSearch-inner {
-  padding-left: 60px;
   @include media(desktop) {
     padding-left: 0;
     padding-right: 30px;
@@ -50,15 +49,6 @@ input.CaseSearch-query {
   float: left;
   display: block;
   background-color: $white;
-
-  body.js-enabled & {
-    background-color: transparent;
-    position: relative;
-
-    &.is-focused {
-      background-color: $white;
-    }
-  }
 }
 .CaseSearch-submit {
   width: 30px;
