@@ -68,13 +68,13 @@
                   {object: 'case', field: 'notes', message: 'Case notes must be added to close a case'},
                   {object: 'case', field: 'media_code', message: 'A media code is required to close a case'},
                   {object: 'personal_details', field: 'full_name', message: 'Name is required to close a case'},
-                  {object: 'personal_details', field: 'ni_number', message: 'National Insurance number is required to close a case'},
                   {object: 'personal_details', field: 'dob', message: 'Date of birth is required to close a case'},
                   {object: 'personal_details', field: 'mobile_phone', message: 'A contact number is required to close a case'}
                 ],
                 warning_fields = [
                   {field: 'postcode', message: 'It is recommended to include postcode before closing a case'},
-                  {field: 'street', message: 'It is recommended to include an address before closing a case'}
+                  {field: 'street', message: 'It is recommended to include an address before closing a case'},
+                  {field: 'ni_number', message: 'National Insurance number is not required to close a case but the specialist will ask for it once assigned'}
                 ];
 
             // clear errors
