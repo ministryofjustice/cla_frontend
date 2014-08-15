@@ -6,14 +6,14 @@
   var protractor = require('protractor'),
       utils = require('./_utils'); // UTILS
 
-  describe('operatorApp', function() {
+  ddescribe('operatorApp', function() {
     // logs the user in before each test
     beforeEach(utils.setUp);
 
     // USERFUL FOR DEBUGGING:
     // afterEach(utils.debugTeardown);
 
-    describe('Case Set Matter Types and Assign', function() {
+    ddescribe('Case Set Matter Types and Assign', function() {
 
 
       /**
@@ -38,8 +38,8 @@
         return clicked;
       }
 
-      function fill_required_fields(fill_recommended) {
-        function _fill_required_fields() {
+      function fill_fields(fill_recommended) {
+        function _fill_fields() {
           var $scope = angular.element('[name="notesFrm"]').scope(),
               $case = $scope.case; 
           
@@ -50,13 +50,13 @@
           var $pd = angular.element('[ui-view="personalDetails"]').scope().personal_details;
           $pd.full_name = 'Foo Bar Quux';
           $pd.mobile_phone = '0123456789';
-          $pd.ni_number = '0123456789';
           $pd.dob = {
             day: '01',
             month: '01',
             year: '2014'
           };
           if (window.__fill_recommended) {
+            $pd.ni_number = '0123456789';
             $pd.postcode = 'F00 B4R';
             $pd.street = '1 Foo Bar';
           };
@@ -66,7 +66,7 @@
 
         protractor.getInstance().driver.executeScript(
           "window.__fill_recommended="+!!fill_recommended+";"+
-          "("+_fill_required_fields.toString()+")();"+
+          "("+_fill_fields.toString()+")();"+
           "window.__fill_recommended=undefined;"
         );
 
@@ -80,27 +80,35 @@
         expect(browser.findElement(by.css('[data-centre-col] .Notice')).getText()).toContain('Provider phone short code');
       }
 
-      it('should not allow assigning a case without required fields', function () {
+      iit('should not allow assigning a case without required fields', function () {
         utils.createCase();
         goto_assign();
 
-        expect(browser.isElementPresent(by.css('.modal-content .Error[data-case-errors]'))).toBe(true);
-        expect(browser.findElement(by.css('.modal-content .Error[data-case-errors]')).getText()).toContain('Name is required to close a case');
+        var messages = element(by.css('.modal-content .Error[data-case-errors]'));
+        expect(messages.isPresent()).toBe(true);
+        expect(messages.getText()).toContain('Name');
+        expect(messages.getText()).toContain('Case notes');
+        expect(messages.getText()).toContain('A media code');
+        expect(messages.getText()).toContain('Date of birth');
+        expect(messages.getText()).toContain('A contact number');
       });
 
-      it('should give a warning when assigning a case without address fields', function () {
+      iit('should give a warning when assigning a case without address fields', function () {
         utils.createCase();
-        fill_required_fields();
+        fill_fields();
         goto_assign();
 
-        expect(browser.isElementPresent(by.css('.modal-content .Notice[data-case-warnings]'))).toBe(true);
-        expect(browser.findElement(by.css('.modal-content .Notice[data-case-warnings]')).getText()).toContain('It is recommended to include postcode before closing a case');
+        var messages = element(by.css('.modal-content .Notice[data-case-warnings]'));
+        expect(messages.isPresent()).toBe(true);
+        expect(messages.getText()).toContain('postcode');
+        expect(messages.getText()).toContain('address');
+        expect(messages.getText()).toContain('National Insurance number');
       });
 
 
       it('should show modal when trying to assign without matter types set', function () {
         utils.createCase();
-        fill_required_fields(true);
+        fill_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -108,7 +116,7 @@
 
       it('should not allow saving modal without setting matter type 1 and 2', function () {
         utils.createCase();
-        fill_required_fields(true);
+        fill_fields(true);
         goto_assign();
 
         var modalEl = browser.findElement(by.css('div.modal'));
@@ -119,7 +127,7 @@
 
       it('should allow saving modal after setting matter type 1 and 2', function () {
         utils.createCase();
-        fill_required_fields(true);
+        fill_fields(true);
         goto_assign();
 
         var modalEl = browser.findElement(by.css('div.modal'));
@@ -131,7 +139,7 @@
 
       it('should go straight to assign page if MT1 and MT2 are already set', function () {
         utils.createCase();
-        fill_required_fields(true);
+        fill_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -156,7 +164,7 @@
 
       it('should assign a case to recommended provider (inside office hours)', function () {
         utils.createCase();
-        fill_required_fields(true);
+        fill_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -175,7 +183,7 @@
 
       it('should assign case to rota provider (outside office hours)', function () {
         utils.createCase();
-        fill_required_fields(true);
+        fill_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -194,7 +202,7 @@
 
       it('should assign case outside office hours without rota set', function () {
         utils.createCase();
-        fill_required_fields(true);
+        fill_fields(true);
         goto_assign();
 
         expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
