@@ -10,14 +10,18 @@
       var pro = protractor.getInstance(),
           driver = pro.driver;
 
-      driver.get(pro.baseUrl + 'call_centre/login/');
+      pro.manage().getCookie('sessionid').then(function(cookie) {
+        if (!cookie) {
+          driver.get(pro.baseUrl + 'call_centre/login/');
 
-      driver.findElement(by.id('id_username')).sendKeys('test_operator');
-      driver.findElement(by.id('id_password')).sendKeys('test_operator');
-      driver.findElement(by.css('form')).submit();
-
-      // kill django debug toolbar if it's showing
-      pro.manage().addCookie('djdt', 'hide');
+          driver.findElement(by.id('id_username')).sendKeys('test_operator');
+          driver.findElement(by.id('id_password')).sendKeys('test_operator');
+          driver.findElement(by.css('form')).submit();
+          
+          // kill django debug toolbar if it's showing
+          pro.manage().addCookie('djdt', 'hide');
+        }
+      });
     },
 
     debugTeardown: function () {
@@ -85,10 +89,14 @@
     },
 
     setCategory: function(category) {
-      browser.findElement(by.cssContainingText('button','New means test')).click();
-      browser.findElement(by.css('.Accordion-sectionTitle')).click();
-      browser.findElement(by.css('input[name="category"][value="' + category + '"]')).click();
-      browser.findElement(by.css("button[name='save-means-test']")).click();
+      protractor.getInstance().driver.executeScript(
+        "var $case = angular.element('[name=\"form\"]').scope().case; " +
+        "var $ec = angular.element('[name=\"form\"]').scope().eligibility_check; " +
+        "$ec.category = '"+category+"';" +
+        "$ec.$update($case.reference, function(data) { " + 
+        "   $case.eligibility_check = data.reference; " +
+        "});"
+      );
     }
   };
 })();
