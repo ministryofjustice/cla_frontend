@@ -57,10 +57,12 @@
           $scope.htmlDoc = null;
 
           $scope.search = function() {
-            guidance.search(this.guidance.query).then(function(data) {
-              $scope.results = data;
-              $scope.no_results = data.length > 0 ? false : true;
-            });
+            if ($scope.guidance !== undefined) {
+              guidance.search($scope.guidance.query).then(function(data) {
+                $scope.results = data;
+                $scope.no_results = data.length === 0 && $scope.guidance.query !== '' ? true : false;
+              });
+            }
           };
 
           $scope.addDoc = function(docRef) {
