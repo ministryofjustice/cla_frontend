@@ -3,14 +3,15 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'adaptations_metadata', 'mediacodes', '$q',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, adaptations_metadata, mediacodes, $q){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'adaptations_metadata', 'mediacodes', '$q',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, adaptations_metadata, mediacodes, $q){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
           $scope.language_options = ADAPTATION_LANGUAGES;
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
+          $scope.exempt_user_reason_choices = EXEMPT_USER_REASON;
 
           $scope.language = {};
           if ($scope.adaptations.language === 'WELSH') {
@@ -33,6 +34,15 @@
 
           $scope.getAdaptationLabel = function (code) {
             return $scope.adaptation_flags[code];
+          };
+
+          $scope.getExemptReasonByCode = function (code) {
+            var matches = $scope.exempt_user_reason_choices.filter(function (lookup) {
+              return lookup.value === code;
+            });
+            if (matches.length) {
+              return matches[0];
+            }
           };
 
           var media_codes = mediacodes.map(function (mc) {
@@ -84,7 +94,7 @@
           };
 
           $scope.relationshipChange = function (value) {
-            $scope.is_legal_advisor = value === 'LEGAL_ADVISOR' ? true : false;
+            $scope.is_legal_advisor = value === 'LEGAL_ADVISOR';
           };
           // trigger on first load
           $scope.relationshipChange($scope.third_party.personal_relationship);
@@ -95,13 +105,14 @@
 
           $scope.cancelPersonalDetails = function (form) {
             form.$cancel();
-            $scope.language.disable = $scope.adaptations.language === 'WELSH' ? true : false;
+            $scope.language.disable = $scope.adaptations.language === 'WELSH';
           };
 
           $scope.savePersonalDetails = function(form) {
             var pdPromise = $q.defer(),
                 adaptationsPromise = $q.defer(),
-                mcPromise = $q.defer();
+                mcPromise = $q.defer(),
+                selected_adaptation = this.selected_adaptations;
 
             if ($scope.language.welsh_override) {
               $scope.adaptations.language = 'WELSH';
@@ -120,13 +131,8 @@
             });
 
             // set adaptations
-            var selected = this.selected_adaptations;
             angular.forEach($scope.adaptation_flags, function (label, key) {
-              if (selected.indexOf(key) !== -1) {
-                $scope.adaptations[key] = true;
-              } else {
-                $scope.adaptations[key] = false;
-              }
+              $scope.adaptations[key] = selected_adaptation.indexOf(key) !== -1;
             });
             // save adaptations
             $scope.adaptations.$update($scope.case.reference, function (data) {
@@ -140,17 +146,18 @@
               adaptationsPromise.reject();
             });
 
-            // save media code
-            if ($scope.case.media_code !== this.media_code && this.media_code !== undefined) {
-              $scope.case.media_code = this.media_code;
+            // save media code & exempt_user
+            $scope.case.media_code = this.media_code;
 
-              $scope.case.$set_media_code().then(function () {
-                $scope.media_code = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
-                mcPromise.resolve();
-              });
-            } else {
+            $scope.case.$patch().then(function () {
+              $scope.media_code = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
               mcPromise.resolve();
-            }
+            }, function(err){
+              form_utils.ctrlFormErrorCallback($scope, err, form);
+              mcPromise.reject(err);
+            });
+
+
             return $q.all([pdPromise.promise, adaptationsPromise.promise, mcPromise.promise]);
           };
 

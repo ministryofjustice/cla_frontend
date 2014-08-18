@@ -55,7 +55,7 @@
 
     <p class="VCard-row u-highlightRed" ng-show="personal_details.vulnerable_user">User is deemed vulnerable</p>
 
-    <p class="VCard-row" ng-show="personal_details.exempt_user">User is exempt because {{ personal_details.exempt_user_reason }}</p>
+    <p class="VCard-row" ng-show="case.exempt_user">User is exempt because: {{ getExemptReasonByCode(case.exempt_user_reason).text }}</p>
 
     <p class="VCard-row" ng-show="personal_details.full_name">User <strong ng-show="personal_details.contact_for_research">can</strong><strong ng-show="!personal_details.contact_for_research">cannot</strong> be contacted for research</p>
   </div>
@@ -109,12 +109,17 @@
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.exempt_user.$error.server">{{ errors.exempt_user }}</span>
-      <span editable-checkbox="personal_details.exempt_user" e-name="exempt_user" e-title="User is exempt"></span>
+      <span editable-checkbox="case.exempt_user" e-name="exempt_user" e-title="User is exempt"></span>
     </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user_reason.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.exempt_user_reason.$error.server">{{ errors.exempt_user_reason }}</span>
-      <span editable-text="personal_details.exempt_user_reason" e-name="exempt_user_reason" e-class="FormRow-field--full" e-placeholder="Exempt user reason"></span>
+      <span editable-filterselect="case.exempt_user_reason"
+            e-name="exempt_user_reason"
+            e-ng-options="s.value as s.text for s in exempt_user_reason_choices track by s.value"
+            e-class="FormRow-field--full"
+            e-data-placeholder="Why is client exempt?"
+            e-server-error></span>
     </label>
 
     <fieldset class="FormRow FormRow--wide"  ng-class="{Error: personaldetails_frm.dob.$invalid || personaldetails_frm.dob_year.$invalid && personaldetails_submitted}">
