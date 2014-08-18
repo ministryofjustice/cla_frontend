@@ -84,7 +84,7 @@
 
   function show_means_test_section(i) {
     var section = browser.findElement(by.repeater('section in sections').row(i));
-    section.click();
+    section.findElement(by.css('h2')).click();
     return section;
   }
 
