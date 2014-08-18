@@ -1,3 +1,4 @@
+/* jshint undef: false */
 (function(){
   'use strict';
 
@@ -6,6 +7,10 @@
       ['$scope', 'Provider',
         function($scope, Provider) {
           $scope.selected_provider = Provider.get({id: $scope.case.provider});
+
+          Provider.get({id: $scope.case.provider}, function(data) {
+            Raven.captureMessage('Assigned provider', {tags: { provider: data }});
+          });
         }
       ]
     );
