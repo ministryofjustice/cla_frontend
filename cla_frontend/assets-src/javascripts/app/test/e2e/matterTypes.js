@@ -145,6 +145,8 @@
       it('should assign a case to recommended provider (inside office hours)', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
+          utils.in_scope();
+          utils.eligible();
   
           goto_assign();
 
@@ -166,6 +168,8 @@
       it('should assign case to rota provider (outside office hours)', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
+          utils.in_scope();
+          utils.eligible();
   
           goto_assign();
 
@@ -187,6 +191,8 @@
       it('should assign case outside office hours without rota set', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
+          utils.in_scope();
+          utils.eligible();
 
           goto_assign();
 
