@@ -43,7 +43,9 @@
 
   <div class="FormActions">
     <span class="Error-message" ng-show="errors.__all__">{{ errors.__all__ }}</span>
-    <button type="submit" name="assign-provider" class="Button" ng-show="suggested_providers.length > 0 || suggested_provider" ng-disabled="!selected_provider.id">Assign provider</button>
+    <button type="submit" name="assign-provider" class="Button" ng-show="(suggested_providers.length > 0 || suggested_provider) && (case.diagnosis_state === 'INSCOPE' && case.eligibility_state === 'yes')" ng-disabled="!selected_provider.id">Assign provider</button>
+
+    <button type="submit" class="Button Button--secondary" ng-click="assignSPOR()" ng-show="canAssign()" ng-disabled="!selected_provider.id">Refer for second opinion</button>
 
     <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer assignment</a>
 
