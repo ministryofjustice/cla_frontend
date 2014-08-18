@@ -215,6 +215,8 @@
   providerStates.getStates = function(APP_BASE_URL){
     var providerStates = states.getStates(APP_BASE_URL);
 
+    providerStates.CaseListState.templateUrl = 'provider/case_list.html';
+
     providerStates.CaseEditDetailState.views['acceptReject@case_detail.edit'] = {
       templateUrl: 'provider/includes/case_detail.edit.acceptreject.html',
       controller: 'AcceptRejectCaseCtrl'
