@@ -39,6 +39,4 @@ ZONE_PROFILES = {
     }
 }
 
-# THIS IS NO GOOD
-MIDDLEWARE_CLASSES = ('core.hacks.middleware.DisableCSRF',) + MIDDLEWARE_CLASSES
 
