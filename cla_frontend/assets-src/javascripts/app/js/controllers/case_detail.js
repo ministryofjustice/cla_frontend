@@ -11,23 +11,6 @@
           $scope.diagnosis = $diagnosis;
           $scope.personal_details = $personal_details;
 
-          // log set grouping
-          $scope.logSet = [];
-          var currentTimer = null;
-          angular.forEach($scope.case.log_set, function(log) {
-            if (!log.timer) {
-              $scope.logSet.push([log]);
-            } else {
-              if (log.timer !== currentTimer) {
-                currentTimer = log.timer;
-                $scope.logSet.push([log]);
-              } else {
-                var ll = $scope.logSet[$scope.logSet.length-1];
-                ll.push(log);
-                $scope.logSet[$scope.logSet.length-1] = ll;
-              }
-            }
-          });
 
           // checking the time after the template as been rendered
           $scope.$evalAsync(function() {
@@ -51,6 +34,51 @@
         }
       ]
     );
+
+  angular.module('cla.controllers')
+    .controller('LogListCtrl',
+    ['$scope', '$modal',
+      function ($scope, $modal) {
+        // log set grouping
+        $scope.logSet = [];
+        var currentTimer = null;
+        angular.forEach($scope.case.log_set, function(log) {
+          if (!log.timer) {
+            $scope.logSet.push([log]);
+          } else {
+            if (log.timer !== currentTimer) {
+              currentTimer = log.timer;
+              $scope.logSet.push([log]);
+            } else {
+              var ll = $scope.logSet[$scope.logSet.length-1];
+              ll.push(log);
+              $scope.logSet[$scope.logSet.length-1] = ll;
+            }
+          }
+        });
+
+
+        $scope.showDiagnosisSummary = function(log) {
+          $modal.open({
+            templateUrl: 'includes/diagnosis.summary.modal.html',
+            controller: ['$scope', '$modalInstance', 'log', 'Diagnosis', 
+              function($scope, $modalInstance, log, Diagnosis) {
+                $scope.diagnosis = new Diagnosis(log.patch);
+                $scope.close = function () {
+                  $modalInstance.dismiss('cancel');
+                };
+              }
+            ],
+            resolve: {
+              'log': function () {
+                return log;
+              }
+            }
+          });
+        };
+      }
+    ]
+  );
 
   angular.module('cla.controllers')
     .controller('SetMatterTypeCtrl',
