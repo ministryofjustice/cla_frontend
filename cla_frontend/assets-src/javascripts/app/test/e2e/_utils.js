@@ -20,15 +20,16 @@
 
   function select_option_matching(choice) {
     var select_matching = function (options) {
-      if (options) {
-        options[0].getText().then(function (text) {
-          if (text.toLowerCase().indexOf(choice.toLowerCase()) >= 0) {
-            options[0].click();
-          } else {
-            select_matching(options.slice(1));
-          }
-        });
+      if (!options.length) {
+        throw 'Option matching "' + choice + '" not found';
       }
+      options[0].getText().then(function (text) {
+        if (text.toLowerCase().indexOf(choice.toLowerCase()) >= 0) {
+          options[0].findElement(by.css('input')).sendKeys(' ');
+        } else {
+          select_matching(options.slice(1));
+        }
+      });
     }
     return select_matching;
   }
