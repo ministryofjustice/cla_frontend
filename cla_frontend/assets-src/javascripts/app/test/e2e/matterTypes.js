@@ -4,16 +4,17 @@
   'use strict';
 
   var protractor = require('protractor'),
-      utils = require('./_utils'); // UTILS
+      utils = require('./_utils'), // UTILS
+      modelsRecipe = require('./_modelsRecipe');
 
-  ddescribe('operatorApp', function() {
+  describe('operatorApp', function() {
     // logs the user in before each test
     beforeEach(utils.setUp);
 
     // USERFUL FOR DEBUGGING:
     // afterEach(utils.debugTeardown);
 
-    ddescribe('Case Set Matter Types and Assign', function() {
+    describe('Case Set Matter Types and Assign', function() {
 
 
       /**
@@ -38,41 +39,6 @@
         return clicked;
       }
 
-      function fill_fields(fill_recommended) {
-        function _fill_fields() {
-          var $scope = angular.element('[name="notesFrm"]').scope(),
-              $case = $scope.case; 
-          
-          $case.notes = 'Case notes'; 
-          $case.media_code = 'AA'; 
-          $case.$patch();
-
-          var $pd = angular.element('[ui-view="personalDetails"]').scope().personal_details;
-          $pd.full_name = 'Foo Bar Quux';
-          $pd.mobile_phone = '0123456789';
-          $pd.dob = {
-            day: '01',
-            month: '01',
-            year: '2014'
-          };
-          if (window.__fill_recommended) {
-            $pd.ni_number = '0123456789';
-            $pd.postcode = 'F00 B4R';
-            $pd.street = '1 Foo Bar';
-          };
-          
-          $pd.$update($case.reference);
-        }
-
-        protractor.getInstance().driver.executeScript(
-          "window.__fill_recommended="+!!fill_recommended+";"+
-          "("+_fill_fields.toString()+")();"+
-          "window.__fill_recommended=undefined;"
-        );
-
-        utils.setCategory('debt');
-      }
-
       function checkAssign() {
         expect(browser.isElementPresent(by.css('.ContactBlock'))).toBe(true);
         expect(browser.isElementPresent(by.css('[data-centre-col] .Notice'))).toBe(true);
@@ -80,147 +46,167 @@
         expect(browser.findElement(by.css('[data-centre-col] .Notice')).getText()).toContain('Provider phone short code');
       }
 
-      iit('should not allow assigning a case without required fields', function () {
-        utils.createCase();
-        goto_assign();
+      it('should not allow assigning a case without required fields', function () {
+        modelsRecipe.Case.createEmpty().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
+  
+          goto_assign();
 
-        var messages = element(by.css('.modal-content .Error[data-case-errors]'));
-        expect(messages.isPresent()).toBe(true);
-        expect(messages.getText()).toContain('Name');
-        expect(messages.getText()).toContain('Case notes');
-        expect(messages.getText()).toContain('A media code');
-        expect(messages.getText()).toContain('Date of birth');
-        expect(messages.getText()).toContain('A contact number');
+          var messages = element(by.css('.modal-content .Error[data-case-errors]'));
+          expect(messages.isPresent()).toBe(true);
+          expect(messages.getText()).toContain('Name');
+          expect(messages.getText()).toContain('Case notes');
+          expect(messages.getText()).toContain('A media code');
+          expect(messages.getText()).toContain('Date of birth');
+          expect(messages.getText()).toContain('A contact number');
+        });
       });
 
-      iit('should give a warning when assigning a case without address fields', function () {
-        utils.createCase();
-        fill_fields();
-        goto_assign();
+      it('should give a warning when assigning a case without address fields', function () {
+        modelsRecipe.Case.createWithRequiredFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
 
-        var messages = element(by.css('.modal-content .Notice[data-case-warnings]'));
-        expect(messages.isPresent()).toBe(true);
-        expect(messages.getText()).toContain('postcode');
-        expect(messages.getText()).toContain('address');
-        expect(messages.getText()).toContain('National Insurance number');
+          goto_assign();
+
+          var messages = element(by.css('.modal-content .Notice[data-case-warnings]'));
+          expect(messages.isPresent()).toBe(true);
+          expect(messages.getText()).toContain('postcode');
+          expect(messages.getText()).toContain('address');
+          expect(messages.getText()).toContain('National Insurance number');
+        });
+
       });
 
 
       it('should show modal when trying to assign without matter types set', function () {
-        utils.createCase();
-        fill_fields(true);
-        goto_assign();
+        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
 
-        expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+          goto_assign();
+
+          expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+        });
       });
 
       it('should not allow saving modal without setting matter type 1 and 2', function () {
-        utils.createCase();
-        fill_fields(true);
-        goto_assign();
+        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
+  
+          goto_assign();
 
-        var modalEl = browser.findElement(by.css('div.modal'));
-        modalEl.findElement(by.css('button[type="submit"]')).click();
-        expect(modalEl.isElementPresent(by.css('button[type="submit"]'))).toBe(true);
+          var modalEl = browser.findElement(by.css('div.modal'));
+          modalEl.findElement(by.css('button[type="submit"]')).click();
+          expect(modalEl.isElementPresent(by.css('button[type="submit"]'))).toBe(true);
+        });
       });
 
 
       it('should allow saving modal after setting matter type 1 and 2', function () {
-        utils.createCase();
-        fill_fields(true);
-        goto_assign();
+        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
+    
+          goto_assign();
 
-        var modalEl = browser.findElement(by.css('div.modal'));
-        modalEl.findElement(by.css('input[name="matter_type1"]')).click();
-        modalEl.findElement(by.css('input[name="matter_type2"]')).click();
-        modalEl.findElement(by.css('button[type="submit"]')).click();
-        expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+          var modalEl = browser.findElement(by.css('div.modal'));
+          modalEl.findElement(by.css('input[name="matter_type1"]')).click();
+          modalEl.findElement(by.css('input[name="matter_type2"]')).click();
+          modalEl.findElement(by.css('button[type="submit"]')).click();
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+        });
       });
 
       it('should go straight to assign page if MT1 and MT2 are already set', function () {
-        utils.createCase();
-        fill_fields(true);
-        goto_assign();
+        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
+  
+          goto_assign();
 
-        expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+          expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
 
-        var modalEl = browser.findElement(by.css('div.modal'));
-        modalEl.findElement(by.css('input[name="matter_type1"]')).click();
-        modalEl.findElement(by.css('input[name="matter_type2"]')).click();
-        modalEl.findElement(by.css('button[type="submit"]')).click();
-        expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+          var modalEl = browser.findElement(by.css('div.modal'));
+          modalEl.findElement(by.css('input[name="matter_type1"]')).click();
+          modalEl.findElement(by.css('input[name="matter_type2"]')).click();
+          modalEl.findElement(by.css('button[type="submit"]')).click();
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
-        var assignCaseUrl;
-        browser.getLocationAbsUrl().then(function (url) {
-          assignCaseUrl = url;
-        });
-        browser.findElement(by.css('a[ui-sref="case_detail.edit"]')).click();
-        goto_assign();
-        expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
-        browser.getLocationAbsUrl().then(function (url) {
-          expect(url).toBe(assignCaseUrl);
+          var assignCaseUrl;
+          browser.getLocationAbsUrl().then(function (url) {
+            assignCaseUrl = url;
+          });
+          browser.findElement(by.css('a[ui-sref="case_detail.edit"]')).click();
+          goto_assign();
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+          browser.getLocationAbsUrl().then(function (url) {
+            expect(url).toBe(assignCaseUrl);
+          });
         });
       });
 
       it('should assign a case to recommended provider (inside office hours)', function () {
-        utils.createCase();
-        fill_fields(true);
-        goto_assign();
+        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
+  
+          goto_assign();
 
-        expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
-        var modalEl = browser.findElement(by.css('div.modal'));
-        modalEl.findElement(by.css('input[name="matter_type1"]')).click();
-        modalEl.findElement(by.css('input[name="matter_type2"]')).click();
-        modalEl.findElement(by.css('button[type="submit"]')).click();
-        expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+          expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+          var modalEl = browser.findElement(by.css('div.modal'));
+          modalEl.findElement(by.css('input[name="matter_type1"]')).click();
+          modalEl.findElement(by.css('input[name="matter_type2"]')).click();
+          modalEl.findElement(by.css('button[type="submit"]')).click();
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
-        goto_assign('2014-08-06T11:50');
-        browser.findElement(by.css('button[name="assign-provider"]')).click();
+          goto_assign('2014-08-06T11:50');
+          browser.findElement(by.css('button[name="assign-provider"]')).click();
 
-        checkAssign();
+          checkAssign();
+        });
       });
 
 
       it('should assign case to rota provider (outside office hours)', function () {
-        utils.createCase();
-        fill_fields(true);
-        goto_assign();
+        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
+  
+          goto_assign();
 
-        expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
-        var modalEl = browser.findElement(by.css('div.modal'));
-        modalEl.findElement(by.css('input[name="matter_type1"]')).click();
-        modalEl.findElement(by.css('input[name="matter_type2"]')).click();
-        modalEl.findElement(by.css('button[type="submit"]')).click();
-        expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+          expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+          var modalEl = browser.findElement(by.css('div.modal'));
+          modalEl.findElement(by.css('input[name="matter_type1"]')).click();
+          modalEl.findElement(by.css('input[name="matter_type2"]')).click();
+          modalEl.findElement(by.css('button[type="submit"]')).click();
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
-        goto_assign('2014-08-06T19:50');
-        browser.findElement(by.css('button[name="assign-provider"]')).click();
+          goto_assign('2014-08-06T19:50');
+          browser.findElement(by.css('button[name="assign-provider"]')).click();
 
-        checkAssign();
+          checkAssign();
+        });
       });
 
 
       it('should assign case outside office hours without rota set', function () {
-        utils.createCase();
-        fill_fields(true);
-        goto_assign();
+        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
 
-        expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
-        var modalEl = browser.findElement(by.css('div.modal'));
-        modalEl.findElement(by.css('input[name="matter_type1"]')).click();
-        modalEl.findElement(by.css('input[name="matter_type2"]')).click();
-        modalEl.findElement(by.css('button[type="submit"]')).click();
-        expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+          goto_assign();
 
-        goto_assign('2014-08-01T19:30');
-        expect(browser.findElement(by.css('button[name="assign-provider"]')).isEnabled()).toBe(false);
-        browser.findElements(by.repeater('provider in suggested_providers | filter:provider_search')).then(function(providers){
-          providers[0].findElement(by.css('input[name="provider"]')).click();
+          expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
+          var modalEl = browser.findElement(by.css('div.modal'));
+          modalEl.findElement(by.css('input[name="matter_type1"]')).click();
+          modalEl.findElement(by.css('input[name="matter_type2"]')).click();
+          modalEl.findElement(by.css('button[type="submit"]')).click();
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+
+          goto_assign('2014-08-01T19:30');
+          expect(browser.findElement(by.css('button[name="assign-provider"]')).isEnabled()).toBe(false);
+          browser.findElements(by.repeater('provider in suggested_providers | filter:provider_search')).then(function(providers){
+            providers[0].findElement(by.css('input[name="provider"]')).click();
+          });
+
+          expect(browser.findElement(by.css('button[name="assign-provider"]')).isEnabled()).toBe(true);
+          browser.findElement(by.css('button[name="assign-provider"]')).click();
+          checkAssign();
         });
-
-        expect(browser.findElement(by.css('button[name="assign-provider"]')).isEnabled()).toBe(true);
-        browser.findElement(by.css('button[name="assign-provider"]')).click();
-        checkAssign();
       });
     });
   });

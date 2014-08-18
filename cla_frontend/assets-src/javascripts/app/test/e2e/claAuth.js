@@ -4,7 +4,8 @@
   'use strict';
 
   var protractor = require('protractor'),
-      utils = require('./_utils');
+      utils = require('./_utils'),
+      modelsRecipe = require('./_modelsRecipe');
 
   describe('operatorApp', function() {
     // logs the user in before each test
@@ -28,35 +29,37 @@
       }
 
       it('should allow the operator to login using a modal if logged out', function () {
-        utils.createCase();
+        modelsRecipe.Case.createEmpty().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
 
-        utils.showPersonalDetailsForm();
-        utils.enterPersonalDetails({
-          'full_name': 'Foo Bar Quux'
+          utils.showPersonalDetailsForm();
+          utils.enterPersonalDetails({
+            'full_name': 'Foo Bar Quux'
+          });
+
+          // loggin the user out
+          pro.manage().deleteCookie('sessionid');
+
+          // saving personal details => a login modal should appear
+          utils.saveCase();
+
+          expect(browser.isElementPresent(by.css('.modal-content [name=login_frm]'))).toBe(true);
+
+          // invalid login => errors
+          login_modal('invalid_username', 'invalid_password');
+
+          expect(browser.findElement(by.css('.modal-content [name=login_frm] .Error-all')).getText()).toContain('Please enter a correct username and password.');
+
+          // valid login => no errors and modal dismissed
+          login_modal();
+
+          expect(browser.isElementPresent(by.css('.modal-content [name=login_frm]'))).toBe(false);
+
+          // saving personal details again
+          utils.saveCase();
+
+          expect(browser.isElementPresent(by.css('.modal-content [name=login_frm]'))).toBe(false);
         });
-
-        // loggin the user out
-        pro.manage().deleteCookie('sessionid');
-
-        // saving personal details => a login modal should appear
-        utils.saveCase();
-
-        expect(browser.isElementPresent(by.css('.modal-content [name=login_frm]'))).toBe(true);
-
-        // invalid login => errors
-        login_modal('invalid_username', 'invalid_password');
-
-        expect(browser.findElement(by.css('.modal-content [name=login_frm] .Error-all')).getText()).toContain('Please enter a correct username and password.');
-
-        // valid login => no errors and modal dismissed
-        login_modal();
-
-        expect(browser.isElementPresent(by.css('.modal-content [name=login_frm]'))).toBe(false);
-
-        // saving personal details again
-        utils.saveCase();
-
-        expect(browser.isElementPresent(by.css('.modal-content [name=login_frm]'))).toBe(false);
       });
     });
   });
