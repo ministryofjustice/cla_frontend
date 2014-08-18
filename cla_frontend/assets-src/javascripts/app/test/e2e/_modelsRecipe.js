@@ -11,7 +11,7 @@
       },
 
       DEFAULT_REQUIRED_ELIGIBILITY_CHECK_FIELDS: {
-        category: 'debt'
+        category: 'family'
       },
 
       DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS: {
