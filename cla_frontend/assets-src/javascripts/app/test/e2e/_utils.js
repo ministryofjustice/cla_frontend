@@ -292,7 +292,7 @@
 
     eligible: function () {
       complete_means_test({
-        'Problem': 'Debt',
+        'Problem': 'Family',
         'Details': {
           'has_partner': 'no',
           'nass_benefits': 'no',
@@ -301,7 +301,7 @@
         },
         'Finances': {
           'properties': [],
-          'you.savings.bank_balance': '45600'
+          'you.savings.bank_balance': '5600'
         },
         'Income': {
           'self_employed': 'No'
