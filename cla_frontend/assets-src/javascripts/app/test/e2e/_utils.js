@@ -48,9 +48,9 @@
       );
     },
 
-    getCase: function(case_id) {
-      return browser.get(this.APP_BASE_URL + case_id + '/');
-    },
+    // getCase: function(case_id) {
+    //   return browser.get(this.APP_BASE_URL + case_id + '/');
+    // },
 
     createCase: function() {
       var pro = protractor.getInstance(),
@@ -86,17 +86,6 @@
     saveCase: function() {
       browser.findElement(by.css('button[name="save-personal-details"]')).click();
       this.scrollTo(browser.findElement(by.id('personal_details')));
-    },
-
-    setCategory: function(category) {
-      protractor.getInstance().driver.executeScript(
-        "var $case = angular.element('[name=\"notesFrm\"]').scope().case; " +
-        "var $ec = angular.element('[ng-controller=\"EligibilityCheckSummaryCtrl\"]').scope().eligibility_check; " +
-        "$ec.category = '"+category+"';" +
-        "$ec.$update($case.reference, function(data) { " + 
-        "   $case.eligibility_check = data.reference; " +
-        "});"
-      );
     }
   };
 })();
