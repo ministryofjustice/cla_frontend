@@ -75,7 +75,11 @@
   function complete_means_test_problem_section(answer) {
     show_means_test_section(0);
     var options = browser.findElements(by.repeater('category in category_list'));
-    options.then(select_option_matching(answer));
+    try {
+      options.then(select_option_matching(answer));
+    } catch (e) {
+      throw 'Failed selecting means test problem: "' + e + '"';
+    }
   }
 
   function show_means_test_section(i) {
