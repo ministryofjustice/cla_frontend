@@ -18,6 +18,18 @@
   <p class="Error Error--basic">There are <strong>no providers available</strong> matching your criteria. Please contact a supervisor.</p>
 </div>
 
+<div class="SummaryBlock SelectedProviders">
+  <h2 class="SummaryBlock-heading">Selected organisations ({{ Object.keys(alternativeHelpService.selected_providers).length }})</h2>
+  <div class="SummaryBlock-content">
+    <ul class="SummaryBlock-list" ng-show="Object.keys(alternativeHelpService.selected_providers).length > 0">
+      <li ng-repeat="item in alternativeHelpService.selected_providers">
+        {{ item.service_name }}
+      </li>
+    </ul>
+    <p class="u-mute" ng-show="Object.keys(alternativeHelpService.selected_providers).length === 0">None selected</p>
+  </div>
+</div>
+
 <form class="FormRow cf" name="alternative_help" ng-submit="submit()">
   <p class="Error Error--basic" ng-show="valid === false">Please choose <strong>three providers</strong>.</p>
 
