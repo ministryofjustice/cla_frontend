@@ -277,6 +277,23 @@
     }]);
 
   angular.module('cla.services')
+    .factory('LogManager', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+      return function(case_ref) {
+        return {
+          case_ref: case_ref,
+          logset: [],
+          resource: $resource(url_utils.proxy('case/:case_reference/logs/'), {case_reference: '@case_reference'}),
+          refresh: function() {
+            var that = this;
+            this.resource.query({case_reference: this.case_ref}).$promise.then(function(data) {
+              that.logset = data;
+            });
+          }
+        };
+      };
+    }]);
+
+  angular.module('cla.services')
     .factory('Event', ['$http', 'url_utils', function($http, url_utils) {
       var defaults = {
         baseUrl: url_utils.proxy('event/')

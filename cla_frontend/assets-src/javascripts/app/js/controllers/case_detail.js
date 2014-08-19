@@ -3,10 +3,11 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'logManager',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, logManager){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
+          $scope.logManager = logManager;
           $scope.eligibility_check = $eligibility_check;
           $scope.diagnosis = $diagnosis;
           $scope.personal_details = $personal_details;
@@ -39,24 +40,29 @@
     .controller('LogListCtrl',
     ['$scope', '$modal',
       function ($scope, $modal) {
-        // log set grouping
         $scope.logSet = [];
-        var currentTimer = null;
-        angular.forEach($scope.case.log_set, function(log) {
-          if (!log.timer) {
-            $scope.logSet.push([log]);
-          } else {
-            if (log.timer !== currentTimer) {
-              currentTimer = log.timer;
+        
+        $scope.$watch('logManager.logset', function(newVal) {
+          // log set grouping
+          var currentTimer = null;
+          $scope.logSet = [];
+          angular.forEach(newVal, function(log) {
+            if (!log.timer) {
               $scope.logSet.push([log]);
             } else {
-              var ll = $scope.logSet[$scope.logSet.length-1];
-              ll.push(log);
-              $scope.logSet[$scope.logSet.length-1] = ll;
+              if (log.timer !== currentTimer) {
+                currentTimer = log.timer;
+                $scope.logSet.push([log]);
+              } else {
+                var ll = $scope.logSet[$scope.logSet.length-1];
+                ll.push(log);
+                $scope.logSet[$scope.logSet.length-1] = ll;
+              }
             }
-          }
+          });
         });
 
+        $scope.logManager.refresh();
 
         $scope.showDiagnosisSummary = function(log) {
           $modal.open({
