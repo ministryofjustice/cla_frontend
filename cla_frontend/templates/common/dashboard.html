@@ -1,6 +1,6 @@
 {% extends app_base_template %}{% load humanize i18n static %}
 
-{% block body_attrs %}ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
+{% block body_attrs %} ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
 
 {% block html_attrs %}{% block ng_app %}{% endblock ng_app %} ng-csp{% endblock %}
 
