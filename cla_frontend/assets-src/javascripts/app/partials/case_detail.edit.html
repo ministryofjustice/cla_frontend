@@ -9,20 +9,12 @@
 
 <div data-block="case-notes-summary"></div>
 
-<hr class="u-horLine">
+<ul>
+  <li><a href="" ui-sref="case_detail.edit.diagnosis">Scope diagnosis</a></li>
+  <li><a href="" ui-sref="case_detail.edit.eligibility">Financial assessment</a></li>
+</ul>
 
 <div ui-view="">
-  <div ng-controller="DiagnosisSummaryCtrl">
-    <div ng-include="'includes/diagnosis.summary.html'"></div>
-
-    <div class="FormActions">
-      <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis" ng-show="!case.diagnosis || case.diagnosis && diagnosis.isInScopeUnknown()">{{ !case.diagnosis ? 'New' : 'Complete' }} scope diagnosis</button>
-      <button type="submit" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-show="case.diagnosis">Delete scope diagnosis</button>
-    </div>
-  </div>
-
-  <hr class="u-horLine">
-
   <div ng-controller="EligibilityCheckSummaryCtrl">
     <h2 ng-class="eligibilityTitleClass()">{{ eligibilityTitle() }}</h2>
 
