@@ -1,4 +1,4 @@
-<ul class="CaseHistory">
+<ul class="CaseHistory" ng-controller="LogListCtrl">
   <li class="CaseHistory-card" ng-repeat="logList in logSet">
     <span class="CaseHistory-date">{{ logList[0].created | general_date }}</span>
 
@@ -15,6 +15,14 @@
           <summary role="button">Means test created</summary>
           <span class="CaseHistory-logItemNotes CaseHistory-logItemNotes--indent">{{ log.notes }}</span>
         </details>
+
+        <div ng-show="log.code === 'DIAGNOSIS_DELETED'">
+          <a href="" ng-click="showDiagnosisSummary(log)">Diagnosis deleted</a>
+        </div>
+
+        <div ng-show="log.code === 'DIAGNOSIS_CREATED'">
+          <a href="" ng-click="showDiagnosisSummary(log)">Diagnosis created</a>
+        </div>
 
         <span class="CaseHistory-logItemNotes" ng-if="log.notes" ng-show="log.code !== 'MT_CREATED' && log.code !== 'MT_CHANGED'">{{ log.notes }}</span>
 
