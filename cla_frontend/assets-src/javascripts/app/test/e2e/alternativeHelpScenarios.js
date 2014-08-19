@@ -141,6 +141,76 @@
 
       });
 
+      //      An in-scope / eligible case shouldn't see ECF message;
+      it('should be able to decline help (in_scope)', function () {
+
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
+          browser.get('call_centre/' + case_ref + "/");
+
+          clickCloseButton();
+
+          var alternative_help_link = findAlternativeHelpLink();
+          browser.findElement(alternative_help_link).click();
+          var submitButton = browser.findElement(by.cssContainingText('button.Button.Button--secondary', 'User declines all help / no appropriate help found'));
+          expect(submitButton.isEnabled()).toBe(true);
+          submitButton.click();
+
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(true);
+
+          declineHelp();
+
+          browser.getCurrentUrl().then(function (caseUrl) {
+            browser.findElement(by.css('div.modal button[type="submit"]')).click();
+            browser.get(caseUrl);
+            checkOutcomeCode('DECL');
+          });
+
+        });
+      });
+
+
+      //      An in-scope / eligible case shouldn't see ECF message;
+      it('should be able to decline help (out_scope) & should see ECF message', function () {
+
+
+
+        modelsRecipe.Case.createWithOutScopeAndInEligible().then(function(case_ref) {
+          browser.get('call_centre/' + case_ref + "/");
+
+          clickCloseButton();
+
+          var alternative_help_link = findAlternativeHelpLink();
+          browser.findElement(alternative_help_link).click();
+          var submitButton = browser.findElement(by.cssContainingText('button.Button.Button--secondary', 'User declines all help / no appropriate help found'));
+          expect(submitButton.isEnabled()).toBe(true);
+          submitButton.click();
+
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(true);
+
+          expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Exceptional Case Fund');
+          pickECFStatement();
+
+          declineHelp();
+          browser.getCurrentUrl().then(function (caseUrl) {
+            browser.findElement(by.css('div.modal button[type="submit"]')).click();
+            browser.get(caseUrl);
+            checkOutcomeCode('DECL');
+          });
+
+        });
+      });
+
+      function pickECFStatement() {
+
+        element.all(by.repeater('statement in ecf_statements')).get(0).click();
+        browser.findElement(by.css('div.modal button[type="submit"]')).click();
+      }
+
+      function declineHelp() {
+          expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Decline Help');
+          element.all(by.repeater('code in codes')).get(0).click();
+        }
+
       function checkOutcomeCode(code) {
         var codeSpan = element.all(by.binding('log.code'));
         expect(codeSpan.get(0).getText()).toEqual(code);

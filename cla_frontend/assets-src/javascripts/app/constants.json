@@ -675,75 +675,7 @@
     "text": "Zulu",
     "value": "ZULU"
   }
-], "ELIGIBILITY_STATES": {
-  "UNKNOWN": "unknown",
-  "YES": "yes",
-  "NO": "no"
-}, "STATIC_ROOT": "/static/", "THIRDPARTY_REASON": [
-  {
-    "text": "Child or patient",
-    "value": "CHILD_PATIENT"
-  },
-  {
-    "text": "Subject to power of attorney",
-    "value": "POWER_ATTORNEY"
-  },
-  {
-    "text": "Cannot communicate via the telephone, due to disability",
-    "value": "NO_TELEPHONE_DISABILITY"
-  },
-  {
-    "text": "Cannot communicate via the telephone, due to a language requirement",
-    "value": "NO_TELEPHONE_LANGUAGE"
-  },
-  {
-    "text": "Other",
-    "value": "OTHER"
-  }
-], "DIAGNOSIS_SCOPE": {
-  "INSCOPE": "INSCOPE",
-  "UNKNOWN": "UNKNOWN",
-  "OUTOFSCOPE": "OUTOFSCOPE"
-}, "EXEMPT_USER_REASON": [
-  {
-    "text": "Client is a child",
-    "value": "ECHI"
-  },
-  {
-    "text": "Client is in detention",
-    "value": "EDET"
-  },
-  {
-    "text": "12 month exemption",
-    "value": "EPRE"
-  }
-], "REQUIRES_ACTION_BY": {
-  "OPERATOR": "operator",
-  "OPERATOR_MANAGER": "operator_manager",
-  "PROVIDER_REVIEW": "1_provider_review",
-  "PROVIDER": "2_provider"
-}, "TITLES": [
-  {
-    "text": "Mr",
-    "value": "mr"
-  },
-  {
-    "text": "Mrs",
-    "value": "mrs"
-  },
-  {
-    "text": "Miss",
-    "value": "miss"
-  },
-  {
-    "text": "Ms",
-    "value": "ms"
-  },
-  {
-    "text": "Dr",
-    "value": "dr"
-  }
-], "THIRDPARTY_RELATIONSHIP": [
+], "STATIC_ROOT": "/static/", "THIRDPARTY_RELATIONSHIP": [
   {
     "text": "Parent or guardian",
     "value": "PARENT_GUARDIAN"
@@ -764,7 +696,92 @@
     "text": "Other",
     "value": "OTHER"
   }
-], "CONTACT_SAFETY": {
+], "DIAGNOSIS_SCOPE": {
+  "INSCOPE": "INSCOPE",
+  "UNKNOWN": "UNKNOWN",
+  "OUTOFSCOPE": "OUTOFSCOPE"
+}, "ECF_STATEMENT": [
+  {
+    "text": "\"On closing this call you will hear a recorded message which will contain information to highlight limited circumstances in which legal aid may still be available to you. Thank you [client name] for calling Civil Legal Advice. Goodbye\"",
+    "value": "XFER_TO_RECORDED_MESSAGE"
+  },
+  {
+    "text": "\"Legal aid may be available in exceptional circumstances to people whose cases are out of scope where a refusal to fund would breach Human Rights or enforceable European law. You could seek advice from a legal advisor about whether an application might succeed in your case and how to make one. Thank you for calling Civil Legal Advice. Goodbye\"",
+    "value": "READ_OUT_MESSAGE"
+  },
+  {
+    "text": "Problem not suitable for ECF message",
+    "value": "PROBLEM_NOT_SUITABLE"
+  },
+  {
+    "text": "Could not provide - client terminated call",
+    "value": "CLIENT_TERMINATED"
+  }
+], "EXEMPT_USER_REASON": [
+  {
+    "text": "Client is a child",
+    "value": "ECHI"
+  },
+  {
+    "text": "Client is in detention",
+    "value": "EDET"
+  },
+  {
+    "text": "12 month exemption",
+    "value": "EPRE"
+  }
+], "THIRDPARTY_REASON": [
+  {
+    "text": "Child or patient",
+    "value": "CHILD_PATIENT"
+  },
+  {
+    "text": "Subject to power of attorney",
+    "value": "POWER_ATTORNEY"
+  },
+  {
+    "text": "Cannot communicate via the telephone, due to disability",
+    "value": "NO_TELEPHONE_DISABILITY"
+  },
+  {
+    "text": "Cannot communicate via the telephone, due to a language requirement",
+    "value": "NO_TELEPHONE_LANGUAGE"
+  },
+  {
+    "text": "Other",
+    "value": "OTHER"
+  }
+], "TITLES": [
+  {
+    "text": "Mr",
+    "value": "mr"
+  },
+  {
+    "text": "Mrs",
+    "value": "mrs"
+  },
+  {
+    "text": "Miss",
+    "value": "miss"
+  },
+  {
+    "text": "Ms",
+    "value": "ms"
+  },
+  {
+    "text": "Dr",
+    "value": "dr"
+  }
+], "REQUIRES_ACTION_BY": {
+  "OPERATOR": "operator",
+  "OPERATOR_MANAGER": "operator_manager",
+  "PROVIDER_REVIEW": "1_provider_review",
+  "PROVIDER": "2_provider"
+}, "ELIGIBILITY_STATES": {
+  "UNKNOWN": "unknown",
+  "YES": "yes",
+  "NO": "no"
+}, "CONTACT_SAFETY": {
   "SAFE": "SAFE",
   "DONT_CALL": "DONT_CALL",
   "NO_MESSAGE": "NO_MESSAGE"

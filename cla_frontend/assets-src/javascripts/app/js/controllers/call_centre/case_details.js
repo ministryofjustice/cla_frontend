@@ -28,23 +28,30 @@
 
   angular.module('cla.controllers.operator')
     .controller('CaseDetailDeclineHelpCtrl',
-      ['$scope', '$modal',
-        function($scope, $modal){
+      ['$scope', '$modal', '$q',
+        function($scope, $modal, $q){
           $scope.decline_help = function(notes) {
-            $modal.open({
-              templateUrl: 'case_detail.outcome_modal.html',
-              controller: 'OutcomesModalCtl',
-              resolve: {
-                'tplVars': function() {
-                  return {
-                    'title': 'Decline Help'
-                  };
-                },
-                'case': function() { return $scope.case; },
-                'event_key': function() { return 'decline_help'; },  //this is also the function name on Case model
-                'notes': function() { return notes || ''; },
-                'success_msg': function() { return 'Declined help for Case '+$scope.case.reference; }
-              }
+            var parentQ = $q.when(true);
+            if ($scope.$parent && $scope.$parent.decline_help) {
+              parentQ = $scope.$parent.decline_help();
+            }
+
+            parentQ.then(function () {
+              $modal.open({
+                templateUrl: 'case_detail.outcome_modal.html',
+                controller: 'OutcomesModalCtl',
+                resolve: {
+                  'tplVars': function() {
+                    return {
+                      'title': 'Decline Help'
+                    };
+                  },
+                  'case': function() { return $scope.case; },
+                  'event_key': function() { return 'decline_help'; },  //this is also the function name on Case model
+                  'notes': function() { return notes || ''; },
+                  'success_msg': function() { return 'Declined help for Case '+$scope.case.reference; }
+                }
+              });
             });
           };
         }

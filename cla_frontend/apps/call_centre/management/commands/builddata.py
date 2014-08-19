@@ -14,7 +14,7 @@ from django.templatetags.static import static
 # used by constants_json
 from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
     TITLES, REQUIRES_ACTION_BY, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, \
-    DIAGNOSIS_SCOPE, CONTACT_SAFETY, EXEMPT_USER_REASON
+    DIAGNOSIS_SCOPE, CONTACT_SAFETY, EXEMPT_USER_REASON, ECF_STATEMENT
 
 
 class Command(BaseCommand):
@@ -32,7 +32,8 @@ class Command(BaseCommand):
                                         ('THIRDPARTY_REASON', THIRDPARTY_REASON),
                                         ('THIRDPARTY_RELATIONSHIP', THIRDPARTY_RELATIONSHIP),
                                         ('ADAPTATION_LANGUAGES', ADAPTATION_LANGUAGES),
-                                        ('EXEMPT_USER_REASON', EXEMPT_USER_REASON)
+                                        ('EXEMPT_USER_REASON', EXEMPT_USER_REASON),
+                                        ('ECF_STATEMENT', ECF_STATEMENT)
                                         ]:
                 l[json_name] = []
                 for k, v in iterator:
