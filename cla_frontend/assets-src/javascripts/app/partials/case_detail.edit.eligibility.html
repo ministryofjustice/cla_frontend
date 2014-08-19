@@ -1,17 +1,13 @@
-<h2 ng-class="eligibilityTitleClass()">{{ eligibilityTitle() }}</h2>
-
 <form ng-submit="save()" novalidate name="form" class="Accordion">
-  <div ng-repeat="section in sections">
-    <h2 class="Accordion-sectionTitle" ng-click="section.show=!section.show" ng-class="{'is-expanded': section.show, 'is-complete': isComplete(section.id)}">
-      {{ section.title }}
-      <span class="u-pullRight Icon" ng-class="{'Icon--arrowUp': section.show, 'Icon--arrowDown': !section.show}"></span>
-    </h2>
+  <ul>
+    <li ng-repeat="section in sections">
+      <a href="" ng-click="gotoSection(section)">{{ section.title }}</a>
+    </li>
+  </ul>
 
-    <div id="{{ section.id }}" class="Accordion-section" ng-show="section.show" ng-include="section.template"></div>
-  </div>
+  <div ng-repeat="section in sections" ng-include="section.template" ng-show="currentState() === section.state"></div>
 
-  <div class="FormActions FormBlock FormBlock--yellow">
-    <button type="submit" class="Button" name="save-means-test">Save means test</button>
-    <a ui-sref="case_detail.edit">Return to case</a>
+  <div class="FormActions">
+    <button type="submit" class="Button" name="save-means-test">Save assessment</button>
   </div>
 </form>

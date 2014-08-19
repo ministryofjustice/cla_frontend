@@ -3,34 +3,29 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash',
-        function($scope, Category, $stateParams, flash){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', '_',
+        function($scope, Category, $stateParams, flash, $state, _){
           $scope.category_list = Category.query();
           $scope.warnings = {};
           $scope.sections = [{
               title: 'Problem',
-              id: 'problem',
-              show: $stateParams.section === 'your_problem' || $stateParams.section === '',
+              state: 'case_detail.edit.eligibility.problem',
               template: 'includes/eligibility.problem.html'
             }, {
               title: 'Details',
-              id: 'details',
-              show: $stateParams.section === 'details',
+              state: 'case_detail.edit.eligibility.details',
               template: 'includes/eligibility.details.html'
             }, {
               title: 'Finances',
-              id: 'finances',
-              show: $stateParams.section === 'your_capital',
+              state: 'case_detail.edit.eligibility.finances',
               template: 'includes/eligibility.finances.html'
             }, {
               title: 'Income',
-              id: 'income',
-              show: $stateParams.section === 'your_income',
+              state: 'case_detail.edit.eligibility.income',
               template: 'includes/eligibility.income.html'
             }, {
               title: 'Expenses',
-              id: 'expenses',
-              show: $stateParams.section === 'your_allowances',
+              state: 'case_detail.edit.eligibility.expenses',
               template: 'includes/eligibility.expenses.html'
             }
           ];
@@ -48,6 +43,20 @@
             });
 
             return !emptyInputs.length;
+          };
+
+          $scope.currentState = function () {
+            var current = 'case_detail.edit.eligibility.problem';
+            angular.forEach($scope.sections, function(section) {
+              if ($state.includes(section.state)) {
+                current = section.state;
+              }
+            });
+            return current;
+          };
+
+          $scope.gotoSection = function (section) {
+            $state.go(section.state);
           };
 
           $scope.save = function () {

@@ -17,7 +17,7 @@
   </div>
 
   <div class="FormActions">
-    <button type="submit" class="Button" ng-click="createDiagnosis" ng-show="!diagnosis.reference">Create diagnosis</button>
+    <button type="submit" class="Button" ng-click="createDiagnosis" ng-show="!diagnosis.reference">Create scope diagnosis</button>
 
     <button type="submit" class="Button" ng-show="diagnosis.isInScopeUnknown() && diagnosis.reference">Next</button>
     <button type="button" class="Button Button--text" ng-show="diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
