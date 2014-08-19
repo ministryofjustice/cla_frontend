@@ -46,6 +46,12 @@
         expect(browser.findElement(by.css('[data-centre-col] .Notice')).getText()).toContain('Provider phone short code');
       }
 
+      function assignAnyProvider() {
+        browser.findElements(by.css('[name=provider]')).then(function (elements) {
+          elements[0].click();
+        });
+      }
+
       it('should not allow assigning a case without required fields', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
@@ -181,6 +187,7 @@
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
           goto_assign('2014-08-06T19:50');
+          assignAnyProvider();
           browser.findElement(by.css('button[name="assign-provider"]')).click();
 
           checkAssign();
