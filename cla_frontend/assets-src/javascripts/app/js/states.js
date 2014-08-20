@@ -123,6 +123,22 @@
           templateUrl:'case_detail.edit.eligibility.html',
           controller: 'EligibilityCheckCtrl'
         }
+      },
+      resolve: {
+        // check that the eligibility check can be accessed
+        CanAccess: ['$q', 'flash', 'diagnosis', 'eligibility_check', 'case', function ($q, flash, diagnosis, eligibility_check, $case) {
+          var deferred = $q.defer(),
+              msg = 'You must complete an <strong>in scope diagnosis</strong> before completing the financial assessment';
+
+          if (diagnosis.state !== 'INSCOPE' && !eligibility_check.state) {
+            flash('warn', msg);
+            // send error and handle in $stateChangeError
+            deferred.reject({case: $case.reference});
+          } else {
+            deferred.resolve();
+          }
+          return deferred.promise;
+        }]
       }
     };
 

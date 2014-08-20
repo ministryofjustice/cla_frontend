@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', '_',
-        function($scope, Category, $stateParams, flash, $state, _){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state',
+        function($scope, Category, $stateParams, flash, $state){
           $scope.category_list = Category.query();
           $scope.warnings = {};
           $scope.sections = [{
