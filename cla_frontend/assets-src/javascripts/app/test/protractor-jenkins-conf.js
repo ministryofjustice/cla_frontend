@@ -7,7 +7,7 @@ exports.config = extend(defaults, {
   multiCapabilities: [
     {
       browserName: 'chrome',
-      platform: 'OS X 10.9',
+      platform: 'Windows 8.1',
       version: ''
     },
     {
