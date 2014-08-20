@@ -128,8 +128,7 @@
         return this.createRecipe(
           this.DEFAULT_REQUIRED_CASE_FIELDS,
           this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
-          this.DEFAULT_REQUIRED_ELIGIBILITY_CHECK_FIELDS,
-          this.DEFAULT_REQUIRED_DIAGNOSIS_FIELDS
+          this.DEFAULT_REQUIRED_ELIGIBILITY_CHECK_FIELDS
         );
       },
 
@@ -139,8 +138,7 @@
           this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS);
         return this.createRecipe(
           this.DEFAULT_REQUIRED_CASE_FIELDS, pdFields,
-          this.DEFAULT_REQUIRED_ELIGIBILITY_CHECK_FIELDS,
-          this.DEFAULT_REQUIRED_DIAGNOSIS_FIELDS
+          this.DEFAULT_REQUIRED_ELIGIBILITY_CHECK_FIELDS
         );
       },
 
