@@ -149,11 +149,9 @@
       });
 
       it('should assign a case to recommended provider (inside office hours)', function () {
-        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-          utils.in_scope();
-          utils.eligible();
-  
+
           goto_assign();
 
           expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -164,6 +162,7 @@
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
           goto_assign('2014-08-06T11:50');
+
           browser.findElement(by.css('button[name="assign-provider"]')).click();
 
           checkAssign();
@@ -172,10 +171,8 @@
 
 
       it('should assign case to rota provider (outside office hours)', function () {
-        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-          utils.in_scope();
-          utils.eligible();
   
           goto_assign();
 
@@ -196,10 +193,8 @@
 
 
       it('should assign case outside office hours without rota set', function () {
-        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-          utils.in_scope();
-          utils.eligible();
 
           goto_assign();
 
