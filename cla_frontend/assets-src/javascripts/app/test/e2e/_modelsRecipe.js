@@ -94,7 +94,7 @@
               });
 
               if (eligibilityCheckFields) {
-                eligibilityCheckFields = eval('('+eligibilityCheckFields+')');
+                eligibilityCheckFields = JSON.parse(eligibilityCheckFields);
                 angular.forEach(eligibilityCheckFields, function(value, key) {
                   $eligibilityCheck[key] = value;
                 });
