@@ -16,6 +16,10 @@
 .CaseHistory-date {
   display: block;
   font-weight: 700;
+}
+
+.CaseHistory-author {
+  display: block;
   margin-bottom: 15px;
 }
 
@@ -31,7 +35,7 @@
 
 .CaseHistory-logItem {
   padding: 0;
-  margin: 0 0 15px;
+  margin: 0 0 10px;
 
   &:last-child {
     margin-bottom: 0;
@@ -47,9 +51,6 @@
     margin-bottom: 5px;
     border-left: 3px solid $grey-2;
   }
-}
-.CaseHistory-logItemAuthor {
-  display: block;
 }
 
 .CaseHistory-label {

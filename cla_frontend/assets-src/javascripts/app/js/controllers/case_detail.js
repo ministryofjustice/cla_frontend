@@ -70,6 +70,12 @@
             controller: ['$scope', '$modalInstance', 'log', 'Diagnosis', 
               function($scope, $modalInstance, log, Diagnosis) {
                 $scope.diagnosis = new Diagnosis(log.patch);
+                $scope.diagnosisTitle = function () {
+                  return $scope.diagnosis.isInScopeTrue() ? 'In scope' : 'Not in scope';
+                };
+                $scope.diagnosisTitleClass = function () {
+                  return $scope.diagnosis.isInScopeTrue() ? 'Icon Icon--lrg Icon--solidTick Icon--green' : 'Icon Icon--lrg Icon--solidCross Icon--red';
+                };   
                 $scope.close = function () {
                   $modalInstance.dismiss('cancel');
                 };

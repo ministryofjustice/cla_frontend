@@ -9,57 +9,13 @@
 
 <div data-block="case-notes-summary"></div>
 
-<hr class="u-horLine">
+<ul class="Tabs Tabs--large cf">
+  <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.diagnosis')}">
+    <a href="" ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope diagnosis</a>
+  </li>
+  <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.eligibility'), 'is-disabled': !diagnosis.isInScopeTrue() && !eligibility_check.state}">
+    <a href="" ui-sref="case_detail.edit.eligibility" class="Tabs-tabLink" ng-class="eligibilityIcon()">Financial assessment</a>
+  </li>
+</ul>
 
-<div ui-view="">
-  <div ng-controller="DiagnosisSummaryCtrl">
-    <div ng-include="'includes/diagnosis.summary.html'"></div>
-
-    <div class="FormActions">
-      <button type="submit" class="Button" ui-sref="case_detail.edit.diagnosis" ng-show="!case.diagnosis || case.diagnosis && diagnosis.isInScopeUnknown()">{{ !case.diagnosis ? 'New' : 'Complete' }} scope diagnosis</button>
-      <button type="submit" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-show="case.diagnosis">Delete scope diagnosis</button>
-    </div>
-  </div>
-
-  <hr class="u-horLine">
-
-  <div ng-controller="EligibilityCheckSummaryCtrl">
-    <h2 ng-class="eligibilityTitleClass()">{{ eligibilityTitle() }}</h2>
-
-    <div ng-show="case.eligibility_check">
-      <div ng-show="!eligibility_check.isEligibilityUnknown()">
-        <section class="SummaryBlock CommentBlock" ng-show="eligibility_check.notes">
-          <figure class="SummaryBlock-content">
-            <div class="Icon Icon--row Icon--user">
-              <figcaption>{{ case.created | general_date }} - {{ personal_details.full_name }} wrote:</figcaption>
-              <blockquote class="Quote">{{ eligibility_check.notes }}</blockquote>
-            </div>
-          </figure>
-        </section>
-
-        <section class="SummaryBlock Grid" ng-repeat="section in means_summary">
-          <div class="Grid-row">
-            <div class="SummaryBlock-content cf">
-              <a ui-sref="case_detail.edit.eligibility({section:section.step})" class="Icon Icon--abs-r Icon--edit"></a>
-
-              <h2 class="SummaryBlock-heading Grid-col Grid-col--1-3">{{ section.header }}</h2>
-
-              <ul class="Grid-col Grid-col--2-3">
-                <li ng-repeat="item in section.items"><span ng-bind-html="item"></span></li>
-              </ul>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div ng-show="eligibility_check.isEligibilityUnknown()">
-        <p>Incomplete means test</p>
-        <button type="submit" class="Button" ui-sref="case_detail.edit.eligibility" name="edit-eligibility">Complete means test</button>
-      </div>
-    </div>
-
-    <div class="FormActions" ng-show="!case.eligibility_check">
-      <button type="submit" class="Button" ui-sref="case_detail.edit.eligibility" name="edit-eligibility">New means test</button>
-    </div>
-  </div>
-</div>
+<div ui-view=""></div>

@@ -133,7 +133,7 @@
           browser.getLocationAbsUrl().then(function (url) {
             assignCaseUrl = url;
           });
-          browser.findElement(by.css('a[ui-sref="case_detail.edit"]')).click();
+          browser.get('call_centre/'+case_ref+"/");
           goto_assign();
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
           browser.getLocationAbsUrl().then(function (url) {

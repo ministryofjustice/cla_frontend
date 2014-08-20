@@ -1,0 +1,43 @@
+.Tabs {
+  @include core-19;
+  list-style: none;
+  padding: 0 0 15px;
+  margin: 15px 0;
+  border-bottom: 1px solid $grey-2;
+
+  &--large {
+    @include core-24;
+  }
+}
+
+.Tabs-tab {
+  display: inline-block;
+  padding: 8px 12px 6px;
+  border: 1px solid transparent;
+  @include border-radius(3px);
+
+  &.is-active {
+    background-color: $grey-4;
+    border-color: $grey-2;
+  }
+  &.is-disabled {
+    color: $grey-2;
+  }
+}
+
+.Tabs-tabLink {
+  color: $black;
+  text-decoration: none;
+
+  &:link,
+  &:hover,
+  &:active,
+  &:visited {
+    color: $black;
+
+    .is-disabled & {
+      color: $grey-2;
+      cursor: default;
+    }
+  }
+}

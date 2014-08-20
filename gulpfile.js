@@ -47,6 +47,7 @@ paths.scripts = {
     paths.src + 'vendor/angular-sticky/sticky.js',
     paths.src + 'vendor/angular-resource/angular-resource.js',
     paths.src + 'vendor/angular-ui-router/release/angular-ui-router.js',
+    paths.src + 'vendor/ui-router-extras/release/ct-ui-router-extras.js',
     paths.src + 'vendor/angular-ui-select2/src/select2.js',
     paths.src + 'vendor/angular-i18n/angular-locale_en-gb.js',
     paths.src + 'vendor/moment/moment.js',

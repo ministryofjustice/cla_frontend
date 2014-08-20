@@ -1,3 +1,6 @@
+$background-colour: #E8F0F0;
+$border-colour: #C2C2C2;
+
 .SummaryBlock {
   position: relative;
 }
@@ -8,14 +11,19 @@
 }
 
 .SummaryBlock-content {
-  background-color: #E8F0F0;
+  background-color: $background-colour;
   padding: 12px 40px 12px 20px;
   margin: 0 0 1.25em;
-  border: {
-    top: 1px solid #C2C2C2;
-    bottom: 1px solid #C2C2C2;
-  };
   list-style: none;
+  border: {
+    top: 1px solid $border-colour;
+    bottom: 1px solid $border-colour;
+  };
+
+  .SummaryBlock--compact &:not(:last-child) {
+    margin-bottom: 0;
+    border-bottom-width: 0;
+  }
 
   ul, li, blockquote, figcaption {
     padding: 0;
