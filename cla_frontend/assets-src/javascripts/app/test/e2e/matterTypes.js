@@ -46,10 +46,16 @@
         expect(browser.findElement(by.css('[data-centre-col] .Notice')).getText()).toContain('Provider phone short code');
       }
 
+      function assignAnyProvider() {
+        browser.findElements(by.css('[name=provider]')).then(function (elements) {
+          elements[0].click();
+        });
+      }
+
       it('should not allow assigning a case without required fields', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           var messages = element(by.css('.modal-content .Error[data-case-errors]'));
@@ -91,7 +97,7 @@
       it('should not allow saving modal without setting matter type 1 and 2', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           var modalEl = browser.findElement(by.css('div.modal'));
@@ -104,7 +110,7 @@
       it('should allow saving modal after setting matter type 1 and 2', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-    
+
           goto_assign();
 
           var modalEl = browser.findElement(by.css('div.modal'));
@@ -118,7 +124,7 @@
       it('should go straight to assign page if MT1 and MT2 are already set', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -143,9 +149,9 @@
       });
 
       it('should assign a case to recommended provider (inside office hours)', function () {
-        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -156,6 +162,7 @@
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
           goto_assign('2014-08-06T11:50');
+
           browser.findElement(by.css('button[name="assign-provider"]')).click();
 
           checkAssign();
@@ -164,9 +171,9 @@
 
 
       it('should assign case to rota provider (outside office hours)', function () {
-        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -177,6 +184,7 @@
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
           goto_assign('2014-08-06T19:50');
+          assignAnyProvider();
           browser.findElement(by.css('button[name="assign-provider"]')).click();
 
           checkAssign();
@@ -185,7 +193,7 @@
 
 
       it('should assign case outside office hours without rota set', function () {
-        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
 
           goto_assign();
