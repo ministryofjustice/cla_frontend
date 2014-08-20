@@ -63,6 +63,8 @@
 
               // fire a save notification
               flash('success', 'The means test has been saved. The current result is <strong>' + $scope.eligibilityText(data.state) + '</strong>');
+
+              $scope.logManager.refresh();
             });
           };
 

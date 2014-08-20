@@ -24,6 +24,9 @@
           // updates the state of case.diagnosis_state after each save
           function saveCallback(data) {
             $scope.case.diagnosis_state = data.state;
+            if (!$scope.diagnosis.isInScopeUnknown()) {
+              $scope.logManager.refresh();  // refreshing the logs
+            }
           }
 
           $scope.moveDown = function() {

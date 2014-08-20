@@ -78,6 +78,9 @@
         mediacodes: ['MediaCode', function(MediaCode) {
           return MediaCode.get().$promise;
         }],
+        logManager: ['case', 'LogManager', function(case_, LogManager) {
+          return new LogManager(case_.reference);
+        }],
       },
       views: {
         '': {
