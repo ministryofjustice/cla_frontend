@@ -1,6 +1,6 @@
 <form ng-submit="save()" novalidate name="form" class="Accordion">
   <ul>
-    <li ng-repeat="section in sections">
+    <li ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
       <a href="" ng-click="gotoSection(section)">{{ section.title }}</a>
     </li>
   </ul>
