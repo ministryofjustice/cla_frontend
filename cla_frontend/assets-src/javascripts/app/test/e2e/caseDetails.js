@@ -26,7 +26,7 @@
         });
 
         browser.findElement(by.css('.CaseDetails-caseNum')).getInnerHtml().then(function(h1) {
-          utils.expectUrl(APP_BASE_URL+ newCaseUrl, h1 + '/');
+          utils.expectUrl(APP_BASE_URL + newCaseUrl, h1 + '/');
         });
 
       });

@@ -55,7 +55,7 @@
       it('should not allow assigning a case without required fields', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           var messages = element(by.css('.modal-content .Error[data-case-errors]'));
@@ -97,7 +97,7 @@
       it('should not allow saving modal without setting matter type 1 and 2', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           var modalEl = browser.findElement(by.css('div.modal'));
@@ -110,7 +110,7 @@
       it('should allow saving modal after setting matter type 1 and 2', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-    
+
           goto_assign();
 
           var modalEl = browser.findElement(by.css('div.modal'));
@@ -124,7 +124,7 @@
       it('should go straight to assign page if MT1 and MT2 are already set', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');
@@ -139,7 +139,7 @@
           browser.getLocationAbsUrl().then(function (url) {
             assignCaseUrl = url;
           });
-          browser.findElement(by.cssContainingText('a[ui-sref="case_detail.edit"]', 'Back to case summary')).click();
+          browser.get('call_centre/'+case_ref+"/");
           goto_assign();
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
           browser.getLocationAbsUrl().then(function (url) {
@@ -173,7 +173,7 @@
       it('should assign case to rota provider (outside office hours)', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
-  
+
           goto_assign();
 
           expect(browser.findElement(by.css('.modal-content')).getText()).toContain('Set Matter Types');

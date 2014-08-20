@@ -112,7 +112,8 @@
     defs.CaseEditDetailEligibilityState = {
       parent: 'case_detail.edit',
       name: 'case_detail.edit.eligibility',
-      url: 'eligibility/?section',
+      url: 'eligibility/',
+      deepStateRedirect: true,
       onEnter: ['eligibility_check', 'diagnosis', 'flash', 'EligibilityCheckService',
         function(eligibility_check, diagnosis, flash, EligibilityCheckService){
           EligibilityCheckService.onEnter(eligibility_check, diagnosis, flash);
@@ -122,7 +123,58 @@
           templateUrl:'case_detail.edit.eligibility.html',
           controller: 'EligibilityCheckCtrl'
         }
+      },
+      resolve: {
+        // check that the eligibility check can be accessed
+        CanAccess: ['$q', 'diagnosis', 'eligibility_check', 'case', function ($q, diagnosis, eligibility_check, $case) {
+          var deferred = $q.defer();
+
+          if (diagnosis.state !== 'INSCOPE' && !eligibility_check.state) {
+            // reject promise and handle in $stateChangeError
+            deferred.reject({case: $case.reference});
+          } else {
+            deferred.resolve();
+          }
+          return deferred.promise;
+        }]
       }
+    };
+
+    // eligibility tab states
+    defs.CaseEditDetailEligibilityProblemState = {
+      parent: 'case_detail.edit.eligibility',
+      name: 'case_detail.edit.eligibility.problem',
+      url: 'problem/',
+      deepStateRedirect: true,
+      sticky: true
+    };
+    defs.CaseEditDetailEligibilityDetailsState = {
+      parent: 'case_detail.edit.eligibility',
+      name: 'case_detail.edit.eligibility.details',
+      url: 'details/',
+      deepStateRedirect: true,
+      sticky: true
+    };
+    defs.CaseEditDetailEligibilityFinancesState = {
+      parent: 'case_detail.edit.eligibility',
+      name: 'case_detail.edit.eligibility.finances',
+      url: 'finances/',
+      deepStateRedirect: true,
+      sticky: true
+    };
+    defs.CaseEditDetailEligibilityIncomeState = {
+      parent: 'case_detail.edit.eligibility',
+      name: 'case_detail.edit.eligibility.income',
+      url: 'income/',
+      deepStateRedirect: true,
+      sticky: true
+    };
+    defs.CaseEditDetailEligibilityExpensesState = {
+      parent: 'case_detail.edit.eligibility',
+      name: 'case_detail.edit.eligibility.expenses',
+      url: 'expenses/',
+      deepStateRedirect: true,
+      sticky: true
     };
 
     defs.CaseEditDetailDiagnosisState = {

@@ -1,6 +1,7 @@
 <ul class="CaseHistory" ng-controller="LogListCtrl">
   <li class="CaseHistory-card" ng-repeat="logList in logSet">
     <span class="CaseHistory-date">{{ logList[0].created | general_date }}</span>
+    <span class="CaseHistory-author">({{ logList[0].created_by }})</span>
 
     <ul class="CaseHistory-log">
       <li class="CaseHistory-logItem cf" ng-repeat="log in logList">
@@ -26,7 +27,6 @@
 
         <span class="CaseHistory-logItemNotes" ng-if="log.notes" ng-show="log.code !== 'MT_CREATED' && log.code !== 'MT_CHANGED'">{{ log.notes }}</span>
 
-        <span class="CaseHistory-logItemAuthor">({{ log.created_by }})</span>
       </li>
     </ul>
   </li>
