@@ -9,9 +9,13 @@
 
 <div data-block="case-notes-summary"></div>
 
-<ul>
-  <li><a href="" ui-sref="case_detail.edit.diagnosis">Scope diagnosis</a></li>
-  <li><a href="" ui-sref="case_detail.edit.eligibility">Financial assessment</a></li>
+<ul class="Tabs Tabs--large cf">
+  <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.diagnosis')}">
+    <a href="" ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope diagnosis</a>
+  </li>
+  <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.eligibility'), 'is-disabled': !diagnosis.isEligibilityTrue()  && !eligibility_check.state}">
+    <a href="" ui-sref="case_detail.edit.eligibility" class="Tabs-tabLink" ng-class="eligibilityIcon()">Financial assessment</a>
+  </li>
 </ul>
 
 <div ui-view=""></div>

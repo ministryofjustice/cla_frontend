@@ -114,7 +114,6 @@
       name: 'case_detail.edit.eligibility',
       url: 'eligibility/',
       deepStateRedirect: true,
-      sticky: true,
       onEnter: ['eligibility_check', 'diagnosis', 'flash', 'EligibilityCheckService',
         function(eligibility_check, diagnosis, flash, EligibilityCheckService){
           EligibilityCheckService.onEnter(eligibility_check, diagnosis, flash);

@@ -90,13 +90,6 @@
           $scope.eligibilityText = function (eligible) {
             return eligible === 'yes' ? 'eligible for Legal Aid' : (eligible === 'no' ? 'not eligible for Legal Aid' : 'unknown');
           };
-
-          $scope.eligibilityTitle = function () {
-            return $scope.eligibility_check.isEligibilityTrue() ? 'Eligible for Legal Aid' : ($scope.eligibility_check.isEligibilityFalse() ? 'Not eligible for Legal Aid' : 'Means test');
-          };
-          $scope.eligibilityTitleClass = function () {
-            return $scope.eligibility_check.isEligibilityTrue() ? 'Icon Icon--lrg Icon--solidTick Icon--green' : ($scope.eligibility_check.isEligibilityFalse() ? 'Icon Icon--lrg Icon--solidCross Icon--red' : '');
-          };
         }
       ]
     );
