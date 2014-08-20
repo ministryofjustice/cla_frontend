@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseEditDetailCtrl',
-      ['$scope', 'AlternativeHelpService', '$state',
-        function($scope, AlternativeHelpService, $state){
+      ['$scope', 'AlternativeHelpService',
+        function($scope, AlternativeHelpService){
           // when viewing coming back to the details view
           // clear out the Alternative Help selections.
           AlternativeHelpService.clear();
@@ -15,8 +15,6 @@
           $scope.eligibilityIcon = function () {
             return $scope.eligibility_check.isEligibilityTrue() ? 'Icon Icon--right Icon--solidTick Icon--green' : ($scope.eligibility_check.isEligibilityFalse() ? 'Icon Icon--right Icon--solidCross Icon--red' : 'Icon Icon--right Icon--info');
           };
-
-          $state.go('case_detail.edit.diagnosis');
         }
       ]
     );
