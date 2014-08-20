@@ -126,13 +126,11 @@
       },
       resolve: {
         // check that the eligibility check can be accessed
-        CanAccess: ['$q', 'flash', 'diagnosis', 'eligibility_check', 'case', function ($q, flash, diagnosis, eligibility_check, $case) {
-          var deferred = $q.defer(),
-              msg = 'You must complete an <strong>in scope diagnosis</strong> before completing the financial assessment';
+        CanAccess: ['$q', 'diagnosis', 'eligibility_check', 'case', function ($q, diagnosis, eligibility_check, $case) {
+          var deferred = $q.defer();
 
           if (diagnosis.state !== 'INSCOPE' && !eligibility_check.state) {
-            flash('warn', msg);
-            // send error and handle in $stateChangeError
+            // reject promise and handle in $stateChangeError
             deferred.reject({case: $case.reference});
           } else {
             deferred.resolve();

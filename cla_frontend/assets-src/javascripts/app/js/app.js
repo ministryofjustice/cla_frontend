@@ -49,7 +49,7 @@
     .config(function($resourceProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
     })
-    .run(function ($rootScope, $state, $stateParams, Timer) {
+    .run(function ($rootScope, $state, $stateParams, Timer, flash) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
@@ -57,6 +57,7 @@
       $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
         // redirect back to diagnosis if can't view eligibility
         if (toState.name === 'case_detail.edit.eligibility') {
+          flash('error', 'You must complete an <strong>in scope diagnosis</strong> before completing the financial assessment');
           $state.go('case_detail.edit.diagnosis', {case: error.case});
         }
       });
