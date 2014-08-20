@@ -42,7 +42,7 @@
               callback = arguments[arguments.length - 1],
               injector = angular.element(el).injector(),
               Case = injector.get('Case'),
-              //PersonalDetails = injector.get('PersonalDetails'),
+              PersonalDetails = injector.get('PersonalDetails'),
               EligibilityCheck = injector.get('EligibilityCheck'),
               Diagnosis = injector.get('Diagnosis'),
               $case, $personalDetails, $eligibilityCheck, $diagnosis;
