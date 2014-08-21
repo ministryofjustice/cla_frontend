@@ -11,7 +11,6 @@
 .Timer-value {
   display: block;
   padding-top: 5px;
-  color: $grey-1;
 
   .Timer--inline & {
     @include bold-14;
