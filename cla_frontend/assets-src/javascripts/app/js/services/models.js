@@ -112,7 +112,7 @@
 
       resource.prototype.$decline_help = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/decline_help/');
-        $http.post(url, data);
+        return $http.post(url, data);
       };
 
       resource.prototype.$assign_alternative_help = function (data) {
@@ -271,10 +271,16 @@
     }]);
 
   angular.module('cla.services')
-    .factory('Category', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
-      return $resource(url_utils.proxy('category/:code/'), {
-      });
-    }]);
+    .factory('Category', ['$http', '$resource', 'url_utils',
+      function($http, $resource, url_utils) {
+        return $resource(url_utils.proxy('category/:code/'), null, {
+          query: {
+            method: 'GET',
+            cache: true,
+            isArray: true
+          }
+        });
+      }]);
 
   angular.module('cla.services')
     .factory('LogManager', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {

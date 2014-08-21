@@ -41,7 +41,7 @@
     ['$scope', '$modal',
       function ($scope, $modal) {
         $scope.logSet = [];
-        
+
         $scope.$watch('logManager.logset', function(newVal) {
           // log set grouping
           var currentTimer = null;
@@ -67,7 +67,7 @@
         $scope.showDiagnosisSummary = function(log) {
           $modal.open({
             templateUrl: 'includes/diagnosis.summary.modal.html',
-            controller: ['$scope', '$modalInstance', 'log', 'Diagnosis', 
+            controller: ['$scope', '$modalInstance', 'log', 'Diagnosis',
               function($scope, $modalInstance, log, Diagnosis) {
                 $scope.diagnosis = new Diagnosis(log.patch);
                 $scope.diagnosisTitle = function () {
@@ -110,6 +110,27 @@
             if ($scope.next) {
               $state.go($scope.next);
             }
+          });
+
+        };
+      }
+    ]
+  );
+
+
+  angular.module('cla.controllers')
+    .controller('SetECFundCtrl',
+    ['$scope', '$modalInstance', 'ECF_STATEMENT',
+      function ($scope, $modalInstance, ECF_STATEMENT) {
+        $scope.ecf_statements = ECF_STATEMENT;
+
+        $scope.cancel = function () {
+          $modalInstance.dismiss('cancel');
+        };
+
+        $scope.save = function() {
+          $scope.case.$patch().then(function () {
+            $modalInstance.close();
           });
 
         };

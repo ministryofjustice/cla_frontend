@@ -23,10 +23,10 @@
 
   <div class="FormRow FormRow--group" dir-paginate="provider in providers.results | itemsPerPage: 20" total-items="providers.count" current-page="currentPage">
     <label class="FormRow-label FormRow-label--odd">
-      <input 
-        name="selected_providers" 
-        type="checkbox" 
-        value="{{ provider.id }}" 
+      <input
+        name="selected_providers"
+        type="checkbox"
+        value="{{ provider.id }}"
         ng-model="alternativeHelpService.selected_providers[provider.id]">
       <strong>
         {{ provider.service_name }}
@@ -58,7 +58,7 @@
   <div class="FormActions">
     <button type="submit" class="Button" name="assign-alternative-help" ng-disabled="alternativeHelpService.get_selected_provider_ids()==0">Assign alternative help</button>
     <button type="submit" class="Button" name="assign-f2f" ng-show="f2f_clicked" ng-disabled="alternativeHelpService.notes.length==0" ng-click="code='COSPF'">Assign F2F help</button>
-    <button type="button" class="Button Button--secondary" ng-click="decline_help(alternativeHelpService.notes)">User declines all help / no appropriate help found</button>
+    <button type="button" ng-controller="CaseDetailDeclineHelpCtrl" class="Button Button--secondary" ng-click="decline_help(alternativeHelpService.notes)">User declines all help / no appropriate help found</button>
     <a ui-sref="case_detail.edit">Cancel</a>
   </div>
 </form>

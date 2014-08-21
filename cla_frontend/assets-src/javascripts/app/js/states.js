@@ -197,7 +197,7 @@
       views: {
         '@case_detail': {
           templateUrl:'case_detail.alternative_help.html',
-          controller: 'AlternativeHelpCtrl'
+          controller: 'AlternativeHelpCtrl',
         }
       },
       resolve: {
@@ -211,6 +211,9 @@
         }],
         kb_categories: ['KnowledgeBaseCategories', function(KnowledgeBaseCategories){
           return KnowledgeBaseCategories.get().$promise;
+        }],
+        categories: ['Category', function(Category) {
+          return Category.query().$promise;
         }]
       }
     };
