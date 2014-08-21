@@ -7,7 +7,7 @@
   </form>
   
   <div class="Guidance-resultContainer" ng-show="show_results">
-    <ul class="Guidance-results" ng-show="results">
+    <ul class="Guidance-results" ng-show="results.length > 0">
       <li class="Guidance-resultItem" ng-repeat="result in results">
         <a href="" ng-click="addDoc(result.ref)">{{ result.title }}</a>
       </li>
