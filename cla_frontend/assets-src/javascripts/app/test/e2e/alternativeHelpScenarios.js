@@ -142,7 +142,7 @@
       });
 
       //      An in-scope / eligible case shouldn't see ECF message;
-      it('should be able to decline help (in_scope)', function () {
+      iit('should be able to decline help (in_scope)', function () {
 
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/' + case_ref + "/");
@@ -158,9 +158,10 @@
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(true);
 
           declineHelp();
+          expect(browser.isElementPresent(by.css('div.modal button[type="submit"]'))).toBe(true);
 
           browser.getCurrentUrl().then(function (caseUrl) {
-            browser.findElement(by.css('div.modal button[type="submit"]')).click();
+            browser.findElement(by.css('div.modal button[type="submit"]')).submit();
             browser.get(caseUrl);
             checkOutcomeCode('DECL');
           });
@@ -193,6 +194,7 @@
           declineHelp();
           browser.getCurrentUrl().then(function (caseUrl) {
             browser.findElement(by.css('div.modal button[type="submit"]')).click();
+            browser.waitForAngular();
             browser.get(caseUrl);
             checkOutcomeCode('DECL');
           });
@@ -202,13 +204,15 @@
 
       function pickECFStatement() {
 
-        element.all(by.repeater('statement in ecf_statements')).get(0).click();
-        browser.findElement(by.css('div.modal button[type="submit"]')).click();
+        browser.findElement(by.css('input[name="ecf_statement"]:first-child')).click();
+        browser.findElement(by.css('div.modal button[type="submit"]')).submit();
+        browser.waitForAngular();
       }
 
       function declineHelp() {
-          expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Decline Help');
-          element.all(by.repeater('code in codes')).get(0).click();
+        expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Decline Help');
+        expect(browser.isElementPresent(by.repeater('code in codes'))).toBe(true);
+        browser.findElement(by.css('input[name="code"]:first-child')).click();
         }
 
       function checkOutcomeCode(code) {

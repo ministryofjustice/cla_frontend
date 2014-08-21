@@ -15,6 +15,7 @@ exports.config = extend(defaults, {
   specs: [
     'reporter-hack.js',
     'e2e/*.js',
+    '!e2e/_*.js'
   ],
   onPrepare: function () {
     require('jasmine-spec-reporter');
