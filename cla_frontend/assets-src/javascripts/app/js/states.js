@@ -129,7 +129,7 @@
         CanAccess: ['$q', 'diagnosis', 'eligibility_check', 'case', function ($q, diagnosis, eligibility_check, $case) {
           var deferred = $q.defer();
 
-          if (diagnosis.state !== 'INSCOPE' && !eligibility_check.state) {
+          if (!diagnosis.isInScopeTrue() && !eligibility_check.state) {
             // reject promise and handle in $stateChangeError
             deferred.reject({case: $case.reference});
           } else {
@@ -140,14 +140,6 @@
       }
     };
 
-    // eligibility tab states
-    defs.CaseEditDetailEligibilityProblemState = {
-      parent: 'case_detail.edit.eligibility',
-      name: 'case_detail.edit.eligibility.problem',
-      url: 'problem/',
-      deepStateRedirect: true,
-      sticky: true
-    };
     defs.CaseEditDetailEligibilityDetailsState = {
       parent: 'case_detail.edit.eligibility',
       name: 'case_detail.edit.eligibility.details',

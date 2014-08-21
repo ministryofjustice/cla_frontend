@@ -19,7 +19,13 @@
     .factory('moment', ['$window', function($window){
       return $window.moment;
     }
-    ]);
+  ]);
+
+  angular.module('cla.utils')
+    .factory('postal', ['$window', function($window){
+      return $window.postal;
+    }
+  ]);
 
   angular.module('cla.utils')
     .factory('form_utils', function(){
