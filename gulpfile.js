@@ -55,7 +55,9 @@ paths.scripts = {
     paths.src + 'vendor/angular-blocks/dist/angular-blocks.js',
     paths.src + 'vendor/lunr.js/lunr.js',
     paths.src + 'javascripts/vendor/xeditable.js',
-    paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js'
+    paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js',
+    paths.src + 'vendor/conduitjs/lib/conduit.js',
+    paths.src + 'vendor/postal.js/lib/postal.js'
   ],
   app: [
     paths.src + 'javascripts/app/js/app.js',

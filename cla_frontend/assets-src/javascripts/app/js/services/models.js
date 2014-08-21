@@ -139,12 +139,12 @@
     }]);
 
   angular.module('cla.services')
-    .factory('EligibilityCheck', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+    .factory('EligibilityCheck', ['$http', '$claResource', 'url_utils', function($http, $claResource, url_utils) {
       var that = this, resource;
 
       this.BASE_URL = url_utils.proxy('case/:case_reference/eligibility_check/');
 
-      resource = $resource(this.BASE_URL, {case_reference: '@case_reference'}, {
+      resource = $claResource('EligibilityCheck', this.BASE_URL, {case_reference: '@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
@@ -174,12 +174,12 @@
     }]);
 
   angular.module('cla.services')
-    .factory('Diagnosis', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'url_utils', function($http, $resource, DIAGNOSIS_SCOPE, url_utils) {
+    .factory('Diagnosis', ['$http', '$claResource', 'DIAGNOSIS_SCOPE', 'url_utils', function($http, $claResource, DIAGNOSIS_SCOPE, url_utils) {
       var resource;
 
       this.BASE_URL = url_utils.proxy('case/:case_reference/diagnosis/');
 
-      resource = $resource(this.BASE_URL, {case_reference: '@case_reference'}, {
+      resource = $claResource('Diagnosis', this.BASE_URL, {case_reference: '@case_reference'}, {
           // 'patch': {method: 'PATCH'},
           'delete': {method: 'DELETE',
             transformResponse: function() {
@@ -211,8 +211,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('PersonalDetails', ['$resource', 'url_utils', function($resource, url_utils) {
-      var resource = $resource(url_utils.proxy('case/:case_reference/personal_details/'), {case_reference:'@case_reference'}, {
+    .factory('PersonalDetails', ['$claResource', 'url_utils', function($claResource, url_utils) {
+      var resource = $claResource('PersonalDetails', url_utils.proxy('case/:case_reference/personal_details/'), {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
