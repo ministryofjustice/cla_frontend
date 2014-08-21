@@ -23,6 +23,6 @@
     <button type="button" class="Button Button--text" ng-show="diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
 
     <a ui-sref="case_detail.edit.eligibility" class="Button" ng-show="diagnosis.isInScopeTrue()">Create financial assessment</a>
-    <button type="submit" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-show="diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
+    <button type="button" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-show="diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
   </div>
 </form>
