@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'logManager', 'postal',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, logManager, postal){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'logManager', 
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, logManager){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.logManager = logManager;
@@ -33,26 +33,10 @@
             });
           };
 
-          // MODEL CHANGES DEPENDENCIES...
-          var subscription = postal.subscribe({
-            channel  : 'models',
-            topic    : 'Diagnosis.saved',
-            callback : function(_diagnosis) {
-              // NOTE: always check for object identity (_diagnosis === $scope.diagnosis)
-              // otherwise, you might end up updating other case's objects if the destroy
-              // callback doesn't get triggered for any reason
-              if (_diagnosis === $scope.diagnosis && _diagnosis.isInScopeTrue() && _diagnosis.category) {
-                $scope.eligibility_check.category = _diagnosis.category;
-                if ($scope.eligibility_check.reference) {
-                  $scope.eligibility_check.$update($scope.case.reference);
-                }
-              }
-            }
-          });
-
-          $scope.$on('$destroy', function () {
-            subscription.unsubscribe();
-          });
+          // modelsEventManager.onEnter();
+          // $scope.$on('$destroy', function () {
+          //   modelsEventManager.onExit();
+          // });
         }
       ]
     );

@@ -45,6 +45,12 @@
       name: 'case_detail',
       abstract: true,
       url: APP_BASE_URL+':caseref/',
+      onEnter: ['modelsEventManager', function(modelsEventManager) {
+        modelsEventManager.onEnter();
+      }],
+      onExit: ['modelsEventManager', function(modelsEventManager) {
+        modelsEventManager.onExit();
+      }],
       resolve: {
         'case': ['Case', '$stateParams', '$state', 'flash', function(Case, $stateParams, $state, flash) {
           return Case.get({caseref: $stateParams.caseref}, {},
@@ -80,6 +86,9 @@
         }],
         logManager: ['case', 'LogManager', function(case_, LogManager) {
           return new LogManager(case_.reference);
+        }],
+        modelsEventManager: ['case', 'eligibility_check', 'diagnosis', 'ModelsEventManager', function(case_, eligibility_check, diagnosis, ModelsEventManager) {
+          return new ModelsEventManager(case_, eligibility_check, diagnosis);
         }],
       },
       views: {
