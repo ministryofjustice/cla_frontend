@@ -8,7 +8,7 @@ tags:
 
 
 
-## Your Details
+## Your details
 
 <h3 id="ecg-has_partner">Do you have a partner?</h3>
 
@@ -43,7 +43,7 @@ Include the full amount owing - a property with shared ownership will still have
 
 <h3 id="ecg-property_disputed">Is this property disputed?</h3>
 
-Is a partner seeking to claim the property? Is a creditor or mortgage company seeking to force the sale? If so, additional allowances will apply. Look in guidance for 'SMOD' for more guidance on scenarios.
+Is a partner seeking to claim the property? Is a creditor or mortgage company seeking to force the sale? If so, additional allowances will apply. Search the guidance for 'SMOD' to find out more.
 
 <h3 id="ecg-property_main">Is this your main property?</h3>
 
@@ -67,15 +67,15 @@ el. Donec hendrerit ante nec nunc faucibus ornare. Morbi id mauris interdum, mol
 
 <h3 id="ecg-savings_bank_balance">Do you have any money saved in a bank or building society?</h3>
 
-sectetur adipiscing elit. Aliquam vitae massa nibh. Etiam eros felis, ornare nec nibh eu, egestas cursus nulla. Aliquam viverra, libero et facilisis imperdiet, justo turpis pulvinar ligula, ac posuere elit nulla id lectus. Maecenas lobortis lectus nulla, eu consectetur nunc gravida a. Nullam non dolor et lorem aliquet lobortis et dignissim felis. Donec condimentum varius tortor, non
+All money in any form of bank or building society account must be recorded here. 
 
-<h3 id="ecg-savings_investments">Do you have any investments, shares, ISAs?</h3>
+<h3 id="ecg-savings_investments">Do you have any investments, shares or ISAs?</h3>
 
-da velit. Proin consectetur enim eu tellus dapibus egestas. Vestibulum tellus diam, aliquam eu dapibus eu, ultrices sed mi
+All types of investments must be recorded here, including shares, bonds and ISAs.  
 
-<h3 id="ecg-savings_valuable_items">Do you have any valuable items over £500 each?</h3>
+<h3 id="ecg-savings_valuable_items">Do you have any valuable items worth over £500 each?</h3>
 
-re. Donec nec arcu et nisi facilisis cursus. Morbi convallis cursus libero, ut consectetur ligula tempor a. Vivamus nisi mauris, bibendum vel convallis vitae, placerat blandit augue. Aenean euismod aliquam cursus. Nullam sit amet turpis non o
+Anything except car etc.
 
 <h3 id="ecg-savings_money_owned">Do you have any money owed to you?</h3>
 
