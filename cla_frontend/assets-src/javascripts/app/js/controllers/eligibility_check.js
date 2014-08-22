@@ -3,15 +3,11 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state',
-        function($scope, Category, $stateParams, flash, $state){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'modelsEventManager',
+        function($scope, Category, $stateParams, flash, $state, modelsEventManager){
           $scope.category_list = Category.query();
           $scope.warnings = {};
           $scope.sections = [{
-              title: 'Problem',
-              state: 'case_detail.edit.eligibility.problem',
-              template: 'includes/eligibility.problem.html'
-            }, {
               title: 'Details',
               state: 'case_detail.edit.eligibility.details',
               template: 'includes/eligibility.details.html'
@@ -46,7 +42,7 @@
           };
 
           $scope.currentState = function () {
-            var current = 'case_detail.edit.eligibility.problem';
+            var current = 'case_detail.edit.eligibility.details';
             angular.forEach($scope.sections, function(section) {
               if ($state.includes(section.state)) {
                 current = section.state;
@@ -73,7 +69,7 @@
               // fire a save notification
               flash('success', 'The means test has been saved. The current result is <strong>' + $scope.eligibilityText(data.state) + '</strong>');
 
-              $scope.logManager.refresh();
+              modelsEventManager.refreshLogs();
             });
           };
 

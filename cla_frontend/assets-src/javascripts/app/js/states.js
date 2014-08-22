@@ -45,6 +45,12 @@
       name: 'case_detail',
       abstract: true,
       url: APP_BASE_URL+':caseref/',
+      onEnter: ['modelsEventManager', function(modelsEventManager) {
+        modelsEventManager.onEnter();
+      }],
+      onExit: ['modelsEventManager', function(modelsEventManager) {
+        modelsEventManager.onExit();
+      }],
       resolve: {
         'case': ['Case', '$stateParams', '$state', 'flash', function(Case, $stateParams, $state, flash) {
           return Case.get({caseref: $stateParams.caseref}, {},
@@ -78,8 +84,13 @@
         mediacodes: ['MediaCode', function(MediaCode) {
           return MediaCode.get().$promise;
         }],
-        logManager: ['case', 'LogManager', function(case_, LogManager) {
-          return new LogManager(case_.reference);
+        log_set: function() {
+          return {
+            data: []
+          };
+        },
+        modelsEventManager: ['case', 'eligibility_check', 'diagnosis', 'log_set', 'ModelsEventManager', function(case_, eligibility_check, diagnosis, log_set, ModelsEventManager) {
+          return new ModelsEventManager(case_, eligibility_check, diagnosis, log_set);
         }],
       },
       views: {
@@ -129,7 +140,7 @@
         CanAccess: ['$q', 'diagnosis', 'eligibility_check', 'case', function ($q, diagnosis, eligibility_check, $case) {
           var deferred = $q.defer();
 
-          if (diagnosis.state !== 'INSCOPE' && !eligibility_check.state) {
+          if (!diagnosis.isInScopeTrue() && !eligibility_check.state) {
             // reject promise and handle in $stateChangeError
             deferred.reject({case: $case.reference});
           } else {
@@ -140,14 +151,6 @@
       }
     };
 
-    // eligibility tab states
-    defs.CaseEditDetailEligibilityProblemState = {
-      parent: 'case_detail.edit.eligibility',
-      name: 'case_detail.edit.eligibility.problem',
-      url: 'problem/',
-      deepStateRedirect: true,
-      sticky: true
-    };
     defs.CaseEditDetailEligibilityDetailsState = {
       parent: 'case_detail.edit.eligibility',
       name: 'case_detail.edit.eligibility.details',

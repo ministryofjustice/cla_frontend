@@ -3,13 +3,14 @@
 
   angular.module('cla.controllers')
     .controller('DiagnosisCtrl',
-      ['$scope',
-        function($scope) {
+      ['$scope', 'Category', 'modelsEventManager',
+        function($scope, Category, modelsEventManager) {
           // updates the state of case.diagnosis_state after each save
           function saveCallback(data) {
             $scope.case.diagnosis_state = data.state;
+
             if (!$scope.diagnosis.isInScopeUnknown()) {
-              $scope.logManager.refresh();  // refreshing the logs
+              modelsEventManager.refreshLogs();  // refreshing the logs
             }
           }
 
@@ -41,7 +42,7 @@
             $scope.diagnosis.$delete({'case_reference': $scope.case.reference}, function() {
               $scope.case.diagnosis = null;
 
-              $scope.logManager.refresh();  // refreshing the logs
+              modelsEventManager.refreshLogs();  // refreshing the logs
             });
           }; 
 
@@ -49,6 +50,16 @@
           $scope.$watch('diagnosis.choices', function(newVal) {
             if (newVal && newVal.length === 1) {
               $scope.diagnosis.current_node_id = newVal[0].id;
+            }
+          });
+
+          $scope.$watch('diagnosis.category', function(newVal) {
+            if (!newVal) {
+              $scope.category = null;
+            } else {
+              Category.get({code: $scope.diagnosis.category}).$promise.then(function(data) {
+                $scope.category = data;
+              });
             }
           });
         }
