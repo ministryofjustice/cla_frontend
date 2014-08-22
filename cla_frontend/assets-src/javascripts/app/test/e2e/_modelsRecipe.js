@@ -74,14 +74,10 @@
       },
 
       createRecipe: function(caseFields, personalDetailsFields, eligibilityCheckFields, diagnosisNodes) {
-        function _createCase() {
-          var el = document.querySelector(arguments[0]),
-              caseFields = arguments[1],
-              personalDetailsFields = arguments[2],
-              eligibilityCheckFields = arguments[3],
-              diagnosisNodes = arguments[4],
-              callback = arguments[arguments.length - 1],
-              injector = angular.element(el).injector(),
+        
+        function _createCase(el, caseFields, personalDetailsFields, eligibilityCheckFields, diagnosisNodes, callback) {
+          var $el = document.querySelector(el),
+              injector = angular.element($el).injector(),
               Case = injector.get('Case'),
               PersonalDetails = injector.get('PersonalDetails'),
               EligibilityCheck = injector.get('EligibilityCheck'),
@@ -145,17 +141,22 @@
             }
 
             $personalDetails.$save().then(function() {
-              _createDiagnosis().then(function () {
-                _completeDiagnosis(diagnosisNodes, function () {
-                  if (eligibilityCheckFields) {
-                    _completeMeansTest().then(function () {
+              // only create if diagnosis nodes present
+              if (diagnosisNodes) {
+                _createDiagnosis().then(function () {
+                  _completeDiagnosis(diagnosisNodes, function () {
+                    if (eligibilityCheckFields) {
+                      _completeMeansTest().then(function () {
+                        callback(data.reference);
+                      });
+                    } else {
                       callback(data.reference);
-                    });
-                  } else {
-                    callback(data.reference);
-                  }
+                    }
+                  });
                 });
-              });
+              } else {
+                callback(data.reference);
+              }
             });
           });
         }
@@ -178,29 +179,24 @@
       },
 
       createWithRequiredRecommendedFields: function() {
-        var pdFields = utils.mergeObjects(
-          this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
-          this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS);
         return this.createRecipe(
-          this.DEFAULT_REQUIRED_CASE_FIELDS, pdFields,
+          this.DEFAULT_REQUIRED_CASE_FIELDS, 
+          utils.mergeObjects(
+            this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
+            this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS
+          ),
           this.DEFAULT_REQUIRED_ELIGIBILITY_CHECK_FIELDS
         );
       },
 
       createWithScopeAndEligibility: function(inScope, isEligible) {
-
-        var pdFields = utils.mergeObjects(
-          this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
-          this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS),
-          eligibleFields;
-
-        if (inScope) {
-          eligibleFields = isEligible ? this.ELIGIBLE : this.INELIGIBLE;
-        }
-
         return this.createRecipe(
-          this.DEFAULT_REQUIRED_CASE_FIELDS, pdFields,
-          eligibleFields,
+          this.DEFAULT_REQUIRED_CASE_FIELDS, 
+          utils.mergeObjects(
+            this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
+            this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS
+          ),
+          inScope ? (isEligible ? this.ELIGIBLE : this.INELIGIBLE) : {},
           inScope ? this.IN_SCOPE : this.OUT_SCOPE
         );
       },

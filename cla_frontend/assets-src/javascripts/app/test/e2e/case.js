@@ -1,15 +1,12 @@
-/* jshint unused:false */
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
 
   var protractor = require('protractor'),
       modelsRecipe = require('./_modelsRecipe'),
-      utils = require('./_utils'),
-      APP_BASE_URL = utils.APP_BASE_URL;
+      utils = require('./_utils');
 
   describe('Operator Case Details', function (){
-    // logs the user in before each test
     beforeEach(utils.setUp);
 
     function enterDetails (values, thirdparty) {
@@ -21,12 +18,12 @@
         btnName = 'save-thirdparty';
       }
       // open form
-      browser.findElement(by.css(openSelector)).click();
+      element(by.css(openSelector)).click();
       // enter values
       for (var name in values) {
-        if (name == 'adaptations') {
+        if (name === 'adaptations') {
           values[name].map(function (adaptation){
-            browser.findElement(by.cssContainingText('[name="adaptations"] option', adaptation)).click();
+            element(by.cssContainingText('[name="adaptations"] option', adaptation)).click();
           });
         } else if (name === 'dob') {
           var parts = values[name].split('/');
@@ -38,8 +35,8 @@
         }
       }
       // save details
-      browser.findElement(by.name(btnName)).click();
-      utils.scrollTo(browser.findElement(by.id('personal_details')));
+      element(by.name(btnName)).click();
+      utils.scrollTo(element(by.id('personal_details'))); // Firefox fix!
     }
 
     function checkFields (values) {
@@ -66,39 +63,39 @@
         browser.get(utils.APP_BASE_URL + 'XX-0000-0000/');
 
         expect(browser.getLocationAbsUrl()).toContain(utils.APP_BASE_URL);
-        expect(browser.findElement(by.css('.Notice.error')).getInnerHtml()).toBe('The Case XX-0000-0000 could not be found!');
+        expect(element(by.css('.Notice.error')).getInnerHtml()).toBe('The Case XX-0000-0000 could not be found!');
       });
     });
 
     describe('Create full case', function (){
       var caseRef,
-          exemptReason = 'Client is in detention',
+          exemptReason = '12 month exemption',
           mediaCode = 'DIAL UK',
           caseNotes = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat aliquet imperdiet. Integer id sem quis eros consectetur vulputate ut.';
 
       it('should create a case', function (){
-        browser.findElement(by.buttonText('Create a case')).click();
+        element(by.buttonText('Create a case')).click();
 
-        caseRef = element(by.binding('case.reference')).getText();
+        caseRef = element(by.binding('case.reference'));
         expect(caseRef.isPresent()).toBe(true);
         expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
       });
 
       it('should fill in case details', function (){
-        browser.findElement(by.name('case.notes')).sendKeys(caseNotes);
-        enterDetails({
-          media_code: mediaCode,
-          exempt_user: true,
-          exempt_user_reason: exemptReason
-        });
+        element(by.name('case.notes')).sendKeys(caseNotes);
       });
 
-      it('should fill in personal details', function (){
-        enterDetails(modelsRecipe.Case.FULL_PERSONAL_DETAILS_FIELDS);
-      });
-
-      it('should fill in personal adaptations', function (){
-        enterDetails(modelsRecipe.Case.FULL_ADAPTATIONS);
+      it('should fill in personal details and adaptations', function (){
+        var personalDetails = utils.mergeObjects(
+          modelsRecipe.Case.FULL_PERSONAL_DETAILS_FIELDS,
+          modelsRecipe.Case.FULL_ADAPTATIONS,
+          {
+            media_code: mediaCode,
+            exempt_user: true,
+            exempt_user_reason: exemptReason
+          }
+        )
+        enterDetails(personalDetails);
       });
 
       it('should fill in a third party', function (){
@@ -109,7 +106,8 @@
       });
 
       it('should have stored all fields', function (){
-        caseRef.then(function (text){
+        utils.scrollTo(caseRef); // Firefox fix!
+        caseRef.getText().then(function (text){
           browser.get(utils.APP_BASE_URL + text + '/');
 
           checkFields({
@@ -118,7 +116,7 @@
             third_party: modelsRecipe.Case.FULL_THIRDPARTY_ADAPTATIONS
           });
 
-          // case model hacks
+          // case model patches
           var mediaCodeEl = element(by.css('[ng-show="case.media_code"]'));
           expect(mediaCodeEl.isPresent()).toBe(true);
           expect(mediaCodeEl.getText()).toContain(mediaCode);

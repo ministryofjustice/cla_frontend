@@ -254,9 +254,9 @@
 
     fillField: function(name, value) {
       if (value === true || value === false) {
-        browser.findElement(by.name(name)).click();
+        element(by.name(name)).click();
       } else {
-        browser.findElement(by.css('[name="' + name + '"]')).sendKeys(value).blur;
+        element(by.css('[name="' + name + '"]')).sendKeys(value).blur;
       }
     },
 

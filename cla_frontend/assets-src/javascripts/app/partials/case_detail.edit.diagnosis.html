@@ -20,12 +20,12 @@
   </div>
 
   <div class="FormActions">
-    <button type="submit" class="Button" ng-click="createDiagnosis" ng-show="!diagnosis.reference" name="new-diagnosis">Create scope diagnosis</button>
+    <button type="submit" name="diagnosis-new" class="Button" ng-click="createDiagnosis" ng-show="!diagnosis.reference">Create scope diagnosis</button>
 
-    <button type="submit" class="Button" ng-show="diagnosis.isInScopeUnknown() && diagnosis.reference">Next</button>
-    <button type="button" class="Button Button--text" ng-show="diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
+    <button type="submit" name="diagnosis-next" class="Button" ng-show="diagnosis.isInScopeUnknown() && diagnosis.reference">Next</button>
+    <button type="button" name="diagnosis-back" class="Button Button--text" ng-show="diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
 
     <a ui-sref="case_detail.edit.eligibility" class="Button" ng-show="diagnosis.isInScopeTrue()">Create financial assessment</a>
-    <button type="button" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-show="diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
+    <button type="button" name="diagnosis-delete" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-show="diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
   </div>
 </form>
