@@ -55,7 +55,7 @@ If you're separated and now living somewhere else, your former home is no longer
 
 <h3 id="ecg-property_share">What percentage of the property do you own?</h3>
 
-If you are the only owner of the property, they own 100% of the property. If two or more people own the property, we assume they own equal shares in it unless you tell us otherwise. (For example, a couple who own their home as joint owners own 50%  of the property each). 
+If you are the only owner of the property, you own 100% of the property. If two or more people own the property, we assume they own equal shares in it unless you tell us otherwise. (For example, a couple who own their home as joint owners own 50%  of the property each). 
 
 ## Savings
 
@@ -73,7 +73,7 @@ This includes all savings in any type of bank, building society or post office s
 
 <h3 id="ecg-savings_investments">Do you have any investments, shares and ISAs?</h3>
 
-This includes all foreign and domestic investments including shares, bonds and ISAs. 
+This includes all investments including shares, bonds and ISAs. 
 
 
 <h3 id="ecg-savings_valuable_items">Do you have any valuable items over £500 each?</h3>
@@ -90,7 +90,7 @@ For classic cars, luxury vehicles and valuable household furniture and effects, 
 
 <h3 id="ecg-savings_money_owned">Do you have any money owed to you?</h3>
 
-ctetur adipiscing elit. Aliquam vitae massa nibh. Etiam eros felis, ornare nec nibh eu, egestas cursus nulla. Aliquam viverra,
+We need to know about any money owed to you by someone else because this can affect your financial eligibility for legal aid. Money owed to you includes money owed by friends and relatives as well as businesses and other individuals. 
 
 ## Your income
 
