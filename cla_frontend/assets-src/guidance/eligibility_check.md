@@ -74,7 +74,15 @@ sectetur adipiscing elit. Aliquam vitae massa nibh. Etiam eros felis, ornare nec
 
 <h3 id="ecg-savings_valuable_items">Do you have any valuable items over £500 each?</h3>
 
-Don't include your car or other vehicle that you use regularly, unless it is a classic car or luxury vehicle. In the case of classic cars or luxury vehicles, tell us the value it would sell for if you sold it today. 
+Include any single item you own worth over £500, but not:
+
+* household furniture and effects, unless they're of exceptional value
+* clothes
+* tools of your trade (eg computers for a graphic designer, carpentry tools for a carpenter)
+* the car or vehicle you uses regularly, unless it's a classic car or luxury vehicle
+
+For classic cars, luxury vehicles and valuable household furniture and effects, give the value the item would sell for if you sold it today. 
+
 
 <h3 id="ecg-savings_money_owned">Do you have any money owed to you?</h3>
 
