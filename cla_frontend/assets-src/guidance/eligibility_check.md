@@ -8,7 +8,7 @@ tags:
 
 
 
-## Your Details
+## Your details
 
 <h3 id="ecg-has_partner">Do you have a partner?</h3>
 
@@ -47,13 +47,15 @@ Is a partner seeking to claim the property? Is a creditor or mortgage company se
 
 <h3 id="ecg-property_main">Is this your main property?</h3>
 
-This is the property in which the client lives. If they are separated and are now living elsewhere their former house is no longer the main property. 
+Legal aid is based on how much money you have. That means any property you own must be considered, even if you don't live in it. 
 
-Legal aid is based on how much money you have. That means any property you own must be considered, even if you don't live in it. Your 'home' is where you live as your only or main residence and includes caravans, houseboats or other vehicles.
+Your main property is the home you live in. This includes caravans, houseboats or other vehicles. 
+
+If you're separated and now living somewhere else, your former home is no longer your main property. 
 
 <h3 id="ecg-property_share">What percentage of the property do you own?</h3>
 
-If the client is the sole owner of the property, they own 100% of the property. If two or more people own the property, assume they own equal shares in it unless the client tells you otherwise. (For example, a couple who own their home as joint owners own 50%  of the property each). 
+If you are the only owner of the property, they own 100% of the property. If two or more people own the property, we assume they own equal shares in it unless you tell us otherwise. (For example, a couple who own their home as joint owners own 50%  of the property each). 
 
 ## Savings
 
