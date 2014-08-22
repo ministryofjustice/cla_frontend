@@ -129,43 +129,5 @@
         });
       });
     });
-
-
-    // describe('Create Case with Adaptations', function () {
-    //   it('should create a new case with the BSL - Webcam adaptation', function () {
-    //     var selected_adaptations = ['BSL - Webcam', 'Callback preference', 'Minicom', 'Skype', 'Text relay'];
-    //     utils.createCase();
-    //     utils.showPersonalDetailsForm();
-    //     utils.enterDetails({
-    //       'full_name': 'Foo Bar Quux',
-    //       'postcode': 'F00 B4R',
-    //       'street': '1 Foo Bar',
-    //       'mobile_phone': '0123456789'
-    //     });
-    //     selectAdaptations(selected_adaptations);
-    //     utils.saveCase();
-
-    //     expect(element.all(by.binding('personal_details.full_name')).get(0).getText()).toEqual('Foo Bar Quux');
-    //     expect(element.all(by.binding('personal_details.postcode')).get(0).getText()).toEqual('F00 B4R');
-    //     expect(element.all(by.binding('personal_details.street')).get(0).getText()).toEqual('1 Foo Bar');
-    //     expect(element.all(by.binding('personal_details.mobile_phone')).get(0).getText()).toEqual('0123456789');
-
-    //     // check adaptations have been added
-    //     var adaptations = element.all(by.repeater('item in selected_adaptations')).map(function (el) {
-    //       return el.getText();
-    //     });
-    //     adaptations.then(function (result) {
-    //       for (var i = 0; i < selected_adaptations.length; i++) {
-    //         expect(result).toContain(selected_adaptations[i]);
-    //       }
-    //     });
-    //   });
-
-    //   function selectAdaptations(checkboxes) {
-    //     checkboxes.map(function (name) {
-    //       browser.findElement(by.cssContainingText('[name="adaptations"] option', name)).click();
-    //     });
-    //   }
-    // });
   });
 })();

@@ -33,13 +33,13 @@
         expect(searchedUrl).toContain('ordering=-personal_details__full_name');
       });
 
-      // it('should create a case from listing page', function () {
-      //   browser.findElement(by.buttonText('Create a case')).click();
+      it('should create a case from listing page', function () {
+        browser.findElement(by.buttonText('Create a case')).click();
 
-      //   caseRef = element(by.binding('case.reference'));
-      //   expect(caseRef.isPresent()).toBe(true);
-      //   expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
-      // });
+        caseRef = element(by.binding('case.reference'));
+        expect(caseRef.isPresent()).toBe(true);
+        expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
+      });
 
       it('should keep same search params when returning to listing page', function () {
         browser.findElement(by.cssContainingText('a','Back to cases')).click();
