@@ -94,10 +94,8 @@
             }
           });
 
-          var submitButton = browser.findElement(by.css('button[name="assign-alternative-help"]'));
           browser.getCurrentUrl().then(function (caseUrl) {
-            submitButton.sendKeys(protractor.Key.ENTER);
-            browser.waitForAngular();
+            browser.findElement(by.css('button[name="assign-alternative-help"]')).submit();
             browser.get(caseUrl);
             checkOutcomeCode('IRKB');
           });
