@@ -211,8 +211,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('PersonalDetails', ['$claResource', 'url_utils', function($claResource, url_utils) {
-      var resource = $claResource('PersonalDetails', url_utils.proxy('case/:case_reference/personal_details/'), {case_reference:'@case_reference'}, {
+    .factory('PersonalDetails', ['$resource', 'url_utils', function($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/personal_details/'), {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
       });
 
