@@ -1,5 +1,5 @@
 <section>
-  <h2 class="FormBlock-label">You</h2>
+  <h2 class="FormBlock-label">Your expenses</h2>
 
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
@@ -15,7 +15,7 @@
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.deductions.national_insurance" mi-label="National Insurance Contributions" guidance-link="'eligibility_check#ecg-expenses_nic'" />
+      <money-interval ng-model="eligibility_check.you.deductions.national_insurance" mi-label="National Insurance contributions" guidance-link="'eligibility_check#ecg-expenses_nic'" />
     </div>
 
     <div class="FormRow cf">
@@ -41,7 +41,7 @@
 </section>
 
 <section ng-show="eligibility_check.has_partner">
-  <h2 class="FormBlock-label">Your partner</h2>
+  <h2 class="FormBlock-label">Your partner's expenses</h2>
 
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
@@ -57,7 +57,7 @@
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.national_insurance" mi-label="National Insurance Contributions" guidance-link="'eligibility_check#ecg-expenses_nic'" />
+      <money-interval ng-model="eligibility_check.partner.deductions.national_insurance" mi-label="National Insurance contributions" guidance-link="'eligibility_check#ecg-expenses_nic'" />
     </div>
 
     <div class="FormRow cf">
