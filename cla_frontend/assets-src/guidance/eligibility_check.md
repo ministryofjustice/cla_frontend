@@ -8,7 +8,7 @@ tags:
 
 
 
-## Your Details
+## Your details
 
 <h3 id="ecg-has_partner">Do you have a partner?</h3>
 
@@ -47,13 +47,15 @@ Is a partner seeking to claim the property? Is a creditor or mortgage company se
 
 <h3 id="ecg-property_main">Is this your main property?</h3>
 
-This is the property in which the client lives. If they are separated and are now living elsewhere their former house is no longer the main property. 
+Legal aid is based on how much money you have. That means any property you own must be considered, even if you don't live in it. 
 
-Legal aid is based on how much money you have. That means any property you own must be considered, even if you don't live in it. Your 'home' is where you live as your only or main residence and includes caravans, houseboats or other vehicles.
+Your main property is the home you live in. This includes caravans, houseboats or other vehicles. 
+
+If you're separated and now living somewhere else, your former home is no longer your main property. 
 
 <h3 id="ecg-property_share">What percentage of the property do you own?</h3>
 
-If the client is the sole owner of the property, they own 100% of the property. If two or more people own the property, assume they own equal shares in it unless the client tells you otherwise. (For example, a couple who own their home as joint owners own 50%  of the property each). 
+If you are the only owner of the property, they own 100% of the property. If two or more people own the property, we assume they own equal shares in it unless you tell us otherwise. (For example, a couple who own their home as joint owners own 50%  of the property each). 
 
 ## Savings
 
@@ -74,7 +76,15 @@ sectetur adipiscing elit. Aliquam vitae massa nibh. Etiam eros felis, ornare nec
 
 <h3 id="ecg-savings_valuable_items">Do you have any valuable items over £500 each?</h3>
 
-Don't include your car or other vehicle that you use regularly, unless it is a classic car or luxury vehicle. In the case of classic cars or luxury vehicles, tell us the value it would sell for if you sold it today. 
+Include any single item you own worth over £500, but not:
+
+* household furniture and effects, unless they're of exceptional value
+* clothes
+* tools of your trade (eg computers for a graphic designer, carpentry tools for a carpenter)
+* the car or vehicle you use regularly, unless it's a classic car or luxury vehicle
+
+For classic cars, luxury vehicles and valuable household furniture and effects, give the value the item would sell for if you sold it today. 
+
 
 <h3 id="ecg-savings_money_owned">Do you have any money owed to you?</h3>
 
@@ -88,7 +98,7 @@ The total amount of money you earned before tax. Check your most recent payslips
 
 <h3 id="ecg-other_income">Other income</h3>
 
-Include child benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.
+Include Child Benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 
@@ -96,11 +106,11 @@ If client has both employment and self-employment choose 'employed' as they will
 
 <h3 id="ecg-dependants_over_16">Children aged 16 and over</h3>
 
-Nunc ut scelerisque ante. Ut eget justo accumsan, tempor metus non, ornare dui. Fusce iaculis lobortis libero, et facilisis turpis adipiscing vitae. Aliquam erat volutpat. Praesent fringilla sit amet est in volutpat. Sed dui quam, blandit eu consequat ut, convallis eu quam. Ut faucibus, lectus sed varius rutrum, justo tellus elementum nibh, eu pretium eros ante id enim. Phasellus gravida, sapien et rhoncus cursus, nunc eros mattis nisl, id suscipit leo elit sit amet magna. Nunc sit amet massa at elit ullamcorper dignissim. Donec pretium lacinia justo, eu pharetra massa tincidunt in. Cras ut erat lectus. Vivamus a lectus sit amet massa faucibus egestas vel vitae tellus.
+The number and age of your children affects how much you can earn and still be eligible for legal aid. The rules are different for young people over 16 and children aged 15 or under. 
 
 <h3 id="ecg-dependants_under_16">Children aged 15 and under</h3>
 
-uis scelerisque quis, sodales et enim. Pellentesque at sagittis quam. Nam molestie, erat sed aliquam consequat, risus velit sagittis orci, id imperdiet tellus metus quis mi. Nullam quis tellus lobortis, ornare elit vel, pretium felis. Praesent non tellus ac eros porttitor sollicitudin quis et dui. Curabitur pulvinar nibh posuere erat eleifend posuere. Donec nec arcu et ni
+The number and age of your children affects how much you can earn and still be eligible for legal aid. The rules are different for young people over 16 and children aged 15 or under. 
 
 ## Expenses
 
