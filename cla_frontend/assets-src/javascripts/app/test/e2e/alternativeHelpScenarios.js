@@ -142,7 +142,7 @@
       });
 
       //      An in-scope / eligible case shouldn't see ECF message;
-      iit('should be able to decline help (in_scope)', function () {
+      it('should be able to decline help (in_scope)', function () {
 
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get('call_centre/' + case_ref + "/");
