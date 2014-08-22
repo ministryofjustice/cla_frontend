@@ -104,11 +104,11 @@ If client has both employment and self-employment choose 'employed' as they will
 
 <h3 id="ecg-dependants_over_16">Children aged 16 and over</h3>
 
-Nunc ut scelerisque ante. Ut eget justo accumsan, tempor metus non, ornare dui. Fusce iaculis lobortis libero, et facilisis turpis adipiscing vitae. Aliquam erat volutpat. Praesent fringilla sit amet est in volutpat. Sed dui quam, blandit eu consequat ut, convallis eu quam. Ut faucibus, lectus sed varius rutrum, justo tellus elementum nibh, eu pretium eros ante id enim. Phasellus gravida, sapien et rhoncus cursus, nunc eros mattis nisl, id suscipit leo elit sit amet magna. Nunc sit amet massa at elit ullamcorper dignissim. Donec pretium lacinia justo, eu pharetra massa tincidunt in. Cras ut erat lectus. Vivamus a lectus sit amet massa faucibus egestas vel vitae tellus.
+The number and age of your children affects how much you can earn and still be eligible for legal aid. The rules for children aged over 16 are different to the rules for children aged 15 and under. 
 
 <h3 id="ecg-dependants_under_16">Children aged 15 and under</h3>
 
-uis scelerisque quis, sodales et enim. Pellentesque at sagittis quam. Nam molestie, erat sed aliquam consequat, risus velit sagittis orci, id imperdiet tellus metus quis mi. Nullam quis tellus lobortis, ornare elit vel, pretium felis. Praesent non tellus ac eros porttitor sollicitudin quis et dui. Curabitur pulvinar nibh posuere erat eleifend posuere. Donec nec arcu et ni
+The number and age of your children affects how much you can earn and still be eligible for legal aid. The rules for children aged over 16 are different to the rules for children aged 15 and under. 
 
 ## Expenses
 
