@@ -96,6 +96,8 @@
 
           var submitButton = browser.findElement(by.css('button[name="assign-alternative-help"]'));
           browser.getCurrentUrl().then(function (caseUrl) {
+            utils.scrollTo(submitButton);
+            
             submitButton.sendKeys(protractor.Key.ENTER);
             browser.waitForAngular();
             browser.get(caseUrl);
