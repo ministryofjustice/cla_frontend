@@ -3,11 +3,11 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'logManager', 
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, logManager){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'log_set',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, log_set){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
-          $scope.logManager = logManager;
+          $scope.log_set = log_set;
           $scope.eligibility_check = $eligibility_check;
           $scope.diagnosis = $diagnosis;
           $scope.personal_details = $personal_details;
@@ -47,7 +47,7 @@
       function ($scope, $modal) {
         $scope.logSet = [];
         
-        $scope.$watch('logManager.logset', function(newVal) {
+        $scope.$watch('log_set.data', function(newVal) {
           // log set grouping
           var currentTimer = null;
           $scope.logSet = [];
@@ -66,8 +66,6 @@
             }
           });
         });
-
-        $scope.logManager.refresh();
 
         $scope.showDiagnosisSummary = function(log) {
           $modal.open({

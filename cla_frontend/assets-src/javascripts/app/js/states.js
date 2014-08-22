@@ -84,11 +84,13 @@
         mediacodes: ['MediaCode', function(MediaCode) {
           return MediaCode.get().$promise;
         }],
-        logManager: ['case', 'LogManager', function(case_, LogManager) {
-          return new LogManager(case_.reference);
-        }],
-        modelsEventManager: ['case', 'eligibility_check', 'diagnosis', 'ModelsEventManager', function(case_, eligibility_check, diagnosis, ModelsEventManager) {
-          return new ModelsEventManager(case_, eligibility_check, diagnosis);
+        log_set: function() {
+          return {
+            data: []
+          };
+        },
+        modelsEventManager: ['case', 'eligibility_check', 'diagnosis', 'log_set', 'ModelsEventManager', function(case_, eligibility_check, diagnosis, log_set, ModelsEventManager) {
+          return new ModelsEventManager(case_, eligibility_check, diagnosis, log_set);
         }],
       },
       views: {
