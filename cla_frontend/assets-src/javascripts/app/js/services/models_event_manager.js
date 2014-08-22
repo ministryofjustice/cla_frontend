@@ -2,8 +2,8 @@
 (function(){
 
   angular.module('cla.services')
-    .factory('ModelsEventManager', ['postal', function(postal) {
-      return function(case_, eligibility_check, diagnosis) {
+    .factory('ModelsEventManager', ['postal', 'Log', function(postal, Log) {
+      return function(case_, eligibility_check, diagnosis, log_set) {
         var subscriptions = [],
             configured = false;
 
@@ -31,11 +31,19 @@
                 }
               })
             );
+
+            this.refreshLogs();
           },
 
           onExit: function() {
             angular.forEach(subscriptions, function(subscription) {
               subscription.unsubscribe();
+            });
+          },
+
+          refreshLogs: function() {
+            Log.query({case_reference: case_.reference}).$promise.then(function(data) {
+              log_set.data = data;
             });
           }
         };
