@@ -79,7 +79,7 @@ Include any single item you own worth over £500, but not:
 * household furniture and effects, unless they're of exceptional value
 * clothes
 * tools of your trade (eg computers for a graphic designer, carpentry tools for a carpenter)
-* the car or vehicle you uses regularly, unless it's a classic car or luxury vehicle
+* the car or vehicle you use regularly, unless it's a classic car or luxury vehicle
 
 For classic cars, luxury vehicles and valuable household furniture and effects, give the value the item would sell for if you sold it today. 
 
@@ -96,7 +96,7 @@ The total amount of money you earned before tax. Check your most recent payslips
 
 <h3 id="ecg-other_income">Other income</h3>
 
-Include child benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.
+Include Child Benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 
@@ -104,11 +104,11 @@ If client has both employment and self-employment choose 'employed' as they will
 
 <h3 id="ecg-dependants_over_16">Children aged 16 and over</h3>
 
-The number and age of your children affects how much you can earn and still be eligible for legal aid. The rules for children aged over 16 are different to the rules for children aged 15 and under. 
+The number and age of your children affects how much you can earn and still be eligible for legal aid. The rules are different for young people over 16 and children aged 15 or under. 
 
 <h3 id="ecg-dependants_under_16">Children aged 15 and under</h3>
 
-The number and age of your children affects how much you can earn and still be eligible for legal aid. The rules for children aged over 16 are different to the rules for children aged 15 and under. 
+The number and age of your children affects how much you can earn and still be eligible for legal aid. The rules are different for young people over 16 and children aged 15 or under. 
 
 ## Expenses
 
