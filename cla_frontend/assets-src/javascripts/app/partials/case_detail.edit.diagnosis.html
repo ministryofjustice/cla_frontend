@@ -16,6 +16,11 @@
     </details>
   </div>
 
+  <div ng-show="category">
+    <strong>Category</strong>: {{category.name}}
+    <p ng-bind-html="category.description|nl2br"></p>
+  </div>
+
   <div class="FormActions">
     <button type="submit" class="Button" ng-click="createDiagnosis" ng-show="!diagnosis.reference">Create scope diagnosis</button>
 
