@@ -81,7 +81,7 @@
           browser.findElement(alternative_help_link).click();
 
 
-          var provider_inputs = browser.findElements(by.css('input[name=selected_providers]')) || [];
+          var provider_inputs = browser.findElements(by.css('input[name="selected_providers"]')) || [];
           provider_inputs.then(function (data) {
             var to_select;
 
@@ -94,9 +94,10 @@
             }
           });
 
-          var submitButton = browser.findElement(by.css('button[name=assign-alternative-help]'));
+          var submitButton = browser.findElement(by.css('button[name="assign-alternative-help"]'));
           browser.getCurrentUrl().then(function (caseUrl) {
-            submitButton.click();
+            submitButton.sendKeys(protractor.Key.ENTER);
+            browser.waitForAngular();
             browser.get(caseUrl);
             checkOutcomeCode('IRKB');
           });
@@ -126,7 +127,7 @@
 
 
 
-          var submitButton = browser.findElement(by.css('button[name=assign-f2f]'));
+          var submitButton = browser.findElement(by.css('button[name="assign-f2f"]'));
           expect(submitButton.isEnabled()).toBe(false);
 
           browser.findElement(by.css('textarea[name="notes"]')).sendKeys('test');
@@ -204,7 +205,7 @@
 
       function pickECFStatement() {
 
-        browser.findElement(by.css('input[name="ecf_statement"]:first-child')).click();
+        browser.findElement(by.css('input[name="ecf_statement"][value="CLIENT_TERMINATED"]:first-child')).click();
         browser.findElement(by.css('div.modal button[type="submit"]')).submit();
         browser.waitForAngular();
       }
@@ -212,7 +213,7 @@
       function declineHelp() {
         expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Decline Help');
         expect(browser.isElementPresent(by.repeater('code in codes'))).toBe(true);
-        browser.findElement(by.css('input[name="code"]:first-child')).click();
+        browser.findElement(by.css('input[name="code"][value="DECL"]:first-child')).click();
         }
 
       function checkOutcomeCode(code) {
