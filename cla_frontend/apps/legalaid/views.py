@@ -3,6 +3,9 @@ import json
 from django.shortcuts import redirect
 from django.conf import settings
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+
+import requests
 
 from api.client import get_connection
 
@@ -33,9 +36,24 @@ def case_means_summary(request, case_reference):
     output = formatter.format(eligibility_check)
 
     class SmartEncoder(json.JSONEncoder):
+
         def default(self, obj):
             if hasattr(obj, '__promise__'):
                 return unicode(obj)
             return json.JSONEncoder.default(self, obj)
 
-    return HttpResponse(json.dumps(output, cls=SmartEncoder), content_type="application/json")
+    return HttpResponse(json.dumps(output, cls=SmartEncoder),
+                        content_type="application/json")
+
+
+@login_required
+def addressfinder_proxy_view(request, path):
+    resp = requests.get(
+        "%s/%s?%s" % (settings.ADDRESSFINDER_API_HOST,
+                      path, request.GET.urlencode()),
+        headers={
+            'Authorization': 'Token %s' % settings.ADDRESSFINDER_API_TOKEN
+        }
+    )
+
+    return HttpResponse(resp.text, content_type="application/json")
