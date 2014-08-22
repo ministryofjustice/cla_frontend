@@ -61,7 +61,7 @@ If you are the only owner of the property, they own 100% of the property. If two
 
 <h3 id="ecg-undisputed_savings">Undisputed savings</h3>
 
-These are saving where the ownership is not disputed by anyone eg a partner is not trying to claim them as part of the financial settlement of a divorce or separation. 
+Undisputed savings are savings where the ownership is not disputed by anyone eg a partner is not trying to claim them as part of the financial settlement of a divorce or separation. 
 
 <h3 id="ecg-disputed_savings">Disputed savings</h3>
 
@@ -69,9 +69,11 @@ Disputed savings are savings where the ownership of the savings is disputed by s
 
 <h3 id="ecg-savings_bank_balance">Do you have any money saved in a bank or building society?</h3>
 
-sectetur adipiscing elit. Aliquam vitae massa nibh. Etiam eros felis, ornare nec nibh eu, egestas cursus nulla. Aliquam viverra, libero et facilisis imperdiet, justo turpis pulvinar ligula, ac posuere elit nulla id lectus. Maecenas lobortis lectus nulla, eu consectetur nunc gravida a. Nullam non dolor et lorem aliquet lobortis et dignissim felis. Donec condimentum varius tortor, non
+This includes all savings in any type of bank, building society or post office savings account. 
 
-<h3 id="ecg-savings_investments">Do you have any investments, shares, ISAs?</h3>
+<h3 id="ecg-savings_investments">Do you have any investments, shares and ISAs?</h3>
+
+This includes all foreign and domestic investments including shares, bonds and ISAs. 
 
 
 <h3 id="ecg-savings_valuable_items">Do you have any valuable items over £500 each?</h3>
