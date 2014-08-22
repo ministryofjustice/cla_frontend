@@ -7,58 +7,53 @@ tags:
 ---
 
 
-## Your problem
-
-<h3 id="ecg-your_problem">What is your problem about? What is putting you at immediate risk?</h3>
-
-*Overall guidance text to be added.*
 
 ## Your Details
 
 <h3 id="ecg-has_partner">Do you have a partner?</h3>
 
-Legal aid is calculated on both you and your partner's money. A 'partner' is a person you're married to or a person you live with as if you're married
+Legal aid is calculated on both you and your partner's money. A 'partner' is someone you're married to or live with as if you're married.
 
-<h3 id="ecg-on_nass_benefits">Are you on nass Benefits?</h3>
+<h3 id="ecg-on_nass_benefits">Are you on National Asylum Support Service benefits?</h3>
 
-NASS (National Asylum Support Service) benefits are paid to eligible destitute asylum seekers as vouchers. Note that NASS benefits will only passport the means test if the matter is an immigration one.
+National Asylum Support Service (NASS) benefits are paid to eligible destitute asylum seekers as vouchers. Note that NASS benefits will only allow you to "passport" the means test if the matter is an immigration one.
 
-<h3 id="ecg-on_passported_benefits">Are you on Passported Benefits?</h3>
+<h3 id="ecg-on_passported_benefits">Are you on any of these benefits? (Read out this list to client)</h3>
 
 * Income Support
-* Income-Based Job Seeker's Allowance *(not contributions-based)*
+* Income-Based Job Seeker's Allowance *(but not contributions-based)*
 * Income-Related Employment and Support Allowance
 * Guarantee Credit or Universal Credit
 
-Search guidance for "disregarded benefits" in order to see benefits that need not be included. All other benefits should be declared as income.
+Some benefits do not need to be declared as income - search the guidance for 'disregarded benefits' to a list of these. All other benefits should be declared as income.
 
 <h3 id="ecg-over_60">Are you or your partner aged 60 or over?</h3>
 
-A person who is over 60 is entitled to additional capital allowances on the means test, based on their income.
+A person who is over 60 is entitled to extra capital allowances on the means test, based on their income.
 
 ## Your properties
 
-<h3 id="ecg-property_worth">How much is it worth?</h3>
+<h3 id="ecg-property_worth">How much is the property worth?</h3>
 
-Use client's estimate, or online price comparison site.
+Use the client's estimate, or an online price comparison site.
 
 <h3 id="ecg-property_mortgage_left">How much is left to pay on the mortgage?</h3>
 
-Include the full amount - a shared ownership will still have one mortgage. 
+Include the full amount owing - a property with shared ownership will still have one mortgage. 
 
 <h3 id="ecg-property_disputed">Is this property disputed?</h3>
 
-Is a partner seeking to claim the property? Is a creditor or mortgage company seeking to force the sale? Additional allowances will apply if so. Look in guidance for SMOD for additional guidance on scenarios.
+Is a partner seeking to claim the property? Is a creditor or mortgage company seeking to force the sale? If so, additional allowances will apply. Look in guidance for 'SMOD' for more guidance on scenarios.
 
 <h3 id="ecg-property_main">Is this your main property?</h3>
 
-This is the property in which the client lives. If they have separated and are now living elsewhere their former house is no longer the main property. 
+This is the property in which the client lives. If they are separated and are now living elsewhere their former house is no longer the main property. 
 
 Legal aid is based on how much money you have. That means any property you own must be considered, even if you don't live in it. Your 'home' is where you live as your only or main residence and includes caravans, houseboats or other vehicles.
 
-<h3 id="ecg-property_share">What is your share of the property?</h3>
+<h3 id="ecg-property_share">What percentage of the property do you own?</h3>
 
-Vestibulum viverra justo at felis ultricies, a commodo nunc vehicula. Lorem ipsum dolor sit amet, consectetur adipiscing elit
+If the client is the sole owner of the property, they own 100% of the property. If two or more people own the property, assume they own equal shares in it unless the client tells you otherwise. (For example, a couple who own their home as joint owners own 50%  of the property each). 
 
 ## Savings
 
