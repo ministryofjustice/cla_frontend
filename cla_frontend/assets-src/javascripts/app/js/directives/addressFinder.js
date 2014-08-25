@@ -45,7 +45,7 @@
       return editableDirectiveFactory({
         directiveName: 'editableAddressFinder',
         inputTpl: '<address-finder></address-finder>',
-        useCopy: true
+        useCopy: false
       });
     }]);
 
