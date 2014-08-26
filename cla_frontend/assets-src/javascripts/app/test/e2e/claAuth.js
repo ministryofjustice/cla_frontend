@@ -30,7 +30,7 @@
 
       it('should allow the operator to login using a modal if logged out', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          utils.goToCase(case_ref);
 
           utils.showPersonalDetailsForm();
           utils.enterPersonalDetails({

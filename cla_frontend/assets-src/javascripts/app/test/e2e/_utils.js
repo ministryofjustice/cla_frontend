@@ -265,6 +265,16 @@
         'Expenses': {
         }
       });
+    },
+
+    goToCase: function(case_ref, startTimer) {
+      if (startTimer) {
+        browser.executeScript(function () {
+          angular.element('body').scope().$emit('timer:start');
+        });
+      }
+
+      browser.get('call_centre/'+case_ref+"/");
     }
 
   };
