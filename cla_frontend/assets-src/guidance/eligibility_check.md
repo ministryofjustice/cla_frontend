@@ -25,7 +25,9 @@ National Asylum Support Service (NASS) benefits are paid to eligible destitute a
 * Income-Related Employment and Support Allowance
 * Guarantee Credit or Universal Credit
 
-Some benefits do not need to be declared as income - search the guidance for 'disregarded benefits' to a list of these. All other benefits should be declared as income.
+Being on any of the benefits listed above means that a person automatically qualifies through the income part of the means test, although they can still be ineligible if they have too much capital.
+
+Some benefits do not need to be declared as income - search the guidance for 'disregarded benefits' to see a list of these. All other benefits should be declared as income.
 
 <h3 id="ecg-over_60">Are you or your partner aged 60 or over?</h3>
 
