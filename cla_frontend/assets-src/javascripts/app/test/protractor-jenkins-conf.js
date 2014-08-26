@@ -2,14 +2,9 @@ var extend = require('extend');
 var defaults = require('./protractor-default-conf').config;
 
 exports.config = extend(defaults, {
-  baseUrl: 'http://jenkins.local.dsd.io:8001/',
+  baseUrl: 'http://72085322.ngrok.com/',
 
   multiCapabilities: [
-    {
-      browserName: 'chrome',
-      platform: 'OS X 10.9',
-      version: ''
-    },
     {
       browserName: 'firefox',
       platform: 'OS X 10.9',
