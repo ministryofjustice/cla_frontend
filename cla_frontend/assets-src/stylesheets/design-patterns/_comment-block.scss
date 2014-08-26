@@ -6,6 +6,6 @@
   }
 }
 .CommentBlock-author {
-  padding-top: 2px;
-  float: right;
+  @include core-14;
+  padding-bottom: 5px;
 }

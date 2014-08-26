@@ -3,21 +3,9 @@
     <notes-form ng-model="case.notes" case="case"></notes-form>
   </div>
 
-  <div data-block="case-notes-summary" ng-show="case.provider_notes">
-    <hr class="u-horLine">
-
-    <section class="SummaryBlock">
-      <h2 class="SummaryBlock-heading">Provider notes</h2>
-      <div class="SummaryBlock-list">{{ case.provider_notes }}</div>
-    </section>
-  </div>
-
-  <div data-block="case-notes-summary" ng-show="case.provider_notes">
-    <hr class="u-horLine">
-
-    <section class="SummaryBlock">
-      <h2 class="SummaryBlock-heading">Provider notes</h2>
-      <div class="SummaryBlock-list">{{ case.provider_notes }}</div>
-    </section>
+  <div data-block="case-notes-summary" ng-show="case.notes">
+    <figure class="CommentBlock Icon Icon--row Icon--comments">
+      <blockquote class="Quote" ng-bind-html="case.provider_notes|nl2br"></blockquote>
+    </figure>
   </div>
 </div>

@@ -4,20 +4,8 @@
   </div>
 
   <div data-block="case-notes-summary" ng-show="case.notes">
-    <hr class="u-horLine">
-
-    <section class="SummaryBlock">
-      <h2 class="SummaryBlock-heading">Operator notes</h2>
-      <div class="SummaryBlock-list">{{ case.notes }}</div>
-    </section>
-  </div>
-
-  <div data-block="case-notes-summary" ng-show="case.notes">
-    <hr class="u-horLine">
-
-    <section class="SummaryBlock">
-      <h2 class="SummaryBlock-heading">Operator notes</h2>
-      <div class="SummaryBlock-list">{{ case.notes }}</div>
-    </section>
+    <figure class="CommentBlock Icon Icon--row Icon--comments">
+      <blockquote class="Quote" ng-bind-html="case.notes|nl2br"></blockquote>
+    </figure>
   </div>
 </div>
