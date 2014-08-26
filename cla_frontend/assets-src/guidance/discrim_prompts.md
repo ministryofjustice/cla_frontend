@@ -11,11 +11,14 @@ tags:
 
 ---
 
-Key questions to ask (sensitively to what client has said) include: 
+Key questions to ask (sensitively to what the client has said) include: 
 
-* do you think you have been singled out, or treated differently or experienced worse treatment than someone else? If so, why? 
+* do you think you have been singled out, or treated differently, or experienced worse treatment than someone else? If so, why? 
+
 * do you think you have been disadvantaged in some way? If so, how? 
-* do you think that rules, practices or ways of doing things have put you at a disadvantage? If so, how? 
+
+* do you think that rules, practices or ways of doing things have put you at a disadvantage? If so, how?
+
 * did something happen to make you feel that you were in an environment that was intimidating, hostile, degrading, humiliating or offensive, or that violated your dignity? 
 
 * do you think that what has happened to you is because you have previously complained of discrimination, brought a claim of discrimination, supported someone else’s claim or been suspected of doing one of these things? If so, why? 
