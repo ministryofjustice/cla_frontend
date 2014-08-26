@@ -29,6 +29,16 @@
             $scope.personal_details.street = $scope.address.street;
           });
 
+          $scope.thirdparty_address = {
+            postcode: $scope.third_party.personal_details.postcode,
+            street: $scope.third_party.personal_details.street
+          };
+
+          $scope.$watchCollection('thirdparty_address', function(){
+            $scope.third_party.personal_details.postcode = $scope.thirdparty_address.postcode;
+            $scope.third_party.personal_details.street = $scope.thirdparty_address.street;
+          });
+
           $scope.selected_adaptations = [];
           $scope.adaptation_flags = {};
           angular.forEach(adaptations_metadata.actions.POST, function (item, i) {
