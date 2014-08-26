@@ -43,20 +43,6 @@
       </span>
     </label>
 
-    <!--label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.postcode.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.postcode.$error.server">{{ errors.postcode }}</span>
-      <span class="Icon--formRow Icon Icon--location">
-        <span editable-text="third_party.personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode"></span>
-      </span>
-    </label>
-
-    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.street.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.street.$error.server">{{ errors.street }}</span>
-      <span class="Icon--formRow Icon Icon--address">
-        <span editable-textarea="third_party.personal_details.street" e-name="street" e-class="FormRow-field--full" e-placeholder="Address" e-rows="3" e-cols="20" e-maxlength="255"></span>
-      </span>
-    </label-->
-
     <div class="AddressLookup" ng-class="{Error: third_party_frm.postcode.$invalid || third_party_frm.street.$invalid && thirdparty_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
       <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>

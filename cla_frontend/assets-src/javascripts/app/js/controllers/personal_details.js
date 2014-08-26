@@ -134,8 +134,6 @@
                 mcPromise = $q.defer(),
                 selected_adaptation = this.selected_adaptations;
 
-            //console.log($scope.address);
-
             if ($scope.language.welsh_override) {
               $scope.adaptations.language = 'WELSH';
             }
