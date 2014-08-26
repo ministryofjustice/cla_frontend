@@ -40,10 +40,9 @@
       }
 
       function checkAssign(case_ref) {
-        browser.getLocationAbsUrl().then(function(url) {
+        return browser.getLocationAbsUrl().then(function(url) {
           browser.findElement(by.css('.Notice.success')).getInnerHtml().then(function(el) {
             expect(el).toContain('Case '+case_ref+' assigned to');
-            return el;
           });
         });
       }
