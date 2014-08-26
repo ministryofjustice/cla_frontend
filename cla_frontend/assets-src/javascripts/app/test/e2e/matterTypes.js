@@ -52,6 +52,25 @@
         });
       }
 
+      it('should not allow assigning without diagnosis or eligibility', function () {
+        modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
+          browser.get('call_centre/'+case_ref+"/");
+
+          goto_assign();
+
+
+          var modalEl = browser.findElement(by.css('div.modal'));
+          modalEl.findElement(by.css('input[name="matter_type1"]')).click();
+          modalEl.findElement(by.css('input[name="matter_type2"]')).click();
+          modalEl.findElement(by.css('button[type="submit"]')).click();
+          expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
+
+          browser.findElement(by.css('.Notice.error')).getInnerHtml().then(function(el) {
+            expect(el).toBe('The Case must be in scope and eligible to be assigned.');
+          });
+        });
+      });
+
       it('should not allow assigning a case without required fields', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
           browser.get('call_centre/'+case_ref+"/");
