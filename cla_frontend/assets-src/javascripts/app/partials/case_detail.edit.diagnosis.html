@@ -1,6 +1,9 @@
 <form ng-submit="moveDown()" novalidate name="form">
   <section class="SummaryBlock SummaryBlock--compact" ng-show="diagnosis.nodes">
     <div class="SummaryBlock-content" ng-repeat="statement in diagnosis.nodes" ng-bind-html="statement.label"></div>
+    <p class="SummaryBlock-content" ng-show="category">
+      <strong>Category of law</strong>: {{category.name}}
+    </p>
   </section>
 
   <div class="FormRow FormRow--group FormRow--groupNarrow FormRow--details" ng-repeat="choice in diagnosis.choices">
@@ -14,11 +17,6 @@
       <summary>Help</summary>
       <div ng-bind-html="choice.help_text"></div>
     </details>
-  </div>
-
-  <div ng-show="category">
-    <strong>Category</strong>: {{category.name}}
-    <p ng-bind-html="category.description|nl2br"></p>
   </div>
 
   <div class="FormActions">
