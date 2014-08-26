@@ -40,12 +40,8 @@
       }
 
       function checkAssign(case_ref) {
-        return browser.getLocationAbsUrl().then(function(url) {
-          utils.expectUrl(url, utils.APP_BASE_URL);
-          browser.findElement(by.css('.Notice.success')).getInnerHtml().then(function(el) {
-            expect(el).toContain('Case '+case_ref+' assigned to');
-          });
-        });
+        var txt = browser.findElement(by.css('.Notice.success')).getInnerHtml();
+        expect(txt).toContain('Case '+case_ref+' assigned to');
       }
 
       function assignAnyProvider() {
