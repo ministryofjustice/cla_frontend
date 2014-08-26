@@ -141,6 +141,12 @@
           var deferred = $q.defer();
 
           if (!diagnosis.isInScopeTrue() && !eligibility_check.state) {
+            deferred.reject({
+              msg: 'You must complete an <strong>in scope diagnosis</strong> before completing the financial assessment',
+              case: $case.reference,
+              goto: 'case_detail.edit.diagnosis'
+            });
+
             // reject promise and handle in $stateChangeError
             deferred.reject({case: $case.reference});
           } else {
@@ -243,6 +249,24 @@
           templateUrl:'call_centre/case_detail.assign.html',
           controller: 'AssignProviderCtrl'
         }
+      },
+      resolve: {
+        // check that the eligibility check can be accessed
+        CanAssign: ['$q', 'diagnosis', 'eligibility_check', 'case', function ($q, diagnosis, eligibility_check, $case) {
+          var deferred = $q.defer();
+
+          if (!diagnosis.isInScopeTrue() || !eligibility_check.isEligibilityTrue()) {
+            // reject promise and handle in $stateChangeError
+            deferred.reject({
+              msg: 'The Case must be in scope and eligible to be assigned.',
+              case: $case.reference,
+              goto: 'case_detail.edit.diagnosis'
+            });
+          } else {
+            deferred.resolve();
+          }
+          return deferred.promise;
+        }]
       }
     };
 
