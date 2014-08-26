@@ -270,18 +270,6 @@
       }
     };
 
-    operatorStates.CaseEditDetailAssignCompleteState = {
-      parent: 'case_detail.assign',
-      name: 'case_detail.assign.complete',
-      url: 'complete/',
-      views: {
-        '@case_detail': {
-          templateUrl:'call_centre/case_detail.assign.complete.html',
-          controller: 'AssignProviderCompleteCtrl'
-        }
-      }
-    };
-
     operatorStates.CaseDetailDeferAssignmentState = {
       parent: 'case_detail',
       name: 'case_detail.defer_assignment',

@@ -2,8 +2,8 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', '$stateParams',
-      function($scope, _, $state, form_utils, $stateParams) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', '$stateParams', 'flash',
+      function($scope, _, $state, form_utils, $stateParams, flash) {
         $scope.is_manual = false;
         $scope.is_spor = false;
         $scope.suggested_providers = [];
@@ -49,10 +49,9 @@
             data.notes = $scope.notes;
           }
           $scope.case.$assign(data).then(
-            function() {
-              $state.go('case_detail.assign.complete', {}, {
-                'reload': true
-              });
+            function(response) {
+              $state.go('case_list');
+              flash('success', 'Case '+$scope.case.reference+' assigned to '+response.data.name);
             },
             function(data) {
               form_utils.ctrlFormErrorCallback($scope, data, form);
