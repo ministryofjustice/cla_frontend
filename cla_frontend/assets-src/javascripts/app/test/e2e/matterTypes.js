@@ -40,7 +40,7 @@
       }
 
       function checkAssign(case_ref) {
-        browser.findElement(by.css('.Notice.success')).getInnerHtml().then(function(el) {
+        return browser.findElement(by.css('.Notice.success')).getInnerHtml().then(function(el) {
           expect(el).toContain('Case '+case_ref+' assigned to');
         });
       }
