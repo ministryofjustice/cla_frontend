@@ -19,6 +19,16 @@
             $scope.language.disable = true;
           }
 
+          $scope.address = {
+            postcode: $scope.personal_details.postcode,
+            street: $scope.personal_details.street
+          };
+
+          $scope.$watchCollection('address', function(){
+            $scope.personal_details.postcode = $scope.address.postcode;
+            $scope.personal_details.street = $scope.address.street;
+          });
+
           $scope.selected_adaptations = [];
           $scope.adaptation_flags = {};
           angular.forEach(adaptations_metadata.actions.POST, function (item, i) {
@@ -113,6 +123,8 @@
                 adaptationsPromise = $q.defer(),
                 mcPromise = $q.defer(),
                 selected_adaptation = this.selected_adaptations;
+
+            //console.log($scope.address);
 
             if ($scope.language.welsh_override) {
               $scope.adaptations.language = 'WELSH';
