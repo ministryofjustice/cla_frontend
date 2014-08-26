@@ -13,7 +13,7 @@
       link: function(scope, elem, attrs, ngModelCtrl) {
         ngModelCtrl.$setViewValue(scope.model);
       },
-      controller: function($scope, $element){
+      controller: function($scope){
         $scope.findAddress = function(){
           $scope.loading = true;
           $scope.addresses = [];
@@ -32,9 +32,7 @@
               scope: $scope,
               controller: 'AddressFinderModalCtl',
             });
-
           });
-
         };
       }
     };
@@ -73,7 +71,7 @@
             $scope.$parent.model.postcode = parts.pop();
             $scope.$parent.model.street = parts.join('\n');
             $modalInstance.close();
-          }
+          };
         }
       ]
     );
