@@ -4,7 +4,7 @@
   var protractor = require('protractor');
 
   function set_diagnosis_choices(choices) {
-    browser.findElement(by.buttonText('New scope diagnosis')).click();
+    browser.findElement(by.buttonText('Create scope diagnosis')).click();
 
     function next_step() {
       browser.findElement(by.buttonText('Next')).click();
@@ -14,8 +14,6 @@
       var options = browser.findElements(by.repeater('choice in diagnosis.choices'));
       options.then(select_option_matching(choice)).then(next_step);
     });
-
-    return_to_case();
   }
 
   function select_option_matching(choice) {
@@ -34,15 +32,11 @@
     return select_matching;
   }
 
-  function return_to_case() {
-    browser.findElement(by.cssContainingText('a', 'Return to case')).click();
-  }
-
   function complete_means_test(answers) {
-    show_means_test();
+    // show_means_test();
     for (var section in answers) {
       var handler = {
-        'problem': complete_means_test_problem_section,
+        // 'problem': complete_means_test_problem_section,
         'details': complete_means_test_details_section,
         'finances': complete_means_test_finances_section,
         'income': complete_means_test_income_section,
@@ -51,45 +45,16 @@
       handler && handler(answers[section]);
     }
     $('[name=save-means-test]').click();
-    return_to_case();
-  }
-
-  function show_means_test() {
-    var _visible = function (text, success, fail) {
-      var button = browser.findElement(by.buttonText(text));
-      if (button) {
-        return button.isDisplayed().then(function (visible) {
-          if (visible && success) return success(button);
-          if (!visible && fail) return fail(button);
-        });
-      }
-    };
-
-    var _click = function (button) { button.click() };
-
-    _visible('New means test', _click, function () {
-      _visible('Complete means test', _click);
-    });
-  }
-
-  function complete_means_test_problem_section(answer) {
-    show_means_test_section(0);
-    var options = browser.findElements(by.repeater('category in category_list'));
-    try {
-      options.then(select_option_matching(answer));
-    } catch (e) {
-      throw 'Failed selecting means test problem: "' + e + '"';
-    }
   }
 
   function show_means_test_section(i) {
     var section = browser.findElement(by.repeater('section in sections').row(i));
-    section.findElement(by.css('h2')).click();
+    section.findElement(by.css('a')).click();
     return section;
   }
 
   function complete_means_test_details_section(answers) {
-    var section = show_means_test_section(1);
+    var section = show_means_test_section(0);
     for (var question in answers) {
       var value = answers[question].toLowerCase() == 'yes' ? '1' : '0';
       var id = '#id_your_details-' + question + '_' + value;
@@ -101,7 +66,7 @@
   var _ec = prefix('eligibility_check.');
 
   function complete_means_test_finances_section(answers) {
-    show_means_test_section(2);
+    show_means_test_section(1);
     add_properties(answers);
     var field_names = [
       'bank_balance',
@@ -130,7 +95,7 @@
   }
 
   function complete_means_test_income_section(answers) {
-    show_means_test_section(3);
+    show_means_test_section(2);
     ['you.', 'partner.'].map(function (pre) {
       var p = prefix(pre);
       set_money_interval(_ec(p('income.earnings')), answers[p('income.earnings')], '0');
@@ -152,7 +117,7 @@
   }
 
   function complete_means_test_expenses_section(answers) {
-    show_means_test_section(4);
+    show_means_test_section(3);
     var field_names = [
       'deductions.mortgage',
       'deductions.rent',
@@ -220,10 +185,6 @@
       );
     },
 
-    // getCase: function(case_id) {
-    //   return browser.get(this.APP_BASE_URL + case_id + '/');
-    // },
-
     createCase: function() {
       var pro = protractor.getInstance(),
           _this = this;
@@ -259,17 +220,13 @@
       this.scrollTo(browser.findElement(by.id('personal_details')));
     },
 
-    setCategory: function(category) {
-      show_means_test();
-      complete_means_test_problem_section(category);
-      browser.findElement(by.css("button[name='save-means-test']")).click();
+    setCaseNotes: function(notes) {
+      this.fillField('notes', notes);
     },
 
     set_diagnosis_choices: set_diagnosis_choices,
     select_option_matching: select_option_matching,
-    return_to_case: return_to_case,
     complete_means_test: complete_means_test,
-    show_means_test: show_means_test,
     show_means_test_section: show_means_test_section,
     fill_model_field: fill_model_field,
     set_money_interval: set_money_interval,
@@ -292,7 +249,6 @@
 
     eligible: function () {
       complete_means_test({
-        'Problem': 'Family',
         'Details': {
           'has_partner': 'no',
           'nass_benefits': 'no',

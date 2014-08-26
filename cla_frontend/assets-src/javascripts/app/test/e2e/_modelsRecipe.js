@@ -111,6 +111,11 @@
             }
 
             $personalDetails.$save().then(function() {
+              if (!diagnosisNodes) {
+                callback(data.reference);
+                return;
+              }
+              
               _createDiagnosis().then(function () {
                 _completeDiagnosis(diagnosisNodes, function () {
                   _completeMeansTest().then(function () {
