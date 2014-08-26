@@ -1,5 +1,5 @@
 ---
-title: Education admissions
+title: Education prompts
 date: "2014-08-06 18:51"
 tags:
   - education
