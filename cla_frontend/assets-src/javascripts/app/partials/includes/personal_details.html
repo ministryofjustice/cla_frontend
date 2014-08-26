@@ -68,11 +68,11 @@
       </span>
     </label>
 
-    <fieldset class="FormRow FormRow--wide" ng-class="{Error: personaldetails_frm.postcode.$invalid || personaldetails_frm.street.$invalid && personaldetails_submitted}">
+    <div class="AddressLookup" ng-class="{Error: personaldetails_frm.postcode.$invalid || personaldetails_frm.street.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
       <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
       <span editable-address-finder="personal_details" e-name="addressfinder" e-placeholder="Postcode" e-server-error></span>
-    </fieldset>
+    </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>

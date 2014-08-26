@@ -1,10 +1,7 @@
 <label class="FormRow FormRow--narrow cf">
-  <span class="Icon Icon--formRow Icon--location">
-    <input name="postcode" type="text" ng-model="model.postcode" class="FormRow-field--full"
-        placeholder="Postcode">
-    <button type="button" class="Button Button--secondary" name="find-address" ng-click="findAddress()">
-        Find Address
-    </button>
+  <span class="Icon Icon--formRow Icon--location AddressLookup-postcodeRow">
+    <input name="postcode" type="text" ng-model="model.postcode" class="FormRow-field--full" placeholder="Postcode" ng-enter="findAddress()">
+    <button type="button" class="AddressLookup-search" name="find-address" ng-click="findAddress()">Find Address</button>
   </span>
 </label>
 

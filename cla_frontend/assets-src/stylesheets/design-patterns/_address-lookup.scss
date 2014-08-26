@@ -1,0 +1,31 @@
+.AddressLookup {
+  position: relative;
+}
+
+.AddressLookup-postcodeRow {
+  padding-right: 30px;
+
+  input[type="text"] {
+    border-right: 0;
+  }
+}
+
+.AddressLookup-search {
+  width: 30px;
+  height: 30px;
+  background: url(../images/icons/search-button.png) -2px -20px #6f777b;
+  text-indent: -1000px;
+  overflow: hidden;
+  border: 0;
+  margin-left: -1px;
+  z-index: 1;
+  float: left;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
+    background-color: lighten($grey-1, 5%);
+  }
+}
