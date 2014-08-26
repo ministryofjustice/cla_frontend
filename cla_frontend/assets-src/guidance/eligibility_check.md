@@ -25,9 +25,7 @@ National Asylum Support Service (NASS) benefits are paid to eligible destitute a
 * Income-Related Employment and Support Allowance
 * Guarantee Credit or Universal Credit
 
-Being on any of the benefits listed above means that a person automatically qualifies through the income part of the means test, although they can still be ineligible if they have too much capital.
-
-Some benefits do not need to be declared as income - search the guidance for 'disregarded benefits' to see a list of these. All other benefits should be declared as income.
+Being on any of the benefits listed above means that a person automatically qualifies through the income part of the means test, although they can still be ineligible if they have too much capital. These benefits are known as "passporting benefits". 
 
 <h3 id="ecg-over_60">Are you or your partner aged 60 or over?</h3>
 
@@ -103,6 +101,8 @@ The total amount of money you earned before tax. Check your most recent payslips
 <h3 id="ecg-other_income">Other income</h3>
 
 Include Child Benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.
+
+Some benefits do not need to be declared as income - search the guidance for 'disregarded benefits' to see a list of these. All other benefits should be included as income.
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 
