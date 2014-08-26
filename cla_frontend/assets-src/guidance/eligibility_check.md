@@ -65,7 +65,7 @@ Undisputed savings are savings where the ownership is not disputed by anyone eg 
 
 <h3 id="ecg-disputed_savings">Disputed savings</h3>
 
-Disputed savings are savings where the ownership of the savings is disputed by someone eg an ex-partner is seeking to claim a share as part of a divorce or separation. 
+Disputed savings are savings where the ownership of the savings is disputed by someone eg an ex-partner is seeking to claim a share as part of a divorce or separation. Look in guidance for 'SMOD' for more guidance on scenarios.
 
 <h3 id="ecg-savings_bank_balance">Do you have any money saved in a bank or building society?</h3>
 
