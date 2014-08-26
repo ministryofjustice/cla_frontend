@@ -18,6 +18,8 @@
       <p>{{ selected_provider.telephone_frontdoor }} (Front door)
         <br>{{ selected_provider.telephone_backdoor }} (Back door)</p>
     </div>
+
+    <p class="Notice">Provider phone short code <strong>{{ selected_provider.short_code }}</strong></p>
   </div>
 
   <div ng-show="is_manual && suggested_providers.length > 0">
@@ -32,6 +34,8 @@
 
         <p class="FormRow-inner">{{ provider.telephone_frontdoor }} (Front door)
           <br>{{ provider.telephone_backdoor }} (Back door)</p>
+
+        <p>Provider phone short code <strong>{{ provider.short_code }}</strong></p>
       </label>
     </div>
 

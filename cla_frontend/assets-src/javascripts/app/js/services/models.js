@@ -78,9 +78,9 @@
         }
       );
 
-      resource.prototype.$defer_assignment = function(data, successCallback) {
+      resource.prototype.$defer_assignment = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/defer_assignment/');
-        $http.post(url, data).success(successCallback);
+        return $http.post(url, data);
       };
 
       resource.prototype.get_suggested_providers = function(as_of){

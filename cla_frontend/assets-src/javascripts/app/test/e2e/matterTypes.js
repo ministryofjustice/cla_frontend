@@ -39,11 +39,9 @@
         return clicked;
       }
 
-      function checkAssign() {
-        expect(browser.isElementPresent(by.css('.ContactBlock'))).toBe(true);
-        expect(browser.isElementPresent(by.css('[data-centre-col] .Notice'))).toBe(true);
-        expect(browser.findElement(by.css('.PageHeader h1')).getText()).toContain('Assigned to');
-        expect(browser.findElement(by.css('[data-centre-col] .Notice')).getText()).toContain('Provider phone short code');
+      function checkAssign(case_ref) {
+        var txt = browser.findElement(by.css('.Notice.success')).getInnerHtml();
+        expect(txt).toContain('Case '+case_ref+' assigned to');
       }
 
       function assignAnyProvider() {
@@ -184,7 +182,7 @@
 
           browser.findElement(by.css('button[name="assign-provider"]')).click();
 
-          checkAssign();
+          checkAssign(case_ref);
         });
       });
 
@@ -206,7 +204,7 @@
           assignAnyProvider();
           browser.findElement(by.css('button[name="assign-provider"]')).click();
 
-          checkAssign();
+          checkAssign(case_ref);
         });
       });
 
@@ -232,7 +230,7 @@
 
           expect(browser.findElement(by.css('button[name="assign-provider"]')).isEnabled()).toBe(true);
           browser.findElement(by.css('button[name="assign-provider"]')).click();
-          checkAssign();
+          checkAssign(case_ref);
         });
       });
     });
