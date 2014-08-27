@@ -4,6 +4,12 @@ var gulp = require('gulp'),
     stylish = require('jshint-stylish'),
     lodash = require('lodash'),
     runSequence = require('run-sequence'),
+    lunr = require('lunr'),
+    gutil = require('gulp-util'),
+    path = require('path'),
+    through2 = require('through2'),
+    fs = require('fs'),
+    S = require('string'),
     java_path = path.resolve('node_modules/closurecompiler/jre/bin');
     process.env.PATH = java_path + ':' + process.env.PATH,
     paths = {
@@ -200,13 +206,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('guidance-build', function() {
-  var lunr = require('lunr'),
-      gutil = require('gulp-util'),
-      path = require('path'),
-      through2 = require('through2'),
-      fs = require('fs'),
-      S = require('string'),
-      index;
+  var index;
 
   index = lunr(function () {
     this.field('title', {boost: 10});
