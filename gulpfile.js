@@ -199,7 +199,10 @@ gulp.task('js-compile', ['js-concat'], function(){
 // jshint js code
 gulp.task('lint', function() {
   var lint = paths.scripts.app
-                  .concat(['!' + paths.tmp + 'javascripts/app/partials/**/*']);
+                  .concat([
+                    paths.src + 'javascripts/app/test/**/*.js',
+                    '!' + paths.tmp + 'javascripts/app/partials/**/*'
+                  ]);
 
   gulp
     .src(lint)

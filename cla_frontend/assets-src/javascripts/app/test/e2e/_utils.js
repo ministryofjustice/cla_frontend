@@ -1,3 +1,4 @@
+/* jshint unused:false */
 (function(){
   'use strict';
 
@@ -30,7 +31,7 @@
           select_matching(options.slice(1));
         }
       });
-    }
+    };
     return select_matching;
   }
 
@@ -48,6 +49,7 @@
         'income': complete_means_test_income_section,
         'expenses': complete_means_test_expenses_section
       }[section.toLowerCase()];
+      /*jshint -W030 */
       handler && handler(answers[section]);
     }
     $('[name=save-means-test]').click();
@@ -59,13 +61,13 @@
       var button = browser.findElement(by.buttonText(text));
       if (button) {
         return button.isDisplayed().then(function (visible) {
-          if (visible && success) return success(button);
-          if (!visible && fail) return fail(button);
+          if (visible && success) { return success(button); }
+          if (!visible && fail) { return fail(button); }
         });
       }
     };
 
-    var _click = function (button) { button.click() };
+    var _click = function (button) { button.click(); };
 
     _visible('New means test', _click, function () {
       _visible('Complete means test', _click);
@@ -91,13 +93,13 @@
   function complete_means_test_details_section(answers) {
     var section = show_means_test_section(1);
     for (var question in answers) {
-      var value = answers[question].toLowerCase() == 'yes' ? '1' : '0';
+      var value = answers[question].toLowerCase() === 'yes' ? '1' : '0';
       var id = '#id_your_details-' + question + '_' + value;
       $(id).click();
     }
   }
 
-  function prefix(pre) { return function (item) { return pre + item } };
+  function prefix(pre) { return function (item) { return pre + item; }; }
   var _ec = prefix('eligibility_check.');
 
   function complete_means_test_finances_section(answers) {
@@ -121,7 +123,7 @@
 
   function add_properties(answers) {
     // TODO
-    delete answers['properties'];
+    delete answers.properties;
   }
 
   function fill_model_field(model, value, defaultValue) {
@@ -135,13 +137,13 @@
       var p = prefix(pre);
       set_money_interval(_ec(p('income.earnings')), answers[p('income.earnings')], '0');
       set_money_interval(_ec(p('income.other_income')), answers[p('income.other_income')], '0');
-      var value = (answers[p('self_employed')] || '').toLowerCase() == 'yes' ? 0 : 1;
-      var person = (pre == 'you.' ? 'your' : 'partners');
+      var value = (answers[p('self_employed')] || '').toLowerCase() === 'yes' ? 0 : 1;
+      var person = (pre === 'you.' ? 'your' : 'partners');
       var radio_id = '#id_' + person + '_income-self_employed_' + value;
       $(radio_id).click();
     });
-    fill_model_field(_ec('dependants_old'), answers['dependants_old'], '0');
-    fill_model_field(_ec('dependants_young'), answers['dependants_young'], '0');
+    fill_model_field(_ec('dependants_old'), answers.dependants_old, '0');
+    fill_model_field(_ec('dependants_young'), answers.dependants_young, '0');
   }
 
   function set_money_interval(model, value, defaultValue) {
@@ -242,7 +244,7 @@
 
     enterPersonalDetails: function(details) {
       for (var name in details) {
-        if (name == 'media_code') {
+        if (name === 'media_code') {
           browser.findElement(by.cssContainingText('[name="media_code"] option', details[name])).click();
         } else {
           this.fillField(name, details[name]);
@@ -262,7 +264,7 @@
     setCategory: function(category) {
       show_means_test();
       complete_means_test_problem_section(category);
-      browser.findElement(by.css("button[name='save-means-test']")).click();
+      browser.findElement(by.css('button[name="save-means-test"]')).click();
     },
 
     set_diagnosis_choices: set_diagnosis_choices,
