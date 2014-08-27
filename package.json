@@ -21,7 +21,6 @@
     "gulp-imagemin": "~0.1.5",
     "gulp-jshint": "~1.5.0",
     "gulp-load-plugins": "~0.4.0",
-    "gulp-ngmin": "^0.3.0",
     "gulp-ruby-sass": "~0.7.1",
     "gulp-uglify": "~0.2.1",
     "jasmine-reporters": "^0.4.1",
@@ -31,7 +30,7 @@
     "karma-junit-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "phantomjs": "^1.9.7-8",
-    "protractor": "^0.24.2",
+    "protractor": "1.1.0",
     "run-sequence": "~0.3.6",
     "gulp-ng-constant": "~0.1.0",
     "gulp-shell": "~0.2.7",
@@ -52,8 +51,8 @@
     "test-single-run": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js  --single-run",
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
-    "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js",
-    "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor-local-conf.js",
-    "protractor-phantom": "protractor cla_frontend/assets-src/javascripts/app/test/protractor-phantom-conf.js"
+    "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.local.js",
+    "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor.conf.local.js",
+    "protractor-phantom": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.phantom.js"
   }
 }
