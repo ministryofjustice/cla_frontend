@@ -56,6 +56,49 @@
           };
           $scope.updateTabs();
 
+          var monthly = function (amount) {
+            return {'per_interval_value': amount, 'interval_period': 'per_month'};
+          };
+
+          var setIncomeDefaults = function (ec) {
+            [ec.you.income, ec.partner.income].map(function (person) {
+              person.other_income = monthly(0);
+              person.self_employed = false;
+              person.total = 0;
+              person.earnings = monthly(0);
+            });
+            ec.dependants_young = 0;
+            ec.dependants_old = 0;
+          };
+
+          var setExpensesDefaults = function (ec) {
+            [ec.you.deductions, ec.partner.deductions].map(function (person) {
+              person.income_tax = monthly(0);
+              person.mortgage = monthly(0);
+              person.childcare = monthly(0);
+              person.rent = monthly(0);
+              person.maintenance = monthly(0);
+              person.criminal_legalaid_contributions = 0;
+              person.total = 0;
+              person.national_insurance = monthly(0);
+            });
+          };
+
+          var defaultsSetters = {
+            'Income': setIncomeDefaults,
+            'Expenses': setExpensesDefaults
+          };
+
+          $scope.setDefaultsInNonRequiredSections = function (eligibility_check) {
+            all_sections.map(function (section) {
+              if (!isRequired(section) && section.title in defaultsSetters) {
+                console.log('setting default values in', section.title);
+                defaultsSetters[section.title](eligibility_check);
+              }
+            });
+            console.log(eligibility_check);
+          };
+
 
           $scope.isComplete = function (section) {
             var emptyInputs = angular.element('#' + section).find('input, select, textarea').filter(function() {
@@ -87,6 +130,7 @@
           };
 
           $scope.save = function () {
+            $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
             $scope.eligibility_check.$update($scope.case.reference, function (data) {
               $scope.case.eligibility_check = data.reference;
               $scope.case.$get();
