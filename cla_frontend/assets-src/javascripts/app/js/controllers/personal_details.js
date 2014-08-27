@@ -30,14 +30,9 @@
           });
 
           $scope.thirdparty_address = {
-            postcode: $scope.third_party.personal_details.postcode,
-            street: $scope.third_party.personal_details.street
+            postcode: $scope.third_party.personal_details ? $scope.third_party.personal_details.postcode : '',
+            street: $scope.third_party.personal_details ? $scope.third_party.personal_details.street : ''
           };
-
-          $scope.$watchCollection('thirdparty_address', function(){
-            $scope.third_party.personal_details.postcode = $scope.thirdparty_address.postcode;
-            $scope.third_party.personal_details.street = $scope.thirdparty_address.street;
-          });
 
           $scope.selected_adaptations = [];
           $scope.adaptation_flags = {};
@@ -182,6 +177,12 @@
           };
 
           $scope.saveThirdParty = function(form) {
+
+            if($scope.thirdparty_address){
+              $scope.third_party.personal_details.postcode = $scope.thirdparty_address.postcode;
+              $scope.third_party.personal_details.street = $scope.thirdparty_address.street;
+            }
+
             $scope.third_party.$update($scope.case.reference, function (data) {
               if (!$scope.case.thirdparty_details) {
                 $scope.case.thirdparty_details = data.reference;
