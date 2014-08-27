@@ -8,12 +8,16 @@ exports.config = extend(defaults, {
     {
       browserName: 'chrome',
       platform: 'OS X 10.9',
-      version: ''
+      version: '',
+      "record-video": false,
+      "record-screenshots": false
     },
     {
       browserName: 'firefox',
       platform: 'OS X 10.9',
-      version: '30'
+      version: '30',
+      "record-video": false,
+      "record-screenshots": false
     }
   ],
   allScriptsTimeout: 120000,
