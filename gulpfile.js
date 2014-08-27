@@ -78,12 +78,14 @@ paths.guidance.push(paths.src + 'guidance/**/*.md');
 gulp.task('clean-pre', function() {
   return gulp
     .src([paths.dest, paths.tmp], {read: false})
-    .pipe(plugins.clean());
+    .pipe(plugins.ignore('node_modules/**'))
+    .pipe(plugins.rimraf());
 });
 gulp.task('clean-post', function() {
   return gulp
     .src(paths.tmp, {read: false})
-    .pipe(plugins.clean());
+    .pipe(plugins.ignore('node_modules/**'))
+    .pipe(plugins.rimraf());
 });
 
 // copy across web fonts
