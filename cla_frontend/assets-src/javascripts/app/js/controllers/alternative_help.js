@@ -36,10 +36,9 @@
 
           function isECFRequired() {
             var isOutOfScope = $scope.diagnosis && !$scope.diagnosis.isInScopeTrue(),
-              isECFCategory = $scope.eligibility_check && $scope.eligibility_check.category;
-
-            if (isOutOfScope && isECFCategory) {
-              return _.some($scope.law_categories, {ecf_available: true, code: $scope.eligibility_check.category});
+              category = $scope.diagnosis.category;
+            if (isOutOfScope && category) {
+              return _.some($scope.law_categories, {ecf_available: true, code: category});
             }
             return false;
           }

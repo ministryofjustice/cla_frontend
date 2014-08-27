@@ -113,9 +113,13 @@
             $personalDetails.$save().then(function() {
               _createDiagnosis().then(function () {
                 _completeDiagnosis(diagnosisNodes, function () {
-                  _completeMeansTest().then(function () {
+                  if (eligibilityCheckFields) {
+                    _completeMeansTest().then(function () {
+                      callback(data.reference);
+                    });
+                  } else {
                     callback(data.reference);
-                  });
+                  }
                 });
               });
             });
@@ -153,10 +157,16 @@
 
         var pdFields = merged(
           this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
-          this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS);
+          this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS),
+          eligibleFields;
+
+        if (inScope) {
+          eligibleFields = isEligible ? this.ELIGIBLE : this.INELIGIBLE;
+        }
+
         return this.createRecipe(
           this.DEFAULT_REQUIRED_CASE_FIELDS, pdFields,
-          isEligible ? this.ELIGIBLE : this.INELIGIBLE,
+          eligibleFields,
           inScope ? this.IN_SCOPE : this.OUT_SCOPE
         );
       },
