@@ -3,7 +3,7 @@
     <notes-form ng-model="case.notes" case="case"></notes-form>
   </div>
 
-  <div data-block="case-notes-summary" ng-show="case.notes">
+  <div data-block="case-notes-summary" ng-show="case.provider_notes">
     <figure class="CommentBlock Icon Icon--row Icon--comments">
       <blockquote class="Quote" ng-bind-html="case.provider_notes|nl2br"></blockquote>
     </figure>
