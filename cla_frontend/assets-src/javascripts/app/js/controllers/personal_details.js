@@ -164,11 +164,9 @@
             // save media code & exempt_user
             $scope.case.media_code = this.media_code;
 
-            $q.all([pdPromise.promise, adaptationsPromise.promise]).then(function(){
-              $scope.case.$patch().then(function () {
-                $scope.media_code = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
-                mcPromise.resolve();
-              });
+            $scope.case.$patch().then(function () {
+              $scope.media_code = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
+              mcPromise.resolve();
             }, function(err){
               form_utils.ctrlFormErrorCallback($scope, err, form);
               mcPromise.reject(err);
