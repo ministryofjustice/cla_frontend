@@ -26,11 +26,23 @@
             }
           ];
 
+          var passported = function() {
+            var _radio = $('#id_your_details-passported_benefits_0').get(0);
+            if (_radio) {
+              return _radio.checked;
+            }
+            var _passported = $scope.eligibility_check.on_passported_benefits;
+            if (_passported === '0') {
+              _passported = false;
+            }
+            return !!_passported;
+          };
+
           var tabHideRules = {
             'Details': [],
             'Finances': [],
-            'Income': [],
-            'Expenses': []
+            'Income': [passported],
+            'Expenses': [passported]
           };
 
           var isRequired = function (section) {
