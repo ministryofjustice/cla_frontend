@@ -184,6 +184,9 @@
       var pro = protractor.getInstance(),
           driver = pro.driver;
 
+      // maximise browser
+      browser.driver.manage().window().maximize();
+
       pro.manage().getCookie('sessionid').then(function(cookie) {
         if (!cookie) {
           driver.get(pro.baseUrl + 'call_centre/login/');
