@@ -7,7 +7,7 @@
         function($scope, Category, $stateParams, flash, $state, modelsEventManager){
           $scope.category_list = Category.query();
           $scope.warnings = {};
-          $scope.sections = [{
+          var all_sections = [{
               title: 'Details',
               state: 'case_detail.edit.eligibility.details',
               template: 'includes/eligibility.details.html'
@@ -25,6 +25,25 @@
               template: 'includes/eligibility.expenses.html'
             }
           ];
+
+          var tabHideRules = {
+            'Details': [],
+            'Finances': [],
+            'Income': [],
+            'Expenses': []
+          };
+
+          var isRequired = function (section) {
+            var isFalse = function (fn) { return !fn(); };
+            var r = tabHideRules[section.title].every(isFalse);
+            return r;
+          };
+
+          $scope.updateTabs = function () {
+            $scope.sections = all_sections.filter(isRequired);
+          };
+          $scope.updateTabs();
+
 
           $scope.isComplete = function (section) {
             var emptyInputs = angular.element('#' + section).find('input, select, textarea').filter(function() {
