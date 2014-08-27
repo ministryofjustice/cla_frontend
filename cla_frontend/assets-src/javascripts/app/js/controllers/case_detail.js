@@ -27,7 +27,9 @@
               scope: child_scope,
               resolve: {
                 'matter_types': function () {
-                  return MatterType.get({category__code: $scope.eligibility_check.category}).$promise;
+                  return MatterType.get({
+                    category__code: $scope.diagnosis.category
+                  }).$promise;
                 }
               }
             });
@@ -46,7 +48,7 @@
     ['$scope', '$modal',
       function ($scope, $modal) {
         $scope.logSet = [];
-        
+
         $scope.$watch('log_set.data', function(newVal) {
           // log set grouping
           var currentTimer = null;
@@ -78,7 +80,7 @@
                 };
                 $scope.diagnosisTitleClass = function () {
                   return $scope.diagnosis.isInScopeTrue() ? 'Icon Icon--lrg Icon--solidTick Icon--green' : 'Icon Icon--lrg Icon--solidCross Icon--red';
-                };   
+                };
                 $scope.close = function () {
                   $modalInstance.dismiss('cancel');
                 };
