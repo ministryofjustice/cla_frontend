@@ -1,7 +1,7 @@
 <form ng-submit="moveDown()" novalidate name="form">
   <section class="SummaryBlock SummaryBlock--compact" ng-show="diagnosis.nodes">
-    <div class="SummaryBlock-content" ng-repeat="statement in diagnosis.nodes" ng-bind-html="statement.label"></div>
-    <div class="SummaryBlock-content" ng-show="category">
+    <div class="SummaryBlock-content" ng-class="{'is-lastChild': $last && !category}" ng-repeat="statement in diagnosis.nodes" ng-bind-html="statement.label"></div>
+    <div class="SummaryBlock-content is-lastChild" ng-show="category">
       <p><strong>Category of law</strong>: {{category.name}}</p>
     </div>
   </section>
