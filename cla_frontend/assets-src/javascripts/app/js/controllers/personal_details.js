@@ -168,12 +168,11 @@
               $scope.case.$patch().then(function () {
                 $scope.media_code = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
                 mcPromise.resolve();
-              }, function(err){
-                form_utils.ctrlFormErrorCallback($scope, err, form);
-                mcPromise.reject(err);
               });
+            }, function(err){
+              form_utils.ctrlFormErrorCallback($scope, err, form);
+              mcPromise.reject(err);
             });
-
 
             return $q.all([pdPromise.promise, adaptationsPromise.promise, mcPromise.promise]);
           };
