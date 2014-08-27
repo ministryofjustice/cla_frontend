@@ -221,6 +221,7 @@
     },
 
     setCaseNotes: function(notes) {
+      this.scrollTo(browser.findElement(by.css('body')));
       this.fillField('notes', notes);
     },
 

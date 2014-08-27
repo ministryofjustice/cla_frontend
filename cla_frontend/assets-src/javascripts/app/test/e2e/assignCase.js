@@ -72,10 +72,10 @@
           utils.enterPersonalDetails({
             'full_name': 'Foo Bar Quux',
             'mobile_phone': '0123456789',
-            'media_code': 'Age Concern',
             'dob_day': '01',
             'dob_month': '01',
-            'dob_year': '2000'
+            'dob_year': '2000',
+            'media_code': 'Age Concern'
           });
           utils.saveCase();
           utils.setCaseNotes('Notes');
