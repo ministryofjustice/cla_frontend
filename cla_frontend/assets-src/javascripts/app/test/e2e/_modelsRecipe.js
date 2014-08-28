@@ -27,6 +27,7 @@
 
       ELIGIBLE: '{"category": "family", "is_you_or_your_partner_over_60": true, "disputed_savings": {"credit_balance": 0, "investment_balance": 0, "total": 0, "asset_balance": 0, "bank_balance": 0}, "has_partner": false, "property_set": [], "on_passported_benefits": false, "state": "yes", "dependants_old": 0, "partner": {"deductions": {"income_tax": {}, "mortgage": {}, "childcare": {}, "rent": {}, "maintenance": {}, "criminal_legalaid_contributions": null, "total": 0, "national_insurance": {}}, "savings": null, "income": {"other_income": {}, "self_employed": null, "total": 0, "earnings": {}}}, "you": {"deductions": {"income_tax": {"per_interval_value": 0, "interval_period": "per_month"}, "mortgage": {"per_interval_value": 0, "interval_period": "per_month"}, "childcare": {"per_interval_value": 0, "interval_period": "per_month"}, "rent": {"per_interval_value": 0, "interval_period": "per_month"}, "maintenance": {"per_interval_value": 0, "interval_period": "per_month"}, "criminal_legalaid_contributions": 0, "total": 0, "national_insurance": {"per_interval_value": 0, "interval_period": "per_month"}}, "savings": {"credit_balance": 0, "investment_balance": 0, "total": 4560000, "asset_balance": 0, "bank_balance": 4560000}, "income": {"other_income": {"per_interval_value": 0, "interval_period": "per_month"}, "self_employed": false, "total": 0, "earnings": {"per_interval_value": 0, "interval_period": "per_month"}}}, "dependants_young": 0, "on_nass_benefits": false}',
       INELIGIBLE: '{"category": "family", "is_you_or_your_partner_over_60": false, "disputed_savings": {"credit_balance": 0, "investment_balance": 0, "total": 0, "asset_balance": 0, "bank_balance": 0}, "has_partner": false, "property_set": [], "on_passported_benefits": false, "state": "yes", "dependants_old": 0, "partner": {"deductions": {"income_tax": {}, "mortgage": {}, "childcare": {}, "rent": {}, "maintenance": {}, "criminal_legalaid_contributions": null, "total": 0, "national_insurance": {}}, "savings": null, "income": {"other_income": {}, "self_employed": null, "total": 0, "earnings": {}}}, "you": {"deductions": {"income_tax": {"per_interval_value": 0, "interval_period": "per_month"}, "mortgage": {"per_interval_value": 0, "interval_period": "per_month"}, "childcare": {"per_interval_value": 0, "interval_period": "per_month"}, "rent": {"per_interval_value": 0, "interval_period": "per_month"}, "maintenance": {"per_interval_value": 0, "interval_period": "per_month"}, "criminal_legalaid_contributions": 0, "total": 0, "national_insurance": {"per_interval_value": 0, "interval_period": "per_month"}}, "savings": {"credit_balance": 10000000, "investment_balance": 0, "total": 20000000, "asset_balance": 0, "bank_balance": 10000000}, "income": {"other_income": {"per_interval_value": 200000, "interval_period": "per_month"}, "self_employed": false, "total": 1000000, "earnings": {"per_interval_value": 800000, "interval_period": "per_month"}}}, "dependants_young": 0, "on_nass_benefits": false}',
+      PARTIAL:  '{"category": "family", "is_you_or_your_partner_over_60": true, "disputed_savings": {"credit_balance": 0, "investment_balance": 0, "total": 0, "asset_balance": 0, "bank_balance": 0}, "has_partner": false, "property_set": [], "on_passported_benefits": true, "state": "yes", "partner": {"savings": null}, "you": {"savings": {"credit_balance": 0, "investment_balance": 0, "total": 4560000, "asset_balance": 0, "bank_balance": 4560000}}, "on_nass_benefits": false}',
 
       DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS: {
         full_name: 'Foo Bar Quux',
@@ -177,6 +178,14 @@
       },
       createWithOutScopeAndInEligible: function () {
         return this.createWithScopeAndEligibility(false, false);
+      },
+      createWithPartialMeansTest: function () {
+        return this.createRecipe(
+          this.DEFAULT_REQUIRED_CASE_FIELDS,
+          merged(this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
+            this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS),
+          this.PARTIAL,
+          this.IN_SCOPE);
       }
     }
   };
