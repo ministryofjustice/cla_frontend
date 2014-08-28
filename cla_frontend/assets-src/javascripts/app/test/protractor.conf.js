@@ -47,10 +47,7 @@
     framework: 'jasmine',
     jasmineNodeOpts: {
       silent: true,
-      isVerbose: true,
-      showColors: true,
-      includeStackTrace: true,
-      defaultTimeoutInterval: 30000
+      isVerbose: true
     }
   };
 })();
