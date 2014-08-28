@@ -1,3 +1,4 @@
+/* jshint unused:false */
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
@@ -6,57 +7,60 @@
       modelsRecipe = require('./_modelsRecipe'),
       utils = require('./_utils');
 
+  // helper methods
+  function enterDetails (values, thirdparty) {
+    var openSelector = '#personal_details .VCard-view',
+        btnName = 'save-personal-details';
+
+    if (thirdparty) {
+      openSelector = '[name="add-thirdparty"]';
+      btnName = 'save-thirdparty';
+    }
+    // open form
+    element(by.css(openSelector)).click();
+    // enter values
+    for (var name in values) {
+      if (name === 'adaptations') {
+        values[name].map(mapAdaptations);
+      } else if (name === 'dob') {
+        var parts = values[name].split('/');
+        utils.fillField('dob_day', parts[0]);
+        utils.fillField('dob_month', parts[1]);
+        utils.fillField('dob_year', parts[2]);
+      } else {
+        utils.fillField(name, values[name]);
+      }
+    }
+    // save details
+    element(by.name(btnName)).click();
+    utils.scrollTo(element(by.id('personal_details'))); // Firefox fix!
+  }
+
+  function mapAdaptations (adaptation) {
+    element(by.cssContainingText('[name="adaptations"] option', adaptation)).click();
+  }
+
+  function checkFields (values) {
+    for (var parent in values) {
+      for (var model in values[parent]) {
+        var value = values[parent][model],
+            fullModel = parent + '.' + model;
+
+        if (value === true) {
+          expect(element(by.css('[ng-show="' + fullModel + '"]')).isPresent()).toBe(true);
+        } else if (model === 'adaptations') {
+          for (var i in value) {
+            expect(element(by.css('[ng-show="selected_adaptations.length"]')).getText()).toContain(value[i]);
+          }
+        } else {
+          expect(element(by.binding(fullModel)).getText()).toContain(value);
+        }
+      }
+    }
+  }
+
   describe('Operator Case Details', function (){
     beforeEach(utils.setUp);
-
-    function enterDetails (values, thirdparty) {
-      var openSelector = '#personal_details .VCard-view',
-          btnName = 'save-personal-details';
-
-      if (thirdparty) {
-        openSelector = '[name="add-thirdparty"]';
-        btnName = 'save-thirdparty';
-      }
-      // open form
-      element(by.css(openSelector)).click();
-      // enter values
-      for (var name in values) {
-        if (name === 'adaptations') {
-          values[name].map(function (adaptation){
-            element(by.cssContainingText('[name="adaptations"] option', adaptation)).click();
-          });
-        } else if (name === 'dob') {
-          var parts = values[name].split('/');
-          utils.fillField('dob_day', parts[0]);
-          utils.fillField('dob_month', parts[1]);
-          utils.fillField('dob_year', parts[2]);
-        } else {
-          utils.fillField(name, values[name]);
-        }
-      }
-      // save details
-      element(by.name(btnName)).click();
-      utils.scrollTo(element(by.id('personal_details'))); // Firefox fix!
-    }
-
-    function checkFields (values) {
-      for (var parent in values) {
-        for (var model in values[parent]) {
-          var value = values[parent][model],
-              fullModel = parent + '.' + model;
-
-          if (value === true) {
-            expect(element(by.css('[ng-show="' + fullModel + '"]')).isPresent()).toBe(true);
-          } else if (model === 'adaptations') {
-            for (var i in value) {
-              expect(element(by.css('[ng-show="selected_adaptations.length"]')).getText()).toContain(value[i]);
-            }
-          } else {
-            expect(element(by.binding(fullModel)).getText()).toContain(value);
-          }
-        }
-      }
-    }
 
     describe('Non-existant Case', function (){
       it('should get case list when given non existant case reference', function (){
@@ -94,7 +98,7 @@
             exempt_user: true,
             exempt_user_reason: exemptReason
           }
-        )
+        );
         enterDetails(personalDetails);
       });
 

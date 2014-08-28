@@ -196,7 +196,7 @@
             this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
             this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS
           ),
-          inScope ? (isEligible ? this.ELIGIBLE : this.INELIGIBLE) : {},
+          inScope ? (isEligible ? this.ELIGIBLE : this.INELIGIBLE) : undefined,
           inScope ? this.IN_SCOPE : this.OUT_SCOPE
         );
       },
