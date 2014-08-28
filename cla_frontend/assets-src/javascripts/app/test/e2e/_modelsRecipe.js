@@ -43,7 +43,7 @@
 
       FULL_ADAPTATIONS: {
         adaptations: ['BSL - Webcam', 'Callback preference'],
-        language: 'ENGLISH',
+        language: 'English',
         notes: 'Personal details notes'
       },
 

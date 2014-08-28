@@ -1,4 +1,4 @@
-<form ng-submit="moveDown()" novalidate name="form">
+<form ng-submit="moveDown()" novalidate name="diagnosis-form">
   <section class="SummaryBlock SummaryBlock--compact" ng-show="diagnosis.nodes">
     <div class="SummaryBlock-content" ng-class="{'is-lastChild': $last && !category}" ng-repeat="statement in diagnosis.nodes" ng-bind-html="statement.label"></div>
     <div class="SummaryBlock-content is-lastChild" ng-show="category">

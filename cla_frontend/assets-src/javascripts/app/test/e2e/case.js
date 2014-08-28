@@ -9,19 +9,28 @@
 
   // helper methods
   function enterDetails (values, thirdparty) {
-    var openSelector = '#personal_details .VCard-view',
-        btnName = 'save-personal-details';
+    var edit = '#personal_details .VCard-view',
+        viewCard = edit,
+        btnName = 'save-personal-details',
+        filterSelects = ['exempt_user_reason', 'language', 'media_code', 'reason', 'personal_relationship'];
 
     if (thirdparty) {
-      openSelector = '[name="add-thirdparty"]';
+      edit = '[name="add-thirdparty"]';
+      viewCard = '#personal_details .VCard-view';
       btnName = 'save-thirdparty';
     }
+
     // open form
-    element(by.css(openSelector)).click();
+    utils.scrollTo(element(by.css(edit))); // Firefox fix!
+    element(by.css(edit)).click();
     // enter values
     for (var name in values) {
+      utils.scrollTo(element(by.name(name))); // Firefox fix!
+
       if (name === 'adaptations') {
-        values[name].map(mapAdaptations);
+        values[name].map(selectOption);
+      } else if (filterSelects.indexOf(name) > -1) {
+        selectOption(values[name], name);
       } else if (name === 'dob') {
         var parts = values[name].split('/');
         utils.fillField('dob_day', parts[0]);
@@ -33,11 +42,13 @@
     }
     // save details
     element(by.name(btnName)).click();
-    utils.scrollTo(element(by.id('personal_details'))); // Firefox fix!
+    utils.scrollTo(element(by.css(viewCard))); // Firefox fix!
   }
 
-  function mapAdaptations (adaptation) {
-    element(by.cssContainingText('[name="adaptations"] option', adaptation)).click();
+  function selectOption (option, field) {
+    // if not a string, will be adaptations
+    field = typeof field === 'string' || field instanceof String ? field : 'adaptations';
+    element(by.cssContainingText('[name="' + field + '"] option', option)).click();
   }
 
   function checkFields (values) {
