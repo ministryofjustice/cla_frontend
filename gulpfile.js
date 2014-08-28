@@ -177,6 +177,7 @@ gulp.task('js-concat', ['ng-constants', 'ng-templates'], function() {
   return gulp
     .src(concat)
     .pipe(plugins.concat('cla.main.js'))
+    .pipe(plugins.ngAnnotate())
     .pipe(gulp.dest(paths.dest + 'javascripts/'));
 });
 
@@ -184,7 +185,6 @@ gulp.task('js-compile', ['js-concat'], function(){
   var src_path = paths.dest + 'javascripts/cla.main.js';
 
   return gulp.src(src_path)
-        .pipe(plugins.ngAnnotate())
         .pipe(plugins.closureCompiler({
           compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
           fileName: 'cla.main.min.js',
