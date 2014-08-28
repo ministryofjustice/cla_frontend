@@ -1,4 +1,4 @@
-/* jshint undef:false, unused:false */
+/* jshint undef:false, unused:false, quotmark:false, plusplus:false */
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';

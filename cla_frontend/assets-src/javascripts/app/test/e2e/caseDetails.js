@@ -1,4 +1,4 @@
-/* jshint unused:false */
+/* jshint unused:false, plusplus:false */
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
