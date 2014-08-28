@@ -2,18 +2,19 @@ var extend = require('extend');
 var defaults = require('./protractor-default-conf').config;
 
 exports.config = extend(defaults, {
-  baseUrl: 'http://jenkins.local.dsd.io:8001/',
+  baseUrl: 'http://frontend-integration.cla.dsd.io',
+  seleniumAddress: 'http://172.31.26.191:4444/wd/hub',
 
   multiCapabilities: [
     {
       browserName: 'chrome',
-      platform: 'OS X 10.9',
-      version: ''
+//      platform: 'OS X 10.9',
+//      version: ''
     },
     {
       browserName: 'firefox',
-      platform: 'OS X 10.9',
-      version: '30'
+//      platform: 'OS X 10.9',
+//      version: '30'
     }
   ],
   allScriptsTimeout: 120000,
