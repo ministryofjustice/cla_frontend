@@ -11,7 +11,6 @@
     "govuk_frontend_toolkit": "0.42.0",
     "gulp": "~3.5.5",
     "gulp-angular-templates": "0.0.1",
-    "gulp-clean": "~0.2.4",
     "gulp-closure-compiler": "^0.2.3",
     "gulp-concat": "~2.1.7",
     "gulp-consolidate": "~0.1.2",
