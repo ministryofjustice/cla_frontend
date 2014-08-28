@@ -18,7 +18,7 @@
       it('should suspend a case', function () {
 
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get('call_centre/'+case_ref+'/');
 
           browser.findElement(by.cssContainingText('.CaseDetails-actions button', 'Close')).click();
 

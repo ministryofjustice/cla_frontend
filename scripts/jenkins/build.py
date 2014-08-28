@@ -102,7 +102,7 @@ wget_frontend.wait()
 run(
     ('node_modules/protractor/bin/protractor '
      '--sauceUser %s --sauceKey %s '
-     'cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js') % (
+     'cla_frontend/assets-src/javascripts/app/test/protractor.conf.jenkins.js') % (
         os.environ.get('SAUCE_USER'),
         os.environ.get('SAUCE_KEY'))
 )

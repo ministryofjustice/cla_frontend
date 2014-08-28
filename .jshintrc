@@ -1,5 +1,6 @@
 {
   "strict": true,
+  "globalstrict": true,
   "browser": true,
   "curly": true,
   "eqeqeq": true,
@@ -22,7 +23,20 @@
     "CLA": true,
     "_": true,
     "Handlebars": true,
-    "angular": true
+    "angular": true,
+    "browser": true,
+    "element": true,
+    "inject": true,
+    "protractor": true,
+    "jasmine": true,
+    "describe": true,
+    "expect": true,
+    "before": true,
+    "beforeEach": true,
+    "by": true,
+    "it": true,
+    "module": true,
+    "require": true
   },
 
   "maxparams": 20,
