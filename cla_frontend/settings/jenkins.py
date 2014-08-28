@@ -21,3 +21,5 @@ DATABASES = {}
 #JENKINS_TEST_RUNNER = 'core.test_runners.AdvancedCITestSuiteRunner'
 
 #HOST_NAME = ""
+
+BACKEND_BASE_URI = 'http://127.0.0.1:%s' % os.environ.get("BACKEND_BASE_PORT", 8000)
