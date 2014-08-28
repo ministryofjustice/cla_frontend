@@ -4,6 +4,12 @@ var gulp = require('gulp'),
     stylish = require('jshint-stylish'),
     lodash = require('lodash'),
     runSequence = require('run-sequence'),
+    lunr = require('lunr'),
+    gutil = require('gulp-util'),
+    path = require('path'),
+    through2 = require('through2'),
+    fs = require('fs'),
+    S = require('string'),
     java_path = path.resolve('node_modules/closurecompiler/jre/bin');
     process.env.PATH = java_path + ':' + process.env.PATH,
     paths = {
@@ -72,12 +78,14 @@ paths.guidance.push(paths.src + 'guidance/**/*.md');
 gulp.task('clean-pre', function() {
   return gulp
     .src([paths.dest, paths.tmp], {read: false})
-    .pipe(plugins.clean());
+    .pipe(plugins.ignore('node_modules/**'))
+    .pipe(plugins.rimraf());
 });
 gulp.task('clean-post', function() {
   return gulp
     .src(paths.tmp, {read: false})
-    .pipe(plugins.clean());
+    .pipe(plugins.ignore('node_modules/**'))
+    .pipe(plugins.rimraf());
 });
 
 // copy across web fonts
@@ -192,7 +200,10 @@ gulp.task('js-compile', ['js-concat'], function(){
 // jshint js code
 gulp.task('lint', function() {
   var lint = paths.scripts.app
-                  .concat(['!' + paths.tmp + 'javascripts/app/partials/**/*']);
+                  .concat([
+                    paths.src + 'javascripts/app/test/**/*.js',
+                    '!' + paths.tmp + 'javascripts/app/partials/**/*'
+                  ]);
 
   gulp
     .src(lint)
@@ -201,13 +212,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('guidance-build', function() {
-  var lunr = require('lunr'),
-      gutil = require('gulp-util'),
-      path = require('path'),
-      through2 = require('through2'),
-      fs = require('fs'),
-      S = require('string'),
-      index;
+  var index;
 
   index = lunr(function () {
     this.field('title', {boost: 10});

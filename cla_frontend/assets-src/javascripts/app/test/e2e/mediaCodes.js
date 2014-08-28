@@ -16,7 +16,7 @@
     describe('Set media code on case', function () {
       it('should set a media code on a new case', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get('call_centre/'+case_ref+'/');
 
           utils.showPersonalDetailsForm();
           utils.enterPersonalDetails({
