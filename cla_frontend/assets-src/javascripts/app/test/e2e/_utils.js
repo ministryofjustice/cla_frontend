@@ -184,6 +184,9 @@
       var pro = protractor.getInstance(),
           driver = pro.driver;
 
+      // maximise browser
+      browser.driver.manage().window().maximize();
+
       pro.manage().getCookie('sessionid').then(function(cookie) {
         if (!cookie) {
           driver.get(pro.baseUrl + 'call_centre/login/');
@@ -253,7 +256,11 @@
     },
 
     fillField: function(name, value) {
-      browser.findElement(by.css('[name="' + name + '"]')).sendKeys(value);
+      if (value === true || value === false) {
+        element(by.name(name)).click();
+      } else {
+        element(by.css('[name="' + name + '"]')).sendKeys(value).blur;
+      }
     },
 
     saveCase: function() {
@@ -311,7 +318,26 @@
         'Expenses': {
         }
       });
-    }
+    },
 
+    mergeObjects: function () {
+      var args = Array.prototype.slice.call(arguments);
+      return args.reduce(function (acc, curr) {
+        for (var key in curr) {
+          acc[key] = curr[key];
+        }
+        return acc;
+      }, {});
+
+      // var ret = {};
+      // for (var i=0; i<arguments.length; i++) {
+      //   for (var p in arguments[i]) {
+      //     if (arguments[i].hasOwnProperty(p)) {
+      //       ret[p] = arguments[i][p];
+      //     }
+      //   }
+      // }
+      // return ret;
+    }
   };
 })();

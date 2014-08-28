@@ -36,6 +36,11 @@
             return $scope.adaptation_flags[code];
           };
 
+          $scope.getLanguageLabel = function (code) {
+            var obj = _.findWhere($scope.language_options, {value: code});
+            return obj ? obj.text : null;
+          };
+
           $scope.getExemptReasonByCode = function (code) {
             var matches = $scope.exempt_user_reason_choices.filter(function (lookup) {
               return lookup.value === code;
