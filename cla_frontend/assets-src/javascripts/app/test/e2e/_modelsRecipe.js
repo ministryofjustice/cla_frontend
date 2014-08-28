@@ -75,7 +75,7 @@
       },
 
       createRecipe: function(caseFields, personalDetailsFields, eligibilityCheckFields, diagnosisNodes) {
-        
+
         function _createCase(el, caseFields, personalDetailsFields, eligibilityCheckFields, diagnosisNodes, callback) {
           var $el = document.querySelector(el),
               injector = angular.element($el).injector(),
@@ -181,7 +181,7 @@
 
       createWithRequiredRecommendedFields: function() {
         return this.createRecipe(
-          this.DEFAULT_REQUIRED_CASE_FIELDS, 
+          this.DEFAULT_REQUIRED_CASE_FIELDS,
           utils.mergeObjects(
             this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
             this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS
@@ -192,7 +192,7 @@
 
       createWithScopeAndEligibility: function(inScope, isEligible) {
         return this.createRecipe(
-          this.DEFAULT_REQUIRED_CASE_FIELDS, 
+          this.DEFAULT_REQUIRED_CASE_FIELDS,
           utils.mergeObjects(
             this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
             this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS
@@ -211,7 +211,7 @@
       createWithPartialMeansTest: function () {
         return this.createRecipe(
           this.DEFAULT_REQUIRED_CASE_FIELDS,
-          merged(this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
+          utils.mergeObjects(this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
             this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS),
           this.PARTIAL,
           this.IN_SCOPE);
