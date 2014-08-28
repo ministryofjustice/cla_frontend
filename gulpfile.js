@@ -176,16 +176,17 @@ gulp.task('js-compile', ['js-concat'], function(){
   var src_path = paths.dest + 'javascripts/cla.main.js';
 
   return gulp.src(src_path)
-    .pipe(plugins.closureCompiler({
-      compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
-      fileName: 'cla.main.min.js',
-      compilerFlags: {
-        language_in: 'ECMASCRIPT5',
-        warning_level: 'QUIET',
-        compilation_level: 'WHITESPACE_ONLY',
-      }
-    }))
-    .pipe(gulp.dest(paths.dest + 'javascripts/'));
+        .pipe(plugins.ngAnnotate())
+        .pipe(plugins.closureCompiler({
+          compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
+          fileName: 'cla.main.min.js',
+          compilerFlags: {
+            language_in: 'ECMASCRIPT5',
+            warning_level: 'QUIET',
+            compilation_level: 'SIMPLE_OPTIMIZATIONS',
+          }
+        }))
+        .pipe(gulp.dest(paths.dest + 'javascripts/'));
 });
 
 // jshint js code
@@ -222,7 +223,7 @@ gulp.task('guidance-build', function() {
         // adding to index
       var jsonFile = JSON.parse(file.contents.toString()),
           fileName = path.basename(file.path, '.json');
-      
+
       index.add({
         id: fileName,
         title: jsonFile.title,
