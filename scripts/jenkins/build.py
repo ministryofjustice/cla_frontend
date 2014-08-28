@@ -106,7 +106,7 @@ wget_backend.wait()
 wget_frontend.wait()
 
 # run protractor tests against SauceLabs
-run('node_modules/protractor/bin/protractor cla_frontend/assets-src/javascripts/app/test/protractor-jenkins-conf.js')
+run('node_modules/protractor/bin/protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.jenkins.js')
 
 karma.wait()
 print 'exiting...'
