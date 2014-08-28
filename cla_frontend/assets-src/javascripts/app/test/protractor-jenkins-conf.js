@@ -3,7 +3,7 @@ var defaults = require('./protractor-default-conf').config;
 
 exports.config = extend(defaults, {
   baseUrl: 'http://frontend-integration.cla.dsd.io',
-  seleniumAddress: 'http://172.31.26.191:4444/wd/hub',
+  seleniumAddress: 'http://54.77.178.131:4444/wd/hub',
 
   multiCapabilities: [
     {
