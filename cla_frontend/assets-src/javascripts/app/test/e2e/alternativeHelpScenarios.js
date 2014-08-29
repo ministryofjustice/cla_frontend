@@ -13,7 +13,7 @@
     describe('Assign Alternative Help', function () {
       it('should have a disabled assign button if no alternative help providers selected', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
+          utils.goToCase(case_ref);
 
           clickCloseButton();
           var alternative_help_link = findAlternativeHelpLink();
@@ -31,7 +31,7 @@
 
       it('should have enabled assign button if alternative help providers selected', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
+          utils.goToCase(case_ref);
 
           clickCloseButton();
           var alternative_help_link = findAlternativeHelpLink();
@@ -70,7 +70,7 @@
 
       it('should assign', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
+          utils.goToCase(case_ref);
 
           clickCloseButton();
           var alternative_help_link = findAlternativeHelpLink();
@@ -104,7 +104,7 @@
       // xit-ing for now as it causes problems
       xit('should assign f2f', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
+          utils.goToCase(case_ref);
 
           clickCloseButton();
           var alternative_help_link = findAlternativeHelpLink();

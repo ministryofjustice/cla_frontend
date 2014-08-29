@@ -11,7 +11,7 @@
     describe('Suspend a case', function () {
       it('should suspend a case', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
+          utils.goToCase(case_ref);
 
           browser.findElement(by.cssContainingText('.CaseDetails-actions button', 'Close')).click();
 

@@ -252,7 +252,7 @@
             deferred.reject({
               msg: 'The Case must be in scope and eligible to be assigned.',
               case: $case.reference,
-              goto: 'case_detail.edit.diagnosis'
+              goto: diagnosis.isInScopeTrue() ? 'case_detail.edit.eligibility' : 'case_detail.edit.diagnosis'
             });
           } else {
             deferred.resolve();
