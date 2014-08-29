@@ -2,7 +2,8 @@
 (function(){
   'use strict';
 
-  var protractor = require('protractor');
+  var protractor = require('protractor'),
+      CONSTANTS = require('../protractor.constants');
 
   function set_diagnosis_choices(choices) {
     browser.findElement(by.buttonText('Create scope diagnosis')).click();
@@ -58,7 +59,7 @@
   function complete_means_test_details_section(answers) {
     var section = show_means_test_section(0);
     for (var question in answers) {
-      var value = answers[question].toLowerCase() === 'yes' ? '0' : '1';
+      var value = answers[question].toLowerCase() === 'yes' ? '1' : '0';
       var id = '#id_your_details-' + question + '_' + value;
       $(id).click();
     }
@@ -260,10 +261,10 @@
     eligible: function () {
       complete_means_test({
         'Details': {
-          'has_partner': 'yes',
-          'nass_benefits': 'yes',
-          'passported_benefits': 'yes',
-          'older_than_sixty': 'no'
+          'has_partner': 'no',
+          'nass_benefits': 'no',
+          'passported_benefits': 'no',
+          'older_than_sixty': 'yes'
         },
         'Finances': {
           'properties': [],

@@ -1,21 +1,16 @@
 /* jshint unused:false, quotmark:false */
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
 
   var protractor = require('protractor'),
-      utils = require('./_utils'), // UTILS
-      modelsRecipe = require('./_modelsRecipe');
+      utils = require('./_utils'),
+      modelsRecipe = require('./_modelsRecipe'),
+      CONSTANTS = require('../protractor.constants');
 
   describe('operatorApp', function() {
-    // logs the user in before each test
     beforeEach(utils.setUp);
 
-    // USERFUL FOR DEBUGGING:
-    // afterEach(utils.debugTeardown);
-
     describe('Case Set Matter Types and Assign', function() {
-
 
       /**
        * Go to the assign page; if an option as_of parameter is given, it
@@ -104,7 +99,6 @@
           });
           utils.saveCase();
 
-
           // **** TEST 3 ****
           // should not allow saving modal without setting matter type 1 and 2
           goto_assign();
@@ -121,7 +115,6 @@
           modalEl.findElement(by.css('input[name="matter_type2"]')).click();
           modalEl.findElement(by.css('button[type="submit"]')).click();
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
-
 
           // **** TEST 5 ****
           // should not allow assigning without diagnosis being IN SCOPE

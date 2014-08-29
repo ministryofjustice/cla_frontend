@@ -5,14 +5,11 @@
 
   var protractor = require('protractor'),
       utils = require('./_utils'),
-      modelsRecipe = require('./_modelsRecipe');
+      modelsRecipe = require('./_modelsRecipe'),
+      CONSTANTS = require('../protractor.constants');
 
   describe('operatorApp', function() {
-    // logs the user in before each test
     beforeEach(utils.setUp);
-
-    // USERFUL FOR DEBUGGING:
-    // afterEach(utils.debugTeardown);
 
     describe('Auth login', function () {
       var pro = protractor.getInstance();

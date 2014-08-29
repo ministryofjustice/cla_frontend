@@ -1,19 +1,19 @@
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
 
-  var utils = require('./_utils'); // UTILS
+  var utils = require('./_utils'),
+      CONSTANTS = require('../protractor.constants');
 
   describe('Operator Case List', function() {
     beforeEach(utils.setUp);
 
-    describe('Case List Navigation', function () {
+    describe('Case list navigation', function () {
       var searchedUrl, caseRef;
 
       it('should get case list', function() {
-        browser.get(utils.APP_BASE_URL);
+        browser.get(CONSTANTS.callcentreBaseUrl);
 
-        expect(browser.getLocationAbsUrl()).toContain(utils.APP_BASE_URL);
+        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
       });
 
       it('should correctly fill the search field and return results', function () {
