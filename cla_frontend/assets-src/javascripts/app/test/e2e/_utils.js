@@ -2,7 +2,8 @@
 (function(){
   'use strict';
 
-  var protractor = require('protractor');
+  var protractor = require('protractor'),
+      CONSTANTS = require('../protractor.constants');
 
   function set_diagnosis_choices(choices) {
     browser.findElement(by.buttonText('New scope diagnosis')).click();

@@ -3,8 +3,7 @@
 (function(){
   'use strict';
 
-  var protractor = require('protractor'),
-      modelsRecipe = require('./_modelsRecipe'),
+  var CONSTANTS = require('../protractor.constants'),
       utils = require('./_utils');
 
   // helper methods
@@ -57,16 +56,36 @@
         var value = values[parent][model],
             fullModel = parent + '.' + model;
 
-        if (value === true) {
-          expect(element(by.css('[ng-show="' + fullModel + '"]')).isPresent()).toBe(true);
-        } else if (model === 'adaptations') {
-          for (var i in value) {
-            expect(element(by.css('[ng-show="selected_adaptations.length"]')).getText()).toContain(value[i]);
+        if (value === Object(value) && !(value instanceof Array)) {
+          for (var val in value) {
+            checkField(fullModel + '.' + val, value[val]);
           }
         } else {
-          expect(element(by.binding(fullModel)).getText()).toContain(value);
+          checkField(fullModel, value);
         }
       }
+    }
+  }
+
+  function checkField (model, value) {
+    var nonExact = [
+      'personal_details.street',
+      'third_party.personal_details.street',
+      'adaptations.language',
+      'third_party.reason',
+      'third_party.personal_relationship'
+    ];
+
+    if (value === true) {
+      expect(element(by.css('[ng-show="' + model + '"]')).isPresent()).toBe(true);
+    } else if (model === 'adaptations.adaptations') {
+      for (var i in value) {
+        expect(element(by.css('[ng-show="selected_adaptations.length"]')).getText()).toContain(value[i]);
+      }
+    } else if (nonExact.indexOf(model) > -1) {
+      expect(element(by.binding(model)).getText()).toContain(value);
+    } else {
+      expect(element(by.exactBinding(model)).getText()).toContain(value);
     }
   }
 
@@ -75,18 +94,16 @@
 
     describe('Non-existant Case', function (){
       it('should get case list when given non existant case reference', function (){
-        browser.get(utils.APP_BASE_URL + 'XX-0000-0000/');
+        browser.get(CONSTANTS.callcentreBaseUrl + 'XX-0000-0000/');
 
-        expect(browser.getLocationAbsUrl()).toContain(utils.APP_BASE_URL);
+        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
         expect(element(by.css('.Notice.error')).getInnerHtml()).toBe('The Case XX-0000-0000 could not be found!');
       });
     });
 
     describe('Create full case', function (){
       var caseRef,
-          exemptReason = '12 month exemption',
-          mediaCode = 'DIAL UK',
-          caseNotes = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat aliquet imperdiet. Integer id sem quis eros consectetur vulputate ut.';
+          mediaCode = 'DIAL UK';
 
       it('should create a case', function (){
         element(by.buttonText('Create a case')).click();
@@ -97,38 +114,38 @@
       });
 
       it('should fill in case details', function (){
-        element(by.name('case.notes')).sendKeys(caseNotes);
+        element(by.name('case.notes')).sendKeys(CONSTANTS.case.required.notes);
       });
 
       it('should fill in personal details and adaptations', function (){
         var personalDetails = utils.mergeObjects(
-          modelsRecipe.Case.FULL_PERSONAL_DETAILS_FIELDS,
-          modelsRecipe.Case.FULL_ADAPTATIONS,
+          CONSTANTS.personal_details.full,
+          CONSTANTS.adaptations,
           {
             media_code: mediaCode,
             exempt_user: true,
-            exempt_user_reason: exemptReason
+            exempt_user_reason: CONSTANTS.case.remaining.exempt_user_reason
           }
         );
         enterDetails(personalDetails);
       });
 
       it('should fill in a third party', function (){
-        enterDetails(
-          utils.mergeObjects(modelsRecipe.Case.FULL_THIRDPARTY_PD_FIELDS, modelsRecipe.Case.FULL_THIRDPARTY_ADAPTATIONS),
-          true
-        );
+        var thirdParty = utils.mergeObjects(CONSTANTS.thirdparty, CONSTANTS.thirdparty.personal_details);
+        delete thirdParty.personal_details;
+
+        enterDetails(thirdParty, true);
       });
 
       it('should have stored all fields', function (){
         utils.scrollTo(caseRef); // Firefox fix!
         caseRef.getText().then(function (text){
-          browser.get(utils.APP_BASE_URL + text + '/');
+          browser.get(CONSTANTS.callcentreBaseUrl + text + '/');
 
           checkFields({
-            personal_details: modelsRecipe.Case.FULL_PERSONAL_DETAILS_FIELDS,
-            adaptations: modelsRecipe.Case.FULL_ADAPTATIONS,
-            third_party: modelsRecipe.Case.FULL_THIRDPARTY_ADAPTATIONS
+            personal_details: CONSTANTS.personal_details.full,
+            adaptations: CONSTANTS.adaptations,
+            third_party: CONSTANTS.thirdparty
           });
 
           // case model patches
@@ -137,8 +154,8 @@
           expect(mediaCodeEl.getText()).toContain(mediaCode);
           var exemptEl = element(by.css('[ng-show="case.exempt_user"]'));
           expect(exemptEl.isPresent()).toBe(true);
-          expect(exemptEl.getText()).toContain(exemptReason);
-          expect(element(by.name('case.notes')).getAttribute('value')).toBe(caseNotes);
+          expect(exemptEl.getText()).toContain(CONSTANTS.case.remaining.exempt_user_reason);
+          expect(element(by.name('case.notes')).getAttribute('value')).toBe(CONSTANTS.case.required.notes);
         });
       });
     });
