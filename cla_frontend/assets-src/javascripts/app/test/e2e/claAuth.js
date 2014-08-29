@@ -5,14 +5,11 @@
 
   var protractor = require('protractor'),
       utils = require('./_utils'),
-      modelsRecipe = require('./_modelsRecipe');
+      modelsRecipe = require('./_modelsRecipe'),
+      CONSTANTS = require('../protractor.constants');
 
   describe('operatorApp', function() {
-    // logs the user in before each test
     beforeEach(utils.setUp);
-
-    // USERFUL FOR DEBUGGING:
-    // afterEach(utils.debugTeardown);
 
     describe('Auth login', function () {
       var pro = protractor.getInstance();
@@ -30,7 +27,7 @@
 
       it('should allow the operator to login using a modal if logged out', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+'/');
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           utils.showPersonalDetailsForm();
           utils.enterPersonalDetails({
