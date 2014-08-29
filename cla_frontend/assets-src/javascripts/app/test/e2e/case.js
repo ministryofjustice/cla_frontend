@@ -1,10 +1,9 @@
-/* jshint unused:false */
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
 
   var CONSTANTS = require('../protractor.constants'),
-      utils = require('./_utils');
+      utils = require('./_utils'),
+      _ = require('lodash');
 
   // helper methods
   function enterDetails (values, thirdparty) {
@@ -118,7 +117,7 @@
       });
 
       it('should fill in personal details and adaptations', function (){
-        var personalDetails = utils.mergeObjects(
+        var personalDetails = _.extend(
           CONSTANTS.personal_details.full,
           CONSTANTS.adaptations,
           {
@@ -131,7 +130,7 @@
       });
 
       it('should fill in a third party', function (){
-        var thirdParty = utils.mergeObjects(CONSTANTS.thirdparty, CONSTANTS.thirdparty.personal_details);
+        var thirdParty = _.extend(CONSTANTS.thirdparty, CONSTANTS.thirdparty.personal_details);
         delete thirdParty.personal_details;
 
         enterDetails(thirdParty, true);

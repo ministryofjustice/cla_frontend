@@ -1,24 +1,16 @@
-/* jshint undef:false, unused:false */
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
 
-  var protractor = require('protractor'),
-      utils = require('./_utils'),
+  var utils = require('./_utils'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('operatorApp', function() {
-    // logs the user in before each test
+  describe('Operator Case Suspension', function() {
     beforeEach(utils.setUp);
-
-    // USERFUL FOR DEBUGGING:
-    // afterEach(utils.debugTeardown);
     
     describe('Suspend a case', function () {
       it('should suspend a case', function () {
-
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+'/');
+          browser.get('call_centre/' + case_ref + '/');
 
           browser.findElement(by.cssContainingText('.CaseDetails-actions button', 'Close')).click();
 
@@ -33,11 +25,6 @@
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
         });
       });
-
-      function checkOutcomeCode(code) {
-        var codeSpan = element.all(by.binding('log.code'));
-        expect(codeSpan.get(0).getText()).toEqual(code);
-      }
     });
   });
 })();
