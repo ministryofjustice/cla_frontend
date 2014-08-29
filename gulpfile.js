@@ -171,17 +171,30 @@ gulp.task('ng-templates', function(){
 
 // concat js files
 gulp.task('js-concat', ['ng-constants', 'ng-templates'], function() {
-  var concat = paths.scripts.vendor
-                  .concat(paths.scripts.app);
-
   return gulp
-    .src(concat)
+    .src(paths.scripts.app)
     .pipe(plugins.concat('cla.main.js'))
     .pipe(plugins.ngAnnotate())
     .pipe(gulp.dest(paths.dest + 'javascripts/'));
 });
 
-gulp.task('js-compile', ['js-concat'], function(){
+gulp.task('js-lib-compile', function(){
+  return gulp
+    .src(paths.scripts.vendor)
+    .pipe(plugins.ngAnnotate())
+    .pipe(plugins.closureCompiler({
+      compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
+      fileName: 'lib.min.js',
+      compilerFlags: {
+        language_in: 'ECMASCRIPT5',
+        warning_level: 'QUIET',
+        compilation_level: 'SIMPLE_OPTIMIZATIONS',
+      }
+    }))
+    .pipe(gulp.dest(paths.dest + 'javascripts/'));
+});
+
+gulp.task('js-app-compile', ['js-concat'], function(){
   var src_path = paths.dest + 'javascripts/cla.main.js';
 
   return gulp.src(src_path)
@@ -283,5 +296,5 @@ gulp.task('watch', function() {
 gulp.task('default', ['build']);
 // run build
 gulp.task('build', function() {
-  runSequence('clean-pre', ['sass', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-compile']);
+  runSequence('clean-pre', ['sass', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-lib-compile', 'js-app-compile']);
 });
