@@ -3,6 +3,7 @@ import argparse
 import subprocess
 import os
 import sys
+import random
 from Queue import Queue
 
 
@@ -47,7 +48,7 @@ def run(command, ignore_rc=False, **kwargs):
 
 def run_bg(command, **kwargs):
     defaults = {
-        'shell': True
+        'shell': True,
     }
     defaults.update(kwargs)
     process = subprocess.Popen(command, **defaults)
@@ -56,7 +57,13 @@ def run_bg(command, **kwargs):
     return process
 
 print 'starting...'
-run('pkill -f envs/cla_.*integration', ignore_rc=True)
+
+backend_port = random.randint(8005, 8999)
+frontend_port = backend_port + 1
+os.environ['BACKEND_BASE_PORT'] = '%s' % backend_port
+os.environ['FRONTEND_BASE_PORT'] = '%s' % frontend_port
+
+#run('pkill -f envs/cla_.*integration', ignore_rc=True)
 
 # setting up virtualenv
 if not os.path.isdir(env_path):
@@ -77,20 +84,23 @@ npm = run_bg('npm install')
 bower = run_bg("bower install")
 npm.wait()
 bower.wait()
-run("gulp build")
+gulp = run_bg("gulp build")
 
 # run python tests
 py_test = run_bg(("%s/python manage.py jenkins --coverage-rcfile=.coveragerc "
      "--settings=cla_frontend.settings.jenkins") % bin_path)
 
 # start backend and frontend dev servers
+
 backend_process = run_bg(
-    "cd %s && %s/python manage.py testserver kb_from_spreadsheet.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json --addrport 8000 --noinput --settings=cla_backend.settings.jenkins" % (backend_workspace.replace(' ', '\ '), backend_bin_path, ))
-wget_backend = run_bg("wget http://localhost:8000/admin/ -t 20 --retry-connrefused --waitretry=2 -T 60")
+    "cd %s && %s/python manage.py testserver kb_from_spreadsheet.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json --addrport %s --noinput --settings=cla_backend.settings.jenkins" % (backend_workspace.replace(' ', '\ '), backend_bin_path, backend_port)
+)
+wget_backend = run_bg("wget http://localhost:%s/admin/ -t 20 --retry-connrefused --waitretry=2 -T 60" % backend_port)
 
 py_test.wait()
-frontend_process = run_bg("%s/python manage.py runserver 0.0.0.0:8001" % bin_path)
-wget_frontend = run_bg("wget http://localhost:8001/ -t 20 --retry-connrefused --waitretry=2 -T 60")
+gulp.wait()
+test = run_bg("%s/python manage.py runserver 0.0.0.0:%s --settings=cla_frontend.settings.jenkins" % (bin_path, frontend_port))
+wget_frontend = run_bg("wget http://localhost:%s/ -t 20 --retry-connrefused --waitretry=2 -T 60" % frontend_port)
 
 # run Karma unit tests
 karma = run_bg('npm run test-single-run')
@@ -99,13 +109,7 @@ wget_backend.wait()
 wget_frontend.wait()
 
 # run protractor tests against SauceLabs
-run(
-    ('node_modules/protractor/bin/protractor '
-     '--sauceUser %s --sauceKey %s '
-     'cla_frontend/assets-src/javascripts/app/test/protractor.conf.jenkins.js') % (
-        os.environ.get('SAUCE_USER'),
-        os.environ.get('SAUCE_KEY'))
-)
+run('node_modules/protractor/bin/protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.jenkins.js')
 
 karma.wait()
 print 'exiting...'
@@ -117,5 +121,4 @@ while not background_processes.empty():
         # already finished
         pass
 
-run('pkill -f envs/cla_.*integration', ignore_rc=True)
-
+#run('pkill -f envs/cla_.*integration', ignore_rc=True)
