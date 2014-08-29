@@ -99,7 +99,7 @@ wget_backend = run_bg("wget http://localhost:%s/admin/ -t 20 --retry-connrefused
 
 py_test.wait()
 gulp.wait()
-test = run_bg("echo 2222222222222222 && echo $BACKEND_BASE_PORT && %s/python manage.py runserver 0.0.0.0:%s --settings=cla_frontend.settings.jenkins" % (bin_path, frontend_port))
+test = run_bg("%s/python manage.py runserver 0.0.0.0:%s --settings=cla_frontend.settings.jenkins" % (bin_path, frontend_port))
 wget_frontend = run_bg("wget http://localhost:%s/ -t 20 --retry-connrefused --waitretry=2 -T 60" % frontend_port)
 
 # run Karma unit tests
