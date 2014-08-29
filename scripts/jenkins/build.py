@@ -48,7 +48,7 @@ def run(command, ignore_rc=False, **kwargs):
 
 def run_bg(command, **kwargs):
     defaults = {
-        'shell': True
+        'shell': True,
     }
     defaults.update(kwargs)
     process = subprocess.Popen(command, **defaults)
@@ -91,7 +91,9 @@ os.environ['BACKEND_BASE_PORT'] = '%s' % backend_port
 os.environ['FRONTEND_BASE_PORT'] = '%s' % frontend_port
 
 backend_process = run_bg(
-    "cd %s && %s/python manage.py testserver kb_from_spreadsheet.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json --addrport %s --noinput --settings=cla_backend.settings.jenkins" % (backend_workspace.replace(' ', '\ '), backend_bin_path, backend_port))
+    "cd %s && %s/python manage.py testserver kb_from_spreadsheet.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json --addrport %s --noinput --settings=cla_backend.settings.jenkins" % (backend_workspace.replace(' ', '\ '), backend_bin_path, backend_port),
+    env=os.environ
+)
 wget_backend = run_bg("wget http://localhost:%s/admin/ -t 20 --retry-connrefused --waitretry=2 -T 60" % backend_port)
 
 py_test.wait()
