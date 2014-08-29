@@ -4,6 +4,7 @@ import subprocess
 import os
 import sys
 import random
+import signal
 from Queue import Queue
 
 
@@ -118,6 +119,7 @@ finally:
     while not background_processes.empty():
         process = background_processes.get()
         try:
+            os.killpg(os.getpgid(process.pid), signal.SIGINT)
             process.kill()
         except OSError:
             # already finished
