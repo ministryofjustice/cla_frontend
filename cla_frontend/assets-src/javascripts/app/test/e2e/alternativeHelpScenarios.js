@@ -52,7 +52,7 @@
             // select the first three
             to_select = data.splice(0,3);
 
-            for (var i = 0; i < to_select.length; i=i+1) {
+            for (var i = 0; i < to_select.length; i+=1) {
               var inputEl = to_select[i];
               inputEl.click();
             }
@@ -83,7 +83,7 @@
             // select the first three
             to_select = data.splice(0,3);
 
-            for (var i = 0; i < to_select.length; i=+1) {
+            for (var i = 0; i < to_select.length; i+=1) {
               var inputEl = to_select[i];
               inputEl.click();
             }
