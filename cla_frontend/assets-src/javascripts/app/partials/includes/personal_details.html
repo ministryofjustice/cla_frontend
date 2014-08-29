@@ -31,7 +31,7 @@
     <p class="VCard-row" ng-show="adaptations.language">
       <strong>Language</strong>
       <br>
-      {{ adaptations.language }}
+      {{ getLanguageLabel(adaptations.language) }}
     </p>
 
     <div class="VCard-row" ng-show="selected_adaptations.length">
@@ -148,10 +148,10 @@
       <span editable-filterselect="media_code" e-ng-options="s.code as s.label group by s.group for s in media_codes track by s.code" e-name="media_code" e-data-placeholder="Choose media code" e-server-error></span>
     </div>
 
-    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.adaptation_notes.$invalid && personaldetails_submitted}">
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.notes.$invalid && personaldetails_submitted}">
       <p class="u-compact"><strong>User comments</strong></p>
-      <span class="Error-message" ng-show="personaldetails_frm.adaptation_notes.$error.server">{{ errors.adaptation_notes }}</span>
-      <span editable-textarea="adaptations.notes" e-name="adaptation_notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Add comments" e-server-error></span>
+      <span class="Error-message" ng-show="personaldetails_frm.notes.$error.server">{{ errors.notes }}</span>
+      <span editable-textarea="adaptations.notes" e-name="notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Add comments" e-server-error></span>
     </label>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.contact_for_research.$invalid && personaldetails_submitted}">

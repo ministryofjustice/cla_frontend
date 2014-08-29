@@ -20,9 +20,11 @@ $border-colour: #C2C2C2;
     bottom: 1px solid $border-colour;
   };
 
-  .SummaryBlock--compact &:not(:last-child) {
-    margin-bottom: 0;
-    border-bottom-width: 0;
+  .SummaryBlock--compact & {
+    &:not(.is-lastChild) {
+      margin-bottom: 0;
+      border-bottom-width: 0;
+    }
   }
 
   ul, li, blockquote, figcaption {

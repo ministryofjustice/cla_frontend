@@ -16,7 +16,8 @@
 
 
     function compileDirective(template) {
-      if (!template) template = '<form name="form"><input name="num" type="number" ng-model="testModel" cla-pence-to-pounds></form>';
+      template = !template ? '<form name="form"><input name="num" type="number" ng-model="testModel" cla-pence-to-pounds></form>' : template;
+
       inject(function($compile) {
         elem = $compile(template)(scope).find('input');
       });
@@ -29,17 +30,17 @@
         compileDirective();
       });
 
-      it("can parse model in pence and format in pounds", function() {
+      it('can parse model in pence and format in pounds', function() {
         expect(scope.testModel).toBe(elem[0].valueAsNumber * 100);
       });
 
-      it("can parse user input in pounds and set model in pence", function() {
+      it('can parse user input in pounds and set model in pence', function() {
         scope.form.num.$setViewValue('10');
         expect(scope.testModel).toBe(1000);
       });
 
 
-      it("can ignore bad user input", function() {
+      it('can ignore bad user input', function() {
         scope.form.num.$setViewValue('$10');
         expect(scope.testModel).toBe(void(0));
       });

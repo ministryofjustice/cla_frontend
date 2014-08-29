@@ -1,6 +1,6 @@
 from .testing import *
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -21,3 +21,9 @@ DATABASES = {}
 #JENKINS_TEST_RUNNER = 'core.test_runners.AdvancedCITestSuiteRunner'
 
 #HOST_NAME = ""
+
+BACKEND_BASE_URI = 'http://127.0.0.1:%s' % os.environ.get("BACKEND_BASE_PORT", 8000)
+
+
+ZONE_PROFILES['call_centre']['BASE_URI'] = '%s/call_centre/api/v1/' % BACKEND_BASE_URI
+ZONE_PROFILES['cla_provider']['BASE_URI'] = '%s/cla_provider/api/v1/' % BACKEND_BASE_URI

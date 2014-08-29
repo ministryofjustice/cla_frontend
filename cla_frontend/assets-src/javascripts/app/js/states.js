@@ -160,30 +160,22 @@
     defs.CaseEditDetailEligibilityDetailsState = {
       parent: 'case_detail.edit.eligibility',
       name: 'case_detail.edit.eligibility.details',
-      url: 'details/',
-      deepStateRedirect: true,
-      sticky: true
+      url: 'details/'
     };
     defs.CaseEditDetailEligibilityFinancesState = {
       parent: 'case_detail.edit.eligibility',
       name: 'case_detail.edit.eligibility.finances',
-      url: 'finances/',
-      deepStateRedirect: true,
-      sticky: true
+      url: 'finances/'
     };
     defs.CaseEditDetailEligibilityIncomeState = {
       parent: 'case_detail.edit.eligibility',
       name: 'case_detail.edit.eligibility.income',
-      url: 'income/',
-      deepStateRedirect: true,
-      sticky: true
+      url: 'income/'
     };
     defs.CaseEditDetailEligibilityExpensesState = {
       parent: 'case_detail.edit.eligibility',
       name: 'case_detail.edit.eligibility.expenses',
-      url: 'expenses/',
-      deepStateRedirect: true,
-      sticky: true
+      url: 'expenses/'
     };
 
     defs.CaseEditDetailDiagnosisState = {

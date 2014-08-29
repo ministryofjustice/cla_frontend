@@ -7,7 +7,7 @@ describe('OperatorApp controllers', function() {
 
   describe('CaseListCtrl', function(){
 
-    it("contains spec with an expectation", function() {
+    it('contains spec with an expectation', function() {
       expect(true).toBe(true);
     });
 

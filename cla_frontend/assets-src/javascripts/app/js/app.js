@@ -32,7 +32,6 @@
       'angular-blocks',
       'xeditable',
       'ui.router',
-      'ct.ui.router.extras',
       'cla.constants',
       'cla.controllers',
       'cla.controllers.operator',

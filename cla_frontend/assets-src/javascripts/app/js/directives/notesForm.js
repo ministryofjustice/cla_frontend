@@ -11,6 +11,7 @@
         templateUrl:  'directives/notes_form.html',
         scope: {
           model: '=ngModel',
+          ref: '@ngModel',
           case: '='
         },
         link: function(scope) {

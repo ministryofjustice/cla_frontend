@@ -94,8 +94,13 @@
 .BlockLink {
   @include core-14;
   @include border-radius(3px);
+  @include box-sizing(border-box);
   background-color: $grey-3;
+  border: 0;
   display: block;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
   padding: 6px 10px 4px;
   margin: 10px 0;
   text-decoration: none;

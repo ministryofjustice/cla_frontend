@@ -4,6 +4,12 @@ var gulp = require('gulp'),
     stylish = require('jshint-stylish'),
     lodash = require('lodash'),
     runSequence = require('run-sequence'),
+    lunr = require('lunr'),
+    gutil = require('gulp-util'),
+    path = require('path'),
+    through2 = require('through2'),
+    fs = require('fs'),
+    S = require('string'),
     java_path = path.resolve('node_modules/closurecompiler/jre/bin');
     process.env.PATH = java_path + ':' + process.env.PATH,
     paths = {
@@ -72,12 +78,14 @@ paths.guidance.push(paths.src + 'guidance/**/*.md');
 gulp.task('clean-pre', function() {
   return gulp
     .src([paths.dest, paths.tmp], {read: false})
-    .pipe(plugins.clean());
+    .pipe(plugins.ignore('node_modules/**'))
+    .pipe(plugins.rimraf());
 });
 gulp.task('clean-post', function() {
   return gulp
     .src(paths.tmp, {read: false})
-    .pipe(plugins.clean());
+    .pipe(plugins.ignore('node_modules/**'))
+    .pipe(plugins.rimraf());
 });
 
 // copy across web fonts
@@ -169,6 +177,7 @@ gulp.task('js-concat', ['ng-constants', 'ng-templates'], function() {
   return gulp
     .src(concat)
     .pipe(plugins.concat('cla.main.js'))
+    .pipe(plugins.ngAnnotate())
     .pipe(gulp.dest(paths.dest + 'javascripts/'));
 });
 
@@ -176,22 +185,25 @@ gulp.task('js-compile', ['js-concat'], function(){
   var src_path = paths.dest + 'javascripts/cla.main.js';
 
   return gulp.src(src_path)
-    .pipe(plugins.closureCompiler({
-      compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
-      fileName: 'cla.main.min.js',
-      compilerFlags: {
-        language_in: 'ECMASCRIPT5',
-        warning_level: 'QUIET',
-        compilation_level: 'WHITESPACE_ONLY',
-      }
-    }))
-    .pipe(gulp.dest(paths.dest + 'javascripts/'));
+        .pipe(plugins.closureCompiler({
+          compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
+          fileName: 'cla.main.min.js',
+          compilerFlags: {
+            language_in: 'ECMASCRIPT5',
+            warning_level: 'QUIET',
+            compilation_level: 'SIMPLE_OPTIMIZATIONS',
+          }
+        }))
+        .pipe(gulp.dest(paths.dest + 'javascripts/'));
 });
 
 // jshint js code
 gulp.task('lint', function() {
   var lint = paths.scripts.app
-                  .concat(['!' + paths.tmp + 'javascripts/app/partials/**/*']);
+                  .concat([
+                    paths.src + 'javascripts/app/test/**/*.js',
+                    '!' + paths.tmp + 'javascripts/app/partials/**/*'
+                  ]);
 
   gulp
     .src(lint)
@@ -200,13 +212,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('guidance-build', function() {
-  var lunr = require('lunr'),
-      gutil = require('gulp-util'),
-      path = require('path'),
-      through2 = require('through2'),
-      fs = require('fs'),
-      S = require('string'),
-      index;
+  var index;
 
   index = lunr(function () {
     this.field('title', {boost: 10});
@@ -222,7 +228,7 @@ gulp.task('guidance-build', function() {
         // adding to index
       var jsonFile = JSON.parse(file.contents.toString()),
           fileName = path.basename(file.path, '.json');
-      
+
       index.add({
         id: fileName,
         title: jsonFile.title,

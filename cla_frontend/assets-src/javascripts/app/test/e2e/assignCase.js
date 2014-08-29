@@ -1,4 +1,4 @@
-/* jshint unused:false */
+/* jshint unused:false, quotmark:false */
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
@@ -40,7 +40,7 @@
       }
 
       function checkAssign(case_ref) {
-        var txt = browser.findElement(by.css('.Notice.success')).getInnerHtml();
+        var txt = browser.findElement(by.css('.Notice.success:last-child')).getInnerHtml();
         expect(txt).toContain('Case '+case_ref+' assigned to');
       }
 
@@ -52,13 +52,15 @@
 
       it('should allow assigning a case only after all mandatory steps', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
+          var messages, modalEl;
+
           // **** TEST 1 ****
           // should not allow assigning a case without required fields
           utils.goToCase(case_ref, true);
 
           goto_assign();
 
-          var messages = element(by.css('.modal-content .Error[data-case-errors]'));
+          messages = element(by.css('.modal-content .Error[data-case-errors]'));
           expect(messages.isPresent()).toBe(true);
           expect(messages.getText()).toContain('Name');
           expect(messages.getText()).toContain('Case notes');
@@ -86,7 +88,7 @@
 
           goto_assign();
 
-          var messages = element(by.css('.modal-content .Notice[data-case-warnings]'));
+          messages = element(by.css('.modal-content .Notice[data-case-warnings]'));
           expect(messages.isPresent()).toBe(true);
           expect(messages.getText()).toContain('postcode');
           expect(messages.getText()).toContain('address');
@@ -107,7 +109,7 @@
           // should not allow saving modal without setting matter type 1 and 2
           goto_assign();
 
-          var modalEl = browser.findElement(by.css('div.modal'));
+          modalEl = browser.findElement(by.css('div.modal'));
           modalEl.findElement(by.css('button[type="submit"]')).click();
           expect(modalEl.isElementPresent(by.css('button[type="submit"]'))).toBe(true);
 
