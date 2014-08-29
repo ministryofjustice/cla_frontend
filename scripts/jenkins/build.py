@@ -127,10 +127,12 @@ try:
 finally:
     while not background_processes.empty():
         process = background_processes.get()
+        print "killing processes: queue size: %s" % process.qsize()
         try:
+            print "kill: proccess with pid: %s" % process.pid
             kill_child_processes(process.pid)
             process.kill()
-        except:
+        except OSError:
             # already finished
             pass
 
