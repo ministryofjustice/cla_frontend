@@ -2,7 +2,8 @@
 (function(){
   'use strict';
 
-  var protractor = require('protractor');
+  var protractor = require('protractor'),
+      CONSTANTS = require('../protractor.constants');
 
   function set_diagnosis_choices(choices) {
     browser.findElement(by.buttonText('New scope diagnosis')).click();
@@ -318,26 +319,6 @@
         'Expenses': {
         }
       });
-    },
-
-    mergeObjects: function () {
-      var args = Array.prototype.slice.call(arguments);
-      return args.reduce(function (acc, curr) {
-        for (var key in curr) {
-          acc[key] = curr[key];
-        }
-        return acc;
-      }, {});
-
-      // var ret = {};
-      // for (var i=0; i<arguments.length; i++) {
-      //   for (var p in arguments[i]) {
-      //     if (arguments[i].hasOwnProperty(p)) {
-      //       ret[p] = arguments[i][p];
-      //     }
-      //   }
-      // }
-      // return ret;
     }
   };
 })();

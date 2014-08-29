@@ -1,11 +1,9 @@
-/* jshint unused:false */
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
 
-  var protractor = require('protractor'),
-      modelsRecipe = require('./_modelsRecipe'),
-      utils = require('./_utils');
+  var utils = require('./_utils'),
+      CONSTANTS = require('../protractor.constants'),
+      modelsRecipe = require('./_modelsRecipe');
 
   function fillDiagnosis (nodes) {
     for (var node in nodes) {
@@ -18,7 +16,7 @@
   describe('Operator Scope Diagnosis', function (){
     beforeEach(utils.setUp);
 
-    describe('Scope diagnosis', function () {
+    describe('The scope diagnosis', function () {
       var form = element(by.name('diagnosis-form')),
           newBtn = element(by.name('diagnosis-new')),
           deleteBtn = element(by.name('diagnosis-delete')),
@@ -27,7 +25,7 @@
 
       it('should create and complete an in scope diagnosis', function (){
         modelsRecipe.Case.createEmpty().then(function(caseRef) {
-          browser.get(utils.APP_BASE_URL + caseRef + '/diagnosis/');
+          browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/diagnosis/');
           // create button present
           expect(newBtn.isDisplayed()).toBe(true);
           newBtn.click();
@@ -55,7 +53,7 @@
 
       it('should complete an in scope diagnosis', function (){
         // correct fill full diagnosis
-        fillDiagnosis(modelsRecipe.Case.IN_SCOPE);
+        fillDiagnosis(CONSTANTS.scope.true);
 
         expect(deleteBtn.isDisplayed()).toBe(true);
         expect(element(by.cssContainingText('a', 'Create financial assessment')).isDisplayed()).toBe(true);
@@ -80,7 +78,7 @@
 
       it('should create an out of scope diagnosis', function (){
         newBtn.click();
-        fillDiagnosis(modelsRecipe.Case.OUT_SCOPE);
+        fillDiagnosis(CONSTANTS.scope.false);
 
         expect(element(by.cssContainingText('.Tabs-tabLink.Icon--solidCross', 'Scope diagnosis')).isPresent()).toBe(true);
       });
