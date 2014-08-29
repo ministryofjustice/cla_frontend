@@ -49,7 +49,8 @@
         email: 'foo.bar@foobar.com',
         vulnerable_user: true,
         contact_for_research: true
-      }
+      },
+      full: {}
     },
     adaptations: {
       adaptations: ['BSL - Webcam', 'Callback preference'],
@@ -71,11 +72,15 @@
   };
 
   // can't run inside object
-  testConstants.personal_details.full = _.extend(
+  _.assign(
+    testConstants.personal_details.full,
     testConstants.personal_details.required,
     testConstants.personal_details.recommended,
     testConstants.personal_details.remaining
   );
+
+  console.log('==========');
+  console.log(testConstants.personal_details);
 
   module.exports = testConstants;
 })();

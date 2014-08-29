@@ -117,7 +117,8 @@
       });
 
       it('should fill in personal details and adaptations', function (){
-        var personalDetails = _.extend(
+        enterDetails(_.extend(
+          {},
           CONSTANTS.personal_details.full,
           CONSTANTS.adaptations,
           {
@@ -125,12 +126,11 @@
             exempt_user: true,
             exempt_user_reason: CONSTANTS.case.remaining.exempt_user_reason
           }
-        );
-        enterDetails(personalDetails);
+        ));
       });
 
       it('should fill in a third party', function (){
-        var thirdParty = _.extend(CONSTANTS.thirdparty, CONSTANTS.thirdparty.personal_details);
+        var thirdParty = _.extend({}, CONSTANTS.thirdparty, CONSTANTS.thirdparty.personal_details);
         delete thirdParty.personal_details;
 
         enterDetails(thirdParty, true);

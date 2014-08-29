@@ -115,6 +115,7 @@
         return this.createRecipe(
           CONSTANTS.case.required,
           _.extend(
+            {},
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
@@ -126,6 +127,7 @@
         return this.createRecipe(
           CONSTANTS.case.required,
           _.extend(
+            {},
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
@@ -144,6 +146,7 @@
         return this.createRecipe(
           CONSTANTS.case.required,
           _.extend(
+            {},
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
