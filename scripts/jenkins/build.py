@@ -85,7 +85,7 @@ py_test = run_bg(("%s/python manage.py jenkins --coverage-rcfile=.coveragerc "
      "--settings=cla_frontend.settings.jenkins") % bin_path)
 
 # start backend and frontend dev servers
-backend_port = random.randint(8005, 60000)
+backend_port = random.randint(8005, 8999)
 frontend_port = backend_port + 1
 os.environ['BACKEND_BASE_PORT'] = '%s' % backend_port
 os.environ['FRONTEND_BASE_PORT'] = '%s' % frontend_port

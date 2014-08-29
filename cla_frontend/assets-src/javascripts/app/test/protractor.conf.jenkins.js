@@ -3,7 +3,6 @@
   var extend = require('extend'),
       defaults = require('./protractor.conf');
 
-  console.log('******************* '+process.env.FRONTEND_BASE_PORT);
   exports.config = extend(defaults.config, {
     // increase timeouts on CI
     allScriptsTimeout: 120000,
