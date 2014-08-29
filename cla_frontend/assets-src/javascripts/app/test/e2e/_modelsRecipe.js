@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  var utils = require('./_utils'),
+  var _ = require('lodash'),
       CONSTANTS = require('../protractor.constants');
 
   module.exports = {
@@ -114,7 +114,7 @@
       createWithRequiredRecommendedFields: function() {
         return this.createRecipe(
           CONSTANTS.case.required,
-          utils.mergeObjects(
+          _.extend(
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
@@ -125,7 +125,7 @@
       createWithScopeAndEligibility: function(inScope, isEligible) {
         return this.createRecipe(
           CONSTANTS.case.required,
-          utils.mergeObjects(
+          _.extend(
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
@@ -142,11 +142,14 @@
       },
       createWithPartialMeansTest: function () {
         return this.createRecipe(
-          this.DEFAULT_REQUIRED_CASE_FIELDS,
-          utils.mergeObjects(this.DEFAULT_REQUIRED_PERSONAL_DETAILS_FIELDS,
-            this.DEFAULT_RECOMMENDED_PERSONAL_DETAILS_FIELDS),
-          this.PARTIAL,
-          this.IN_SCOPE);
+          CONSTANTS.case.required,
+          _.extend(
+            CONSTANTS.personal_details.required,
+            CONSTANTS.personal_details.recommended
+          ),
+          CONSTANTS.eligibility.partial,
+          CONSTANTS.scope.true
+        );
       }
     }
   };
