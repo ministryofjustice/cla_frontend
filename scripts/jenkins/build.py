@@ -4,7 +4,17 @@ import subprocess
 import os
 import sys
 import random
+import signal
 from Queue import Queue
+
+
+def kill_child_processes(parent_pid, sig=signal.SIGTERM):
+    ps_command = subprocess.Popen("ps -o pid --ppid %d --noheaders" % parent_pid, shell=True, stdout=subprocess.PIPE)
+    ps_output = ps_command.stdout.read()
+    retcode = ps_command.wait()
+    # assert retcode == 0, "ps command returned %d" % retcode
+    for pid_str in ps_output.split("\n")[:-1]:
+        os.kill(int(pid_str), sig)
 
 
 background_processes = Queue()
@@ -100,7 +110,7 @@ try:
 
     py_test.wait()
     gulp.wait()
-    test = run_bg("%s/python manage.py runserver 0.0.0.0:%s --settings=cla_frontend.settings.jenkins" % (bin_path, frontend_port))
+    test = run_bg("%s/python manage.py runserver 0.0.0.0:%s --settings=cla_frontend.settings.jenkins --nothreading --noreload" % (bin_path, frontend_port))
     wget_frontend = run_bg("wget http://localhost:%s/ -t 20 --retry-connrefused --waitretry=2 -T 60" % frontend_port)
 
     # run Karma unit tests
@@ -115,9 +125,12 @@ try:
     karma.wait()
     print 'exiting...'
 finally:
+    print "killing processes: queue size: %s" % background_processes.qsize()
     while not background_processes.empty():
         process = background_processes.get()
         try:
+            print "kill: proccess with pid: %s" % process.pid
+            kill_child_processes(process.pid)
             process.kill()
         except OSError:
             # already finished
