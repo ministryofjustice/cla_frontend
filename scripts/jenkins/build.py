@@ -104,13 +104,13 @@ try:
     # start backend and frontend dev servers
 
     backend_process = run_bg(
-        "cd %s && %s/python manage.py testserver kb_from_spreadsheet.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json --addrport %s --noinput --settings=cla_backend.settings.jenkins" % (backend_workspace.replace(' ', '\ '), backend_bin_path, backend_port)
+        "cd %s && %s/python manage.py testserver kb_from_spreadsheet.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json --addrport %s --noinput --settings=cla_backend.settings.jenkins --nothreading --noreload" % (backend_workspace.replace(' ', '\ '), backend_bin_path, backend_port)
     )
     wget_backend = run_bg("wget http://localhost:%s/admin/ -t 20 --retry-connrefused --waitretry=2 -T 60" % backend_port)
 
     py_test.wait()
     gulp.wait()
-    test = run_bg("%s/python manage.py runserver 0.0.0.0:%s --settings=cla_frontend.settings.jenkins" % (bin_path, frontend_port))
+    test = run_bg("%s/python manage.py runserver 0.0.0.0:%s --settings=cla_frontend.settings.jenkins --nothreading --noreload" % (bin_path, frontend_port))
     wget_frontend = run_bg("wget http://localhost:%s/ -t 20 --retry-connrefused --waitretry=2 -T 60" % frontend_port)
 
     # run Karma unit tests
@@ -125,9 +125,9 @@ try:
     karma.wait()
     print 'exiting...'
 finally:
+    print "killing processes: queue size: %s" % background_processes.qsize()
     while not background_processes.empty():
         process = background_processes.get()
-        print "killing processes: queue size: %s" % process.qsize()
         try:
             print "kill: proccess with pid: %s" % process.pid
             kill_child_processes(process.pid)
