@@ -6,9 +6,9 @@
 
   module.exports = {
     Case: {
-      createRecipe: function(caseFields, personalDetailsFields, eligibilityCheckFields, diagnosisNodes) {
+      createRecipe: function(caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields) {
 
-        function _createCase(el, caseFields, personalDetailsFields, eligibilityCheckFields, diagnosisNodes, callback) {
+        function _createCase(el, caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields, callback) {
           var $el = document.querySelector(el),
               injector = angular.element($el).injector(),
               Case = injector.get('Case'),
@@ -95,7 +95,7 @@
         }
 
         return browser.driver.executeAsyncScript(
-          _createCase, browser.rootEl, caseFields, personalDetailsFields, eligibilityCheckFields, diagnosisNodes
+          _createCase, browser.rootEl, caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields
         );
       },
 
@@ -107,6 +107,7 @@
         return this.createRecipe(
           CONSTANTS.case.required,
           CONSTANTS.personal_details.required,
+          undefined,
           CONSTANTS.eligibility.required
         );
       },
@@ -119,6 +120,7 @@
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
+          undefined,
           CONSTANTS.eligibility.required
         );
       },
@@ -131,8 +133,8 @@
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
-          inScope ? CONSTANTS.eligibility[isEligible] : undefined,
-          CONSTANTS.scope[inScope]
+          CONSTANTS.scope[inScope],
+          inScope ? CONSTANTS.eligibility[isEligible] : undefined
         );
       },
 
@@ -141,27 +143,7 @@
       },
       createWithOutScopeAndInEligible: function () {
         return this.createWithScopeAndEligibility(false, false);
-      },
-      createWithPartialMeansTest: function () {
-        return this.createRecipe(
-          CONSTANTS.case.required,
-          _.extend(
-            {},
-            CONSTANTS.personal_details.required,
-            CONSTANTS.personal_details.recommended
-          ),
-          CONSTANTS.eligibility.partial,
-          CONSTANTS.scope.true
-        );
       }
     }
   };
-
-  // function per_month(amount) {
-  //   return {
-  //     interval_period: 'per_month',
-  //     per_interval_value: amount
-  //   };
-  // }
-
 })();

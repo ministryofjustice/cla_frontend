@@ -79,8 +79,5 @@
     testConstants.personal_details.remaining
   );
 
-  console.log('==========');
-  console.log(testConstants.personal_details);
-
   module.exports = testConstants;
 })();

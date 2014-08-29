@@ -1,9 +1,8 @@
-/* jshint undef:false, unused:false, plusplus:false */
+/* global xit */
 (function(){
   'use strict';
 
-  var protractor = require('protractor'),
-      utils = require('./_utils'),
+  var utils = require('./_utils'),
       modelsRecipe = require('./_modelsRecipe'),
       CONSTANTS = require('../protractor.constants');
 
@@ -53,7 +52,7 @@
             // select the first three
             to_select = data.splice(0,3);
 
-            for (var i = 0; i < to_select.length; i++) {
+            for (var i = 0; i < to_select.length; i=i+1) {
               var inputEl = to_select[i];
               inputEl.click();
             }
@@ -84,7 +83,7 @@
             // select the first three
             to_select = data.splice(0,3);
 
-            for (var i = 0; i < to_select.length; i++) {
+            for (var i = 0; i < to_select.length; i=+1) {
               var inputEl = to_select[i];
               inputEl.click();
             }
