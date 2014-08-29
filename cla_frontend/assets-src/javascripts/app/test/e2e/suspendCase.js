@@ -2,7 +2,8 @@
   'use strict';
 
   var utils = require('./_utils'),
-      modelsRecipe = require('./_modelsRecipe');
+      modelsRecipe = require('./_modelsRecipe'),
+      CONSTANTS = require('../protractor.constants');
 
   describe('Operator Case Suspension', function() {
     beforeEach(utils.setUp);
@@ -10,7 +11,7 @@
     describe('Suspend a case', function () {
       it('should suspend a case', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/' + case_ref + '/');
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           browser.findElement(by.cssContainingText('.CaseDetails-actions button', 'Close')).click();
 

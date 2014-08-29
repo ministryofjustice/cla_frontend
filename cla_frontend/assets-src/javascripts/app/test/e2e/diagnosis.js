@@ -18,7 +18,7 @@
   describe('Operator Scope Diagnosis', function (){
     beforeEach(utils.setUp);
 
-    describe('Scope diagnosis', function () {
+    describe('The scope diagnosis', function () {
       var form = element(by.name('diagnosis-form')),
           newBtn = element(by.name('diagnosis-new')),
           deleteBtn = element(by.name('diagnosis-delete')),

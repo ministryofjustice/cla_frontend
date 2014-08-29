@@ -91,7 +91,7 @@
   describe('Operator Case Details', function (){
     beforeEach(utils.setUp);
 
-    describe('Non-existant Case', function (){
+    describe('A non-existant Case', function (){
       it('should get case list when given non existant case reference', function (){
         browser.get(CONSTANTS.callcentreBaseUrl + 'XX-0000-0000/');
 
@@ -100,11 +100,11 @@
       });
     });
 
-    describe('Create full case', function (){
+    describe('A full case', function (){
       var caseRef,
           mediaCode = 'DIAL UK';
 
-      it('should create a case', function (){
+      it('should be created', function (){
         element(by.buttonText('Create a case')).click();
 
         caseRef = element(by.binding('case.reference'));
@@ -136,7 +136,7 @@
         enterDetails(thirdParty, true);
       });
 
-      it('should have stored all fields', function (){
+      it('should have stored all fields after reload', function (){
         utils.scrollTo(caseRef); // Firefox fix!
         caseRef.getText().then(function (text){
           browser.get(CONSTANTS.callcentreBaseUrl + text + '/');

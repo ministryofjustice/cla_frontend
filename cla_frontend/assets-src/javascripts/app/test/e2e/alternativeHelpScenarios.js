@@ -1,23 +1,19 @@
-/* jshint undef:false, unused:false, quotmark:false, plusplus:false */
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
+/* jshint undef:false, unused:false, plusplus:false */
 (function(){
   'use strict';
 
   var protractor = require('protractor'),
       utils = require('./_utils'),
-      modelsRecipe = require('./_modelsRecipe');
+      modelsRecipe = require('./_modelsRecipe'),
+      CONSTANTS = require('../protractor.constants');
 
   describe('operatorApp', function() {
-    // logs the user in before each test
     beforeEach(utils.setUp);
-
-    // USERFUL FOR DEBUGGING:
-    // afterEach(utils.debugTeardown);
 
     describe('Assign Alternative Help', function () {
       it('should have a disabled assign button if no alternative help providers selected', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           clickCloseButton();
           var alternative_help_link = findAlternativeHelpLink();
@@ -35,7 +31,7 @@
 
       it('should have enabled assign button if alternative help providers selected', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           clickCloseButton();
           var alternative_help_link = findAlternativeHelpLink();
@@ -74,7 +70,7 @@
 
       it('should assign', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           clickCloseButton();
           var alternative_help_link = findAlternativeHelpLink();
@@ -108,7 +104,7 @@
       // xit-ing for now as it causes problems
       xit('should assign f2f', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           clickCloseButton();
           var alternative_help_link = findAlternativeHelpLink();
@@ -144,7 +140,7 @@
       it('should be able to decline help (in_scope)', function () {
 
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
-          browser.get('call_centre/' + case_ref + "/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           clickCloseButton();
 
@@ -175,7 +171,7 @@
 
 
         modelsRecipe.Case.createWithOutScopeAndInEligible().then(function(case_ref) {
-          browser.get('call_centre/' + case_ref + "/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           clickCloseButton();
 

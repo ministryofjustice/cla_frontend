@@ -2,7 +2,8 @@
   'use strict';
 
   var utils = require('./_utils'),
-      modelsRecipe = require('./_modelsRecipe');
+      modelsRecipe = require('./_modelsRecipe'),
+      CONSTANTS = require('../protractor.constants');
 
   function assert_tabs_shown(num) {
     browser.findElements(by.css('[name="form"] ul.Tabs [ng-repeat="section in sections"]')).then(function (tabs) {
@@ -20,13 +21,13 @@
     $('#id_your_details-passported_benefits_' + yes_no).click();
   }
 
-  describe('operatorApp', function() {
+  describe('Operator Financial Assessment', function() {
     beforeEach(utils.setUp);
 
     describe('The financial assessment', function() {
       it('should show 4 section tabs', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function (case_ref) {
-          browser.get('call_centre/' + case_ref + '/');
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
           browser.findElement(by.css('[ui-sref="case_detail.edit.eligibility"]')).click();
           assert_tabs_shown(4);
         });
