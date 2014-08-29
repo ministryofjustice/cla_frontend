@@ -12,7 +12,7 @@ def kill_child_processes(parent_pid, sig=signal.SIGTERM):
     ps_command = subprocess.Popen("ps -o pid --ppid %d --noheaders" % parent_pid, shell=True, stdout=subprocess.PIPE)
     ps_output = ps_command.stdout.read()
     retcode = ps_command.wait()
-    assert retcode == 0, "ps command returned %d" % retcode
+    # assert retcode == 0, "ps command returned %d" % retcode
     for pid_str in ps_output.split("\n")[:-1]:
             os.kill(int(pid_str), sig)
 

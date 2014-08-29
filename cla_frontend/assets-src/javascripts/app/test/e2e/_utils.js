@@ -83,7 +83,7 @@
         field_names.map(prefix('disputed_savings.'))
     );
     fields.map(function (field) {
-      fill_model_field(_ec(field), answers[field], '0');
+      fill_model_field(_ec(field), answers[field], 0);
     });
   }
 
