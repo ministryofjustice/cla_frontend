@@ -1,6 +1,6 @@
 from .testing import *
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -24,5 +24,3 @@ DATABASES = {}
 
 BACKEND_BASE_URI = 'http://127.0.0.1:%s' % os.environ.get("BACKEND_BASE_PORT", 8000)
 print '11111111111111111111111111111111: '+BACKEND_BASE_URI
-
-ALLOWED_HOSTS = '*'
