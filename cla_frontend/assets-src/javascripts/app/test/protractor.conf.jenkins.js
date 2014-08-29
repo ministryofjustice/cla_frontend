@@ -10,18 +10,15 @@
       defaultTimeoutInterval: 120000
     },
     
-    baseUrl: 'http://jenkins.local.dsd.io:8001/',
+    baseUrl: 'http://172.31.42.35:'+process.env.FRONTEND_BASE_PORT+'/',
+    seleniumAddress: 'http://172.31.26.191:4444/wd/hub',
 
     multiCapabilities: [
       {
-        browserName: 'chrome',
-        platform: 'OS X 10.9',
-        version: ''
+        browserName: 'chrome'
       },
       {
-        browserName: 'firefox',
-        platform: 'OS X 10.9',
-        version: '30'
+        browserName: 'firefox'
       }
     ]
   });
