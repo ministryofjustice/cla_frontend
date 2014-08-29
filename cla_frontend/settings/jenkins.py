@@ -24,3 +24,7 @@ DATABASES = {}
 
 BACKEND_BASE_URI = 'http://127.0.0.1:%s' % os.environ.get("BACKEND_BASE_PORT", 8000)
 print '11111111111111111111111111111111: '+BACKEND_BASE_URI
+
+
+ZONE_PROFILES['call_centre']['BASE_URI'] = '%s/call_centre/api/v1/' % BACKEND_BASE_URI
+ZONE_PROFILES['cla_provider']['BASE_URI'] = '%s/cla_provider/api/v1/' % BACKEND_BASE_URI
