@@ -14,7 +14,7 @@ def kill_child_processes(parent_pid, sig=signal.SIGTERM):
     retcode = ps_command.wait()
     # assert retcode == 0, "ps command returned %d" % retcode
     for pid_str in ps_output.split("\n")[:-1]:
-            os.kill(int(pid_str), sig)
+        os.kill(int(pid_str), sig)
 
 
 background_processes = Queue()
@@ -130,7 +130,7 @@ finally:
         try:
             kill_child_processes(process.pid)
             process.kill()
-        except OSError:
+        except:
             # already finished
             pass
 
