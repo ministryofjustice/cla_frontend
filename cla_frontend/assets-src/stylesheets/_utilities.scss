@@ -12,6 +12,9 @@
     padding-left: 5px;
     content: " \25BC";
   }
+  &--lrg:after {
+    font-size: 19px;
+  }
 }
 .u-sortAsc {
   &:after {
@@ -21,7 +24,40 @@
     padding-left: 5px;
     content: " \25B2";
   }
+  &--lrg:after {
+    font-size: 19px;
+  }
+}
+.u-strike {
+  text-decoration: line-through;
+  color: $red;
+}
+.u-plainList {
+  list-style: none;
+}
+.u-block {
+  display: block;
+}
+.u-compact {
+  margin: 0;
+  padding: 0;
+}
+.u-highlightRed {
+  color: $red;
 }
 .u-mute {
   color: $grey-1;
+}
+.u-horLine {
+  border: 0;
+  margin: 15px 0;
+  background-color: #C2C2C2;
+  height: 1px;
+}
+
+.js-visible {
+  display: block;
+}
+.js-hidden {
+  display: none;
 }

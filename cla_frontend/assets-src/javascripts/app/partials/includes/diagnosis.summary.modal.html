@@ -1,0 +1,9 @@
+<h2 ng-class="diagnosisTitleClass()">{{ diagnosisTitle() }}</h2>
+
+<section class="SummaryBlock SummaryBlock--compact" ng-show="diagnosis.nodes">
+  <div class="SummaryBlock-content" ng-repeat="statement in diagnosis.nodes" ng-bind-html="statement.label"></div>
+</section>
+
+<div class="FormActions">
+  <a href="" ng-click="close()">Close</a>
+</div>

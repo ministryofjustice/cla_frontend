@@ -1,14 +1,14 @@
 from django import template
 
-from cla_common.constants import CASE_STATE_OPEN
+from cla_common.constants import REQUIRES_ACTION_BY
 
 register = template.Library()
 
 
 @register.filter()
-def is_case_open(case):
+def is_case_in_review(case):
     """
-    TODO: might not be needed anymore in the future if we start using Models
+    TODO: might not be needed anymore in the future if we start using Angular
     in templates.
     """
-    return case.get('state') == CASE_STATE_OPEN
+    return case.get('requires_action_by') == REQUIRES_ACTION_BY.PROVIDER_REVIEW

@@ -1,0 +1,25 @@
+<h2>Choose Address</h2>
+
+<section class="SummaryBlock SummaryBlock--compact">
+
+  <p ng-show="$parent.model.loading">Finding addresses...</p>
+
+  <div class="FormBlock FormBlock--yellow" ng-show="!$parent.model.loading && addresses.length > 0">
+    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in addresses">
+      <label class="FormRow-label">
+        <input type="radio" value="{{ address.formatted_address }}"
+        ng-click="setAddress(address.formatted_address)">
+        {{ address.formatted_address.split("\n").join(", ") }}
+      </label>
+    </div>
+  </div>
+
+  <div class="FormBlock FormBlock--yellow" ng-show="!$parent.model.loading && addresses.length == 0">
+    <p>No addresses found.</p>
+  </div>
+
+</section>
+
+<div class="FormActions">
+  <a href="" ng-click="close()">Close</a>
+</div>

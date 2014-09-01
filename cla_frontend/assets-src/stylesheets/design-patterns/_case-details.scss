@@ -1,0 +1,14 @@
+.CaseDetails-caseNum {
+  @include bold-24;
+  margin: 20px 0 0;
+  padding: 0;
+}
+.CaseDetails-entitlementNum {
+  @include core-14;
+  padding: 0;
+  margin: 0;
+}
+
+.CaseDetails-actions {
+  margin: 15px 0 0;
+}

@@ -2,6 +2,7 @@ import slumber
 import urllib
 
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 
 from cla_auth.auth_providers import BearerTokenAuth
 
@@ -30,9 +31,13 @@ def get_connection(request):
     zone = request.zone
 
     if not user:
-        raise ValueError(u'no such user')
+        raise PermissionDenied(u'no such user')
 
     if not zone:
-        raise ValueError(u'no such app')
+        raise PermissionDenied(u'no such app')
 
-    return slumber.API(base_url=zone['BASE_URI'], auth=BearerTokenAuth(user.pk))
+    return get_raw_connection(user.pk, zone)
+
+
+def get_raw_connection(token, zone):
+    return slumber.API(base_url=zone['BASE_URI'], auth=BearerTokenAuth(token))

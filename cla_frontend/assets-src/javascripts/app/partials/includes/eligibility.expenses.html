@@ -1,0 +1,83 @@
+<section>
+  <h2 class="FormBlock-label">Your expenses</h2>
+
+  <div class="FormBlock FormBlock--grey">
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.you.deductions.mortgage" mi-label="Mortgage" guidance-link="'eligibility_check#ecg-expenses_mortgage'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.you.deductions.rent" mi-label="Rent" guidance-link="'eligibility_check#ecg-expenses_rent'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.you.deductions.income_tax" mi-label="Tax" guidance-link="'eligibility_check#ecg-expenses_tax'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.you.deductions.national_insurance" mi-label="National Insurance contributions" guidance-link="'eligibility_check#ecg-expenses_nic'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.you.deductions.maintenance" mi-label="Maintenance" guidance-link="'eligibility_check#ecg-expenses_maintenance'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.you.deductions.childcare" mi-label="Childcare" guidance-link="'eligibility_check#ecg-expenses_childcare'" />
+    </div>
+
+    <div class="FormRow cf">
+      <label>
+        <span class="FormRow-label">Contribution order <guidance-link doc="eligibility_check#ecg-expenses_contribution_order"></guidance-link></span>
+
+        <span class="FormRow-prefix">£</span>
+
+        <input cla-pence-to-pounds max="2500000" min="0" step="0.01" type="number" ng-model="eligibility_check.you.deductions.criminal_legalaid_contributions">
+
+        <span class="FormRow-help">per month</span>
+      </label>
+    </div>
+  </div>
+</section>
+
+<section ng-show="eligibility_check.has_partner">
+  <h2 class="FormBlock-label">Your partner's expenses</h2>
+
+  <div class="FormBlock FormBlock--grey">
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.partner.deductions.mortgage" mi-label="Mortgage" guidance-link="'eligibility_check#ecg-expenses_mortgage'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.partner.deductions.rent" mi-label="Rent" guidance-link="'eligibility_check#ecg-expenses_rent'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.partner.deductions.income_tax" mi-label="Tax" guidance-link="'eligibility_check#ecg-expenses_tax'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.partner.deductions.national_insurance" mi-label="National Insurance contributions" guidance-link="'eligibility_check#ecg-expenses_nic'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.partner.deductions.maintenance" mi-label="Maintenance" guidance-link="'eligibility_check#ecg-expenses_maintenance'" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.partner.deductions.childcare" mi-label="Childcare" guidance-link="'eligibility_check#ecg-expenses_childcare'" />
+    </div>
+
+    <div class="FormRow cf">
+      <label>
+        <span class="FormRow-label">Contribution order <guidance-link doc="eligibility_check#ecg-expenses_contribution_order"></guidance-link></span>
+
+        <span class="FormRow-prefix">£</span>
+
+        <input cla-pence-to-pounds max="2500000" min="0" step="0.01" type="number" ng-model="eligibility_check.partner.deductions.criminal_legalaid_contributions">
+
+        <span class="FormRow-help">per month</span>
+      </label>
+    </div>
+  </div>
+</section>

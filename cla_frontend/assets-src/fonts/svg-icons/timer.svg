@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>timer</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="timer" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <path d="M512,256 C512,114.615097 397.384903,0 256,0 C114.615097,0 0,114.615097 0,256 C0,397.384903 114.615097,512 256,512 C397.384903,512 512,397.384903 512,256 Z M64,256 C64,149.961321 149.961321,64 256,64 C362.038679,64 448,149.961321 448,256 C448,362.038679 362.038679,448 256,448 C149.961321,448 64,362.038679 64,256 Z M224.140625,287.925898 L224.140625,339.469331 L270.33544,316.605285 L407.17919,248.874699 L378.78956,191.515926 L288.140625,235.707031 L288.140625,99.765625 L224.140625,99.765625 L224.140625,287.925898 Z" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

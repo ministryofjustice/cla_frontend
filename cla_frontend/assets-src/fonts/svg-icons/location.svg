@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>location</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="location" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <path d="M255.970462,507.221333 C255.970462,507.221333 64,313.557333 64,183.694222 L64,184.860444 C64,82.7448889 149.927385,0 255.970462,0 C362.072615,0 448,82.7448889 448,184.860444 L448,183.694222 C448,313.557333 255.970462,507.221333 255.970462,507.221333 Z M393.826462,187.221336 C393.826462,259.214225 333.213538,317.55378 258.422154,317.55378 C183.704615,317.55378 123.076923,259.214225 123.076923,187.221336 C123.076923,115.200003 183.704615,56.8888915 258.422154,56.8888915 C333.213538,56.8746693 393.826462,115.18578 393.826462,187.221336 Z" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

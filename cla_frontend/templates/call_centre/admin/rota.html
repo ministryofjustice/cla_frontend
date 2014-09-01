@@ -1,0 +1,39 @@
+{% extends "call_centre/base.html" %}{% load staticfiles %}
+
+{% block javascripts %}
+<script src="{% static 'javascripts/vendor/fullcalendar.min.js' %}"></script>
+<script src="{% static 'javascripts/vendor/calendar.config.js' %}"></script>
+{% endblock %}
+
+{% block left_content %}
+<section>
+    <h3>Add Rota</h3>
+
+    <form method="POST" action="{% url 'call_centre:backend_proxy' path='provider/rota/' %}" id="add_rota_form">{% csrf_token %}
+        <p>
+            <label for="id_start_date">Start date:</label>
+            <input id="id_start_date" name="start_date" type="datetime-local">
+        </p>
+        <p>
+            <label for="id_end_date">End date:</label>
+            <input id="id_end_date" name="end_date" type="datetime-local">
+        </p>
+        <p>
+            <label for="id_category">Category:</label>
+            <select id="id_category" name="category">
+            </select>
+        </p>
+        <p>
+            <label for="id_provider">Provider:</label>
+            <select id="id_provider" name="provider">
+        </select></p>
+
+        <input type="submit" value="add">
+    </form>
+</section>
+{% endblock left_content %}
+
+
+{% block middle_content %}
+<div id='calendar'></div>
+{% endblock %}

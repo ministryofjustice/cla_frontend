@@ -1,0 +1,137 @@
+@font-face {
+  font-family: "<%= fontName %>";
+  src: url('<%= fontPath %><%= fontName %>.eot');
+  src: url('<%= fontPath %><%= fontName %>.eot?#iefix') format('eot'),
+       url('<%= fontPath %><%= fontName %>.woff') format('woff'),
+       url('<%= fontPath %><%= fontName %>.ttf') format('truetype'),
+       url('<%= fontPath %><%= fontName %>.svg#<%= fontName %>') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+%icon-base-styles {
+  display: inline;
+  font-family: "<%= fontName %>";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  speak: none;
+  font-size: 16px;
+  line-height: 1;
+  text-decoration: inherit;
+  // color: $black;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+$icons: (
+  <% _.each(glyphs, function(glyph) { %><%= glyph.fileName %>: "\<%= glyph.codePoint %>",
+  <% }); %>
+);
+
+.Icon {
+  // reset link styles
+  &:link,
+  &:visited,
+  &:active {
+    text-decoration: none;
+    color: $grey-1;
+  }
+
+  &:before {
+    @extend %icon-base-styles;
+    margin-right: 10px;
+  }
+
+  // modifiers
+  &--row,
+  &--formRow {
+    display: block;
+    position: relative;
+    padding-left: 26px;
+
+    &:before,
+    &:after {
+      position: absolute;
+      left: 0;
+      top: 1px;
+    }
+  }
+  &--formRow {
+    &:before,
+    &:after {
+      top: 7px;
+    }
+  }
+
+  &--right {
+    &:before { display: none; }
+    &:after {
+      @extend %icon-base-styles;
+      margin-left: 10px;
+    }
+
+    &.Icon--row,
+    &.Icon--formRow {
+      padding-left: 0;
+      padding-right: 26px;
+
+      &:after {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
+
+  &--lrg {
+    &:before, &:after {
+      font-size: 28px;
+    }
+  }
+
+  &--abs-r {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+  }
+
+  &--dark {
+    &:before, &:after {
+      color: $black;
+    }
+  }
+  &--blue {
+    &:before, &:after {
+      color: $light-blue;
+    }
+  }
+  &--mellowred {
+    &:before, &:after {
+      color: $mellow-red;
+    }
+  }
+  &--red {
+    &:before, &:after {
+      color: $red;
+    }
+  }
+  &--orange {
+    &:before, &:after {
+      color: $orange;
+    }
+  }
+  &--green {
+    &:before, &:after {
+      color: $green;
+    }
+  }
+}
+
+@each $name, $icon in $icons {
+  .Icon--#{$name}{
+    &:before { content: $icon; }
+    &.Icon--right:after { content: $icon; }
+  }
+}

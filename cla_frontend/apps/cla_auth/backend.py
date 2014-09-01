@@ -19,7 +19,7 @@ class ClaBackend(object):
     zone_name = None
 
     def authenticate(self, username=None, password=None):
-        zone_profile = get_zone_profile(self.zone_name)
+        zone_profile = self.get_this_zone_profile()
         if not zone_profile:
             return None
 
@@ -45,11 +45,14 @@ class ClaBackend(object):
                 logger.error(hcerr.message)
             return
 
-        user = ClaUser(response['access_token'])
+        user = ClaUser(response['access_token'], self.zone_name)
         return user
 
     def get_user(self, token):
-        return ClaUser(token)
+        return ClaUser(token, self.zone_name)
+
+    def get_this_zone_profile(self):
+        return get_zone_profile(self.zone_name)
 
 
 def get_backend(zone_name):

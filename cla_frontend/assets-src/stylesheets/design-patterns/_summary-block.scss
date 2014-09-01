@@ -1,23 +1,42 @@
+$background-colour: #E8F0F0;
+$border-colour: #C2C2C2;
+
 .SummaryBlock {
   position: relative;
 }
 
 .SummaryBlock-heading {
-  @include core-24;
+  @include core-19;
+  padding-top: 0;
 }
 
-.SummaryBlock-list {
-  background-color: #E8F0F0;
-  padding: 1.2em 1.6em;
-  margin: 0 0 1em;
-  border: {
-    top: 1px solid #C2C2C2;
-    bottom: 1px solid #C2C2C2;
-  };
+.SummaryBlock-content {
+  background-color: $background-colour;
+  padding: 12px 40px 12px 20px;
+  margin: 0 0 1.25em;
   list-style: none;
+  border: {
+    top: 1px solid $border-colour;
+    bottom: 1px solid $border-colour;
+  };
 
-  li, p {
-    padding: 0.5em 0;
+  .SummaryBlock--compact & {
+    &:not(:last-of-type) {
+      margin-bottom: 0;
+      border-bottom-width: 0;
+    }
+  }
+
+  ul, li, blockquote, figcaption {
+    padding: 0;
+    margin: 0;
+  }
+  p {
+    margin: 0 0 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 

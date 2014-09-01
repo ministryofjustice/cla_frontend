@@ -1,26 +1,66 @@
 .CaseHistory {
-  margin: 0;
-  padding: 0;
+  margin: 20px 0 0;
+  padding: 20px 0 0;
   color: $grey-1;
-
-  a:link,
-  a:visited {
-    color: $grey-1;
-  }
+  border-top: 1px solid $grey-2;
 }
 
-.CaseHistory-item {
+.CaseHistory-card {
   list-style: none;
   line-height: 1.4em;
   margin-bottom: 20px;
+  padding: 10px 10px;
+  background: #fff;
+}
+
+.CaseHistory-date {
+  display: block;
+  font-weight: 700;
+}
+
+.CaseHistory-author {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.CaseHistory-card {
+  display: block;
+  @include core-14;
+}
+
+.CaseHistory-log {
+  margin: 0;
+  padding: 0;
+}
+
+.CaseHistory-logItem {
+  padding: 0;
+  margin: 0 0 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.CaseHistory-logItemNotes {
+  display: block;
+  word-wrap: break-word;
+
+  &--indent {
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-left: 3px solid $grey-2;
+  }
 }
 
 .CaseHistory-label {
+  @include core-16;
   @include border-radius(3px);
-  display: inline-block;
+  display: block;
+  float: right;
   padding: 5px 5px 3px;
-  margin-top: 5px;
+  margin-top: -2px;
   color: $white;
   line-height: 1em;
-  background-color: $grey-1;
+  background-color: $grey-2;
 }

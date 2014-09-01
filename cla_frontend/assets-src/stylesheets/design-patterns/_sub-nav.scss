@@ -3,13 +3,12 @@
     top: 10px;
     bottom: 10px;
   }
-  padding-left: 12px;
 }
 
 .SubNav-link {
   @include core-16;
   padding: 10px 0;
-  display: inline-block;
+  display: block;
 
   // modifiers
   &--back {

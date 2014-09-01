@@ -1,8 +1,3 @@
-{% extends "common/dashboard.html" %}{% load humanize i18n %}
+{% extends "common/dashboard.html" %}
 
-{% block actions %}
-<form action="{% url 'call_centre:create_case' %}" method="post" class="u-pullLeft">
-  {% csrf_token %}
-  <button type="submit" class="Button">{% trans "Create a case" %}</button>
-</form>
-{% endblock %}
+{% block ng_app %}ng-app="cla.operatorApp"{% endblock %}

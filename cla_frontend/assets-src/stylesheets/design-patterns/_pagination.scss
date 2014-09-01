@@ -1,0 +1,33 @@
+.Pagination {
+  margin: 30px 10px;
+  padding: 0;
+}
+
+.Pagination-item {
+  float: left;
+  display: block;
+  padding: 0 10px;
+  margin: 0;
+  line-height: 0.9em;
+
+  &--num {
+    padding: 0 7px;
+    border-right: 1px solid $grey-1;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  &.is-current a {
+    text-decoration: none;
+    font-weight: 700;
+    color: $black;
+  }
+
+  &.is-disabled a {
+    text-decoration: none;
+    color: $grey-1;
+    cursor: default;
+  }
+}

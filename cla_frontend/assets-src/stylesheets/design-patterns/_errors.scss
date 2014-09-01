@@ -13,39 +13,47 @@ $fieldset-error-bg-colour: #FDF8F5;
     @include bold-24;
   }
 
-  p {
+  p,
+  ul {
     padding: 0;
-    @include core-16;
+    @include core-14;
   }
+}
 
-  .ErrorSummary-list {
-    @include core-16;
+.ErrorSummary-list {
+  @include core-14;
+  color: $error-colour;
+  padding-left: 0;
+  margin: 5px 0 8px;
+
+  &.ng-inactive {
+    display: none;
+  }
+}
+
+.ErrorSummary-listItem {
+  margin: 0 0 0.25em;
+  list-style: none;
+
+  a {
     color: $error-colour;
-    padding-left: 0;
-  }
+    text-decoration: none;
 
-  .ErrorSummary-listItem {
-    margin: 0 0 0.25em;
-    list-style: none;
-
-    a {
-      color: $error-colour;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
+    &:hover {
+      text-decoration: underline;
     }
   }
 }
 
-.Error {
+.Error,
+.editable-error {
+  @include core-14;
   background-color: $error-bg-colour;
   border-left: 3px solid $error-colour;
-  padding: 1em 1em;
+  padding: 5px 10px 5px 7px;
   margin: {
-    left: -1em;
-    right: -1em;
+    left: -10px;
+    right: -10px;
   }
 
   details summary {
@@ -58,12 +66,39 @@ $fieldset-error-bg-colour: #FDF8F5;
   }
 
   &.FormRow--group {
-    padding: 0;
+    padding: {
+      top: 0;
+      bottom: 0;
+    }
+  }
+  &.FormRow--narrow {
+    padding: {
+      top: 3px;
+      bottom: 3px;
+      left: 7px;
+      right: 10px;
+    }
+  }
+
+  &.FormRow--wide {
+    padding: {
+      top: 10px;
+      bottom: 10px;
+      left: 7px;
+      right: 10px;
+    }
+  }
+
+  &--basic {
+    margin: {
+      left: 0em;
+      right: 0em;
+    }
   }
 }
 
 .Error-message {
-  @include core-16;
+  @include core-14;
   display: block;
   padding: 0.2em 0;
   color: $error-colour;
@@ -72,7 +107,7 @@ $fieldset-error-bg-colour: #FDF8F5;
 .FormBlock--grey {
   &.FieldsetError {
     background-color: $fieldset-error-bg-colour;
-  }   
+  }
 
  .Error {
     margin: {

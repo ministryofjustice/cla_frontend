@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>print</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="print" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <path d="M32.0036842,224 C14.3285375,224 0,238.331195 0,255.990718 L0,480.009282 C0,497.677268 14.3292507,512 32.0036842,512 L479.996316,512 C497.671463,512 512,497.668805 512,480.009282 L512,255.990718 C512,238.322732 497.670749,224 479.996316,224 L32.0036842,224 Z M95.9969832,288 C78.3255373,288 64,302.322108 64,319.99384 L64,416.00616 C64,433.67587 78.3235467,448 95.9969832,448 L416.003017,448 C433.674463,448 448,433.677892 448,416.00616 L448,319.99384 C448,302.32413 433.676453,288 416.003017,288 L95.9969832,288 Z M64,-1 L64,224 L448,224 L448,-1 L64,-1 Z M128,64 L128,224 L384,224 L384,64 L128,64 Z M128,336 L128,400 L384,400 L384,336 L128,336 Z" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,22 @@
+<header>
+  <h2>Exceptional Case Fund</h2>
+</header>
+
+<form method="post" ng-submit="save()">
+  <h2 class="FormBlock-label">Indicate how you notified client of the ECF</h2>
+
+
+  <div class="FormBlock FormBlock--yellow">
+    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="statement in ecf_statements">
+      <label class="FormRow-label">
+        <input type="radio" value="{{ statement.value }}" ng-model="case.ecf_statement" name="ecf_statement" required>
+        {{ statement.value }} <span class="u-mute">- {{ statement.text }}</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="FormActions">
+    <button class="Button" type="submit">Save</button>
+    <a href="" ng-click="cancel()">Cancel</a>
+  </div>
+</form>

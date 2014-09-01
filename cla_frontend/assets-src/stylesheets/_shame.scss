@@ -1,13 +1,12 @@
 // Fix height of phase indicator bar
 .indicator {
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
+  display: none;
 }
 
 // override max width on cookie message and footer
 #footer {
   display: none;
-  
+
   .footer-wrapper {
     padding-left: 10px;
     padding-right: 10px;
@@ -32,4 +31,14 @@ iframe {
   .FormRow {
     margin-bottom: 5px;
   }
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide {
+  display: none !important;
+}
+
+ng\:form {
+  display: block;
 }

@@ -1,47 +1,39 @@
-{% extends app_base_template %}{% load humanize helpers i18n case_tags %}
+{% extends app_base_template %}{% load humanize i18n static %}
 
-{% block body_classes %}{{ product_type }} {{ phase }} v-Dashboard{% endblock %}
+{% block body_attrs %} ng-class="{'v-Dashboard': $state.includes('case_list'), 'v-Case': $state.includes('case_detail')}"{% endblock %}
+
+{% block html_attrs %}{% block ng_app %}{% endblock ng_app %} ng-csp{% endblock %}
+
+{% block user_details %}{% verbatim %}
+  <span class="UserMenu-name">{{ user.username }}</span>
+{% endverbatim %}{% endblock user_details %}
+
+
+{% block messages %}{% verbatim %}
+<div class="NoticeContainer--fixed" sticky>
+  <div class="Notice warning ng-cloak" ng-show="multipleTabsOpen > 1">You currently have <strong>{{ multipleTabsOpen }} tabs open</strong>.</div>
+  <div class="Notice warning ng-cloak" ng-show="timerRunning === false"><strong>Timer not running</strong>: please note that whatever you do will not be billable.</div>
+
+  <flash-messages></flash-messages>
+</div>
+{% endverbatim %}{% endblock messages %}
+
+
+{% block timer %}
+<timer start-button="true" class="Timer--inline u-pullRight"></timer>
+{% endblock timer %}
+
+
+{% block search %}{% verbatim %}
+<form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
+  <div class="CaseSearch-inner cf">
+    <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query" ng-model="search" autocomplete="off" placeholder="Search cases">
+    <input class="CaseSearch-submit" type="submit" value="Search">
+  </div>
+</form>
+{% endverbatim %}{% endblock %}
+
 
 {% block full_content %}
-  {% with query=request.GET.q %}
-    {% if query %}
-      <nav class="SubNav">
-        <a href="{% url zone.name|add:':dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to all cases" %}</a>
-      </nav>
-    {% endif %}
-
-    <header class="PageHeader cf{% if not query %} PageHeader--wo-search{% endif %}">
-      <h1 class="u-pullLeft">
-        {% if query %}
-          {% trans "Results" %} "{{ query }}"
-        {% else %}
-          {% trans "Cases" %}
-        {% endif %}
-      </h1>
-      {% block actions %}{% endblock %}
-    </header>
-  {% endwith %}
-
-  <table class="CaseList" cellpadding="0" cellspacing="0" border="0" width="100%">
-    <thead>
-      <tr>
-        <th><span class="visuallyhidden">{% trans "Reference" %}</span></th>
-        <th>{% trans "Name" %}</th>
-        <th><a href="?sort=created" class="u-sortDesc">{% trans "Created" %}</a></th>
-        <th><a href="?sort=modified">{% trans "Modified" %}</th>
-        <th><span class="visuallyhidden">{% trans "Onwer" %}</span></th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for case in cases %}
-      <tr{% if case|is_case_open %} class="is-new"{% endif %}>
-        <td><a href="{% url zone.name|add:':edit_case' case.reference %}">{{ case.reference}}</a></td>
-        <td>{{ case.personal_details.full_name }}</td>
-        <td>{{ case.created|as_date|naturaltime }}</td>
-        <td>{{ case.modified|as_date|naturaltime }}</td>
-        <td>{{ case.locked_by|default:"-" }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  <div ui-view></div>
 {% endblock %}

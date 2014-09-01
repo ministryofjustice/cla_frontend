@@ -1,4 +1,5 @@
 import sys
+import os
 from os.path import join, abspath, dirname
 
 # PATH vars
@@ -88,6 +89,9 @@ STATIC_ROOT = root('static')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     root('assets'),
@@ -110,13 +114,18 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django_statsd.middleware.GraphiteRequestTimingMiddleware',
+    'django_statsd.middleware.GraphiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cla_auth.middleware.ZoneMiddleware',
+    'core.middleware.Cla401Middleware',
+    'csp.middleware.CSPMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS =  (
@@ -127,8 +136,9 @@ TEMPLATE_CONTEXT_PROCESSORS =  (
     'django.core.context_processors.request',
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "cla_frontend.apps.core.context_processors.globals"
- )
+    "django.contrib.auth.context_processors.auth",
+    "cla_frontend.apps.core.context_processors.globals",
+)
 
 ROOT_URLCONF = 'cla_frontend.urls'
 
@@ -136,7 +146,8 @@ ROOT_URLCONF = 'cla_frontend.urls'
 WSGI_APPLICATION = 'cla_frontend.wsgi.application'
 
 # TODO change this ?
-SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+#SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 TEMPLATE_DIRS = (
     root('templates'),
@@ -147,7 +158,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django_statsd',
     'widget_tweaks',
+    'session_security',
+    'raven.contrib.django.raven_compat',
 )
 
 PROJECT_APPS = (
@@ -170,12 +184,41 @@ INSTALLED_APPS += PROJECT_APPS
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue'
         }
     },
     'handlers': {
+        'production_file':{
+            'level' : 'INFO',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : '/var/log/wsgi/app.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount' : 7,
+            'formatter': 'verbose',
+            'filters': ['require_debug_false'],
+        },
+        'debug_file':{
+            'level' : 'DEBUG',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : '/var/log/wsgi/debug.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount' : 7,
+            'formatter': 'verbose',
+            'filters': ['require_debug_true'],
+        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
@@ -187,6 +230,10 @@ LOGGING = {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        '': {
+            'handlers': ['production_file', 'debug_file'],
+            'level': "DEBUG",
         },
     }
 }
@@ -219,6 +266,25 @@ LOGIN_URL = 'auth:global_login'
 # AUTHENTICATION_BACKENDS from ZONE_PROFILES
 AUTHENTICATION_BACKENDS = [v['AUTHENTICATION_BACKEND'] for k,v in ZONE_PROFILES.items()]
 
+# Settings for django-session-security.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SECURITY_WARN_AFTER = 3360
+SESSION_SECURITY_EXPIRE_AFTER = 3600
+
+RAVEN_CONFIG = {
+    'dsn': os.environ.get('RAVEN_CONFIG_DSN', ''),
+    'site': os.environ.get('RAVEN_CONFIG_SITE', '')
+}
+
+ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
+    'http://127.0.0.1:8003')
+ADDRESSFINDER_API_TOKEN = os.environ.get('ADDRESSFINDER_API_TOKEN', '')
+
+if 'RAVEN_CONFIG_DSN' in os.environ:
+    MIDDLEWARE_CLASSES = (
+        'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+        #'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+    ) + MIDDLEWARE_CLASSES
 
 # EMAILS
 
@@ -232,4 +298,16 @@ try:
 except ImportError:
     pass
 
+STATSD_CLIENT = 'django_statsd.clients.normal'
+STATSD_PREFIX = 'frontend'
 
+STATSD_RECORD_KEYS = [
+    'window.performance.timing.domComplete',
+    'window.performance.timing.domInteractive',
+    'window.performance.timing.domLoading',
+    'window.performance.navigation.redirectCount',
+    'window.performance.navigation.type',
+]
+
+STATSD_HOST = os.environ.get('STATSD_HOST', 'localhost')
+STATSD_PORT = os.environ.get('STATSD_PORT', 8125)

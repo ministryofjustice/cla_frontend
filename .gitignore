@@ -63,7 +63,18 @@ cla_frontend/static/
 
 # node
 node_modules/
+npm-debug.log
 
 # bower packages
 cla_frontend/assets-src/vendor/
 .sass-cache/
+generated/
+
+/phantomjsdriver.log
+reports/
+
+# gulp temp folder
+.gulptmp
+
+# js constants builds
+cla_frontend/assets-src/javascripts/app/**/constants.js

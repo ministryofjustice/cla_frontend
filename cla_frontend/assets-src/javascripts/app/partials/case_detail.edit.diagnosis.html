@@ -1,0 +1,31 @@
+<form ng-submit="moveDown()" novalidate name="form">
+  <section class="SummaryBlock SummaryBlock--compact" ng-show="diagnosis.nodes">
+    <div class="SummaryBlock-content" ng-repeat="statement in diagnosis.nodes" ng-bind-html="statement.label"></div>
+    <div class="SummaryBlock-content" ng-show="category">
+      <p><strong>Category of law</strong>: {{category.name}}</p>
+    </div>
+  </section>
+
+  <div class="FormRow FormRow--group FormRow--groupNarrow FormRow--details" ng-repeat="choice in diagnosis.choices">
+    <label class="FormRow-label">
+      <input type="radio" value="{{ choice.id }}" name="choice" ng-model="diagnosis.current_node_id" required>
+      <div class="FormRow-labelText">
+        <span ng-bind-html="choice.label"></span>
+      </div>
+    </label>
+    <details ng-show="choice.help_text">
+      <summary>Help</summary>
+      <div ng-bind-html="choice.help_text"></div>
+    </details>
+  </div>
+
+  <div class="FormActions">
+    <button type="submit" class="Button" ng-click="createDiagnosis" ng-show="!diagnosis.reference">Create scope diagnosis</button>
+
+    <button type="submit" class="Button" ng-show="diagnosis.isInScopeUnknown() && diagnosis.reference">Next</button>
+    <button type="button" class="Button Button--text" ng-show="diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
+
+    <a ui-sref="case_detail.edit.eligibility" class="Button" ng-show="diagnosis.isInScopeTrue()">Create financial assessment</a>
+    <button type="button" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-show="diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
+  </div>
+</form>

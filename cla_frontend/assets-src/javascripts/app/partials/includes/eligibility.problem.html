@@ -1,0 +1,12 @@
+<p>What is your problem about? What is putting you at immediate risk? <guidance-link doc="eligibility_check#ecg-your_problem"></guidance-link></p>
+
+<section class="FormBlock">
+  <cla-server-validate data-for="category"></cla-server-validate>
+
+  <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="category in category_list">
+    <label class="FormRow-label">
+      <input type="radio" name="category" ng-model="eligibility_check.category" value="{{ category.code }}" >
+      {{ category.name }}
+    </label>
+  </div>
+</section>

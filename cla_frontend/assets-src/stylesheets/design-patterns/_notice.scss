@@ -1,7 +1,100 @@
-.Notice {
-  border-left: 3px solid $orange;
-  background-color: lighten($orange-25, 6%);
-  padding: 12px 20px;
-  margin: 10px 0;
+.NoticeContainer {
+  &--fixed {
+    top: 109px;
+    left: 0;
+    margin: 0;
+    padding: 10px 0 0;
+    z-index: 1000;
+    position: absolute;
+    width: 100%;
+
+    &.stuck {
+      position: fixed;
+      top: 0;
+    }
+    
+    @include media (tablet) {
+      top: 48px;
+      left: 50%;
+      width: 59.375%; // 3/5 column width
+      margin-left: -29.687%;
+    }
+  }
+}
+
+.Notice-group {
+  margin: 0;
+  padding: 0;
   list-style: none;
+}
+
+.Notice {
+  @include core-14;
+  color: $black;
+  border: solid $orange;
+  border-width: 0 0 0 3px;
+  background-color: lighten($orange-25, 6%);
+  padding: 0.75em 1em;
+  margin: 0.75em 0;
+  position: relative;
+
+  .NoticeContainer--fixed & {
+    margin: 0 10px 10px;
+    padding: 0.85em 1em;
+    border-width: 1px 1px 1px 4px;
+
+    @include media (tablet) {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .VCard-view & {
+    margin: -11px;
+    border-width: 1px 1px 1px 4px;
+  }
+
+  &.error,
+  &.warning,
+  &.success {
+    &:before {
+      @extend %icon-base-styles;
+      position: absolute;
+      top: 0.8em;
+      left: 0.65em;
+    }
+    padding-left: 2.5em;
+  }
+  &.error {
+    @extend .Icon;
+    @extend .Icon--solidCross;
+    border-color: $mellow-red;
+    background-color: #FAEBEC;
+    &:before { color: $mellow-red; }
+  }
+  &.success {
+    @extend .Icon;
+    @extend .Icon--solidTick;
+    border-color: $green;
+    background-color: $green-25;
+    &:before { color: $green; }
+  }
+  &.warning {
+    @extend .Icon;
+    @extend .Icon--alert;
+    &:before { color: $orange; }
+  }
+  &--closeable {
+    cursor: pointer;
+    padding-right: 2em;
+    &:after {
+      content: "x";
+      display: block;
+      position: absolute;
+      top: 0.6em;
+      right: 0.8em;
+      font-size: 16px;
+      color: $black;
+    }
+  }
 }

@@ -1,0 +1,47 @@
+.VCard {
+  border: 1px solid $grey-2;
+  padding: 10px;
+  margin-bottom: 20px;
+  word-wrap: break-word;
+  @include box-shadow(1px 1px 3px $grey-3);
+  @include box-sizing(border-box);
+}
+
+.VCard-legend {
+  @include bold-19;
+  color: #fff;
+  background-color: $grey-1;
+  margin: -10px -10px 10px;
+  padding: 4px 10px 1px;
+
+  .VCard--dark & {
+    background-color: $grey-1;
+  }
+}
+
+.VCard-title {
+  @include bold-24;
+  margin: 0;
+  padding: {
+    top: 2px;
+    bottom: 0;
+  }
+}
+
+.VCard-row {
+  margin: 10px 0 0;
+}
+
+.VCard-view,
+.VCard-edit {
+  width: 100%;
+}
+
+.VCard-view {
+  cursor: pointer;
+  // color: $grey-1;
+
+  &.VCard--dark {
+    color: $black;
+  }
+}

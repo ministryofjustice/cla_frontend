@@ -7,47 +7,62 @@
     <a href="{% url 'call_centre:dashboard' %}" class="SubNav-link SubNav-link--back">{% trans "Back to cases" %}</a>
   </nav>
 
+  {% with details=case.personal_details %}
   <section class="UserDetails">
-    <p class="UserDetails-item IconRow IconRow--name">
-      {{ case.personal_details.full_name }}
-    </p>
-    <p class="UserDetails-item IconRow IconRow--address">
-      {{ case.personal_details.street }}<br>
-      {{ case.personal_details.town }}<br>
-      {{ case.personal_details.postcode }}
-    </p>
-    <p class="UserDetails-item IconRow IconRow--phone">
-      {{ case.personal_details.home_phone }}<br>
-      {{ case.personal_details.mobile_phone }}
-    </p>
+    {% if details %}
+      {% if details.full_name %}
+      <p class="UserDetails-item UserDetails-item--l IconRow IconRow--name">
+        {{ details.full_name }}
+      </p>
+      {% endif %}
+      {% if details.street or details.town or details.postcode %}
+      <p class="UserDetails-item IconRow IconRow--address">
+        {% if details.street %}{{ details.street }}<br>{% endif %}
+        {% if details.town %}{{ details.town }}<br>{% endif %}
+        {% if details.postcode %}{{ details.postcode }}{% endif %}
+      </p>
+      {% endif %}
+      {% if details.home_phone or details.mobile_phone %}
+      <p class="UserDetails-item IconRow IconRow--phone">
+        {% if details.home_phone %}{{ details.home_phone }}<br>{% endif %}
+        {% if details.mobile_phone %}{{ details.mobile_phone }}{% endif %}
+      </p>
+      {% endif %}
+    {% else %}
+      <p>
+        <i class="u-mute">No personal details provided</i>
+      </p>
+    {% endif %}
   </section>
+  {% endwith %}
 {% endblock %}
 
 {% block middle_content %}
-  <header class="PageHeader cf">
-    <h1 class="u-pullLeft">{{ case.reference }}</h1>
-    {% block case_actions %}{% endblock %}
-  </header>
-  
+  <p></p>
+
   {% block case_content %}{% endblock %}
 {% endblock %}
 
 {% block right_content %}
-  <div class="Timer cf">
-    <span class="Timer-current u-pullLeft js-Stopwatch">00:00:00</span>
-    <span class="Timer-total u-pullRight"><span class="js-Stopwatch" data-start-time="486">00:08:06</span> {% trans "total" %}</span>
-  </div>
+  <header class="PageHeader cf">
+    <div>
+      <p class="u-pullLeft">{{ case.reference }}</p>
+      <small>entitlement reference: {{ case.laa_reference }}</small>
+    </div>
 
-  {% if case.caseoutcome_set %}
+    {% block case_actions %}{% endblock %}
+  </header>
+
+  {% if case.log_set %}
   <ul class="CaseHistory">
-    {% for outcome in case.caseoutcome_set %}
+    {% for log in case.log_set %}
     <li class="CaseHistory-item">
-      {{ outcome.created|as_date }}<br>
-      {% if outcome.notes %}
-        {{ outcome.notes }}<br>
+      {{ log.created|as_date }}<br>
+      {% if log.notes %}
+        {{ log.notes }}<br>
       {% endif %}
-      ({{ outcome.created_by }})<br>
-      <span class="CaseHistory-label">{{ outcome.outcome_code }}</span>
+      ({{ log.created_by }})<br>
+      <span class="CaseHistory-label">{{ log.code }}</span>
     </li>
     {% endfor %}
   </ul>
