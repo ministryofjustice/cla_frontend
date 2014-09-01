@@ -1,9 +1,16 @@
 <nav class="SubNav">
-  <a ui-sref="case_list({search:'', sort:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all cases</a>
+  <a ui-sref="case_list({search:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all cases</a>
 </nav>
 
 <header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}">
-  <h1 class="u-pullLeft">{{ search ? 'Results' : 'Cases' }} {{ search ? '"'+search+'"' : '' }}</h1>
+  <div data-block="header">
+    <h1 class="u-pullLeft">
+      <span ng-show="searchParams.search">
+        Results for <span class="Button Button--secondary Icon--cross Icon--right" ng-click="resetSearch()">{{searchParams.search}}</span>
+      </span>
+      <span ng-hide="searchParams.search">Cases</span>
+    </h1>
+  </div>
   <div data-block="top-actions"></div>
 </header>
 
@@ -20,12 +27,12 @@
     </tr>
     </thead>
     <tbody>
-      <tr dir-paginate="case in cases.results | itemsPerPage: 20" total-items="cases.count" current-page="currentPage" ng-class="{'is-rejected': case.rejected}">
+      <tr dir-paginate="case in cases.results | itemsPerPage: 20" total-items="cases.count" current-page="searchParams.page" ng-class="{'is-rejected': case.rejected}">
         <td>
           <a href="" ng-click="goToCase(case.reference)">{{ case.reference }}</a>
           <span ng-show="case.isInScopeAndEligible()"> / {{ case.laa_reference }}</span>
         </td>
-        <td>{{ case.full_name }}</td>
+        <td><span data-block="pd-column">{{ case.full_name }}</span></td>
         <td>{{ case.postcode }}</td>
         <td>{{ case.date_of_birth|date:'dd/MM/yyyy' }}</td>
         <td>{{ case.category }}</td>

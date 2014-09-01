@@ -1,7 +1,33 @@
 <div data-extend-template="case_list.html">
+  <div data-block="header">
+    <h1 class="u-pullLeft">
+      <span ng-hide="person.reference">
+        <span ng-show="searchParams.search">
+          Results for <span class="Button Button--secondary Icon--cross Icon--right" ng-click="resetSearch()">{{searchParams.search}}</span>
+        </span>
+        <span ng-hide="searchParams.search">Cases</span>
+      </span>
+
+      <span ng-show="person.reference">
+        Cases for <span class="Button Button--secondary Icon--cross Icon--right" ng-click="backToLatestSearch()">{{ person.full_name }}</span> <span ng-show="person.postcode">({{ person.postcode }})</span>
+      </span>
+    </h1>
+  </div>
+
   <div data-block="top-actions">
-    <form name="newCaseForm" class="newCaseForm" ng-submit="addCase()">
-      <button id="create_case" type="submit" class="Button">Create a case</button>
+    <form name="newCaseForm" class="newCaseForm">
+      <span ng-show="person.reference">
+        <button id="create_case" type="button" class="Button" ng-click="addCase(person.reference)">Create a case for {{ person.full_name }}</button>
+      </span>
     </form>
   </div>
+
+  <span data-block="pd-column">
+    <span ng-hide="person.reference">
+      <span ng-show="case.case_count > 1">({{ case.case_count }})</span>
+      <a href="" ng-click="filterByPerson(case.personal_details)">{{ case.full_name }}</a>
+    </span>
+    <span ng-show="person.reference">{{ case.full_name }}</span>
+  </span>
+
 </div>

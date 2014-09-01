@@ -18,12 +18,13 @@
     defs.CaseListState = {
       name: 'case_list',
       parent: 'layout',
-      url: APP_BASE_URL+'?search?ordering?page',
+      url: APP_BASE_URL+'?person_ref?search?ordering?page',
       templateUrl: 'case_list.html',
       controller: 'CaseListCtrl',
       resolve: {
         cases: ['$stateParams', 'Case', function($stateParams, Case){
           var params = {
+            person_ref: $stateParams.person_ref,
             search: $stateParams.search,
             ordering: $stateParams.ordering,
             page: $stateParams.page
@@ -36,6 +37,23 @@
           }
 
           return Case.query(params).$promise;
+        }],
+        person: ['cases', '$stateParams', function(cases, $stateParams) {
+          var person_ref = $stateParams.person_ref,
+              personal_details;
+
+          if (!person_ref || !cases.results.length) {
+            personal_details = {};
+          } else {
+            var case_ = cases.results[0];
+            personal_details = {
+              reference: case_.personal_details,
+              full_name: case_.full_name,
+              postcode: case_.postcode
+            };
+          }
+
+          return personal_details;
         }]
       }
     };
