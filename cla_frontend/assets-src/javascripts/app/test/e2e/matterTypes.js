@@ -1,21 +1,16 @@
-/* jshint unused:false */
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
+/* jshint unused:false, quotmark:false */
 (function(){
   'use strict';
 
   var protractor = require('protractor'),
-      utils = require('./_utils'), // UTILS
-      modelsRecipe = require('./_modelsRecipe');
+      utils = require('./_utils'),
+      modelsRecipe = require('./_modelsRecipe'),
+      CONSTANTS = require('../protractor.constants');
 
   describe('operatorApp', function() {
-    // logs the user in before each test
     beforeEach(utils.setUp);
 
-    // USERFUL FOR DEBUGGING:
-    // afterEach(utils.debugTeardown);
-
     describe('Case Set Matter Types and Assign', function() {
-
 
       /**
        * Go to the assign page; if an option as_of parameter is given, it
@@ -52,7 +47,7 @@
 
       it('should not allow assigning without diagnosis or eligibility', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -71,7 +66,7 @@
 
       it('should not allow assigning a case without required fields', function () {
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -87,7 +82,7 @@
 
       it('should give a warning when assigning a case without address fields', function () {
         modelsRecipe.Case.createWithRequiredFields().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -103,7 +98,7 @@
 
       it('should show modal when trying to assign without matter types set', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -113,7 +108,7 @@
 
       it('should not allow saving modal without setting matter type 1 and 2', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -126,7 +121,7 @@
 
       it('should allow saving modal after setting matter type 1 and 2', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -140,7 +135,7 @@
 
       it('should go straight to assign page if MT1 and MT2 are already set', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -156,7 +151,7 @@
           browser.getLocationAbsUrl().then(function (url) {
             assignCaseUrl = url;
           });
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
           goto_assign();
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
           browser.getLocationAbsUrl().then(function (url) {
@@ -167,7 +162,7 @@
 
       it('should assign a case to recommended provider (inside office hours)', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -189,7 +184,7 @@
 
       it('should assign case to rota provider (outside office hours)', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 
@@ -211,7 +206,7 @@
 
       it('should assign case outside office hours without rota set', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
-          browser.get('call_centre/'+case_ref+"/");
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           goto_assign();
 

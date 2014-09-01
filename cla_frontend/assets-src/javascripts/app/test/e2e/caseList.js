@@ -1,53 +1,54 @@
-/* jshint unused:false */
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 (function(){
   'use strict';
 
-  var utils = require('./_utils'), // UTILS
-      APP_BASE_URL = utils.APP_BASE_URL;
+  var utils = require('./_utils'),
+      CONSTANTS = require('../protractor.constants');
 
-  describe('operatorApp', function() {
-    // logs the user in before each test
+  describe('Operator Case List', function() {
     beforeEach(utils.setUp);
 
-    // USERFUL FOR DEBUGGING:
-    // afterEach(utils.debugTeardown);
+    describe('Case list navigation', function () {
+      var searchedUrl, caseRef;
 
-    describe('Case List', function() {
       it('should get case list', function() {
-        browser.get(APP_BASE_URL);
-        browser.getLocationAbsUrl().then(function(url) {
-          utils.expectUrl(url, APP_BASE_URL);
-        });
+        browser.get(CONSTANTS.callcentreBaseUrl);
+
+        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
       });
-    });
 
-    describe('Case List Navigation', function () {
-      it('should keep query params from case_list when going back from case_detail', function () {
-        browser.get(APP_BASE_URL);
+      it('should correctly fill the search field and return results', function () {
+        browser.findElement(by.name('q')).sendKeys('Foo123');
+        browser.findElement(by.name('case-search-submit')).submit();
 
-        browser.getLocationAbsUrl().then(function(url) {
-          utils.expectUrl(url, APP_BASE_URL);
-        });
+        expect(browser.findElement(by.name('q')).getAttribute('value')).toBe('Foo123');
+        expect(browser.getLocationAbsUrl()).toContain('search=Foo123');
+      });
 
-        // add some query params by sending a search
-        var searchBox = browser.findElement(by.name('q'));
+      it('should change the sort field', function () {
+        browser.findElement(by.cssContainingText('.CaseList th a', 'Name')).click();
+        expect(browser.getLocationAbsUrl()).toContain('ordering=personal_details__full_name');
+        browser.findElement(by.cssContainingText('.CaseList th a', 'Name')).click();
+        searchedUrl = browser.getLocationAbsUrl();
+        expect(searchedUrl).toContain('ordering=-personal_details__full_name');
+      });
 
-        searchBox.sendKeys('Foo123');
-        expect(searchBox.getAttribute('value')).toBe('Foo123');
-        browser.findElement(by.id('search')).submit();
-        browser.getLocationAbsUrl().then(function (url) {
-          var searched_url = url;
+      it('should create a case from listing page', function () {
+        browser.findElement(by.buttonText('Create a case')).click();
 
-          // create a case
-          browser.findElement(by.id('create_case')).click();
+        caseRef = element(by.binding('case.reference'));
+        expect(caseRef.isPresent()).toBe(true);
+        expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
+      });
 
-          // go back & see that query params have been retained.
-          browser.findElement(by.cssContainingText('a','Back to cases')).click();
-          browser.getLocationAbsUrl().then(function (url2) {
-            expect(searched_url).toBe(url2);
-          });
-        });
+      it('should keep same search params when returning to listing page', function () {
+        browser.findElement(by.cssContainingText('a','Back to cases')).click();
+        expect(searchedUrl).toBe(browser.getLocationAbsUrl());
+      });
+
+      it('should clear the search', function () {
+        browser.findElement(by.cssContainingText('a','Back to all cases')).click();
+        expect(browser.findElement(by.name('q')).getAttribute('value')).toBe('');
+        expect(browser.getLocationAbsUrl()).toContain('search=&');
       });
     });
   });

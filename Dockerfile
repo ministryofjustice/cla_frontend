@@ -27,8 +27,6 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get -y --force-yes install nginx-full &
   chown -R www-data:www-data /var/lib/nginx
 
 ADD ./docker/htpassword /etc/nginx/conf.d/htpassword
-ADD ./docker/server.key /etc/ssl/private/server.key
-ADD ./docker/server.crt /etc/ssl/certs/server.crt
 RUN rm -f /etc/nginx/sites-enabled/default && chown www-data:www-data /etc/nginx/conf.d/htpassword
 
 #Pip install Python packages
@@ -69,3 +67,5 @@ RUN cd /home/app/django && pip install -r requirements/production.txt && find . 
 RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
 
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
+ADD ./docker/server.key /etc/ssl/private/server.key
+ADD ./docker/server.crt /etc/ssl/certs/server.crt
