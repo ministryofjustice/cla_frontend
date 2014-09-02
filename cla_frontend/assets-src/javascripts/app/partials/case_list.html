@@ -1,12 +1,8 @@
-<nav class="SubNav">
-  <a ui-sref="case_list({search:''})" ng-if="search" class="SubNav-link SubNav-link--back">Back to all cases</a>
-</nav>
-
 <header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}">
   <div data-block="header">
     <h1 class="u-pullLeft">
       <span ng-show="searchParams.search">
-        Results for <span class="Button Button--secondary Icon--cross Icon--right" ng-click="resetSearch()">{{searchParams.search}}</span>
+        Results for <span class="Button Button--secondary Icon--cross Icon--right search-term" ng-click="resetSearch()">{{searchParams.search}}</span>
       </span>
       <span ng-hide="searchParams.search">Cases</span>
     </h1>

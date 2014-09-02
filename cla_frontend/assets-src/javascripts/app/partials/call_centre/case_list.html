@@ -3,7 +3,7 @@
     <h1 class="u-pullLeft">
       <span ng-hide="person.reference">
         <span ng-show="searchParams.search">
-          Results for <span class="Button Button--secondary Icon--cross Icon--right" ng-click="resetSearch()">{{searchParams.search}}</span>
+          Results for <span class="Button Button--secondary Icon--cross Icon--right search-term" ng-click="resetSearch()">{{searchParams.search}}</span>
         </span>
         <span ng-hide="searchParams.search">Cases</span>
       </span>
@@ -18,6 +18,9 @@
     <form name="newCaseForm" class="newCaseForm">
       <span ng-show="person.reference">
         <button id="create_case" type="button" class="Button" ng-click="addCase(person.reference)">Create a case for {{ person.full_name }}</button>
+      </span>
+      <span ng-hide="person.reference">
+        <button id="create_case" type="button" class="Button" ng-click="addCase()">Create a case</button>
       </span>
     </form>
   </div>

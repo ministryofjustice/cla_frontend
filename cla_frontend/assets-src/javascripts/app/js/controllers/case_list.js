@@ -29,7 +29,7 @@
 
             $scope.searchParams = {
               person_ref: person_ref
-            }
+            };
             _updatePage({inherit: false});
           };
 

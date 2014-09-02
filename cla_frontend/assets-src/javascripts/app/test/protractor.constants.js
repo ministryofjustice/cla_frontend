@@ -5,6 +5,11 @@
 
   var testConstants = {
     callcentreBaseUrl: 'call_centre/',
+    getCallcentreBaseAbsoluteUrl: function() {
+      var protractor = require('protractor');
+
+      return protractor.getInstance().baseUrl + this.callcentreBaseUrl;
+    },
     providerBaseUrl: 'provider/',
     scope: {
       true: [

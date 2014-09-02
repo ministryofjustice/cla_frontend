@@ -16,15 +16,26 @@
         expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
       });
 
-      it('should correctly fill the search field and return results', function () {
+      it('should correctly fill the search field, return results and clear the search', function () {
+        browser.get(CONSTANTS.callcentreBaseUrl);
+
+        // search
         browser.findElement(by.name('q')).sendKeys('Foo123');
         browser.findElement(by.name('case-search-submit')).submit();
 
         expect(browser.findElement(by.name('q')).getAttribute('value')).toBe('Foo123');
         expect(browser.getLocationAbsUrl()).toContain('search=Foo123');
+        expect(browser.findElement(by.css('.search-term')).getText()).toBe('Foo123');
+
+        // clearing the search
+        browser.findElement(by.css('.search-term')).click();
+        expect(browser.findElement(by.name('q')).getAttribute('value')).toBe('');
+        expect(browser.getLocationAbsUrl()).toBe(CONSTANTS.getCallcentreBaseAbsoluteUrl());
       });
 
       it('should change the sort field', function () {
+        browser.get(CONSTANTS.callcentreBaseUrl);
+
         browser.findElement(by.cssContainingText('.CaseList th a', 'Name')).click();
         expect(browser.getLocationAbsUrl()).toContain('ordering=personal_details__full_name');
         browser.findElement(by.cssContainingText('.CaseList th a', 'Name')).click();
@@ -32,23 +43,17 @@
         expect(searchedUrl).toContain('ordering=-personal_details__full_name');
       });
 
-      it('should create a case from listing page', function () {
+      it('should create a case from listing page and go back to listing page', function () {
+        browser.get(CONSTANTS.callcentreBaseUrl);
+
         browser.findElement(by.buttonText('Create a case')).click();
 
         caseRef = element(by.binding('case.reference'));
         expect(caseRef.isPresent()).toBe(true);
         expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
-      });
 
-      it('should keep same search params when returning to listing page', function () {
         browser.findElement(by.cssContainingText('a','Back to cases')).click();
-        expect(searchedUrl).toBe(browser.getLocationAbsUrl());
-      });
-
-      it('should clear the search', function () {
-        browser.findElement(by.cssContainingText('a','Back to all cases')).click();
-        expect(browser.findElement(by.name('q')).getAttribute('value')).toBe('');
-        expect(browser.getLocationAbsUrl()).toContain('search=&');
+        expect(browser.getLocationAbsUrl()).toBe(browser.getLocationAbsUrl());
       });
     });
   });
