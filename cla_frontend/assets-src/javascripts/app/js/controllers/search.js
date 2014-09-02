@@ -10,7 +10,7 @@
           });
 
           $scope.submit = function() {
-            $state.go('case_list', {search: $scope.search, ordering:'', page: 1});
+            $state.go('case_list', {search: $scope.search}, {inherit: false});
           };
         }
       ]

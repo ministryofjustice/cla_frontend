@@ -3,49 +3,76 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$rootScope', '$scope', 'cases', '$stateParams', '$state', 'Case',
-        function($rootScope, $scope, cases, $stateParams, $state, Case) {
-          $scope.orderProp = $stateParams.ordering || '-modified';
-          $scope.search = $stateParams.search;
-          $scope.currentPage = $stateParams.page || 1;
+      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History',
+        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History) {
+          // PARAMS
+          $scope.searchParams = angular.extend({}, $stateParams);
+          $scope.searchParams.ordering = $scope.searchParams.ordering || '-modified';
+          $scope.searchParams.page = $scope.searchParams.page || 1;
 
           $scope.cases = cases;
+          $scope.person = person;
 
-          function updatePage() {
-            $state.go('case_list', {
-              'page': $scope.currentPage,
-              'ordering': $scope.orderProp,
-              'search': $scope.search
-            });
+          // SEARCH ACTIONS
+
+          function _updatePage(options) {
+            $state.go('case_list', $scope.searchParams, options);
           }
 
           $scope.pageChanged = function(newPage) {
-            $scope.currentPage = newPage;
-            updatePage();
+            $scope.searchParams.page = newPage;
+            _updatePage();
           };
 
+          $scope.filterByPerson = function(person_ref) {
+            History.latestSearchParams = angular.extend({}, $scope.searchParams);
+
+            $scope.searchParams = {
+              person_ref: person_ref
+            };
+            _updatePage({inherit: false});
+          };
+
+          $scope.backToLatestSearch = function() {
+            $scope.searchParams = History.latestSearchParams || {};
+            _updatePage({inherit: false});
+          };
+
+          $scope.resetSearch = function() {
+            $scope.searchParams = {};
+            _updatePage({inherit: false});
+          };
+
+          // SORT ACTIONS
+
           $scope.sortToggle = function(currentOrderProp){
-            if (currentOrderProp === $scope.orderProp) {
-              $scope.orderProp = '-' + currentOrderProp;
+            if (currentOrderProp === $scope.searchParams.ordering) {
+              $scope.searchParams.ordering = '-' + currentOrderProp;
             } else {
-              $scope.orderProp = currentOrderProp;
+              $scope.searchParams.ordering = currentOrderProp;
             }
-            $scope.currentPage = 1;
-            updatePage();
+            $scope.searchParams.page = 1;
+            _updatePage();
           };
           
           $scope.sortClass = function(orderProp) {
-            if ($scope.orderProp === orderProp) {
+            if ($scope.searchParams.ordering === orderProp) {
               return 'u-sortAsc';
-            } else if ($scope.orderProp === '-' + orderProp) {
+            } else if ($scope.searchParams.ordering === '-' + orderProp) {
               return 'u-sortDesc';
             }
           };
 
-          $scope.addCase = function() {
+          // ADD / EDIT CASE ACTIONS
+
+          $scope.addCase = function(person_ref) {
+            var saveParams = {
+              personal_details: person_ref || null
+            };
+
             $rootScope.$emit('timer:start', {
               success: function() {
-                new Case().$save(function(data) {
+                new Case(saveParams).$save(function(data) {
                   $state.go('case_detail.edit', {caseref:data.reference});
                 });
               }
