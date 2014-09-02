@@ -17,8 +17,6 @@
       });
 
       it('should correctly fill the search field, return results and clear the search', function () {
-        browser.get(CONSTANTS.callcentreBaseUrl);
-
         // search
         browser.findElement(by.name('q')).sendKeys('Foo123');
         browser.findElement(by.name('case-search-submit')).submit();
@@ -34,8 +32,6 @@
       });
 
       it('should change the sort field', function () {
-        browser.get(CONSTANTS.callcentreBaseUrl);
-
         browser.findElement(by.cssContainingText('.CaseList th a', 'Name')).click();
         expect(browser.getLocationAbsUrl()).toContain('ordering=personal_details__full_name');
         browser.findElement(by.cssContainingText('.CaseList th a', 'Name')).click();
@@ -53,7 +49,7 @@
         expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
 
         browser.findElement(by.cssContainingText('a','Back to cases')).click();
-        expect(browser.getLocationAbsUrl()).toBe(browser.getLocationAbsUrl());
+        expect(browser.getLocationAbsUrl()).toBe(CONSTANTS.getCallcentreBaseAbsoluteUrl());
       });
     });
   });

@@ -9,7 +9,7 @@
       </span>
 
       <span ng-show="person.reference">
-        Cases for <span class="Button Button--secondary Icon--cross Icon--right" ng-click="backToLatestSearch()">{{ person.full_name }}</span> <span ng-show="person.postcode">({{ person.postcode }})</span>
+        Cases for <span class="Button Button--secondary Icon--cross Icon--right search-person" ng-click="backToLatestSearch()">{{ person.full_name }}</span> <span ng-show="person.postcode">({{ person.postcode }})</span>
       </span>
     </h1>
   </div>
@@ -27,8 +27,8 @@
 
   <span data-block="pd-column">
     <span ng-hide="person.reference">
-      <span ng-show="case.case_count > 1">({{ case.case_count }})</span>
       <a href="" ng-click="filterByPerson(case.personal_details)">{{ case.full_name }}</a>
+      <span ng-show="case.case_count > 1">({{ case.case_count }})</span>
     </span>
     <span ng-show="person.reference">{{ case.full_name }}</span>
   </span>
