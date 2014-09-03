@@ -143,7 +143,24 @@
       },
       createWithOutScopeAndInEligible: function () {
         return this.createWithScopeAndEligibility(false, false);
+      },
+
+      createReadyToAssign: function () {
+        return this.createRecipe(
+          _.extend(
+            CONSTANTS.case.required,
+            CONSTANTS.mattertypes.standard
+          ),
+          _.extend(
+            {},
+            CONSTANTS.personal_details.required,
+            CONSTANTS.personal_details.recommended
+          ),
+          CONSTANTS.scope[true],
+          CONSTANTS.eligibility[true]
+        );
       }
+
     }
   };
 })();
