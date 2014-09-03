@@ -5,8 +5,7 @@
     // --- tests to run ---
     specs: [
       // 'reporter-hack.js',
-      'e2e/*.js',
-      '!e2e/_*.js'
+      'e2e/!(_*).js'
     ],
     suites: {},
 

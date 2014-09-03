@@ -73,6 +73,12 @@
       reason: 'Child or patient',
       personal_relationship: 'Parent or guardian',
       pass_phrase: 'Earth'
+    },
+    mattertypes: {
+      standard: {
+        matter_type1: 'FMEA',
+        matter_type2: 'FPET'
+      }
     }
   };
 
