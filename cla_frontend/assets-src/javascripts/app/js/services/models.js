@@ -373,4 +373,21 @@
       });
     }]);
 
+  angular.module('cla.services.operator')
+    .factory('Feedback', ['$resource', 'url_utils', function($resource, url_utils) {
+      return $resource(url_utils.proxy('feedback/:reference/'), {'reference': '@reference'}, {
+        'patch': {method: 'PATCH'}
+      });
+    }]);
+
+  angular.module('cla.services.provider')
+    .factory('Feedback', ['$resource', 'url_utils', function($resource, url_utils) {
+      return $resource(url_utils.proxy('case/:case/feedback/:reference/'), {
+        'reference': '@reference',
+        'case': '@case'
+      }, {
+        'patch': {method: 'PATCH'}
+      });
+    }]);
+
 })();

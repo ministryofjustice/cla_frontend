@@ -1,27 +1,10 @@
 .CaseList {
-  border-collapse: collapse;
-
-  th {
-    text-align: left;
-    padding: 15px;
-    font-weight: 400;
-  }
-
+  @include item-list;
   tr {
-    td {
-      border: {
-        style: solid;
-        width: 1px 0;
-        color: $grey-2;
-      }
-      background-color: $grey-4;
-      padding: 12px 15px;
-    }
-      
     &.is-new td {
       background-color: $yellow-25;
     }
-      
+
     &.is-rejected td {
       &:first-child {
         border-left-width: 4px;

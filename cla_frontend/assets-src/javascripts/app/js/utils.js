@@ -72,5 +72,18 @@
       Raven.captureException(exception, cause);
     };
   }]);
+
+  angular.module('cla.utils')
+    .factory('goToCase', ['$rootScope', '$state', function($rootScope, $state){
+      return function(case_reference) {
+        $rootScope.$emit('timer:start', {
+          success: function() {
+            $state.go('case_detail.edit', {
+              'caseref': case_reference
+            });
+          }
+        });
+      };
+    }]);
 })();
 

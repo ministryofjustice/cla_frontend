@@ -14,7 +14,7 @@
         {{ code.code }} <span class="u-mute">- {{ code.description }}</span>
       </label>
     </div>
-    
+
     <br>
 
     <div class="FormRow cf">
@@ -22,10 +22,12 @@
         <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="notes" placeholder="Notes"></textarea>
       </label>
     </div>
+    <div data-block="feedback"></div>
   </div>
 
-  <div class="FormActions">
+  <div class="FormActions" data-block="formActions">
     <button class="Button" type="submit">{{tplVars.buttonText}}</button>
     <a href="" ng-click="cancel()">Cancel</a>
   </div>
 </form>
+

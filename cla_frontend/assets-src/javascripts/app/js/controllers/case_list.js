@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History',
-        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History) {
+      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase',
+        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase) {
           // PARAMS
           $scope.searchParams = angular.extend({}, $stateParams);
           $scope.searchParams.ordering = $scope.searchParams.ordering || '-modified';
@@ -54,7 +54,7 @@
             $scope.searchParams.page = 1;
             _updatePage();
           };
-          
+
           $scope.sortClass = function(orderProp) {
             if ($scope.searchParams.ordering === orderProp) {
               return 'u-sortAsc';
@@ -79,15 +79,8 @@
             });
           };
 
-          $scope.goToCase = function(case_reference) {
-            $rootScope.$emit('timer:start', {
-              success: function() {
-                $state.go('case_detail.edit', {
-                  'caseref': case_reference
-                });
-              }
-            });
-          };
+
+          $scope.goToCase = goToCase;
 
           // checking the time after the template as been rendered
           $scope.$evalAsync(function() {

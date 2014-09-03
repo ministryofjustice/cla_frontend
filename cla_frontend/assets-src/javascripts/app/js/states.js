@@ -62,7 +62,7 @@
       parent: 'layout',
       name: 'case_detail',
       abstract: true,
-      url: APP_BASE_URL+':caseref/',
+      url: APP_BASE_URL+'{caseref:[A-Z0-9]{2}-[0-9]{4}-[0-9]{4}}/',
       onEnter: ['modelsEventManager', function(modelsEventManager) {
         modelsEventManager.onEnter();
       }],
@@ -292,6 +292,25 @@
       }
     };
 
+    operatorStates.FeedbackListState = {
+      name: 'feedback_list',
+      parent: 'layout',
+      url: APP_BASE_URL+'feedback/?search?ordering?page',
+      templateUrl: 'call_centre/feedback_list.html',
+      controller: 'FeedbackListCtrl',
+      resolve: {
+        feedback: ['$stateParams', 'Feedback', function($stateParams, Feedback){
+          var params = {
+            search: $stateParams.search,
+            ordering: $stateParams.ordering,
+            page: $stateParams.page
+          };
+
+          return Feedback.query(params).$promise;
+        }]
+      }
+    };
+
     return operatorStates;
   };
 
@@ -302,6 +321,15 @@
       templateUrl: 'provider/includes/case_detail.edit.acceptreject.html',
       controller: 'AcceptRejectCaseCtrl'
     };
+
+    providerStates.CaseDetailState.views['feedback@case_detail'] = {
+      templateUrl: 'provider/case_detail.feedback.html',
+      controller: 'FeedbackListCtrl'
+    };
+
+    providerStates.CaseDetailState.resolve['feedbackList'] = ['case', 'Feedback', function(case_, Feedback) {
+      return Feedback.query({case: case_.reference}).$promise;
+    }];
 
     providerStates.CaseDetailState.views[''].templateUrl = 'provider/case_detail.html';
 
