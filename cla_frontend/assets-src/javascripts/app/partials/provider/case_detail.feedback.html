@@ -24,7 +24,7 @@
 
     <ul class="CaseHistory-log">
       <li class="CaseHistory-logItem cf">
-        <span>{{ getFormattedFeedback(feedbackItem.issue).text }}</span>
+        <span>{{ (feedbackItem.issue|constantByValue:FEEDBACK_ISSUE).text }}</span>
 
         <span class="CaseHistory-logItemNotes">{{ feedbackItem.comment }}</span>
 

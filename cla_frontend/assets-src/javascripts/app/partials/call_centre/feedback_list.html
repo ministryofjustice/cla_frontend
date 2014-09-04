@@ -5,26 +5,26 @@
 </header>
 
 <div data-block="case-list">
-  <table class="FeedbackList CaseList" cellpadding="0" cellspacing="0" border="0" width="100%">
+  <table class="FeedbackList" cellpadding="0" cellspacing="0" border="0" width="100%">
     <thead>
     <tr>
       <th width="15%">Case Reference</th>
-      <th width="11%"><a href="" ng-click="sortToggle('issue')" ng-class="sortClass('issue')">Issue</a></th>
+      <th width="11%">Issue</th>
       <th width="24%">Comment</th>
-      <th width="14%"><a href="" ng-click="sortToggle('justified')" ng-class="sortClass('justified')">Justified</a></th>
-      <th width="16%"><a href="" ng-click="sortToggle('resolved')" ng-class="sortClass('resolved')">Resolved</a></th>
-      <th width="16%"><a href="" ng-click="sortToggle('created')" ng-class="sortClass('created')">Created</a></th>
+      <th width="14%">Justified</th>
+      <th width="16%">Resolved</th>
+      <th width="16%">Created</th>
     </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="feedback in feedback_list">
+      <tr ng-repeat="feedback in feedbackList">
         <td>
           <a href="" ng-click="goToCase(feedback.case)">{{ feedback.case }}</a>
         </td>
-        <td>{{ getFormattedFeedback(feedback.issue).text }}</td>
+        <td>{{ (feedback.issue|constantByValue:FEEDBACK_ISSUE).text }}</td>
         <td>{{ feedback.comment }}</td>
-        <td>{{ feedback.justified }}</td>
-        <td>{{ feedback.resolved }}</td>
+        <td><a class="Button" ng-class="{'Button--warning': !feedback.justified}" ng-click="toggleJustified(feedback)">{{ feedback.justified }}</a></td>
+        <td><a class="Button" ng-class="{'Button--warning': !feedback.resolved}" ng-click="toggleResolved(feedback)">{{ feedback.resolved }}</a></td>
         <td>
           <span am-time-ago="feedback.created"></span>
           <br>

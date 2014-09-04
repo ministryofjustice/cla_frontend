@@ -3,15 +3,24 @@
 
   angular.module('cla.controllers.operator')
     .controller('FeedbackListCtrl',
-      ['$scope', 'feedback', 'goToCase', 'FEEDBACK_ISSUE', '_',
-        function($scope, feedback, goToCase, FEEDBACK_ISSUE, _) {
-          $scope.feedback_list = feedback;
+      ['$scope', 'feedback', 'goToCase', 'FEEDBACK_ISSUE',
+        function($scope, feedback, goToCase, FEEDBACK_ISSUE) {
+          $scope.feedbackList = feedback;
           $scope.goToCase = goToCase;
-          $scope.getFormattedFeedback = function(val) {
-            return _.find(FEEDBACK_ISSUE, {value:  val});
+          $scope.FEEDBACK_ISSUE = FEEDBACK_ISSUE;
+
+          function toggleField (feedbackItem, field) {
+            feedbackItem[field] = !feedbackItem[field];
+            return feedbackItem.$patch();
+          }
+
+          $scope.toggleJustified = function (feedbackItem) {
+            toggleField(feedbackItem, 'justified');
           };
 
-
+          $scope.toggleResolved = function (feedbackItem) {
+            toggleField(feedbackItem, 'resolved');
+          };
         }
       ]
     );
