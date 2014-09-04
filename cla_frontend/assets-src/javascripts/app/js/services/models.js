@@ -135,6 +135,18 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.$search_for_personal_details = function(person_q) {
+        var url = url_utils.proxy('case/'+this.reference+'/search_for_personal_details/?person_q='+person_q);
+        return $http.get(url);
+      };
+
+      resource.prototype.$link_personal_details = function(personal_details) {
+        var url = url_utils.proxy('case/'+this.reference+'/link_personal_details/');
+        return $http.post(url, {
+          personal_details: personal_details
+        });
+      };
+
       return resource;
     }]);
 
