@@ -4,7 +4,7 @@
       <nav class="SubNav">
         <a ui-sref="case_list(caseListStateParams)" class="SubNav-link SubNav-link--back">Back to cases</a>
       </nav>
-      
+
       <div ui-view="personalDetails"></div>
     </div>
     <div class="Grid-col Grid-col--3-5" ui-view full-height data-centre-col></div>
@@ -21,15 +21,16 @@
             <strong ng-show="case.matter_type2">MT2:</strong> {{ case.matter_type2 }}
           </p>
         </header>
-        
+
         <div class="cf CaseDetails-actions">
           <timer base-time="case.billable_time" class="u-pullLeft"></timer>
-        
+
           <div data-block="case-actions"></div>
         </div>
       </div>
 
       <div class="Grid-colInner" ui-view="outcome"></div>
+      <div class="Grid-colInner" ui-view="feedback"></div>
     </div>
   </div>
 </div>

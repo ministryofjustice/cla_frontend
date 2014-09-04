@@ -1,0 +1,34 @@
+<hr xmlns="http://www.w3.org/1999/html">
+<h5>Leave Feedback</h5>
+<form ng-submit="submit()">
+  <label class="FormRow FormRow--narrow cf">Issue
+    <select
+      ng-model="newFeedback.issue"
+      ui-select2="{allowClear: true}"
+      ng-options="s.value as s.text for s in FEEDBACK_ISSUE track by s.value"
+      ng-required="true">
+    <option value=""></option>
+  </select>
+  </label>
+  <label class="FormRow FormRow--narrow cf">Comment
+    <textarea ng-model="newFeedback.comment" rows="5" ng-required="true"></textarea>
+    </label>
+  <input class="Button" type="submit">
+</form>
+<ul class="CaseHistory" ng-show="feedbackList" >
+
+  Feedback:
+  <li class="CaseHistory-card" ng-repeat="feedbackItem in feedbackList">
+    <span class="CaseHistory-date">{{ feedbackItem.created | general_date }}</span>
+    <span class="CaseHistory-author">({{ feedbackItem.created_by }})</span>
+
+    <ul class="CaseHistory-log">
+      <li class="CaseHistory-logItem cf">
+        <span>{{ (feedbackItem.issue|constantByValue:FEEDBACK_ISSUE).text }}</span>
+
+        <span class="CaseHistory-logItemNotes">{{ feedbackItem.comment }}</span>
+
+      </li>
+    </ul>
+  </li>
+</ul>

@@ -2,6 +2,8 @@
 (function(){
   angular.module('cla.controllers',[]);
   angular.module('cla.services',['ngResource']);
+  angular.module('cla.services.operator', ['ngResource', 'cla.services']);
+  angular.module('cla.services.provider', ['ngResource', 'cla.services']);
   angular.module('cla.filters',[]);
   angular.module('cla.directives',[]);
   angular.module('cla.states',[]);
@@ -36,6 +38,7 @@
       'cla.controllers',
       'cla.controllers.operator',
       'cla.services',
+      'cla.services.operator',
       'cla.filters',
       'cla.directives',
       'cla.utils',
@@ -95,6 +98,7 @@
       'cla.controllers',
       'cla.controllers.provider',
       'cla.services',
+      'cla.services.provider',
       'cla.filters',
       'cla.directives',
       'cla.utils',

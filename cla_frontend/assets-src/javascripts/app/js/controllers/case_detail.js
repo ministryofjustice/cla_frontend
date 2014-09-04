@@ -169,17 +169,25 @@
             $modalInstance.dismiss('cancel');
           };
 
-          $scope.submit = function() {
-            _case['$'+event_key]({
-              'event_code': this.event_code,
-              'notes': this.notes || ''
-            }).then(function() {
-              $state.go('case_list');
-              flash('success', success_msg);
-              $modalInstance.dismiss('cancel');
+          $scope.post_submit = function() {
+            $state.go('case_list');
+            flash('success', success_msg);
+            $modalInstance.dismiss('cancel');
+          };
+
+          $scope.submit_outcome = function (event_code, notes) {
+            return _case['$'+event_key]({
+              'event_code': event_code,
+              'notes': notes || ''
             });
+          };
+
+          $scope.submit = function() {
+            $scope.submit_outcome(this.event_code, this.notes)
+              .then($scope.post_submit);
 
           };
+
         }
       ]
     );
