@@ -1,5 +1,4 @@
 /*!
->>>>>>> add tests for provider feedback
  * angular-loading-bar v0.5.1
  * https://chieffancypants.github.io/angular-loading-bar
  * Copyright (c) 2014 Wes Cruver
@@ -37,7 +36,7 @@
   -o-transition: width 350ms;
   transition: width 350ms;
 
-  background: #29d;
+  background: $white;
   position: fixed;
   z-index: 10002;
   top: 0;
