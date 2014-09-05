@@ -46,10 +46,12 @@
       'cla.routes',
       'ui.bootstrap',
       'ui.select2',
-      'sticky'
+      'sticky',
+      'angular-loading-bar'
     ])
-    .config(function($resourceProvider) {
+    .config(function($resourceProvider, cfpLoadingBarProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
+      cfpLoadingBarProvider.includeBar = false;
     })
     .run(function ($rootScope, $state, $stateParams, Timer, flash) {
       $rootScope.$state = $state;
@@ -106,10 +108,12 @@
       'cla.routes',
       'ui.bootstrap',
       'ui.select2',
-      'sticky'
+      'sticky',
+      'angular-loading-bar'
     ])
-    .config(function($resourceProvider) {
+    .config(function($resourceProvider, cfpLoadingBarProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
+      cfpLoadingBarProvider.includeBar = false;
     })
     .run(function ($rootScope, $state, $stateParams, Timer) {
       $rootScope.$state = $state;
