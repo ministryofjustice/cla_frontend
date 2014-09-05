@@ -2,6 +2,7 @@
   <div data-block="feedback">
     <h4>Leave Feedback? <input type="checkbox" ng-model="$parent.leaveFeedback"></h4>
     <select
+        id="reject_feedback_issue"
         ng-show="$parent.leaveFeedback"
         ng-model="feedback.issue"
         ui-select2="{allowClear: true}"
