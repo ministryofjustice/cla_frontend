@@ -77,7 +77,7 @@
 
         browser.driver.wait(function() {
           return element(by.css('#s2id_searchPerson a'));
-        }).then(function(select2Triggerer) {
+        }).then(function() {
           searchAndExpect('__invalid', 0);
           element(by.id('select2-drop-mask')).click();  // focus away to close the select
           searchAndExpect(randomName, 1);
@@ -92,7 +92,7 @@
 
       it('should allow linking a Person to a new case', function() {
         searchAndExpect(randomName, 1);
-        
+
         element(by.css('.select2-results-dept-0')).click();
 
         browser.switchTo().alert().accept();
