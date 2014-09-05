@@ -40,6 +40,8 @@
       }).then(function showWindowSize(dimensions) {
         console.log('Browser:', browserName, 'on', platform, 'at', dimensions.width + 'x' + dimensions.height);
       });
+
+      window.maximize();
     },
 
     // --- test framework ---
