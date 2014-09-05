@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'adaptations_metadata', 'mediacodes', '$q', 'PersonalDetails', 'flash',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, adaptations_metadata, mediacodes, $q, PersonalDetails, flash){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'adaptations_metadata', 'mediacodes', '$q', 'flash',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, adaptations_metadata, mediacodes, $q, flash){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -182,10 +182,8 @@
                 $scope.case.$link_personal_details(pd_ref).then(function() {
                   $scope.case.personal_details = pd_ref;
 
-                  PersonalDetails.get({case_reference: $scope.case.reference}).$promise.then(function(data) {
-                    $scope.personal_details = data;
-                    flash('Case linked to '+data.full_name);
-                  });
+                  personal_details.$get();
+                  flash('Case linked to '+pd_full_name);
                 });
               } else {
                 $scope.person_q = '';
