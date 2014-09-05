@@ -168,24 +168,30 @@
                 return {results: results};
               } 
             },
-            initSelection : function (element, callback) {
-              var personal_details_ref = element.val();
-              if (confirm('Are you sure you want to link this case to '+element.select2('data').text+'? \n\nThis operation cannot be undone.')) {
-                $scope.case.$link_personal_details(personal_details_ref).then(function() {
-                  $scope.case.personal_details = personal_details_ref;
+            initSelection: function(element, callback) {
+              callback({id: element.val(), text: element.select2('data').text});
+            }
+          };
+
+          $scope.$watch('person_q', function(val) {
+            if (val && val.id) {
+              var pd_ref = val.id,
+                  pd_full_name = val.text;
+
+              if (confirm('Are you sure you want to link this case to '+pd_full_name+'? \n\nThis operation cannot be undone.')) {
+                $scope.case.$link_personal_details(pd_ref).then(function() {
+                  $scope.case.personal_details = pd_ref;
 
                   PersonalDetails.get({case_reference: $scope.case.reference}).$promise.then(function(data) {
                     $scope.personal_details = data;
                     flash('Case linked to '+data.full_name);
-                    callback();
                   });
                 });
               } else {
-                element.select2('val', '');
-                callback();
+                $scope.person_q = '';
               }
             }
-          };
+          });
 
           $scope.savePersonalDetails = function(form) {
             var pdPromise = $q.defer(),
