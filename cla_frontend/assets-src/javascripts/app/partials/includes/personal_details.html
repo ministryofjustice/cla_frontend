@@ -1,7 +1,7 @@
 <section id="personal_details">
-  <div ng-click="personaldetails_frm.$show()" ng-hide="personaldetails_frm.$visible" class="VCard VCard-view" ng-class="{'u-mute': case.thirdparty_details}">
+  <div ng-click="showPersonalDetails(personaldetails_frm)" ng-hide="personaldetails_frm.$visible" class="VCard VCard-view" ng-class="{'u-mute': case.thirdparty_details}">
     <!-- IF empty -->
-    <p class="Notice" ng-hide="personal_details.full_name">Please enter personal details</p>
+    <p class="Notice" ng-hide="personal_details.full_name">{{ !personal_details.reference ? 'Create a new one' : 'Please enter personal details' }}</p>
 
     <h2 class="VCard-title Icon Icon--formRow Icon--user" ng-show="personal_details.full_name">{{ personal_details.full_name }}</h2>
 

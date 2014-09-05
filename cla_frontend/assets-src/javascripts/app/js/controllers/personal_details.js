@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'adaptations_metadata', 'mediacodes', '$q',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, adaptations_metadata, mediacodes, $q){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'adaptations_metadata', 'mediacodes', '$q', 'PersonalDetails', 'flash',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, adaptations_metadata, mediacodes, $q, PersonalDetails, flash){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -123,10 +123,75 @@
             $scope.language.disable = value ? false : true;
           };
 
+          $scope.showPersonalDetails = function(form) {
+            form.$show();
+            $scope.personal_details_frm_visible = true;
+          };
+
           $scope.cancelPersonalDetails = function (form) {
             form.$cancel();
             $scope.language.disable = $scope.adaptations.language === 'WELSH';
+            $scope.personal_details_frm_visible = false;
           };
+
+          $scope.searchPersonOptions = {
+            minimumInputLength: 3,
+            ajax: { 
+              data: function (term) { 
+                return { 
+                  query: term 
+                };
+              }, 
+              quietMillis: 500, 
+              transport: function(queryParams) {
+                return $scope.case.$search_for_personal_details(
+                    queryParams.data.query
+                  ).then(queryParams.success);
+              }, 
+              results: function (data) {
+                var text, extra_text, results;
+
+                results = data.data.map(function(person) {
+                  text = person.full_name;
+                  if (person.postcode || person.dob) {
+                    extra_text = [];
+                    if (person.postcode) {
+                      extra_text.push(person.postcode);
+                    }
+                    if (person.dob) {
+                      extra_text.push([person.dob.day, person.dob.month, person.dob.year].join('-'));
+                    }
+                    text += ' ('+extra_text.join(', ')+')';
+                  }
+                  return {id: person.reference, text: text};
+                });
+                return {results: results};
+              } 
+            },
+            initSelection: function(element, callback) {
+              callback({id: element.val(), text: element.select2('data').text});
+            }
+          };
+
+          $scope.$watch('person_q', function(val) {
+            if (val && val.id) {
+              var pd_ref = val.id,
+                  pd_full_name = val.text;
+
+              if (confirm('Are you sure you want to link this case to '+pd_full_name+'? \n\nThis operation cannot be undone.')) {
+                $scope.case.$link_personal_details(pd_ref).then(function() {
+                  $scope.case.personal_details = pd_ref;
+
+                  PersonalDetails.get({case_reference: $scope.case.reference}).$promise.then(function(data) {
+                    $scope.personal_details = data;
+                    flash('Case linked to '+data.full_name);
+                  });
+                });
+              } else {
+                $scope.person_q = '';
+              }
+            }
+          });
 
           $scope.savePersonalDetails = function(form) {
             var pdPromise = $q.defer(),

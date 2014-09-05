@@ -1,2 +1,16 @@
+<div ng-show="!personal_details.reference && !personal_details_frm_visible">
+  <label class="FormRow FormRow--narrow cf">
+    <span class="Icon--formRow Icon Icon--user">
+      <span class="editable-wrap editable-text ng-scope">
+        <span class="editable-controls">
+          <input type="text" id="searchPerson" ui-select2="searchPersonOptions" name="person_q" class="FormRow-field--full" placeholder="Search for an existing user" ng-model="person_q">
+        </span>
+      </span>
+    </span>
+  </label>
+
+  <div>or</div>
+</div>
+
 <div ng-include="'includes/personal_details.html'"></div>
-<div ng-include="'includes/third_party.html'"></div>
+<div ng-hide="!personal_details.reference && !personal_details_frm_visible" ng-include="'includes/third_party.html'"></div>
