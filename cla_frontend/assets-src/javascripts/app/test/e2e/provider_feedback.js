@@ -88,7 +88,7 @@
           reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
           notes_area = element(by.css('.modal-content textarea[ng-model="notes"]')),
           leave_feedback_checkbox = element(by.css('.modal-content input[type="checkbox"][ng-model="$parent.leaveFeedback"]')),
-          feedback_issue_select = element(by.css('div#s2id_autogen3')),
+          feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
           feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
           modal_submit = element(by.css('.modal-content button.Button[type="submit"]'));
 
@@ -109,6 +109,7 @@
         expect(feedback_issue_select.isDisplayed()).toBe(true);
         feedback_issue_select.click();
 
+        expect(feedback_issue_select_options.count()).not.toBe(0);
         feedback_issue_select_options.then(function (li) {
           li[0].click();
         });
@@ -119,7 +120,7 @@
       });
 
       it('should have example case assigned & ready to feedback without rejecting', function(){
-        var feedback_issue_select = element(by.css('div#s2id_autogen1')),
+        var feedback_issue_select = element(by.css('div#s2id_newFeedback_issue a')),
           feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
           notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="newFeedback.comment"]')),
           submit_button = element(by.css('div[ui-view="feedback"] form input.Button[type="submit"]'));
@@ -128,6 +129,8 @@
 
         expect(feedback_issue_select.isDisplayed()).toBe(true);
         feedback_issue_select.click();
+
+        expect(feedback_issue_select_options.count()).not.toBe(0);
         feedback_issue_select_options.then(function (li) {
           li[0].click();
         });

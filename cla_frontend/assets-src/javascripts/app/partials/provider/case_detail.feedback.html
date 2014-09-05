@@ -3,6 +3,7 @@
 <form ng-submit="submit()">
   <label class="FormRow FormRow--narrow cf">Issue
     <select
+      id="newFeedback_issue"
       ng-model="newFeedback.issue"
       ui-select2="{allowClear: true}"
       ng-options="s.value as s.text for s in FEEDBACK_ISSUE track by s.value"
