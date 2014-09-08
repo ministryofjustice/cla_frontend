@@ -20,7 +20,7 @@ io.on('connection', function (socket) {
 
   socket.on('client', function (data) {
     console.log('received from', id, ':', data);
-    io.emit('server', data);
+    socket.broadcast.emit('server', data);
   });
 
   socket.on('disconnect', function (data) {
