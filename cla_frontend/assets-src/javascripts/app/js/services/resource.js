@@ -15,13 +15,18 @@
         actions = angular.extend({}, defaultActions, actions);
 
         angular.forEach(actions, function(action) {
+
         	eventAction = null;
 
-        	if (/^(POST|PUT|PATCH)$/i.test(action.method)) {
-        		eventAction = 'saved';
-        	} else if (action.method === 'DELETE') {
-        		eventAction = 'deleted';
-        	}
+          if (/^(POST|PUT|PATCH)$/i.test(action.method)) {
+            eventAction = 'saved';
+          } else if (action.method === 'DELETE') {
+            eventAction = 'deleted';
+          }
+
+          if (action.eventAction) {
+            eventAction = action.eventAction;
+          }
 
         	if (eventAction) {
 						action.interceptor = action.interceptor || {};

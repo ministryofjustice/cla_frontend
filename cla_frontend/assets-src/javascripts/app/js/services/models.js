@@ -42,6 +42,10 @@
               return _data;
             }
           },
+          'save': {
+            method: 'POST',
+            eventAction: 'created'
+          },
           'patch': {
             method: 'PATCH',
           },

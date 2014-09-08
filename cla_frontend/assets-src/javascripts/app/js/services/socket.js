@@ -2,8 +2,6 @@
 (function(){
   angular.module('cla.services')
     .factory('cla.bus', ['postal', function (postal) {
-      var channel = postal.channel('cla.operator');
-
       // io is global reference to socket.io
       var socket = io.connect('http://localhost:8005');
 
@@ -14,15 +12,10 @@
       };
 
       var messageHandlers = {
-        'Case.saved': sendForBroadcast('case.new')
+        'Case.created': sendForBroadcast('case.new')
       };
 
-      var handler = function (message) {
-        if (message.type && message.type in messageHandlers) {
-          return messageHandlers[message.type];
-        }
-        return messageHandlers[message];
-      };
+      var channel = postal.channel('cla.operator');
 
       var publishToChannel = function (message) {
         channel.publish(message.type, message.data);
@@ -34,7 +27,7 @@
         postal.subscribe({
           channel: 'models',
           topic: message,
-          callback: handler(message)
+          callback: messageHandlers[message]
         });
       }
 
