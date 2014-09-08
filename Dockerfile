@@ -45,6 +45,9 @@ ADD ./docker/nginx.service /etc/service/nginx/run
 # install service files for runit
 ADD ./docker/uwsgi.service /etc/service/uwsgi/run
 
+# install service files for runit
+ADD ./docker/nodejs.service /etc/service/uwsgi/run
+
 # Define mountable directories.
 VOLUME ["/data", "/var/log/nginx", "/var/log/wsgi"]
 
@@ -64,6 +67,9 @@ ADD ./ /home/app/django
 
 # PIP INSTALL APPLICATION
 RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
+
+# Install socket.io application
+RUN cd /home/app/django/cla_frontend/cla_socketserver && npm install
 
 RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
 

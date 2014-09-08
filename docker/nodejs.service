@@ -1,0 +1,2 @@
+#!/bin/bash
+exec /usr/bin/node.js /home/app/django/cla_frontend/cla_socketserver/app.js
