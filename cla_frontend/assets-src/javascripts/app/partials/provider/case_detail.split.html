@@ -1,0 +1,53 @@
+<header>
+  <h2>Split Case</h2>
+</header>
+
+<form method="post" ng-submit="save()">
+  <h4>Current Case</h4>
+
+  <div class="FormRow FormRow--narrow cf">
+    Category of Law: {{diagnosis.category}}
+  </div>
+  <div class="FormRow FormRow--narrow cf">
+    Matter Types: {{case.matter_type1}}, {{case.matter_type2}}
+  </div>
+  <div class="FormRow FormRow--narrow cf">
+    Assignment: me
+  </div>
+
+  <hr>
+
+  <h4>New Case</h4>
+  
+  <label class="FormRow FormRow--narrow cf">
+    Category of Law:
+
+    <select ui-select2 ng-model="$parent.category" ng-options="cat.code as cat.name for cat in categories track by cat.code" required>
+      <option value="">Choose a Category</option>
+    </select>
+  </label>
+
+  <label class="FormRow FormRow--narrow cf">
+    Matter Types:
+    <select ui-select2 ng-model="$parent.matterType1" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 1} track by matterType.code" required>
+      <option value="">Choose Matter Type 1</option>
+    </select>
+    <select ui-select2 ng-model="$parent.matterType2" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 2} track by matterType.code" required>
+      <option value="">Choose Matter Type 2</option>
+    </select>
+  </label>
+
+  <label class="FormRow FormRow--narrow cf">
+    Assignment:
+    <select ui-select2 ng-model="$parent.assignment" required>
+      <option value=""></option>
+      <option value="internal">Assign to me</option>
+      <option value="external">Assign to different Specialist</option>
+    </select>
+  </label>
+
+  <div class="FormActions">
+    <button class="Button" type="submit">Split Case</button>
+    <a href="" ng-click="cancel()">Cancel</a>
+  </div>
+</form>
