@@ -91,7 +91,10 @@
           bus.subscribe({
             channel: 'cla.operator',
             topic: 'case.new',
-            callback: function (data, env) { console.log('received case.new message', data); }
+            callback: function (data, env) {
+              console.log('received case.new message', data);
+              _updatePage();
+            }
           });
         }
       ]
