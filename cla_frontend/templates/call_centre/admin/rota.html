@@ -1,13 +1,13 @@
 {% extends "call_centre/base.html" %}{% load staticfiles %}
 
 {% block stylesheets %}
-<link href="{% static 'javascripts/vendor/dateinput-polyfill/jquery.datetimepicker.css' %}" rel="stylesheet"/>
+<link href="{% static 'javascripts/vendor/dateinput-polyfill/rome.min.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block javascripts %}
 <script src="{% static 'javascripts/vendor/fullcalendar.min.js' %}"></script>
 <script src="{% static 'javascripts/vendor/calendar.config.js' %}"></script>
-<script src="{% static 'javascripts/vendor/dateinput-polyfill/jquery.datetimepicker.js' %}"></script>
+<script src="{% static 'javascripts/vendor/dateinput-polyfill/rome.standalone.min.js' %}"></script>
 <script src="{% static 'javascripts/vendor/dateinput-polyfill/dateinput-init.js' %}"></script>
 {% endblock %}
 
