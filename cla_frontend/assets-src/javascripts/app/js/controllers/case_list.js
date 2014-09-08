@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase',
-        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase) {
+      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'cla.bus',
+        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, bus) {
           // PARAMS
           $scope.searchParams = angular.extend({}, $stateParams);
           $scope.searchParams.ordering = $scope.searchParams.ordering || '-modified';
@@ -85,6 +85,13 @@
           // checking the time after the template as been rendered
           $scope.$evalAsync(function() {
             $rootScope.$emit('timer:check');
+          });
+
+          // push
+          bus.subscribe({
+            channel: 'cla.operator',
+            topic: 'case.new',
+            callback: function (data, env) { console.log('received case.new message', data); }
           });
         }
       ]
