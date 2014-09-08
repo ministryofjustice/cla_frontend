@@ -14,7 +14,14 @@
       };
 
       var messageHandlers = {
-        'case.new': sendForBroadcast('case.new')
+        'Case.saved': sendForBroadcast('case.new')
+      };
+
+      var handler = function (message) {
+        if (message.type && message.type in messageHandlers) {
+          return messageHandlers[message.type];
+        }
+        return messageHandlers[message];
       };
 
       var publishToChannel = function (message) {
@@ -25,9 +32,9 @@
         socket.on('server', publishToChannel);
 
         postal.subscribe({
-          channel: 'cla.operator',
-          topic: message + '.self',
-          callback: messageHandlers[message]
+          channel: 'models',
+          topic: message,
+          callback: handler(message)
         });
       }
 
