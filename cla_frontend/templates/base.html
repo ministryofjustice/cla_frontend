@@ -10,7 +10,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
     <title>{% block page_title %}{{ app_title }}{% endblock %}</title>
-    <script src="//cdn.ravenjs.com/1.1.15/jquery,native/raven.min.js"></script>
+    <script src="{% static 'javascripts/vendor/raven.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/vendor/raven.config.js' %}"></script>
 
     {% if not debug %}
