@@ -56,6 +56,55 @@
 
       }]);
 
+  angular.module('cla.controllers')
+    .controller('SplitCaseCtrl',
+    ['$scope', '$modalInstance', 'case', 'diagnosis', 'MatterType', 'categories', '$state',
+      function ($scope, $modalInstance, case_, diagnosis, MatterType, categories, $state) {
+        $scope.case = case_;
+        $scope.diagnosis = diagnosis;
+        $scope.categories = categories;
+        $scope.matterTypes = null;
+
+        $scope.$watch('category', function(newVal) {
+          if (newVal) {
+            $scope.matterTypes = MatterType.get({
+              category__code: newVal
+            });
+          };
+        });
+
+        $scope.cancel = function () {
+          $modalInstance.dismiss('cancel');
+        };
+
+        $scope.save = function() {
+          console.log([
+            'Category: '+$scope.category,
+            'Matter Type 1: '+$scope.matterType1,
+            'Matter Type 2: '+$scope.matterType2,
+            'Assignment: '+$scope.assignment
+          ].join('\n'));
+        }
+        // $scope.matter_types = matter_types;
+
+        // $scope.cancel = function () {
+        //   $modalInstance.dismiss('cancel');
+        //   $scope.case.matter_type1 = null;
+        //   $scope.case.matter_type2 = null;
+        // };
+
+        // $scope.save = function() {
+        //   $scope.case.$set_matter_types().then(function () {
+        //     $modalInstance.close();
+        //     if ($scope.next) {
+        //       $state.go($scope.next);
+        //     }
+        //   });
+        // };
+      }
+    ]
+  );
+
   angular.module('cla.controllers.provider').
     controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', function($scope, $modal, flash){
       $scope.accept = function() {
@@ -79,6 +128,28 @@
             'event_key': function() { return 'reject_case'; },  //this is also the function name on Case model
             'notes': function() { return ''; },
             'success_msg': function() { return 'Case '+$scope.case.reference+' rejected successfully'; }
+          }
+        });
+      };
+
+      $scope.split = function() {
+        $modal.open({
+          templateUrl: 'provider/case_detail.split.html',
+          controller: 'SplitCaseCtrl',
+          resolve: {
+            // 'tplVars': function() {
+            //   return {
+            //     title: 'Split Case'
+            //   };
+            // },
+            'case': function() { return $scope.case; },
+            'diagnosis': function() { return $scope.diagnosis; },
+            // 'event_key': function() { return 'reject_case'; },  //this is also the function name on Case model
+            // 'notes': function() { return ''; },
+            // 'success_msg': function() { return 'Case '+$scope.case.reference+' rejected successfully'; }
+            categories: ['Category', function(Category) {
+              return Category.query().$promise;
+            }]
           }
         });
       };
