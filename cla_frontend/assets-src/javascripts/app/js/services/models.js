@@ -15,10 +15,10 @@
 
   // SERVICES
   angular.module('cla.services')
-    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'REQUIRES_ACTION_BY', 'url_utils', 'moment',
-      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, REQUIRES_ACTION_BY, url_utils, Moment) {
+    .factory('Case', ['$http', '$claResource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'REQUIRES_ACTION_BY', 'url_utils', 'moment',
+      function($http, $claResource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, REQUIRES_ACTION_BY, url_utils, Moment) {
 
-      var resource = $resource(
+      var resource = $claResource('Case',
         url_utils.proxy('case/:caseref/'),
         {caseref: '@reference'},
         {
