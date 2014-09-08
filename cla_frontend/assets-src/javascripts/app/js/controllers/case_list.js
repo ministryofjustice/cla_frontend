@@ -92,8 +92,12 @@
             channel: 'cla.operator',
             topic: 'case.new',
             callback: function (data, env) {
-              console.log('received case.new message', data);
-              _updatePage();
+              if ($state.current.name === 'case_list') {
+                $state.transitionTo($state.current, $stateParams, {
+                  reload: true,
+                  notify: true
+                });
+              }
             }
           });
         }
