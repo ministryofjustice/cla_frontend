@@ -14,16 +14,7 @@ io.use(function (socket, next) {
 });
 
 io.on('connection', function (socket) {
-  var id = socket.request.cookie.sessionid.slice(-8);
-
-  console.log('client connected', id);
-
   socket.on('client', function (data) {
-    console.log('received from', id, ':', data);
     socket.broadcast.emit('server', data);
-  });
-
-  socket.on('disconnect', function (data) {
-    console.log('client disconnected');
   });
 });
