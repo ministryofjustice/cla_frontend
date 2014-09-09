@@ -58,8 +58,8 @@
 
   angular.module('cla.controllers')
     .controller('SplitCaseCtrl',
-    ['$scope', '$modalInstance', 'case', 'diagnosis', 'MatterType', 'categories', '$state',
-      function ($scope, $modalInstance, case_, diagnosis, MatterType, categories, $state) {
+    ['$scope', '$modalInstance', 'case', 'diagnosis', 'MatterType', 'categories', '$state', 'flash',
+      function ($scope, $modalInstance, case_, diagnosis, MatterType, categories, $state, flash) {
         $scope.case = case_;
         $scope.diagnosis = diagnosis;
         $scope.categories = categories;
@@ -70,7 +70,7 @@
             $scope.matterTypes = MatterType.get({
               category__code: newVal
             });
-          };
+          }
         });
 
         $scope.cancel = function () {
@@ -84,7 +84,17 @@
             'Matter Type 2: '+$scope.matterType2,
             'Assignment: '+$scope.assignment
           ].join('\n'));
-        }
+
+          $scope.case.split_case({
+            category: $scope.category,
+            matter_type1: $scope.matterType1,
+            matter_type2: $scope.matterType2,
+            internal: $scope.assignment === 'internal'
+          }).then(function() {
+            flash('Case split successfully');
+            $modalInstance.dismiss();
+          });
+        };
         // $scope.matter_types = matter_types;
 
         // $scope.cancel = function () {
