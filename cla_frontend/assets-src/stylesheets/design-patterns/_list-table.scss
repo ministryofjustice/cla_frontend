@@ -28,11 +28,6 @@
         @extend .Icon;
         @extend .Icon--alert;
         @extend .Icon--mellowred;
-
-        &:before {
-          position: relative;
-          top: 3px;
-        }
       }
       &:last-child {
         border-right-width: 1px;

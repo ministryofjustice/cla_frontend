@@ -1,5 +1,4 @@
 <div class="Timer" ng-show="isEnabled">
-  <span class="Icon Icon--timer" ng-show="startButton"></span>
-  <span class="Timer-value">{{timer.value}}</span>
-  <a href="#" class="Timer-button Icon" ng-click="startTimer()" ng-show="startButton" ng-class="{'Icon--play': !timer.running}"></a>
+  <a href="#" class="Timer-button Icon" ng-show="startButton" ng-click="startTimer()" ng-class="{'Icon--timer': timer.running, 'Icon--play': !timer.running}"></a>
+  <span class="Timer-value">{{ timer.value }}</span>
 </div>

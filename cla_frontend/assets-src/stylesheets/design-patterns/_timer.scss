@@ -8,7 +8,7 @@
     clear: right;
 
     @include media(desktop) {
-      padding-right: 15px;
+      padding-right: 10px;
       clear: none;
     }
   }
@@ -29,12 +29,12 @@
 
 .Timer-button {
   display: inline-block;
-  margin-left: 5px;
+  margin-right: 6px;
 
-  &:link, &:visited, &:active {
+  &:link, &:visited, &:active, &:before, &:focus {
     color: $white;
   }
   &:before {
-    margin: 0;
+    margin-right: 0;
   }
 }
