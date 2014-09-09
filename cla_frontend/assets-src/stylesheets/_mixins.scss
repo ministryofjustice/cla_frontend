@@ -53,26 +53,3 @@
        -o-perspective: $value;
           perspective: $value;
 }
-
-
-@mixin item-list {
-  border-collapse: collapse;
-
-  th {
-    text-align: left;
-    padding: 15px;
-    font-weight: 400;
-  }
-
-  tr {
-    td {
-      border: {
-        style: solid;
-        width: 1px 0;
-        color: $grey-2;
-      }
-      background-color: $grey-4;
-      padding: 12px 15px;
-    }
-  }
-}
