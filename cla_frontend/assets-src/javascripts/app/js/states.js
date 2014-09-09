@@ -326,7 +326,7 @@
       controller: 'FeedbackListCtrl'
     };
 
-    providerStates.CaseDetailState.resolve['feedbackList'] = ['case', 'Feedback', function(case_, Feedback) {
+    providerStates.CaseDetailState.resolve.feedbackList = ['case', 'Feedback', function(case_, Feedback) {
       return Feedback.query({case: case_.reference}).$promise;
     }];
 

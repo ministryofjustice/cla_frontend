@@ -32,9 +32,9 @@
       });
 
       it('should change the sort field', function () {
-        browser.findElement(by.cssContainingText('.CaseList th a', 'Name')).click();
+        browser.findElement(by.cssContainingText('.ListTable th a', 'Name')).click();
         expect(browser.getLocationAbsUrl()).toContain('ordering=personal_details__full_name');
-        browser.findElement(by.cssContainingText('.CaseList th a', 'Name')).click();
+        browser.findElement(by.cssContainingText('.ListTable th a', 'Name')).click();
         searchedUrl = browser.getLocationAbsUrl();
         expect(searchedUrl).toContain('ordering=-personal_details__full_name');
       });
