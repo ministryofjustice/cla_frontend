@@ -1,7 +1,7 @@
 <section id="personal_details">
-  <div ng-click="personaldetails_frm.$show()" ng-hide="personaldetails_frm.$visible" class="VCard VCard-view" ng-class="{'u-mute': case.thirdparty_details}">
+  <div ng-click="showPersonalDetails(personaldetails_frm)" ng-hide="personaldetails_frm.$visible" class="VCard VCard-view" ng-class="{'u-mute': case.thirdparty_details}">
     <!-- IF empty -->
-    <p class="Notice" ng-hide="personal_details.full_name">Please enter personal details</p>
+    <p class="Notice" ng-hide="personal_details.full_name">{{ !personal_details.reference ? 'Create a new one' : 'Please enter personal details' }}</p>
 
     <h2 class="VCard-title Icon Icon--formRow Icon--user" ng-show="personal_details.full_name">{{ personal_details.full_name }}</h2>
 
@@ -68,19 +68,11 @@
       </span>
     </label>
 
-    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.postcode.$invalid && personaldetails_submitted}">
+    <div class="AddressLookup" ng-class="{Error: personaldetails_frm.postcode.$invalid || personaldetails_frm.street.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
-      <span class="Icon Icon--formRow Icon--location">
-        <span editable-text="personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode" e-server-error></span>
-      </span>
-    </label>
-
-    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.street.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
-      <span class="Icon Icon--formRow Icon--address">
-        <span editable-textarea="personal_details.street" e-name="street" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Address" e-server-error></span>
-      </span>
-    </label>
+      <span editable-address-finder="address" e-name="addressfinder" e-placeholder="Postcode" e-server-error></span>
+    </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>

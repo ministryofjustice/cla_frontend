@@ -63,7 +63,8 @@ paths.scripts = {
     paths.src + 'javascripts/vendor/xeditable.js',
     paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js',
     paths.src + 'vendor/conduitjs/lib/conduit.js',
-    paths.src + 'vendor/postal.js/lib/postal.js'
+    paths.src + 'vendor/postal.js/lib/postal.js',
+    paths.src + 'vendor/angular-loading-bar/build/loading-bar.js'
   ],
   app: [
     paths.src + 'javascripts/app/js/app.js',

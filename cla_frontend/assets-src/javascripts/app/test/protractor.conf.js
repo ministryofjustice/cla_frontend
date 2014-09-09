@@ -5,8 +5,7 @@
     // --- tests to run ---
     specs: [
       // 'reporter-hack.js',
-      'e2e/*.js',
-      '!e2e/_*.js'
+      'e2e/!(_*).js'
     ],
     suites: {},
 
@@ -41,6 +40,8 @@
       }).then(function showWindowSize(dimensions) {
         console.log('Browser:', browserName, 'on', platform, 'at', dimensions.width + 'x' + dimensions.height);
       });
+
+      window.maximize();
     },
 
     // --- test framework ---

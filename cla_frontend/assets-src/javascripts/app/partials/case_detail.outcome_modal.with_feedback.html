@@ -1,0 +1,14 @@
+<div data-extend-template="case_detail.outcome_modal.html">
+  <div data-block="feedback">
+    <h4>Leave Feedback? <input type="checkbox" ng-model="$parent.leaveFeedback"></h4>
+    <select
+        id="reject_feedback_issue"
+        ng-show="$parent.leaveFeedback"
+        ng-model="feedback.issue"
+        ui-select2="{allowClear: true}"
+        ng-options="s.value as s.text for s in FEEDBACK_ISSUE track by s.value"
+        ng-required="$parent.leaveFeedback">
+          <option value=""></option>
+    </select>
+  </div>
+</div>

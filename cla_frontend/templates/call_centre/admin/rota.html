@@ -1,36 +1,40 @@
 {% extends "call_centre/base.html" %}{% load staticfiles %}
 
+{% block stylesheets %}
+<link href="{% static 'javascripts/vendor/dateinput-polyfill/rome.min.css' %}" rel="stylesheet"/>
+{% endblock %}
+
 {% block javascripts %}
 <script src="{% static 'javascripts/vendor/fullcalendar.min.js' %}"></script>
 <script src="{% static 'javascripts/vendor/calendar.config.js' %}"></script>
+<script src="{% static 'javascripts/vendor/dateinput-polyfill/rome.standalone.min.js' %}"></script>
+<script src="{% static 'javascripts/vendor/dateinput-polyfill/dateinput-init.js' %}"></script>
 {% endblock %}
 
 {% block left_content %}
-<section>
-    <h3>Add Rota</h3>
-
-    <form method="POST" action="{% url 'call_centre:backend_proxy' path='provider/rota/' %}" id="add_rota_form">{% csrf_token %}
-        <p>
-            <label for="id_start_date">Start date:</label>
-            <input id="id_start_date" name="start_date" type="datetime-local">
-        </p>
-        <p>
-            <label for="id_end_date">End date:</label>
-            <input id="id_end_date" name="end_date" type="datetime-local">
-        </p>
-        <p>
-            <label for="id_category">Category:</label>
-            <select id="id_category" name="category">
-            </select>
-        </p>
-        <p>
-            <label for="id_provider">Provider:</label>
-            <select id="id_provider" name="provider">
-        </select></p>
-
-        <input type="submit" value="add">
-    </form>
-</section>
+<form method="POST" action="{% url 'call_centre:backend_proxy' path='provider/rota/' %}" id="add_rota_form">
+  <h1 class="FormBlock-label">Add Rota</h1>
+  {% csrf_token %}
+  <p class="FormRow cf">
+    <label for="id_start_date" class="FormRow-label">Start date</label>
+    <input id="id_start_date" name="start_date" type="text" class="FormRow-field--full js-Datetime">
+  </p>
+  <p class="FormRow cf">
+    <label for="id_end_date" class="FormRow-label">End date</label>
+    <input id="id_end_date" name="end_date" type="text" class="FormRow-field--full js-Datetime">
+  </p>
+  <p class="FormRow">
+    <label for="id_category" class="FormRow-label">Category</label>
+    <select id="id_category" name="category" class="FormRow-field--full"></select>
+  </p>
+  <p class="FormRow">
+    <label for="id_provider" class="FormRow-label">Provider</label>
+    <select id="id_provider" name="provider" class="FormRow-field--full"></select>
+  </p>
+  <p class="FormActions">
+    <button type="submit" value="add" class="Button">Add rota</button>
+  </p>
+</form>
 {% endblock left_content %}
 
 

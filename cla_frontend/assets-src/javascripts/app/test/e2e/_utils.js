@@ -178,29 +178,40 @@
     fill_model_field(_ec(partner(contrib)), answers[partner(contrib)], '0');
   }
 
+  function login(asProvider, user, pass) {
+    var pro = protractor.getInstance(),
+      driver = pro.driver,
+      providerLoginUrl = CONSTANTS.providerBaseUrl + 'login/',
+      operatorLoginUrl = CONSTANTS.callcentreBaseUrl + 'login/',
+      url = asProvider ? providerLoginUrl : operatorLoginUrl;
+
+
+
+    pro.manage().getCookie('sessionid').then(function(cookie) {
+      if (!cookie) {
+        driver.get(pro.baseUrl + url);
+
+        driver.findElement(by.id('id_username')).sendKeys(user);
+        driver.findElement(by.id('id_password')).sendKeys(pass);
+        driver.findElement(by.css('form')).submit();
+
+        // kill django debug toolbar if it's showing
+        pro.manage().addCookie('djdt', 'hide');
+      }
+    });
+  }
+
   module.exports = {
     APP_BASE_URL: 'call_centre/',
 
     setUp: function(){
-      var pro = protractor.getInstance(),
-          driver = pro.driver;
-
-      // maximise browser
-      browser.driver.manage().window().maximize();
-
-      pro.manage().getCookie('sessionid').then(function(cookie) {
-        if (!cookie) {
-          driver.get(pro.baseUrl + 'call_centre/login/');
-
-          driver.findElement(by.id('id_username')).sendKeys('test_operator');
-          driver.findElement(by.id('id_password')).sendKeys('test_operator');
-          driver.findElement(by.css('form')).submit();
-          
-          // kill django debug toolbar if it's showing
-          pro.manage().addCookie('djdt', 'hide');
-        }
-      });
+      login(false, 'test_operator', 'test_operator');
     },
+
+    setUpAsProvider: function(){
+      login(true, 'test_duncanlewis', 'test_duncanlewis');
+    },
+
 
     debugTeardown: function () {
       // debug log

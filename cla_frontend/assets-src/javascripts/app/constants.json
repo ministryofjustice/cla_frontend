@@ -785,4 +785,65 @@
   "SAFE": "SAFE",
   "DONT_CALL": "DONT_CALL",
   "NO_MESSAGE": "NO_MESSAGE"
-}}
+}, "FEEDBACK_ISSUE": [
+  {
+    "text": "Advisor conduct",
+    "value": "ADVISOR_CONDUCT"
+  },
+  {
+    "text": "Access problems",
+    "value": "ACCESS_PROBLEMS"
+  },
+  {
+    "text": "Already receiving/received advice",
+    "value": "ALREADY_RECEIVING_ADVICE"
+  },
+  {
+    "text": "Category of law is incorrect",
+    "value": "WRONG_CATEGORY"
+  },
+  {
+    "text": "Delay in advising (lack of follow up information)",
+    "value": "DELAY_ADVISING_LACK_OF_FOLLOWUP_INFORMATION"
+  },
+  {
+    "text": "Delay in advising (other)",
+    "value": "DELAY_ADVISING_OTHER"
+  },
+  {
+    "text": "Incorrect eligibility calculation",
+    "value": "INCORRECT_ELIGIBILITY_CALCULATION"
+  },
+  {
+    "text": "Incorrect diagnosis (out of scope)",
+    "value": "INCORRECT_DIAGNOSIS"
+  },
+  {
+    "text": "Incorrect information provided (diagnosis)",
+    "value": "INCORRECT_INFO_DIAGNOSIS"
+  },
+  {
+    "text": "Incorrect transferring of calls (provider)",
+    "value": "INCORRECT_XFER_PROVIDER"
+  },
+  {
+    "text": "Incorrect transferring of calls (front/back)",
+    "value": "INCORRECT_XFER_BACKDOOR"
+  },
+  {
+    "text": "Incorrect/missing contact details or DOB",
+    "value": "INCORRECT_OR_MISSING_PERSONAL_DETAILS"
+  },
+  {
+    "text": "Other data entry errors",
+    "value": "OTHER_DATA_ENTRY_ERROR"
+  },
+  {
+    "text": "System Error",
+    "value": "SYSTEM_ERROR"
+  },
+  {
+    "text": "Other",
+    "value": "OTHER"
+  }
+]}

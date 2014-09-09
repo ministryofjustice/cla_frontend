@@ -1,0 +1,44 @@
+<header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}"
+        xmlns="http://www.w3.org/1999/html">
+  <h1 class="u-pullLeft">{{ search ? 'Feedback Results' : 'Cases Feedback' }} {{ search ? '"'+search+'"' : '' }}</h1>
+  <div data-block="top-actions">
+    <form class="FormRow" ng-submit="filter()">
+      <label> start: <input type="date" name="start" ng-model="start"></label>
+      <label>end: <input type="date" name="end" ng-model="end"></label>
+      <input type="submit" value="Update">
+    </form>
+    <label>hide resolved: <input type="checkbox" name="hide_resolved" ng-model="hide_resolved"></label>
+  </div>
+</header>
+
+<div data-block="case-list">
+  <table class="FeedbackList" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <thead>
+    <tr>
+      <th width="15%">Case Reference</th>
+      <th width="11%">Issue</th>
+      <th width="24%">Comment</th>
+      <th width="14%">Justified</th>
+      <th width="16%">Resolved</th>
+      <th width="16%">Created</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="feedback in feedbackList" ng-show="showRow(feedback)">
+        <td>
+          <a href="" ng-click="goToCase(feedback.case)">{{ feedback.case }}</a>
+        </td>
+        <td>{{ (feedback.issue|constantByValue:FEEDBACK_ISSUE).text }}</td>
+        <td>{{ feedback.comment }}</td>
+        <td><a class="Button" ng-class="{'Button--warning': !feedback.justified}" ng-click="toggleJustified(feedback)">{{ feedback.justified }}</a></td>
+        <td><a class="Button" ng-class="{'Button--warning': !feedback.resolved}" ng-click="toggleResolved(feedback)">{{ feedback.resolved }}</a></td>
+        <td>
+          <span am-time-ago="feedback.created"></span>
+          <br>
+          <small>{{ feedback.created|date:'MMM d, y, h:mma' }}</small>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

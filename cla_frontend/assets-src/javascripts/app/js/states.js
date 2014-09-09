@@ -18,12 +18,13 @@
     defs.CaseListState = {
       name: 'case_list',
       parent: 'layout',
-      url: APP_BASE_URL+'?search?ordering?page',
+      url: APP_BASE_URL+'?person_ref?search?ordering?page',
       templateUrl: 'case_list.html',
       controller: 'CaseListCtrl',
       resolve: {
         cases: ['$stateParams', 'Case', function($stateParams, Case){
           var params = {
+            person_ref: $stateParams.person_ref,
             search: $stateParams.search,
             ordering: $stateParams.ordering,
             page: $stateParams.page
@@ -36,6 +37,23 @@
           }
 
           return Case.query(params).$promise;
+        }],
+        person: ['cases', '$stateParams', function(cases, $stateParams) {
+          var person_ref = $stateParams.person_ref,
+              personal_details;
+
+          if (!person_ref || !cases.results.length) {
+            personal_details = {};
+          } else {
+            var case_ = cases.results[0];
+            personal_details = {
+              reference: case_.personal_details,
+              full_name: case_.full_name,
+              postcode: case_.postcode
+            };
+          }
+
+          return personal_details;
         }]
       }
     };
@@ -44,7 +62,7 @@
       parent: 'layout',
       name: 'case_detail',
       abstract: true,
-      url: APP_BASE_URL+':caseref/',
+      url: APP_BASE_URL+'{caseref:[A-Z0-9]{2}-[0-9]{4}-[0-9]{4}}/',
       onEnter: ['modelsEventManager', function(modelsEventManager) {
         modelsEventManager.onEnter();
       }],
@@ -274,6 +292,24 @@
       }
     };
 
+    operatorStates.FeedbackListState = {
+      name: 'feedback_list',
+      parent: 'layout',
+      url: APP_BASE_URL+'feedback/?start?end',
+      templateUrl: 'call_centre/feedback_list.html',
+      controller: 'FeedbackListCtrl',
+      resolve: {
+        feedback: ['$stateParams', 'Feedback', function($stateParams, Feedback){
+          var params = {
+            start: $stateParams.start,
+            end: $stateParams.end,
+          };
+
+          return Feedback.query(params).$promise;
+        }]
+      }
+    };
+
     return operatorStates;
   };
 
@@ -284,6 +320,15 @@
       templateUrl: 'provider/includes/case_detail.edit.acceptreject.html',
       controller: 'AcceptRejectCaseCtrl'
     };
+
+    providerStates.CaseDetailState.views['feedback@case_detail'] = {
+      templateUrl: 'provider/case_detail.feedback.html',
+      controller: 'FeedbackListCtrl'
+    };
+
+    providerStates.CaseDetailState.resolve['feedbackList'] = ['case', 'Feedback', function(case_, Feedback) {
+      return Feedback.query({case: case_.reference}).$promise;
+    }];
 
     providerStates.CaseDetailState.views[''].templateUrl = 'provider/case_detail.html';
 

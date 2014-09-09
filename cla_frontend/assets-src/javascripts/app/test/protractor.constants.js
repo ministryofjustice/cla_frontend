@@ -5,6 +5,11 @@
 
   var testConstants = {
     callcentreBaseUrl: 'call_centre/',
+    getCallcentreBaseAbsoluteUrl: function() {
+      var protractor = require('protractor');
+
+      return protractor.getInstance().baseUrl + this.callcentreBaseUrl;
+    },
     providerBaseUrl: 'provider/',
     scope: {
       true: [
@@ -68,6 +73,12 @@
       reason: 'Child or patient',
       personal_relationship: 'Parent or guardian',
       pass_phrase: 'Earth'
+    },
+    mattertypes: {
+      standard: {
+        matter_type1: 'FMEA',
+        matter_type2: 'FPET'
+      }
     }
   };
 

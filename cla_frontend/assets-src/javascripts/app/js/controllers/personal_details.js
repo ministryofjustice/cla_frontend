@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'adaptations_metadata', 'mediacodes', '$q',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, adaptations_metadata, mediacodes, $q){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'adaptations_metadata', 'mediacodes', '$q', 'flash',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, adaptations_metadata, mediacodes, $q, flash){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -18,6 +18,21 @@
             $scope.language.welsh_override = true;
             $scope.language.disable = true;
           }
+
+          $scope.address = {
+            postcode: $scope.personal_details.postcode,
+            street: $scope.personal_details.street
+          };
+
+          $scope.$watchCollection('address', function(){
+            $scope.personal_details.postcode = $scope.address.postcode;
+            $scope.personal_details.street = $scope.address.street;
+          });
+
+          $scope.thirdparty_address = {
+            postcode: $scope.third_party.personal_details ? $scope.third_party.personal_details.postcode : '',
+            street: $scope.third_party.personal_details ? $scope.third_party.personal_details.street : ''
+          };
 
           $scope.selected_adaptations = [];
           $scope.adaptation_flags = {};
@@ -108,10 +123,73 @@
             $scope.language.disable = value ? false : true;
           };
 
+          $scope.showPersonalDetails = function(form) {
+            form.$show();
+            $scope.personal_details_frm_visible = true;
+          };
+
           $scope.cancelPersonalDetails = function (form) {
             form.$cancel();
             $scope.language.disable = $scope.adaptations.language === 'WELSH';
+            $scope.personal_details_frm_visible = false;
           };
+
+          $scope.searchPersonOptions = {
+            minimumInputLength: 3,
+            ajax: { 
+              data: function (term) { 
+                return { 
+                  query: term 
+                };
+              }, 
+              quietMillis: 500, 
+              transport: function(queryParams) {
+                return $scope.case.$search_for_personal_details(
+                    queryParams.data.query
+                  ).then(queryParams.success);
+              }, 
+              results: function (data) {
+                var text, extra_text, results;
+
+                results = data.data.map(function(person) {
+                  text = person.full_name;
+                  if (person.postcode || person.dob) {
+                    extra_text = [];
+                    if (person.postcode) {
+                      extra_text.push(person.postcode);
+                    }
+                    if (person.dob) {
+                      extra_text.push([person.dob.day, person.dob.month, person.dob.year].join('-'));
+                    }
+                    text += ' ('+extra_text.join(', ')+')';
+                  }
+                  return {id: person.reference, text: text};
+                });
+                return {results: results};
+              } 
+            },
+            initSelection: function(element, callback) {
+              callback({id: element.val(), text: element.select2('data').text});
+            }
+          };
+
+          $scope.$watch('person_q', function(val) {
+            if (val && val.id) {
+              var pd_ref = val.id,
+                  pd_full_name = val.text;
+
+              if (confirm('Are you sure you want to link this case to '+pd_full_name+'? \n\nThis operation cannot be undone.')) {
+                $scope.case.$link_personal_details(pd_ref).then(function() {
+                  $scope.case.personal_details = pd_ref;
+
+                  personal_details.$get();
+                  flash('Case linked to '+pd_full_name);
+                });
+              } else {
+                $scope.person_q = '';
+              }
+            }
+          });
 
           $scope.savePersonalDetails = function(form) {
             var pdPromise = $q.defer(),
@@ -162,11 +240,16 @@
               mcPromise.reject(err);
             });
 
-
             return $q.all([pdPromise.promise, adaptationsPromise.promise, mcPromise.promise]);
           };
 
           $scope.saveThirdParty = function(form) {
+
+            if($scope.thirdparty_address){
+              $scope.third_party.personal_details.postcode = $scope.thirdparty_address.postcode;
+              $scope.third_party.personal_details.street = $scope.thirdparty_address.street;
+            }
+
             $scope.third_party.$update($scope.case.reference, function (data) {
               if (!$scope.case.thirdparty_details) {
                 $scope.case.thirdparty_details = data.reference;

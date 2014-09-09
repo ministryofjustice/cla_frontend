@@ -135,6 +135,18 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.$search_for_personal_details = function(person_q) {
+        var url = url_utils.proxy('case/'+this.reference+'/search_for_personal_details/?person_q='+person_q);
+        return $http.get(url);
+      };
+
+      resource.prototype.$link_personal_details = function(personal_details) {
+        var url = url_utils.proxy('case/'+this.reference+'/link_personal_details/');
+        return $http.post(url, {
+          personal_details: personal_details
+        });
+      };
+
       return resource;
     }]);
 
@@ -370,6 +382,23 @@
           method: 'GET',
           isArray: false
         }
+      });
+    }]);
+
+  angular.module('cla.services.operator')
+    .factory('Feedback', ['$resource', 'url_utils', function($resource, url_utils) {
+      return $resource(url_utils.proxy('feedback/:reference/'), {'reference': '@reference'}, {
+        'patch': {method: 'PATCH'}
+      });
+    }]);
+
+  angular.module('cla.services.provider')
+    .factory('Feedback', ['$resource', 'url_utils', function($resource, url_utils) {
+      return $resource(url_utils.proxy('case/:case/feedback/:reference/'), {
+        'reference': '@reference',
+        'case': '@case'
+      }, {
+        'patch': {method: 'PATCH'}
       });
     }]);
 

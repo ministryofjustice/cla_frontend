@@ -9,7 +9,7 @@
         <header class="PageHeader">
           <h1>Sign in</h1>
         </header>
-        <form action="" method="post">
+        <form action="" method="post" autocomplete="off">
           {% csrf_token %}
 
           {% include "common/includes/error_summary.html" %}
