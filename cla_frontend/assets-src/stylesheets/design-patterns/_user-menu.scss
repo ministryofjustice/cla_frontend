@@ -1,8 +1,11 @@
 .UserMenu {
   float: right;
-  padding-top: 2px;
   position: relative;
   @extend %contain-floats;
+
+  @include media(desktop) {
+    padding-top: 2px;
+  }
 }
 
 .UserMenu-toggle {

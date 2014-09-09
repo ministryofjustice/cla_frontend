@@ -10,8 +10,8 @@
 
     .header-global {
       @extend %contain-floats;
-      margin: 10px 0 5px;
-        float: left;
+      // margin: 10px 0 5px;
+      float: left;
 
       .header-logo {
         @include bold-24;

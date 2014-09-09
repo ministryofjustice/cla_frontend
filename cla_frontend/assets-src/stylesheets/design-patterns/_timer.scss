@@ -3,11 +3,10 @@
 
   &--inline {
     color: $white;
-    padding-top: 2px;
     float: right;
-    clear: right;
 
     @include media(desktop) {
+      padding-top: 2px;
       padding-right: 10px;
       clear: none;
     }

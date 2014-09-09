@@ -1,5 +1,6 @@
 .CaseSearch {
   position: relative;
+  margin-bottom: 10px;
 
   @include media(desktop) {
     float: left;
