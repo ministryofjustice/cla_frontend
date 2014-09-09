@@ -19,10 +19,13 @@
             $scope.language.disable = true;
           }
 
-          $scope.address = {
-            postcode: $scope.personal_details.postcode,
-            street: $scope.personal_details.street
-          };
+          function setUpAddress() {
+            $scope.address = {
+              postcode: $scope.personal_details.postcode,
+              street: $scope.personal_details.street
+            };
+          }
+          setUpAddress();
 
           $scope.$watchCollection('address', function(){
             $scope.personal_details.postcode = $scope.address.postcode;
@@ -182,7 +185,9 @@
                 $scope.case.$link_personal_details(pd_ref).then(function() {
                   $scope.case.personal_details = pd_ref;
 
-                  personal_details.$get();
+                  personal_details.$get().then(function() {
+                    setUpAddress();
+                  });
                   flash('Case linked to '+pd_full_name);
                 });
               } else {
