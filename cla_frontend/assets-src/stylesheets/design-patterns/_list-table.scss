@@ -1,5 +1,6 @@
 .ListTable {
   border-collapse: collapse;
+  @include core-14;
 
   th {
     text-align: left;
