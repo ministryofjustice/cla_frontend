@@ -10,15 +10,6 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
     <title>{% block page_title %}{{ app_title }}{% endblock %}</title>
-    <script src="{% static 'javascripts/vendor/raven.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'javascripts/vendor/raven.config.js' %}"></script>
-
-    {% if not debug %}
-    <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/boomerang.js' %}"></script>
-    <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/config.js' %}"></script>
-    {% endif %}
-
-    <script type="text/javascript" src="{% static 'javascripts/vendor/iemobile.js' %}"></script>
 
     <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/govuk-template.css' %}" media="screen" rel="stylesheet" type="text/css" /><!--<![endif]-->
     <!--[if IE 6]><link href="{% static 'stylesheets/govuk-template-ie6.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
@@ -33,6 +24,27 @@
     <!--[if gte IE 9]><!-->
       <link href="{% static 'stylesheets/fonts.css' %}" media="all" rel="stylesheet" type="text/css" />
     <!--<![endif]-->
+
+    <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/moj-template.css' %}" media="screen" rel="stylesheet" type="text/css" /><!--<![endif]-->
+    <!--[if IE 6]><link href="{% static 'stylesheets/moj-template-ie6.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 7]><link href="{% static 'stylesheets/moj-template-ie7.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 8]><link href="{% static 'stylesheets/moj-template-ie8.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+
+    <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet"><!--<![endif]-->
+    <!--[if IE 6]><link href="{% static 'stylesheets/cla.main-ie6.css' %}" media="screen" rel="stylesheet"><![endif]-->
+    <!--[if IE 7]><link href="{% static 'stylesheets/cla.main-ie7.css' %}" media="screen" rel="stylesheet"><![endif]-->
+    <!--[if IE 8]><link href="{% static 'stylesheets/cla.main-ie8.css' %}" media="screen" rel="stylesheet"><![endif]-->
+
+
+    <script src="{% static 'javascripts/vendor/raven.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/vendor/raven.config.js' %}"></script>
+
+    {% if not debug %}
+    <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/boomerang.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/config.js' %}"></script>
+    {% endif %}
+
+    <script type="text/javascript" src="{% static 'javascripts/vendor/iemobile.js' %}"></script>
 
 
     <!--[if lt IE 9]>
@@ -52,16 +64,6 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:image" content="{% static 'images/opengraph-image.png' %}">
-
-    <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/moj-template.css' %}" media="screen" rel="stylesheet" type="text/css" /><!--<![endif]-->
-    <!--[if IE 6]><link href="{% static 'stylesheets/moj-template-ie6.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-    <!--[if IE 7]><link href="{% static 'stylesheets/moj-template-ie7.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-    <!--[if IE 8]><link href="{% static 'stylesheets/moj-template-ie8.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-
-    <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet"><!--<![endif]-->
-    <!--[if IE 6]><link href="{% static 'stylesheets/cla.main-ie6.css' %}" media="screen" rel="stylesheet"><![endif]-->
-    <!--[if IE 7]><link href="{% static 'stylesheets/cla.main-ie7.css' %}" media="screen" rel="stylesheet"><![endif]-->
-    <!--[if IE 8]><link href="{% static 'stylesheets/cla.main-ie8.css' %}" media="screen" rel="stylesheet"><![endif]-->
 
     <!-- load modernizer -->
     <script src="{% static 'javascripts/vendor/modernizr.custom.92045.js' %}"></script>
@@ -98,7 +100,7 @@
           <div class="content">
             <div class="header-logo">
               <a href="/" title="Go to the GOV.UK homepage" id="logo" class="content">
-                <img src="{% static 'images/gov.uk_logotype_crown.png' %}" alt=""> {{ proposition_title }}
+                <img src="{% static 'images/gov.uk_logotype_crown.png' %}" width="41" height="31" alt=""> {{ proposition_title }}
               </a>
             </div>
           </div>
