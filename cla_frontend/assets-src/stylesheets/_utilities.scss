@@ -3,20 +3,8 @@
      @extend %contain-floats;
    }
 */
-%clearfix {
-  zoom: 1;
-  &:before, &:after {
-    content: "";
-    display: block;
-    height: 0;
-    overflow: hidden;
-  }
-  &:after {
-    clear: both;
-  }
-}
 .clearfix, .cf {
-  @extend %clearfix;
+  @extend %contain-floats;
 }
 
 .u-pullRight {

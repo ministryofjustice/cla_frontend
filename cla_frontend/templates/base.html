@@ -58,16 +58,13 @@
   </head>
 
   <body class="{% block body_classes %}{{ product_type }} {{ phase }}{% endblock %}"{% block body_attrs %}{% endblock %}>
-    <script type="text/javascript" src="{% static 'javascripts/vendor/jsenabled.js' %}"></script>
-
     <div id="skiplink-container">
       <div>
         <a href="#content" class="skiplink">Skip to main content</a>
       </div>
     </div>
 
-
-    <header role="banner" id="global-header" class="with-proposition{% block header_class %}{% endblock %}">
+    <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
       <div class="header-wrapper">
         {% if zone %}
           {% block search %}
@@ -81,36 +78,30 @@
           {% endblock %}
         {% endif %}
 
-        <div class="header-proposition">
-          <div class="content">
-            <div class="header-logo">
-              <a href="/" title="Go to the GOV.UK homepage" id="logo" class="content">
-                <img src="{% static 'images/gov.uk_logotype_crown.png' %}" width="41" height="31" alt=""> {{ proposition_title }}
-              </a>
-            </div>
-          </div>
+        <div class="header-global">
+          <a href="/" class="header-logo" target="_self">{{ proposition_title }}</a>
         </div>
 
         {% if zone %}
-          <nav class="UserMenu cf">
-            <p class="UserMenu-status">
-              {#{% if zone == "call_centre" %}Provider{% else %}Operator{% endif %}:#}
-              {% block user_details %}
-              <span class="UserMenu-name">{{ user.username }}</span>
-              {% endblock user_details %}
-            </p>
-            <ul class="UserMenu-options">
-              <li class="UserMenu-option">{% block logout %}<a href="{% url 'auth:global_logout' %}" target="_self">Sign out</a>{% endblock %}</li>
-            </ul>
-          </nav>
+          <div class="UserMenu">
+            <a href="#UserMenu-links" class="UserMenu-toggle Icon Icon--account"></a>
+            <nav class="UserMenu-menu">
+              <ul class="UserMenu-options" id="UserMenu-links">
+                <li class="UserMenu-option">
+                  {% block user_details %}{{ user.username }}{% endblock %}
+                </li>
+                <li class="UserMenu-option">
+                  <a href="{% url 'auth:global_logout' %}" target="_self">Sign out</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
 
-          {% block timer %}{% endblock timer %}
+          {% block timer %}{% endblock %}
         {% endif %}
       </div>
     </header>
     <!--end header-->
-
-    <div class="indicator cf"></div>
 
     {% block after_header %}{% endblock %}
 
@@ -145,49 +136,17 @@
       {% endblock %}
     </main>
 
-
-    <footer class="group js-footer" id="footer" role="contentinfo">
-
-      <div class="footer-wrapper">
-        {% block footer_top %}{% endblock %}
-
-        <div class="footer-meta">
-          <div class="footer-meta-inner">
-            <h2 class="visuallyhidden">Support links</h2>
-            <ul>
-              <li><a href="http://www.gov.uk/support">Support</a></li>
-              <li><a href="http://www.gov.uk/support/cookies">Cookies</a></li>
-              <li><a href="http://www.gov.uk/feedback">Feedback</a></li>
-              <li><a href="http://www.gov.uk/cymraeg">Cymraeg</a></li>
-              <li>
-                Built by the
-                <a href="https://mojdigital.blog.gov.uk/"><abbr title="Ministry of Justice">MOJ</abbr> Digital Services</a>
-              </li>
-            </ul>
-
-            <div class="open-government-licence">
-              <h2><a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">Open Government Licence</a></h2>
-              <p>All content is available under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">Open Government Licence v2.0</a>, except where otherwise stated</p>
-            </div>
-          </div>
-
-          <div class="copyright">
-            <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm">&copy; Crown copyright</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!--end footer-->
-
     <!--[if gt IE 6]><!-->
     <script src="{% static 'javascripts/lib.min.js' %}"></script>
+    <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
+
     {% if debug %}
-    <script src="{% static 'javascripts/cla.main.js' %}"></script>
+      <!-- DEBUG MODE -->
+      <script src="{% static 'javascripts/cla.main.js' %}"></script>
     {% else %}
-    <!-- DEBUG MODE -->
-    <script src="{% static 'javascripts/cla.main.min.js' %}"></script>
+      <script src="{% static 'javascripts/cla.main.min.js' %}"></script>
     {% endif %}
+
     {% block javascripts %}{% endblock %}
     <!--<![endif]-->
 

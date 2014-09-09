@@ -1,7 +1,5 @@
 .CaseSearch {
   position: relative;
-  clear: left;
-  margin: 0 0 15px;
 
   @include media(desktop) {
     float: left;
@@ -31,12 +29,6 @@
   @include media(tablet) {
     padding-top: 6px;
     padding-bottom: 6px;
-  }
-
-  body.js-enabled & {
-    background-color: transparent;
-    border: 1px solid $grey-1;
-    width: 100%;
   }
 }
 input.CaseSearch-query {
