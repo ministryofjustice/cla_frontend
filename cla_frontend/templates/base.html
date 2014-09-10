@@ -13,13 +13,13 @@
     <script type="text/javascript" src="{% static 'javascripts/vendor/iefonts.js' %}"></script>
     <![endif]-->
     <!--[if gte IE 9]><!-->
-      <link href="{% static 'stylesheets/fonts.css' %}" media="all" rel="stylesheet" type="text/css" />
+      <link href="{% staticmin 'stylesheets/fonts.css' %}" media="all" rel="stylesheet" type="text/css" />
     <!--<![endif]-->
 
-    <!--[if gt IE 8]><!--><link href="{% static 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet"><!--<![endif]-->
-    <!--[if IE 6]><link href="{% static 'stylesheets/cla.main-ie6.css' %}" media="screen" rel="stylesheet"><![endif]-->
-    <!--[if IE 7]><link href="{% static 'stylesheets/cla.main-ie7.css' %}" media="screen" rel="stylesheet"><![endif]-->
-    <!--[if IE 8]><link href="{% static 'stylesheets/cla.main-ie8.css' %}" media="screen" rel="stylesheet"><![endif]-->
+    <!--[if gt IE 8]><!--><link href="{% staticmin 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet"><!--<![endif]-->
+    <!--[if IE 6]><link href="{% staticmin 'stylesheets/cla.main-ie6.css' %}" media="screen" rel="stylesheet"><![endif]-->
+    <!--[if IE 7]><link href="{% staticmin 'stylesheets/cla.main-ie7.css' %}" media="screen" rel="stylesheet"><![endif]-->
+    <!--[if IE 8]><link href="{% staticmin 'stylesheets/cla.main-ie8.css' %}" media="screen" rel="stylesheet"><![endif]-->
 
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
     <!-- For third-generation iPad with high-resolution Retina display: -->
@@ -34,7 +34,7 @@
     <meta property="og:image" content="{% static 'images/opengraph-image.png' %}">
 
     <!-- print stylesheet -->
-    <link href="{% static 'stylesheets/cla.print.css' %}" media="print" rel="stylesheet" type="text/css" />
+    <link href="{% staticmin 'stylesheets/cla.print.css' %}" media="print" rel="stylesheet" type="text/css" />
     
     <!--[if lt IE 9]>
       <script src="{% static 'javascripts/ie.js' %}" type="text/javascript"></script>
@@ -139,14 +139,7 @@
     <!--[if gt IE 6]><!-->
     <script src="{% static 'javascripts/lib.min.js' %}"></script>
     <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
-
-    {% if debug %}
-      <!-- DEBUG MODE -->
-      <script src="{% static 'javascripts/cla.main.js' %}"></script>
-    {% else %}
-      <script src="{% static 'javascripts/cla.main.min.js' %}"></script>
-    {% endif %}
-
+    <script src="{% staticmin 'javascripts/cla.main.js' %}"></script>
     {% block javascripts %}{% endblock %}
     <!--<![endif]-->
 
