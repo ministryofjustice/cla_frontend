@@ -28,11 +28,15 @@
           <a href="" ng-click="goToCase(case.reference)">{{ case.reference }}</a>
           <span ng-show="case.isInScopeAndEligible()"> / {{ case.laa_reference }}</span>
         </td>
-        <td><span data-block="pd-column">{{ case.full_name }}</span></td>
+        <td>
+          <span data-block="pd-column">{{ case.full_name }}</span>
+        </td>
         <td>{{ case.postcode }}</td>
         <td>{{ case.date_of_birth|date:'dd/MM/yyyy' }}</td>
         <td>{{ case.category }}</td>
-        <td>{{ case.modified|date:'MMM d, y, h:mma' }}</td>
+        <td>
+          <abbr title="{{ case.modified|date:'EEEE, dd MMMM yyyy @ HH:mm' }}" am-time-ago="case.modified"></abbr>
+        </td>
       </tr>
     </tbody>
   </table>

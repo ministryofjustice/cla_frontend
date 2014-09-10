@@ -30,12 +30,14 @@
         </td>
         <td>{{ (feedback.issue|constantByValue:FEEDBACK_ISSUE).text }}</td>
         <td>{{ feedback.comment }}</td>
-        <td><a class="Button" ng-class="{'Button--warning': !feedback.justified}" ng-click="toggleJustified(feedback)">{{ feedback.justified }}</a></td>
-        <td><a class="Button" ng-class="{'Button--warning': !feedback.resolved}" ng-click="toggleResolved(feedback)">{{ feedback.resolved }}</a></td>
         <td>
-          <span am-time-ago="feedback.created"></span>
-          <br>
-          <small>{{ feedback.created|date:'MMM d, y, h:mma' }}</small>
+          <a class="Button" ng-class="{'Button--warning': !feedback.justified}" ng-click="toggleJustified(feedback)">{{ feedback.justified }}</a>
+        </td>
+        <td>
+          <a class="Button" ng-class="{'Button--warning': !feedback.resolved}" ng-click="toggleResolved(feedback)">{{ feedback.resolved }}</a>
+        </td>
+        <td>
+          <abbr title="{{ feedback.created|date:'EEEE, dd MMMM yyyy @ HH:mm' }}" am-time-ago="feedback.created"></abbr>
         </td>
       </tr>
     </tbody>
