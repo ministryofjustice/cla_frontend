@@ -17,6 +17,7 @@ from django.contrib.sites.models import get_current_site
 from django.template.response import TemplateResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from django_statsd.clients import statsd
 from ipware.ip import get_ip
 
 from proxy.views import proxy_view
@@ -54,6 +55,8 @@ def login(request, template_name='accounts/login.html',
             # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
 
+            statsd.incr('login.success')
+
             if is_json:
                 return HttpResponse(status=204)
             return HttpResponseRedirect(redirect_to)
@@ -64,6 +67,8 @@ def login(request, template_name='accounts/login.html',
                 'HTTP_REFERER': request.META.get('HTTP_REFERER'),
                 'HTTP_USER_AGENT': request.META.get('HTTP_USER_AGENT')
             })
+
+            statsd.incr('login.failed')
 
             if is_json:
                 return HttpResponse(
