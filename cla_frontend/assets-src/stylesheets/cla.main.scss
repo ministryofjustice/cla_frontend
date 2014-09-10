@@ -6,20 +6,22 @@
 @import "govuk_frontend_toolkit/stylesheets/font_stack";
 @import "govuk_frontend_toolkit/stylesheets/measurements";
 @import "govuk_frontend_toolkit/stylesheets/shims";
-@import "govuk_frontend_toolkit/stylesheets/typography";
+@import "govuk_frontend_toolkit/stylesheets/grid_layout";
 @import "govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
 
-// Extras
+@import "toolkit/typography";
+
+// basic styles
 @import "mixins";
+@import "basic";
+@import "accessibility";
 @import "header";
-@import "footer";
-@import "content";
+@import "grid";
 @import "typography";
 @import "utilities";
 @import "icons";
 
-// Design patterns
-@import "design-patterns/grid";
+// Patterns
 @import "design-patterns/buttons";
 @import "design-patterns/details";
 @import "design-patterns/forms";

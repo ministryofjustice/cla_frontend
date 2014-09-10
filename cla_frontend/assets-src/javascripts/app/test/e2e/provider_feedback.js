@@ -2,28 +2,27 @@
   'use strict';
 
   var utils = require('../e2e/_utils'),
-    CONSTANTS = require('../protractor.constants.js'),
-    modelsRecipe = require('./_modelsRecipe');
+      CONSTANTS = require('../protractor.constants.js'),
+      modelsRecipe = require('./_modelsRecipe');
 
   describe('Provider Feedback', function() {
 
     function get_provider() {
-      return browser.findElement(by.css('.ContactBlock-heading')).getText();
+      return element(by.css('.ContactBlock-heading')).getText();
     }
 
     function do_assign() {
-
-      browser.findElement(by.css('[name=assign-provider]')).click();
+      element(by.css('[name=assign-provider]')).click();
     }
 
     function manually_select_provider() {
-
-      browser.findElement(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually')).click();
-      browser.findElement(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
+      element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually')).click();
+      element(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
     }
 
     function logout() {
-      browser.findElement(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
+      element(by.css('.UserMenu-toggle')).click();
+      element(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
       ptor.manage().deleteAllCookies();
     }
 
@@ -34,7 +33,6 @@
       feedback_notes = 'this is plain feedback';
 
     describe('As Operator', function () {
-
       beforeEach(utils.setUp);
 
       it('should create a case as operator and assign (manually) to a provider', function () {
@@ -48,11 +46,9 @@
               manually_select_provider();
             }
             do_assign();
-
           });
         });
       });
-
 
       it('should create a case as operator and assign (manually) to a provider which wont be rejected', function () {
         browser.get(CONSTANTS.callcentreBaseUrl);
@@ -65,7 +61,6 @@
               manually_select_provider();
             }
             do_assign();
-
           });
         });
       });
@@ -116,7 +111,6 @@
 
         expect(modal_submit.isDisplayed()).toBe(true);
         modal_submit.click();
-
       });
 
       it('should have example case assigned & ready to feedback without rejecting', function(){
@@ -147,25 +141,24 @@
           logout();
         });
       });
-
     });
 
 
     describe('As Operator', function () {
       beforeEach(utils.setUp);
+
       it('feedback should be created for rejected case', function () {
         var case_rejected_with_feedback_link = element(by.cssContainingText('tr td a', case_to_reject_ref));
 
         browser.get('call_centre/feedback/');
         expect(case_rejected_with_feedback_link.isPresent()).toBe(true);
-
       });
 
       it('feedback should be created for non-rejected case', function () {
         var  case_not_rejected_with_feedback_link = element(by.cssContainingText('tr td a', case_to_feedback_without_reject_ref));
+
         browser.get('call_centre/feedback/');
         expect(case_not_rejected_with_feedback_link.isPresent()).toBe(true);
-
       });
 
       it('should logout', function () {
@@ -173,7 +166,6 @@
           logout();
         });
       });
-
     });
   });
 })();

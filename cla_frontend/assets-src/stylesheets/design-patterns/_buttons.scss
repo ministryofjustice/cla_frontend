@@ -121,9 +121,10 @@
     &:after {
       position: absolute;
       right: 7px;
-      top: 0;
+      top: 1px;
       content: "+";
       font-size: 24px;
+      line-height: 1em;
     }
   }
 

@@ -14,12 +14,12 @@
   <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
     <thead>
     <tr>
-      <th width="15%"><span class="visuallyhidden">Reference</span></th>
-      <th width="20%"><a href="" ng-click="sortToggle('personal_details__full_name')" ng-class="sortClass('personal_details__full_name')">Name</a></th>
-      <th width="11%"><a href="" ng-click="sortToggle('personal_details__postcode')" ng-class="sortClass('personal_details__postcode')">Postcode</a></th>
-      <th width="14%"><a href="" ng-click="sortToggle('personal_details__date_of_birth')" ng-class="sortClass('personal_details__date_of_birth')">Date of Birth</a></th>
-      <th width="24%"><a href="" ng-click="sortToggle('eligibility_check__category__name')" ng-class="sortClass('eligibility_check__category__name')">Category of Law</a></th>
-      <th width="16%"><a href="" ng-click="sortToggle('modified')" ng-class="sortClass('modified')">Modified</a></th>
+      <th width="19%"><span class="visuallyhidden">Reference</span></th>
+      <th width="19%"><a href="" ng-click="sortToggle('personal_details__full_name')" ng-class="sortClass('personal_details__full_name')">Name</a></th>
+      <th width="10%"><a href="" ng-click="sortToggle('personal_details__postcode')" ng-class="sortClass('personal_details__postcode')">Postcode</a></th>
+      <th width="12%"><a href="" ng-click="sortToggle('personal_details__date_of_birth')" ng-class="sortClass('personal_details__date_of_birth')">Date of Birth</a></th>
+      <th width="25%"><a href="" ng-click="sortToggle('eligibility_check__category__name')" ng-class="sortClass('eligibility_check__category__name')">Area of Law</a></th>
+      <th width="15%"><a href="" ng-click="sortToggle('modified')" ng-class="sortClass('modified')">Modified</a></th>
     </tr>
     </thead>
     <tbody>
@@ -28,14 +28,14 @@
           <a href="" ng-click="goToCase(case.reference)">{{ case.reference }}</a>
           <span ng-show="case.isInScopeAndEligible()"> / {{ case.laa_reference }}</span>
         </td>
-        <td><span data-block="pd-column">{{ case.full_name }}</span></td>
+        <td>
+          <span data-block="pd-column">{{ case.full_name }}</span>
+        </td>
         <td>{{ case.postcode }}</td>
         <td>{{ case.date_of_birth|date:'dd/MM/yyyy' }}</td>
         <td>{{ case.category }}</td>
         <td>
-          <span am-time-ago="case.modified"></span>
-          <br>
-          <small>{{ case.modified|date:'MMM d, y, h:mma' }}</small>
+          <abbr title="{{ case.modified|date:'EEEE, dd MMMM yyyy @ HH:mm' }}" am-time-ago="case.modified"></abbr>
         </td>
       </tr>
     </tbody>

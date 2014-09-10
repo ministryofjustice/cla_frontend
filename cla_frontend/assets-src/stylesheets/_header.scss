@@ -1,55 +1,34 @@
-// Overrides to allow header to be full width
 #global-header {
-  #logo {
-    @include bold-24;
-  }
-
-  &.with-proposition {
-    .header-wrapper {
-      .header-global {
-        float: left;
-        
-        @include media(desktop) {
-          width: 18.75%;
-          margin-right: 1.5625%;
-        }
-      }
-
-      .header-proposition {
-        width: auto;
-        float: left;
-        padding-top: 2px;
-
-        .content {
-          margin-right: 0;
-          margin-left: 0;
-        }
-
-        .proposition-phase {
-          display: none;
-        }
-      }
-    }
-  }
+  background-color: $black;
+  width: 100%;
 
   .header-wrapper {
-    max-width: none;
-    padding-left: 10px;
-    padding-right: 10px;
+    background-color: $black;
+    margin: 0 auto;
+    padding: 8px 10px;
+    @extend %contain-floats;
 
-    @include media(tablet) {
-      // padding-left: 20px;
-      // padding-right: 20px;
-    }
+    .header-global {
+      @extend %contain-floats;
+      // margin: 10px 0 5px;
+      float: left;
 
-    .header-global .header-logo {
-      width: auto;
-      .content {
-        margin: 0;
+      .header-logo {
+        @include bold-24;
+        @extend %contain-floats;
+        color: $white;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+
+        &:hover {
+          border-bottom-color: $white;
+        }
       }
-      // #logo img {
-      //   padding-right: 0;
-      // }
+
+      @include media(desktop) {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
   }
 }

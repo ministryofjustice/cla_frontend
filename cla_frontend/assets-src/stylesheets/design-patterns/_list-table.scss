@@ -1,5 +1,6 @@
 .ListTable {
   border-collapse: collapse;
+  @include core-14;
 
   th {
     text-align: left;
@@ -28,11 +29,6 @@
         @extend .Icon;
         @extend .Icon--alert;
         @extend .Icon--mellowred;
-
-        &:before {
-          position: relative;
-          top: 3px;
-        }
       }
       &:last-child {
         border-right-width: 1px;

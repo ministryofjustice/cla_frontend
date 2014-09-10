@@ -17,7 +17,7 @@ $col-gutter: 20; // in pixels
     display: block;
   }
 
-  @include media (tablet) {
+  @include media (desktop) {
     .Grid-col {
       float: left;
       width: 100%;

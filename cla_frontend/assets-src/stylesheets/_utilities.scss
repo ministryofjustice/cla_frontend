@@ -1,3 +1,12 @@
+/* Contain floats usage:
+   .this-has-floated-children {
+     @extend %contain-floats;
+   }
+*/
+.clearfix, .cf {
+  @extend %contain-floats;
+}
+
 .u-pullRight {
   float: right;
 }
