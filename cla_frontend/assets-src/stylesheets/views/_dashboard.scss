@@ -10,9 +10,12 @@
     }
 
     .Button {
-      @include core-16;
+      position: relative;
+      top: -6px;
+    }
+    .BlockLink {
       margin-left: 20px;
-      margin-top: 4px;
+      margin-top: 7px;
     }
   }
   .PageHeader--wo-search {

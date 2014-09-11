@@ -3,13 +3,13 @@
     <h1 class="u-pullLeft">
       <span ng-hide="person.reference">
         <span ng-show="searchParams.search">
-          Results for <span class="Button Button--secondary Icon--cross Icon--right search-term" ng-click="resetSearch()">{{searchParams.search}}</span>
+          Results for <button class="Button Button--secondary Icon--cross Icon--right search-term" ng-click="resetSearch()">{{searchParams.search}}</button>
         </span>
         <span ng-hide="searchParams.search">Cases</span>
       </span>
 
       <span ng-show="person.reference">
-        Cases for <span class="Button Button--secondary Icon--cross Icon--right search-person" ng-click="backToLatestSearch()">{{ person.full_name }}</span> <span ng-show="person.postcode">({{ person.postcode }})</span>
+        Cases for <button class="Button Button--secondary search-person" ng-click="backToLatestSearch()"><span class="Icon--cross Icon--right">{{ person.full_name }}</span> <span ng-show="person.postcode">({{ person.postcode }})</span>
       </span>
     </h1>
   </div>
@@ -17,10 +17,10 @@
   <div data-block="top-actions">
     <form name="newCaseForm" class="newCaseForm">
       <span ng-show="person.reference">
-        <button id="create_case" type="button" class="Button" ng-click="addCase(person.reference)">Create a case for {{ person.full_name }}</button>
+        <button id="create_case" type="button" class="BlockLink BlockLink--add" ng-click="addCase(person.reference)">Create a case for {{ person.full_name }}</button>
       </span>
       <span ng-hide="person.reference">
-        <button id="create_case" type="button" class="Button" ng-click="addCase()">Create a case</button>
+        <button id="create_case" type="button" class="BlockLink BlockLink--add" ng-click="addCase()">Create a case</button>
       </span>
     </form>
   </div>
