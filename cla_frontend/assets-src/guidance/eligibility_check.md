@@ -23,7 +23,8 @@ National Asylum Support Service (NASS) benefits are paid to eligible destitute a
 * Income Support
 * Income-Based Job Seeker's Allowance *(but not contributions-based)*
 * Income-Related Employment and Support Allowance
-* Guarantee Credit or Universal Credit
+* Guarantee Credit
+* Universal Credit
 
 Being on any of the benefits listed above means that a person automatically qualifies through the income part of the means test, although they can still be ineligible if they have too much capital. These benefits are known as "passporting benefits". 
 
