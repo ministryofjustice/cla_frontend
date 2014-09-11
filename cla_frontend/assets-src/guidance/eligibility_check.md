@@ -107,7 +107,7 @@ Some benefits do not need to be declared as income - search the guidance for 'di
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 
-If client has both employment and self-employment choose 'employed' as they will be eligible for the additional £45 allowance.
+If client has both employment and self-employment select 'no' as they will be eligible for the additional £45 allowance.
 
 <h3 id="ecg-dependants_over_16">Children aged 16 and over</h3>
 
