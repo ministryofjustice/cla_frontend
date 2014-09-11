@@ -1,8 +1,8 @@
 import slumber
-import urllib
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.utils.http import urlencode
 
 from cla_auth.auth_providers import BearerTokenAuth
 
@@ -12,7 +12,7 @@ class FormSerializer(slumber.serialize.JsonSerializer):
     content_types = ["application/x-www-form-urlencoded", "application/json"]
 
     def dumps(self, data):
-        return urllib.urlencode(data)
+        return urlencode(data)
 
 
 def get_auth_connection():
