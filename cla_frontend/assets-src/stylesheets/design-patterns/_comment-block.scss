@@ -1,5 +1,5 @@
 .CommentBlock {
-  margin: 10px 0 20px;
+  margin: 10px 0;
 
   .Quote {
     padding-top: 0;
@@ -7,5 +7,10 @@
 }
 .CommentBlock-author {
   @include core-14;
-  padding-bottom: 5px;
+  display: inline-block;
+  position: relative;
+  top: -4px;
+  margin: 0;
+  color: $grey-1;
+  font-style: normal;
 }

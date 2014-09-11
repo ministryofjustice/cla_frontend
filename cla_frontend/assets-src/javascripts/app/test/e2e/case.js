@@ -7,7 +7,7 @@
 
   // helper methods
   function enterDetails (values, thirdparty) {
-    var edit = '#personal_details .VCard-view',
+    var edit = '[name="create-newuser"]',
         viewCard = edit,
         btnName = 'save-personal-details',
         filterSelects = ['exempt_user_reason', 'language', 'media_code', 'reason', 'personal_relationship'];
