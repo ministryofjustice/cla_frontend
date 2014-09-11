@@ -1,8 +1,17 @@
 <section id="personal_details">
-  <div ng-click="showPersonalDetails(personaldetails_frm)" ng-hide="personaldetails_frm.$visible" class="VCard VCard-view" ng-class="{'u-mute': case.thirdparty_details}">
-    <!-- IF empty -->
-    <p class="Notice" ng-hide="personal_details.full_name">{{ !personal_details.reference ? 'Create a new one' : 'Please enter personal details' }}</p>
+  <div ng-show="!personal_details.reference && !personal_details_frm_visible">
+    <label class="FormRow cf">
+      <span class="Icon--formRow Icon Icon--user">
+        <input type="text" id="searchPerson" ui-select2="searchPersonOptions" name="person_q" class="FormRow-field--full" placeholder="Search for existing user" ng-model="$parent.person_q">
+      </span>
+    </label>
 
+    <div class="Icon--formRow">
+      <button href="" class="BlockLink BlockLink--add" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="showPersonalDetails(personaldetails_frm)" name="add-thirdparty"><span class="BlockLink-text">Create new user</span></button>
+    </div>
+  </div>
+
+  <div ng-click="showPersonalDetails(personaldetails_frm)" ng-show="!personaldetails_frm.$visible && personal_details.reference" class="VCard VCard-view" ng-class="{'u-mute': case.thirdparty_details}">
     <h2 class="VCard-title Icon Icon--formRow Icon--user" ng-show="personal_details.full_name">{{ personal_details.full_name }}</h2>
 
     <div class="VCard-row Icon Icon--row Icon--location" ng-show="personal_details.postcode || personal_details.street">
