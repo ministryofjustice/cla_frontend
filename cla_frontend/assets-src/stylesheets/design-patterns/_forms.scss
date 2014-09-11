@@ -159,10 +159,10 @@ $border-colour: $grey-2;
       width: 420px;
     }
     &.FormRow-field--s {
-      width: 60px;
+      width: 50px;
     }
     &.FormRow-field--xs {
-      width: 40px;
+      width: 30px;
     }
     &.FormRow-field--inline {
       margin-right: 10px;
@@ -269,7 +269,7 @@ $border-colour: $grey-2;
 
     label {
       margin: 0;
-      padding: 5px 0;
+      padding: 3px 0;
       display: block;
       position: relative;
 
@@ -277,7 +277,7 @@ $border-colour: $grey-2;
         float: left;
         position: relative;
         z-index: 2;
-        margin: 2px 0;
+        margin: 4px 0 0;
       }
       span {
         display: block;

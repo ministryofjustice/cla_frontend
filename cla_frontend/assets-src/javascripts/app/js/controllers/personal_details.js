@@ -68,6 +68,12 @@
             }
           };
 
+          $scope.exemptChange = function (value) {
+            $scope.is_exempt = value;
+          };
+          // trigger on first load
+          $scope.exemptChange($scope.case.exempt_user);
+
           var media_codes = mediacodes.map(function (mc) {
             var opt = {};
 
