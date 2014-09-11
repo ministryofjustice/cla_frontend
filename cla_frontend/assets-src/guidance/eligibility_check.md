@@ -62,7 +62,7 @@ If you are the only owner of the property, you own 100% of the property. If two 
 
 <h3 id="ecg-undisputed_savings">Undisputed savings</h3>
 
-Undisputed savings are savings where the ownership is not disputed by anyone eg a partner is not trying to claim them as part of the financial settlement of a divorce or separation. 
+Undisputed savings are savings where the ownership is not disputed by anyone eg an ex-partner is not trying to claim them as part of the financial settlement of a divorce or separation. 
 
 <h3 id="ecg-disputed_savings">Disputed savings</h3>
 
