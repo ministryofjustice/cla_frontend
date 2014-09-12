@@ -4,7 +4,7 @@
   angular.module('cla.controllers.provider')
     .controller('CaseDetailCloseCtrl',
       ['$scope', '$state', 'flash', '$modal',
-        function($scope, $state, flash, $modal){
+        function($scope, $state, flash){
           var case_ref = $scope.case.reference;
 
           $scope.close = function() {
@@ -58,8 +58,8 @@
 
   angular.module('cla.controllers')
     .controller('SplitCaseCtrl',
-    ['$scope', '$modalInstance', 'case', 'diagnosis', 'provider_category', 'MatterType', 'categories', '$state', 'flash', 'form_utils',
-      function ($scope, $modalInstance, case_, diagnosis, provider_category, MatterType, categories, $state, flash, form_utils) {
+    ['$scope', '$modalInstance', 'case', 'diagnosis', 'provider_category', 'MatterType', 'categories', '$state', 'flash', 'form_utils', 'postal',
+      function ($scope, $modalInstance, case_, diagnosis, provider_category, MatterType, categories, $state, flash, form_utils, postal) {
         $scope.case = case_;
         $scope.diagnosis = diagnosis;
         $scope.categories = categories;
@@ -89,6 +89,11 @@
           }).then(function() {
             flash('Case split successfully');
             $modalInstance.dismiss();
+
+            postal.publish({
+              channel : 'models',
+              topic   : 'Log.refresh'
+            });
           }, function(data) {
             form_utils.ctrlFormErrorCallback($scope, data, form);
           });

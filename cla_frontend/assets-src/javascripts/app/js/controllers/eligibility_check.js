@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'modelsEventManager',
-        function($scope, Category, $stateParams, flash, $state, modelsEventManager){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal',
+        function($scope, Category, $stateParams, flash, $state, postal){
           $scope.category_list = Category.query();
           $scope.warnings = {};
           var all_sections = [{
@@ -144,7 +144,11 @@
               // fire a save notification
               flash('success', 'The means test has been saved. The current result is <strong>' + $scope.eligibilityText(data.state) + '</strong>');
 
-              modelsEventManager.refreshLogs();
+              // refreshing the logs
+              postal.publish({
+                channel : 'models',
+                topic   : 'Log.refresh'
+              });
             });
           };
 

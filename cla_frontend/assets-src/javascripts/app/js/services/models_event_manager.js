@@ -9,6 +9,8 @@
 
         return {
           onEnter: function() {
+            var self = this;
+
             if (configured) {
               throw 'ModelsEventManager already configured!';
             }
@@ -28,6 +30,16 @@
                       eligibility_check.$update(case_.reference);
                     }
                   }
+                }
+              })
+            );
+
+            subscriptions.push(
+              postal.subscribe({
+                channel  : 'models',
+                topic    : 'Log.refresh',
+                callback : function() {
+                  self.refreshLogs();
                 }
               })
             );
