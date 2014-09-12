@@ -18,3 +18,4 @@ django-session-security==2.2.0
 django-statsd-mozilla==0.3.13
 logstash-formatter==0.5.8
 django-ipware==0.0.8
+pyjade==3.0.0
