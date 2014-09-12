@@ -4,6 +4,7 @@
       <div class="BtnDropdown BtnDropdown--right">
         <button class="Button Button--secondary Button--dropdown" ng-class="{'is-open': btnOpts}" ng-click="btnOpts=!btnOpts" name="close-case">Close</button>
         <div class="BtnDropdown-content" ng-show="btnOpts" ng-click="btnOpts=false">
+          <a href="/provider/case/{{ case.reference }}/legal_help_form/" target="_self" class="u-block">Print Legal Help form</a>
           <a href="" ng-click="close()" class="u-block" ng-controller="CaseDetailCloseCtrl">Close Case</a>
         </div>
       </div>
