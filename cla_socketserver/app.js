@@ -40,28 +40,37 @@ io.use(function (socket, next) {
   if (socket.request.headers.cookie) {
     socket.request.cookie = cookie.parse(socket.request.headers.cookie);
     validate_sessionid(socket.request.cookie.sessionid).then(next, function (e) {
+      log('FAIL invalid sessionid', socket);
       next(new Error('not authorized: ' + e.message));
     });
   } else {
+    log('FAIL no cookie');
     next(new Error('not authorized'));
   }
 });
 
 io.on('connection', function (socket) {
-
-  console.log(JSON.stringify({
-    "@version": 1,
-    "@timestamp": (new Date()).toISOString(),
-    "message": "connected",
-    "sessionid": socket.request.cookie.sessionid,
-    "clientip": clientIp(socket.request),
-    "user-agent": socket.request.headers['user-agent']
-  }));
+  log('connected', socket);
 
   socket.on('client', function (data) {
     socket.broadcast.emit('server', data);
   });
+
+  socket.on('disconnect', function () {
+    log('disconnected', socket);
+  });
 });
+
+function log(message, socket) {
+  console.log(JSON.stringify({
+    "@version": 1,
+    "@timestamp": (new Date()).toISOString(),
+    "message": message,
+    "sessionid": socket.request.cookie.sessionid,
+    "clientip": clientIp(socket.request),
+    "user-agent": socket.request.headers['user-agent']
+  }));
+}
 
 function clientIp(req) {
   return req.headers['x-forwarded-for'] ||
