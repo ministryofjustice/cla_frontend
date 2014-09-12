@@ -3,14 +3,18 @@
 
   angular.module('cla.controllers')
     .controller('DiagnosisCtrl',
-      ['$scope', 'Category', 'modelsEventManager',
-        function($scope, Category, modelsEventManager) {
+      ['$scope', 'Category', 'postal',
+        function($scope, Category, postal) {
           // updates the state of case.diagnosis_state after each save
           function saveCallback(data) {
             $scope.case.diagnosis_state = data.state;
 
             if (!$scope.diagnosis.isInScopeUnknown()) {
-              modelsEventManager.refreshLogs();  // refreshing the logs
+              // refreshing the logs
+              postal.publish({
+                channel : 'models',
+                topic   : 'Log.refresh'
+              });
             }
           }
 
@@ -42,7 +46,11 @@
             $scope.diagnosis.$delete({'case_reference': $scope.case.reference}, function() {
               $scope.case.diagnosis = null;
 
-              modelsEventManager.refreshLogs();  // refreshing the logs
+              // refreshing the logs
+              postal.publish({
+                channel : 'models',
+                topic   : 'Log.refresh'
+              });
             });
           }; 
 
