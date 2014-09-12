@@ -1,0 +1,113 @@
+#wrapper {
+  width: 900px;
+  margin: 30px auto 0;
+}
+
+h1 {
+  @include bold-36;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.section-heading {
+  @include bold-27;
+  text-align: center;
+  margin: 10px 0 20px;
+}
+
+ol {
+  list-style: decimal;
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  ol {
+    margin-top: 8px;
+    padding-left: 25px;
+    list-style: lower-latin;
+
+    ol {
+      list-style: lower-roman;
+    }
+  }
+}
+
+.organisation-logo {
+  font-family: Helvetica, Arial;
+  font-size: 27px;
+  font-weight: 400;
+  line-height: 30px;
+  padding: 0 0 0 10px;
+  margin-left: 30px;
+  border-left: 3px solid;
+}
+
+.page {
+  page-break-after: always;
+}
+
+.box {
+  border: 1px solid $black;
+  padding: 10px 15px;
+  margin: 30px 0;
+  @include box-shadow(8px 8px 0 $black);
+}
+
+.field-table {
+  margin: 0 -15px 20px;
+
+  td, th {
+    padding: 3px 15px;
+  }
+
+  thead {
+    th {
+      vertical-align: top;
+      line-height: 1.1em;
+      font-weight: 400;
+    }
+  }
+  tbody {
+    th {
+      text-align: left;
+    }
+  }
+}
+
+// basic form styles
+.block-label {
+  display: block;
+}
+.inline-label {
+  top: 3px;
+  position: relative;
+}
+
+input[type=text],
+textarea {
+  @include core-16;
+  font-weight: 700;
+  border: 1px solid $border-colour;
+  padding: 5px 0;
+  text-indent: 5px;
+  margin: 0;
+  width: 99%;
+
+  &.check {
+    width: 30px;
+    margin-right: 10px;
+    text-align: center;
+    text-indent: 0;
+    text-transform: uppercase;
+  }
+  &.inline {
+    width: 25%;
+    margin-left: 10px;
+  }
+}
+textarea {
+  text-indent: 0;
+  padding-left: 10px;
+  width: 97%;
+  font-size: 27px;
+}

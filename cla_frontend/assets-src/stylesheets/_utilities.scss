@@ -13,6 +13,12 @@
 .u-pullLeft {
   float: left;
 }
+.u-alignRight {
+  text-align: right;
+}
+.u-alignLeft {
+  text-align: left;
+}
 .u-sortDesc {
   &:after {
     display: inline-block;
@@ -36,6 +42,9 @@
   &--lrg:after {
     font-size: 19px;
   }
+}
+.u-uppercase {
+  text-transform: uppercase;
 }
 .u-strike {
   text-decoration: line-through;

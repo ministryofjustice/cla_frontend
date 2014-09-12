@@ -1,5 +1,10 @@
 html, body, button, input, table, td, th { font-family: $Bliss2; }
 
+/* Make HTML 5 elements display block-level for consistent styling */
+header, nav, article, footer, address { 
+  display: block;
+}
+
 // basic styles for HTML5 and other elements
 html, body, div, h1, h2, h3, h4, h5, h6, article, aside, footer, header, hgroup, nav, section {
   margin: 0;
@@ -159,6 +164,5 @@ input[type="search"]::-webkit-search-decoration {
 
 
 #wrapper {
-  border-bottom: 0;
   padding: 0 10px;
 }
