@@ -1,53 +1,48 @@
 <header>
-  <h2>Split Case</h2>
+  <h2>Split case {{ case.reference }}</h2>
 </header>
 
-<form method="post" ng-submit="save()">
-  <h4>Current Case</h4>
-
+<form method="post" name="split_case_frm">
   <div class="FormRow FormRow--narrow cf">
-    Category of Law: {{diagnosis.category}}
+    Category of law: {{provider_category.name}}
   </div>
   <div class="FormRow FormRow--narrow cf">
-    Matter Types: {{case.matter_type1}}, {{case.matter_type2}}
+    Matter types: {{case.matter_type1}}, {{case.matter_type2}}
   </div>
   <div class="FormRow FormRow--narrow cf">
-    Assignment: me
+    Assigned to: {{user.provider.name}}
   </div>
 
   <hr>
 
-  <h4>New Case</h4>
+  <h4>New case</h4>
+
+  <span class="Error-message" ng-show="errors.__all__">{{ errors.__all__ }}</span>
+  <span class="Error-message" ng-show="errors.internal">{{ errors.internal }}</span>
   
   <label class="FormRow FormRow--narrow cf">
-    Category of Law:
-
-    <select ui-select2 ng-model="$parent.category" ng-options="cat.code as cat.name for cat in categories track by cat.code" required>
-      <option value="">Choose a Category</option>
+    Category of law:
+    <span class="Error-message" ng-show="split_case_frm.category.$error.server">{{ errors.category }}</span>
+    <select name="category" ui-select2 ng-model="$parent.category" ng-options="cat.code as cat.name for cat in categories track by cat.code" required server-error>
+      <option value="">Choose category or law</option>
     </select>
   </label>
 
   <label class="FormRow FormRow--narrow cf">
-    Matter Types:
-    <select ui-select2 ng-model="$parent.matterType1" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 1} track by matterType.code" required>
-      <option value="">Choose Matter Type 1</option>
+    Matter types:
+    <span class="Error-message" ng-show="split_case_frm.matter_type1.$error.server">Matter type1: {{ errors.matter_type1 }}</span>
+    <span class="Error-message" ng-show="split_case_frm.matter_type2.$error.server">Matter type2: {{ errors.matter_type2 }}</span>
+    <select ui-select2 name="matter_type1" ng-model="$parent.matterType1" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 1} track by matterType.code" required server-error>
+      <option value="">Choose matter type 1</option>
     </select>
-    <select ui-select2 ng-model="$parent.matterType2" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 2} track by matterType.code" required>
-      <option value="">Choose Matter Type 2</option>
-    </select>
-  </label>
-
-  <label class="FormRow FormRow--narrow cf">
-    Assignment:
-    <select ui-select2 ng-model="$parent.assignment" required>
-      <option value=""></option>
-      <option value="internal">Assign to me</option>
-      <option value="external">Assign to different Specialist</option>
+    <select ui-select2 name="matter_type2" ng-model="$parent.matterType2" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 2} track by matterType.code" required server-error>
+      <option value="">Choose matter type 2</option>
     </select>
   </label>
 
   <div class="FormActions">
-    <button class="Button" type="submit">Split Case</button>
+    <button class="Button" type="button" ng-click="doSplit(split_case_frm, true)">Assign to {{user.provider.name}}</button>
+    <button class="Button" type="button" ng-click="doSplit(split_case_frm, false)">Send to operator for assignment</button>
     <a href="" ng-click="cancel()">Cancel</a>
   </div>
 </form>

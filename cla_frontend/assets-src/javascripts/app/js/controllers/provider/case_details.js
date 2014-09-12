@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers.provider')
     .controller('CaseDetailCloseCtrl',
-      ['$scope', '$state', 'flash',
-        function($scope, $state, flash){
+      ['$scope', '$state', 'flash', '$modal',
+        function($scope, $state, flash, $modal){
           var case_ref = $scope.case.reference;
 
           $scope.close = function() {
@@ -58,15 +58,18 @@
 
   angular.module('cla.controllers')
     .controller('SplitCaseCtrl',
-    ['$scope', '$modalInstance', 'case', 'diagnosis', 'MatterType', 'categories', '$state', 'flash',
-      function ($scope, $modalInstance, case_, diagnosis, MatterType, categories, $state, flash) {
+    ['$scope', '$modalInstance', 'case', 'diagnosis', 'provider_category', 'MatterType', 'categories', '$state', 'flash', 'form_utils',
+      function ($scope, $modalInstance, case_, diagnosis, provider_category, MatterType, categories, $state, flash, form_utils) {
         $scope.case = case_;
         $scope.diagnosis = diagnosis;
         $scope.categories = categories;
+        $scope.provider_category = provider_category;
         $scope.matterTypes = null;
 
         $scope.$watch('category', function(newVal) {
           if (newVal) {
+            $scope.matterType1 = null;
+            $scope.matterType2 = null;
             $scope.matterTypes = MatterType.get({
               category__code: newVal
             });
@@ -77,40 +80,19 @@
           $modalInstance.dismiss('cancel');
         };
 
-        $scope.save = function() {
-          console.log([
-            'Category: '+$scope.category,
-            'Matter Type 1: '+$scope.matterType1,
-            'Matter Type 2: '+$scope.matterType2,
-            'Assignment: '+$scope.assignment
-          ].join('\n'));
-
+        $scope.doSplit = function(form, internal) {
           $scope.case.split_case({
             category: $scope.category,
             matter_type1: $scope.matterType1,
             matter_type2: $scope.matterType2,
-            internal: $scope.assignment === 'internal'
+            internal: internal
           }).then(function() {
             flash('Case split successfully');
             $modalInstance.dismiss();
+          }, function(data) {
+            form_utils.ctrlFormErrorCallback($scope, data, form);
           });
         };
-        // $scope.matter_types = matter_types;
-
-        // $scope.cancel = function () {
-        //   $modalInstance.dismiss('cancel');
-        //   $scope.case.matter_type1 = null;
-        //   $scope.case.matter_type2 = null;
-        // };
-
-        // $scope.save = function() {
-        //   $scope.case.$set_matter_types().then(function () {
-        //     $modalInstance.close();
-        //     if ($scope.next) {
-        //       $state.go($scope.next);
-        //     }
-        //   });
-        // };
       }
     ]
   );
@@ -147,16 +129,11 @@
           templateUrl: 'provider/case_detail.split.html',
           controller: 'SplitCaseCtrl',
           resolve: {
-            // 'tplVars': function() {
-            //   return {
-            //     title: 'Split Case'
-            //   };
-            // },
             'case': function() { return $scope.case; },
             'diagnosis': function() { return $scope.diagnosis; },
-            // 'event_key': function() { return 'reject_case'; },  //this is also the function name on Case model
-            // 'notes': function() { return ''; },
-            // 'success_msg': function() { return 'Case '+$scope.case.reference+' rejected successfully'; }
+            provider_category: ['Category', function(Category) {
+              return Category.get({code: $scope.diagnosis.category}).$promise;
+            }],
             categories: ['Category', function(Category) {
               return Category.query().$promise;
             }]
