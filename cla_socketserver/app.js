@@ -48,7 +48,24 @@ io.use(function (socket, next) {
 });
 
 io.on('connection', function (socket) {
+
+  console.log(JSON.stringify({
+    "@version": 1,
+    "@timestamp": (new Date()).toISOString(),
+    "message": "connected",
+    "sessionid": socket.request.cookie.sessionid,
+    "clientip": clientIp(socket.request),
+    "user-agent": socket.request.headers['user-agent']
+  }));
+
   socket.on('client', function (data) {
     socket.broadcast.emit('server', data);
   });
 });
+
+function clientIp(req) {
+  return req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress;
+}
