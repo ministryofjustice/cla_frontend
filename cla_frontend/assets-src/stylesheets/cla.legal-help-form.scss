@@ -1,0 +1,16 @@
+// GOV.UK Toolkit imports
+@import "govuk_frontend_toolkit/stylesheets/colours";
+@import "govuk_frontend_toolkit/stylesheets/conditionals";
+@import "govuk_frontend_toolkit/stylesheets/device-pixels";
+@import "govuk_frontend_toolkit/stylesheets/css3";
+@import "govuk_frontend_toolkit/stylesheets/grid_layout";
+
+@import "toolkit/typography";
+
+// basic styles
+@import "mixins";
+@import "basic";
+@import "accessibility";
+@import "utilities";
+
+@import "views/legal-help-form";
