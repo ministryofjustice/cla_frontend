@@ -1,4 +1,4 @@
-- load staticfiles core_tags
+- load staticfiles core_tags helpers
 !!! 5
 html(lang='en')
 head
@@ -51,46 +51,37 @@ body
         table.field-table(width='100%')
           tbody
             tr
-              td
-                label.block-label.u-uppercase(for='') Surname
-                input(type='text', readonly='readonly', value='')
-              td
-                label.block-label.u-uppercase(for='') Forname
-                input(type='text', readonly='readonly', value='')
+              td(colspan='2')
+                label.block-label.u-uppercase(for='') Full name
+                input(type='text', readonly='readonly', value='{{personal_details.full_name}}')
               td
                 label.block-label.u-uppercase(for='') Our ref
-                input(type='text', readonly='readonly', value='')
+                input(type='text', value='')
             tr
               td
                 label.block-label(for='') Date of Birth
-                input(type='text', readonly='readonly', value='')
+                input(type='text', readonly='readonly', value='{{personal_details.dob.day}}/{{personal_details.dob.month}}/{{personal_details.dob.year}}')
               td
                 label.block-label(for='') Surname at Birth
-                input(type='text', readonly='readonly', value='')
+                input(type='text', value='')
               td
                 label.block-label(for='') Sex
-                input(type='text', readonly='readonly', value='')
+                input(type='text', value='')
             tr
-              td(colspan='2')
+              td(colspan='2', rowspan='2', valign='top')
                 label.block-label(for='') Current Address
-                input(type='text', readonly='readonly', value='')
+                textarea(readonly='readonly', rows='4') {{personal_details.street}}
               td
                 label.block-label(for='') N.I. Number
-                input(type='text', readonly='readonly', value='')
+                input(type='text', readonly='readonly', value='{{personal_details.ni_number}}')
             tr
               td
-                label.block-label(for='') Town
-                input(type='text', readonly='readonly', value='')
-              td
-                label.block-label(for='') County
-                input(type='text', readonly='readonly', value='')
-              td
                 label.block-label(for='') Client No
-                input(type='text', readonly='readonly', value='')
+                input(type='text', value='')
             tr
               td
                 label.block-label(for='') Post Code
-                input(type='text', readonly='readonly', value='')
+                input(type='text', readonly='readonly', value='{{personal_details.postcode}}')
               td
               td
       fieldset.box
@@ -100,7 +91,7 @@ body
             tr
               td Do you have a partner that you live with?
               td(width='30%')
-                input(type='text', readonly='readonly', value='')
+                input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No"}}')
             tr
               td(colspan='2') Do you or your partner receive any of the following benefits:
             tr
@@ -127,7 +118,7 @@ body
             tr
               td(width='40%') Do you own any property?
               td(width='20%')
-                input(type='text', readonly='readonly', value='')
+                input(type='text', readonly='readonly', value='{{eligibility_check.property_set|yesno:"Yes,No"}}')
               td(width='20%')
               td(width='20%')
         table.field-table(width='100%')
@@ -201,49 +192,49 @@ body
                 small
                   em (Savings Accounts, Building Society)
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.bank_balance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.bank_balance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.bank_balance|in_pounds}}')
             tr
               td Investments 
                 small
                   em (Including Shares and Insurance Policies)
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.investment_balance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.investment_balance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.investment_balance|in_pounds}}')
             tr
               td Bank Accounts
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='???')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='???')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='???')
             tr
               td Valuable Items 
                 small 
                   em (e.g. Boat, Caravan, Jewellery etc)
               td
-                input(type='text', readonly='readonly', value='%')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.asset_balance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='%')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.asset_balance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='%')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.asset_balance|in_pounds}}')
             tr
               td Other Capital 
                 small 
                   em (including money due to you)
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.credit_balance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.credit_balance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.credit_balance|in_pounds}}')
         table.field-table(width='100%')
           tbody
             tr
@@ -279,9 +270,9 @@ body
                 small
                   em (Before Tax)
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.earnings.per_interval_value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.earnings.per_interval_value|in_pounds}}')
             tr
               td Self Employed Drawings 
                 small
@@ -319,9 +310,9 @@ body
             tr
               td Any Other Income
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.other_income.per_interval_value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.other_income.per_interval_value|in_pounds}}')
             tr
               th TOTAL INCOME
               td
@@ -339,11 +330,17 @@ body
               th(width='20%') Your Partner
           tbody
             tr
-              td Tax and National Insurance
+              td Tax
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.income_tax.per_interval_value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.income_tax.per_interval_value|in_pounds}}')
+            tr
+              td National Insurance
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.national_insurance.per_interval_value|in_pounds}}')
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.national_insurance.per_interval_value|in_pounds}}')
             tr
               td Dependents Allowance (certain amount for each dependent)
               td
@@ -353,15 +350,15 @@ body
             tr
               td Mortgage
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.mortgage.per_interval_value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.mortgage.per_interval_value|in_pounds}}')
             tr
               td Rent
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.rent.per_interval_value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.rent.per_interval_value|in_pounds}}')
             tr
               td Employment Expenses (standard £45 if employed)
               td
@@ -373,9 +370,9 @@ body
                 small
                   em (e.g. for Children and/or a former/separated spouse)
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.maintenance.per_interval_value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.maintenance.per_interval_value|in_pounds}}')
             tr
               td Childcare Costs due to Work
               td
@@ -385,9 +382,9 @@ body
             tr
               td Legal Aid payments for Criminal Defence
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.criminal_legalaid_contributions|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.criminal_legalaid_contributions|in_pounds}}')
             tr
               th TOTAL ALLOWANCES
               td
@@ -403,7 +400,7 @@ body
     .page.box
       h2.section-heading Evidence We Need From You
       p To ensure that the details you have given us are correct, we will require the following evidence:
-      textarea(rows='50')
+      textarea.lrg(rows='35')
     .page.box
       h2.section-heading Your Declaration
       p Please tick the box that applies to you:
@@ -412,15 +409,15 @@ body
           tr
             td(width='80%') I have not been to an advisor or solicitor about this problem before to get advice on it paid for by the Legal Aid Agency
             td(width='20%') 
-              input.check(type='text', readonly='readonly', value='')
+              input.check(type='text', value='')
           tr
             td(width='80%') I have already been to an advisor or solicitor about this problem and had advice paid for by the Legal Aid Agency
             td(width='20%') 
-              input.check(type='text', readonly='readonly', value='')
+              input.check(type='text', value='')
           tr
             td(colspan='2')
               | Date that advice was received:
-              input.inline(type='text', readonly='readonly', value='')
+              input.inline(type='text', value='')
       p I agree to my solicitor or contracted provider having a first charge on any money or property (including costs) which I recover or preserve in or in relation to the matter for which I am being advised. (Family Help (Lower) Cases which exceed the standard fee only).
       p This is a true statement of all my and my partner's income and assets in the UK and abroad.
       p I understand that I must tell you immediately if there are any changes in my or partner's financial circumstances.
@@ -435,7 +432,7 @@ body
               input(type='text', readonly='readonly', value='')
             td(width='30%')
               label.block-label(for='') Date
-              input(type='text', readonly='readonly', value='')
+              input(type='text', value='')
       p 
         strong If you have a partner whose details have been completed on this form then they must sign the authority below.
       p 
@@ -449,7 +446,7 @@ body
               input(type='text', readonly='readonly', value='')
             td(width='30%')
               label.block-label(for='') Date
-              input(type='text', readonly='readonly', value='')
+              input(type='text', value='')
     .page.box
       h2.section-heading Data Protection Act - access to Personal Data
       p Personal data relates to a living individual who can be identified from that data. The processing of personal data is governed by the Data Protection Act 1998 (DPA), under which the Ministry of Justice (MoJ) is registered as a data controller. The Legal Aid Agency is an executive agency within the MoJ. The Legal Aid Agency processes personal data in order to provide legal aid services.
@@ -509,124 +506,124 @@ body
         | For a full guide to determining Eligibility see the Guide to Determining Financial Eligibility for Controlled Work and Family Mediation April 2013 v1
         br
         a(target='_blank', href='http://www.justice.gov.uk/downloads/legal-aid/eligibility/guide-to-determine-eligibility-controlled-work-and-mediation.pdf') http://www.justice.gov.uk/downloads/legal-aid/eligibility/guide-to-determine-eligibility-controlled-work-and-mediation.pdf
-    .page.box
-      h2.section-heading For Use By advisor
-      p Tick the relevant boxes if you have:
-      table.field-table(width='100%')
-        tbody
-          tr
-            td(width='80%') Accepted an application from a child or patient or someone on their behalf
-            td(width='20%') 
-              input.check(type='text', readonly='readonly', value='')
-          tr
-            td(width='80%') Provided Legal Help to a client who has already received it on the same matter within the last 6 months
-            td(width='20%') 
-              input.check(type='text', readonly='readonly', value='')
-          tr
-            td(width='80%') Claimed for outward travel before the signature of the form
-            td(width='20%') 
-              input.check(type='text', readonly='readonly', value='')
-      p If you have ticked any of the above boxes, please provide the circumstances justifying this in accordance with the relevant Rule in the Specification.
-    .page.box
-      h2.section-heading Time spent and costs
-      table.field-table(width='100%')
-        thead
-          tr
-            th(width='50%')
-            th(width='30%') Time Spent
-            th(width='20%')
-        tbody
-          tr
-            td 1. Attendance
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-          tr
-            td 2. Preparation
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-          tr
-            td 3. Help at Court
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-          tr
-            td 4. Travel and Waiting
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-      table.field-table(width='100%')
-        thead
-          tr
-            th(width='50%')
-            th(width='30%') Number
-            th(width='20%')
-        tbody
-          tr
-            td 1. Letters written
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-          tr
-            td 2. Phone calls
-            td
-              input(type='text', readonly='readonly', value='')
-      table.field-table(width='100%')
-        thead
-          tr
-            th(width='50%')
-            th(width='30%') Amount
-            th(width='20%') VAT
-        tbody
-          tr
-            th Total Profit Costs
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-              input(type='text', readonly='readonly', value='')
-          tr
-            th Value or amount of contractual or statutory charge
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-      table.field-table(width='100%')
-        thead
-          tr
-            th(width='50%') Disbursements
-            th(width='30%') Amount
-            th(width='20%') VAT
-        tbody
-          tr
-            td Mileage
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-              input(type='text', readonly='readonly', value='')
-          tr
-            td Other disbursements
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-              input(type='text', readonly='readonly', value='')
-          tr
-            th Total
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-              input(type='text', readonly='readonly', value='')
-          tr
-            td Counsel's fees
-            td
-              input(type='text', readonly='readonly', value='')
-            td
-              input(type='text', readonly='readonly', value='')
-          tr
-            td(colspan='2')
-              | Dated
-              input.inline(type='text', readonly='readonly', value='')
-            td
-      p Note: When calculating profit costs, the time spent on each activity and the letters and telephone calls must be separated out according to the remuneration rate which applied at the time the work was carried out. Please see the Payment Annex of the 2010 Standard Civil Contract for the appropriate rates.
-      p Remember that you may not charge separately for letters in.
-      p The totals for profit costs, disbursements and counsel's fees from this form and the Controlled Legal Representation Form (if applicable) should be the same (after adding VAT and net of the amount of the statutory charge and any payment on account), as those reported by you in your online submission. Where a staged bill has been submitted in an Immigration matter a separate copy of this page should be completed for each stage reported.
-
+    .page
+      .box
+        h2.section-heading For Use By advisor
+        p Tick the relevant boxes if you have:
+        table.field-table(width='100%')
+          tbody
+            tr
+              td(width='80%') Accepted an application from a child or patient or someone on their behalf
+              td(width='20%') 
+                input.check(type='text', value='')
+            tr
+              td(width='80%') Provided Legal Help to a client who has already received it on the same matter within the last 6 months
+              td(width='20%') 
+                input.check(type='text', value='')
+            tr
+              td(width='80%') Claimed for outward travel before the signature of the form
+              td(width='20%') 
+                input.check(type='text', value='')
+        p If you have ticked any of the above boxes, please provide the circumstances justifying this in accordance with the relevant Rule in the Specification.
+      .box
+        h2.section-heading Time spent and costs
+        table.field-table(width='100%')
+          thead
+            tr
+              th(width='50%')
+              th(width='30%') Time Spent
+              th(width='20%')
+          tbody
+            tr
+              td 1. Attendance
+              td
+                input(type='text', value='')
+              td
+            tr
+              td 2. Preparation
+              td
+                input(type='text', value='')
+              td
+            tr
+              td 3. Help at Court
+              td
+                input(type='text', value='')
+              td
+            tr
+              td 4. Travel and Waiting
+              td
+                input(type='text', value='')
+              td
+        table.field-table(width='100%')
+          thead
+            tr
+              th(width='50%')
+              th(width='30%') Number
+              th(width='20%')
+          tbody
+            tr
+              td 1. Letters written
+              td
+                input(type='text', value='')
+              td
+            tr
+              td 2. Phone calls
+              td
+                input(type='text', value='')
+        table.field-table(width='100%')
+          thead
+            tr
+              th(width='50%')
+              th(width='30%') Amount
+              th(width='20%') VAT
+          tbody
+            tr
+              th Total Profit Costs
+              td
+                input(type='text', value='')
+              td
+                input(type='text', value='')
+            tr
+              th Value or amount of contractual or statutory charge
+              td
+                input(type='text', value='')
+              td
+        table.field-table(width='100%')
+          thead
+            tr
+              th(width='50%') Disbursements
+              th(width='30%') Amount
+              th(width='20%') VAT
+          tbody
+            tr
+              td Mileage
+              td
+                input(type='text', value='')
+              td
+                input(type='text', value='')
+            tr
+              td Other disbursements
+              td
+                input(type='text', value='')
+              td
+                input(type='text', value='')
+            tr
+              th Total
+              td
+                input(type='text', value='')
+              td
+                input(type='text', value='')
+            tr
+              td Counsel's fees
+              td
+                input(type='text', value='')
+              td
+                input(type='text', value='')
+            tr
+              td(colspan='2')
+                | Dated
+                input.inline(type='text', value='')
+              td
+        p Note: When calculating profit costs, the time spent on each activity and the letters and telephone calls must be separated out according to the remuneration rate which applied at the time the work was carried out. Please see the Payment Annex of the 2010 Standard Civil Contract for the appropriate rates.
+        p Remember that you may not charge separately for letters in.
+        p The totals for profit costs, disbursements and counsel's fees from this form and the Controlled Legal Representation Form (if applicable) should be the same (after adding VAT and net of the amount of the statutory charge and any payment on account), as those reported by you in your online submission. Where a staged bill has been submitted in an Immigration matter a separate copy of this page should be completed for each stage reported.

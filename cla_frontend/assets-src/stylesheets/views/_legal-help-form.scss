@@ -1,10 +1,10 @@
 #wrapper {
-  width: 900px;
+  width: 1024px;
   margin: 30px auto 0;
 }
 
 h1 {
-  @include bold-36;
+  @include bold-48;
   text-align: center;
   margin-bottom: 30px;
 }
@@ -104,10 +104,12 @@ textarea {
     width: 25%;
     margin-left: 10px;
   }
+  &.lrg {
+    font-size: 27px;
+  }
 }
 textarea {
+  width: 98.5%;
   text-indent: 0;
-  padding-left: 10px;
-  width: 97%;
-  font-size: 27px;
+  padding-left: 5px;
 }
