@@ -159,6 +159,31 @@
           CONSTANTS.scope[true],
           CONSTANTS.eligibility[true]
         );
+      },
+
+      createAndAssign: function(providerId) {
+        return this.createReadyToAssign().then(function(case_ref) {
+          function _assign(el, case_ref, providerId, callback) {
+            var $el = document.querySelector(el),
+                injector = angular.element($el).injector(),
+                Case = injector.get('Case'),
+                $case = new Case({reference: case_ref});
+
+            $case.$assign({
+              provider_id: providerId,
+              is_manual: true,
+              is_spor: false
+            }).then(function() {
+              callback(case_ref);
+            }, function(data) {
+              callback(data);
+            });
+          }
+
+          return browser.driver.executeAsyncScript(
+            _assign, browser.rootEl, case_ref, providerId
+          );
+        });
       }
 
     }

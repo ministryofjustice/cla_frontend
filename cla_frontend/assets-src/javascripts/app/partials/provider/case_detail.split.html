@@ -24,7 +24,7 @@
     Category of law:
     <span class="Error-message" ng-show="split_case_frm.category.$error.server">{{ errors.category }}</span>
     <select name="category" ui-select2 ng-model="$parent.category" ng-options="cat.code as cat.name for cat in categories track by cat.code" required server-error>
-      <option value="">Choose category or law</option>
+      <option value="">Choose category of law</option>
     </select>
   </label>
 
@@ -32,10 +32,10 @@
     Matter types:
     <span class="Error-message" ng-show="split_case_frm.matter_type1.$error.server">Matter type1: {{ errors.matter_type1 }}</span>
     <span class="Error-message" ng-show="split_case_frm.matter_type2.$error.server">Matter type2: {{ errors.matter_type2 }}</span>
-    <select ui-select2 name="matter_type1" ng-model="$parent.matterType1" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 1} track by matterType.code" required server-error>
+    <select id="sp_multi_case_mt1" ui-select2 name="matter_type1" ng-model="$parent.matterType1" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 1} track by matterType.code" required server-error>
       <option value="">Choose matter type 1</option>
     </select>
-    <select ui-select2 name="matter_type2" ng-model="$parent.matterType2" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 2} track by matterType.code" required server-error>
+    <select id="sp_multi_case_mt2" ui-select2 name="matter_type2" ng-model="$parent.matterType2" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 2} track by matterType.code" required server-error>
       <option value="">Choose matter type 2</option>
     </select>
   </label>
