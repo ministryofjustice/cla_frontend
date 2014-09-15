@@ -7,7 +7,8 @@
   describe('Specialist Multiple Cases', function() {
 
     function logout() {
-      browser.findElement(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
+      element(by.css('.UserMenu-toggle')).click();
+      element(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
       protractor.getInstance().manage().deleteAllCookies();
     }
 
