@@ -281,7 +281,7 @@ RAVEN_CONFIG = {
 }
 
 SOCKETIO_SERVER_URL = os.environ.get('SOCKETIO_SERVER_URL',
-    'http://127.0.0.1:8005')
+    'http://localhost:8005')
 
 ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
     'http://127.0.0.1:8003')
