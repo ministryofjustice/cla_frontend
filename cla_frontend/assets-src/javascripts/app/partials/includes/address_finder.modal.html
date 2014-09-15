@@ -5,7 +5,12 @@
   <p ng-show="$parent.model.loading">Finding addresses...</p>
 
   <div class="FormBlock FormBlock--yellow" ng-show="!$parent.model.loading && addresses.length > 0">
-    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in addresses">
+
+    <div class="FormRow cf">
+      <input type="text" name="address_search" placeholder="Search addresses" class="FormRow-field--l" ng-model="address_search">
+    </div>
+
+    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in addresses | filter:address_search">
       <label class="FormRow-label">
         <input type="radio" value="{{ address.formatted_address }}"
         ng-click="setAddress(address.formatted_address)">

@@ -4,6 +4,7 @@
 # def login_redirect_url(request):
 #     return reverse('call_centre:dashboard')
 import json
+import logging
 
 from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
@@ -16,11 +17,17 @@ from django.contrib.sites.models import get_current_site
 from django.template.response import TemplateResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from django_statsd.clients import statsd
+from ipware.ip import get_ip
+
 from proxy.views import proxy_view
 
 from api.client import get_connection
 
 from .forms import AuthenticationForm
+
+
+logger = logging.getLogger(__name__)
 
 
 @sensitive_post_parameters()
@@ -48,10 +55,21 @@ def login(request, template_name='accounts/login.html',
             # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
 
+            statsd.incr('login.success')
+
             if is_json:
                 return HttpResponse(status=204)
             return HttpResponseRedirect(redirect_to)
         else:
+            logger.info('login failed', extra={
+                'IP': get_ip(request),
+                'USERNAME': request.POST.get('username'),
+                'HTTP_REFERER': request.META.get('HTTP_REFERER'),
+                'HTTP_USER_AGENT': request.META.get('HTTP_USER_AGENT')
+            })
+
+            statsd.incr('login.failed')
+
             if is_json:
                 return HttpResponse(
                     json.dumps(form.errors),
@@ -76,7 +94,7 @@ def login(request, template_name='accounts/login.html',
         raise Http404()
     else:
         return TemplateResponse(request, template_name, context,
-                               current_app=current_app)
+                                current_app=current_app)
 
 
 @csrf_exempt
@@ -89,9 +107,8 @@ def backend_proxy_view(request, path):
     """
     client = get_connection(request)
 
-
     extra_requests_args = {
-        'headers': {k.upper(): v for k,v in dict([client._store['session'].auth.get_header()]).items()}
+        'headers': {k.upper(): v for k, v in dict([client._store['session'].auth.get_header()]).items()}
     }
     remoteurl = u"%s%s" % (client._store['base_url'], path)
     return proxy_view(request, remoteurl, extra_requests_args)

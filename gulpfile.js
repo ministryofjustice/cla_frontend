@@ -136,6 +136,17 @@ gulp.task('sass', ['iconfont'], function() {
     .on('error', function (err) { console.log(err.message); })
     .pipe(gulp.dest(paths.dest + 'stylesheets/'));
 });
+gulp.task('sass-prod', ['iconfont'], function() {
+  gulp
+    .src(paths.tmp + 'stylesheets/**/*.scss')
+    .pipe(plugins.rubySass({
+      style: 'compressed',
+      loadPath: 'node_modules/govuk_frontend_toolkit/' // add node module toolkit path
+    }))
+    .on('error', function (err) { console.log(err.message); })
+    .pipe(plugins.rename({ suffix: '.min' }))
+    .pipe(gulp.dest(paths.dest + 'stylesheets/'));
+});
 
 // optimise images
 gulp.task('images', function() {
@@ -196,9 +207,7 @@ gulp.task('js-lib-compile', function(){
 });
 
 gulp.task('js-app-compile', ['js-concat'], function(){
-  var src_path = paths.dest + 'javascripts/cla.main.js';
-
-  return gulp.src(src_path)
+  return gulp.src(paths.dest + 'javascripts/cla.main.js')
         .pipe(plugins.closureCompiler({
           compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
           fileName: 'cla.main.min.js',
@@ -283,8 +292,7 @@ gulp.task('watch', function() {
   lr.listen();
 
   gulp.watch(paths.fonts, ['fonts']);
-  gulp.watch(paths.styles, ['sass']);
-  gulp.watch(paths.icons, ['sass']);
+  gulp.watch(paths.styles.concat(paths.icons), ['sass']);
   gulp.watch(paths.images, ['images']);
   gulp.watch(paths.vendor_static, ['vendor']);
   gulp.watch(paths.src + 'javascripts/**/*', ['lint', 'js-concat']);
@@ -297,5 +305,5 @@ gulp.task('watch', function() {
 gulp.task('default', ['build']);
 // run build
 gulp.task('build', function() {
-  runSequence('clean-pre', ['sass', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-lib-compile', 'js-app-compile']);
+  runSequence('clean-pre', ['sass', 'sass-prod', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-lib-compile', 'js-app-compile']);
 });

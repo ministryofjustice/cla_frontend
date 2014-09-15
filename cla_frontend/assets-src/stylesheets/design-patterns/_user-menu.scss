@@ -1,37 +1,41 @@
 .UserMenu {
-  padding-top: 7px;
-  color: #C1CACB;
+  float: right;
+  position: relative;
+  @extend %contain-floats;
 
   @include media(desktop) {
-    float: right;
-  }
-  
-  a:link,
-  a:visited {
-    color: #C1CACB;
+    padding-top: 2px;
   }
 }
 
-.UserMenu-status {
-  @include core-14;
-  float: left;
-  margin: 0;
+.UserMenu-toggle {
+  &:before {
+    color: $white;
+    margin-right: 0;
+  }
 }
 
-.UserMenu-name {
-  margin-left: 5px;
-  display: inline-block;
-  line-height: 0.9em;
+.UserMenu-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+
+  .js & {
+    display: none;
+  }
+  .UserMenu.is-visible & {
+    display: block;
+  }
 }
 
 .UserMenu-options {
-  @include core-14;
-  margin: 0;
-  padding: 0;
-  float: left;
+  @include dropdown-box;
+  padding-bottom: 6px;
+  text-align: right;
 }
 
 .UserMenu-option {
   list-style-type: none;
-  margin-left: 10px;
+  margin-bottom: 2px;
 }

@@ -23,7 +23,8 @@ National Asylum Support Service (NASS) benefits are paid to eligible destitute a
 * Income Support
 * Income-Based Job Seeker's Allowance *(but not contributions-based)*
 * Income-Related Employment and Support Allowance
-* Guarantee Credit or Universal Credit
+* Guarantee Credit
+* Universal Credit
 
 Being on any of the benefits listed above means that a person automatically qualifies through the income part of the means test, although they can still be ineligible if they have too much capital. These benefits are known as "passporting benefits". 
 
@@ -61,7 +62,7 @@ If you are the only owner of the property, you own 100% of the property. If two 
 
 <h3 id="ecg-undisputed_savings">Undisputed savings</h3>
 
-Undisputed savings are savings where the ownership is not disputed by anyone eg a partner is not trying to claim them as part of the financial settlement of a divorce or separation. 
+Undisputed savings are savings where the ownership is not disputed by anyone eg an ex-partner is not trying to claim them as part of the financial settlement of a divorce or separation. 
 
 <h3 id="ecg-disputed_savings">Disputed savings</h3>
 
@@ -106,7 +107,7 @@ Some benefits do not need to be declared as income - search the guidance for 'di
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 
-If client has both employment and self-employment choose 'employed' as they will be eligible for the additional £45 allowance.
+If client has both employment and self-employment select 'no' as they will be eligible for the additional £45 allowance.
 
 <h3 id="ecg-dependants_over_16">Children aged 16 and over</h3>
 

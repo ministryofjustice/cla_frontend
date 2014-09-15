@@ -35,7 +35,7 @@
   border: 1px solid $grey-2;
   display: block;
   height: 30px;
-  line-height: 34px;
+  line-height: 30px;
   white-space: nowrap;
   background-clip: padding-box;
   color: $black;
@@ -70,6 +70,7 @@
     outline: none;
     display: none;
     &:before {
+      font-family: sans-serif;
       content: "x";
       display: block;
       width: 12px;
@@ -80,7 +81,7 @@
       top: 10px;
       font-size: 10px;
       font-weight: 700;
-      line-height: 12px;
+      line-height: 10px;
       z-index: 10;
       color: $white;
       background: $black;

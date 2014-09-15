@@ -35,7 +35,7 @@
           element(by.cssContainingText('a', randomName)).click();
 
           // assert that url changed and num of rows == 1
-          element.all(by.css('.CaseList tbody tr')).then(function(els) {
+          element.all(by.css('.ListTable tbody tr')).then(function(els) {
             expect(els.length).toBe(1);
           });
           expect(element(by.css('.search-person')).getText()).toBe(randomName);
@@ -58,7 +58,7 @@
         element(by.cssContainingText('a','Back to cases')).click();
 
         // assert that we are still in multi cases per user list
-        element.all(by.css('.CaseList tbody tr')).then(function(els) {
+        element.all(by.css('.ListTable tbody tr')).then(function(els) {
           expect(els.length).toBe(2);
         });
         expect(element(by.css('.search-person')).getText()).toBe(randomName);

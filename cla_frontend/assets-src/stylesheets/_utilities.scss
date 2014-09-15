@@ -1,8 +1,23 @@
+/* Contain floats usage:
+   .this-has-floated-children {
+     @extend %contain-floats;
+   }
+*/
+.clearfix, .cf {
+  @extend %contain-floats;
+}
+
 .u-pullRight {
   float: right;
 }
 .u-pullLeft {
   float: left;
+}
+.u-alignRight {
+  text-align: right;
+}
+.u-alignLeft {
+  text-align: left;
 }
 .u-sortDesc {
   &:after {
@@ -27,6 +42,9 @@
   &--lrg:after {
     font-size: 19px;
   }
+}
+.u-uppercase {
+  text-transform: uppercase;
 }
 .u-strike {
   text-decoration: line-through;

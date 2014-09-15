@@ -109,8 +109,10 @@ SECRET_KEY = '(W)*6GwxNiYn<B*ug<U9jdYNDY(#vu(:Y&NthqqPk?^CM=ee?z'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
+    ('pyjade.ext.django.Loader',(
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )),
 )
 
 MIDDLEWARE_CLASSES = (
@@ -165,7 +167,6 @@ INSTALLED_APPS = (
 )
 
 PROJECT_APPS = (
-    'moj_template',
     'cla_auth',
     'cla_common',
     'core',
@@ -191,6 +192,9 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(message)s'
         },
+        'logstash': {
+            '()': 'logstash_formatter.LogstashFormatter'
+        }
     },
     'filters': {
         'require_debug_false': {
@@ -207,7 +211,7 @@ LOGGING = {
             'filename' : '/var/log/wsgi/app.log',
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount' : 7,
-            'formatter': 'verbose',
+            'formatter': 'logstash',
             'filters': ['require_debug_false'],
         },
         'debug_file':{

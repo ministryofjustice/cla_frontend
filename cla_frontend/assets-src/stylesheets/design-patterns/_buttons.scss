@@ -95,14 +95,13 @@
   @include core-14;
   @include border-radius(3px);
   @include box-sizing(border-box);
-  background-color: $grey-3;
-  border: 0;
-  display: block;
+  background-color: $white;
+  border: 1px solid $grey-2;
+  display: inline-block;
   text-align: left;
   cursor: pointer;
-  width: 100%;
-  padding: 6px 10px 4px;
-  margin: 10px 0;
+  padding: 6px 12px;
+  margin: 0 0 10px;
   text-decoration: none;
   position: relative;
 
@@ -118,29 +117,16 @@
   }
 
   &--add {
-    &:after {
+    padding-left: 25px;
+
+    &:before {
       position: absolute;
-      right: 7px;
-      top: 0;
+      left: 8px;
+      top: 2px;
       content: "+";
-      font-size: 24px;
-    }
-  }
-
-  &.is-closed,
-  &.is-open {
-    &:before {
-      content: "\25b6";
-      margin-right: 5px;
-      font-size: 12px;
-    }
-  }
-  &.is-open {
-    background-color: $light-blue;
-    color: #fff;
-
-    &:before {
-      content: "\25bc";
+      font-size: 22px;
+      line-height: 1em;
+      color: $grey-1;
     }
   }
 }

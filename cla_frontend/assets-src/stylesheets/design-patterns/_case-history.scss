@@ -54,13 +54,14 @@
 }
 
 .CaseHistory-label {
-  @include core-16;
-  @include border-radius(3px);
+  @include border-radius(4px);
+  border: 1px solid $grey-2;
+  color: $grey-1;
+  line-height: 1em;
   display: block;
   float: right;
-  padding: 5px 5px 3px;
+  padding: 4px 8px;
   margin-top: -2px;
-  color: $white;
-  line-height: 1em;
-  background-color: $grey-2;
+  margin-left: 10px;
+  background-color: $white;
 }
