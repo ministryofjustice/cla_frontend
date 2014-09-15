@@ -11,3 +11,8 @@ def staticmin(name):
     if not settings.DEBUG:
         parts.insert(-1, 'min')
     return static('.'.join(parts))
+
+
+@register.filter    
+def subtract(value, arg):
+    return value - arg

@@ -6,6 +6,7 @@ head
   link(href='{% staticmin "stylesheets/cla.legal-help-form.css" %}', media='all', rel='stylesheet', type='text/css')
 body
   #wrapper
+    // Intro, Details, Finances
     .page
       .header
         h1 Legal Help
@@ -110,6 +111,7 @@ body
               td Income Related Employment And Support Allowance
               td
                 input(type='text', readonly='readonly', value='')
+    // Property, Capital
     .page
       fieldset.box
         h2.section-heading Your Property
@@ -190,7 +192,7 @@ body
             tr
               td Savings 
                 small
-                  em (Savings Accounts, Building Society)
+                  em (Savings/Bank Accounts, Building Society)
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.bank_balance|in_pounds}}')
               td
@@ -207,14 +209,6 @@ body
                 input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.investment_balance|in_pounds}}')
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.investment_balance|in_pounds}}')
-            tr
-              td Bank Accounts
-              td
-                input(type='text', readonly='readonly', value='???')
-              td
-                input(type='text', readonly='readonly', value='???')
-              td
-                input(type='text', readonly='readonly', value='???')
             tr
               td Valuable Items 
                 small 
@@ -240,20 +234,21 @@ body
             tr
               td(width='40%') Pensioner Capital Disregard
               td(width='20%') 
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{calculator.pensioner_disregard|in_pounds}}')
               td(width='20%')
               td(width='20%')
             tr
               td 
                 strong TOTAL CAPITAL for Assessment Purposes
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{calculator.total_capital|in_pounds}}')
               td
               td
         p
           strong Capital Does Not Include
           br
           | Household furniture and effects (unless of exceptional value), clothes or tools of the trade.
+    // Income, Expenses
     .page
       fieldset.box
         h2.section-heading Your Income
@@ -312,13 +307,13 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.other_income.per_interval_value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.other_income.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.other_income.per_interval_value|in_pounds}}')
             tr
               th TOTAL INCOME
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.total|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.total|in_pounds}}')
         table.field-table(width='100%')
           thead
             tr
@@ -342,12 +337,6 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.national_insurance.per_interval_value|in_pounds}}')
             tr
-              td Dependents Allowance (certain amount for each dependent)
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
-            tr
               td Mortgage
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.mortgage.per_interval_value|in_pounds}}')
@@ -360,12 +349,6 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.rent.per_interval_value|in_pounds}}')
             tr
-              td Employment Expenses (standard £45 if employed)
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
-            tr
               td Maintenance Payments being made
                 small
                   em (e.g. for Children and/or a former/separated spouse)
@@ -376,9 +359,9 @@ body
             tr
               td Childcare Costs due to Work
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.childcare.per_interval_value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.childcare.per_interval_value|in_pounds}}')
             tr
               td Legal Aid payments for Criminal Defence
               td
@@ -386,21 +369,31 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.criminal_legalaid_contributions|in_pounds}}')
             tr
-              th TOTAL ALLOWANCES
+              th(colspan='3') Calculated expenses
+            tr
+              td Employment Expenses (standard £45 if employed)
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{calculator.employment_allowance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{calculator.partner_employment_allowance|in_pounds}}')
+            tr
+              td Dependants Allowance (certain amount for each dependant)
+              td(colspan='2')
+                input(type='text', readonly='readonly', value='£{{calculator.dependants_allowance|in_pounds}}')
+            tr
+              td Partner Allowance
+              td(colspan='2')
+                input(type='text', readonly='readonly', value='£{{calculator.partner_allowance|in_pounds}}')
             tr
               th TOTAL MONTHLY DISPOSABLE INCOME
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
+              td(colspan='2')
+                input(type='text', readonly='readonly', value='£{{calculator.total_disposable_income|in_pounds}}')
+    // Evidence
     .page.box
       h2.section-heading Evidence We Need From You
       p To ensure that the details you have given us are correct, we will require the following evidence:
       textarea.lrg(rows='35')
+    // Declaration
     .page.box
       h2.section-heading Your Declaration
       p Please tick the box that applies to you:
@@ -447,12 +440,14 @@ body
             td(width='30%')
               label.block-label(for='') Date
               input(type='text', value='')
+    // Data Protection Act
     .page.box
       h2.section-heading Data Protection Act - access to Personal Data
       p Personal data relates to a living individual who can be identified from that data. The processing of personal data is governed by the Data Protection Act 1998 (DPA), under which the Ministry of Justice (MoJ) is registered as a data controller. The Legal Aid Agency is an executive agency within the MoJ. The Legal Aid Agency processes personal data in order to provide legal aid services.
       p The MoJ complies with its obligations under the DPA by keeping the personal data we hold up to date; storing and destroying it securely; by not collecting or retaining excessive amounts of data; protecting personal data from loss, misuse, unauthorised access and disclosure; and ensuring that appropriate technical measures are in place to protect the personal data we process in line with Her Majesty’s Government standards. You have the right to request details about the personal information we hold about you; and subsequently request that we correct any personal information if it is found to be inaccurate or out of date.
       p In order to fulfil its functions the MoJ may share personal data with other organisations. These organisations include other government departments, local authorities and private or voluntary sector organisations engaged to deliver services. Personal data is only shared outside the MoJ when the law allows.
       p To request a copy of your personal information please refer to the MoJ website for further details on how you may do this.
+    // Notes
     .page.box
       h2.section-heading Notes
       ol
@@ -506,6 +501,7 @@ body
         | For a full guide to determining Eligibility see the Guide to Determining Financial Eligibility for Controlled Work and Family Mediation April 2013 v1
         br
         a(target='_blank', href='http://www.justice.gov.uk/downloads/legal-aid/eligibility/guide-to-determine-eligibility-controlled-work-and-mediation.pdf') http://www.justice.gov.uk/downloads/legal-aid/eligibility/guide-to-determine-eligibility-controlled-work-and-mediation.pdf
+    // Advisor use, Time spent
     .page
       .box
         h2.section-heading For Use By advisor
