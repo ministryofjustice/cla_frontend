@@ -2,7 +2,6 @@
   'use strict';
 
   var utils = require('../e2e/_utils'),
-    CONSTANTS = require('../protractor.constants.js'),
     modelsRecipe = require('./_modelsRecipe');
 
   describe('Specialist Multiple Cases', function() {
