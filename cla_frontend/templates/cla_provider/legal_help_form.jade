@@ -140,19 +140,19 @@ body
             tr
               td Property Value
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.value|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.value|in_pounds}}')
             tr
               td Outstanding Mortage
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.mortgage_left|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.mortgage_left|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.mortgage_left|in_pounds}}')
             tr
               td Secured Debt/Loan
               td
@@ -164,11 +164,11 @@ body
             tr
               td Percentage Share
               td
-                input(type='text', readonly='readonly', value='%')
+                input(type='text', readonly='readonly', value='%{{eligibility_check.main_property.share}}')
               td
-                input(type='text', readonly='readonly', value='%')
+                input(type='text', readonly='readonly', value='%{{eligibility_check.additional_SMOD_property.share}}')
               td
-                input(type='text', readonly='readonly', value='%')
+                input(type='text', readonly='readonly', value='%{{eligibility_check.additional_non_SMOD_property.share}}')
             tr
               td Equilty in Home for Assessment Purposes
               td
@@ -234,14 +234,14 @@ body
             tr
               td(width='40%') Pensioner Capital Disregard
               td(width='20%') 
-                input(type='text', readonly='readonly', value='£{{calculator.pensioner_disregard|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.pensioner_disregard|in_pounds}}')
               td(width='20%')
               td(width='20%')
             tr
               td 
                 strong TOTAL CAPITAL for Assessment Purposes
               td
-                input(type='text', readonly='readonly', value='£{{calculator.total_capital|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.disposable_capital_assets|in_pounds}}')
               td
               td
         p
@@ -373,21 +373,21 @@ body
             tr
               td Employment Expenses (standard £45 if employed)
               td
-                input(type='text', readonly='readonly', value='£{{calculator.employment_allowance|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.employment_allowance|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{calculator.partner_employment_allowance|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.partner_employment_allowance|in_pounds}}')
             tr
               td Dependants Allowance (certain amount for each dependant)
               td(colspan='2')
-                input(type='text', readonly='readonly', value='£{{calculator.dependants_allowance|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.dependants_allowance|in_pounds}}')
             tr
               td Partner Allowance
               td(colspan='2')
-                input(type='text', readonly='readonly', value='£{{calculator.partner_allowance|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.partner_allowance|in_pounds}}')
             tr
               th TOTAL MONTHLY DISPOSABLE INCOME
               td(colspan='2')
-                input(type='text', readonly='readonly', value='£{{calculator.total_disposable_income|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.total_disposable_income|in_pounds}}')
     // Evidence
     .page.box
       h2.section-heading Evidence We Need From You
