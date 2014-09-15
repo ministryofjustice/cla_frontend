@@ -85,6 +85,7 @@
             category: $scope.category,
             matter_type1: $scope.matterType1,
             matter_type2: $scope.matterType2,
+            notes: $scope.notes,
             internal: internal
           }).then(function() {
             flash('Case split successfully');

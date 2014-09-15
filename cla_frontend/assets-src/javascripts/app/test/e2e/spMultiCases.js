@@ -48,6 +48,7 @@
         categorySelect.element(by.css('option[value="'+categoryVal+'"]')).click();
         matterType1Select.element(by.css('option:last-child')).click();
         matterType2Select.element(by.css('option:last-child')).click();
+        splitForm.element(by.css('[name=notes]')).sendKeys('Notes');
       }
 
       it('shouldnt\'t be able to split if the validation fails', function() {
