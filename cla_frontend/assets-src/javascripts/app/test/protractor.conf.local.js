@@ -11,8 +11,7 @@
     multiCapabilities: [
       {
         browserName: 'chrome'
-      }
-      ,
+      },
       {
         browserName: 'firefox'
       }
