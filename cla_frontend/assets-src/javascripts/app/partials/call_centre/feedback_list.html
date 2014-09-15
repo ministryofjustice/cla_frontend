@@ -1,40 +1,47 @@
-<header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}"
-        xmlns="http://www.w3.org/1999/html">
-  <h1 class="u-pullLeft">{{ search ? 'Feedback Results' : 'Cases Feedback' }} {{ search ? '"'+search+'"' : '' }}</h1>
-  <div data-block="top-actions">
-    <form class="FormRow" ng-submit="filter()">
-      <label> start: <input type="date" name="start" ng-model="start"></label>
-      <label>end: <input type="date" name="end" ng-model="end"></label>
-      <input type="submit" value="Update">
-    </form>
-    <label>hide resolved: <input type="checkbox" name="hide_resolved" ng-model="hide_resolved"></label>
-  </div>
+<header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}">
+  <h1 class="u-pullLeft">Case feedback</h1>
 </header>
+
+<nav data-block="top-actions">
+  <form class="FormRow" ng-submit="filter()">
+    <label>
+      <input type="text" name="start" ng-model="startDate" class="FormRow-field--m FormRow-field--inline" placeholder="From" date-picker>
+    </label>
+    <label>
+      <input type="text" name="end" ng-model="endDate" class="FormRow-field--m FormRow-field--inline" placeholder="To" date-picker>
+    </label>
+    <button type="submit" name="update-filter" class="Button Button--secondary">Search by date</button>
+  </form>
+  <a href="" class="Label" ng-class="{'is-selected': !hideResolved}" ng-click="hideResolved=!hideResolved">Resolved</a>
+</nav>
 
 <div data-block="case-list">
   <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
     <thead>
     <tr>
-      <th width="15%">Case Reference</th>
-      <th width="11%">Issue</th>
-      <th width="24%">Comment</th>
-      <th width="14%">Justified</th>
-      <th width="16%">Resolved</th>
-      <th width="16%">Created</th>
+      <th width="9%">Resolved</th>
+      <th width="13%">Case Reference</th>
+      <th width="21%">Issue</th>
+      <th width="30%">Comment</th>
+      <th width="12%">Justified</th>
+      <th width="15%">Created</th>
     </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="feedback in feedbackList" ng-show="showRow(feedback)">
+      <tr ng-repeat="feedback in feedbackList" ng-show="showRow(feedback)" ng-class="{'is-complete': feedback.resolved}">
+        <td>
+          <input type="checkbox" ng-click="toggleResolved(feedback)" ng-model="feedback.resolved">
+        </td>
         <td>
           <a href="" ng-click="goToCase(feedback.case)">{{ feedback.case }}</a>
         </td>
         <td>{{ (feedback.issue|constantByValue:FEEDBACK_ISSUE).text }}</td>
         <td>{{ feedback.comment }}</td>
         <td>
-          <a class="Button" ng-class="{'Button--warning': !feedback.justified}" ng-click="toggleJustified(feedback)">{{ feedback.justified }}</a>
-        </td>
-        <td>
-          <a class="Button" ng-class="{'Button--warning': !feedback.resolved}" ng-click="toggleResolved(feedback)">{{ feedback.resolved }}</a>
+          <div class="BtnGroup">
+            <button class="BtnGroup-button" ng-click="toggleJustified(feedback)" ng-class="{'is-selected': feedback.justified}">Yes</button>
+            <button class="BtnGroup-button" ng-click="toggleJustified(feedback)" ng-class="{'is-selected': !feedback.justified}">No</button>
+          </div>
         </td>
         <td>
           <abbr title="{{ feedback.created|date:'EEEE, dd MMMM yyyy @ HH:mm' }}" am-time-ago="feedback.created"></abbr>

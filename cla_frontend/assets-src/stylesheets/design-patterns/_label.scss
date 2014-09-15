@@ -1,10 +1,11 @@
 .Label {
   @include core-14;
   display: inline-block;
-  padding: 3px 6px 1px;
-  margin: 3px 6px 3px 0;
-  background-color: #E8F0F0;
+  padding: 4px 10px;
+  margin: 0 5px 5px 0;
+  background-color: $white;
   color: $light-blue;
+  border: 1px solid $light-blue;
   text-decoration: none;
   @include border-radius(3px);
 
@@ -24,10 +25,14 @@
   &.is-selected {
     background-color: $light-blue;
     color: #fff;
-    &.Icon {
-      &:before, &:after {
-        color: #fff;
-      }
+  }
+
+  &--secondary {
+    background-color: #fff;
+    border-color: #000;
+
+    &.is-selected {
+      background-color: #fff;
     }
   }
 }

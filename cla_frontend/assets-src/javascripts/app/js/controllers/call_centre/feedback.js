@@ -8,8 +8,8 @@
           $scope.feedbackList = feedback;
           $scope.goToCase = goToCase;
           $scope.FEEDBACK_ISSUE = FEEDBACK_ISSUE;
-          $scope.start = $stateParams.start ? new Moment($stateParams.start).toDate() : null;
-          $scope.end = $stateParams.end ? new Moment($stateParams.end).toDate() : null;
+          $scope.startDate = $stateParams.start ? new Moment($stateParams.start).format('DD/MM/YYYY') : null;
+          $scope.endDate = $stateParams.end ? new Moment($stateParams.end).format('DD/MM/YYYY') : null;
 
           function toggleField (feedbackItem, field) {
             feedbackItem[field] = !feedbackItem[field];
@@ -17,24 +17,33 @@
           }
 
           $scope.toggleJustified = function (feedbackItem) {
-            toggleField(feedbackItem, 'justified');
+            if (feedbackItem) {
+              toggleField(feedbackItem, 'justified');
+            } else {
+
+            }
           };
 
           $scope.toggleResolved = function (feedbackItem) {
-            toggleField(feedbackItem, 'resolved');
+            if (feedbackItem) {
+              toggleField(feedbackItem, 'resolved');
+            } else {
+
+            }
           };
 
           $scope.showRow = function (feedbackItem) {
-            if ($scope.hide_resolved) {
+            if ($scope.hideResolved) {
               return !feedbackItem.resolved;
             }
             return true;
           };
 
           $scope.filter = function () {
+            // console.log(new Moment($scope.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'));
             $state.transitionTo($state.current, {
-              start: $scope.start ? new Moment($scope.start).format('YYYY-MM-DD') : null,
-              end: $scope.end ?  new Moment($scope.end).format('YYYY-MM-DD') : null,
+              start: $scope.startDate ? new Moment($scope.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
+              end: $scope.endDate ? new Moment($scope.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
             }, {
               reload: true,
               inherit: false,
