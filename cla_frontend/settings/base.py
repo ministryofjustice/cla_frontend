@@ -89,7 +89,8 @@ STATIC_ROOT = root('static')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws://")
+CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws://",
+    "wss://")
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 # Additional locations of static files
