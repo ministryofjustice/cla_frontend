@@ -89,7 +89,7 @@ STATIC_ROOT = root('static')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com")
+CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws://")
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 # Additional locations of static files
@@ -279,6 +279,9 @@ RAVEN_CONFIG = {
     'dsn': os.environ.get('RAVEN_CONFIG_DSN', ''),
     'site': os.environ.get('RAVEN_CONFIG_SITE', '')
 }
+
+SOCKETIO_SERVER_URL = os.environ.get('SOCKETIO_SERVER_URL',
+    'http://localhost:8005')
 
 ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
     'http://127.0.0.1:8003')

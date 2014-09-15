@@ -3,7 +3,7 @@
   angular.module('cla.services')
     .factory('cla.bus', ['postal', 'SOCKETIO_CLIENT_CONFIG', function (postal, SOCKETIO_CLIENT_CONFIG) {
       // io is global reference to socket.io
-      var host = SOCKETIO_CLIENT_CONFIG.SOCKETIO_SERVER_URL;
+      var host = $('head').data('socketioServer');
       var socket = io.connect(host);
 
       var sendForBroadcast = function (eventType) {
