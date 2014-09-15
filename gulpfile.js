@@ -64,7 +64,9 @@ paths.scripts = {
     paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js',
     paths.src + 'vendor/conduitjs/lib/conduit.js',
     paths.src + 'vendor/postal.js/lib/postal.js',
-    paths.src + 'vendor/angular-loading-bar/build/loading-bar.js'
+    paths.src + 'vendor/angular-loading-bar/build/loading-bar.js',
+    paths.src + 'vendor/socket.io-client/socket.io.js',
+    paths.src + 'vendor/angular-socket-io/socket.js'
   ],
   app: [
     paths.src + 'javascripts/app/js/app.js',
