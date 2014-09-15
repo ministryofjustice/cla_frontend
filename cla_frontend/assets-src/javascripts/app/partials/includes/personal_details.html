@@ -131,7 +131,7 @@
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="personaldetails_frm.exempt_user.$error.server">{{ errors.exempt_user }}</span>
-      <span editable-checkbox="case.exempt_user" e-name="exempt_user" e-title="User is exempt" e-ng-change="exemptChange($data)"></span>
+      <span editable-checkbox="case.exempt_user" e-name="exempt_user" e-title="User is exempt (Debt, Edu, Discrim only)" e-ng-change="exemptChange($data)"></span>
     </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user_reason.$invalid && personaldetails_submitted}" ng-show="is_exempt">
