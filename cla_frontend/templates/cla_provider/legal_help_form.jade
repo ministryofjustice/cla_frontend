@@ -172,11 +172,11 @@ body
             tr
               td Equilty in Home for Assessment Purposes
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.equity|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.equity|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.equity|in_pounds}}')
         p
           em We disregard up to £100,000 of the mortgage and £100,000 of the equity of your main home. We also apply a Subject Matter of Dispute disregard of up to £100,000 and a Pensioner Disregard of up to £100,000 based on disposable income
       fieldset.box

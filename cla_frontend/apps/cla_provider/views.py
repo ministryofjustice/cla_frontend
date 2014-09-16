@@ -9,23 +9,28 @@ def dashboard(request):
     return render(request, 'cla_provider/dashboard.html', {})
 
 
+@cla_provider_zone_required
 def legal_help_form(request, case_reference):
     client = get_connection(request)
     extract = client.case(case_reference).legal_help_form_extract.get()
 
     ec = extract['eligibility_check']
+    calculations = ec['calculations']
     ec.update({
         'main_property': None,
         'additional_SMOD_property': None,
         'additional_non_SMOD_property': None
     })
-    for prop in ec['property_set']:
+    for prop, equity in zip(ec.get('property_set', []), calculations.get('property_equities')):
         if prop['main']:
             ec['main_property'] = prop
+            ec['main_property']['equity'] = equity
         else:
             if prop['disputed']:
                 ec['additional_SMOD_property'] = prop
+                ec['additional_SMOD_property']['equity'] = equity
             else:
                 ec['additional_non_SMOD_property'] = prop
+                ec['additional_non_SMOD_property']['equity'] = equity
 
     return render(request, 'cla_provider/legal_help_form.jade', extract)
