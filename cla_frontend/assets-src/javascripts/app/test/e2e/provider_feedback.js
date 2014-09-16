@@ -148,23 +148,62 @@
     describe('As Operator', function () {
       beforeEach(utils.setUp);
 
+      var case_rejected_with_feedback_link,
+          case_not_rejected_with_feedback_link,
+          checked_case,
+          justify_btn,
+          unjustify_btn,
+          hide_resolved_btn,
+          resolved_cases;
+
       it('feedback should be created for rejected case', function () {
-        var case_rejected_with_feedback_link = element(by.cssContainingText('tr td a', case_to_reject_ref));
         browser.get(CONSTANTS.callcentreBaseUrl + 'feedback/');
+
+        case_rejected_with_feedback_link = element(by.css('input[value="' + case_to_reject_ref + '"]'));
         expect(case_rejected_with_feedback_link.isPresent()).toBe(true);
       });
 
       it('feedback should be created for non-rejected case', function () {
-        var  case_not_rejected_with_feedback_link = element(by.cssContainingText('tr td a', case_to_feedback_without_reject_ref));
-
-        browser.get(CONSTANTS.callcentreBaseUrl + 'feedback/');
+        case_not_rejected_with_feedback_link = element(by.css('input[value="' + case_to_feedback_without_reject_ref + '"]'));
         expect(case_not_rejected_with_feedback_link.isPresent()).toBe(true);
       });
 
-      it('should logout', function () {
-        this.after(function () {
-          logout();
-        });
+      it('should be able to resolve case', function () {
+        case_rejected_with_feedback_link.click();
+        
+        expect(case_rejected_with_feedback_link.isSelected()).toBe(true);
+
+        checked_case = element(by.cssContainingText('tr.is-complete', case_to_reject_ref));
+        expect(checked_case.isPresent()).toBe(true);
+      });
+
+      it('should be able to mark case as justified', function () {
+        justify_btn = element(by.css('button[name="justify-' + case_to_reject_ref + '"]'));
+
+        expect(justify_btn.getAttribute('class')).not.toContain('is-selected');
+        justify_btn.click();
+        expect(justify_btn.getAttribute('class')).toContain('is-selected');
+      });
+
+      it('should be able to mark case as unjustified', function () {
+        unjustify_btn = element(by.css('button[name="unjustify-' + case_to_reject_ref + '"]'));
+
+        expect(unjustify_btn.getAttribute('class')).not.toContain('is-selected');
+        unjustify_btn.click();
+        expect(unjustify_btn.getAttribute('class')).toContain('is-selected');
+      });
+
+      it('should be able to hide all justified cases', function () {
+        hide_resolved_btn = element(by.css('.toggle-resolved'));
+        resolved_cases = element.all(by.css('tr.is-complete')).get(0);
+
+        expect(hide_resolved_btn.getAttribute('class')).toContain('is-selected');
+        expect(resolved_cases.isDisplayed()).toBeTruthy();
+
+        hide_resolved_btn.click();
+
+        expect(hide_resolved_btn.getAttribute('class')).not.toContain('is-selected');
+        expect(resolved_cases.isDisplayed()).toBeFalsy();
       });
     });
   });
