@@ -1,5 +1,7 @@
-'use strict';
+/* jshint unused: false */
 (function(){
+  'use strict';
+
   angular.module('cla.services')
     .factory('cla.bus', ['postal', 'SOCKETIO_CLIENT_CONFIG', function (postal, SOCKETIO_CLIENT_CONFIG) {
       // io is global reference to socket.io
@@ -8,8 +10,8 @@
       //var socket = io.connect(host);
 
       var sendForBroadcast = function (eventType) {
-        return function (data, env) {
-          //socket.emit('client', {type: eventType, data: data});
+        return function (data) {
+          // socket.emit('client', {type: eventType, data: data});
         };
       };
 

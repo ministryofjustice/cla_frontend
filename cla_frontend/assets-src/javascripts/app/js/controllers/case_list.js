@@ -91,7 +91,7 @@
           bus.subscribe({
             channel: 'cla.operator',
             topic: 'case.new',
-            callback: function (data, env) {
+            callback: function () { // data, env
               if ($state.current.name === 'case_list') {
                 $state.transitionTo($state.current, $stateParams, {
                   reload: true,

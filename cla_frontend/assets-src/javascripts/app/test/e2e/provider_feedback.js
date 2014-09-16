@@ -27,10 +27,10 @@
     }
 
     var case_to_reject_ref,
-    case_to_feedback_without_reject_ref,
-      ptor = protractor.getInstance(),
-      reject_notes = 'this is feedback left with rejection',
-      feedback_notes = 'this is plain feedback';
+        case_to_feedback_without_reject_ref,
+        ptor = protractor.getInstance(),
+        reject_notes = 'this is feedback left with rejection',
+        feedback_notes = 'this is plain feedback';
 
     describe('As Operator', function () {
       beforeEach(utils.setUp);
@@ -40,7 +40,7 @@
 
         modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
           case_to_reject_ref = case_ref;
-          browser.get('call_centre/'+case_ref+'/assign/?as_of=2014-08-06T11:50');
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
               manually_select_provider();
@@ -55,7 +55,7 @@
 
         modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
           case_to_feedback_without_reject_ref = case_ref;
-          browser.get('call_centre/'+case_ref+'/assign/?as_of=2014-08-06T11:50');
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
               manually_select_provider();
@@ -77,15 +77,15 @@
       beforeEach(utils.setUpAsProvider);
 
       it('should have example case assigned & ready to reject', function(){
-        browser.get('provider/'+case_to_reject_ref+'/');
+        browser.get(CONSTANTS.providerBaseUrl + case_to_reject_ref + '/');
         // case is ready to be rejected/accepted.
         var reject_button = element(by.cssContainingText('.Button.Button--secondary', 'Reject')),
-          reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
-          notes_area = element(by.css('.modal-content textarea[ng-model="notes"]')),
-          leave_feedback_checkbox = element(by.css('.modal-content input[type="checkbox"][ng-model="$parent.leaveFeedback"]')),
-          feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
-          feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
-          modal_submit = element(by.css('.modal-content button.Button[type="submit"]'));
+            reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
+            notes_area = element(by.css('.modal-content textarea[ng-model="notes"]')),
+            leave_feedback_checkbox = element(by.css('.modal-content input[type="checkbox"][ng-model="$parent.leaveFeedback"]')),
+            feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
+            feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
+            modal_submit = element(by.css('.modal-content button.Button[type="submit"]'));
 
         expect(reject_button.isDisplayed()).toBe(true);
 
@@ -115,10 +115,11 @@
 
       it('should have example case assigned & ready to feedback without rejecting', function(){
         var feedback_issue_select = element(by.css('div#s2id_newFeedback_issue a')),
-          feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
-          notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="newFeedback.comment"]')),
-          submit_button = element(by.css('div[ui-view="feedback"] form input.Button[type="submit"]'));
-        browser.get('provider/'+case_to_feedback_without_reject_ref+'/');
+            feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
+            notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="newFeedback.comment"]')),
+            submit_button = element(by.css('div[ui-view="feedback"] form input.Button[type="submit"]'));
+
+        browser.get(CONSTANTS.providerBaseUrl + case_to_feedback_without_reject_ref + '/');
         expect(element(by.cssContainingText('.Button.Button--secondary', 'Reject')).isPresent()).toBe(true);
 
         expect(feedback_issue_select.isDisplayed()).toBe(true);
@@ -147,24 +148,62 @@
     describe('As Operator', function () {
       beforeEach(utils.setUp);
 
-      it('feedback should be created for rejected case', function () {
-        var case_rejected_with_feedback_link = element(by.cssContainingText('tr td a', case_to_reject_ref));
+      var case_rejected_with_feedback_link,
+          case_not_rejected_with_feedback_link,
+          checked_case,
+          justify_btn,
+          unjustify_btn,
+          hide_resolved_btn,
+          resolved_cases;
 
-        browser.get('call_centre/feedback/');
+      it('feedback should be created for rejected case', function () {
+        browser.get(CONSTANTS.callcentreBaseUrl + 'feedback/');
+
+        case_rejected_with_feedback_link = element(by.css('input[value="' + case_to_reject_ref + '"]'));
         expect(case_rejected_with_feedback_link.isPresent()).toBe(true);
       });
 
       it('feedback should be created for non-rejected case', function () {
-        var  case_not_rejected_with_feedback_link = element(by.cssContainingText('tr td a', case_to_feedback_without_reject_ref));
-
-        browser.get('call_centre/feedback/');
+        case_not_rejected_with_feedback_link = element(by.css('input[value="' + case_to_feedback_without_reject_ref + '"]'));
         expect(case_not_rejected_with_feedback_link.isPresent()).toBe(true);
       });
 
-      it('should logout', function () {
-        this.after(function () {
-          logout();
-        });
+      it('should be able to resolve case', function () {
+        case_rejected_with_feedback_link.click();
+        
+        expect(case_rejected_with_feedback_link.isSelected()).toBe(true);
+
+        checked_case = element(by.cssContainingText('tr.is-complete', case_to_reject_ref));
+        expect(checked_case.isPresent()).toBe(true);
+      });
+
+      it('should be able to mark case as justified', function () {
+        justify_btn = element(by.css('button[name="justify-' + case_to_reject_ref + '"]'));
+
+        expect(justify_btn.getAttribute('class')).not.toContain('is-selected');
+        justify_btn.click();
+        expect(justify_btn.getAttribute('class')).toContain('is-selected');
+      });
+
+      it('should be able to mark case as unjustified', function () {
+        unjustify_btn = element(by.css('button[name="unjustify-' + case_to_reject_ref + '"]'));
+
+        expect(unjustify_btn.getAttribute('class')).not.toContain('is-selected');
+        unjustify_btn.click();
+        expect(unjustify_btn.getAttribute('class')).toContain('is-selected');
+      });
+
+      it('should be able to hide all justified cases', function () {
+        hide_resolved_btn = element(by.css('.toggle-resolved'));
+        resolved_cases = element.all(by.css('tr.is-complete')).get(0);
+
+        expect(hide_resolved_btn.getAttribute('class')).toContain('is-selected');
+        expect(resolved_cases.isDisplayed()).toBeTruthy();
+
+        hide_resolved_btn.click();
+
+        expect(hide_resolved_btn.getAttribute('class')).not.toContain('is-selected');
+        expect(resolved_cases.isDisplayed()).toBeFalsy();
       });
     });
   });

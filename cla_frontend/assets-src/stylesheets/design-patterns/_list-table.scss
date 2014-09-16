@@ -22,7 +22,9 @@
     &.is-new td {
       background-color: $yellow-25;
     }
-
+    &.is-complete td {
+      background-color: #E8F0F0;
+    }
     &.is-rejected td {
       &:first-child {
         border-left-width: 4px;

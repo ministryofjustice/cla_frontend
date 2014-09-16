@@ -1,6 +1,6 @@
 /**
  * rome - Customizable date (and time) picker. Opt-in UI, no jQuery!
- * @version v1.1.5
+ * @version v1.1.6
  * @link https://github.com/bevacqua/rome
  * @license MIT
  */
@@ -13,6 +13,7 @@
 }
 .rd-container-attachment {
   position: absolute;
+  z-index: 100;
 }
 .rd-month {
   display: inline-block;
