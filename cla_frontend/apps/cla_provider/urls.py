@@ -15,8 +15,9 @@ urlpatterns = patterns('',
     url(r'^case/(?P<case_reference>.+)/means_summary/$', 
         zone_required(legalaid_views.case_means_summary, zone='cla_provider')
     ),
-    url(r'^case/(?P<case_reference>.+)/legal_help_form/$', 
-        zone_required(provider_views.legal_help_form, zone='cla_provider')
+    url(r'^case/(?P<case_reference>.+)/legal_help_form/$',
+        provider_views.legal_help_form,
+        name='legal_help_form'
     ),
     url(r'^login/$', auth_views.login, {
         'zone_name': 'cla_provider'
