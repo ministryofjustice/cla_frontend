@@ -20,7 +20,7 @@ def legal_help_form(request, case_reference):
         extract = client.case(case_reference).legal_help_form_extract.get()
 
         ec = extract['eligibility_check']
-        calculations = ec['calculations']
+        calculations = ec.get('calculations', {})
         ec.update({
             'main_property': None,
             'additional_SMOD_property': None,
