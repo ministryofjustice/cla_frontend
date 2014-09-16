@@ -17,19 +17,11 @@
           }
 
           $scope.toggleJustified = function (feedbackItem) {
-            if (feedbackItem) {
-              toggleField(feedbackItem, 'justified');
-            } else {
-
-            }
+            toggleField(feedbackItem, 'justified');
           };
 
           $scope.toggleResolved = function (feedbackItem) {
-            if (feedbackItem) {
-              toggleField(feedbackItem, 'resolved');
-            } else {
-
-            }
+            toggleField(feedbackItem, 'resolved');
           };
 
           $scope.showRow = function (feedbackItem) {
@@ -40,7 +32,6 @@
           };
 
           $scope.filter = function () {
-            // console.log(new Moment($scope.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'));
             $state.transitionTo($state.current, {
               start: $scope.startDate ? new Moment($scope.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
               end: $scope.endDate ? new Moment($scope.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,

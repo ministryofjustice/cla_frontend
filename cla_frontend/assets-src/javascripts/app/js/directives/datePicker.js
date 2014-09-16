@@ -1,3 +1,4 @@
+/* global rome */
 (function() {
   'use strict';
 
@@ -30,14 +31,16 @@
         scope: {
           config: '=pickerConfig'
         },
-        link: function(scope, element, attrs) {
+        link: function(scope, element, attrs, ngModelCtrl) {
           var settings = $.extend({
             weekStart: 1,
             inputFormat: 'DD/MM/YYYY',
             timeInterval: 900
           }, scope.config);
 
-          rome(element[0], settings);
+          rome(element[0], settings).on('data', function (value) {
+            ngModelCtrl.$setViewValue(value);
+          });
         }
       };
     });

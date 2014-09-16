@@ -11,8 +11,8 @@
       <input type="text" name="end" ng-model="endDate" class="FormRow-field--m FormRow-field--inline" placeholder="To" date-picker>
     </label>
     <button type="submit" name="update-filter" class="Button Button--secondary">Search by date</button>
+    <a href="" class="Label" ng-class="{'is-selected': !hideResolved}" ng-click="hideResolved=!hideResolved">{{ hideResolved ? 'Show' : 'Hide' }} resolved cases</a>
   </form>
-  <a href="" class="Label" ng-class="{'is-selected': !hideResolved}" ng-click="hideResolved=!hideResolved">Resolved</a>
 </nav>
 
 <div data-block="case-list">

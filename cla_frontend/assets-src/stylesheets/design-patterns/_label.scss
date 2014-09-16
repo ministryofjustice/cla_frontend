@@ -9,6 +9,10 @@
   text-decoration: none;
   @include border-radius(3px);
 
+  &:focus {
+    background-color: $white;
+  }
+
   input + & {
     margin-left: 10px;
   }
