@@ -1,8 +1,7 @@
 .CaseHistory {
-  margin: 20px 0 0;
-  padding: 20px 0 0;
+  margin: 10px 0 0;
+  padding: 0;
   color: $grey-1;
-  border-top: 1px solid $grey-2;
 }
 
 .CaseHistory-card {
@@ -16,6 +15,13 @@
 .CaseHistory-card {
   display: block;
   @include core-14;
+}
+
+.CaseHistory-subtitle {
+  @include bold-14;
+  color: $black;
+  padding: 0;
+  margin: 3px 0 -12px;
 }
 
 .CaseHistory-log {
