@@ -93,24 +93,35 @@ body
               td Do you have a partner that you live with?
               td(width='30%')
                 input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No"}}')
+
+            // passported and nass questions should be replaced by the 5 questions below when ready
             tr
-              td(colspan='2') Do you or your partner receive any of the following benefits:
+              td Are you on passported benefits?
+              td(width='30%')
+                input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No"}}')
             tr
-              td Income Support
-              td
-                input(type='text', readonly='readonly', value='')
-            tr
-              td Income Based Job-Seekers Allowance
-              td
-                input(type='text', readonly='readonly', value='')
-            tr
-              td Guaranteed State Pension Credit
-              td
-                input(type='text', readonly='readonly', value='')
-            tr
-              td Income Related Employment And Support Allowance
-              td
-                input(type='text', readonly='readonly', value='')
+              td Are you on NASS benefits?
+              td(width='30%')
+                input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No"}}')
+
+            // tr
+            //   td(colspan='2') Do you or your partner receive any of the following benefits:
+            // tr
+            //   td Income Support
+            //   td
+            //     input(type='text', readonly='readonly', value='')
+            // tr
+            //   td Income Based Job-Seekers Allowance
+            //   td
+            //     input(type='text', readonly='readonly', value='')
+            // tr
+            //   td Guaranteed State Pension Credit
+            //   td
+            //     input(type='text', readonly='readonly', value='')
+            // tr
+            //   td Income Related Employment And Support Allowance
+            //   td
+            //     input(type='text', readonly='readonly', value='')
     // Property, Capital
     .page
       fieldset.box
@@ -153,14 +164,14 @@ body
                 input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.mortgage_left|in_pounds}}')
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.mortgage_left|in_pounds}}')
-            tr
-              td Secured Debt/Loan
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
+            // tr
+            //   td Secured Debt/Loan
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
             tr
               td Percentage Share
               td
@@ -268,40 +279,40 @@ body
                 input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.earnings.per_interval_value|in_pounds}}')
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.earnings.per_interval_value|in_pounds}}')
-            tr
-              td Self Employed Drawings 
-                small
-                  em (Before Tax)
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
-            tr
-              td Benefits and Tax Credits 
-                small
-                  em (inc. Pensions and Benefits in Kind)
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
-            tr
-              td Child Benefit
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
-            tr
-              td Maintenance Received
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
-            tr
-              td Private Pension Income
-              td
-                input(type='text', readonly='readonly', value='£')
-              td
-                input(type='text', readonly='readonly', value='£')
+            // tr
+            //   td Self Employed Drawings 
+            //     small
+            //       em (Before Tax)
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            // tr
+            //   td Benefits and Tax Credits 
+            //     small
+            //       em (inc. Pensions and Benefits in Kind)
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            // tr
+            //   td Child Benefit
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            // tr
+            //   td Maintenance Received
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            // tr
+            //   td Private Pension Income
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
+            //   td
+            //     input(type='text', readonly='readonly', value='£')
             tr
               td Any Other Income
               td
