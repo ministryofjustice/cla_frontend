@@ -13,23 +13,13 @@
   background: #fff;
 }
 
-.CaseHistory-date {
-  display: block;
-  font-weight: 700;
-}
-
-.CaseHistory-author {
-  display: block;
-  margin-bottom: 15px;
-}
-
 .CaseHistory-card {
   display: block;
   @include core-14;
 }
 
 .CaseHistory-log {
-  margin: 0;
+  margin: 15px 0 0;
   padding: 0;
 }
 
@@ -58,10 +48,9 @@
   border: 1px solid $grey-2;
   color: $grey-1;
   line-height: 1em;
-  display: block;
-  float: right;
+  display: inline-block;
   padding: 4px 8px;
   margin-top: -2px;
-  margin-left: 10px;
+  margin-bottom: 5px;
   background-color: $white;
 }
