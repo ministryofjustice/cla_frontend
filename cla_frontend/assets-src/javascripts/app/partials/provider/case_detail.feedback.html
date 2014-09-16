@@ -1,34 +1,41 @@
-<hr xmlns="http://www.w3.org/1999/html">
-<h5>Leave Feedback</h5>
-<form ng-submit="submit()">
-  <label class="FormRow FormRow--narrow cf">Issue
-    <select
-      id="newFeedback_issue"
-      ng-model="newFeedback.issue"
-      ui-select2="{allowClear: true}"
-      ng-options="s.value as s.text for s in FEEDBACK_ISSUE track by s.value"
-      ng-required="true">
-    <option value=""></option>
-  </select>
-  </label>
-  <label class="FormRow FormRow--narrow cf">Comment
-    <textarea ng-model="newFeedback.comment" rows="5" ng-required="true"></textarea>
-    </label>
-  <input class="Button" type="submit">
-</form>
-<ul class="CaseHistory" ng-show="feedbackList" >
+<hr class="u-horLine">
 
-  Feedback:
+<button type="button" class="BlockLink BlockLink--add" ng-hide="showFeedbackFrm" ng-click="showFeedbackFrm=!showFeedbackFrm" name="leave-feedback"><span class="BlockLink-text">Leave feedback</span></button>
+
+<div ng-show="showFeedbackFrm">
+  <form ng-submit="submit()">
+    <label class="FormRow FormRow--narrow cf">
+      <select
+        id="newFeedback_issue"
+        ng-model="newFeedback.issue"
+        ui-select2="{allowClear: true}"
+        placeholder="Issue"
+        ng-options="s.value as s.text for s in FEEDBACK_ISSUE track by s.value"
+        ng-required="true">
+        <option value=""></option>
+      </select>
+    </label>
+
+    <label class="FormRow FormRow--narrow cf">
+      <textarea ng-model="newFeedback.comment" rows="5" ng-required="true" placeholder="Comments"></textarea>
+    </label>
+
+    <div class="FormActions">
+      <button class="Button" type="submit" name="save-feedback">Save</button>
+      <a href="" ng-click="showFeedbackFrm=false">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<ul class="CaseHistory" ng-show="feedbackList" >
   <li class="CaseHistory-card" ng-repeat="feedbackItem in feedbackList">
-    <span class="CaseHistory-date">{{ feedbackItem.created | general_date }}</span>
-    <span class="CaseHistory-author">({{ feedbackItem.created_by }})</span>
+    <span>{{ feedbackItem.created | general_date }} ({{ feedbackItem.created_by }})</span>
+    <h2 class="CaseHistory-subtitle">Feedback:</h2>
 
     <ul class="CaseHistory-log">
-      <li class="CaseHistory-logItem cf">
-        <span>{{ (feedbackItem.issue|constantByValue:FEEDBACK_ISSUE).text }}</span>
-
+      <li class="CaseHistory-logItem cf">        
+        <span class="CaseHistory-logItemNotes">{{ (feedbackItem.issue|constantByValue:FEEDBACK_ISSUE).text }}</span>
         <span class="CaseHistory-logItemNotes">{{ feedbackItem.comment }}</span>
-
       </li>
     </ul>
   </li>

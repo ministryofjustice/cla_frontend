@@ -75,18 +75,26 @@
 
 .BtnGroup {
   @extend %contain-floats;
+
+  &--wide {
+    margin-top: 12px;
+  }
 }
 .BtnGroup-button {
   @include button($white);
-  @include box-shadow(inset 2px 2px 3px -2px $grey-2);
-  color: $grey-1;
+  @include box-shadow(none);
+  @include core-14;
+  color: $black;
   border: 1px solid $grey-2;
   float: left;
   padding: 5px 10px;
 
+  &:link,
+  &:visited,
   &:active,
   &:focus,
   &:hover {
+    color: $black;
     background-color: $white;
   }
   
@@ -100,7 +108,12 @@
   &:last-child {
     @include border-radius(0 4px 4px 0);
   }
-
+  
+  // states
+  &.is-deselected {
+    @include box-shadow(inset 2px 2px 3px -2px $grey-2);
+    color: $grey-1;
+  }
   &.is-selected {
     @include box-shadow(none);
     background-color: $grey-3;
