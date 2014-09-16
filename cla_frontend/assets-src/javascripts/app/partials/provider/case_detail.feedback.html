@@ -1,6 +1,6 @@
 <hr class="u-horLine">
 
-<button href="" class="BlockLink BlockLink--add" ng-hide="showFeedbackFrm" ng-click="showFeedbackFrm=!showFeedbackFrm" name="add-feedback"><span class="BlockLink-text">Leave feedback</span></button>
+<button type="button" class="BlockLink BlockLink--add" ng-hide="showFeedbackFrm" ng-click="showFeedbackFrm=!showFeedbackFrm" name="leave-feedback"><span class="BlockLink-text">Leave feedback</span></button>
 
 <div ng-show="showFeedbackFrm">
   <form ng-submit="submit()">
@@ -21,7 +21,7 @@
     </label>
 
     <div class="FormActions">
-      <button class="Button" type="submit">Save</button>
+      <button class="Button" type="submit" name="save-feedback">Save</button>
       <a href="" ng-click="showFeedbackFrm=false">Cancel</a>
     </div>
   </form>

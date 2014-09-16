@@ -1,7 +1,7 @@
 <div class="u-pullRight">
   <div class="BtnGroup BtnGroup--wide" ng-show="case.isRequiresActionByProviderPreview()">
-    <button class="BtnGroup-button" name="" ng-click="accept()">Accept</button>
-    <button class="BtnGroup-button" name="" ng-click="reject()">Reject</button>
+    <button class="BtnGroup-button" name="accept-case" ng-click="accept()">Accept</button>
+    <button class="BtnGroup-button" name="reject-case" ng-click="reject()">Reject</button>
   </div>
   <div class="BtnGroup BtnGroup--wide" ng-show="!case.isRequiresActionByProviderPreview()">
     <button class="BtnGroup-button" ng-click="close()" ng-controller="CaseDetailCloseCtrl">Close</button>
