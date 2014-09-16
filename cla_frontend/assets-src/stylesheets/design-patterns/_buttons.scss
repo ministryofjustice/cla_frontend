@@ -77,12 +77,13 @@
   @extend %contain-floats;
 
   &--wide {
-    margin-top: 11px;
+    margin-top: 12px;
   }
 }
 .BtnGroup-button {
   @include button($white);
   @include box-shadow(none);
+  @include core-14;
   color: $black;
   border: 1px solid $grey-2;
   float: left;
