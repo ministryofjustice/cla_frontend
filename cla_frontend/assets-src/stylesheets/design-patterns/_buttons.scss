@@ -75,18 +75,25 @@
 
 .BtnGroup {
   @extend %contain-floats;
+
+  &--wide {
+    margin-top: 11px;
+  }
 }
 .BtnGroup-button {
   @include button($white);
-  @include box-shadow(inset 2px 2px 3px -2px $grey-2);
+  @include box-shadow(none);
   color: $grey-1;
   border: 1px solid $grey-2;
   float: left;
   padding: 5px 10px;
 
+  &:link,
+  &:visited,
   &:active,
   &:focus,
   &:hover {
+    color: $grey-1;
     background-color: $white;
   }
   
