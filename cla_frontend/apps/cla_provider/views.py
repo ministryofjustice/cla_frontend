@@ -1,6 +1,9 @@
-from api.client import get_connection
 from django.shortcuts import render
+from django.http.response import HttpResponse
 
+from api.client import get_connection
+
+from slumber.exceptions import HttpClientError
 from cla_auth.utils import cla_provider_zone_required
 
 
@@ -12,28 +15,35 @@ def dashboard(request):
 @cla_provider_zone_required
 def legal_help_form(request, case_reference):
     client = get_connection(request)
-    extract = client.case(case_reference).legal_help_form_extract.get()
 
-    ec = extract['eligibility_check']
-    calculations = ec['calculations']
-    ec.update({
-        'main_property': None,
-        'additional_SMOD_property': None,
-        'additional_non_SMOD_property': None
-    })
+    try:
+        extract = client.case(case_reference).legal_help_form_extract.get()
 
-    property_set = ec.get('property_set', [])
-    property_equities = calculations.get('property_equities') or [0]*len(property_set)
-    for prop, equity in zip(property_set, property_equities):
-        if prop['main']:
-            ec['main_property'] = prop
-            ec['main_property']['equity'] = equity
-        else:
-            if prop['disputed']:
-                ec['additional_SMOD_property'] = prop
-                ec['additional_SMOD_property']['equity'] = equity
+        ec = extract['eligibility_check']
+        calculations = ec['calculations']
+        ec.update({
+            'main_property': None,
+            'additional_SMOD_property': None,
+            'additional_non_SMOD_property': None
+        })
+
+        property_set = ec.get('property_set', [])
+        property_equities = calculations.get('property_equities') or [0]*len(property_set)
+        for prop, equity in zip(property_set, property_equities):
+            if prop['main']:
+                ec['main_property'] = prop
+                ec['main_property']['equity'] = equity
             else:
-                ec['additional_non_SMOD_property'] = prop
-                ec['additional_non_SMOD_property']['equity'] = equity
+                if prop['disputed']:
+                    ec['additional_SMOD_property'] = prop
+                    ec['additional_SMOD_property']['equity'] = equity
+                else:
+                    ec['additional_non_SMOD_property'] = prop
+                    ec['additional_non_SMOD_property']['equity'] = equity
 
-    return render(request, 'cla_provider/legal_help_form.jade', extract)
+        return render(request, 'cla_provider/legal_help_form.jade', extract)
+
+    except HttpClientError as e:
+        return HttpResponse(
+            status=e.response.status_code, content=e.response.reason
+        )

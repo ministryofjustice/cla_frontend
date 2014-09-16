@@ -3,6 +3,8 @@ import mock
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
+from slumber.exceptions import HttpClientError
+
 from core.testing.test_base import CLATFrontEndTestCase
 
 from cla_auth.models import ClaUser
@@ -40,6 +42,18 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
         self.assertEqual(response.status_code, 302)
         expected_url = u"%s?next=%s" % (reverse(settings.LOGIN_URL), self.url)
         self.assertRedirects(response, expected_url)
+
+    def test_4xx_5xx(self):
+        self.login()
+
+        for status in [404, 403, 400, 500]:
+            self.mocked_extract.get.side_effect = HttpClientError(
+                response=mock.MagicMock(
+                    status_code=status
+                )
+            )
+            response = self.client.get(self.url)
+            self.assertEqual(response.status_code, status)
 
     def test_empty_case(self):
         self.login()
