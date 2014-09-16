@@ -4,6 +4,7 @@
     .factory('cla.bus', ['postal', 'SOCKETIO_CLIENT_CONFIG', function (postal, SOCKETIO_CLIENT_CONFIG) {
       // io is global reference to socket.io
       var host = $('head').data('socketioServer');
+      host = host.replace(/^https?:/, window.location.protocol);
       var socket = io.connect(host);
 
       var sendForBroadcast = function (eventType) {
