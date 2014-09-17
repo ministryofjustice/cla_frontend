@@ -139,6 +139,11 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.split_case = function(data) {
+        var url = url_utils.proxy('case/'+this.reference+'/split/');
+        return $http.post(url, data);
+      };
+
       resource.prototype.$search_for_personal_details = function(person_q) {
         var url = url_utils.proxy('case/'+this.reference+'/search_for_personal_details/?person_q='+person_q);
         return $http.get(url);

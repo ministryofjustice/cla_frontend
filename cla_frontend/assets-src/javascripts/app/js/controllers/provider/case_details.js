@@ -3,7 +3,7 @@
 
   angular.module('cla.controllers.provider')
     .controller('CaseDetailCloseCtrl',
-      ['$scope', '$state', 'flash',
+      ['$scope', '$state', 'flash', '$modal',
         function($scope, $state, flash){
           var case_ref = $scope.case.reference;
 
@@ -56,6 +56,58 @@
 
       }]);
 
+  angular.module('cla.controllers')
+    .controller('SplitCaseCtrl',
+    ['$scope', '$modalInstance', 'case', 'diagnosis', 'provider_category', 'MatterType', 'categories', '$state', 'flash', 'form_utils', 'postal',
+      function ($scope, $modalInstance, case_, diagnosis, provider_category, MatterType, categories, $state, flash, form_utils, postal) {
+        $scope.case = case_;
+        $scope.diagnosis = diagnosis;
+        $scope.categories = categories;
+        $scope.provider_category = provider_category;
+        $scope.matterTypes = null;
+
+        $scope.$watch('category', function(newVal) {
+          if (newVal) {
+            $scope.matterType1 = null;
+            $scope.matterType2 = null;
+            $scope.matterTypes = MatterType.get({
+              category__code: newVal
+            });
+          }
+        });
+
+        $scope.cancel = function () {
+          $modalInstance.dismiss('cancel');
+        };
+
+        $scope.doSplit = function(form) {
+          $scope.submitted = true;
+
+          if (form.$valid || $scope.responded) {
+            $scope.case.split_case({
+              category: $scope.category,
+              matter_type1: $scope.matterType1,
+              matter_type2: $scope.matterType2,
+              notes: $scope.notes,
+              internal: $scope.internal
+            }).then(function() {
+              flash('Case split successfully');
+              $modalInstance.dismiss();
+
+              postal.publish({
+                channel : 'models',
+                topic   : 'Log.refresh'
+              });
+            }, function(data) {
+              $scope.responded = true;
+              form_utils.ctrlFormErrorCallback($scope, data, form);
+            });
+          }
+        };
+      }
+    ]
+  );
+
   angular.module('cla.controllers.provider').
     controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', function($scope, $modal, flash){
       $scope.accept = function() {
@@ -79,6 +131,23 @@
             'event_key': function() { return 'reject_case'; },  //this is also the function name on Case model
             'notes': function() { return ''; },
             'success_msg': function() { return 'Case '+$scope.case.reference+' rejected successfully'; }
+          }
+        });
+      };
+
+      $scope.split = function() {
+        $modal.open({
+          templateUrl: 'provider/case_detail.split.html',
+          controller: 'SplitCaseCtrl',
+          resolve: {
+            'case': function() { return $scope.case; },
+            'diagnosis': function() { return $scope.diagnosis; },
+            provider_category: ['Category', function(Category) {
+              return Category.get({code: $scope.diagnosis.category}).$promise;
+            }],
+            categories: ['Category', function(Category) {
+              return Category.query().$promise;
+            }]
           }
         });
       };
