@@ -1,7 +1,7 @@
 from .base import *
 
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -33,3 +33,5 @@ ZONE_PROFILES = {
         'AUTHENTICATION_BACKEND': 'cla_provider.backend.ClaProviderBackend'
     }
 }
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
