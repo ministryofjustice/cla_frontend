@@ -66,6 +66,10 @@ $border-colour: $grey-2;
       padding: 6px 15px 0 0;
       float: left;
     }
+    &--right {
+      float: right;
+      padding-right: 0;
+    }
   }
 
   .FormRow-optionLegend {
@@ -151,7 +155,8 @@ $border-colour: $grey-2;
   // size modifiers 
   input,
   select,
-  textarea {
+  textarea,
+  div {
     &.FormRow-field--full {
       width: 100%;
     }
@@ -159,7 +164,7 @@ $border-colour: $grey-2;
       width: 420px;
     }
     &.FormRow-field--m {
-      width: 120px;
+      width: 205px;
     }
     &.FormRow-field--s {
       width: 50px;
@@ -169,6 +174,7 @@ $border-colour: $grey-2;
     }
     &.FormRow-field--inline {
       margin-right: 10px;
+      float: left;
     }
   }
   

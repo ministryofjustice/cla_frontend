@@ -80,24 +80,29 @@
           $modalInstance.dismiss('cancel');
         };
 
-        $scope.doSplit = function(form, internal) {
-          $scope.case.split_case({
-            category: $scope.category,
-            matter_type1: $scope.matterType1,
-            matter_type2: $scope.matterType2,
-            notes: $scope.notes,
-            internal: internal
-          }).then(function() {
-            flash('Case split successfully');
-            $modalInstance.dismiss();
+        $scope.doSplit = function(form) {
+          $scope.submitted = true;
 
-            postal.publish({
-              channel : 'models',
-              topic   : 'Log.refresh'
+          if (form.$valid || $scope.responded) {
+            $scope.case.split_case({
+              category: $scope.category,
+              matter_type1: $scope.matterType1,
+              matter_type2: $scope.matterType2,
+              notes: $scope.notes,
+              internal: $scope.internal
+            }).then(function() {
+              flash('Case split successfully');
+              $modalInstance.dismiss();
+
+              postal.publish({
+                channel : 'models',
+                topic   : 'Log.refresh'
+              });
+            }, function(data) {
+              $scope.responded = true;
+              form_utils.ctrlFormErrorCallback($scope, data, form);
             });
-          }, function(data) {
-            form_utils.ctrlFormErrorCallback($scope, data, form);
-          });
+          }
         };
       }
     ]
