@@ -32,7 +32,7 @@
 <ul class="CaseHistory" ng-show="feedbackList" >
   <li class="CaseHistory-card" ng-repeat="feedbackItem in feedbackList">
     <span>
-      <abbr title="{{ feedbackItem.created|date:'EEEE, dd MMMM yyyy @ HH:mm' }}" am-time-ago="feedbackItem.created"></abbr> 
+      <timestamp ng-model="feedbackItem.created"></timestamp> 
       ({{ feedbackItem.created_by }})
     </span>
 

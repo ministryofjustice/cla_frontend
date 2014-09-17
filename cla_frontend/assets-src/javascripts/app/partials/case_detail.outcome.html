@@ -1,7 +1,7 @@
 <ul class="CaseHistory" ng-controller="LogListCtrl">
   <li class="CaseHistory-card" ng-repeat="logList in logSet">
     <span>
-      <abbr title="{{ logList[0].created|date:'EEEE, dd MMMM yyyy @ HH:mm' }}" am-time-ago="logList[0].created"></abbr> 
+      <timestamp ng-model="logList[0].created"></timestamp> 
       ({{ logList[0].created_by }})
     </span>
 
