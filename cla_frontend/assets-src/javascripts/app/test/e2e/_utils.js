@@ -206,16 +206,19 @@
   }
 
   module.exports = {
-    APP_BASE_URL: 'call_centre/',
-
-    setUp: function(){
+    setUp: function() {
       login(CONSTANTS.callcentreBaseUrl + 'login/', 'test_operator', 'test_operator');
     },
 
-    setUpAsProvider: function(){
+    setUpAsProvider: function() {
       login(CONSTANTS.providerBaseUrl + 'login/', 'test_duncanlewis', 'test_duncanlewis');
     },
 
+    logout: function () {
+      element(by.css('.UserMenu-toggle')).click();
+      element(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
+      protractor.getInstance().manage().deleteAllCookies();
+    },
 
     debugTeardown: function () {
       // debug log
@@ -240,10 +243,6 @@
         ['Expected', absUrl, 'to be', pro.baseUrl+expectedUrl].join(' ')
       );
     },
-
-    // getCase: function(case_id) {
-    //   return browser.get(this.APP_BASE_URL + case_id + '/');
-    // },
 
     createCase: function() {
       var pro = protractor.getInstance(),
