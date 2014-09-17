@@ -220,7 +220,7 @@
       }
 
       function findAlternativeHelpLink(){
-        return by.css('a[ui-sref="case_detail.alternative_help"]');
+        return by.css('#alternative_help');
       }
 
     });
