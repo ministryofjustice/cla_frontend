@@ -178,25 +178,21 @@
     fill_model_field(_ec(partner(contrib)), answers[partner(contrib)], '0');
   }
 
-  function login(asProvider, user, pass) {
+  function login(login_path, user, pass) {
     var pro = protractor.getInstance(),
-      driver = pro.driver,
-      providerLoginUrl = CONSTANTS.providerBaseUrl + 'login/',
-      operatorLoginUrl = CONSTANTS.callcentreBaseUrl + 'login/',
-      url = asProvider ? providerLoginUrl : operatorLoginUrl;
-
-
+        driver = pro.driver;
 
     pro.manage().getCookie('sessionid').then(function(cookie) {
       if (!cookie) {
-        driver.get(pro.baseUrl + url);
-
-        driver.findElement(by.id('id_username')).sendKeys(user);
-        driver.findElement(by.id('id_password')).sendKeys(pass);
-        driver.findElement(by.css('form')).submit();
+        driver.get(pro.baseUrl + login_path);
 
         // kill django debug toolbar if it's showing
         pro.manage().addCookie('djdt', 'hide');
+
+        driver.get(pro.baseUrl + login_path);
+        driver.findElement(by.id('id_username')).sendKeys(user);
+        driver.findElement(by.id('id_password')).sendKeys(pass);
+        driver.findElement(by.css('form')).submit();
       }
     });
   }
@@ -205,11 +201,11 @@
     APP_BASE_URL: 'call_centre/',
 
     setUp: function(){
-      login(false, 'test_operator', 'test_operator');
+      login(CONSTANTS.callcentreBaseUrl + 'login/', 'test_operator', 'test_operator');
     },
 
     setUpAsProvider: function(){
-      login(true, 'test_duncanlewis', 'test_duncanlewis');
+      login(CONSTANTS.providerBaseUrl + 'login/', 'test_duncanlewis', 'test_duncanlewis');
     },
 
 
