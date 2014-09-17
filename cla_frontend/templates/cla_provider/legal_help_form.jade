@@ -279,40 +279,45 @@ body
                 input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.earnings.per_interval_value|in_pounds}}')
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.earnings.per_interval_value|in_pounds}}')
-            // tr
-            //   td Self Employed Drawings 
-            //     small
-            //       em (Before Tax)
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            // tr
-            //   td Benefits and Tax Credits 
-            //     small
-            //       em (inc. Pensions and Benefits in Kind)
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            // tr
-            //   td Child Benefit
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            // tr
-            //   td Maintenance Received
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            // tr
-            //   td Private Pension Income
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
+            tr
+              td Self Employed Drawings 
+                small
+                  em (Before Tax)
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.self_employment_drawings.per_interval_value|in_pounds}}')
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.self_employment_drawings.per_interval_value|in_pounds}}')
+            tr
+              td Benefits
+                small
+                  em (inc. Pensions and Benefits in Kind)
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.benefits.per_interval_value|in_pounds}}')
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.benefits.per_interval_value|in_pounds}}')
+            tr
+              td Tax Credits
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.tax_credits.per_interval_value|in_pounds}}')
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.tax_credits.per_interval_value|in_pounds}}')
+            tr
+              td Child Benefit
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.child_benefits.per_interval_value|in_pounds}}')
+              td
+            tr
+              td Maintenance Received
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.maintenance_received.per_interval_value|in_pounds}}')
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.maintenance_received.per_interval_value|in_pounds}}')
+            tr
+              td Private Pension Income
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.pension.per_interval_value|in_pounds}}')
+              td
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.pension.per_interval_value|in_pounds}}')
             tr
               td Any Other Income
               td
@@ -398,7 +403,7 @@ body
             tr
               th TOTAL MONTHLY DISPOSABLE INCOME
               td(colspan='2')
-                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.total_disposable_income|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.disposable_income|in_pounds}}')
     // Evidence
     .page.box
       h2.section-heading Evidence We Need From You

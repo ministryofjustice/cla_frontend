@@ -137,6 +137,14 @@
     ['you.', 'partner.'].map(function (pre) {
       var p = prefix(pre);
       set_money_interval(_ec(p('income.earnings')), answers[p('income.earnings')], '0');
+      set_money_interval(_ec(p('income.self_employment_drawings')), answers[p('income.self_employment_drawings')], '0');
+      set_money_interval(_ec(p('income.benefits')), answers[p('income.benefits')], '0');
+      set_money_interval(_ec(p('income.tax_credits')), answers[p('income.tax_credits')], '0');
+      if (pre !== 'partner.') {
+        set_money_interval(_ec(p('income.child_benefits')), answers[p('income.child_benefits')], '0');
+      }
+      set_money_interval(_ec(p('income.maintenance_received')), answers[p('income.maintenance_received')], '0');
+      set_money_interval(_ec(p('income.pension')), answers[p('income.pension')], '0');
       set_money_interval(_ec(p('income.other_income')), answers[p('income.other_income')], '0');
       var value = (answers[p('self_employed')] || '').toLowerCase() === 'yes' ? 0 : 1;
       var person = (pre === 'you.' ? 'your' : 'partners');
