@@ -1,5 +1,5 @@
 from django import template
-from django.templatetags.static import static
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.conf import settings
 
 register = template.Library()
@@ -13,6 +13,6 @@ def staticmin(name):
     return static('.'.join(parts))
 
 
-@register.filter    
+@register.filter
 def subtract(value, arg):
     return value - arg
