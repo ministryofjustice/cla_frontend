@@ -1,0 +1,13 @@
+{
+  "name": "cla-socketserver",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ministryofjustice/cla_frontend"
+  },
+  "dependencies": {
+    "cookie": "~0.1.2",
+    "promise": "^6.0.0",
+    "socket.io": "~1.0"
+  }
+}
