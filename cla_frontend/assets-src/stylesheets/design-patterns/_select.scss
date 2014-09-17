@@ -62,7 +62,6 @@
     background: $white;
   }
   &.select2-default .select2-chosen {
-    background: $grey-4;
     color: $grey-1;
   }
 
@@ -226,8 +225,12 @@
 .select2-container.select2-container-disabled .select2-choice {
   background-color: $grey-4;
   border-color: $grey-3;
-  color: $grey-1;
+  color: $grey-2;
   cursor: default;
+
+  .select2-chosen {
+    color: $grey-2;
+  }
 
   .select2-arrow:after {
     color: $grey-2;

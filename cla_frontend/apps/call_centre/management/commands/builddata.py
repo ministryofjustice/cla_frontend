@@ -14,7 +14,8 @@ from django.templatetags.static import static
 # used by constants_json
 from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
     TITLES, REQUIRES_ACTION_BY, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, \
-    DIAGNOSIS_SCOPE, CONTACT_SAFETY, EXEMPT_USER_REASON, ECF_STATEMENT, FEEDBACK_ISSUE
+    DIAGNOSIS_SCOPE, CONTACT_SAFETY, EXEMPT_USER_REASON, ECF_STATEMENT, \
+    FEEDBACK_ISSUE, SOCKETIO_CLIENT_CONFIG
 
 
 class Command(BaseCommand):
@@ -46,6 +47,10 @@ class Command(BaseCommand):
                                         ('DIAGNOSIS_SCOPE', DIAGNOSIS_SCOPE.CHOICES_CONST_DICT),
                                         ('CONTACT_SAFETY', CONTACT_SAFETY.CHOICES_CONST_DICT)
                                         ]:
+                l[json_name] = iterator
+                l_count += 1
+
+            for json_name, iterator in [('SOCKETIO_CLIENT_CONFIG', SOCKETIO_CLIENT_CONFIG)]:
                 l[json_name] = iterator
                 l_count += 1
 

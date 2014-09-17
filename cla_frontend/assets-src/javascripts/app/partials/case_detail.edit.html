@@ -15,6 +15,8 @@
 
 <div data-block="case-notes-summary"></div>
 
+<ui-view name="acceptReject"></ui-view>
+
 <ul class="Tabs Tabs--large cf">
   <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.diagnosis')}">
     <a href="" ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope diagnosis</a>

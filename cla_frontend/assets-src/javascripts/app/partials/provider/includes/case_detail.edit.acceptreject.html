@@ -1,4 +1,12 @@
-<div class="u-pullRight" ng-show="case.isRequiresActionByProviderPreview()">
-  <button class="Button" ng-click="accept()">Accept</button>
-  <button class="Button Button--secondary" ng-click="reject()">Reject</button>
+<div class="u-pullRight">
+  <div class="BtnGroup BtnGroup--wide" ng-show="case.isRequiresActionByProviderPreview()">
+    <button class="BtnGroup-button" name="accept-case" ng-click="accept()">Accept</button>
+    <button class="BtnGroup-button" name="reject-case" ng-click="reject()">Reject</button>
+    <button class="BtnGroup-button" name="split-case" ng-click="split()">Split</button>
+  </div>
+  <div class="BtnGroup BtnGroup--wide" ng-show="!case.isRequiresActionByProviderPreview()">
+    <button class="BtnGroup-button" ng-click="close()" ng-controller="CaseDetailCloseCtrl">Close</button>
+    <!--a href="/provider/case/{{ case.reference }}/legal_help_form/" target="_self" class="BtnGroup-button">Legal Help Form</a-->
+    <button class="BtnGroup-button" name="split-case" ng-click="split()">Split</button>
+  </div>
 </div>

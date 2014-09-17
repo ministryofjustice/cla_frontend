@@ -15,10 +15,10 @@
 
   // SERVICES
   angular.module('cla.services')
-    .factory('Case', ['$http', '$resource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'REQUIRES_ACTION_BY', 'url_utils', 'moment',
-      function($http, $resource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, REQUIRES_ACTION_BY, url_utils, Moment) {
+    .factory('Case', ['$http', '$claResource', 'DIAGNOSIS_SCOPE', 'ELIGIBILITY_STATES', 'REQUIRES_ACTION_BY', 'url_utils', 'moment',
+      function($http, $claResource, DIAGNOSIS_SCOPE, ELIGIBILITY_STATES, REQUIRES_ACTION_BY, url_utils, Moment) {
 
-      var resource = $resource(
+      var resource = $claResource('Case',
         url_utils.proxy('case/:caseref/'),
         {caseref: '@reference'},
         {
@@ -41,6 +41,10 @@
               _data.results = results;
               return _data;
             }
+          },
+          'save': {
+            method: 'POST',
+            eventAction: 'created'
           },
           'patch': {
             method: 'PATCH',
@@ -132,6 +136,11 @@
 
       resource.prototype.$close_case = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/close/');
+        return $http.post(url, data);
+      };
+
+      resource.prototype.split_case = function(data) {
+        var url = url_utils.proxy('case/'+this.reference+'/split/');
         return $http.post(url, data);
       };
 

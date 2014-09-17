@@ -57,18 +57,25 @@ def login(request, template_name='accounts/login.html',
 
             statsd.incr('login.success')
 
-            if is_json:
-                return HttpResponse(status=204)
-            return HttpResponseRedirect(redirect_to)
-        else:
-            logger.info('login failed', extra={
+            logger.info('login succeeded', extra={
                 'IP': get_ip(request),
                 'USERNAME': request.POST.get('username'),
                 'HTTP_REFERER': request.META.get('HTTP_REFERER'),
                 'HTTP_USER_AGENT': request.META.get('HTTP_USER_AGENT')
             })
 
+            if is_json:
+                return HttpResponse(status=204)
+            return HttpResponseRedirect(redirect_to)
+        else:
             statsd.incr('login.failed')
+
+            logger.info('login failed', extra={
+                'IP': get_ip(request),
+                'USERNAME': request.POST.get('username'),
+                'HTTP_REFERER': request.META.get('HTTP_REFERER'),
+                'HTTP_USER_AGENT': request.META.get('HTTP_USER_AGENT')
+            })
 
             if is_json:
                 return HttpResponse(

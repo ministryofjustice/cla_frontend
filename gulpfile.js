@@ -60,11 +60,14 @@ paths.scripts = {
     paths.src + 'vendor/angular-moment/angular-moment.js',
     paths.src + 'vendor/angular-blocks/dist/angular-blocks.js',
     paths.src + 'vendor/lunr.js/lunr.js',
+    paths.src + 'vendor/rome/dist/rome.standalone.js', // datepicker
     paths.src + 'javascripts/vendor/xeditable.js',
     paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js',
     paths.src + 'vendor/conduitjs/lib/conduit.js',
     paths.src + 'vendor/postal.js/lib/postal.js',
-    paths.src + 'vendor/angular-loading-bar/build/loading-bar.js'
+    paths.src + 'vendor/angular-loading-bar/build/loading-bar.js',
+    paths.src + 'vendor/socket.io-client/socket.io.js',
+    paths.src + 'vendor/angular-socket-io/socket.js'
   ],
   app: [
     paths.src + 'javascripts/app/js/app.js',
@@ -128,22 +131,19 @@ gulp.task('sass-copy', function() {
     .pipe(gulp.dest(paths.tmp + 'stylesheets/'));
 });
 gulp.task('sass', ['iconfont'], function() {
-  gulp
+  return gulp
     .src(paths.tmp + 'stylesheets/**/*.scss')
     .pipe(plugins.rubySass({
+      lineNumbers: true,
+      style: 'compact',
       loadPath: 'node_modules/govuk_frontend_toolkit/' // add node module toolkit path
     }))
     .on('error', function (err) { console.log(err.message); })
     .pipe(gulp.dest(paths.dest + 'stylesheets/'));
 });
-gulp.task('sass-prod', ['iconfont'], function() {
-  gulp
-    .src(paths.tmp + 'stylesheets/**/*.scss')
-    .pipe(plugins.rubySass({
-      style: 'compressed',
-      loadPath: 'node_modules/govuk_frontend_toolkit/' // add node module toolkit path
-    }))
-    .on('error', function (err) { console.log(err.message); })
+gulp.task('css-min', ['sass'], function() {
+  gulp.src(paths.dest + 'stylesheets/*.css')
+    .pipe(plugins.minifyCss())
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(gulp.dest(paths.dest + 'stylesheets/'));
 });
@@ -305,5 +305,5 @@ gulp.task('watch', function() {
 gulp.task('default', ['build']);
 // run build
 gulp.task('build', function() {
-  runSequence('clean-pre', ['sass', 'sass-prod', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-lib-compile', 'js-app-compile']);
+  runSequence('clean-pre', ['css-min', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-lib-compile', 'js-app-compile']);
 });
