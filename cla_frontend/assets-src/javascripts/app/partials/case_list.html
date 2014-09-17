@@ -35,7 +35,7 @@
         <td>{{ case.date_of_birth|date:'dd/MM/yyyy' }}</td>
         <td>{{ case.category }}</td>
         <td>
-          <abbr title="{{ case.modified|date:'EEEE, dd MMMM yyyy @ HH:mm' }}" am-time-ago="case.modified"></abbr>
+          <timestamp ng-model="case.modified"></timestamp>
         </td>
       </tr>
     </tbody>

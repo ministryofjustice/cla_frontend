@@ -1,5 +1,7 @@
 <hr class="u-horLine">
 
+<h2 class="CaseHistory-subtitle">Feedback</h2>
+
 <button type="button" class="BlockLink BlockLink--add" ng-hide="showFeedbackFrm" ng-click="showFeedbackFrm=!showFeedbackFrm" name="leave-feedback"><span class="BlockLink-text">Leave feedback</span></button>
 
 <div ng-show="showFeedbackFrm">
@@ -29,8 +31,10 @@
 
 <ul class="CaseHistory" ng-show="feedbackList" >
   <li class="CaseHistory-card" ng-repeat="feedbackItem in feedbackList">
-    <span>{{ feedbackItem.created | general_date }} ({{ feedbackItem.created_by }})</span>
-    <h2 class="CaseHistory-subtitle">Feedback:</h2>
+    <span>
+      <timestamp ng-model="feedbackItem.created"></timestamp> 
+      ({{ feedbackItem.created_by }})
+    </span>
 
     <ul class="CaseHistory-log">
       <li class="CaseHistory-logItem cf">        

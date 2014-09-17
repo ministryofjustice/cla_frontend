@@ -72,7 +72,7 @@
           resolve: {
             'tplVars': function() {
               return {
-                title: 'Reject Case'
+                title: 'Reject case'
               };
             },
             'case': function() { return $scope.case; },

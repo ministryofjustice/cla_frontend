@@ -44,7 +44,7 @@
           </div>
         </td>
         <td>
-          <abbr title="{{ feedback.created|date:'EEEE, dd MMMM yyyy @ HH:mm' }}" am-time-ago="feedback.created"></abbr>
+          <timestamp ng-model="feedback.created"></timestamp>
         </td>
       </tr>
     </tbody>
