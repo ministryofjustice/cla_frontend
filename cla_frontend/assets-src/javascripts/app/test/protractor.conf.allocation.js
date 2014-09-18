@@ -8,6 +8,8 @@
     // seleniumAddress: 'http://clas-mac-mini.local:4444/wd/hub',
     // baseUrl: 'http://Marcos-MacBook-Pro-2.local:8001/',
 
+    allScriptsTimeout: 3000000,
+
     jasmineNodeOpts: {
       defaultTimeoutInterval: 3000000
     },

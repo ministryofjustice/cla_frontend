@@ -4,7 +4,7 @@
   var utils = require('./_utils'),
       modelsRecipe = require('./_modelsRecipe'),
       // custom config
-      num_cases = 10,
+      num_cases = 300,
       allocations = {},
       weights = {
         'FLG': 0.5,
