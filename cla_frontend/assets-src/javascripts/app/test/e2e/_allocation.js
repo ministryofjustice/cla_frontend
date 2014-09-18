@@ -7,9 +7,11 @@
       num_cases = 300,
       allocations = {},
       weights = {
-        'FLG': 0.5,
-        'Coop': 0.5,
-        'Duncan Lewis': 0.5
+        'Ty Arian': 24.0,
+        'CES': 19.0,
+        'Duncan Lewis': 19.0,
+        'DHA': 19.0,
+        'Shelter': 19.0
       };
 
   function createCase(i) {
