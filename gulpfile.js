@@ -67,7 +67,9 @@ paths.scripts = {
     paths.src + 'vendor/postal.js/lib/postal.js',
     paths.src + 'vendor/angular-loading-bar/build/loading-bar.js',
     paths.src + 'vendor/socket.io-client/socket.io.js',
-    paths.src + 'vendor/angular-socket-io/socket.js'
+    paths.src + 'vendor/angular-socket-io/socket.js',
+    paths.src + 'vendor/angulartics/src/angulartics.js',
+    paths.src + 'vendor/angulartics/src/angulartics-piwik.js'
   ],
   app: [
     paths.src + 'javascripts/app/js/app.js',
