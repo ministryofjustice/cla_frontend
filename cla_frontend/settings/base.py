@@ -319,3 +319,5 @@ STATSD_RECORD_KEYS = [
 
 STATSD_HOST = os.environ.get('STATSD_HOST', 'localhost')
 STATSD_PORT = os.environ.get('STATSD_PORT', 8125)
+
+ENABLE_PIWIK = bool(os.environ.get('ENABLE_PIWIK', 'False'))

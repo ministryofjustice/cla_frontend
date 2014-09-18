@@ -115,6 +115,9 @@
     <script src="{% static 'javascripts/lib.min.js' %}"></script>
     <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
     <script src="{% staticmin 'javascripts/cla.main.js' %}"></script>
+    {% if ENABLE_PIWIK %}
+    <script src="{% static 'javascripts/vendor/piwik.js' %}"></script>
+    {% endif %}
     {% block javascripts %}{% endblock %}
     <!--<![endif]-->
 
