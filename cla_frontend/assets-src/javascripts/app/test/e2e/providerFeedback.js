@@ -20,15 +20,8 @@
       element(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
     }
 
-    function logout() {
-      element(by.css('.UserMenu-toggle')).click();
-      element(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
-      ptor.manage().deleteAllCookies();
-    }
-
     var case_to_reject_ref,
         case_to_feedback_without_reject_ref,
-        ptor = protractor.getInstance(),
         reject_notes = 'this is feedback left with rejection',
         feedback_notes = 'this is plain feedback';
 
@@ -67,7 +60,7 @@
 
       it('should logout', function () {
         this.after(function () {
-          logout();
+          utils.logout();
         });
       });
     });
@@ -144,7 +137,7 @@
 
       it('should logout', function () {
         this.after(function () {
-          logout();
+          utils.logout();
         });
       });
     });
