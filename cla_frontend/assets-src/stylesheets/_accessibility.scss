@@ -98,3 +98,11 @@ button:focus,
     color: $black;
   }
 }
+
+.legacy-browser {
+  margin: 30px 10px;
+
+  p {
+    @include core-19;
+  }
+}
