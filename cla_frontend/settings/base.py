@@ -288,6 +288,8 @@ ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
     'http://127.0.0.1:8003')
 ADDRESSFINDER_API_TOKEN = os.environ.get('ADDRESSFINDER_API_TOKEN', '')
 
+PIWIK_HOSTNAME = os.environ.get('ENABLE_PIWIK', '')
+
 if 'RAVEN_CONFIG_DSN' in os.environ:
     MIDDLEWARE_CLASSES = (
         'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
@@ -319,5 +321,3 @@ STATSD_RECORD_KEYS = [
 
 STATSD_HOST = os.environ.get('STATSD_HOST', 'localhost')
 STATSD_PORT = os.environ.get('STATSD_PORT', 8125)
-
-ENABLE_PIWIK = bool(os.environ.get('ENABLE_PIWIK', 'False'))

@@ -1,7 +1,10 @@
 {% load staticfiles core_tags raven %}
 <!DOCTYPE html>
 <html lang="en" {% block html_attrs %}ng-csp{% endblock %}>
-  <head data-sentry-dsn="{% sentry_public_dsn %}" data-sentry-site="{{ raven_config_site }}" data-socketio-server="{{ socketio_server_url }}">
+  <head data-sentry-dsn="{% sentry_public_dsn %}"
+    data-sentry-site="{{ raven_config_site }}"
+    data-socketio-server="{{ socketio_server_url }}"
+    data-piwik-hostname="{{ piwik_hostname }}">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -115,9 +118,7 @@
     <script src="{% static 'javascripts/lib.min.js' %}"></script>
     <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
     <script src="{% staticmin 'javascripts/cla.main.js' %}"></script>
-    {% if ENABLE_PIWIK %}
     <script src="{% static 'javascripts/vendor/piwik.js' %}"></script>
-    {% endif %}
     {% block javascripts %}{% endblock %}
     <!--<![endif]-->
 
