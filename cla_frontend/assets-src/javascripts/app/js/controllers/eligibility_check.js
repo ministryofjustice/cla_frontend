@@ -62,10 +62,16 @@
 
           var setIncomeDefaults = function (ec) {
             [ec.you.income, ec.partner.income].map(function (person) {
+              person.earnings = monthly(0);
               person.other_income = monthly(0);
               person.self_employed = false;
               person.total = 0;
-              person.earnings = monthly(0);
+              person.self_employment_drawings = monthly(0);
+              person.benefits = monthly(0);
+              person.tax_credits = monthly(0);
+              person.child_benefits = monthly(0);
+              person.maintenance_received = monthly(0);
+              person.pension = monthly(0);
             });
             ec.dependants_young = 0;
             ec.dependants_old = 0;

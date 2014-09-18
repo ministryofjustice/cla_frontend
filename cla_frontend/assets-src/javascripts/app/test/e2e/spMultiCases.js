@@ -1,146 +1,127 @@
-(function(){
+(function (){
   'use strict';
 
   var utils = require('../e2e/_utils'),
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('Specialist Multiple Cases', function() {
-    var case_ref1, case_ref2;
-
-    function logout() {
-      element(by.css('.UserMenu-toggle')).click();
-      element(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
-      protractor.getInstance().manage().deleteAllCookies();
-    }
+  describe('Specialist Multiple Cases', function () {
+    var case_ref1, case_ref2,
+        createSplitBtn = element.all(by.name('split-case')).get(0),
+        splitForm = element(by.name('split_case_frm')),
+        submitBtn = splitForm.element(by.name('save-split-case')),
+        cancelBtn = splitForm.element(by.cssContainingText('a', 'Cancel'));
 
     describe('As Operator', function () {
       beforeEach(utils.setUp);
 
-      it('should create cases as operator and assign then to a provider', function() {
-        modelsRecipe.Case.createAndAssign(1).then(function(reference) {
+      it('should create cases as operator and assign then to a provider', function () {
+        modelsRecipe.Case.createAndAssign(1).then(function (reference) {
           case_ref1 = reference;
         });
 
-        modelsRecipe.Case.createAndAssign(1).then(function(reference) {
+        modelsRecipe.Case.createAndAssign(1).then(function (reference) {
           case_ref2 = reference;
         });
       });
 
       it('should logout', function () {
         this.after(function () {
-          logout();
+          utils.logout();
         });
       });
     });
 
-
     describe('As Provider', function () {
       beforeEach(utils.setUpAsProvider);
 
-      function fillInSplitForm(splitForm, categoryVal, internal) {
-        var categorySelect = splitForm.element(by.css('[name=category]')),
-            matterType1Select = splitForm.element(by.css('[name=matter_type1]')),
-            matterType2Select = splitForm.element(by.css('[name=matter_type2]')),
-            assignTo = splitForm.element(by.css('[name=internal][value="' + internal + '"]'));
-
-        categorySelect.element(by.css('option[value="'+categoryVal+'"]')).click();
-        matterType1Select.element(by.css('option:last-child')).click();
-        matterType2Select.element(by.css('option:last-child')).click();
-        assignTo.click();
-        splitForm.element(by.css('[name=notes]')).sendKeys('Notes');
+      function openSplitModal () {
+        expect(createSplitBtn.isDisplayed()).toBe(true);
+        createSplitBtn.click();
+        expect(splitForm.isDisplayed()).toBe(true);
       }
 
-      it('shouldnt\'t be able to split if the validation fails', function() {
+      function fillInSplitForm (categoryVal, internal) {
+        splitForm.element(by.css('[name="category"] option[value="' + categoryVal + '"]')).click();
+        splitForm.element(by.css('[name="matter_type1"] option:last-child')).click();
+        splitForm.element(by.css('[name="matter_type2"] option:last-child')).click();
+        splitForm.element(by.css('[name=internal][value="' + internal + '"]')).click();
+        splitForm.element(by.name('notes')).sendKeys('Notes');
+        submitBtn.click();
+      }
+
+      function assertOutcomeCode (code) {
+        expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe(code);
+      }
+
+      function assertError (error) {
+        expect(
+          splitForm.element(by.cssContainingText('.Error-message', error)).isDisplayed()
+        ).toBe(true);
+      }
+
+      it('shouldnt\'t be able to split if the validation fails', function () {
         browser.get(CONSTANTS.providerBaseUrl + case_ref1 + '/');
 
-        var splitButton = element.all(by.css('button[name="split-case"]')).get(0),
-            splitForm = element(by.css('.modal-content [name=split_case_frm]')),
-            assignToProviderButton = splitForm.element(by.css('button[name="save-split-case"]'));
-
-        expect(splitButton.isDisplayed()).toBe(true);
-        splitButton.click();        
-        expect(splitForm.isDisplayed()).toBe(true);
+        openSplitModal();
 
         // submit without filling in any data => validation error
-        assignToProviderButton.click();
+        submitBtn.click();
         expect(splitForm.isDisplayed()).toBe(true);
 
         // choose same category of law and submit => validation error
-        fillInSplitForm(splitForm, 'family', true);
-        assignToProviderButton.click();
+        fillInSplitForm('family', true);
         expect(splitForm.isDisplayed()).toBe(true);
 
         // choose a category of law that the provider can't deal with and assign to same provider => validation error
-        fillInSplitForm(splitForm, 'benefits', true);
-        assignToProviderButton.click();
+        fillInSplitForm('benefits', true);
         expect(splitForm.isDisplayed()).toBe(true);
       });
 
-      it('should be able to split a case and assign it to same provider if they can deal with that category of law', function() {
-        var splitButton = element.all(by.css('button[name="split-case"]')).get(0),
-            splitForm = element(by.css('.modal-content [name=split_case_frm]')),
-            assignToProviderButton = splitForm.element(by.css('button[name="save-split-case"]'));
-
+      it('should be able to split a case and assign it to same provider if they can deal with that category of law', function () {
         // choose housing category
-        fillInSplitForm(splitForm, 'housing', true);
-        assignToProviderButton.click();
+        fillInSplitForm('housing', true);
 
         // verify modal disappeared
         expect(splitForm.isPresent()).toBe(false);
 
         // verify outcome code REF-INT created
-        expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe('REF-INT');
+        assertOutcomeCode('REF-INT');
 
         // try to split again => validation error
-        expect(splitButton.isDisplayed()).toBe(true);
-        splitButton.click();
-        fillInSplitForm(splitForm, 'housing', true);
-        assignToProviderButton.click();
+        openSplitModal();
+        fillInSplitForm('housing', true);
         expect(splitForm.isDisplayed()).toBe(true);
-        expect(
-          splitForm.element(by.cssContainingText('.Error-message', 'This Case has already been split')).isDisplayed()
-        ).toBe(true);
+        assertError('This Case has already been split');
       });
 
-      it('should be able to split a case and assign it back to an operator', function() {
+      it('should be able to split a case and assign it back to an operator', function () {
         browser.get(CONSTANTS.providerBaseUrl + case_ref2 + '/');
 
-        var splitButton = element.all(by.css('button[name="split-case"]')).get(0),
-            splitForm = element(by.css('.modal-content [name=split_case_frm]')),
-            assignToOperatorButton = splitForm.element(by.css('button[name="save-split-case"]'));
-
-        expect(splitButton.isDisplayed()).toBe(true);
-        splitButton.click();        
-        expect(splitForm.isDisplayed()).toBe(true);
+        openSplitModal();
 
         // choose benefits category
-        fillInSplitForm(splitForm, 'benefits', false);
-        assignToOperatorButton.click();
+        fillInSplitForm('benefits', false);
 
         // verify modal disappeared
         expect(splitForm.isPresent()).toBe(false);
 
         // verify outcome code REF-EXT created
-        expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe('REF-EXT');
+        assertOutcomeCode('REF-EXT');
 
         // try to split again => validation error
-        expect(splitButton.isDisplayed()).toBe(true);
-        splitButton.click();
-        fillInSplitForm(splitForm, 'benefits', false);
-        assignToOperatorButton.click();
+        openSplitModal();
+        fillInSplitForm('benefits', false);
         expect(splitForm.isDisplayed()).toBe(true);
-        expect(
-          splitForm.element(by.cssContainingText('.Error-message', 'This Case has already been split')).isDisplayed()
-        ).toBe(true);
+        assertError('This Case has already been split');
 
         // dismiss the modal
-        splitForm.element(by.cssContainingText('a', 'Cancel')).click();
+        cancelBtn.click();
       });
 
       it('should logout', function () {
         this.after(function () {
-          logout();
+          utils.logout();
         });
       });
     });

@@ -88,6 +88,13 @@
   border: 1px solid $grey-2;
   float: left;
   padding: 5px 10px;
+  margin: 0;
+  
+  // moz hack to support button class on anchor elements
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
 
   &:link,
   &:visited,
