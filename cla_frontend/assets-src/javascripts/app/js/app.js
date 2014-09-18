@@ -54,7 +54,6 @@
     .config(function($resourceProvider, cfpLoadingBarProvider, $analyticsProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
       cfpLoadingBarProvider.includeBar = false;
-      console.log($analyticsProvider);
     })
     .run(function ($rootScope, $state, $stateParams, Timer, flash) {
       $rootScope.$state = $state;
