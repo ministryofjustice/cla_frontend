@@ -13,7 +13,7 @@ tags:
 
 ---
 
-** Repeat Clients/Callers
+## Repeat Clients/Callers
 
 To protect the privacy of our users you must ensure that you do not disclose that there is an existing case record or any details about the existing case until you have verified the identity of the user.
 
@@ -33,7 +33,7 @@ If the user answers a minimum of 2 questions correctly then check to see if they
 If the user is unable to answer 2 questions cirrectly, do not disclose that there is a case to the caller. You must then open a new case.
 
 
-** Repeat Caller/User - Third Party
+## Repeat Caller/User - Third Party
 
 To protect the privacy of our users you must ensure that where a third party states that they are calling on behalf of someone else and have used the service before you must not disclose that there is an existing case record or any of the details until you have verified the identity of both the third party and the user.
 
