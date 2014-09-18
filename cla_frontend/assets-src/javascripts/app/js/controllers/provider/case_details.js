@@ -109,10 +109,15 @@
   );
 
   angular.module('cla.controllers.provider').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', function($scope, $modal, flash){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', function($scope, $modal, flash, postal){
       $scope.accept = function() {
         this.case.$accept_case().then(function(data) {
-          flash('Case accepted successfully.');
+          flash('Case accepted successfully');
+          // refreshing the logs
+          postal.publish({
+            channel : 'models',
+            topic   : 'Log.refresh'
+          });
           $scope.case = data;
         });
       };
