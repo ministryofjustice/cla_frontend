@@ -2,7 +2,8 @@
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var hostname = document.getElementByTagName('head')[0].getAttribute('data-piwik-hostname');
+    var hostname = document.getElementsByTagName('head')[0].getAttribute('data-piwik-hostname');
+    console.log(hostname);
     if(hostname !== ''){
       var u=(("https:" == document.location.protocol) ? "https" : "http") + "://" + hostname + "/";
       _paq.push(['setTrackerUrl', u+'piwik.php']);
