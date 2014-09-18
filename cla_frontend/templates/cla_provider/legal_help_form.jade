@@ -96,11 +96,11 @@ body
 
             // passported and nass questions should be replaced by the 5 questions below when ready
             tr
-              td Are you on passported benefits?
+              td Are you on any benefits?
               td(width='30%')
                 input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No"}}')
             tr
-              td Are you on NASS benefits?
+              td Are you on National Asylum Support Service benefits?
               td(width='30%')
                 input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No"}}')
 
@@ -276,54 +276,54 @@ body
                 small
                   em (Before Tax)
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.earnings.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.earnings|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.earnings.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.earnings|mi_as_monthly|in_pounds}}')
             tr
               td Self Employed Drawings 
                 small
                   em (Before Tax)
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.self_employment_drawings.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.self_employment_drawings|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.self_employment_drawings.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.self_employment_drawings|mi_as_monthly|in_pounds}}')
             tr
               td Benefits
-                small
-                  em (inc. Pensions and Benefits in Kind)
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.benefits.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.benefits|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.benefits.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.benefits|mi_as_monthly|in_pounds}}')
             tr
               td Tax Credits
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.tax_credits.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.tax_credits|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.tax_credits.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.tax_credits|mi_as_monthly|in_pounds}}')
             tr
-              td Child Benefit
+              td Child Benefit 
+                small
+                  em (for household)
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.child_benefits.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.child_benefits|mi_as_monthly|in_pounds}}')
               td
             tr
               td Maintenance Received
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.maintenance_received.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.maintenance_received|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.maintenance_received.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.maintenance_received|mi_as_monthly|in_pounds}}')
             tr
-              td Private Pension Income
+              td Pension Income
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.pension.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.pension|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.pension.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.pension|mi_as_monthly|in_pounds}}')
             tr
               td Any Other Income
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.other_income.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.other_income|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.other_income.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.other_income|mi_as_monthly|in_pounds}}')
             tr
               th TOTAL INCOME
               td
@@ -343,41 +343,41 @@ body
             tr
               td Tax
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.income_tax.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.income_tax|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.income_tax.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.income_tax|mi_as_monthly|in_pounds}}')
             tr
               td National Insurance
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.national_insurance.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.national_insurance|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.national_insurance.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.national_insurance|mi_as_monthly|in_pounds}}')
             tr
               td Mortgage
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.mortgage.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.mortgage|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.mortgage.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.mortgage|mi_as_monthly|in_pounds}}')
             tr
               td Rent
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.rent.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.rent|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.rent.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.rent|mi_as_monthly|in_pounds}}')
             tr
               td Maintenance Payments being made
                 small
                   em (e.g. for Children and/or a former/separated spouse)
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.maintenance.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.maintenance|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.maintenance.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.maintenance|mi_as_monthly|in_pounds}}')
             tr
               td Childcare Costs due to Work
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.childcare.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.childcare|mi_as_monthly|in_pounds}}')
               td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.childcare.per_interval_value|in_pounds}}')
+                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.childcare|mi_as_monthly|in_pounds}}')
             tr
               td Legal Aid payments for Criminal Defence
               td
