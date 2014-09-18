@@ -21,23 +21,25 @@
 
     describe('Case allocation', function() {
       it('should be distributed according to specified weighting', function () {
-        for (var i = num_cases; i--;) {
-          (function (i) {
-            modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
-              browser.get('call_centre/'+case_ref+'/assign/');
-              get_provider().then(increment(allocations)).then(function () {
-                do_assign();
-                if (i === 0) {
-                  console.log('cases assigned', allocations);
-                  assert_distribution(allocations, weights);
-                }
-              });
-            });
-          })(i);
+        for (var i = num_cases; i >= 0; i -= 1) {
+          test_assign(i);
         }
       });
     });
   });
+
+  function test_assign(i) {
+    modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
+      browser.get('call_centre/'+case_ref+'/assign/');
+      get_provider().then(increment(allocations)).then(function () {
+        do_assign();
+        if (i === 0) {
+          console.log('cases assigned', allocations);
+          assert_distribution(allocations, weights);
+        }
+      });
+    });
+  }
 
   function increment(count) {
     return function(provider) {
