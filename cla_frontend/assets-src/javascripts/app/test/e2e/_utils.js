@@ -89,7 +89,7 @@
       if (value === true || value === false) {
         element(by.name(name)).click();
       } else {
-        element(by.css('[name="' + name + '"]')).sendKeys(value).blur();
+        element(by.css('[name="' + name + '"]')).sendKeys(value).blur;
       }
     },
 
