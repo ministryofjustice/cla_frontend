@@ -16,17 +16,16 @@ tags:
 
 Where someone states that they are calling on behalf of another person and are authorised to act on their behalf you must first check:
 
-Whether the client is resident in the EU. Please ask:
+### Whether the client is resident in the EU. 
+Please ask: _Does the person you are calling on behalf of live in England or Wales?_
 
-_Does the person you are calling on behalf of live in England or Wales?_
+If 'Yes' continue with call. 
+If 'No' please ask: _Does the person you are calling on behalf of live within the EU?_
 
-If ‘Yes’ continue with call . If ‘No’ please ask:
+If 'Yes', continue.
+If 'No', this case will need to be treated as **out of scope**.
 
-_Does the person you are calling on behalf of live within the EU?_
-
-If Yes, continue.
-If No, this case will need to be treated as out of scope
-
+### Capture details 
 Once you have confirmed the client lives within the EU please:
 
 * Take the details of the Client and then
@@ -38,11 +37,12 @@ You must ask in what capacity the Third Party is acting and note this.
 
 Where the Third Party is a legal advisor you must note the name of the organisation that they work for.
 
-[Where possible you must ask to speak to the client to confirm that they are happy for the Third Party to speak on their behalf and agree a passphrase.
+### Authority
+Where possible you must ask to speak to the client to confirm that they are happy for the Third Party to speak on their behalf and agree a passphrase.
 
-You must record the passphrase on the system. Where a Third Party contacts the service again they must confirm the password] {Note: can you put this bit in brackets as a separate bit of guidance that would come up if you search on Passphrase]
+You must record the passphrase on the system. Where a Third Party contacts the service again they must confirm the password.
 
-If you cannot speak to the Client
+** If you cannot speak to the Client **
 
 If you cannot speak to the Client, you should check whether this is because they are:
 * under 18;
