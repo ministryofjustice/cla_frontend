@@ -29,7 +29,7 @@
   });
 
   function test_assign(i) {
-    modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
+    modelsRecipe.Case.createForAllocationTest().then(function (case_ref) {
       browser.get('call_centre/'+case_ref+'/assign/');
       get_provider().then(increment(allocations)).then(function () {
         do_assign();

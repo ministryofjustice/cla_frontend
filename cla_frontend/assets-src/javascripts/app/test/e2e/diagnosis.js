@@ -59,7 +59,7 @@
         expect(element(by.cssContainingText('a', 'Create financial assessment')).isDisplayed()).toBe(true);
         expect(element(by.cssContainingText('.Tabs-tabLink.Icon--solidTick', 'Scope diagnosis')).isPresent()).toBe(true);
         // check category
-        expect(element(by.css('[ng-show="category"]')).getText()).toContain('Housing, eviction and homelessness');
+        expect(element(by.css('[ng-show="category"]')).getText()).toContain('Family, marriage, separation and children');
       });
 
       it('should not delete a diagnosis on cancel', function (){
