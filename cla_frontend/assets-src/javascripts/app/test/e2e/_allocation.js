@@ -4,19 +4,35 @@
   var utils = require('./_utils'),
       modelsRecipe = require('./_modelsRecipe'),
       // custom config
-      num_cases = 10,
+      num_cases = 300,
       allocations = {},
       weights = {
-        'FLG': 0.5,
-        'Coop': 0.5,
-        'Duncan Lewis': 0.5
+        'Ty Arian': 24.0,
+        'CES': 19.0,
+        'Duncan Lewis': 19.0,
+        'DHA': 19.0,
+        'Shelter': 19.0
       };
 
-  function createCase(i) {
-    modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
+  describe('operatorApp', function() {
+    beforeEach(utils.setUp);
+
+    //afterEach(utils.debugTeardown);
+
+    describe('Case allocation', function() {
+      it('should be distributed according to specified weighting', function () {
+        for (var i = num_cases; i >= 0; i -= 1) {
+          test_assign(i);
+        }
+      });
+    });
+  });
+
+  function test_assign(i) {
+    modelsRecipe.Case.createForAllocationTest().then(function (case_ref) {
       browser.get('call_centre/'+case_ref+'/assign/');
-      browser.findElement(by.css('.ContactBlock-heading')).getText().then(increment(allocations)).then(function () {
-        browser.findElement(by.css('[name=assign-provider]')).click();
+      get_provider().then(increment(allocations)).then(function () {
+        do_assign();
         if (i === 0) {
           console.log('cases assigned', allocations);
           assert_distribution(allocations, weights);
@@ -42,12 +58,21 @@
     return total;
   }
 
+  function get_provider() {
+    return $('.ContactBlock-heading').getText();
+  }
+
   function assert_distribution(dist, weights) {
     weights = normalize(weights);
     dist = normalize(dist);
     for (var key in weights) {
+      expect(key in dist).toBe(true);
       expect(Math.abs(weights[key] - dist[key])).toBeLessThan(0.05);
     }
+  }
+
+  function do_assign() {
+    $('[name=assign-provider]').click();
   }
 
   function normalize(weights) {
@@ -58,15 +83,4 @@
     return weights;
   }
 
-  describe('operatorApp', function() {
-    beforeEach(utils.setUp);
-
-    describe('Case allocation', function() {
-      it('should be distributed according to specified weighting', function () {
-        for (var i = num_cases; i>0; i-=1) {
-          createCase(i);
-        }
-      });
-    });
-  });
 })();

@@ -196,7 +196,6 @@
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
           goto_assign('2014-08-06T19:50');
-          assignAnyProvider();
           browser.findElement(by.css('button[name="assign-provider"]')).click();
 
           checkAssign(case_ref);
