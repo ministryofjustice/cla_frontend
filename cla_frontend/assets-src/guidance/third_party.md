@@ -14,9 +14,9 @@ tags:
 
 ## Third Party
 
-Where someone states that they are calling on behalf of another person and are authorised to act on their behalf you must first check:
+Where someone states that they are calling on behalf of another person and are authorised to act on their behalf you must first:
 
-### Whether the client is resident in the EU. 
+### Check whether the client is resident in the EU. 
 Please ask: _Does the person you are calling on behalf of live in England or Wales?_
 
 If 'Yes' continue with call. 
