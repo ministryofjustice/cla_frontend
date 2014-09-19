@@ -99,6 +99,32 @@ We need to know about any money owed to you by someone else because this can aff
 
 The total amount of money you earned before tax. Check your most recent payslips. 
 
+<h3 id="ecg-se_drawings">Self Employed Drawings (Before Tax)</h3>
+
+Self Employed Drawings (Before Tax).
+
+<h3 id="ecg-benefits">Benefits</h3>
+
+Benefits.
+
+<h3 id="ecg-tax_credits">Tax Credits</h3>
+
+Tax Credits.
+
+<h3 id="ecg-child_benefits">Child Benefit (for household)</h3>
+
+Child Benefit (for household).
+
+[Gov.uk rates and allowances.] (https://www.gov.uk/government/publications/rates-and-allowances-tax-credits-child-benefit-and-guardians-allowance/rates-and-allowances-tax-credits-child-benefit-and-guardians-allowance#child-benefit-rates) - **right-click and open in new window**
+
+<h3 id="ecg-maintenance_received">Maintenance Received</h3>
+
+Maintenance Received.
+
+<h3 id="ecg-pension">Pension income</h3>
+
+Pension.
+
 <h3 id="ecg-other_income">Other income</h3>
 
 Include Child Benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.

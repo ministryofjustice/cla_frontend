@@ -11,13 +11,13 @@ tags:
 
 ##Common potential scenarios
 
-* a neighbour is being racially abusive
-* a neighbour is verbally abusing the client or their children or partner
+* a neighbour has been racially abusive on more than one occasion
+* a neighbour has verbally abused the client or their children or partner on more than one occasion
 * the client's property or belongings are being damaged and they know who is doing it
 * extreme and purposeful noise nuisance is causing the client alarm or distress
 * the client has experienced violence or threats of violence on more than one occasion
 * someone is using animals to make the client or the client's family afraid
-* someone is purposefully taking actions to wilfully or knowingly cause the client distress, or actions that the perpetrator should know would cause alarm or distress
-* the landlord is harassing the client
+* someone is purposefully doing things to wilfully or knowingly cause the client distress, or things that the perpetrator should know would cause alarm or distress
+* the landlord has harassed the client, on more than one occasion
 
 ##

@@ -1,7 +1,10 @@
 {% load staticfiles core_tags raven %}
 <!DOCTYPE html>
 <html lang="en" {% block html_attrs %}ng-csp{% endblock %}>
-  <head data-sentry-dsn="{% sentry_public_dsn %}" data-sentry-site="{{ raven_config_site }}" data-socketio-server="{{ socketio_server_url }}">
+  <head data-sentry-dsn="{% sentry_public_dsn %}"
+    data-sentry-site="{{ raven_config_site }}"
+    data-socketio-server="{{ socketio_server_url }}"
+    data-piwik-hostname="{{ piwik_hostname }}">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,12 +36,7 @@
   </head>
 
   <body class="{{ product_type }} {{ phase }}{% block body_classes %}{% endblock %}"{% block body_attrs %}{% endblock %}>
-    <div id="skiplink-container">
-      <div>
-        <a href="#content" class="skiplink">Skip to main content</a>
-      </div>
-    </div>
-
+    
     <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
       <div class="header-wrapper">
         {% if zone %}
@@ -78,6 +76,15 @@
     </header>
     <!--end header-->
 
+    <!--[if lte IE 9]>
+      <div class="legacy-browser">
+        <h1>:(</h1>
+        <p>This service is <strong>not</strong> designed to support your browser.</p>
+        <p>Please <a href="http://browsehappy.com/">upgrade</a> to the latest version of Chrome, Firefox, Safari or Internet Explorer 11 and above.</p>
+      </div>
+    <![endif]-->
+
+    <!--[if gt IE 9]><!-->
     {% block after_header %}{% endblock %}
 
     {% block before_content %}{% endblock %}
@@ -111,13 +118,13 @@
       {% endblock %}
     </main>
 
-    <!--[if gt IE 6]><!-->
     <script src="{% static 'javascripts/lib.min.js' %}"></script>
     <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
     <script src="{% staticmin 'javascripts/cla.main.js' %}"></script>
+    <script src="{% static 'javascripts/vendor/piwik.js' %}"></script>
     {% block javascripts %}{% endblock %}
-    <!--<![endif]-->
 
     {% block body_end %}{% endblock %}
+    <!--<![endif]-->
   </body>
 </html>

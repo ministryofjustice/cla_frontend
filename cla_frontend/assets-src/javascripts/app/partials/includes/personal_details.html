@@ -99,7 +99,8 @@
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.ni_number.$invalid && personaldetails_submitted}">
       <span class="Icon Icon--ni Icon--formRow">
         <span class="Error-message" ng-show="personaldetails_frm.ni_number.$error.server">{{ errors.ni_number }}</span>
-        <span editable-text="personal_details.ni_number" e-name="ni_number" e-class="FormRow-field--full" e-placeholder="National Insurance Number" e-server-error></span>
+        <span editable-text="personal_details.ni_number" e-name="ni_number" e-class="FormRow-field--full" e-placeholder="National Insurance Number" e-ni-number e-server-error></span>
+        <span class="Error-message" ng-show="personaldetails_frm.ni_number.$error.nino && personaldetails_submitted">Invalid NI Number</span>
       </span>
     </label>
 

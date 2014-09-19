@@ -161,6 +161,21 @@
         );
       },
 
+      createForAllocationTest: function () {
+        return this.createRecipe(
+          _.extend({},
+            CONSTANTS.case.required,
+            CONSTANTS.mattertypes.housing
+          ),
+          _.extend({},
+            CONSTANTS.personal_details.required,
+            CONSTANTS.personal_details.recommended
+          ),
+          CONSTANTS.scope.allocation,
+          CONSTANTS.eligibility.allocation
+        );
+      },
+
       createAndAssign: function(providerId) {
         return this.createReadyToAssign().then(function(case_ref) {
           function _assign(el, case_ref, providerId, callback) {
