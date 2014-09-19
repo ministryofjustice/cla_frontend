@@ -39,12 +39,6 @@
         expect(txt).toContain('Case '+case_ref+' assigned to');
       }
 
-      function assignAnyProvider() {
-        browser.findElements(by.css('[name=provider]')).then(function (elements) {
-          elements[0].click();
-        });
-      }
-
       it('should not allow assigning without diagnosis or eligibility', function () {
         modelsRecipe.Case.createWithRequiredRecommendedFields().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
@@ -196,6 +190,10 @@
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);
 
           goto_assign('2014-08-06T19:50');
+          // assign first provider in list
+          browser.findElements(by.name('provider')).then(function (elements) {
+            elements[0].click();
+          });
           browser.findElement(by.css('button[name="assign-provider"]')).click();
 
           checkAssign(case_ref);
