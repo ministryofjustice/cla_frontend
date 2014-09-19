@@ -1,3 +1,29 @@
+---
+title: Discrimination: protected characteristics
+date: "2014-08-06 18:51"
+tags:
+  - discrimination
+  - protected characteristic
+  - protected
+  - characteristic
+  - age
+  - pregnancy
+  - maternity
+  - disability
+  - gender
+  - transexual
+  - sex
+  - race
+  - religion
+  - sexual orientation
+  - marriage
+  - civil partnership
+  - 
+  
+
+---
+
+
 Protected Characteristic Guidance Notes: Age
 Refers to a person belonging to: • a particular age group (e.g. 20 year olds) or
 • a range of ages (e.g. 60 to 80)
