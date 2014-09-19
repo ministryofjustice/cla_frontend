@@ -47,9 +47,11 @@
       'ui.bootstrap',
       'ui.select2',
       'sticky',
-      'angular-loading-bar'
+      'angular-loading-bar',
+      'angulartics',
+      'angulartics.piwik'
     ])
-    .config(function($resourceProvider, cfpLoadingBarProvider) {
+    .config(function($resourceProvider, cfpLoadingBarProvider, $analyticsProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
       cfpLoadingBarProvider.includeBar = false;
     })
@@ -109,7 +111,9 @@
       'ui.bootstrap',
       'ui.select2',
       'sticky',
-      'angular-loading-bar'
+      'angular-loading-bar',
+      'angulartics',
+      'angulartics.piwik'
     ])
     .config(function($resourceProvider, cfpLoadingBarProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
