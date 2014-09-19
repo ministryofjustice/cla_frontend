@@ -40,11 +40,11 @@ It is unlawful to discriminate against anyone on the grounds of:
 Age discrimination might be against to a person belonging to a particular age group (eg 20-year-olds) or a range of ages (eg 60 to 80-year-olds).
 
 ###Gender reassignment
-It is unlawful to discriminate against someone due to their gender reassignment.
+You can't discriminate against someone because of their gender reassignment.
 This includes where someone:
 
-* is proposing to undergo gender reassignment or
-* is currently undergoing gender reassignment or
+* is proposing to undergo gender reassignment
+* is currently undergoing gender reassignment
 * has already undergone (or partially undergone) the process of gender reassignment
 
 ###Pregnancy or maternity
@@ -53,15 +53,15 @@ It is unlawful to discriminate against someone on the grounds of pregnancy, or i
 ###Disability
 A disability is defined as a physical or mental impairment that has a substantial and long-term adverse effect on a person's ability to carry out normal day-to-day activities.
 
-“Substantial” means more than trivial (eg needing help with having a wash, showering, shopping etc)
-"Long term" is where a condition has lasted, or is likely to last, more than 12 months (so for example someone may have had a back problem for less than 12 months but the client may think this is likely to continue).
+“Substantial” means more than trivial (eg needing help with having a wash, showering, shopping)
+"Long term" is where a condition has lasted, or is likely to last, more than 12 months (eg someone may have had a back problem for less than 12 months but the client may think this is likely to continue).
 
 People with cancer or who are HIV+ are classed as having a disability.
 
 The disability does not have to have a name or an official diagnosis to satisfy the definition.
 
 ###Marriage and civil partnership
-It is unlawful to discriminate against people who are married or in a civil partnership, including same sex couples
+It is unlawful to discriminate against people who are married or in a civil partnership, including same sex couples.
 
 ###Race
 It is unlawful to discriminate against people because of their race, colour or nationality (including citizenship), ethnic or national origins.
