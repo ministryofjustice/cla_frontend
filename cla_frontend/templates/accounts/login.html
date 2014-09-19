@@ -9,7 +9,10 @@
         <header class="PageHeader">
           <h1>Sign in</h1>
         </header>
-        <form action="" method="post" autocomplete="off">
+
+        <p>Sign in using your account details to access the system.</p>
+        
+        <form action="" name="login_frm" method="post" autocomplete="off">
           {% csrf_token %}
 
           {% include "common/includes/error_summary.html" %}
@@ -27,8 +30,10 @@
               </label>
             </div>
           {% endfor %}
-
-          <input type="submit" value="Signin" class="Button">
+          
+          <div class="FormActions">
+            <button type="submit" value="signin" name="login-submit" class="Button">Sign in</button>
+          </div>
         </form>
       </div>
     </div>
