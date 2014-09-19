@@ -1,5 +1,5 @@
 ---
-title: Discrimination: protected characteristics
+title: Discrimination - protected characteristics
 date: "2014-08-06 18:51"
 tags:
   - discrimination
