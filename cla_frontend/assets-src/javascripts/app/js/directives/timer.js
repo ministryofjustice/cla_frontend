@@ -11,7 +11,8 @@
         baseTime: '=?',
         startButton: '=?'
       },
-      controller: ['$scope', '$rootScope', 'TimerFactory', 'Timer', 'Stopwatch', function($scope, $rootScope, TimerFactory, Timer, Stopwatch) {
+      controller: ['$scope', '$rootScope', 'TimerFactory', 'Timer', 'Stopwatch', '$window',
+        function($scope, $rootScope, TimerFactory, Timer, Stopwatch, $window) {
         $scope.isEnabled = Timer.isEnabled();
 
         $scope.timer = new Stopwatch({
@@ -41,6 +42,21 @@
         $scope.startTimer = function() {
           $rootScope.$emit('timer:start');
         };
+
+        $scope.stopTimer = function() {
+          $rootScope.$emit('timer:stop');
+        };
+
+        $scope.toggleTimer = function() {
+          if ($scope.timer.running) {
+            if ($window.confirm('Are you sure you want to cancel the running timer? (time will not be billable')) {
+              $scope.stopTimer();
+            }
+          } else {
+            $scope.startTimer();
+          }
+        };
+
       }]
     };
 
@@ -65,6 +81,14 @@
         return $http.get(this.baseUrl, {
             'ignoreExceptions': ignoreExceptions || this.defaults.ignoreExceptions
           }).
+          success(successCallback || angular.noop).
+          error(errorCallback || angular.noop);
+      },
+
+      stop: function(successCallback, errorCallback, ignoreExceptions) {
+        return $http.delete(this.baseUrl, {
+          'ignoreExceptions': ignoreExceptions || this.defaults.ignoreExceptions
+        }).
           success(successCallback || angular.noop).
           error(errorCallback || angular.noop);
       }
@@ -145,6 +169,7 @@
 
         * 'timer:start': gets or creates a timer from the backend
         * 'timer:check': checks if a timer is running asking the backend
+        * 'timer:stop': stops a running timer on the backend
 
       APPLICATION EVENTS:
         Emitted by this module every time the state of the timer changes. You should never emit
@@ -192,7 +217,7 @@
                     };
 
                 // ACTION EVENTS
-                // emitting timer:check and timer:start triggers this module
+                // emitting timer:check, timer:stop and timer:start triggers this module
                 // to call the backend and check if the timer is running or not
 
                 $rootScope.$on('timer:check', function() {
@@ -208,6 +233,20 @@
 
                   TimerFactory.getOrCreate(function(data) {
                     onTimerChangedAPICallback(data.created);
+                    (options.success || angular.noop)();
+                  }, function(data, status) {
+                    if (status === 400) {
+                      flash('error', data.detail || '');
+                    }
+                    (options.error || angular.noop)();
+                  });
+                });
+
+                $rootScope.$on('timer:stop', function(__, options) {
+                  options = options || {};
+
+                  TimerFactory.stop(function() {
+                    onTimerStoppedAPICallback();
                     (options.success || angular.noop)();
                   }, function(data, status) {
                     if (status === 400) {
