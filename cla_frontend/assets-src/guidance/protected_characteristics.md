@@ -20,22 +20,34 @@ tags:
   - civil partnership
   - 
   
+## What are the protected characteristics
 
+It is unlawful to discriminate against anyone on the grounds of:
+
+age
+gender reassignment
+being married or in a civil partnership
+being pregnant or having recently given birth
+disability
+race including colour, nationality, ethnic or national origin
+religion, belief or lack of religion or belief
+sex
+sexual orientation
 ---
 
 
-Protected Characteristic Guidance Notes: Age
-Refers to a person belonging to: • a particular age group (e.g. 20 year olds) or
-• a range of ages (e.g. 60 to 80)
+###Age
+Age discrimination might be against to a person belonging to a particular age group (eg 20-year-olds) or a range of ages (eg 60 to 80-year-olds).
 
-Transexual People
-It is unlawful to discriminate against someone due to their gender reassignment, changing the physiological or attributes of their sex.
-This includes where someone is: 
-• Proposing to undergo gender reassignment or
-• Are currently undergoing gender reassignment or
-• Have already undergone (or partially undergone) the process of gender reassignment
+###Gender reassignment
+It is unlawful to discriminate against someone due to their gender reassignment.
+This includes where someone:
 
-Pregnancy or Maternity
+* is proposing to undergo gender reassignment or
+* is currently undergoing gender reassignment or
+* has already undergone (or partially undergone) the process of gender reassignment
+
+###Pregnancy or maternity
 This refers to: - Pregnancy
 - Having recently given birth (can include the need to breastfeed)
 
