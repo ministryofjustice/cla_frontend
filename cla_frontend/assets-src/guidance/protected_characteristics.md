@@ -1,5 +1,5 @@
 ---
-title: Discrimination: protected characteristics
+title: Discrimination - protected characteristics
 date: "2014-08-06 18:51"
 tags:
   - discrimination
@@ -18,7 +18,7 @@ tags:
   - sexual orientation
   - marriage
   - civil partnership
-  - 
+---
   
 ## What are the protected characteristics
 
@@ -33,7 +33,7 @@ race including colour, nationality, ethnic or national origin
 religion, belief or lack of religion or belief
 sex
 sexual orientation
----
+
 
 
 ###Age
