@@ -1,5 +1,5 @@
 ---
-title: Discrimination - protected characteristics
+title: Discrimination: protected characteristics
 date: "2014-08-06 18:51"
 tags:
   - discrimination
@@ -20,19 +20,19 @@ tags:
   - civil partnership
 ---
   
-## What are the protected characteristics
+##What are the protected characteristics?
 
 It is unlawful to discriminate against anyone on the grounds of:
 
-age
-gender reassignment
-being married or in a civil partnership
-being pregnant or having recently given birth
-disability
-race including colour, nationality, ethnic or national origin
-religion, belief or lack of religion or belief
-sex
-sexual orientation
+* age
+* gender reassignment
+* being married or in a civil partnership
+* pregnancy or maternity
+* disability
+* race including colour, nationality, ethnic or national origin
+* religion, belief or lack of religion or belief
+* sex
+* sexual orientation
 
 
 
@@ -48,30 +48,30 @@ This includes where someone:
 * has already undergone (or partially undergone) the process of gender reassignment
 
 ###Pregnancy or maternity
-This refers to: - Pregnancy
-- Having recently given birth (can include the need to breastfeed)
+It is unlawful to discriminate against someone on the grounds of pregnancy, or if they've recently given birth. This can include the need to breastfeed. 
 
-Disability
-A physical or mental impairment, which has a substantial and long term adverse effect on a persons ability to carry out normal day to day activities
-“Substantial” means more than trivial” (i.e. need help with having a wash/shower/shopping etc)
-‘’Long term’’ is where a condition has or is likely to last more than 12 months (so for example someone may have had a back problem for less than 12 months but the client may think this is likely to continue).
-People with Cancer or who are HIV+ are classed as having a disability.
-The disability does not have to have a name and it can be an officially undiagnosed but still satisfy the definition.
+###Disability
+A disability is defined as a physical or mental impairment that has a substantial and long-term adverse effect on a person's ability to carry out normal day-to-day activities.
 
-Marriage and Civil Partnership
-Refers to people who are married or in a civil partnership; including same sec couples
+“Substantial” means more than trivial (eg needing help with having a wash, showering, shopping etc)
+"Long term" is where a condition has lasted, or is likely to last, more than 12 months (so for example someone may have had a back problem for less than 12 months but the client may think this is likely to continue).
 
-Race
-Refers to a group of people defined by their race, colour or nationality (including citizenship), ethnic or national origins.
+People with cancer or who are HIV+ are classed as having a disability.
 
-Religion or Belief
-Refers to any religious or philosophical belief.
-This also includes a reference to a lack of belief (e.g. Atheism).
-Generally, a belief should affect your life choices or the way you live for it to be included in the definition
+The disability does not have to have a name or an official diagnosis to satisfy the definition.
 
-Sex
-A man or a woman
+###Marriage and civil partnership
+It is unlawful to discriminate against people who are married or in a civil partnership, including same sex couples
 
-Sexual Orientation
-Whether a person's sexual attraction is towards their own sex, the opposite sex or to both sexes.
-This can also cover situations where treatment is based on perceived sexual orientation which may not be the case.
+###Race
+It is unlawful to discriminate against people because of their race, colour or nationality (including citizenship), ethnic or national origins.
+
+###Religion or belief
+Religion means any religious or philosophical belief, including a lack of religious belief (eg atheism). Generally, a belief should affect your life choices or the way you live for it to be included in the definition of religion. 
+
+###Sex
+It is unlawful to discriminate against anyone because they are a man or a woman. 
+
+###Sexual orientation
+Sexual orientation is Whether a person is sexually attracted to their own sex, the opposite sex or to both sexes.
+This can also cover situations where discrimination is based on what someone perceives another person's sexual orientation to be, even when this is not the case.
