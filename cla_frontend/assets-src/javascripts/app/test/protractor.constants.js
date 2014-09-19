@@ -53,7 +53,7 @@
         dob: '1/1/2014'
       },
       recommended: {
-        ni_number: '0123456789',
+        ni_number: 'AA123456B',
         postcode: 'F00 B4R',
         street: '1 Foo Bar'
       },
