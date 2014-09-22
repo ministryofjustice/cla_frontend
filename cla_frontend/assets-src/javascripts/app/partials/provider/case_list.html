@@ -1,7 +1,7 @@
 <div data-extend-template="case_list.html">
   <nav data-block="filters" class="Filters">
-    <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !hideOpened}" ng-click="hideOpened=!hideOpened">{{ hideOpened ? 'Show' : 'Hide' }} unopened cases</a>
-    <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !hideViewed}" ng-click="hideViewed=!hideViewed">{{ hideViewed ? 'Show' : 'Hide' }} viewed cases</a>
-    <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !hideAdopted}" ng-click="hideAdopted=!hideAdopted">{{ hideAdopted ? 'Show' : 'Hide' }} adopted cases</a>
+    <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !$stateParams.new}" ng-click="filterToggle('new')">{{ $stateParams.new ? 'Show' : 'Hide' }} unopened cases</a>
+    <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !$stateParams.viewed}" ng-click="filterToggle('viewed')">{{ $stateParams.viewed ? 'Show' : 'Hide' }} viewed cases</a>
+    <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !$stateParams.accepted}" ng-click="filterToggle('accepted')">{{ $stateParams.accepted ? 'Show' : 'Hide' }} adopted cases</a>
   </nav>
 </div>

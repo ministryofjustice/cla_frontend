@@ -43,6 +43,19 @@
             _updatePage({inherit: false});
           };
 
+          // FILTER ACTIONS
+
+          $scope.filterToggle = function(filterProp){
+            console.log(parseInt($scope.searchParams[filterProp]));
+
+            if (parseInt($scope.searchParams[filterProp]) === 0) {
+              $scope.searchParams[filterProp] = null;
+            } else {
+              $scope.searchParams[filterProp] = 0;
+            }
+            _updatePage();
+          };
+
           // SORT ACTIONS
 
           $scope.sortToggle = function(currentOrderProp){
