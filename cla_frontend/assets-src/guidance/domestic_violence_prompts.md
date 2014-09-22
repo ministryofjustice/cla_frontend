@@ -36,7 +36,7 @@ tags:
 
 * Have you been concerned about child’s wellbeing when having contact with this person?
 
-• Has the child ever expressed a real discomfort about seeing this person?
+* Has the child ever expressed a real discomfort about seeing this person?
 
 * Has the child ever made any allegations?
 
