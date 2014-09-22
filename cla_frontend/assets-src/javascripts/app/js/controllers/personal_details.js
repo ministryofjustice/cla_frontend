@@ -128,6 +128,13 @@
           // trigger on first load
           $scope.relationshipChange($scope.third_party.personal_relationship);
 
+
+          $scope.spokenWithToggle = function (value) {
+            $scope.spoke_to = value;
+          };
+          // trigger on first load
+          $scope.spokenWithToggle($scope.third_party.spoke_to);
+
           $scope.toggleWelsh = function (value) {
             $scope.language.disable = value ? false : true;
           };
