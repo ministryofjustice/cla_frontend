@@ -37,7 +37,7 @@ Remember: Where a client or a child is AT IMMEDIATE RISK OF ABUSE, you must foll
 
 * Have you ever sought legal advice about the respondent’s behaviour?
 
-###Child abuse
+## Questions to ask to screen for child abuse
 
 * Have you been concerned about child’s wellbeing when having contact with this person?
 
