@@ -1,3 +1,14 @@
+---
+title: Signs of domestic abuse to listen out for
+date: "2014-08-06 18:51"
+tags:
+  - domestic violence
+  - abuse
+  - violence
+  - child abuse
+
+---
+
 ##Signs of domestic abuse
 
 * The caller has received numerous text messages, calls, emails, missed calls, voicemails.
