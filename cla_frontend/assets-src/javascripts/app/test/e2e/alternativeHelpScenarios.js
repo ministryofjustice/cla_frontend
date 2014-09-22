@@ -37,8 +37,6 @@
           expect(browser.isElementPresent(alternative_help_link)).toBe(true);
           browser.findElement(alternative_help_link).click();
 
-
-
           var selected_provider_inputs = browser.findElements(by.css('input[name=selected_providers]:checked'));
           expect(selected_provider_inputs).toEqual([]);
 
@@ -75,7 +73,6 @@
           var alternative_help_link = findAlternativeHelpLink();
           browser.findElement(alternative_help_link).click();
 
-
           var provider_inputs = browser.findElements(by.css('input[name="selected_providers"]')) || [];
           provider_inputs.then(function (data) {
             var to_select;
@@ -95,9 +92,7 @@
             checkOutcomeCode('IRKB');
           });
         });
-
       });
-
 
 
       // xit-ing for now as it causes problems
@@ -118,8 +113,6 @@
               browser.switchTo().window(origWindow);
             });
 
-
-
           var submitButton = browser.findElement(by.css('button[name="assign-f2f"]'));
           expect(submitButton.isEnabled()).toBe(false);
 
@@ -132,8 +125,8 @@
             checkOutcomeCode('COSPF');
           });
         });
-
       });
+
 
       //      An in-scope / eligible case shouldn't see ECF message;
       it('should be able to decline help (in_scope)', function () {
@@ -159,16 +152,12 @@
             browser.get(caseUrl);
             checkOutcomeCode('DECL');
           });
-
         });
       });
 
 
       //      An in-scope / eligible case shouldn't see ECF message;
       it('should be able to decline help (out_scope) & should see ECF message', function () {
-
-
-
         modelsRecipe.Case.createWithOutScopeAndInEligible().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
@@ -192,12 +181,10 @@
             browser.get(caseUrl);
             checkOutcomeCode('DECL');
           });
-
         });
       });
 
       function pickECFStatement() {
-
         browser.findElement(by.css('input[name="ecf_statement"][value="CLIENT_TERMINATED"]:first-child')).click();
         browser.findElement(by.css('div.modal button[type="submit"]')).submit();
         browser.waitForAngular();
@@ -207,12 +194,11 @@
         expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Decline Help');
         expect(browser.isElementPresent(by.repeater('code in codes'))).toBe(true);
         browser.findElement(by.css('input[name="code"][value="DECL"]:first-child')).click();
-        }
+      }
 
       function checkOutcomeCode(code) {
         var codeSpan = element.all(by.binding('log.code'));
         expect(codeSpan.get(0).getText()).toEqual(code);
-
       }
 
       function clickCloseButton() {
@@ -222,9 +208,6 @@
       function findAlternativeHelpLink(){
         return by.css('#alternative_help');
       }
-
     });
-
-
   });
 })();
