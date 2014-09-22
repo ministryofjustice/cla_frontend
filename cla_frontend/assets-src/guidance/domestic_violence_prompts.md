@@ -10,6 +10,11 @@ tags:
   - domestic
 
 ---
+##IMPORTANT NOTE - PLEASE READ
+
+Remember: Where a client or a child is AT IMMEDIATE RISK OF ABUSE, you must follow the CLA Child, Young Person and Adult at Risk of Abuse Policy. You may need to report the matter to protection services.
+
+
 ## Questions to ask to screen for domestic violence and abuse
 
 * Have you ever felt threatened around the respondent?
