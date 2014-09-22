@@ -7,6 +7,9 @@ tags:
   - violence
 
 ---
+##IMPORTANT NOTE - PLEASE READ
+
+Remember: Where a client or a child is AT IMMEDIATE RISK OF ABUSE, you must follow the CLA Child, Young Person and Adult at Risk of Abuse Policy. You may need to report the matter to protection services.
 
 ##Definition of domestic violence and abuse
 
