@@ -332,6 +332,8 @@
 
     providerStates.CaseDetailState.views[''].templateUrl = 'provider/case_detail.html';
 
+    providerStates.CaseListState.templateUrl = 'provider/case_list.html';
+
     providerStates.CaseEditDetailState.views['@case_detail'].templateUrl = 'provider/case_detail.edit.html';
     return providerStates;
   };
