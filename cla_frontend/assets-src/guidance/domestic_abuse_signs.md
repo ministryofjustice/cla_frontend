@@ -19,7 +19,7 @@ tags:
 
 * The caller has applied for injunctions or protection orders in the past
 
-* There is a bitter dispute about arrangements for the children or finances – this is quite hard to spot because domestic abuse may not be the reason for the call and may not be obvious on the face of it, but often the dispute has involved some incidents which have unsettled the caller
+* There is a bitter dispute about arrangements for the children or finances – this is quite hard to spot because domestic abuse may not be obvious on the face of it, but often the dispute has involved some incidents which have unsettled the caller
 
 * There has been a breakdown of communication because of an incident or incidents of domestic abuse
 
@@ -33,7 +33,7 @@ tags:
 
 * An incident between the parties has been reported to the police – this can be easy to miss as a parent might not appreciate that an incident between the parents can cause a child any harm (this would be considered as emotional harm)
 
-* Social services has been involved with the family in the past
+* Social Services has been involved with the family in the past
 
 * There have been court proceedings involving the child
 
