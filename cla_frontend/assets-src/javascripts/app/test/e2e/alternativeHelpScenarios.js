@@ -171,7 +171,7 @@
 
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(true);
 
-          expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Exceptional Case Fund');
+          expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Exceptional case funding');
           pickECFStatement();
 
           declineHelp();
