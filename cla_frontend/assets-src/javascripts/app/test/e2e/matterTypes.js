@@ -1,9 +1,7 @@
-/* jshint unused:false, quotmark:false */
 (function(){
   'use strict';
 
-  var protractor = require('protractor'),
-      utils = require('./_utils'),
+  var utils = require('./_utils'),
       modelsRecipe = require('./_modelsRecipe'),
       CONSTANTS = require('../protractor.constants');
 

@@ -89,7 +89,9 @@
       if (value === true || value === false) {
         element(by.name(name)).click();
       } else {
+        /*jshint -W030 */
         element(by.css('[name="' + name + '"]')).sendKeys(value).blur;
+        /*jshint +W030 */
       }
     },
 
