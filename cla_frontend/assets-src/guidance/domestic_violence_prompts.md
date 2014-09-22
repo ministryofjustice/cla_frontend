@@ -32,15 +32,16 @@ tags:
 
 * Have you ever sought legal advice about the respondent’s behaviour?
 
-CA
-• Have you been concerned about child’s wellbeing when having contact with the other side
+###Child abuse
 
-• Has the child ever expressed a real discomfort about seeing the other side
+* Have you been concerned about child’s wellbeing when having contact with this person?
 
-• Has the child ever made any allegations
+• Has the child ever expressed a real discomfort about seeing this person?
 
-• Have you ever discussed concerns about your child’s well being with professionals
+* Has the child ever made any allegations?
 
-• Has the school/nursery/GP ever raised concern about the child’s behaviour
+* Have you ever discussed concerns about your child’s wellbeing with professionals?
 
-• Have you ever sought legal advice about your child’s behaviour
+* Has the school/nursery/GP ever raised concern about the child’s behaviour?
+
+* Have you ever sought legal advice about your child’s behaviour?
