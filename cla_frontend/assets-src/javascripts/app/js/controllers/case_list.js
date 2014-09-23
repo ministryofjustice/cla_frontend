@@ -53,7 +53,7 @@
           
           $scope.filterClass = function(newState, acceptedState) {
             if (
-              ($scope.searchParams.new === newState && $scope.searchParams.accepted === acceptedState) || 
+              (newState === null && acceptedState === null && !$scope.searchParams.new && !$scope.searchParams.accepted) || 
               (parseInt($scope.searchParams.new) === parseInt(newState) && parseInt($scope.searchParams.accepted) === parseInt(acceptedState))
             ) {
               return 'is-selected';
