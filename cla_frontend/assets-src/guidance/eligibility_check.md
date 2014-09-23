@@ -18,7 +18,7 @@ Legal aid is calculated on both you and your partner's money. A 'partner' is som
 
 National Asylum Support Service (NASS) benefits are paid to eligible destitute asylum seekers as vouchers. Note that NASS benefits will only allow someone to automatically qualify for legal aid through the means test if the matter is an immigration one.
 
-<h3 id="ecg-on_passported_benefits">Are you on any of these benefits? (Read out this list to client)</h3>
+<h3 id="ecg-on_passported_benefits">Are you or your partner on any of these benefits? (Read out this list to client)</h3>
 
 * Income Support
 * Income-Based Job Seeker's Allowance *(but not contributions-based)*
