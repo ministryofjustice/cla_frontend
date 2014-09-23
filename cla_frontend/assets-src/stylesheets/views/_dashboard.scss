@@ -15,7 +15,7 @@
     }
     .BlockLink {
       margin-left: 20px;
-      margin-top: 7px;
+      margin-top: 5px;
     }
   }
   .PageHeader--wo-search {
@@ -24,5 +24,11 @@
 
   #wrapper {
     padding-bottom: 60px;
+  }
+
+  .Filters {
+    margin: 7px 0 0 20px;
+    display: block;
+    float: left;
   }
 }

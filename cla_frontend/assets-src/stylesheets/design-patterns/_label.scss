@@ -1,3 +1,7 @@
+.LabelGroup {
+  @extend %contain-floats;
+}
+
 .Label {
   @include core-14;
   display: inline-block;
@@ -15,6 +19,19 @@
 
   input + & {
     margin-left: 10px;
+  }
+
+  .LabelGroup & {
+    margin: 0 0 0 -1px;
+    float: left;
+    @include border-radius(0);
+
+    &:first-child {
+      @include border-radius(3px 0 0 3px);
+    }
+    &:last-child {
+      @include border-radius(0 3px 3px 0);
+    }
   }
 
   &.Icon {
