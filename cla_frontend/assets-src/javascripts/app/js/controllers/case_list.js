@@ -45,15 +45,19 @@
 
           // FILTER ACTIONS
 
-          $scope.filterToggle = function(filterProp){
-            console.log(parseInt($scope.searchParams[filterProp]));
-
-            if (parseInt($scope.searchParams[filterProp]) === 0) {
-              $scope.searchParams[filterProp] = null;
-            } else {
-              $scope.searchParams[filterProp] = 0;
-            }
+          $scope.filterCases = function(newState, acceptedState){
+            $scope.searchParams.new = newState;
+            $scope.searchParams.accepted = acceptedState;
             _updatePage();
+          };
+          
+          $scope.filterClass = function(newState, acceptedState) {
+            if (
+              ($scope.searchParams.new === newState && $scope.searchParams.accepted === acceptedState) || 
+              (parseInt($scope.searchParams.new) === parseInt(newState) && parseInt($scope.searchParams.accepted) === parseInt(acceptedState))
+            ) {
+              return 'is-selected';
+            }
           };
 
           // SORT ACTIONS
