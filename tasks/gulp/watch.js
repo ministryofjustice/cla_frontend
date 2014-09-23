@@ -8,10 +8,10 @@
     var lr = require('gulp-livereload');
     lr.listen();
 
-    gulp.watch(paths.fonts, ['fonts']);
+    gulp.watch(paths.fonts, ['copy-fonts']);
     gulp.watch(paths.styles.concat(paths.icons), ['sass']);
     gulp.watch(paths.images, ['images']);
-    gulp.watch(paths.vendor_static, ['vendor']);
+    gulp.watch(paths.vendor_static, ['copy-vendor-js']);
     gulp.watch(paths.src + 'javascripts/**/*', ['lint', 'js-concat']);
     gulp.watch(paths.guidance, ['guidance-build']);
     // watch built files and send reload event

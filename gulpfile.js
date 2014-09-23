@@ -7,5 +7,5 @@ var gulp = require('gulp'),
 gulp.task('default', ['build']);
 // run build
 gulp.task('build', function() {
-  runSequence('clean-pre', ['css-min', 'fonts', 'images', 'vendor', 'guidance-build', 'lint', 'js-lib-compile', 'js-app-compile']);
+  runSequence('clean-pre', ['css-min', 'copy-fonts', 'images', 'copy-vendor-js', 'guidance-build', 'lint', 'js-lib-compile', 'js-app-compile']);
 });
