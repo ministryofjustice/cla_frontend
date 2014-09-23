@@ -143,8 +143,8 @@
     });
 
 
-    describe('As Operator', function () {
-      beforeEach(utils.setUp);
+    describe('As Operator Manager', function () {
+      beforeEach(utils.setUpAsOperatorManager);
 
       var case_rejected_with_feedback_link,
           case_not_rejected_with_feedback_link,
