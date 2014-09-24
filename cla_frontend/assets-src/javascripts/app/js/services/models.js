@@ -385,13 +385,36 @@
     }]);
 
   angular.module('cla.services')
-    .factory('User', ['$resource', 'url_utils', function ($resource, url_utils) {
-      return $resource(url_utils.proxy('user/me/'), {}, {
+    .factory('User', ['$resource', 'url_utils', '$http', function ($resource, url_utils, $http) {
+      var resource = $resource(url_utils.proxy('user/'), {}, {
         get: {
           method: 'GET',
+          isArray: false,
+          url: url_utils.proxy('user/:username/'),
+          params: {username: '@username'}
+        },
+        query: {
+          method: 'GET',
+          isArray: true
+        },
+        save: {
+          method: 'POST',
           isArray: false
         }
       });
+
+      resource.prototype.$resetPassword = function(old_password, new_password) {
+        var url = url_utils.proxy('user/'+this.username+'/password_reset/'),
+          data = {
+            'new_password': new_password
+          };
+        if (old_password) {
+          data.old_password = old_password;
+        }
+        return $http.post(url, data);
+      };
+
+      return resource;
     }]);
 
   angular.module('cla.services.operator')

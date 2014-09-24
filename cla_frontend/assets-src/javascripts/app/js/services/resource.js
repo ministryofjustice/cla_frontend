@@ -16,7 +16,7 @@
 
         angular.forEach(actions, function(action) {
 
-        	eventAction = null;
+          eventAction = null;
 
           if (/^(POST|PUT|PATCH)$/i.test(action.method)) {
             eventAction = 'saved';
@@ -28,24 +28,24 @@
             eventAction = action.eventAction;
           }
 
-        	if (eventAction) {
-						action.interceptor = action.interceptor || {};
-						if (action.interceptor.response) {
-							console.log('TODO: not yet implemented, overriding your interceptor :-/ ...');
-						}
+          if (eventAction) {
+            action.interceptor = action.interceptor || {};
+            if (action.interceptor.response) {
+              console.log('TODO: not yet implemented, overriding your interceptor :-/ ...');
+            }
 
-						action.interceptor.response = (function(modelName, eventAction) {
-							return function(response) {
-	            	postal.publish({
-							    channel : 'models',
-							    topic   : modelName+'.'+eventAction,
-							    data    : response.resource
-								});
+            action.interceptor.response = (function(modelName, eventAction) {
+              return function(response) {
+                postal.publish({
+                  channel : 'models',
+                  topic   : modelName+'.'+eventAction,
+                  data    : response.resource
+                });
 
-	            	return response.resource;
-	          	};
-	          })(modelName, eventAction);
-        	}
+                return response.resource;
+              };
+            })(modelName, eventAction);
+          }
         });
 
         return $resource(url, paramDefaults, actions, options);

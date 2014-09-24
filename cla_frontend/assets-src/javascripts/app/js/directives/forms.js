@@ -11,6 +11,7 @@
         element.on('change blur', function() {
           scope.$apply(function() {
             ctrl.$setValidity('server', true);
+            ctrl.$validate();
           });
         });
       }
