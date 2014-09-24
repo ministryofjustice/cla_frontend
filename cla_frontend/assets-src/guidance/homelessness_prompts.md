@@ -10,15 +10,15 @@ tags:
 ---
 ##Questions that may help you identify "in scope" matters
 
-* what type of refuge or shelter are you living in?
-* have you been subjected to any violence or threats of violence in your home?
-* is your home in a state of serious disrepair? If so, is this affecting your health?
-* how many people live in your property? (specify ages and gender)
-* how many rooms are there in your property, not counting the kitchen and bathroom?
-* do you have anywhere else to stay? If yes, how long can you stay there? Do you own that property? Is it in the UK?
-* do you have anywhere you can legally moor your boat?
-* do you have anywhere you can legally pitch your caravan?
-* have you received a section 184 letter? (homeless decision letter)
+* Where are you staying tonight?
+
+* Why can’t you stay where you have been living? 
+
+* Is where you are staying suitable to your needs?
+
+* Have you made a homeless application to the council? What is the status of this application?
+
+* Are you seeking asylum? Are you at risk of losing your accommodation?
 
 ###For people with health conditions and disabled people
 
