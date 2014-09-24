@@ -12,7 +12,7 @@ tags:
 
 ##Questions to ask
 
-###Possession of an individual’s home due to failure to make mortgage payments
+###Repossession of someone's home due to failure to make mortgage repayments
 
 * Are you the owner or joint owner of the property? (If not,  then likely to be Housing)
 
@@ -24,7 +24,7 @@ own as they could not keep up with payments and now live elsewhere.)
 
 • Have you received paperwork from the court? If so, what stage are court proceedings at? 
 
-• If there are no court proceedings, why do you think there is a threat?
+• If there are no court proceedings, why do you think you might lose your home?
 
 • What type of loan do you have on the property - is it a mortgage, secured loan or an all-monies charge?
 
@@ -40,7 +40,7 @@ county court judgment or a charging order.)
 
 ###Bankruptcy orders against the client where the estate includes their home (and 
 
-where they did not petition for bankruptcy themselves)
+where they did not apply for bankruptcy themselves)
 
 • Is someone trying to make you bankrupt because you owe them money? If you are made 
 
