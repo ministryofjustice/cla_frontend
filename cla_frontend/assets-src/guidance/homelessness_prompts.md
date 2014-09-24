@@ -11,13 +11,9 @@ tags:
 ##Questions that may help you identify "in scope" matters
 
 * Where are you staying tonight?
-
 * Why can’t you stay where you have been living? 
-
-* Is where you are staying suitable to your needs?
-
+* Is where you are staying suitable for your needs?
 * Have you made a homeless application to the council? What is the status of this application?
-
 * Are you seeking asylum? Are you at risk of losing your accommodation?
 
 ###For people with health conditions and disabled people
