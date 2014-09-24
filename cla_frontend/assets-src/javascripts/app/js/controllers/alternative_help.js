@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('AlternativeHelpCtrl',
-      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q', 'KnowledgeBase',
-        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q, ){
+      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q',
+        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q){
           $scope.category = $stateParams.category || null;
           $scope.keyword = $stateParams.keyword;
           $scope.currentPage = $stateParams.page || 1;
@@ -100,7 +100,6 @@
                 });
             });
           };
-
         }
       ]
     );

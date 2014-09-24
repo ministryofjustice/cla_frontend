@@ -19,6 +19,10 @@
         return selected;
       };
 
+      this.selected_providers_length = function () {
+        return Object.keys(this.selected_providers).length;
+      };
+
       this.clear();
     }]);
 })();

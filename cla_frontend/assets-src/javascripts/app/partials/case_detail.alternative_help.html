@@ -19,14 +19,14 @@
 </div>
 
 <div class="SummaryBlock SelectedProviders">
-  <h2 class="SummaryBlock-heading">Selected organisations ({{ Object.keys(alternativeHelpService.selected_providers).length }})</h2>
+  <h2 class="SummaryBlock-heading">Selected organisations ({{ alternativeHelpService.selected_providers_length() }})</h2>
   <div class="SummaryBlock-content">
-    <ul class="SummaryBlock-list" ng-show="Object.keys(alternativeHelpService.selected_providers).length > 0">
+    <ul class="SummaryBlock-list" ng-show="alternativeHelpService.selected_providers_length() > 0">
       <li ng-repeat="item in alternativeHelpService.selected_providers">
         {{ item.service_name }}
       </li>
     </ul>
-    <p class="u-mute" ng-show="Object.keys(alternativeHelpService.selected_providers).length === 0">None selected</p>
+    <p class="u-mute" ng-show="alternativeHelpService.selected_providers_length() === 0">None selected</p>
   </div>
 </div>
 
@@ -39,7 +39,8 @@
         name="selected_providers"
         type="checkbox"
         value="{{ provider.id }}"
-        ng-model="alternativeHelpService.selected_providers[provider.id]">
+        ng-model="alternativeHelpService.selected_ids[provider.id]"
+        ng-change="toggleProvider(provider)">
       <strong>
         {{ provider.service_name }}
         <span ng-show="provider.organisation"> - {{ provider.organisation }}</span>
