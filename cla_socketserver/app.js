@@ -74,6 +74,10 @@ function log(message, socket) {
 }
 
 function clientIp(req) {
+  if (!req.connection || !req.socket || !req.connection.socket) {
+    return null;
+  }
+  
   return req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||

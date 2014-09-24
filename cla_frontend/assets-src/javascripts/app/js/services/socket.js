@@ -7,11 +7,11 @@
       // io is global reference to socket.io
       var host = $('head').data('socketioServer');
       host = host.replace(/^https?:/, window.location.protocol);
-      //var socket = io.connect(host);
+      var socket = io.connect(host);
 
       var sendForBroadcast = function (eventType) {
         return function (data) {
-          // socket.emit('client', {type: eventType, data: data});
+          socket.emit('client', {type: eventType, data: data});
         };
       };
 
@@ -26,7 +26,7 @@
       };
 
       for (var message in messageHandlers) {
-        //socket.on('server', publishToChannel);
+        socket.on('server', publishToChannel);
 
         postal.subscribe({
           channel: 'models',
