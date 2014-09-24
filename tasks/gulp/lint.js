@@ -5,17 +5,17 @@
   var paths = require('./_paths');
   var jshint = require('gulp-jshint');
   var stylish = require('jshint-stylish');
+  var filesToLint = paths.scripts.app.concat([
+    paths.src + 'javascripts/app/test/**/*.js',
+    'gulpfile.js',
+    'tasks/gulp/*.js',
+    '!' + paths.tmp + 'javascripts/app/partials/**/*'
+  ]);
 
-  // jshint js code
+  // lint js code
   gulp.task('lint', function() {
-    var lint = paths.scripts.app
-                    .concat([
-                      paths.src + 'javascripts/app/test/**/*.js',
-                      '!' + paths.tmp + 'javascripts/app/partials/**/*'
-                    ]);
-
     gulp
-      .src(lint)
+      .src(filesToLint)
       .pipe(jshint())
       .pipe(jshint.reporter(stylish));
   });

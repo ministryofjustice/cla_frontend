@@ -11,7 +11,7 @@
   var S = require('string');
   var fs = require('fs');
 
-  gulp.task('guidance-build', function() {
+  gulp.task('build-guidance', function() {
     var index;
 
     index = lunr(function () {
@@ -19,7 +19,7 @@
       this.field('tags', {boost: 8});
       this.field('body');
       this.ref('id');
-    })
+    });
     index._claTitles = {};
 
     gulp.src(paths.guidance)
@@ -51,12 +51,12 @@
       }))
       .pipe(gulp.dest(paths.dest + 'guidance'))
       .pipe(gutil.buffer())
-      .pipe(through2.obj(function (input, enc, callback) {
+      .pipe(through2.obj(function () { // input, enc, callback
         var outputFile = fs.openSync(paths.dest + 'javascripts/guidance_index.json', 'w+'),
             indexJSON = index.toJSON();
 
         // non-standard thing
-        indexJSON['_claTitles'] = index._claTitles;
+        indexJSON._claTitles = index._claTitles;
 
         fs.writeSync(outputFile, JSON.stringify(indexJSON));
         fs.closeSync(outputFile);

@@ -9,7 +9,7 @@
   var rename = require('gulp-rename');
 
   // copy across web fonts
-  gulp.task('iconfont', ['copy-sass'], function(cb) {
+  gulp.task('iconfont', ['copy-sass'], function() {
     var fontName = 'cla-icons';
 
     return gulp.src(paths.icons)
