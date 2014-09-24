@@ -17,9 +17,7 @@ tags:
 
 ###General questions
 
-* Where do you live? (Find out if it is a house, flat, boat or caravan, hostel, 
-
-shelter, in their car or with friends and family.)
+* Where do you live? (Find out if it is a house, flat, boat or caravan, hostel, shelter, in their car or with friends and family.)
 
 * Do you own your home? (If yes, the problem is likely to fall under debt)
 
@@ -35,9 +33,7 @@ The following questions will be useful to determine that possession proceedings 
 
 * If not, why do you think possession proceedings will be issued?
 
-* If client has received paperwork then ask - what stage are proceedings at? Has there been an 
-
-order for possession or warrant for eviction?
+* If client has received paperwork then ask - what stage are proceedings at? Has there been an order for possession or warrant for eviction?
 
 ###Eviction
 
@@ -69,9 +65,7 @@ order for possession or warrant for eviction?
 
 * Have you asked the local council or Environmental Health for help?
 
-* What is your or someone in the house’s medical condition and how is the disrepair aggravating 
-
-this?
+* What is your or someone in the house’s medical condition and how is the disrepair aggravating this?
 * What outcome are you seeking? (Remember if just compensation, this is out of scope)
 
 ###Antisocial behaviour 
@@ -92,8 +86,8 @@ this?
 
 * How often has this happened? (Remember it must be at least twice)
 
-• Have you been subjected to violence or the threat of violence by the landlord/neighbour?
+* Have you been subjected to violence or the threat of violence by the landlord/neighbour?
 
-• Have you reported the harassment to the police/council/landlord?
+* Have you reported the harassment to the police/council/landlord?
 
 
