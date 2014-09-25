@@ -24,32 +24,33 @@
     statesModule: 'cla.states.operator'
   });
 
-  var common_run = null,
-      common_config = null;
+  var common_run,
+      common_config;
 
-  common_run = function ($rootScope, $state, $stateParams, Timer, flash) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash',
+    function ($rootScope, $state, $stateParams, Timer, flash) {
+      $rootScope.$state = $state;
+      $rootScope.$stateParams = $stateParams;
 
-    // handle state change errors
-    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
-      // generic state change error / redirect
-      if (error.msg) {
-        flash('error', error.msg);
-      }
+      // handle state change errors
+      $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
+        // generic state change error / redirect
+        if (error.msg) {
+          flash('error', error.msg);
+        }
 
-      if (error.goto) {
-        $state.go(error.goto, {caseref: error.case});
-      }
-    });
+        if (error.goto) {
+          $state.go(error.goto, {caseref: error.case});
+        }
+      });
+      Timer.install();
+    }];
 
-
-    Timer.install();
-  };
-  common_config = function($resourceProvider, cfpLoadingBarProvider) {
+  common_config = ['$resourceProvider', 'cfpLoadingBarProvider',
+    function($resourceProvider, cfpLoadingBarProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
     cfpLoadingBarProvider.includeBar = false;
-  };
+  }];
 
   angular.module('cla.operatorApp',
     [
