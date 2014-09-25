@@ -1,5 +1,9 @@
 .LabelGroup {
   @extend %contain-floats;
+  padding-left: 1px;
+  margin-right: 5px;
+  display: inline-block;
+  font-size: 0;
 }
 
 .Label {
@@ -24,7 +28,6 @@
 
   .LabelGroup & {
     margin: 0 0 0 -1px;
-    float: left;
     @include border-radius(0);
 
     &:first-child {
@@ -47,6 +50,17 @@
   &.is-selected {
     background-color: $light-blue;
     color: #fff;
+  }
+
+  &.is-removable {
+    cursor: pointer;
+
+    &:after {
+      content: "x";
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-left: 7px;
+    }
   }
 
   &--secondary {
