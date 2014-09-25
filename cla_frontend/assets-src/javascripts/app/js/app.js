@@ -24,6 +24,33 @@
     statesModule: 'cla.states.operator'
   });
 
+  var common_run = null,
+      common_config = null;
+
+  common_run = function ($rootScope, $state, $stateParams, Timer, flash) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+
+    // handle state change errors
+    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
+      // generic state change error / redirect
+      if (error.msg) {
+        flash('error', error.msg);
+      }
+
+      if (error.goto) {
+        $state.go(error.goto, {caseref: error.case});
+      }
+    });
+
+
+    Timer.install();
+  };
+  common_config = function($resourceProvider, cfpLoadingBarProvider) {
+    $resourceProvider.defaults.stripTrailingSlashes = false;
+    cfpLoadingBarProvider.includeBar = false;
+  };
+
   angular.module('cla.operatorApp',
     [
       'cla.settings.operator',
@@ -51,29 +78,8 @@
       'angulartics',
       'angulartics.piwik'
     ])
-    .config(function($resourceProvider, cfpLoadingBarProvider) {
-      $resourceProvider.defaults.stripTrailingSlashes = false;
-      cfpLoadingBarProvider.includeBar = false;
-    })
-    .run(function ($rootScope, $state, $stateParams, Timer, flash) {
-      $rootScope.$state = $state;
-      $rootScope.$stateParams = $stateParams;
-
-      // handle state change errors
-      $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
-        // generic state change error / redirect
-        if (error.msg) {
-          flash('error', error.msg);
-        }
-
-        if (error.goto) {
-          $state.go(error.goto, {caseref: error.case});
-        }
-      });
-
-
-      Timer.install();
-    });
+    .config(common_config)
+    .run(common_run);
 
 
   // Provider App
@@ -119,11 +125,6 @@
       $resourceProvider.defaults.stripTrailingSlashes = false;
       cfpLoadingBarProvider.includeBar = false;
     })
-    .run(function ($rootScope, $state, $stateParams, Timer) {
-      $rootScope.$state = $state;
-      $rootScope.$stateParams = $stateParams;
-
-      Timer.install();
-    });
+    .run(common_run);
 
 })();

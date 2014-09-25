@@ -12,7 +12,12 @@
       name: 'layout',
       abstract: true,
       templateUrl: 'base.html',
-      controller: 'LayoutCtrl'
+      controller: 'LayoutCtrl',
+      resolve: {
+        user: ['User', function (User) {
+          return User.get({username: 'me'}).$promise;
+        }]
+      }
     };
 
     defs.CaseListState = {
@@ -240,6 +245,29 @@
       }
     };
 
+    defs.UserListState = {
+      name: 'user_list',
+      parent: 'layout',
+      url: APP_BASE_URL+'user/?search',
+      templateUrl: 'user_list.html',
+      controller: 'UserListCtrl',
+      resolve: {
+        users: ['User', 'user', '$q', function(User, user, $q){
+
+          var deferred = $q.defer();
+
+          if (!user.is_manager) {
+            // reject promise and handle in $stateChangeError
+            deferred.reject({
+              msg: 'The you must be a manager to edit users.'
+            });
+            return deferred.promise;
+          }
+          return User.query().$promise;
+        }]
+      }
+    };
+
     return defs;
   };
 
@@ -305,7 +333,7 @@
         feedback: ['$stateParams', 'Feedback', function($stateParams, Feedback){
           var params = {
             start: $stateParams.start,
-            end: $stateParams.end,
+            end: $stateParams.end
           };
 
           return Feedback.query(params).$promise;
