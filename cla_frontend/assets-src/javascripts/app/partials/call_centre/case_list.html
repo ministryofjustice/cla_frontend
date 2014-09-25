@@ -12,7 +12,7 @@
 
   <span data-block="pd-column">
     <!-- if multi cases -->
-    <a href="" ng-if="!person.reference" ng-click="filterByPerson(case.personal_details)">{{ case.full_name }}<span ng-if="case.case_count > 1"> ({{ case.case_count }})</span></a>
+    <a href="" ng-if="!person.reference && case.full_name" ng-click="filterByPerson(case.personal_details)">{{ case.full_name }}<span ng-if="case.case_count > 1"> ({{ case.case_count }})</span></a>
     <!-- else -->
     <span ng-if="person.reference">{{ case.full_name }}</span>
   </span>
