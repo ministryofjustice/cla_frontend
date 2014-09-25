@@ -7,9 +7,10 @@
 @import "govuk_frontend_toolkit/stylesheets/measurements";
 @import "govuk_frontend_toolkit/stylesheets/shims";
 @import "govuk_frontend_toolkit/stylesheets/grid_layout";
-@import "govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
 
+// local overrides to GDS toolkit
 @import "toolkit/typography";
+@import "toolkit/design-patterns/buttons";
 
 // basic styles
 @import "mixins";

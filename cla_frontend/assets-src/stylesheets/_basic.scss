@@ -107,6 +107,7 @@ html {
 body {
   font-size: 160%; /* 1 */
   margin: 0; /* 2 */
+  @include core-14;
 }
 
 b,
