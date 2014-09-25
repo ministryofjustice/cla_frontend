@@ -121,10 +121,7 @@
       'angulartics',
       'angulartics.piwik'
     ])
-    .config(function($resourceProvider, cfpLoadingBarProvider) {
-      $resourceProvider.defaults.stripTrailingSlashes = false;
-      cfpLoadingBarProvider.includeBar = false;
-    })
+    .config(common_config)
     .run(common_run);
 
 })();
