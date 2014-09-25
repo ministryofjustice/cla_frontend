@@ -2,7 +2,7 @@
   <div class="cf">
     <h1 class="u-pullLeft">Cases</h1>
     <nav class="Filters">
-      <a class="Label is-selected is-removable" ng-show="searchParams.search" ng-click="resetSearch()">"{{ searchParams.search }}"</span></a>
+      <a class="Label is-selected is-removable" ng-if="searchParams.search" ng-click="resetSearch()">"{{ searchParams.search }}"</span></a>
       <span data-block="filters"></span>
     </nav>
   </div>
