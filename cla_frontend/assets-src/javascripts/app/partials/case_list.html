@@ -18,6 +18,7 @@
     <th width="12%"><a href="" ng-click="sortToggle('personal_details__date_of_birth')" ng-class="sortClass('personal_details__date_of_birth')">Date of Birth</a></th>
     <th width="25%"><a href="" ng-click="sortToggle('eligibility_check__category__name')" ng-class="sortClass('eligibility_check__category__name')">Area of Law</a></th>
     <th width="15%"><a href="" ng-click="sortToggle('modified')" ng-class="sortClass('modified')">Modified</a></th>
+    <th width="1%"><a href="" ng-click="sortToggle('outcome_priority__priority')" ng-class="sortClass('outcome_priority__priority')">Priority</a></th>
   </tr>
   </thead>
   <tbody>
@@ -37,6 +38,7 @@
       <td>
         <timestamp ng-model="case.modified"></timestamp>
       </td>
+      <td>{{ case.outcome_code }}</td>
     </tr>
   </tbody>
 </table>
