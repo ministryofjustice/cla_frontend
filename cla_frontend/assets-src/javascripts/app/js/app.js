@@ -77,7 +77,8 @@
       'sticky',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.piwik'
+      'angulartics.piwik',
+      'cfp.hotkeys'
     ])
     .config(common_config)
     .run(common_run);
@@ -120,7 +121,8 @@
       'sticky',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.piwik'
+      'angulartics.piwik',
+      'cfp.hotkeys'
     ])
     .config(common_config)
     .run(common_run);

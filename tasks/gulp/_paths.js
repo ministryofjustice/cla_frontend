@@ -58,7 +58,8 @@
       paths.src + 'vendor/socket.io-client/socket.io.js',
       paths.src + 'vendor/angular-socket-io/socket.js',
       paths.src + 'vendor/angulartics/src/angulartics.js',
-      paths.src + 'vendor/angulartics/src/angulartics-piwik.js'
+      paths.src + 'vendor/angulartics/src/angulartics-piwik.js',
+      paths.src + 'vendor/angular-hotkeys/build/hotkeys.js'
     ],
     app: [
       paths.src + 'javascripts/app/js/app.js',
@@ -68,6 +69,6 @@
     ]
   };
   paths.guidance.push(paths.src + 'guidance/**/*.md');
-  
+
   module.exports = paths;
 })();
