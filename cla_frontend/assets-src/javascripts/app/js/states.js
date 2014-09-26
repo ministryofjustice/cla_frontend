@@ -71,11 +71,22 @@
       name: 'case_detail',
       abstract: true,
       url: APP_BASE_URL+'{caseref:[A-Z0-9]{2}-[0-9]{4}-[0-9]{4}}/',
-      onEnter: ['modelsEventManager', function(modelsEventManager) {
+      onEnter: ['modelsEventManager', 'postal', 'case', function(modelsEventManager, postal, case_) {
         modelsEventManager.onEnter();
+        postal.publish({
+          channel : 'system',
+          topic   : 'case.startViewing',
+          data    : case_
+        });
       }],
-      onExit: ['modelsEventManager', function(modelsEventManager) {
+      onExit: ['modelsEventManager', 'postal', 'case', function(modelsEventManager, postal, case_) {
         modelsEventManager.onExit();
+
+        postal.publish({
+          channel : 'system',
+          topic   : 'case.stopViewing',
+          data    : case_
+        });
       }],
       resolve: {
         'case': ['Case', '$stateParams', '$state', 'flash', function(Case, $stateParams, $state, flash) {

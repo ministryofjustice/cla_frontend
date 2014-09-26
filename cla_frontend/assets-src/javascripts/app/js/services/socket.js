@@ -35,6 +35,31 @@
         });
       }
 
+
+
+      postal.subscribe({
+        channel: 'system',
+        topic: 'case.startViewing',
+        callback: function(data) {
+          socket.emit('startViewingCase', data.reference);
+        }
+      });
+
+      postal.subscribe({
+        channel: 'system',
+        topic: 'case.stopViewing',
+        callback: function(data) {
+          socket.emit('stopViewingCase', data.reference);
+        }
+      });
+
+
+      socket.on('peopleViewing', function(data) {
+        console.log('got people viewing case: '+data);
+      });
+
+
+
       return postal;
     }]);
 })();
