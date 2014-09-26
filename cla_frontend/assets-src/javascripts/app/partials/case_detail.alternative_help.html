@@ -5,21 +5,53 @@
 <form class="FormRow cf" ng-submit="searchProviders(keyword)">
   <input type="text" name="keyword" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="keyword">
   <input class="Search-submit" type="submit" value="Search">
-  <a href="" class="Label is-selected">Knowledge base</a>
-  <a href="http://find-legal-advice.justice.gov.uk/" target="_blank" class="Label Icon Icon--blue Icon--location" ng-click="f2f_clicked=true">Face to Face</a>
 </form>
 
-<div class="FormRow cf">
-  <a href="" class="Label" ng-repeat="cat in categories" ng-click="changeCategory(cat.id)" ng-class="{'is-selected': category == cat.id}">{{ cat.name }}</a>
+<div class="CategorySelect FormRow cf u-pullRight">
+  <select ui-select2="{allowClear: true}" name="category" class="FormRow-field--m" data-placeholder="Law category" ng-options="s.id as s.name for s in categories track by s.id" ng-model="selected_category" ng-change="changeCategory(selected_category)">
+    <option value=""></option>
+  </select>
 </div>
 
+<ul class="Tabs Tabs--large cf">
+  <li class="Tabs-tab is-active">
+    <a href="" class="Tabs-tabLink">Knowledge base</a>
+  </li>
+  <li class="Tabs-tab">
+    <a href="http://find-legal-advice.justice.gov.uk/" target="_blank" class="Tabs-tabLink" ng-click="f2f_clicked=true">Face to Face</a>
+  </li>
+</ul>
+
 <!-- no providers -->
-<div ng-show="providers.count < 1">
+<div ng-if="providers.count < 1">
   <p class="Error Error--basic">There are <strong>no providers available</strong> matching your criteria. Please contact a supervisor.</p>
 </div>
 
+<details class="SelectedProviders">
+  <summary>Selected organisations ({{ alternativeHelpService.selected_providers_length() }})</summary>
+  <div class="SummaryBlock SummaryBlock--compact">
+    <div class="SummaryBlock-content" ng-repeat="provider in alternativeHelpService.selected_providers">
+      <strong>
+        {{ provider.service_name }}
+        <span ng-if="provider.organisation"> - {{ provider.organisation }}</span>
+      </strong>
+      <p ng-if="provider.website"><a href="{{ provider.website }}" target="_blank">{{ provider.website }}</a></p>
+      <p ng-if="provider.description">{{ provider.description }}</p>
+      <p ng-if="provider.how_to_use"><strong>How to use:</strong> {{ provider.how_to_use }}</p>
+      <p ng-if="provider.when_to_use"><strong>When to use:</strong> {{ provider.when_to_use }}</p>
+      <div class="Grid">
+        <div class="Grid-row cf">
+          <div class="Grid-col Grid-col--1-3">{{ provider.address }}</div>
+          <div class="Grid-col Grid-col--1-3" ng-bind-html="provider.helpline|nl2br"></div>
+          <div class="Grid-col Grid-col--1-3">{{ provider.opening_hours }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</details>
+
 <form class="FormRow cf" name="alternative_help" ng-submit="submit()">
-  <p class="Error Error--basic" ng-show="valid === false">Please choose <strong>three providers</strong>.</p>
+  <p class="Error Error--basic" ng-if="valid === false">Please choose <strong>three providers</strong>.</p>
 
   <div class="FormRow FormRow--group" dir-paginate="provider in providers.results | itemsPerPage: 20" total-items="providers.count" current-page="currentPage">
     <label class="FormRow-label FormRow-label--odd">
@@ -27,16 +59,17 @@
         name="selected_providers"
         type="checkbox"
         value="{{ provider.id }}"
-        ng-model="alternativeHelpService.selected_providers[provider.id]">
+        ng-model="alternativeHelpService.selected_ids[provider.id]"
+        ng-change="toggleProvider(provider)">
       <strong>
         {{ provider.service_name }}
-        <span ng-show="provider.organisation"> - {{ provider.organisation }}</span>
+        <span ng-if="provider.organisation"> - {{ provider.organisation }}</span>
       </strong>
       <span class="FormRow-inner">
-        <span class="u-block FormRow" ng-show="provider.website"><a href="{{ provider.website }}" target="_blank">{{ provider.website }}</a></span>
-        <span class="u-block FormRow" ng-show="provider.description">{{ provider.description }}</span>
-        <span class="u-block FormRow" ng-show="provider.how_to_use"><strong>How to use:</strong> {{ provider.how_to_use }}</span>
-        <span class="u-block FormRow" ng-show="provider.when_to_use"><strong>When to use:</strong> {{ provider.when_to_use }}</span>
+        <span class="u-block FormRow" ng-if="provider.website"><a href="{{ provider.website }}" target="_blank">{{ provider.website }}</a></span>
+        <span class="u-block FormRow" ng-if="provider.description">{{ provider.description }}</span>
+        <span class="u-block FormRow" ng-if="provider.how_to_use"><strong>How to use:</strong> {{ provider.how_to_use }}</span>
+        <span class="u-block FormRow" ng-if="provider.when_to_use"><strong>When to use:</strong> {{ provider.when_to_use }}</span>
         <span class="Grid">
           <span class="Grid-row cf">
             <span class="Grid-col Grid-col--1-3">{{ provider.address }}</span>
@@ -57,7 +90,7 @@
 
   <div class="FormActions">
     <button type="submit" class="Button" name="assign-alternative-help" ng-disabled="alternativeHelpService.get_selected_provider_ids()==0">Assign alternative help</button>
-    <button type="submit" class="Button" name="assign-f2f" ng-show="f2f_clicked" ng-disabled="alternativeHelpService.notes.length==0" ng-click="code='COSPF'">Assign F2F help</button>
+    <button type="submit" class="Button" name="assign-f2f" ng-if="f2f_clicked" ng-disabled="alternativeHelpService.notes.length==0" ng-click="code='COSPF'">Assign F2F help</button>
     <button type="button" ng-controller="CaseDetailDeclineHelpCtrl" class="Button Button--secondary" ng-click="decline_help(alternativeHelpService.notes)">User declines all help / no appropriate help found</button>
     <a ui-sref="case_detail.edit">Cancel</a>
   </div>

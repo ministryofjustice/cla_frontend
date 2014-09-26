@@ -2,24 +2,25 @@
   'use strict';
   angular.module('cla.services')
     .service('AlternativeHelpService', [function() {
-      var that = this;
-
-      this.clear = function(){
-        that.selected_providers = {};
+      this.clear = function() {
+        this.selected_ids = {};
+        this.selected_providers = {};
         this.notes = '';
       };
 
       this.get_selected_provider_ids = function () {
-        var selected = [],
-          k = null;
+        var selected = [];
 
-        for (k in that.selected_providers) {
-          if (that.selected_providers.hasOwnProperty(k) &&
-            that.selected_providers[k]) {
+        for (var k in this.selected_providers) {
+          if (this.selected_providers.hasOwnProperty(k) && this.selected_providers[k]) {
             selected.push(k);
           }
         }
         return selected;
+      };
+
+      this.selected_providers_length = function () {
+        return Object.keys(this.selected_providers).length;
       };
 
       this.clear();
