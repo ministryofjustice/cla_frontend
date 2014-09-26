@@ -77,7 +77,10 @@
           },
           'accept_case': {
             method:'POST',
-            url: url_utils.proxy('case/:caseref/accept/')
+            url: url_utils.proxy('case/:caseref/accept/'),
+            transformRequest: function (data, headers) {
+              return transformData({}, headers, $http.defaults.transformRequest);
+            }
           }
         }
       );
