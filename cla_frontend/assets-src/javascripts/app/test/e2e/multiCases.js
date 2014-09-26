@@ -10,6 +10,7 @@
 
     describe('Case List', function () {
       var randomName = Math.random().toString(36).substring(7);
+      var personBinding = element(by.binding('person.full_name'));
 
       function searchAndExpect(personQ, numResults) {
         element(by.css('#s2id_searchPerson a')).click();
@@ -38,7 +39,7 @@
           element.all(by.css('.ListTable tbody tr')).then(function(els) {
             expect(els.length).toBe(1);
           });
-          expect(element(by.css('.search-person')).getText()).toBe(randomName);
+          expect(personBinding.getText()).toBe(randomName);
         });
       });
 
@@ -61,13 +62,13 @@
         element.all(by.css('.ListTable tbody tr')).then(function(els) {
           expect(els.length).toBe(2);
         });
-        expect(element(by.css('.search-person')).getText()).toBe(randomName);
+        expect(personBinding.getText()).toBe(randomName);
         expect(browser.getLocationAbsUrl()).toContain('person_ref');
       });
 
       it('should allow going back to full case list', function() {
         // reset search => assert that it goes back to full case list
-        element(by.cssContainingText('.search-person', randomName)).click();
+        personBinding.click();
 
         expect(browser.getLocationAbsUrl()).not.toContain('person_ref');
       });

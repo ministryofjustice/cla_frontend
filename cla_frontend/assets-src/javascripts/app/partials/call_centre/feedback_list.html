@@ -33,7 +33,7 @@
           <input type="checkbox" name="resolved" value="{{ feedback.case }}" ng-click="toggleResolved(feedback)" ng-model="feedback.resolved">
         </td>
         <td>
-          <a href="" ng-click="goToCase(feedback.case)">{{ feedback.case }}</a>
+          <a ui-sref="case_detail.edit({caseref: feedback.case})">{{ feedback.case }}</a>
         </td>
         <td>{{ (feedback.issue|constantByValue:FEEDBACK_ISSUE).text }}</td>
         <td>{{ feedback.comment }}</td>

@@ -42,6 +42,11 @@ input.CaseSearch-query {
   float: left;
   display: block;
   background-color: $white;
+
+  &:focus {
+    position: relative;
+    z-index: 2;
+  }
 }
 .CaseSearch-submit {
   width: 30px;

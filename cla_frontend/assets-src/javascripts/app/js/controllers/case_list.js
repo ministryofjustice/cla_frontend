@@ -43,6 +43,31 @@
             _updatePage({inherit: false});
           };
 
+          // FILTER ACTIONS
+
+          $scope.filterCases = function(newState, acceptedState){
+            $scope.searchParams.new = newState;
+            $scope.searchParams.accepted = acceptedState;
+            _updatePage();
+          };
+          
+          $scope.filterClass = function(newState, acceptedState) {
+            if (
+              typeof $scope.searchParams.new !== 'undefined' &&
+              $scope.searchParams.new !== null &&
+              typeof $scope.searchParams.accepted !== 'undefined' &&
+              $scope.searchParams.accepted !== null
+            ) { 
+              if (parseInt($scope.searchParams.new) === parseInt(newState) && parseInt($scope.searchParams.accepted) === parseInt(acceptedState)) {
+                return 'is-selected';
+              }
+            } else {
+              if (typeof newState === 'undefined' && typeof acceptedState === 'undefined') {
+                return 'is-selected'; 
+              }
+            }
+          };
+
           // SORT ACTIONS
 
           $scope.sortToggle = function(currentOrderProp){

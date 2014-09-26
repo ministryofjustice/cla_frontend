@@ -3,10 +3,9 @@
 
   angular.module('cla.controllers.operator')
     .controller('FeedbackListCtrl',
-      ['$scope', 'feedback', 'goToCase', 'FEEDBACK_ISSUE', '$stateParams', '$state', 'moment',
-        function($scope, feedback, goToCase, FEEDBACK_ISSUE, $stateParams, $state, Moment) {
+      ['$scope', 'feedback', 'FEEDBACK_ISSUE', '$stateParams', '$state', 'moment',
+        function($scope, feedback, FEEDBACK_ISSUE, $stateParams, $state, Moment) {
           $scope.feedbackList = feedback;
-          $scope.goToCase = goToCase;
           $scope.FEEDBACK_ISSUE = FEEDBACK_ISSUE;
           $scope.startDate = $stateParams.start ? new Moment($stateParams.start).format('DD/MM/YYYY') : null;
           $scope.endDate = $stateParams.end ? new Moment($stateParams.end).format('DD/MM/YYYY') : null;

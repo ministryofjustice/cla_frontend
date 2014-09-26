@@ -12,13 +12,18 @@
       name: 'layout',
       abstract: true,
       templateUrl: 'base.html',
-      controller: 'LayoutCtrl'
+      controller: 'LayoutCtrl',
+      resolve: {
+        user: ['User', function (User) {
+          return User.get({username: 'me'}).$promise;
+        }]
+      }
     };
 
     defs.CaseListState = {
       name: 'case_list',
       parent: 'layout',
-      url: APP_BASE_URL+'?person_ref?search?ordering?page',
+      url: APP_BASE_URL+'?person_ref?search?ordering?page?new?accepted?viewed',
       templateUrl: 'case_list.html',
       controller: 'CaseListCtrl',
       resolve: {
@@ -27,7 +32,10 @@
             person_ref: $stateParams.person_ref,
             search: $stateParams.search,
             ordering: $stateParams.ordering,
-            page: $stateParams.page
+            page: $stateParams.page,
+            new: $stateParams.new,
+            accepted: $stateParams.accepted,
+            viewed: $stateParams.viewed
           };
 
           // by default, if no search params is defined, get dashboard cases
@@ -237,6 +245,29 @@
       }
     };
 
+    defs.UserListState = {
+      name: 'user_list',
+      parent: 'layout',
+      url: APP_BASE_URL+'user/?search',
+      templateUrl: 'user_list.html',
+      controller: 'UserListCtrl',
+      resolve: {
+        users: ['User', 'user', '$q', function(User, user, $q){
+
+          var deferred = $q.defer();
+
+          if (!user.is_manager) {
+            // reject promise and handle in $stateChangeError
+            deferred.reject({
+              msg: 'The you must be a manager to edit users.'
+            });
+            return deferred.promise;
+          }
+          return User.query().$promise;
+        }]
+      }
+    };
+
     return defs;
   };
 
@@ -302,7 +333,7 @@
         feedback: ['$stateParams', 'Feedback', function($stateParams, Feedback){
           var params = {
             start: $stateParams.start,
-            end: $stateParams.end,
+            end: $stateParams.end
           };
 
           return Feedback.query(params).$promise;
@@ -331,6 +362,8 @@
     }];
 
     providerStates.CaseDetailState.views[''].templateUrl = 'provider/case_detail.html';
+
+    providerStates.CaseListState.templateUrl = 'provider/case_list.html';
 
     providerStates.CaseEditDetailState.views['@case_detail'].templateUrl = 'provider/case_detail.edit.html';
     return providerStates;

@@ -28,6 +28,10 @@
       login(CONSTANTS.callcentreBaseUrl + 'login/', 'test_operator', 'test_operator');
     },
 
+    setUpAsOperatorManager: function() {
+      login(CONSTANTS.callcentreBaseUrl + 'login/', 'test_operator_manager', 'test_operator_manager');
+    },
+
     setUpAsProvider: function() {
       login(CONSTANTS.providerBaseUrl + 'login/', 'test_duncanlewis', 'test_duncanlewis');
     },
@@ -89,7 +93,9 @@
       if (value === true || value === false) {
         element(by.name(name)).click();
       } else {
+        /*jshint -W030 */
         element(by.css('[name="' + name + '"]')).sendKeys(value).blur;
+        /*jshint +W030 */
       }
     },
 

@@ -15,6 +15,13 @@
   margin-right: 10px;
   background: $grey-4;
 
+  input.Guidance-query {
+    &:focus {
+      position: relative;
+      z-index: 2;
+    }
+  }
+
   .FormRow {
     position: relative;
     padding: 0 29px 0 0;
@@ -22,6 +29,7 @@
   }
   .Search-submit {
     position: absolute;
+    z-index: 1;
     right: 0;
   }
 }
@@ -59,7 +67,7 @@
   z-index: 10;
   width: 78.595%;
   @include box-shadow(1px -1px 3px $grey-3);
-  
+
   &.is-minimised {
     width: 200px;
     height: 0;

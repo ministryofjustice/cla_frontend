@@ -1,3 +1,11 @@
+.LabelGroup {
+  @extend %contain-floats;
+  padding-left: 1px;
+  margin-right: 5px;
+  display: inline-block;
+  font-size: 0;
+}
+
 .Label {
   @include core-14;
   display: inline-block;
@@ -11,10 +19,23 @@
 
   &:focus {
     background-color: $white;
+    position: relative;
   }
 
   input + & {
     margin-left: 10px;
+  }
+
+  .LabelGroup & {
+    margin: 0 0 0 -1px;
+    @include border-radius(0);
+
+    &:first-child {
+      @include border-radius(3px 0 0 3px);
+    }
+    &:last-child {
+      @include border-radius(0 3px 3px 0);
+    }
   }
 
   &.Icon {
@@ -29,6 +50,17 @@
   &.is-selected {
     background-color: $light-blue;
     color: #fff;
+  }
+
+  &.is-removable {
+    cursor: pointer;
+
+    &:after {
+      content: "x";
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-left: 7px;
+    }
   }
 
   &--secondary {

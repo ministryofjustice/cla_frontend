@@ -42,7 +42,7 @@ Where possible you must ask to speak to the client to confirm that they are happ
 
 You must record the passphrase on the system. Where a Third Party contacts the service again they must confirm the password.
 
-** If you cannot speak to the Client **
+### If you cannot speak to the Client 
 
 If you cannot speak to the Client, you should check whether this is because they are:
 * under 18;

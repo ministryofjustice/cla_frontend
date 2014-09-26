@@ -4,25 +4,31 @@
   }
 
   .PageHeader {
-    padding-bottom: 20px;
+    padding-top: 30px;
+
     h1 {
-      padding: 0;
+      padding: 0 0 15px;
     }
 
     .Button {
       position: relative;
       top: -6px;
     }
-    .BlockLink {
-      margin-left: 20px;
-      margin-top: 7px;
-    }
-  }
-  .PageHeader--wo-search {
-    padding-top: 60px;
   }
 
   #wrapper {
     padding-bottom: 60px;
+  }
+
+  @include media(desktop) {
+    .ListTable {
+      margin-top: -10px;
+    }
+  }
+
+  .Filters {
+    margin: 7px 0 0 20px;
+    display: block;
+    float: left;
   }
 }

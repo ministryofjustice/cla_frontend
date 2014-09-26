@@ -98,11 +98,9 @@
           $scope.setDefaultsInNonRequiredSections = function (eligibility_check) {
             all_sections.map(function (section) {
               if (!isRequired(section) && section.title in defaultsSetters) {
-                console.log('setting default values in', section.title);
                 defaultsSetters[section.title](eligibility_check);
               }
             });
-            console.log(eligibility_check);
           };
 
 

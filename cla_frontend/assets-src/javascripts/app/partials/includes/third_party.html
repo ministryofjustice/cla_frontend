@@ -19,16 +19,12 @@
 
     <p class="VCard-row Icon Icon--row Icon--safe" ng-show="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
 
-    <p class="VCard-row" ng-show="third_party.reason">
-      {{ getDisplayLabel(third_party.reason, reasons) }}
-    </p>
-
     <p class="VCard-row" ng-show="third_party.personal_relationship">
       {{ getDisplayLabel(third_party.personal_relationship, relationships) }}<span ng-show="third_party.organisation_name">: {{ third_party.organisation_name }}</span>
     </p>
 
     <p class="VCard-row">
-      <span class="u-block">Adviser <strong>has <span ng-show="!third_party.spoke_to">not </span></strong> spoken with client</span>
+      <span class="u-block">Adviser <strong>has <span ng-show="!third_party.spoke_to">not </span></strong> spoken with client<span ng-show="!third_party.spoke_to"> <strong>because</strong> '{{ getDisplayLabel(third_party.reason, reasons) }}'</span></span>
     </p>
   </div>
 
@@ -69,13 +65,6 @@
       </span>
     </label>
 
-    <div class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.reason.$error.server">{{ errors.reason }}</span>
-      <span class="Icon--formRow">
-        <span editable-filterselect="third_party.reason" e-name="reason" e-ng-options="s.value as s.text for s in reasons track by s.value" e-data-placeholder="Choose a reason" onbeforesave="validateRadio($data)"></span>
-      </span>
-    </div>
-
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.personal_relationship.$invalid && thirdparty_submitted}">
       <span class="Error-message" ng-show="third_party_frm.personal_relationship.$error.server">{{ errors.personal_relationship }}</span>
       <span class="Icon--formRow">
@@ -94,7 +83,14 @@
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.spoke_to.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-show="third_party_frm.spoke_to.$error.server">{{ errors.spoke_to }}</span>
-      <span editable-checkbox="third_party.spoke_to" e-name="spoke_to" e-title="Have spoken with client"></span>
+      <span editable-checkbox="third_party.spoke_to" e-name="spoke_to" e-title="Advisor has spoken to client" e-ng-change="spokenWithToggle($data)" ></span>
+    </div>
+
+    <div class="FormRow FormRow--narrow cf" ng-show="!spoke_to" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-show="third_party_frm.reason.$error.server">{{ errors.reason }}</span>
+      <span class="Icon--formRow">
+        <span editable-filterselect="third_party.reason" e-name="reason" e-ng-options="s.value as s.text for s in reasons track by s.value" e-data-placeholder="Choose a reason for why not"></span>
+      </span>
     </div>
 
     <div class="FormActions cf">

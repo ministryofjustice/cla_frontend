@@ -1,6 +1,5 @@
-'use strict';
-/* jshint ignore:start */
-(function(){
+/* jshint plusplus: false */
+
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -17,6 +16,9 @@
  * Created by Michael on 04/05/14.
  */
 
+(function(){
+  'use strict';
+
     angular.module('cla.directives')
         .directive('dirPaginate', function($compile, $parse, $timeout, paginationService) {
             return  {
@@ -31,7 +33,7 @@
 
                     var filterPattern = /\|\s*itemsPerPage:\s*\S+\s*/;
                     if (match[2].match(filterPattern) === null) {
-                        throw "pagination directive: the 'itemsPerPage' filter must be set.";
+                        throw 'pagination directive: the \'itemsPerPage\' filter must be set.';
                     }
                     var itemsPerPageFilterRemoved = match[2].replace(filterPattern, '');
                     var collectionGetter = $parse(itemsPerPageFilterRemoved);
@@ -162,7 +164,7 @@
                     scope.boundaryLinks = angular.isDefined(attrs.boundaryLinks) ? scope.$parent.$eval(attrs.boundaryLinks) : false;
 
                     if (paginationService.paginationDirectiveInitialized === false) {
-                        throw "pagination directive: the pagination controls cannot be used without the corresponding pagination directive.";
+                        throw 'pagination directive: the pagination controls cannot be used without the corresponding pagination directive.';
                     }
 
                     var paginationRange = Math.max(scope.maxSize, 5);
@@ -268,4 +270,3 @@
             this.asyncMode = false;
         });
 })();
-/* jshint ignore:end */

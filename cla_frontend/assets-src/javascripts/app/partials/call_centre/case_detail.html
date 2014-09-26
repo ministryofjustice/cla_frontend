@@ -7,7 +7,7 @@
           <a href="" ng-click="suspend()" class="u-block" ng-controller="CaseDetailSuspendCtrl">Suspend</a>
           <a href="" ng-click="validateAltHelp()" class="u-block" id="alternative_help" ng-controller="CaseDetailValidateAltHelpCtrl">Alternative help</a>
           <hr class="u-horLine">
-          <button ng-click="assign_to_provider()" class="Button u-block" name="close--assign-provider" ng-controller="CaseDetailAssignProviderCtrl">Assign provider</button>
+          <button ng-click="assign_to_provider()" class="Button u-block" name="close--assign-provider" ng-controller="CaseDetailAssignProviderCtrl" ng-disabled="case.provider !== null">Assign provider</button>
         </div>
       </div>
     </nav>

@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('LayoutCtrl',
-      ['$rootScope', '$scope', '$window', 'History', 'User',
-        function($rootScope, $scope, $window, History, User){
+      ['$rootScope', '$scope', '$window', 'History', 'user',
+        function($rootScope, $scope, $window, History, user){
           var offStateChange = $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
             if (from.name === 'case_list') {
               History.caseListStateParams = fromParams;
@@ -16,7 +16,7 @@
             offStateChange();
           });
 
-          $rootScope.user = User.get();
+          $rootScope.user = user;
         }
       ]
     );
