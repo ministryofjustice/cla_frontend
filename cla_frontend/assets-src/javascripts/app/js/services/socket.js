@@ -3,7 +3,7 @@
   'use strict';
 
   angular.module('cla.services')
-    .factory('cla.bus', ['postal', 'SOCKETIO_CLIENT_CONFIG', function (postal, SOCKETIO_CLIENT_CONFIG) {
+    .factory('cla.bus', ['postal', function (postal) {
       // io is global reference to socket.io
       var host = $('head').data('socketioServer');
       host = host.replace(/^https?:/, window.location.protocol);
