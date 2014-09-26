@@ -29,8 +29,8 @@
 
 <details class="SelectedProviders">
   <summary>Selected organisations ({{ alternativeHelpService.selected_providers_length() }})</summary>
-  <div>
-    <div class="FormBlock FormBlock--yellow" ng-repeat="provider in alternativeHelpService.selected_providers">
+  <div class="SummaryBlock SummaryBlock--compact">
+    <div class="SummaryBlock-content" ng-repeat="provider in alternativeHelpService.selected_providers">
       <strong>
         {{ provider.service_name }}
         <span ng-if="provider.organisation"> - {{ provider.organisation }}</span>
