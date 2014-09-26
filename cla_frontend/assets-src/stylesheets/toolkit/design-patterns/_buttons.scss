@@ -1,0 +1,152 @@
+@import 'govuk_frontend_toolkit/stylesheets/_shims.scss';
+@import 'govuk_frontend_toolkit/stylesheets/_css3.scss';
+@import 'govuk_frontend_toolkit/stylesheets/_conditionals.scss';
+@import 'govuk_frontend_toolkit/stylesheets/_colours.scss';
+
+$Placeholder-Selectors: ();
+
+// Mixin and defaults for making internal service buttons
+
+// Example usage:
+
+// .button{
+//   @include button;
+// }
+// .button-secondary{
+//   @include button($grey-3);
+// }
+// .button-warning{
+//   @include button($red);
+// }
+
+
+@mixin button($colour: $button-colour, $border-color: $colour, $radius: 3px, $extend: true) {
+  @include button-static($extend);
+
+  // border
+  border: 1px solid $border-color;
+  @include border-radius($radius);
+
+  // Colour
+  background-color: $colour;
+  &:visited{
+    background-color: $colour;
+  }
+  &:hover,
+  &:focus {
+    background-color: darken($colour, 5%);
+  }
+  &:active {
+    @include box-shadow(0 0 0 $colour);
+  }
+
+  // Set text colour depending on background colour
+  @if lightness($colour) < 50% {
+    color: $white;
+    &:link,
+    &:hover,
+    &:focus,
+    &:visited{
+      color: $white;
+    }
+  } @else {
+    color: $text-colour;
+    &:link,
+    &:hover,
+    &:focus,
+    &:visited{
+      color: $text-colour;
+    }
+  }
+}
+
+@mixin button-static($extend: true) {
+  $button-selector: map-get($Placeholder-Selectors, 'button');
+
+  @if $extend == true {
+    @if $button-selector == null {
+      $button-selector: unique-id();
+      $Placeholder-Selectors: map-merge($Placeholder-Selectors, ('button': $button-selector)) !global;
+
+      @at-root %#{$button-selector} {
+        @include button-static(false);
+      }
+    }
+    @extend %#{$button-selector};
+  } @else {
+    // Size and shape
+    position: relative;
+    @include inline-block;
+    padding: #{(4.1 / 14)}em #{(10 / 14)}em;
+    -webkit-appearance: none;
+
+    // Support button class on anchor elements - moz only
+    &::-moz-focus-inner {
+      border: 0;
+      padding: 0;
+    }
+
+    // Text
+    @include core-14;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+
+    // Interaction
+    cursor: pointer;
+    &:active {
+      top: 2px;
+    }
+
+    // Disabled button styles
+    &.disabled,
+    &[disabled="disabled"],
+    &[disabled] {
+      @include opacity(0.5);
+      &:hover{
+        cursor: default;
+        // background-color: $colour;
+      }
+      &:active {
+        top: 0;
+        // @include box-shadow(0 2px 0 darken($colour, 15%));
+      }
+    }
+
+    // making the click target bigger than the button
+    // (and fill the space made when the button moves)
+    &:before {
+      content: "";
+      height: 110%;
+      width: 100%;
+      display: block;
+      background: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    &:active:before {
+      top: -10%;
+      height: 120%;
+
+      // IE6 ignores the :before psuedo-class but applies the block to :active
+      // It therefore needs to be reset
+      @include ie(6) {
+        top: auto;
+        height: 100%;
+      }
+    }
+
+    // Fixes a bug where IE puts a black border around certain elements
+    @include ie-lte(8) {
+      &[type="submit"],
+      &[type="reset"],
+      &[type="button"] {
+        filter:chroma(color=#000000);
+      }
+
+      &[type=submit].button {
+        filter: none;
+      }
+    }
+  }
+}
