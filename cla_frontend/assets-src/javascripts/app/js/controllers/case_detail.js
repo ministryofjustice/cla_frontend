@@ -38,35 +38,35 @@
           hotkeys
             .bindTo($scope)
             .add({
-              combo: 'g+c',
+              combo: 'g c',
               description: 'Case home',
               callback: function() {
                 $state.go('case_detail.edit');
               }
             })
             .add({
-              combo: 'g+d',
+              combo: 'g d',
               description: 'Scope diagnosis',
               callback: function() {
                 $state.go('case_detail.edit.diagnosis');
               }
             })
             .add({
-              combo: 'g+f',
+              combo: 'g f',
               description: 'Financial assessment',
               callback: function() {
                 $state.go('case_detail.edit.eligibility');
               }
             })
             .add({
-              combo: 'g+a',
+              combo: 'g a',
               description: 'Assign provider',
               callback: function() {
                 $state.go('case_detail.assign');
               }
             })
             .add({
-              combo: 'g+h',
+              combo: 'g h',
               description: 'Alternative help',
               callback: function() {
                 $state.go('case_detail.alternative_help');

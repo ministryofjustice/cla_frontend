@@ -19,7 +19,7 @@
           $rootScope.user = user;
 
           hotkeys.add({
-            combo: 'q+c',
+            combo: 's c',
             description: 'Search cases',
             callback: function(e) {
               e.preventDefault();
