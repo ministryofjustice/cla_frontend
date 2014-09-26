@@ -10,12 +10,14 @@
 
     .header-global {
       @extend %contain-floats;
-      // margin: 10px 0 5px;
       float: left;
 
       .header-logo {
         @include bold-24;
+        @include inline-block;
         @extend %contain-floats;
+        line-height: 1em;
+        padding-top: 5px;
         color: $white;
         text-decoration: none;
         border-bottom: 1px solid transparent;
