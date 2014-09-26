@@ -20,7 +20,7 @@ RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 # Dependencies
 RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
-  apt-get -y --force-yes install apt-utils python-pip \
+  apt-get -y --force-yes install bash apt-utils python-pip \
   python-dev build-essential git software-properties-common \
   python-software-properties libpq-dev libpcre3 libpcre3-dev \
   nodejs npm
