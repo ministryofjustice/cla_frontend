@@ -1,0 +1,19 @@
+.v-AlternativeHelp {
+  .CategorySelect {
+    margin-bottom: 0;
+    margin-top: 11px;
+  }
+  .SelectedProviders {
+    margin-bottom: 20px;
+
+    > div {
+      border-left: 0;
+      padding-left: 0;
+      padding-right: 0;
+
+      p {
+        padding: 5px 0;
+      }
+    }
+  }
+}

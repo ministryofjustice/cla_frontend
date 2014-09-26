@@ -19,10 +19,10 @@
 
 <ul class="Tabs Tabs--large cf">
   <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.diagnosis')}">
-    <a href="" ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope diagnosis</a>
+    <a ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope diagnosis</a>
   </li>
   <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.eligibility'), 'is-disabled': !diagnosis.isInScopeTrue() && !eligibility_check.state}">
-    <a href="" ui-sref="case_detail.edit.eligibility" class="Tabs-tabLink" ng-class="eligibilityIcon()">Financial assessment</a>
+    <a ui-sref="case_detail.edit.eligibility" class="Tabs-tabLink" ng-class="eligibilityIcon()">Financial assessment</a>
   </li>
 </ul>
 
