@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'cla.bus',
-        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, bus) {
+      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'cla.bus', 'hotkeys',
+        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, bus, hotkeys) {
           // PARAMS
           $scope.searchParams = angular.extend({}, $stateParams);
           $scope.searchParams.ordering = $scope.searchParams.ordering || '-modified';
@@ -50,20 +50,20 @@
             $scope.searchParams.accepted = acceptedState;
             _updatePage();
           };
-          
+
           $scope.filterClass = function(newState, acceptedState) {
             if (
               typeof $scope.searchParams.new !== 'undefined' &&
               $scope.searchParams.new !== null &&
               typeof $scope.searchParams.accepted !== 'undefined' &&
               $scope.searchParams.accepted !== null
-            ) { 
+            ) {
               if (parseInt($scope.searchParams.new) === parseInt(newState) && parseInt($scope.searchParams.accepted) === parseInt(acceptedState)) {
                 return 'is-selected';
               }
             } else {
               if (typeof newState === 'undefined' && typeof acceptedState === 'undefined') {
-                return 'is-selected'; 
+                return 'is-selected';
               }
             }
           };
@@ -104,6 +104,16 @@
             });
           };
 
+          // keyboard shortcut to create case
+          hotkeys
+            .bindTo($scope)
+            .add({
+              combo: 'c+c',
+              description: 'Create case',
+              callback: function() {
+                $scope.addCase($scope.person.reference);
+              }
+            });
 
           $scope.goToCase = goToCase;
 

@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'log_set',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, log_set){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, log_set, hotkeys, $state){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.log_set = log_set;
@@ -34,6 +34,44 @@
               }
             });
           };
+
+          hotkeys
+            .bindTo($scope)
+            .add({
+              combo: 'g c',
+              description: 'Case home',
+              callback: function() {
+                $state.go('case_detail.edit');
+              }
+            })
+            .add({
+              combo: 'g d',
+              description: 'Scope diagnosis',
+              callback: function() {
+                $state.go('case_detail.edit.diagnosis');
+              }
+            })
+            .add({
+              combo: 'g f',
+              description: 'Financial assessment',
+              callback: function() {
+                $state.go('case_detail.edit.eligibility');
+              }
+            })
+            .add({
+              combo: 'g a',
+              description: 'Assign provider',
+              callback: function() {
+                $state.go('case_detail.assign');
+              }
+            })
+            .add({
+              combo: 'g h',
+              description: 'Alternative help',
+              callback: function() {
+                $state.go('case_detail.alternative_help');
+              }
+            });
 
           // modelsEventManager.onEnter();
           // $scope.$on('$destroy', function () {

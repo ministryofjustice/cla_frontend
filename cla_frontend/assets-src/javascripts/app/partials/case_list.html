@@ -29,7 +29,7 @@
       <td></td>
       <td>
         <a href="" ng-click="goToCase(case.reference)">{{ case.reference }}</a>
-        <span ng-show="case.isInScopeAndEligible()"> / {{ case.laa_reference }}</span>
+        <span ng-if="case.isInScopeAndEligible()"> / {{ case.laa_reference }}</span>
       </td>
       <td>
         <span data-block="pd-column">{{ case.full_name }}</span>

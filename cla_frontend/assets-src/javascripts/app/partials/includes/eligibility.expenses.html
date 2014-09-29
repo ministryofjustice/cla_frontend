@@ -40,7 +40,7 @@
   </div>
 </section>
 
-<section ng-show="eligibility_check.has_partner === '1'">
+<section ng-if="eligibility_check.has_partner && eligibility_check.has_partner !== '0'">
   <h2 class="FormBlock-label">Your partner's expenses</h2>
 
   <div class="FormBlock FormBlock--grey">

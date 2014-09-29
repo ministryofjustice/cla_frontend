@@ -5,7 +5,7 @@
 <div ui-view="notes">
   <div data-block="case-notes"></div>
 
-  <div ng-show="eligibility_check.notes">
+  <div ng-if="eligibility_check.notes">
     <figure class="CommentBlock Icon Icon--row Icon--comments">
       <cite class="CommentBlock-author">User said</cite>
       <blockquote class="Quote" ng-bind-html="eligibility_check.notes|nl2br"></blockquote>

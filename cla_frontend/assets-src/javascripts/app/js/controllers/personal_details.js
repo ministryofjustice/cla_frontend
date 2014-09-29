@@ -152,18 +152,18 @@
 
           $scope.searchPersonOptions = {
             minimumInputLength: 3,
-            ajax: { 
-              data: function (term) { 
-                return { 
-                  query: term 
+            ajax: {
+              data: function (term) {
+                return {
+                  query: term
                 };
-              }, 
-              quietMillis: 500, 
+              },
+              quietMillis: 500,
               transport: function(queryParams) {
                 return $scope.case.$search_for_personal_details(
                     queryParams.data.query
                   ).then(queryParams.success);
-              }, 
+              },
               results: function (data) {
                 var text, extra_text, results;
 
@@ -182,7 +182,7 @@
                   return {id: person.reference, text: text};
                 });
                 return {results: results};
-              } 
+              }
             },
             initSelection: function(element, callback) {
               callback({id: element.val(), text: element.select2('data').text});
