@@ -1,6 +1,6 @@
 var _ = require('underscore')._
 	, utils = require('./utils')
-  , Person = require('./Person');
+  , Person = require('./person');
 
 
 module.exports = {
