@@ -27,7 +27,7 @@ $border-colour: #C2C2C2;
   };
 
   .SummaryBlock--compact & {
-    &:not(.is-lastChild) {
+    &:not(:last-child) {
       margin-bottom: 0;
       border-bottom-width: 0;
     }
