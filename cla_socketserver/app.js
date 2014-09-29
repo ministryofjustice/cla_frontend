@@ -1,51 +1,29 @@
 var http = require('http')
-  , _ = require('underscore')._
   , server = http.createServer().listen(8005)
   , io = require('socket.io')(server)
   , nsp = io.of('/socket.io')
-  , CaseContext = require('./utils/caseContext')
-  , utils = require('./utils/utils')
-  , caseContexts = {};
+  , peopleManager = require('./utils/peopleManager');
 
 
 nsp.on('connection', function (socket) {
-  // log('connected', socket);
-
   socket.on('client', function (data) {
     socket.broadcast.emit('server', data);
   });
 
+  socket.on('identify', function(username) {
+    peopleManager.identify(nsp, socket, username);
+  });
+
   socket.on('disconnect', function () {
-    log('disconnected', socket);
+    peopleManager.disconnect(nsp, socket);
   });
 
   socket.on('startViewingCase', function(caseref) {
-    console.log('start viewing case ref '+caseref+' socket id '+socket.id);
-    var flag = false;
-
-    var caseCtx = caseContexts[caseref];
-    if (typeof caseCtx === 'undefined') {
-      caseCtx = new CaseContext(caseref);
-      caseContexts[caseref] = caseCtx;
-    }
-
-    if (_.contains(caseCtx.peopleViewing, socket.id) && !flag) {
-      // already viewing, don't do anything
-      flag = true;
-    }
-
-    if (!flag) {
-      socket.join(caseref);
-      caseCtx.addPersonViewing(socket.id);
-
-      console.log('caseCtx.peopleViewing: '+caseCtx.peopleViewing);
-
-      utils.sendToAllClientsInCaseContext(nsp, caseref, 'peopleViewing', caseCtx.peopleViewing);
-    }
+    peopleManager.startViewingCase(nsp, socket, caseref);
   });
 
   socket.on('stopViewingCase', function(caseref) {
-    console.log('stop viewing case ref '+caseref+' socket id '+socket.id);
+    peopleManager.stopViewingCase(nsp, socket, caseref);
   });
 });
 
@@ -97,7 +75,7 @@ nsp.on('connection', function (socket) {
 //   }
 // });
 
-function log(message, socket) {
+// function log(message, socket) {
   // console.log(JSON.stringify({
   //   "@version": 1,
   //   "@timestamp": (new Date()).toISOString(),
@@ -106,7 +84,7 @@ function log(message, socket) {
   //   "clientip": clientIp(socket.request),
   //   "user-agent": socket.request.headers['user-agent']
   // }));
-}
+// }
 
 // function clientIp(req) {
 //   if (!req.connection || !req.socket || !req.connection.socket) {

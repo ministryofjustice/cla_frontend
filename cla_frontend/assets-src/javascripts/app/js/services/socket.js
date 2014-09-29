@@ -3,7 +3,7 @@
   'use strict';
 
   angular.module('cla.services')
-    .factory('cla.bus', ['postal', function (postal) {
+    .factory('cla.bus', ['postal', '$rootScope', '_', function (postal, $rootScope, _) {
       // io is global reference to socket.io
       var host = $('head').data('socketioServer');
       host = host.replace(/^https?:/, window.location.protocol);
@@ -36,6 +36,14 @@
       }
 
 
+      postal.subscribe({
+        channel: 'system',
+        topic: 'user.identified',
+        callback: function(username) {
+          // console.log('identified');
+          socket.emit('identify', username);
+        }
+      });
 
       postal.subscribe({
         channel: 'system',
@@ -53,13 +61,16 @@
         }
       });
 
-
       socket.on('peopleViewing', function(data) {
-        console.log('got people viewing case: '+data);
+        $rootScope.peopleViewingCase = _.without(data, $rootScope.user.username);
+        $rootScope.$apply();
+        // console.log('got people viewing case: '+$rootScope.peopleViewingCase);
       });
 
-
-
-      return postal;
+      return {
+        install: function() {
+          
+        }
+      };
     }]);
 })();

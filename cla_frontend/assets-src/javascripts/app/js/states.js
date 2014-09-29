@@ -17,7 +17,14 @@
         user: ['User', function (User) {
           return User.get({username: 'me'}).$promise;
         }]
-      }
+      },
+      onEnter: ['user', 'postal', function(user, postal) {
+        postal.publish({
+          channel : 'system',
+          topic   : 'user.identified',
+          data    : user.username
+        });
+      }]
     };
 
     defs.CaseListState = {
