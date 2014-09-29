@@ -52,7 +52,7 @@
   </div>
 </section>
 
-<section ng-show="eligibility_check.has_partner === '1'">
+<section ng-show="eligibility_check.has_partner && eligibility_check.has_partner !== '0'">
   <h2 class="FormBlock-label">Your partner's income</h2>
 
   <cla-server-validate data-for="partner.income"></cla-server-validate>
