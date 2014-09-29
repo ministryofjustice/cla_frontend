@@ -68,6 +68,8 @@ ADD ./ /home/app/django
 # Define working directory.
 #WORKDIR /home/app/django
 
+RUN cd /home/app/django && cat docker/version >> /etc/profile
+
 # PIP INSTALL APPLICATION
 RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 

@@ -3,13 +3,10 @@
 
   angular.module('cla.controllers')
     .controller('AlternativeHelpCtrl',
-      ['$scope', '_', '$stateParams', '$state', 'form_utils',
-        'kb_providers', 'kb_categories', 'AlternativeHelpService',
-        '$modal', 'categories','$q',
-        function($scope, _, $stateParams, $state, form_utils,
-                 kb_providers, kb_categories, AlternativeHelpService,
-          $modal, categories, $q){
+      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q',
+        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q){
           $scope.category = $stateParams.category || null;
+          $scope.selected_category = $scope.category;
           $scope.keyword = $stateParams.keyword;
           $scope.currentPage = $stateParams.page || 1;
 
@@ -42,7 +39,6 @@
             }
             return false;
           }
-
 
           function showECFModal() {
             if (!isECFRequired()) {
@@ -84,6 +80,14 @@
             return showECFModal();
           };
 
+          $scope.toggleProvider = function (provider) {
+            if (AlternativeHelpService.selected_ids[provider.id]) {
+              AlternativeHelpService.selected_providers[provider.id] = provider;
+            } else if (!AlternativeHelpService.selected_ids[provider.id]) {
+              delete AlternativeHelpService.selected_providers[provider.id];
+            }
+          };
+
           $scope.submit = function () {
             var code = this.code;
             showECFModal().then(function () {
@@ -96,7 +100,6 @@
                 });
             });
           };
-
         }
       ]
     );

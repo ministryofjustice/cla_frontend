@@ -6,7 +6,7 @@
     float: right;
 
     @include media(desktop) {
-      padding-top: 2px;
+      padding-top: 4px;
       padding-right: 10px;
       clear: none;
     }
@@ -15,19 +15,21 @@
 
 .Timer-value {
   display: block;
-  padding-top: 5px;
+  position: relative;
+  padding-top: 7px;
 
   .Timer--inline & {
     @include bold-14;
-    display: inline-block;
+    @include inline-block;
     color: $white;
     min-width: 65px;
     padding-top: 0;
+    top: 2px;
   }
 }
 
 .Timer-button {
-  display: inline-block;
+  @include inline-block;
   margin-right: 6px;
 
   &:link, &:visited, &:active, &:before, &:focus {
