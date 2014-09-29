@@ -1,12 +1,36 @@
-var http = require('http');
-var server = http.createServer().listen(8005);
-var io = require('socket.io')(server);
-var nsp = io.of('/socket.io');
-var cookie = require('cookie');
-var querystring = require('querystring');
-var Promise = require('promise');
+var http = require('http')
+  , server = http.createServer().listen(8005)
+  , io = require('socket.io')(server)
+  , nsp = io.of('/socket.io')
+  , peopleManager = require('./utils/peopleManager');
 
 
+nsp.on('connection', function (socket) {
+  socket.on('client', function (data) {
+    socket.broadcast.emit('server', data);
+  });
+
+  socket.on('identify', function(username) {
+    peopleManager.identify(nsp, socket, username);
+  });
+
+  socket.on('disconnect', function () {
+    peopleManager.disconnect(nsp, socket);
+  });
+
+  socket.on('startViewingCase', function(caseref) {
+    peopleManager.startViewingCase(nsp, socket, caseref);
+  });
+
+  socket.on('stopViewingCase', function(caseref) {
+    peopleManager.stopViewingCase(nsp, socket, caseref);
+  });
+});
+
+
+// var cookie = require('cookie');
+// var querystring = require('querystring');
+// var Promise = require('promise');
 // function validate_sessionid(sessionid) {
 //   return new Promise(function (fulfill, reject) {
 //     var options = {
@@ -51,19 +75,7 @@ var Promise = require('promise');
 //   }
 // });
 
-nsp.on('connection', function (socket) {
-  log('connected', socket);
-
-  socket.on('client', function (data) {
-    socket.broadcast.emit('server', data);
-  });
-
-  socket.on('disconnect', function () {
-    log('disconnected', socket);
-  });
-});
-
-function log(message, socket) {
+// function log(message, socket) {
   // console.log(JSON.stringify({
   //   "@version": 1,
   //   "@timestamp": (new Date()).toISOString(),
@@ -72,7 +84,7 @@ function log(message, socket) {
   //   "clientip": clientIp(socket.request),
   //   "user-agent": socket.request.headers['user-agent']
   // }));
-}
+// }
 
 // function clientIp(req) {
 //   if (!req.connection || !req.socket || !req.connection.socket) {

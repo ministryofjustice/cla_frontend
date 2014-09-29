@@ -27,8 +27,8 @@
   var common_run,
       common_config;
 
-  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash',
-    function ($rootScope, $state, $stateParams, Timer, flash) {
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus',
+    function ($rootScope, $state, $stateParams, Timer, flash, bus) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
@@ -44,6 +44,7 @@
         }
       });
       Timer.install();
+      bus.install();
     }];
 
   common_config = ['$resourceProvider', 'cfpLoadingBarProvider',
