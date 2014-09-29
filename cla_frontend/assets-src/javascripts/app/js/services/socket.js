@@ -9,32 +9,26 @@
       host = host.replace(/^https?:/, window.location.protocol);
       var socket = io.connect(host);
 
-      var sendForBroadcast = function (eventType) {
-        return function (data) {
-          socket.emit('client', {type: eventType, data: data});
-        };
-      };
+      // GENERIC CLIENT / SERVER MESSAGES
 
-      var messageHandlers = {
-        'Case.created': sendForBroadcast('case.new')
-      };
+      socket.on('server', function (message) {
+        postal.channel('cla.operator').publish(
+          message.type, message.data
+        );
+      });
 
-      var channel = postal.channel('cla.operator');
+      postal.subscribe({
+        channel: 'models',
+        topic: 'Case.created',
+        callback: function(data) {
+          socket.emit('client', {
+            type: 'case.new',
+            data: data.reference
+          });
+        }
+      });
 
-      var publishToChannel = function (message) {
-        channel.publish(message.type, message.data);
-      };
-
-      for (var message in messageHandlers) {
-        socket.on('server', publishToChannel);
-
-        postal.subscribe({
-          channel: 'models',
-          topic: message,
-          callback: messageHandlers[message]
-        });
-      }
-
+      // USER IDENTIFICATION
 
       postal.subscribe({
         channel: 'system',
@@ -44,6 +38,8 @@
           socket.emit('identify', username);
         }
       });
+
+      // VIEWING CASE
 
       postal.subscribe({
         channel: 'system',
@@ -69,7 +65,7 @@
 
       return {
         install: function() {
-          
+
         }
       };
     }]);
