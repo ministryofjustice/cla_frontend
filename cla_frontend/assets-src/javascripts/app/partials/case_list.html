@@ -11,20 +11,22 @@
 
 <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
   <thead>
-  <tr>
-    <th width="19%"><span class="visuallyhidden">Case Reference</span></th>
-    <th width="19%"><a href="" ng-click="sortToggle('personal_details__full_name')" ng-class="sortClass('personal_details__full_name')">Name</a></th>
-    <th width="10%"><a href="" ng-click="sortToggle('personal_details__postcode')" ng-class="sortClass('personal_details__postcode')">Postcode</a></th>
-    <th width="12%"><a href="" ng-click="sortToggle('personal_details__date_of_birth')" ng-class="sortClass('personal_details__date_of_birth')">Date of Birth</a></th>
-    <th width="25%"><a href="" ng-click="sortToggle('eligibility_check__category__name')" ng-class="sortClass('eligibility_check__category__name')">Area of Law</a></th>
-    <th width="15%"><a href="" ng-click="sortToggle('modified')" ng-class="sortClass('modified')">Modified</a></th>
-    <th width="1%"><a href="" ng-click="sortToggle('outcome_priority__priority')" ng-class="sortClass('outcome_priority__priority')">Priority</a></th>
-  </tr>
+    <tr>
+      <th width="2%"></th>
+      <th width="18%"><span class="visuallyhidden">Case Reference</span></th>
+      <th width="20%"><a href="" ng-click="sortToggle('personal_details__full_name')" ng-class="sortClass('personal_details__full_name')">Name</a></th>
+      <th width="10%"><a href="" ng-click="sortToggle('personal_details__postcode')" ng-class="sortClass('personal_details__postcode')">Postcode</a></th>
+      <th width="10%"><a href="" ng-click="sortToggle('personal_details__date_of_birth')" ng-class="sortClass('personal_details__date_of_birth')">Date of Birth</a></th>
+      <th width="20%"><a href="" ng-click="sortToggle('eligibility_check__category__name')" ng-class="sortClass('eligibility_check__category__name')">Area of Law</a></th>
+      <th width="10%"><a href="" ng-click="sortToggle('modified')" ng-class="sortClass('modified')">Modified</a></th>
+      <th width="10%"><span data-block="outcome-column"><a href="" ng-click="sortToggle('outcome_priority__priority')" ng-class="sortClass('outcome_priority__priority')">Priority</a></span></th>
+    </tr>
   </thead>
   <tbody>
     <tr dir-paginate="case in cases.results | itemsPerPage: 20"
       total-items="cases.count" current-page="searchParams.page"
-      ng-class="{'is-rejected': case.rejected, 'is-new': !case.provider_viewed, 'is-complete': case.outcome_code == 'SPOP'}">
+      ng-class="{'is-rejected': case.rejected, 'is-new': !case.provider_viewed && case.provider_viewed !== undefined, 'is-complete': case.outcome_code == 'SPOP'}">
+      <td></td>
       <td>
         <a href="" ng-click="goToCase(case.reference)">{{ case.reference }}</a>
         <span ng-show="case.isInScopeAndEligible()"> / {{ case.laa_reference }}</span>
@@ -38,7 +40,7 @@
       <td>
         <timestamp ng-model="case.modified"></timestamp>
       </td>
-      <td>{{ case.outcome_code }}</td>
+      <td><span class="Label Label--secondary" ng-if="case.outcome_code">{{ case.outcome_code }}</span></td>
     </tr>
   </tbody>
 </table>
