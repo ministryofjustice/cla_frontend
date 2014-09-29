@@ -32,14 +32,25 @@ def db_alive():
             reason=backend.db.message))
 
 
+@smoketests.register(5, 'Socket.io server running')
+def socket_io():
+    response = get(prod_sio('/'))
+    assert_status(response, 200)
+    socketio = json.loads(response.read())
+    if not socketio['status'] == 'OK':
+        raise SmokeTestFail('Socket.IO server not responding')
+
+
 def prod_fe(url):
-    #return prod('cases', url)
-    return 'http://localhost:8001{url}'.format(url=url)
+    return prod('cases', url)
+
+
+def prod_sio(url):
+    return prod_fe(url)
 
 
 def prod_be(url):
-    #return prod('fox', url)
-    return 'http://localhost:8000{url}'.format(url=url)
+    return prod('fox', url)
 
 
 def prod(host, url):
