@@ -10,7 +10,7 @@
         <input type="radio" value="{{ statement.key }}" ng-model="case.ecf_statement" name="ecf_statement" required>
         <span class="FormRow-labelText">
           {{ statement.label }}
-          <span class="u-mute u-block" ng-show="statement.text">{{ statement.text }}</span>
+          <span class="u-mute u-block" ng-if="statement.text">{{ statement.text }}</span>
         </span>
       </label>
     </div>

@@ -29,7 +29,7 @@
   </form>
 </div>
 
-<ul class="CaseHistory" ng-show="feedbackList" >
+<ul class="CaseHistory" ng-if="feedbackList">
   <li class="CaseHistory-card" ng-repeat="feedbackItem in feedbackList">
     <span>
       <timestamp ng-model="feedbackItem.created"></timestamp>

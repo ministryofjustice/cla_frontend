@@ -1,11 +1,9 @@
 <h2>Choose Address</h2>
 
 <section class="SummaryBlock SummaryBlock--compact">
+  <p ng-if="$parent.model.loading">Finding addresses...</p>
 
-  <p ng-show="$parent.model.loading">Finding addresses...</p>
-
-  <div class="FormBlock FormBlock--yellow" ng-show="!$parent.model.loading && addresses.length > 0">
-
+  <div class="FormBlock FormBlock--yellow" ng-if="!$parent.model.loading && addresses.length > 0">
     <div class="FormRow cf">
       <input type="text" name="address_search" placeholder="Search addresses" class="FormRow-field--l" ng-model="address_search">
     </div>
@@ -19,10 +17,9 @@
     </div>
   </div>
 
-  <div class="FormBlock FormBlock--yellow" ng-show="!$parent.model.loading && addresses.length == 0">
+  <div class="FormBlock FormBlock--yellow" ng-if="!$parent.model.loading && addresses.length == 0">
     <p>No addresses found.</p>
   </div>
-
 </section>
 
 <div class="FormActions">

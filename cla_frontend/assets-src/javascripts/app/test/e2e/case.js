@@ -8,13 +8,13 @@
   // helper methods
   function enterDetails (values, thirdparty) {
     var edit = '[name="create-newuser"]',
-        viewCard = edit,
+        viewCard = '#personal_details .VCard-view',
         btnName = 'save-personal-details',
         filterSelects = ['exempt_user_reason', 'language', 'media_code', 'reason', 'personal_relationship'];
 
     if (thirdparty) {
       edit = '[name="add-thirdparty"]';
-      viewCard = '#personal_details .VCard-view';
+      viewCard = '#third_party .VCard-view';
       btnName = 'save-thirdparty';
     }
 
@@ -76,10 +76,10 @@
     ];
 
     if (value === true) {
-      expect(element(by.css('[ng-show="' + model + '"]')).isPresent()).toBe(true);
+      expect(element(by.css('[ng-if="' + model + '"]')).isPresent()).toBe(true);
     } else if (model === 'adaptations.adaptations') {
       for (var i in value) {
-        expect(element(by.css('[ng-show="selected_adaptations.length"]')).getText()).toContain(value[i]);
+        expect(element(by.css('[ng-if="selected_adaptations.length"]')).getText()).toContain(value[i]);
       }
     } else if (nonExact.indexOf(model) > -1) {
       expect(element(by.binding(model)).getText()).toContain(value);
@@ -148,10 +148,10 @@
           });
 
           // case model patches
-          var mediaCodeEl = element(by.css('[ng-show="case.media_code"]'));
+          var mediaCodeEl = element(by.css('[ng-if="case.media_code"]'));
           expect(mediaCodeEl.isPresent()).toBe(true);
           expect(mediaCodeEl.getText()).toContain(mediaCode);
-          var exemptEl = element(by.css('[ng-show="case.exempt_user"]'));
+          var exemptEl = element(by.css('[ng-if="case.exempt_user"]'));
           expect(exemptEl.isPresent()).toBe(true);
           expect(exemptEl.getText()).toContain(CONSTANTS.case.remaining.exempt_user_reason);
           expect(element(by.name('case.notes')).getAttribute('value')).toBe(CONSTANTS.case.required.notes);
