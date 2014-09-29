@@ -31,9 +31,12 @@
           };
 
           $scope.filter = function () {
+            var start = $scope.startDate ? new Moment($scope.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD H:m') : null;
+            var end = $scope.endDate ? new Moment($scope.endDate, 'DD/MM/YYYY').hour(23).minute(59).format('YYYY-MM-DD H:m') : null;
+
             $state.transitionTo($state.current, {
-              start: $scope.startDate ? new Moment($scope.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
-              end: $scope.endDate ? new Moment($scope.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
+              start: start,
+              end: end,
             }, {
               reload: true,
               inherit: false,
