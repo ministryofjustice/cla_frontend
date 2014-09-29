@@ -1,7 +1,7 @@
 <section>
   <h2 class="FormBlock-label">Your property (only for homeowners)</h2>
 
-  <div ng-show="!eligibility_check.property_set || eligibility_check.property_set.length === 0">
+  <div ng-if="!eligibility_check.property_set || eligibility_check.property_set.length === 0">
     <p><em>No properties have been added</em></p>
   </div>
 
@@ -10,7 +10,7 @@
       <h2 class="FormBlock-label FormBlock-label--inline">{{ $index+1 | ordinal }} property</h2>
       <button class="Button--text" type="button" value="remove-property" ng-click="removeProperty($index)">Remove property</button>
     </div>
-    
+
     <div class="FormBlock FormBlock--grey">
       <div class="FormRow cf">
         <label>
@@ -105,7 +105,7 @@
   </div>
 </section>
 
-<section ng-show="eligibility_check.has_partner && eligibility_check.has_partner !== '0'">
+<section ng-if="eligibility_check.has_partner && eligibility_check.has_partner !== '0'">
   <h2 id="partners_savings-label" class="FormBlock-label">Your partner's undisputed savings</h2>
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">

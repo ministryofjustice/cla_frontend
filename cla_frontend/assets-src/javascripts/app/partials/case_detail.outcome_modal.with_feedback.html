@@ -4,7 +4,7 @@
 
     <select
         id="reject_feedback_issue"
-        ng-show="$parent.leaveFeedback"
+        ng-if="$parent.leaveFeedback"
         ng-model="feedback.issue"
         ui-select2="{allowClear: true}"
         placeholder="Issue"

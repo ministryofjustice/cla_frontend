@@ -28,7 +28,7 @@
     </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="feedback in feedbackList" ng-show="showRow(feedback)" ng-class="{'is-complete': feedback.resolved}">
+      <tr ng-repeat="feedback in feedbackList" ng-if="showRow(feedback)" ng-class="{'is-complete': feedback.resolved}">
         <td>
           <input type="checkbox" name="resolved" value="{{ feedback.case }}" ng-click="toggleResolved(feedback)" ng-model="feedback.resolved">
         </td>

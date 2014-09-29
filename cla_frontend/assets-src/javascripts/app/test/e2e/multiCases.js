@@ -5,7 +5,7 @@
       CONSTANTS = require('../protractor.constants'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('operatorApp', function() {
+  describe('As Operator', function() {
     beforeEach(utils.setUp);
 
     describe('Case List', function () {

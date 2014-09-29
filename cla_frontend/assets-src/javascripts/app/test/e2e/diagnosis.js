@@ -27,15 +27,15 @@
         modelsRecipe.Case.createEmpty().then(function(caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/diagnosis/');
           // create button present
-          expect(newBtn.isDisplayed()).toBe(true);
+          expect(newBtn.isPresent()).toBe(true);
           newBtn.click();
           // choices present
           expect(element(by.name('choice')).isPresent()).toBe(true);
           // correct buttons available
-          expect(newBtn.isDisplayed()).toBe(false);
-          expect(deleteBtn.isDisplayed()).toBe(false);
-          expect(nextBtn.isDisplayed()).toBe(true);
-          expect(backBtn.isDisplayed()).toBe(true);
+          expect(newBtn.isPresent()).toBe(false);
+          expect(deleteBtn.isPresent()).toBe(false);
+          expect(nextBtn.isPresent()).toBe(true);
+          expect(backBtn.isPresent()).toBe(true);
         });
       });
 
@@ -55,11 +55,11 @@
         // correct fill full diagnosis
         fillDiagnosis(CONSTANTS.scope.true);
 
-        expect(deleteBtn.isDisplayed()).toBe(true);
-        expect(element(by.cssContainingText('a', 'Create financial assessment')).isDisplayed()).toBe(true);
+        expect(deleteBtn.isPresent()).toBe(true);
+        expect(element(by.cssContainingText('a', 'Create financial assessment')).isPresent()).toBe(true);
         expect(element(by.cssContainingText('.Tabs-tabLink.Icon--solidTick', 'Scope diagnosis')).isPresent()).toBe(true);
         // check category
-        expect(element(by.css('[ng-show="category"]')).getText()).toContain('Family, marriage, separation and children');
+        expect(element(by.css('[ng-if="category"]')).getText()).toContain('Family, marriage, separation and children');
       });
 
       it('should not delete a diagnosis on cancel', function (){

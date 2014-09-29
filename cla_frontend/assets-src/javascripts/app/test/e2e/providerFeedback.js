@@ -117,7 +117,7 @@
 
         browser.get(CONSTANTS.providerBaseUrl + case_to_feedback_without_reject_ref + '/');
         expect(reject_btn.isPresent()).toBe(true);
-        
+
         leave_feedback_btn.click();
 
         expect(feedback_issue_select.isDisplayed()).toBe(true);
@@ -168,7 +168,7 @@
 
       it('should be able to resolve case', function () {
         case_rejected_with_feedback_link.click();
-        
+
         expect(case_rejected_with_feedback_link.isSelected()).toBe(true);
 
         checked_case = element(by.cssContainingText('tr.is-complete', case_to_reject_ref));
@@ -196,12 +196,12 @@
         resolved_cases = element.all(by.css('tr.is-complete')).get(0);
 
         expect(hide_resolved_btn.getAttribute('class')).toContain('is-selected');
-        expect(resolved_cases.isDisplayed()).toBeTruthy();
+        expect(resolved_cases.isPresent()).toBeTruthy();
 
         hide_resolved_btn.click();
 
         expect(hide_resolved_btn.getAttribute('class')).not.toContain('is-selected');
-        expect(resolved_cases.isDisplayed()).toBeFalsy();
+        expect(resolved_cases.isPresent()).toBeFalsy();
       });
     });
   });

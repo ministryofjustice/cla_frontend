@@ -12,70 +12,70 @@
   </div>
 
   <div ng-click="showPersonalDetails(personaldetails_frm)" ng-show="!personaldetails_frm.$visible && personal_details.reference" class="VCard VCard-view" ng-class="{'u-mute': case.thirdparty_details}">
-    <h2 class="VCard-title Icon Icon--formRow Icon--user" ng-show="personal_details.full_name">{{ personal_details.full_name }}</h2>
+    <h2 class="VCard-title Icon Icon--formRow Icon--user" ng-if="personal_details.full_name">{{ personal_details.full_name }}</h2>
 
-    <div class="VCard-row Icon Icon--row Icon--location" ng-show="personal_details.postcode || personal_details.street">
-      <p class="u-compact" ng-show="personal_details.postcode">{{ personal_details.postcode }}</p>
+    <div class="VCard-row Icon Icon--row Icon--location" ng-if="personal_details.postcode || personal_details.street">
+      <p class="u-compact" ng-if="personal_details.postcode">{{ personal_details.postcode }}</p>
       <p class="u-compact" ng-bind-html="personal_details.street|nl2br"></p>
     </div>
 
-    <p class="VCard-row Icon Icon--row Icon--call" ng-show="personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': personal_details.safe_to_contact !== 'SAFE', 'Icon--green': personal_details.safe_to_contact === 'SAFE'}">
+    <p class="VCard-row Icon Icon--row Icon--call" ng-if="personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': personal_details.safe_to_contact !== 'SAFE', 'Icon--green': personal_details.safe_to_contact === 'SAFE'}">
       <span ng-class="{'u-strike': personal_details.safe_to_contact !== 'SAFE'}">{{ personal_details.mobile_phone }}</span>
     </p>
 
-    <p class="VCard-row Icon Icon--row Icon--email" ng-show="personal_details.email">
+    <p class="VCard-row Icon Icon--row Icon--email" ng-if="personal_details.email">
       {{ personal_details.email }}
     </p>
 
-    <p class="VCard-row Icon Icon--row Icon--dob" ng-show="personal_details.dob">
+    <p class="VCard-row Icon Icon--row Icon--dob" ng-if="personal_details.dob">
       {{ personal_details.dob | dob }} (Age {{ personal_details.dob | ageFromDate }})
     </p>
 
-    <p class="VCard-row Icon Icon--row Icon--ni" ng-show="personal_details.ni_number">
+    <p class="VCard-row Icon Icon--row Icon--ni" ng-if="personal_details.ni_number">
       {{ personal_details.ni_number }}
     </p>
 
-    <p class="VCard-row Icon Icon--row Icon--language" ng-show="adaptations.language">
+    <p class="VCard-row Icon Icon--row Icon--language" ng-if="adaptations.language">
       {{ getLanguageLabel(adaptations.language) }}
     </p>
 
-    <div class="VCard-row Icon Icon--row Icon--adaptation" ng-show="selected_adaptations.length">
+    <div class="VCard-row Icon Icon--row Icon--adaptation" ng-if="selected_adaptations.length">
       <ul class="InlineList">
         <li class="InlineList-item" ng-repeat="item in selected_adaptations">{{ getAdaptationLabel(item) }}</li>
       </ul>
     </div>
 
-    <p class="VCard-row Icon Icon--row Icon--mediaCode" ng-show="case.media_code">
+    <p class="VCard-row Icon Icon--row Icon--mediaCode" ng-if="case.media_code">
       <span>{{ mediaCode(media_code).label }}</span>
     </p>
 
-    <p class="VCard-row u-highlightRed" ng-show="personal_details.vulnerable_user">User is deemed vulnerable</p>
+    <p class="VCard-row u-highlightRed" ng-if="personal_details.vulnerable_user">User is deemed vulnerable</p>
 
-    <p class="VCard-row" ng-show="case.exempt_user">User is exempt because: {{ getExemptReasonByCode(case.exempt_user_reason).text }}</p>
+    <p class="VCard-row" ng-if="case.exempt_user">User is exempt because: {{ getExemptReasonByCode(case.exempt_user_reason).text }}</p>
 
-    <p class="VCard-row" ng-show="personal_details.full_name">User <strong ng-show="personal_details.contact_for_research">can</strong><strong ng-show="!personal_details.contact_for_research">cannot</strong> be contacted for research</p>
+    <p class="VCard-row" ng-if="personal_details.full_name">User <strong ng-if="personal_details.contact_for_research">can</strong><strong ng-if="!personal_details.contact_for_research">cannot</strong> be contacted for research</p>
 
-    <p class="VCard-row" ng-show="adaptations.notes">
+    <p class="VCard-row" ng-if="adaptations.notes">
       {{ adaptations.notes }}
     </p>
   </div>
 
    <form novalidate method="post" name="personaldetails_frm" class="VCard VCard-edit" ng-class="{submitted: personaldetails_submitted}" onbeforesave="validate(personaldetails_frm.$valid)" onaftersave="savePersonalDetails(personaldetails_frm)" ng-show="personaldetails_frm.$visible" editable-form>
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.full_name.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.full_name.$error.server">{{ errors.full_name }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.full_name.$error.server">{{ errors.full_name }}</span>
       <span class="Icon Icon--formRow Icon--user">
         <span editable-text="personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name" e-server-error></span>
       </span>
     </label>
 
     <div class="AddressLookup" ng-class="{Error: personaldetails_frm.postcode.$invalid || personaldetails_frm.street.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
-      <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
       <span editable-address-finder="address" e-name="addressfinder" e-placeholder="Postcode" e-server-error></span>
     </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.mobile_phone.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
       <span class="Icon Icon--formRow">
         <span editable-text="personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Phone" e-ng-class="{'u-strike': personal_details.contact_safety.safe === false}" e-server-error></span>
         <safe-to-contact person="personal_details"></safe-to-contact>
@@ -83,7 +83,7 @@
     </label>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.email.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.email.$error.server">{{ errors.email }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.email.$error.server">{{ errors.email }}</span>
       <span class="Icon Icon--formRow Icon--email">
         <span editable-text="personal_details.email" e-name="email" e-class="FormRow-field--full" e-placeholder="Email" e-server-error></span>
       </span>
@@ -91,24 +91,24 @@
 
     <fieldset class="FormRow FormRow--narrow"  ng-class="{Error: personaldetails_frm.dob.$invalid || personaldetails_frm.dob_year.$invalid && personaldetails_submitted}">
       <span class="Icon Icon--dob Icon--formRow">
-        <span class="Error-message" ng-show="personaldetails_frm.dob.$error.server">{{ errors.dob }}</span>
+        <span class="Error-message" ng-if="personaldetails_frm.dob.$error.server">{{ errors.dob }}</span>
         <span editable-tpde="personal_details.dob" e-name="dob" e-server-error></span>
       </span>
     </fieldset>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.ni_number.$invalid && personaldetails_submitted}">
       <span class="Icon Icon--ni Icon--formRow">
-        <span class="Error-message" ng-show="personaldetails_frm.ni_number.$error.server">{{ errors.ni_number }}</span>
+        <span class="Error-message" ng-if="personaldetails_frm.ni_number.$error.server">{{ errors.ni_number }}</span>
         <span editable-text="personal_details.ni_number" e-name="ni_number" e-class="FormRow-field--full" e-placeholder="National Insurance Number" e-ni-number e-server-error></span>
-        <span class="Error-message" ng-show="personaldetails_frm.ni_number.$error.nino && personaldetails_submitted">Invalid NI Number</span>
+        <span class="Error-message" ng-if="personaldetails_frm.ni_number.$error.nino && personaldetails_submitted">Invalid NI Number</span>
       </span>
     </label>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.welsh_override.$invalid || personaldetails_frm.language.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.welsh_override.$error.server">{{ errors.welsh_override }}</span>
       <span editable-checkbox="language.welsh_override" e-name="welsh_override" e-title="Welsh" e-ng-click="toggleWelsh($data)"></span>
       <span class="Icon Icon--language Icon--formRow">
-        <span class="Error-message" ng-show="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
+        <span class="Error-message" ng-if="personaldetails_frm.language.$error.server">{{ errors.language }}</span>
         <span editable-filterselect="adaptations.language" e-name="language" e-ng-options="s.value as s.text for s in language_options track by s.value" e-class="FormRow-field--full" e-data-placeholder="Choose a language" e-ng-disabled="language.disable"></span>
       </span>
     </div>
@@ -126,18 +126,18 @@
     </div>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.vulnerable_user.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.vulnerable_user.$error.server">{{ errors.vulnerable_user }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.vulnerable_user.$error.server">{{ errors.vulnerable_user }}</span>
       <span editable-checkbox="personal_details.vulnerable_user" e-name="vulnerable_user" e-title="User is deemed vulnerable"></span>
     </div>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.exempt_user.$error.server">{{ errors.exempt_user }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.exempt_user.$error.server">{{ errors.exempt_user }}</span>
       <span editable-checkbox="case.exempt_user" e-name="exempt_user" e-title="User is exempt (Debt, Edu, Discrim only)" e-ng-change="exemptChange($data)"></span>
     </div>
 
-    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user_reason.$invalid && personaldetails_submitted}" ng-show="is_exempt">
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user_reason.$invalid && personaldetails_submitted}" ng-if="is_exempt">
       <span class="Icon Icon--formRow">
-        <span class="Error-message" ng-show="personaldetails_frm.exempt_user_reason.$error.server">{{ errors.exempt_user_reason }}</span>
+        <span class="Error-message" ng-if="personaldetails_frm.exempt_user_reason.$error.server">{{ errors.exempt_user_reason }}</span>
         <span editable-filterselect="case.exempt_user_reason"
               e-name="exempt_user_reason"
               e-ng-options="s.value as s.text for s in exempt_user_reason_choices track by s.value"
@@ -148,12 +148,12 @@
     </label>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.contact_for_research.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.contact_for_research.$error.server">{{ errors.contact_for_research }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.contact_for_research.$error.server">{{ errors.contact_for_research }}</span>
       <span editable-checkbox="personal_details.contact_for_research" e-name="contact_for_research" e-title="Can contact user for research"></span>
     </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.notes.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.notes.$error.server">{{ errors.notes }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.notes.$error.server">{{ errors.notes }}</span>
       <span editable-textarea="adaptations.notes" e-name="notes" e-rows="3" e-cols="20" e-maxlength="255" e-class="FormRow-field--full" e-placeholder="Add comments" e-server-error></span>
     </label>
 
