@@ -27,7 +27,7 @@ nsp.on('connection', function (socket) {
   });
 });
 
-server.addListener('request', function (req, res) {
-  res.writeHead(200, {'Content-Type': 'application/json'});
-  res.end('{"status": "OK"}\n');
-});
+// server.addListener('request', function (req, res) {
+//   res.writeHead(200, {'Content-Type': 'application/json'});
+//   res.end('{"status": "OK"}\n');
+// });
