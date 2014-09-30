@@ -29,7 +29,7 @@ class SmokeTestRegistry(object):
                 test()
             except SmokeTestFail as fail:
                 status = False
-                message = fail.message
+                message = str(fail)
             yield {
                 'name': name,
                 'status': status,
