@@ -21,9 +21,9 @@
     .controller('OutcomesModalCtlWithFeedback',
     ['$scope', '$modalInstance', 'case', 'event_key',
       'success_msg', 'Event', '$state', 'flash',
-      'notes', 'tplVars', '$controller', 'FEEDBACK_ISSUE', '$q', 'Feedback',
+      'notes', 'tplVars', '$controller', 'FEEDBACK_ISSUE', '$q', 'Feedback', 'form_utils',
       function ($scope, $modalInstance, _case, event_key, success_msg,
-                Event, $state, flash, notes, tplVars, $controller, FEEDBACK_ISSUE, $q, Feedback) {
+                Event, $state, flash, notes, tplVars, $controller, FEEDBACK_ISSUE, $q, Feedback, form_utils) {
         angular.extend(this, $controller('OutcomesModalCtl', {
           $scope: $scope,
           $modalInstance: $modalInstance,
@@ -40,15 +40,22 @@
         $scope.leaveFeedback = false;
         $scope.feedback = {case: _case.reference};
 
-        $scope.submit_feedback = function (comment) {
+
+        $scope.shouldLeaveFeedback = function (code) {
+          return $scope.leaveFeedback || (code||'').indexOf('MIS') === 0;
+        };
+
+        $scope.submit_feedback = function (comment, form) {
           var feedback_resource = new Feedback(angular.extend($scope.feedback, {comment: comment}));
-          return feedback_resource.$save();
+          return feedback_resource.$save(angular.noop, function (data) {
+            form_utils.ctrlFormErrorCallback($scope, data, form);
+          });
         };
 
 
-        $scope.submit = function () {
+        $scope.submit = function (form) {
           var that = this,
-          feedback_promise = $scope.leaveFeedback ? $scope.submit_feedback(that.notes) : $q.when(true);
+          feedback_promise = $scope.shouldLeaveFeedback(this.event_code) ? $scope.submit_feedback(that.notes, form) : $q.when(true);
           feedback_promise.then(function () {
               return $scope.submit_outcome(that.event_code, that.notes);
             }).then($scope.post_submit);
