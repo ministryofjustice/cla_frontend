@@ -75,6 +75,7 @@
         // case is ready to be rejected/accepted.
         var reject_button = element(by.css('button[name="reject-case"]')),
             reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
+            mis_reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="MIS"]')),
             notes_area = element(by.css('.modal-content textarea[ng-model="notes"]')),
             leave_feedback_btn = element(by.css('button[name="add-feedback"]')),
             feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
@@ -87,11 +88,23 @@
         reject_button.click();
 
         expect(reject_code.isDisplayed()).toBe(true);
+        expect(mis_reject_code.isDisplayed()).toBe(true);
         reject_code.click();
 
         expect(notes_area.isDisplayed()).toBe(true);
         notes_area.sendKeys(reject_notes);
 
+        expect(leave_feedback_btn.isDisplayed()).toBe(true);
+
+        reject_code.click();
+        expect(leave_feedback_btn.isDisplayed()).toBe(true);
+
+        mis_reject_code.click();
+        expect(leave_feedback_btn.isDisplayed()).toBe(false);
+        // mis code forces feedback
+        expect(feedback_issue_select.isDisplayed()).toBe(true);
+
+        reject_code.click();
         expect(leave_feedback_btn.isDisplayed()).toBe(true);
         leave_feedback_btn.click();
 
