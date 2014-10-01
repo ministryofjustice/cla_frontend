@@ -125,6 +125,11 @@
       $(document.body).append('<div ng-controller="GuidanceCtrl"><guidance></guidance></div>');
     });
 
+  angular.module('cla.providerApp')
+    .run(function() {
+      $(document.body).append('<div ng-controller="GuidanceCtrl"><guidance></guidance></div>');
+    });
+
 
   angular.module('cla.directives')
     .directive('guidance', [function() {
