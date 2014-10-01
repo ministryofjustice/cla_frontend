@@ -145,6 +145,7 @@
         notes_area.sendKeys(feedback_notes);
 
         expect(submit_button.isDisplayed()).toBe(true);
+        utils.scrollTo(submit_button);
         submit_button.click();
       });
 
