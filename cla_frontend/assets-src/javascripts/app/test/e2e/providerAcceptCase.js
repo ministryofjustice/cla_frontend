@@ -5,7 +5,7 @@
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  ddescribe('Provider Feedback', function() {
+  describe('Provider Feedback', function() {
     var case_to_accept;
 
     function get_provider() {
