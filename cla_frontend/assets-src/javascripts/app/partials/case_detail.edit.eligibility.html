@@ -6,5 +6,5 @@
     <li class="Tabs-tab u-pullRight"><button type="submit" class="Button" name="save-means-test">Save assessment</button></li>
   </ul>
 
-  <div ng-repeat="section in sections" ng-include="section.template" ng-if="currentState() === section.state"></div>
+  <div ng-repeat="section in sections" ng-include="section.template" ng-show="currentState() === section.state"></div>
 </form>
