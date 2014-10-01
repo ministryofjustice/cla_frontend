@@ -54,21 +54,19 @@
       it('should be able to accept a case', function(){
         browser.get(CONSTANTS.providerBaseUrl + case_to_accept + '/');
 
-        expect(close_button.isDisplayed()).toBe(false);
+        expect(close_button.isPresent()).toBe(false);
         expect(accept_button.isPresent()).toBe(true);
 
         // click but cancel accept
         accept_button.click();
 
         // check can't accept anymore
-        expect(accept_button.isDisplayed()).toBe(false);
-        expect(close_button.isDisplayed()).toBe(true);
+        expect(accept_button.isPresent()).toBe(false);
+        expect(close_button.isPresent()).toBe(true);
         expect(element(by.css('.NoticeContainer--fixed')).getInnerHtml()).toContain('Case accepted successfully');
       });
 
       it('should be able to close a case', function(){
-        expect(close_button.isPresent()).toBe(true);
-
         // click but cancel accept
         close_button.click();
         browser.switchTo().alert().dismiss();
