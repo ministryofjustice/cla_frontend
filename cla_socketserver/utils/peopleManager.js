@@ -72,5 +72,9 @@ module.exports = {
 		return _.find(_.values(this.people), function(person) {
 			return person.ownsSocket(socket);
 		})
-	}
+	},
+
+  getPeopleCount: function() {
+    return _.size(this.people);
+  }
 }
