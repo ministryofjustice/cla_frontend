@@ -2,56 +2,40 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('CaseDetailSuspendCtrl',
-      ['$scope', '$modal',
-        function($scope, $modal){
-          $scope.suspend = function() {
-            $modal.open({
+    .controller('CaseDetailDeclineHelpCtrl',
+      ['$scope', '$modal', '$q', '$state', 'flash',
+        function($scope, $modal, $q, $state, flash){
+          $scope.decline_help = function(notes) {
+            var parentQ = $q.when(true);
+            var modalOpts = {
               templateUrl: 'case_detail.outcome_modal.html',
               controller: 'OutcomesModalCtl',
               resolve: {
-                'tplVars': function() {
+                tplVars: function() {
                   return {
-                    title: 'Suspend Case'
+                    'title': 'Decline Help'
                   };
                 },
-                'case': function() { return $scope.case; },
-                'event_key': function() { return 'suspend_case'; },  //this is also the function name on Case model
-                'notes': function() { return ''; },
-                'success_msg': function() { return 'Case '+$scope.case.reference+' suspended successfully'; }
+                case: function() { return $scope.case; },
+                event_key: function() { return 'decline_help'; },  //this is also the function name on Case model
+                notes: function() { return notes || ''; }
               }
-            });
-          };
-        }
-      ]
-    );
+            };
+            var onSuccess = function (result) {
+              if (result) {
+                flash('success', 'Declined help for Case ' + $scope.case.reference);
+              } else {
+                flash('error', 'There was a problem declining help on this case');
+              }
+              $state.go('case_list');
+            };
 
-  angular.module('cla.controllers.operator')
-    .controller('CaseDetailDeclineHelpCtrl',
-      ['$scope', '$modal', '$q',
-        function($scope, $modal, $q){
-          $scope.decline_help = function(notes) {
-            var parentQ = $q.when(true);
             if ($scope.$parent && $scope.$parent.decline_help) {
               parentQ = $scope.$parent.decline_help();
             }
 
             parentQ.then(function () {
-              $modal.open({
-                templateUrl: 'case_detail.outcome_modal.html',
-                controller: 'OutcomesModalCtl',
-                resolve: {
-                  'tplVars': function() {
-                    return {
-                      'title': 'Decline Help'
-                    };
-                  },
-                  'case': function() { return $scope.case; },
-                  'event_key': function() { return 'decline_help'; },  //this is also the function name on Case model
-                  'notes': function() { return notes || ''; },
-                  'success_msg': function() { return 'Declined help for Case '+$scope.case.reference; }
-                }
-              });
+              $modal.open(modalOpts).result.then(onSuccess);
             });
           };
         }

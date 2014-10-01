@@ -71,6 +71,13 @@
               callback: function() {
                 $state.go('case_detail.alternative_help');
               }
+            })
+            .add({
+              combo: 'g s',
+              description: 'Alternative help',
+              callback: function() {
+                $state.go('case_detail.suspend');
+              }
             });
 
           // modelsEventManager.onEnter();
@@ -180,53 +187,4 @@
       }
     ]
   );
-
-  angular.module('cla.controllers')
-    .controller('OutcomesModalCtl',
-      ['$scope', '$modalInstance', 'case', 'event_key',
-        'success_msg', 'Event', '$state', 'flash', 'notes', 'tplVars',
-        function($scope, $modalInstance, _case, event_key, success_msg,
-                 Event, $state, flash, notes, tplVars) {
-
-          // template vars
-          tplVars = angular.extend({
-            'title': 'Outcome code'
-          }, tplVars);
-          tplVars.buttonText = tplVars.buttonText || tplVars.title;
-          $scope.tplVars = tplVars;
-
-          // action
-
-          new Event().list_by_event_key(event_key, function(data) {
-            $scope.codes = data;
-          });
-
-          $scope.notes = notes || '';
-
-          $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-          };
-
-          $scope.post_submit = function() {
-            $state.go('case_list');
-            flash('success', success_msg);
-            $modalInstance.dismiss('cancel');
-          };
-
-          $scope.submit_outcome = function (event_code, notes) {
-            return _case['$'+event_key]({
-              'event_code': event_code,
-              'notes': notes || ''
-            });
-          };
-
-          $scope.submit = function() {
-            $scope.submit_outcome(this.event_code, this.notes)
-              .then($scope.post_submit);
-
-          };
-
-        }
-      ]
-    );
 })();

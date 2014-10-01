@@ -2,8 +2,8 @@
 (function() {
 // STATES
   var states = angular.module('cla.states'),
-    operatorStates = angular.module('cla.states.operator'),
-    providerStates = angular.module('cla.states.provider');
+      operatorStates = angular.module('cla.states.operator'),
+      providerStates = angular.module('cla.states.provider');
 
   states.getStates = function(APP_BASE_URL) {
     var defs = {};
@@ -339,6 +339,44 @@
           controller: 'CaseDeferSpecialistsCtrl'
         }
       }
+    };
+
+    operatorStates.CaseDetailSuspendCase = {
+      parent: 'case_detail',
+      name: 'case_detail.suspend',
+      url: 'suspend/',
+      onEnter: ['$stateParams', '$state', '$modal', 'case', 'History', 'flash', function($stateParams, $state, $modal, $case, History, flash) {
+        var previousState = History.previousState;
+        var modalOpts = {
+          templateUrl: 'case_detail.outcome_modal.html',
+          controller: 'OutcomesModalCtl',
+          resolve: {
+            tplVars: function() {
+              return {
+                title: 'Suspend Case'
+              };
+            },
+            case: function() { return $case; },
+            event_key: function() { return 'suspend_case'; },  // this is also the function name on Case model
+            notes: function() { return ''; }
+          }
+        };
+        var onSuccess = function (result) {
+          if (result) {
+            flash('success', 'Case ' + $case.reference + ' suspended successfully');
+          } else {
+            flash('error', 'This case could not be suspended');
+          }
+          $state.go('case_list');
+        };
+        var onFail = function () {
+          var state = previousState.name ? previousState.name : 'case_detail.edit';
+          $state.go(state, {caseref: $case.reference});
+        };
+
+        // open modal
+        $modal.open(modalOpts).result.then(onSuccess, onFail);
+      }]
     };
 
     operatorStates.FeedbackListState = {
