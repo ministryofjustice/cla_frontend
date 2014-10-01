@@ -5,7 +5,7 @@
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  ddescribe('Provider Case Control', function() {
+  describe('Provider Case Control', function() {
     var case_to_accept;
     var accept_button = element(by.name('accept-case'));
     var close_button = element(by.name('provider-close-case'));
