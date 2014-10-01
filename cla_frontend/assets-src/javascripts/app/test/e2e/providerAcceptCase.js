@@ -53,22 +53,22 @@
         browser.get(CONSTANTS.providerBaseUrl + case_to_accept + '/');
 
         // case is ready to be rejected/accepted.
-        var accept_button = element(by.css('button[name="accept-case"]'));
+        var accept_button = element(by.name('accept-case'));
 
-        expect(accept_button.isDisplayed()).toBe(true);
+        expect(accept_button.isPresent()).toBe(true);
 
         // click but cancel accept
         accept_button.click();
         browser.switchTo().alert().dismiss();
 
-        expect(accept_button.isDisplayed()).toBe(true);
+        expect(accept_button.isPresent()).toBe(true);
 
         // click and accept case
         accept_button.click();
         browser.switchTo().alert().accept();
 
         // check can't accept anymore
-        expect(accept_button.isDisplayed()).toBe(false);
+        expect(accept_button.isPresent()).toBe(false);
         expect(element(by.css('.Notice.success')).getInnerHtml()).toBe('Case accepted successfully');
       });
     });
