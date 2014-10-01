@@ -71,6 +71,12 @@
         expect(accept_button.isPresent()).toBe(false);
         expect(element(by.css('.Notice.success')).getInnerHtml()).toBe('Case accepted successfully');
       });
+
+      it('should logout', function () {
+        this.after(function () {
+          utils.logout();
+        });
+      });
     });
   });
 })();
