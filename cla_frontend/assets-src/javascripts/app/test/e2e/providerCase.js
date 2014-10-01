@@ -5,8 +5,10 @@
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('Provider Feedback', function() {
+  ddescribe('Provider Case Control', function() {
     var case_to_accept;
+    var accept_button = element(by.name('accept-case'));
+    var close_button = element(by.name('provider-close-case'));
 
     function get_provider() {
       return element(by.css('.ContactBlock-heading')).getText();
@@ -52,24 +54,33 @@
       it('should be able to accept a case', function(){
         browser.get(CONSTANTS.providerBaseUrl + case_to_accept + '/');
 
-        // case is ready to be rejected/accepted.
-        var accept_button = element(by.name('accept-case'));
-
+        expect(close_button.isDisplayed()).toBe(false);
         expect(accept_button.isPresent()).toBe(true);
 
         // click but cancel accept
         accept_button.click();
+
+        // check can't accept anymore
+        expect(accept_button.isDisplayed()).toBe(false);
+        expect(close_button.isDisplayed()).toBe(true);
+        expect(element(by.css('.NoticeContainer--fixed')).getInnerHtml()).toContain('Case accepted successfully');
+      });
+
+      it('should be able to close a case', function(){
+        expect(close_button.isPresent()).toBe(true);
+
+        // click but cancel accept
+        close_button.click();
         browser.switchTo().alert().dismiss();
 
-        expect(accept_button.isPresent()).toBe(true);
+        expect(close_button.isPresent()).toBe(true);
 
         // click and accept case
-        accept_button.click();
+        close_button.click();
         browser.switchTo().alert().accept();
 
         // check can't accept anymore
-        expect(accept_button.isPresent()).toBe(false);
-        expect(element(by.css('.Notice.success')).getInnerHtml()).toBe('Case accepted successfully');
+        expect(element(by.css('.NoticeContainer--fixed')).getInnerHtml()).toContain('Case ' + case_to_accept + ' closed successfully');
       });
 
       it('should logout', function () {
