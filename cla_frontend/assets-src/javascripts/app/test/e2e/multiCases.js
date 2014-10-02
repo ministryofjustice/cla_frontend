@@ -10,7 +10,7 @@
 
     describe('Case List', function () {
       var randomName = Math.random().toString(36).substring(7);
-      var personBinding = element(by.binding('person.full_name'));
+      var personBinding = element.all(by.binding('person.full_name')).get(0);
 
       function searchAndExpect(personQ, numResults) {
         element(by.css('#s2id_searchPerson a')).click();
@@ -24,13 +24,11 @@
       }
 
       it('should filter by person', function() {
-
         modelsRecipe.Case.createRecipe({}, {
-            full_name: randomName
-          }
-        ).then(function() {
+          full_name: randomName
+        }).then(function() {
           // go to list => assert num of rows > 1
-          browser.get(CONSTANTS.callcentreBaseUrl);
+          browser.get(CONSTANTS.callcentreBaseUrl + '?ordering=-modified&page=1');
 
           // findelement by random name and click on the name
           element(by.cssContainingText('a', randomName)).click();
