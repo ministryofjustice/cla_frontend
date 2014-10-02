@@ -127,6 +127,11 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.$call_me_back = function(data) {
+        var url = url_utils.proxy('case/'+this.reference+'/call_me_back/');
+        return $http.post(url, data);
+      };
+
       // Provider only endpoints
       resource.prototype.isRequiresActionByProviderPreview = function(){
         return this.requires_action_by === REQUIRES_ACTION_BY.PROVIDER_REVIEW;
