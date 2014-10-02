@@ -7,7 +7,9 @@
   },
   "dependencies": {
     "cookie": "~0.1.2",
+    "node-statsd": "0.0.7",
     "promise": "^6.0.0",
-    "socket.io": "~1.0"
+    "socket.io": "~1.0",
+    "underscore": "^1.7.0"
   }
 }

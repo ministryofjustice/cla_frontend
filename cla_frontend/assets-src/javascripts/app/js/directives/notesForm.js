@@ -4,7 +4,7 @@
   var saveDelay = 800;
 
   angular.module('cla.directives')
-    .directive('notesForm', ['$timeout', 'form_utils', 'flash', function($timeout, form_utils, flash) {
+    .directive('notesForm', ['$timeout', 'form_utils', function($timeout, form_utils) {
       return  {
         restrict: 'E',
         require: 'ngModel',
@@ -31,13 +31,11 @@
 
           scope.save = function(){
             $timeout.cancel(timeout);
-            
+
             if (scope.notesFrm.$valid && !saveInProgress) {
               saveInProgress = true;
               scope.case.$case_details_patch(
-                function() {
-                  flash('success', 'Case notes saved successfully');
-                },
+                angular.noop,
                 function(response){
                   form_utils.ctrlFormErrorCallback(scope, response, scope.notesFrm);
                 }

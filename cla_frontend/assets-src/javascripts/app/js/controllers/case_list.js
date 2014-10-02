@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'cla.bus', 'hotkeys',
-        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, bus, hotkeys) {
+      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'hotkeys', 'postal',
+        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, hotkeys, postal) {
           // PARAMS
           $scope.searchParams = angular.extend({}, $stateParams);
           $scope.searchParams.ordering = $scope.searchParams.ordering || '-priority';
@@ -123,7 +123,7 @@
           });
 
           // push
-          bus.subscribe({
+          postal.subscribe({
             channel: 'cla.operator',
             topic: 'case.new',
             callback: function () { // data, env

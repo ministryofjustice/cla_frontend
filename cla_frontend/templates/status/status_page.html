@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style type="text/css">
+header.pass {
+    background: green;
+    color: white;
+}
+header.fail {
+    background: red;
+    color: white;
+}
+header {
+    padding: 10px;
+    margin: 0 0 10px;
+}
+header h1 {
+    font-size: 150%;
+}
+header span {
+    font-size: 80%;
+}
+#smoketests {
+    float: none;
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+#smoketests li {
+    display: block;
+    padding: 10px;
+    margin: 0 0 10px;
+    border: 1px solid;
+    overflow: hidden;
+}
+#smoketests span {
+    float: right;
+}
+#smoketests .fail {
+    border-color: red;
+}
+#smoketests .fail span {
+    color: red;
+}
+#smoketests .pass {
+    border-color: green;
+}
+#smoketests .pass span {
+    color: green;
+}
+</style>
+{% endblock %}
+
+{% block search %}{% endblock %}
+
+{% block full_content %}
+<p></p>
+<header class="{% if passed %}pass{% else %}fail{% endif %}">
+    <h1>{% if passed %}All Systems Operational{% else %}Something is amiss{% endif %}</h1>
+    <span>{{ last_updated }}</span>
+</header>
+<ul id="smoketests">
+{% for test in smoketests %}
+  <li class="{% if test.status %}pass{% else %}fail{% endif %}">
+    {{ test.name }} <span>{{ test.message }} {% if test.status %}&#x2714;{% else %}&#x2718;{% endif %}</span>
+  </li>
+{% endfor %}
+</ul>
+{% endblock %}

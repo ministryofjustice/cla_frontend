@@ -2,7 +2,8 @@
   <div class="BtnGroup BtnGroup--wide">
     <button class="BtnGroup-button" name="accept-case" ng-click="accept()" ng-if="case.isRequiresActionByProviderPreview()">Accept</button>
     <button class="BtnGroup-button" name="reject-case" ng-click="reject()">Reject</button>
-    <a href="/provider/case/{{ case.reference }}/legal_help_form/" target="_self" class="BtnGroup-button" ng-if="!case.isRequiresActionByProviderPreview()">Legal Help Form</a>
     <button class="BtnGroup-button" name="split-case" ng-click="split()">Split</button>
+    <a href="/provider/case/{{ case.reference }}/legal_help_form/" target="_self" class="BtnGroup-button" ng-if="!case.isRequiresActionByProviderPreview()">Legal Help Form</a>
+    <button class="BtnGroup-button" name="provider-close-case" ng-really-message="This permanently closes the case, indicating all specialist work has been completed and the case is now billable. Don't use this button to indicate you have only completed a session or call with a client - just return to the case queue. Do you wish to continue?" ng-really-click="close()" ng-controller="CaseDetailCloseCtrl" ng-if="!case.isRequiresActionByProviderPreview()">Close</button>
   </div>
 </div>
