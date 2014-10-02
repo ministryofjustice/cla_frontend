@@ -5,7 +5,7 @@
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('Provider Case Control', function() {
+  ddescribe('Provider Case Control', function() {
     var case_to_accept;
     var accept_button = element(by.name('accept-case'));
     var close_button = element(by.name('provider-close-case'));
@@ -54,15 +54,15 @@
       it('should be able to accept a case', function(){
         browser.get(CONSTANTS.providerBaseUrl + case_to_accept + '/');
 
-        expect(close_button.isDisplayed()).toBe(false);
+        expect(close_button.isPresent()).toBe(false);
         expect(accept_button.isPresent()).toBe(true);
 
         // click but cancel accept
         accept_button.click();
 
         // check can't accept anymore
-        expect(accept_button.isDisplayed()).toBe(false);
-        expect(close_button.isDisplayed()).toBe(true);
+        expect(accept_button.isPresent()).toBe(false);
+        expect(close_button.isPresent()).toBe(true);
         expect(element(by.css('.NoticeContainer--fixed')).getInnerHtml()).toContain('Case accepted successfully');
       });
 
