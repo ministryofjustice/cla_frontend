@@ -10,12 +10,20 @@
   @include core-14;
   display: inline-block;
   padding: 4px 10px;
-  margin: 0 5px 5px 0;
+  margin: 0;
   background-color: $white;
   color: $light-blue;
   border: 1px solid $light-blue;
   text-decoration: none;
   @include border-radius(3px);
+
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+
+  .Label + & {
+    margin-bottom: 10px;
+  }
 
   &:focus {
     background-color: $white;
@@ -49,7 +57,7 @@
 
   &.is-selected {
     background-color: $light-blue;
-    color: #fff;
+    color: $white;
   }
 
   &.is-removable {
@@ -64,11 +72,13 @@
   }
 
   &--secondary {
-    background-color: #fff;
-    border-color: #000;
+    padding: 3px 8px 1px;
+    background-color: $white;
+    color: $grey-1;
+    border-color: $grey-2;
+  }
 
-    &.is-selected {
-      background-color: #fff;
-    }
+  &--single {
+    margin: 0;
   }
 }

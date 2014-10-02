@@ -17,6 +17,10 @@
       }
       background-color: $grey-4;
       padding: 12px 15px;
+
+      &:first-child {
+        padding-right: 0;
+      }
     }
 
     &.is-new td {
@@ -26,17 +30,15 @@
       background-color: #E8F0F0;
     }
     &.is-rejected td {
+      background-color: $yellow-25;
       &:first-child {
-        border-left-width: 4px;
         @extend .Icon;
         @extend .Icon--alert;
         @extend .Icon--mellowred;
+        &:before {
+          margin-right: 0;
+        }
       }
-      &:last-child {
-        border-right-width: 1px;
-      }
-      border-color: $mellow-red;
-      background-color: $yellow-25;
     }
   }
 }

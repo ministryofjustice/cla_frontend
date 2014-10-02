@@ -50,7 +50,7 @@
 }
 
 .CaseHistory-label {
-  @include border-radius(4px);
+  @include border-radius(3px);
   border: 1px solid $grey-2;
   color: $grey-1;
   display: inline-block;

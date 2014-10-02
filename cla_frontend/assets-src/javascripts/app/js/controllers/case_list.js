@@ -7,7 +7,7 @@
         function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, hotkeys, postal) {
           // PARAMS
           $scope.searchParams = angular.extend({}, $stateParams);
-          $scope.searchParams.ordering = $scope.searchParams.ordering || '-modified';
+          $scope.searchParams.ordering = $scope.searchParams.ordering || '-priority';
           $scope.searchParams.page = $scope.searchParams.page || 1;
 
           $scope.cases = cases;
