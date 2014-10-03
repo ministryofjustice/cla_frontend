@@ -5,7 +5,7 @@ import socket
 import time
 from urllib import urlencode
 from urllib2 import URLError, urlopen
-from urlparse import urlparse
+from urlparse import urlparse, urlunparse
 
 from django.conf import settings
 
@@ -46,21 +46,25 @@ def db_alive():
 @smoketests.register(5, 'Socket.IO server running')
 def socket_io():
     parts = urlparse(settings.SOCKETIO_SERVER_URL)
-    path = '/socket.io/1/'
+    host, _, port = parts.netloc.partition(':')
+    host = host or 'localhost'
+    port = port or '80'
+    path = parts.path + '/1/'
+    parts = list(parts)
 
     try:
-        sid = socketio_session_id(parts.hostname, parts.port, path)
+        sid = socketio_session_id(host, port, path)
     except Exception as e:
         raise SmokeTestFail('Server not responding: {0}'.format(str(e)))
 
-    ws_url = 'ws://{host}:{port}{path}websocket/?{params}'.format(
-        host=parts.hostname,
-        port=parts.port,
-        path=path,
-        params=urlencode({
-            'sid': sid,
-            'transport': 'polling',
-            'timestamp': unix_timestamp()}))
+    parts[0] = 'ws'
+    parts[1] = parts[1] or host
+    parts[2] = path + 'websocket/'
+    parts[4] = urlencode({
+        'sid': sid,
+        'transport': 'polling',
+        'timestamp': unix_timestamp()})
+    ws_url = urlunparse(parts)
 
     try:
         ws = websocket.create_connection(ws_url)
