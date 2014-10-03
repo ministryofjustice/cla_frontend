@@ -90,6 +90,14 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.$query = function(params) {
+        var self = this;
+        resource.query(params).$promise.then(function(data) {
+          angular.extend(self, data);
+        });
+        return self;
+      };
+
       resource.prototype.get_suggested_providers = function(as_of){
         var url = '/call_centre/proxy/case/'+this.reference+'/assign_suggest/',
           as_of_datetime;

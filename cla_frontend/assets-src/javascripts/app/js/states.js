@@ -33,8 +33,31 @@
       url: APP_BASE_URL+'?person_ref?search?ordering?page?new?accepted?viewed',
       templateUrl: 'case_list.html',
       controller: 'CaseListCtrl',
-      resolve: {
-        cases: ['$stateParams', 'Case', function($stateParams, Case){
+      onEnter: ['$state', '$stateParams', 'postal', '$interval', 'cases', function($state, $stateParams, postal, $interval, cases) {
+        var self = this,
+            refreshCases = function(___, force) {
+              // only refresh if force === true or the page is active
+              if (force || !document.hidden) {
+                cases.$query(self.getCaseQueryParams($stateParams));
+              }
+            };
+
+        // push
+        this.newCaseSubscription = postal.subscribe({
+          channel: 'cla.operator',
+          topic: 'case.new',
+          callback: function() {
+            refreshCases(null, true);
+          }
+        });
+
+        this.refreshCastListInterval = $interval(refreshCases, 60000);
+      }],
+      onExit: ['$interval', function($interval) {
+        this.newCaseSubscription.unsubscribe();
+        $interval.cancel(this.refreshCastListInterval);
+      }],
+      getCaseQueryParams: function($stateParams) {
           var params = {
             person_ref: $stateParams.person_ref,
             search: $stateParams.search,
@@ -51,7 +74,11 @@
             params.dashboard = 1;
           }
 
-          return Case.query(params).$promise;
+          return params;
+      },
+      resolve: {
+        cases: ['$stateParams', 'Case', function($stateParams, Case){
+          return Case.query(this.getCaseQueryParams($stateParams)).$promise;
         }],
         person: ['cases', '$stateParams', function(cases, $stateParams) {
           var person_ref = $stateParams.person_ref,

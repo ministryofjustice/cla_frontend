@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'hotkeys', 'postal',
-        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, hotkeys, postal) {
+      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'hotkeys',
+        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, hotkeys) {
           // PARAMS
           $scope.searchParams = angular.extend({}, $stateParams);
           $scope.searchParams.ordering = $scope.searchParams.ordering || '-modified';
@@ -122,19 +122,6 @@
             $rootScope.$emit('timer:check');
           });
 
-          // push
-          postal.subscribe({
-            channel: 'cla.operator',
-            topic: 'case.new',
-            callback: function () { // data, env
-              if ($state.current.name === 'case_list') {
-                $state.transitionTo($state.current, $stateParams, {
-                  reload: true,
-                  notify: true
-                });
-              }
-            }
-          });
         }
       ]
     );
