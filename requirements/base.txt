@@ -19,3 +19,4 @@ django-statsd-mozilla==0.3.13
 logstash-formatter==0.5.8
 django-ipware==0.0.8
 pyjade==3.0.0
+websocket-client==0.18.0
