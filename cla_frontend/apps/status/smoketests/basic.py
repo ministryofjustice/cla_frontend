@@ -16,25 +16,25 @@ from status.smoketests import SmokeTestFail, smoketests
 
 @smoketests.register(1, 'Public site is up')
 def things_exist():
-    response = get(prod_fe('/'))
+    response = get(fe('/'))
     assert_status(response, 200)
 
 
 @smoketests.register(2, 'Angular is loaded')
 def angular_loaded():
-    response = get(prod_fe('/static/javascripts/cla.main.js'))
+    response = get(fe('/static/javascripts/cla.main.js'))
     assert_status(response, 200)
 
 
 @smoketests.register(3, 'Backend responding')
 def backend_exists():
-    response = get(prod_be('/admin/'))
+    response = get(be('/admin/'))
     assert_status(response, 200)
 
 
 @smoketests.register(4, 'Database accessible')
 def db_alive():
-    response = get(prod_be('/status'))
+    response = get(be('/status'))
     assert_status(response, 200)
     data = response.read()
     backend = json.loads(data)
@@ -86,19 +86,16 @@ def socketio_session_id(host, port, path):
     return json.loads(response[4:])['sid']
 
 
-def prod_fe(url):
-    #return 'http://localhost:8001{url}'.format(url=url)
-    return prod('cases', url)
+def fe(url):
+    return '{host}{url}'.format(
+        host=getattr(settings, 'HOST_NAME', 'http://localhost:8001'),
+        url=url)
 
 
-def prod_be(url):
-    #return 'http://localhost:8000{url}'.format(url=url)
-    return prod('fox', url)
-
-
-def prod(host, url):
-    return 'https://{host}.civillegaladvice.service.gov.uk{url}'.format(
-        host=host, url=url)
+def be(url):
+    return '{host}{url}'.format(
+        host=getattr(settings, 'BACKEND_BASE_URI', 'http://localhost:8000'),
+        url=url)
 
 
 def get(url):
