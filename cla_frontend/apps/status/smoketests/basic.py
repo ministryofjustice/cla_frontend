@@ -36,7 +36,8 @@ def backend_exists():
 def db_alive():
     response = get(prod_be('/status'))
     assert_status(response, 200)
-    backend = json.loads(response.read())
+    data = response.read()
+    backend = json.loads(data)
     if not backend.get('db', {}).get('ready'):
         raise SmokeTestFail('Database not responding: {reason}'.format(
             reason=backend.get('db', {}).get('message', 'no reason given')))
