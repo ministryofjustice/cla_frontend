@@ -25,16 +25,8 @@
 
           var modalEl = browser.findElement(by.css('div.modal'));
 
-          // TODO fix this
-          // var browserName;
-          // browser.getCapabilities().then(function(capabilities) {
-          //   browserName = capabilities.caps_.browserName;
-          // });
-
-          // modalEl.findElement(by.css('input[name="datetime"]')).sendKeys(
-          //   browserName === 'firefox' ? '2020-10-03T17:40' : '03-10-2020'
-          // );  // ff likes 2014-10-03T17:40 instead
-          modalEl.findElement(by.css('input[name="datetime"]')).sendKeys('03-10-2020');
+          // the default value is already now + 15 minutes
+          // modalEl.findElement(by.css('input[name="datetime"]')).sendKeys('03-10-2020');
           modalEl.findElement(by.css('textarea[name="notes"]')).sendKeys('CB1 scheduled.');
           modalEl.findElement(by.css('button[type="submit"]')).click();
           expect(browser.isElementPresent(by.css('div.modal'))).toBe(false);

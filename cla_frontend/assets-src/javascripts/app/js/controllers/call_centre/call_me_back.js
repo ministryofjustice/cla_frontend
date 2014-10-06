@@ -27,7 +27,7 @@
                  Event, $state, flash, moment, form_utils) {
 
           // default datetime to now
-          $scope.datetime = new Date();
+          $scope.datetime = new Date(new Date().getTime() + 15*60000);
 
           $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
