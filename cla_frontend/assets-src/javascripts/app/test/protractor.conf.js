@@ -22,7 +22,7 @@
       // spec style reporting on the command line
       require('jasmine-spec-reporter');
       jasmine.getEnv().addReporter(new jasmine.SpecReporter({
-        displayStacktrace: false
+        displayStacktrace: true
       }));
 
       // The require statement must be down here, since jasmine-reporters
