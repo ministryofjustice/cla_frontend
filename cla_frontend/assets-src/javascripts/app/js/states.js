@@ -353,7 +353,7 @@
           resolve: {
             tplVars: function() {
               return {
-                title: 'Suspend Case'
+                title: 'Suspend case'
               };
             },
             case: function() { return $case; },
