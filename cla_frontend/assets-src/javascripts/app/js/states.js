@@ -379,8 +379,9 @@
           resolve: {
             tplVars: function () {
               return {
-                title: 'Limited information provided',
-                message: 'Please ensure you have made every attempt to collect at least a name and a postcode or phone number before suspending a case.'
+                title: 'Missing client information',
+                buttonText: 'Proceed anyway',
+                message: 'Please ensure you have made every attempt to collect at least <strong>a name</strong> and <strong>a postcode or phone number</strong> before suspending a case.'
               };
             }
           }
