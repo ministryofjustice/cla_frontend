@@ -67,8 +67,6 @@
       });
 
       it('should be able to close a case', function(){
-        expect(close_button.isPresent()).toBe(true);
-
         // click but cancel accept
         close_button.click();
         browser.switchTo().alert().dismiss();
