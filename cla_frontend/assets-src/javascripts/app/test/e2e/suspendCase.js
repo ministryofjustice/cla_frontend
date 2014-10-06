@@ -27,7 +27,7 @@
     expect(notifications.getText()).toContain('Case ' + reference + ' suspended successfully');
   }
 
-  ddescribe('Operator Case Suspension', function() {
+  describe('Operator Case Suspension', function() {
     beforeEach(utils.setUp);
 
     describe('Suspend a case', function () {
