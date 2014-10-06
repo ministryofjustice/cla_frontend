@@ -88,7 +88,7 @@
       $scope.reject = function() {
         var modalOpts = {
           templateUrl: 'case_detail.outcome_modal.with_feedback.html',
-          controller: 'OutcomesModalCtl',
+          controller: 'OutcomesFeedbackModalCtl',
           resolve: {
             tplVars: function() {
               return {
