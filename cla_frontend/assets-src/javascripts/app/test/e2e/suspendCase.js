@@ -27,7 +27,7 @@
     expect(notifications.getText()).toContain('Case ' + reference + ' suspended successfully');
   }
 
-  describe('Operator Case Suspension', function() {
+  ddescribe('Operator Case Suspension', function() {
     beforeEach(utils.setUp);
 
     describe('Suspend a case', function () {
@@ -40,7 +40,7 @@
           gotoSuspend();
 
           expect(modalEl.isPresent()).toBe(true);
-          expect(modalHeader.getText()).toContain('Limited information provided');
+          expect(modalHeader.getText()).toContain('Missing client information');
         });
       });
 
