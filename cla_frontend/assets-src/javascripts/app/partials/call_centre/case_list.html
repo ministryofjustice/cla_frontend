@@ -1,11 +1,13 @@
 <div data-extend-template="case_list.html">
+  <div data-block="title" ng-include="'includes/case_tab_navigation.html'"></div>
+
   <span data-block="filters">
     <button type="button" class="Label is-selected is-removable" ng-if="person.reference" ng-click="backToLatestSearch()">
       {{ person.full_name }}<span ng-if="person.postcode"> ({{ person.postcode }})</span>
     </button>
   </span>
 
-  <form name="newCaseForm" class="newCaseForm" data-block="top-actions">
+  <form data-block="top-actions" name="newCaseForm" class="newCaseForm u-pullLeft">
     <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase(person.reference)" ng-if="person.reference">Create a case for {{ person.full_name }}</button>
     <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase()" ng-if="!person.reference">Create a case</button>
   </form>
