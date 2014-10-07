@@ -21,6 +21,11 @@
             <span ng-if="case.matter_type1 && case.matter_type2"> | </span>
             <strong ng-if="case.matter_type2">MT2:</strong> {{ case.matter_type2 }}
           </p>
+
+          <div class="Notice warning ng-cloak" ng-if="case.getCallbackDatetime()">
+            <strong>Callback scheduled for {{ case.getCallbackDatetime()|date:"dd/MM/yyyy HH:mm" }}</strong>
+            <button class="Button Button--secondary }}" type="button" ng-really-message="Please only use this action if you managed to speak with the client. If you want to reschedule or cancel the callback use Close/Callback instead. Do you wish to continue?" ng-really-click="completeCallback()" ng-controller="CompleteCallbackCtrl">Stop callback</button>
+          </div>
         </header>
 
         <div class="cf CaseDetails-actions">

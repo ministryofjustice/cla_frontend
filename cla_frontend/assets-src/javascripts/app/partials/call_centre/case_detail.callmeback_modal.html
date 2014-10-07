@@ -1,30 +1,37 @@
 <header>
-  <h2>Schedule a callback</h2>
+  <h2 ng-if="canBeCalledBack">Schedule a {{ case.getCallbackDatetime() ? 'new' : '' }} callback</h2>
+  <h2 ng-if="!canBeCalledBack">Cancel callback</h2>
 </header>
 
 <form method="post" novalidate ng-submit="submit(callback_frm)" name="callback_frm">
   <div class="FormBlock FormBlock--yellow">
 
-    <span class="Error-message" ng-if="errors.datetime">{{ errors.datetime }}</span>
-    <div class="FormRow FormRow--group FormRow--groupNarrow">
-      <label class="FormRow-label">
-      	<input type="datetime-local" name="datetime" ng-model="datetime" step="900" server-error>
-      </label>
+    <div ng-if="canBeCalledBack">
+      <div class="FormRow FormRow--group FormRow--groupNarrow cf">
+        <label class="FormRow-label">
+          <span class="Error-message" ng-if="errors.datetime">{{ errors.datetime }}</span>
+        	<input type="text" name="datetime" ng-model="$parent.datetime" server-error placeholder="Date and time" date-picker picker-Config="datePickerConf">
+        </label>
+      </div>
+
+      <br>
+
+      <div class="FormRow cf">
+        <label>
+          <span class="Error-message" ng-if="(callback_frm.notes.$error.required||errors.notes) && callback_frm.$dirty">{{ errors.notes }}</span>
+          <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="$parent.notes" placeholder="Notes" server-error></textarea>
+        </label>
+      </div>
     </div>
 
-    <br>
-
-    <div class="FormRow cf">
-      <label>
-        <span class="Error-message" ng-if="(callback_frm.notes.$error.required||errors.notes) && callback_frm.$dirty">{{ errors.notes }}</span>
-        <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="notes" placeholder="Notes" server-error></textarea>
-      </label>
+    <div ng-if="!canBeCalledBack">
+      You can schedule a new callback as you have already tried to reach the client three times.
     </div>
   </div>
 
   <div class="FormActions" data-block="formActions">
-    <button class="Button" type="submit">Save and suspend Case</button>
+    <button class="Button" type="submit" ng-if="canBeCalledBack">Save and suspend Case</button>
+    <button class="Button {{ canBeCalledBack ? 'Button--secondary' : '' }}" type="button" ng-if="case.getCallbackDatetime()" ng-really-message="This action will cancel the callback with a CBC outcome code and suspend the Case. Do you wish to continue?" ng-really-click="cancelCallback()">Cancel callback</button>
     <a href="" ng-click="cancel()">Cancel</a>
   </div>
 </form>
-

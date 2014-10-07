@@ -111,6 +111,14 @@
         return $http.get(url);
       };
 
+      resource.prototype.canBeCalledBack = function(){
+        return this.callback_attempt < 3;
+      };
+
+      resource.prototype.getCallbackDatetime = function(){
+        return this.requires_action_at;
+      };
+
       resource.prototype.$assign = function(data){
         var url = url_utils.proxy('case/'+this.reference+'/assign/');
         return $http.post(url, data);
@@ -138,6 +146,20 @@
       resource.prototype.$call_me_back = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/call_me_back/');
         return $http.post(url, data);
+      };
+
+      resource.prototype.$cancel_call_me_back = function() {
+        var url = url_utils.proxy('case/'+this.reference+'/stop_call_me_back/');
+        return $http.post(url, {
+          action: 'cancel'
+        });
+      };
+
+      resource.prototype.$complete_call_me_back = function() {
+        var url = url_utils.proxy('case/'+this.reference+'/stop_call_me_back/');
+        return $http.post(url, {
+          action: 'complete'
+        });
       };
 
       // Provider only endpoints

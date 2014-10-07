@@ -26,17 +26,28 @@
         function($scope, $modalInstance, _case,
                  Event, $state, flash, moment, form_utils) {
 
-          // default datetime to now
-          $scope.datetime = new Date(new Date().getTime() + 15*60000);
+          $scope.case = _case;
+          $scope.canBeCalledBack = _case.canBeCalledBack();
+
+          function formatDate(dt) {
+            return moment(dt).format('DD/MM/YYYY HH:mm');
+          }
+
+          $scope.datePickerConf = {
+            time: true,
+            weekStart: 1,
+            min: formatDate(new Date(new Date().getTime() + 30*60000)),  // starts from (now + 30 mins)
+            inputFormat: 'DD/MM/YYYY HH:mm'
+          };
 
           $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
           };
 
           $scope.submit = function(form) {
-            var dt = moment(this.datetime).utc().format('YYYY-MM-DD HH:mm');
+            var dt = moment(this.datetime, 'DD/MM/YYYY HH:mm').utc();
             _case.$call_me_back({
-              'datetime': dt,
+              'datetime': formatDate(dt),
               'notes': this.notes || ''
             }).then(function() {
               $state.go('case_list');
@@ -44,6 +55,14 @@
               $modalInstance.dismiss('cancel');
             }, function(data) {
               form_utils.ctrlFormErrorCallback($scope, data, form);
+            });
+          };
+
+          $scope.cancelCallback = function() {
+            _case.$cancel_call_me_back().then(function() {
+              $state.go('case_list');
+              flash('success', 'Callback cancelled successfully.');
+              $modalInstance.dismiss('cancel');
             });
           };
 
