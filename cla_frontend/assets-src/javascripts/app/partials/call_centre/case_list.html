@@ -2,7 +2,7 @@
   <div data-block="title" ng-include="'includes/case_tab_navigation.html'"></div>
 
   <span data-block="filters">
-    <button type="button" class="Label is-selected is-removable" ng-if="person.reference" ng-click="backToLatestSearch()">
+    <button type="button" name="person-filter" class="Label is-selected is-removable" ng-if="person.reference" ng-click="backToLatestSearch()">
       {{ person.full_name }}<span ng-if="person.postcode"> ({{ person.postcode }})</span>
     </button>
   </span>
