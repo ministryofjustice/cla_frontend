@@ -3,7 +3,6 @@
 
   var utils = require('./_utils'),
       modelsRecipe = require('./_modelsRecipe'),
-      shortcuts = require('./_shortcuts'),
       CONSTANTS = require('../protractor.constants');
 
   describe('As Operator', function() {
@@ -14,7 +13,7 @@
       function assertCBx(attemptNum, caseref, expectedScheduleTitle) {
         var expectedCode = 'CB'+attemptNum;
 
-        shortcuts.goToCaseDetail(caseref);
+        utils.goToCaseDetail(caseref);
 
         browser.findElement(by.cssContainingText('.CaseDetails-actions button', 'Close')).click();
 
@@ -42,7 +41,7 @@
 
         // reload the case and check that the outcome code is there and that the Notice 'Callback scheduled for ...'
         // is there
-        shortcuts.goToCaseDetail(caseref);
+        utils.goToCaseDetail(caseref);
         expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe(expectedCode);
         expect(
           browser.isElementPresent(by.cssContainingText('.CaseDetails .Notice', 'Callback scheduled for'))
@@ -81,7 +80,7 @@
       });
 
       it('should only allow cancelling a callback after a CB3', function() {
-        shortcuts.goToCaseDetail(cbCaseRef);
+        utils.goToCaseDetail(cbCaseRef);
         browser.findElement(by.cssContainingText('.CaseDetails-actions button', 'Close')).click();
 
         var callMeBackLink = by.cssContainingText('.CaseDetails-actions a', 'Callback');
@@ -109,7 +108,7 @@
 
         // reload the case and check that the outcome code is there and that the Notice 'Callback scheduled for ...'
         // is there
-        shortcuts.goToCaseDetail(cbCaseRef);
+        utils.goToCaseDetail(cbCaseRef);
         expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe('CBC');
       });
   });
