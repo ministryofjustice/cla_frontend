@@ -5,7 +5,7 @@
       modelsRecipe = require('./_modelsRecipe'),
       CONSTANTS = require('../protractor.constants');
 
-  describe('operatorApp', function() {
+  describe('Operator Matter Types', function() {
     beforeEach(utils.setUp);
 
     describe('Case Set Matter Types and Assign', function() {

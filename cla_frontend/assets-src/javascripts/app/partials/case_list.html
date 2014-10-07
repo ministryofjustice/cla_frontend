@@ -1,12 +1,17 @@
-<header class="PageHeader">
-  <div class="cf">
-    <h1 class="u-pullLeft">Cases</h1>
-    <nav class="Filters">
-      <a class="Label is-selected is-removable" ng-if="searchParams.search" ng-click="resetSearch()">"{{ searchParams.search }}"</span></a>
-      <span data-block="filters"></span>
-    </nav>
+<header class="PageHeader cf">
+  <div ng-switch on="user.is_manager">
+    <div ng-switch-when="true">
+      <h1 data-block="title">Cases</h1>
+    </div>
+    <h1 ng-switch-default>Cases</h1>
   </div>
+
   <div data-block="top-actions"></div>
+
+  <nav class="Filters">
+    <a class="Label is-selected is-removable" ng-if="searchParams.search" ng-click="resetSearch()">"{{ searchParams.search }}"</span></a>
+    <span data-block="filters"></span>
+  </nav>
 </header>
 
 <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
