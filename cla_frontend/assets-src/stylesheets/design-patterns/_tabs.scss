@@ -1,24 +1,26 @@
 .Tabs {
-  @include core-19;
+  @extend %contain-floats;
+  @include core-24;
   list-style: none;
-  padding: 0 0 15px;
+  padding: 0;
   margin: 15px 0;
   border-bottom: 1px solid $grey-2;
 
   &--large {
-    @include core-24;
+    @include bold-36;
   }
 }
 
 .Tabs-tab {
-  display: inline-block;
-  padding: 6px 12px;
+  @include inline-block;
+  @include border-radius(3px 3px 0 0);
+  padding: 8px 14px 4px;
+  margin: 0 0 -1px;
   border: 1px solid transparent;
-  @include border-radius(3px);
 
   &.is-active {
-    background-color: $grey-4;
     border-color: $grey-2;
+    border-bottom-color: $white;
   }
   &.is-disabled {
     color: $grey-2;
@@ -26,6 +28,7 @@
 }
 
 .Tabs-tabLink {
+  @include inline-block;
   color: $black;
   text-decoration: none;
 

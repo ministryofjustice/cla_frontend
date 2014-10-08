@@ -19,11 +19,22 @@
           platform,
           window = browser.manage().window();
 
+      // spec style reporting on the command line
+      require('jasmine-spec-reporter');
+      jasmine.getEnv().addReporter(new jasmine.SpecReporter({
+        displayStacktrace: true
+      }));
+
       // The require statement must be down here, since jasmine-reporters
       // needs jasmine to be in the global and protractor does not guarantee
       // this until inside the onPrepare function.
-      require('jasmine-spec-reporter');
-      jasmine.getEnv().addReporter(new jasmine.SpecReporter({displayStacktrace: true}));
+      require('jasmine-reporters');
+      browser.getCapabilities().then(function(caps){
+        var browserName = caps.caps_.browserName.toUpperCase(),
+            browserVersion = caps.caps_.version,
+            prePendStr = browserName + '-' + browserVersion + '-';
+        jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter('reports/protractor-e2e', true, true, prePendStr));
+      });
 
       // add current browser, system and dimensions to console log
       browser.getCapabilities().then(function(capabilities) {
@@ -48,7 +59,7 @@
     framework: 'jasmine',
     jasmineNodeOpts: {
       silent: true,
-      isVerbose: true
+      isVerbose: false
     }
   };
 })();

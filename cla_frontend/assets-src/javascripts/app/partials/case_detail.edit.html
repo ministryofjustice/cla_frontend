@@ -5,7 +5,7 @@
 <div ui-view="notes">
   <div data-block="case-notes"></div>
 
-  <div ng-show="eligibility_check.notes">
+  <div ng-if="eligibility_check.notes">
     <figure class="CommentBlock Icon Icon--row Icon--comments">
       <cite class="CommentBlock-author">User said</cite>
       <blockquote class="Quote" ng-bind-html="eligibility_check.notes|nl2br"></blockquote>
@@ -17,13 +17,13 @@
 
 <ui-view name="acceptReject"></ui-view>
 
-<ul class="Tabs Tabs--large cf">
-  <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.diagnosis')}">
-    <a href="" ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope diagnosis</a>
-  </li>
-  <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.eligibility'), 'is-disabled': !diagnosis.isInScopeTrue() && !eligibility_check.state}">
-    <a href="" ui-sref="case_detail.edit.eligibility" class="Tabs-tabLink" ng-class="eligibilityIcon()">Financial assessment</a>
-  </li>
-</ul>
+<ul class="Tabs"><!--
+  --><li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.diagnosis')}">
+    <a ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope diagnosis</a>
+  </li><!--
+  --><li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.eligibility'), 'is-disabled': !diagnosis.isInScopeTrue() && !eligibility_check.state}">
+    <a ui-sref="case_detail.edit.eligibility" class="Tabs-tabLink" ng-class="eligibilityIcon()">Financial assessment</a>
+  </li><!--
+--></ul>
 
 <div ui-view=""></div>

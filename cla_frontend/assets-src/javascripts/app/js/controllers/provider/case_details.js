@@ -17,44 +17,7 @@
       ]
     );
 
-  angular.module('cla.controllers.provider')
-    .controller('OutcomesModalCtlWithFeedback',
-    ['$scope', '$modalInstance', 'case', 'event_key',
-      'success_msg', 'Event', '$state', 'flash',
-      'notes', 'tplVars', '$controller', 'FEEDBACK_ISSUE', '$q', 'Feedback',
-      function ($scope, $modalInstance, _case, event_key, success_msg,
-                Event, $state, flash, notes, tplVars, $controller, FEEDBACK_ISSUE, $q, Feedback) {
-        angular.extend(this, $controller('OutcomesModalCtl', {
-          $scope: $scope,
-          $modalInstance: $modalInstance,
-          case: _case,
-          event_key: event_key,
-          success_msg: success_msg,
-          Event: Event,
-          $state: $state,
-          flash: flash,
-          notes: notes,
-          tplVars: tplVars
-        }));
-        $scope.FEEDBACK_ISSUE = FEEDBACK_ISSUE;
-        $scope.leaveFeedback = false;
-        $scope.feedback = {case: _case.reference};
 
-        $scope.submit_feedback = function (comment) {
-          var feedback_resource = new Feedback(angular.extend($scope.feedback, {comment: comment}));
-          return feedback_resource.$save();
-        };
-
-
-        $scope.submit = function () {
-          var that = this,
-          feedback_promise = $scope.leaveFeedback ? $scope.submit_feedback(that.notes) : $q.when(true);
-          feedback_promise.then(function () {
-              return $scope.submit_outcome(that.event_code, that.notes);
-            }).then($scope.post_submit);
-        };
-
-      }]);
 
   angular.module('cla.controllers')
     .controller('SplitCaseCtrl',
@@ -109,7 +72,7 @@
   );
 
   angular.module('cla.controllers.provider').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', function($scope, $modal, flash, postal){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', '$state', function($scope, $modal, flash, postal, $state){
       $scope.accept = function() {
         this.case.$accept_case().then(function(data) {
           flash('Case accepted successfully');
@@ -123,21 +86,30 @@
       };
 
       $scope.reject = function() {
-        $modal.open({
+        var modalOpts = {
           templateUrl: 'case_detail.outcome_modal.with_feedback.html',
-          controller: 'OutcomesModalCtlWithFeedback',
+          controller: 'OutcomesFeedbackModalCtl',
           resolve: {
-            'tplVars': function() {
+            tplVars: function() {
               return {
                 title: 'Reject case'
               };
             },
-            'case': function() { return $scope.case; },
-            'event_key': function() { return 'reject_case'; },  //this is also the function name on Case model
-            'notes': function() { return ''; },
-            'success_msg': function() { return 'Case '+$scope.case.reference+' rejected successfully'; }
+            case: function() { return $scope.case; },
+            event_key: function() { return 'reject_case'; },  //this is also the function name on Case model
+            notes: function() { return ''; }
           }
-        });
+        };
+        var onSuccess = function (result) {
+          if (result) {
+            flash('success', 'Case ' + $scope.case.reference + ' rejected successfully');
+          } else {
+            flash('error', 'There was a problem rejecting this case');
+          }
+          $state.go('case_list');
+        };
+
+        $modal.open(modalOpts).result.then(onSuccess);
       };
 
       $scope.split = function() {

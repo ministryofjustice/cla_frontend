@@ -13,6 +13,11 @@
 
 import sys, os
 
+sys.path.insert(0, os.path.abspath('../cla_frontend/apps/'))
+sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../../cla_docs/docs/source/'))
+from common_conf import *
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.

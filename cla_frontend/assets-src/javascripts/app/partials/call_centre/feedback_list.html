@@ -1,23 +1,25 @@
-<header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}">
-  <h1 class="u-pullLeft">Case feedback</h1>
+<header class="PageHeader cf">
+  <div ng-include="'includes/case_tab_navigation.html'"></div>
 </header>
 
-<nav data-block="top-actions">
-  <form class="FormRow" ng-submit="filter()">
-    <label>
-      <input type="text" name="start" ng-model="startDate" class="FormRow-field--m FormRow-field--inline" placeholder="From" date-picker>
-    </label>
-    <label>
-      <input type="text" name="end" ng-model="endDate" class="FormRow-field--m FormRow-field--inline" placeholder="To" date-picker>
-    </label>
-    <button type="submit" name="update-filter" class="Button Button--secondary">Search by date</button>
-    <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !hideResolved}" ng-click="hideResolved=!hideResolved">{{ hideResolved ? 'Show' : 'Hide' }} resolved cases</a>
-  </form>
-</nav>
+<form class="FormRow" ng-submit="filter()">
+  <label>
+    <span class="visuallyhidden">From date</span>
+    <input type="text" name="start" ng-model="startDate" class="FormRow-field--m FormRow-field--inline" placeholder="From" date-picker>
+  </label>
 
-<div data-block="case-list">
-  <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
-    <thead>
+  <label>
+    <span class="visuallyhidden">To date</span>
+    <input type="text" name="end" ng-model="endDate" class="FormRow-field--m FormRow-field--inline" placeholder="To" date-picker>
+  </label>
+
+  <button type="submit" name="update-filter" class="Button Button--secondary">Search by date</button>
+
+  <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !hideResolved}" ng-click="hideResolved=!hideResolved">{{ hideResolved ? 'Show' : 'Hide' }} resolved cases</a>
+</form>
+
+<table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
+  <thead>
     <tr>
       <th width="9%">Resolved</th>
       <th width="13%">Case Reference</th>
@@ -26,28 +28,26 @@
       <th width="12%">Justified</th>
       <th width="15%">Created</th>
     </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="feedback in feedbackList" ng-show="showRow(feedback)" ng-class="{'is-complete': feedback.resolved}">
-        <td>
-          <input type="checkbox" name="resolved" value="{{ feedback.case }}" ng-click="toggleResolved(feedback)" ng-model="feedback.resolved">
-        </td>
-        <td>
-          <a ui-sref="case_detail.edit({caseref: feedback.case})">{{ feedback.case }}</a>
-        </td>
-        <td>{{ (feedback.issue|constantByValue:FEEDBACK_ISSUE).text }}</td>
-        <td>{{ feedback.comment }}</td>
-        <td>
-          <div class="BtnGroup">
-            <button class="BtnGroup-button" name="justify-{{ feedback.case }}" ng-click="toggleJustified(feedback)" ng-class="{'is-selected': feedback.justified, 'is-deselected': !feedback.justified}">Yes</button>
-            <button class="BtnGroup-button" name="unjustify-{{ feedback.case }}" ng-click="toggleJustified(feedback)" ng-class="{'is-selected': !feedback.justified, 'is-deselected': feedback.justified}">No</button>
-          </div>
-        </td>
-        <td>
-          <timestamp ng-model="feedback.created"></timestamp>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
+  </thead>
+  <tbody>
+    <tr ng-repeat="feedback in feedbackList" ng-if="showRow(feedback)" ng-class="{'is-complete': feedback.resolved}">
+      <td>
+        <input type="checkbox" name="resolved" value="{{ feedback.case }}" ng-click="toggleResolved(feedback)" ng-model="feedback.resolved">
+      </td>
+      <td>
+        <a ui-sref="case_detail.edit({caseref: feedback.case})">{{ feedback.case }}</a>
+      </td>
+      <td>{{ (feedback.issue|constantByValue:FEEDBACK_ISSUE).text }}</td>
+      <td>{{ feedback.comment }}</td>
+      <td>
+        <div class="BtnGroup">
+          <button class="BtnGroup-button" name="justify-{{ feedback.case }}" ng-click="toggleJustified(feedback)" ng-class="{'is-selected': feedback.justified, 'is-deselected': !feedback.justified}">Yes</button>
+          <button class="BtnGroup-button" name="unjustify-{{ feedback.case }}" ng-click="toggleJustified(feedback)" ng-class="{'is-selected': !feedback.justified, 'is-deselected': feedback.justified}">No</button>
+        </div>
+      </td>
+      <td>
+        <timestamp ng-model="feedback.created"></timestamp>
+      </td>
+    </tr>
+  </tbody>
+</table>

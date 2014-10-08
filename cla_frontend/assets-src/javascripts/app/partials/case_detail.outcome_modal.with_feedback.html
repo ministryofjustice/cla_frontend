@@ -1,15 +1,16 @@
 <div data-extend-template="case_detail.outcome_modal.html">
   <div data-block="feedback">
-    <button type="button" class="BlockLink BlockLink--add" ng-hide="$parent.leaveFeedback" ng-click="$parent.leaveFeedback=!$parent.leaveFeedback" name="add-feedback"><span class="BlockLink-text">Add feedback</span></button>
-
+    <button type="button" class="Button Button--secondary Button--add" ng-hide="$parent.shouldLeaveFeedback(event_code)" ng-click="$parent.leaveFeedback=!$parent.leaveFeedback" name="add-feedback">Add feedback</button>
+    <span class="Error-message" ng-if="reject_frm.reject_feedback_issue.$error.required">Issue is required.</span>
     <select
         id="reject_feedback_issue"
-        ng-show="$parent.leaveFeedback"
+        ng-if="$parent.shouldLeaveFeedback(event_code)"
         ng-model="feedback.issue"
+        name="reject_feedback_issue"
         ui-select2="{allowClear: true}"
         placeholder="Issue"
         ng-options="s.value as s.text for s in FEEDBACK_ISSUE track by s.value"
-        ng-required="$parent.leaveFeedback">
+        ng-required="$parent.shouldLeaveFeedback(event_code) && !$parent.leaveFeedback">
           <option value=""></option>
     </select>
   </div>

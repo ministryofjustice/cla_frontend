@@ -27,8 +27,8 @@
   var common_run,
       common_config;
 
-  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash',
-    function ($rootScope, $state, $stateParams, Timer, flash) {
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History',
+    function ($rootScope, $state, $stateParams, Timer, flash, bus, History) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
@@ -38,12 +38,18 @@
         if (error.msg) {
           flash('error', error.msg);
         }
-
+        // if a transition has been suggested, go to it
         if (error.goto) {
           $state.go(error.goto, {caseref: error.case});
         }
       });
+      $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        // log the previous state in the History
+        History.previousState = fromState;
+        History.previousState.params = fromParams;
+      });
       Timer.install();
+      bus.install();
     }];
 
   common_config = ['$resourceProvider', 'cfpLoadingBarProvider',
@@ -77,7 +83,8 @@
       'sticky',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.piwik'
+      'angulartics.piwik',
+      'cfp.hotkeys'
     ])
     .config(common_config)
     .run(common_run);
@@ -120,7 +127,8 @@
       'sticky',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.piwik'
+      'angulartics.piwik',
+      'cfp.hotkeys'
     ])
     .config(common_config)
     .run(common_run);

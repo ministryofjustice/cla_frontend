@@ -1,4 +1,4 @@
-<button href="" class="BlockLink BlockLink--add" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="add_thirdparty=true;third_party_frm.$show()" name="add-thirdparty"><span class="BlockLink-text">Add third party</span></button>
+<button href="" class="Button Button--secondary Button--add" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="add_thirdparty=true;third_party_frm.$show()" name="add-thirdparty">Add third party</button>
 
 <section ng-show="case.thirdparty_details || add_thirdparty" id="third_party">
   <div ng-click="third_party_frm.$show()" ng-hide="third_party_frm.$visible" class="VCard VCard--dark VCard-view">
@@ -6,25 +6,25 @@
     <!-- IF empty -->
     <p class="Notice" ng-hide="third_party.personal_details.full_name">Please enter third party details</p>
 
-    <h3 class="VCard-title Icon Icon--formRow Icon--thirdparty" ng-show="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}</h3>
+    <h3 class="VCard-title Icon Icon--formRow Icon--thirdparty" ng-if="third_party.personal_details.full_name">{{ third_party.personal_details.full_name }}</h3>
 
-    <p class="VCard-row Icon Icon--row Icon--location" ng-show="third_party.personal_details.postcode || third_party.personal_details.street">
+    <p class="VCard-row Icon Icon--row Icon--location" ng-if="third_party.personal_details.postcode || third_party.personal_details.street">
       {{ third_party.personal_details.postcode }}<br>
       <span ng-bind-html="third_party.personal_details.street|nl2br"></span>
     </p>
 
-    <p class="VCard-row Icon Icon--row Icon--call" ng-show="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone">{{ third_party.personal_details.mobile_phone }}</p>
+    <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone">{{ third_party.personal_details.mobile_phone }}</p>
 
-    <p class="VCard-row Icon Icon--row Icon--email" ng-show="third_party.personal_details.email">{{ third_party.personal_details.email }}</p>
+    <p class="VCard-row Icon Icon--row Icon--email" ng-if="third_party.personal_details.email">{{ third_party.personal_details.email }}</p>
 
-    <p class="VCard-row Icon Icon--row Icon--safe" ng-show="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
+    <p class="VCard-row Icon Icon--row Icon--safe" ng-if="third_party.pass_phrase">{{ third_party.pass_phrase }}</p>
 
-    <p class="VCard-row" ng-show="third_party.personal_relationship">
-      {{ getDisplayLabel(third_party.personal_relationship, relationships) }}<span ng-show="third_party.organisation_name">: {{ third_party.organisation_name }}</span>
+    <p class="VCard-row" ng-if="third_party.personal_relationship">
+      {{ getDisplayLabel(third_party.personal_relationship, relationships) }}<span ng-if="third_party.organisation_name">: {{ third_party.organisation_name }}</span>
     </p>
 
     <p class="VCard-row">
-      <span class="u-block">Adviser <strong>has <span ng-show="!third_party.spoke_to">not </span></strong> spoken with client<span ng-show="!third_party.spoke_to"> <strong>because</strong> '{{ getDisplayLabel(third_party.reason, reasons) }}'</span></span>
+      <span class="u-block">Adviser <strong>has <span ng-if="!third_party.spoke_to">not </span></strong> spoken with client<span ng-if="!third_party.spoke_to"> <strong>because</strong> '{{ getDisplayLabel(third_party.reason, reasons) }}'</span></span>
     </p>
   </div>
 
@@ -32,49 +32,49 @@
     <h2 class="VCard-legend">Third Party</h2>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.full_name.$error.server">{{ errors.full_name }}</span>
+      <span class="Error-message" ng-if="third_party_frm.full_name.$error.server">{{ errors.full_name }}</span>
       <span class="Icon--formRow Icon Icon--thirdparty">
         <span editable-text="third_party.personal_details.full_name" e-name="full_name" e-class="FormRow-field--full" e-placeholder="Name"></span>
       </span>
     </label>
 
     <div class="AddressLookup" ng-class="{Error: third_party_frm.postcode.$invalid || third_party_frm.street.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
-      <span class="Error-message" ng-show="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.postcode.$error.server">{{ errors.postcode }}</span>
+      <span class="Error-message" ng-if="personaldetails_frm.street.$error.server">{{ errors.street }}</span>
       <span editable-address-finder="thirdparty_address" e-name="thirdparty_addressfinder" e-placeholder="Postcode" e-server-error></span>
     </div>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.mobile_phone.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
+      <span class="Error-message" ng-if="third_party_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
       <span class="Icon--formRow Icon Icon--call">
         <span editable-text="third_party.personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
       </span>
     </label>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.email.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.email.$error.server">{{ errors.email }}</span>
+      <span class="Error-message" ng-if="third_party_frm.email.$error.server">{{ errors.email }}</span>
       <span class="Icon--formRow Icon Icon--email">
         <span editable-text="third_party.personal_details.email" e-name="email" e-class="FormRow-field--full" e-placeholder="Email"></span>
       </span>
     </label>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.pass_phrase.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.pass_phrase.$error.server">{{ errors.pass_phrase }}</span>
+      <span class="Error-message" ng-if="third_party_frm.pass_phrase.$error.server">{{ errors.pass_phrase }}</span>
       <span class="Icon--formRow Icon Icon--safe">
         <span editable-text="third_party.pass_phrase" e-name="pass_phrase" e-class="FormRow-field--full" e-placeholder="Passphrase" e-required></span>
       </span>
     </label>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.personal_relationship.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.personal_relationship.$error.server">{{ errors.personal_relationship }}</span>
+      <span class="Error-message" ng-if="third_party_frm.personal_relationship.$error.server">{{ errors.personal_relationship }}</span>
       <span class="Icon--formRow">
         <span editable-filterselect="third_party.personal_relationship" e-name="personal_relationship" e-ng-options="s.value as s.text for s in relationships track by s.value" e-ng-change="relationshipChange($data)" e-data-placeholder="Choose a relationship" onbeforesave="validateRadio($data)"></span>
       </span>
     </div>
 
-    <div ng-show="is_legal_advisor">
+    <div ng-if="is_legal_advisor">
       <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.organisation_name.$invalid && thirdparty_submitted}">
-        <span class="Error-message" ng-show="third_party_frm.organisation_name.$error.server">{{ errors.organisation_name }}</span>
+        <span class="Error-message" ng-if="third_party_frm.organisation_name.$error.server">{{ errors.organisation_name }}</span>
         <span class="Icon--formRow Icon Icon--briefcase">
           <span editable-text="third_party.organisation_name" e-name="organisation_name" e-class="FormRow-field--full" e-placeholder="Legal adviser"></span>
         </span>
@@ -82,12 +82,12 @@
     </div>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.spoke_to.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.spoke_to.$error.server">{{ errors.spoke_to }}</span>
+      <span class="Error-message" ng-if="third_party_frm.spoke_to.$error.server">{{ errors.spoke_to }}</span>
       <span editable-checkbox="third_party.spoke_to" e-name="spoke_to" e-title="Advisor has spoken to client" e-ng-change="spokenWithToggle($data)" ></span>
     </div>
 
-    <div class="FormRow FormRow--narrow cf" ng-show="!spoke_to" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-show="third_party_frm.reason.$error.server">{{ errors.reason }}</span>
+    <div class="FormRow FormRow--narrow cf" ng-if="!spoke_to" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-if="third_party_frm.reason.$error.server">{{ errors.reason }}</span>
       <span class="Icon--formRow">
         <span editable-filterselect="third_party.reason" e-name="reason" e-ng-options="s.value as s.text for s in reasons track by s.value" e-data-placeholder="Choose a reason for why not"></span>
       </span>

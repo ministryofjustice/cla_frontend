@@ -62,7 +62,7 @@
           Email<input type="email" name="email" required="required" ng-model="new_user.email" server-error></label>
         <label class="FormRow FormRow--narrow cf">
           <span class="Error-message" ng-show="add_user_form.password.$error.server">{{ errors.password }}</span>
-          Password<input type="password" name="password" required="required" ng-model="new_user.password" minlength="10" server-error></label>
+          Password<input type="password" name="password" required="required" ng-model="new_user.password" server-error></label>
       </div>
 
       <div data-block="form-submit">

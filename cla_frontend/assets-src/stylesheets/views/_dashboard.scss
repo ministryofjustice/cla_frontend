@@ -7,12 +7,11 @@
     padding-top: 30px;
 
     h1 {
-      padding: 0 0 15px;
+      padding: 9px 0 20px;
     }
 
-    .Button {
-      position: relative;
-      top: -6px;
+    .Tabs {
+      margin-top: 0;
     }
   }
 
@@ -26,8 +25,12 @@
     }
   }
 
+  .newCaseForm {
+    margin-right: 10px;
+  }
+
   .Filters {
-    margin: 7px 0 0 20px;
+    margin: 0;
     display: block;
     float: left;
   }

@@ -7,9 +7,10 @@
 @import "govuk_frontend_toolkit/stylesheets/measurements";
 @import "govuk_frontend_toolkit/stylesheets/shims";
 @import "govuk_frontend_toolkit/stylesheets/grid_layout";
-@import "govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
+@import "govuk_frontend_toolkit/stylesheets/typography";
 
-@import "toolkit/typography";
+// local overrides to GDS toolkit
+@import "toolkit/design-patterns/buttons";
 
 // basic styles
 @import "mixins";
@@ -35,6 +36,7 @@
 @import "design-patterns/case-history";
 @import "design-patterns/summary-block";
 @import "design-patterns/comment-block";
+@import "design-patterns/script-block";
 @import "design-patterns/contact-block";
 @import "design-patterns/user-details";
 @import "design-patterns/timer";
@@ -52,13 +54,16 @@
 @import "design-patterns/help-guidance";
 @import "design-patterns/address-lookup";
 @import "design-patterns/date-picker";
+@import "design-patterns/pills";
 @import "design-patterns/tabs";
+@import "design-patterns/hotkeys";
 
 // Views
 @import "views/dashboard";
 @import "views/login";
-@import "views/case";
 @import "views/rota";
+@import "views/case";
+@import "views/alternative-help";
 
 
 

@@ -2,7 +2,7 @@
 
 <h2 class="CaseHistory-subtitle">Feedback</h2>
 
-<button type="button" class="BlockLink BlockLink--add" ng-hide="showFeedbackFrm" ng-click="showFeedbackFrm=!showFeedbackFrm" name="leave-feedback"><span class="BlockLink-text">Leave feedback</span></button>
+<button type="button" class="Button Button--secondary Button--add" ng-hide="showFeedbackFrm" ng-click="showFeedbackFrm=!showFeedbackFrm" name="leave-feedback">Leave feedback</button>
 
 <div ng-show="showFeedbackFrm">
   <form ng-submit="submit()">
@@ -29,15 +29,15 @@
   </form>
 </div>
 
-<ul class="CaseHistory" ng-show="feedbackList" >
+<ul class="CaseHistory" ng-if="feedbackList">
   <li class="CaseHistory-card" ng-repeat="feedbackItem in feedbackList">
     <span>
-      <timestamp ng-model="feedbackItem.created"></timestamp> 
+      <timestamp ng-model="feedbackItem.created"></timestamp>
       ({{ feedbackItem.created_by }})
     </span>
 
     <ul class="CaseHistory-log">
-      <li class="CaseHistory-logItem cf">        
+      <li class="CaseHistory-logItem cf">
         <span class="CaseHistory-logItemNotes">{{ (feedbackItem.issue|constantByValue:FEEDBACK_ISSUE).text }}</span>
         <span class="CaseHistory-logItemNotes">{{ feedbackItem.comment }}</span>
       </li>

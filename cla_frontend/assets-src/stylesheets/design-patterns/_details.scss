@@ -10,16 +10,16 @@ details {
 
     &:focus {
       outline: none;
-    }  
+    }
     &:hover {
       color: $link-hover-colour;
-    } 
+    }
     &:active {
       color: $link-active-colour;
-    }   
+    }
   }
 
-  div {
+  > div {
     display: none;
     border-left: 3px solid #ccc;
     border-bottom: 1px transparent #ccc;
@@ -38,7 +38,7 @@ details {
       padding-bottom: 10px;
     }
   }
-  &[open] div {
+  &[open] > div {
     display: block;
   }
 

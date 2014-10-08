@@ -106,12 +106,12 @@ try:
     backend_process = run_bg(
         "cd %s && %s/python manage.py testserver kb_from_spreadsheet.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json --addrport %s --noinput --settings=cla_backend.settings.jenkins" % (backend_workspace.replace(' ', '\ '), backend_bin_path, backend_port)
     )
-    wget_backend = run_bg("wget http://localhost:%s/admin/ -t 20 --retry-connrefused --waitretry=2 -T 60" % backend_port)
+    wget_backend = run_bg("wget http://localhost:%s/admin/ -O/dev/null -t 20 --retry-connrefused --waitretry=2 -T 60" % backend_port)
 
     py_test.wait()
     gulp.wait()
     test = run_bg("%s/python manage.py runserver 0.0.0.0:%s --settings=cla_frontend.settings.jenkins --nothreading --noreload" % (bin_path, frontend_port))
-    wget_frontend = run_bg("wget http://localhost:%s/ -t 20 --retry-connrefused --waitretry=2 -T 60" % frontend_port)
+    wget_frontend = run_bg("wget http://localhost:%s/ -O/dev/null -t 20 --retry-connrefused --waitretry=2 -T 60" % frontend_port)
 
     # run Karma unit tests
     karma = run_bg('npm run test-single-run')

@@ -1,2 +1,2 @@
 #!/bin/bash
-exec sudo -u www-data /usr/bin/nodejs /home/app/django/cla_socketserver/app.js > /var/log/nodejs/socket_app.log 2> /var/log/nodejs/socket_app_err.log
+exec sudo -u www-data -E /usr/bin/nodejs /home/app/django/cla_socketserver/app.js > /var/log/nodejs/socket_app.log 2> /var/log/nodejs/socket_app_err.log

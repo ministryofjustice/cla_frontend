@@ -75,20 +75,6 @@
       return element.all(by.binding('case.reference')).get(0).getText();
     },
 
-    showPersonalDetailsForm: function() {
-      browser.findElement(by.css('#personal_details .VCard-view')).click();
-    },
-
-    enterPersonalDetails: function(details) {
-      for (var name in details) {
-        if (name === 'media_code') {
-          browser.findElement(by.cssContainingText('[name="media_code"] option', details[name])).click();
-        } else {
-          this.fillField(name, details[name]);
-        }
-      }
-    },
-
     fillField: function(name, value) {
       if (value === true || value === false) {
         element(by.name(name)).click();
@@ -97,11 +83,6 @@
         element(by.css('[name="' + name + '"]')).sendKeys(value).blur;
         /*jshint +W030 */
       }
-    },
-
-    saveCase: function() {
-      browser.findElement(by.css('button[name="save-personal-details"]')).click();
-      this.scrollTo(browser.findElement(by.id('personal_details')));
     }
   };
 })();

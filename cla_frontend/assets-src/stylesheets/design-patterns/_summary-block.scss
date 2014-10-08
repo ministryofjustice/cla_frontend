@@ -3,6 +3,12 @@ $border-colour: #C2C2C2;
 
 .SummaryBlock {
   position: relative;
+
+  &.stuck {
+    position: fixed;
+    top: 38px;
+    width: 18.90625%;
+  }
 }
 
 .SummaryBlock-heading {
@@ -21,7 +27,7 @@ $border-colour: #C2C2C2;
   };
 
   .SummaryBlock--compact & {
-    &:not(.is-lastChild) {
+    &:not(:last-child) {
       margin-bottom: 0;
       border-bottom-width: 0;
     }
@@ -38,6 +44,12 @@ $border-colour: #C2C2C2;
       margin-bottom: 0;
     }
   }
+}
+
+ul.SummaryBlock-list,
+ol.SummaryBlock-list {
+  list-style: disc;
+  padding-left: 15px;
 }
 
 .SummaryBlock-edit {

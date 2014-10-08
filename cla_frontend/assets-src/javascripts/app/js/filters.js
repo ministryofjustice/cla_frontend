@@ -70,6 +70,15 @@
       return function (lookupVal, constant) {
         return _.find(constant, {value: lookupVal});
       };
+    })
+
+    .filter('join', function () {
+      return function (list) {
+        if (!list) {
+          return '';
+        }
+        return list.join(', ');
+      };
     });
 
 })();

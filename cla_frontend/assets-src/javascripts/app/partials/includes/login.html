@@ -10,21 +10,21 @@
           <br>Sign in again to avoid losing any data you have entered.</p>
 
         <form action="" method="post" ng-submit="login(login_frm)" name="login_frm">
-          <span class="Error-message Error-all" ng-show="login_frm.$error.server">{{ errors.__all__ }}</span>
+          <span class="Error-message Error-all" ng-if="login_frm.$error.server">{{ errors.__all__ }}</span>
           <input type="hidden" name="csrfmiddlewaretoken" value="ouXbtrw2UtE9fg0dRwExncwVkP3MVgpP">
 
           <div class="FormRow cf">
             <label for="id_username" id="id_username-label">
-              <span class="Error-message" ng-show="login_frm.username.$error.server">{{ errors.username }}</span>
               <span class="FormRow-label">Username</span>
+              <span class="Error-message" ng-if="login_frm.username.$error.server">{{ errors.username }}</span>
               <input id="id_username" maxlength="254" name="username" type="text" ng-model="username">
             </label>
           </div>
 
           <div class="FormRow cf">
             <label for="id_password" id="id_password-label">
-              <span class="Error-message" ng-show="login_frm.password.$error.server">{{ errors.password }}</span>
               <span class="FormRow-label">Password</span>
+              <span class="Error-message" ng-if="login_frm.password.$error.server">{{ errors.password }}</span>
               <input id="id_password" name="password" type="password" ng-model="password" autocomplete="off">
             </label>
           </div>

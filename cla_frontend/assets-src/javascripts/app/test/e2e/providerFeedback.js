@@ -75,6 +75,7 @@
         // case is ready to be rejected/accepted.
         var reject_button = element(by.css('button[name="reject-case"]')),
             reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
+            mis_reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="MIS"]')),
             notes_area = element(by.css('.modal-content textarea[ng-model="notes"]')),
             leave_feedback_btn = element(by.css('button[name="add-feedback"]')),
             feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
@@ -87,11 +88,23 @@
         reject_button.click();
 
         expect(reject_code.isDisplayed()).toBe(true);
+        expect(mis_reject_code.isDisplayed()).toBe(true);
         reject_code.click();
 
         expect(notes_area.isDisplayed()).toBe(true);
         notes_area.sendKeys(reject_notes);
 
+        expect(leave_feedback_btn.isDisplayed()).toBe(true);
+
+        reject_code.click();
+        expect(leave_feedback_btn.isDisplayed()).toBe(true);
+
+        mis_reject_code.click();
+        expect(leave_feedback_btn.isDisplayed()).toBe(false);
+        // mis code forces feedback
+        expect(feedback_issue_select.isDisplayed()).toBe(true);
+
+        reject_code.click();
         expect(leave_feedback_btn.isDisplayed()).toBe(true);
         leave_feedback_btn.click();
 
@@ -117,7 +130,7 @@
 
         browser.get(CONSTANTS.providerBaseUrl + case_to_feedback_without_reject_ref + '/');
         expect(reject_btn.isPresent()).toBe(true);
-        
+
         leave_feedback_btn.click();
 
         expect(feedback_issue_select.isDisplayed()).toBe(true);
@@ -132,6 +145,7 @@
         notes_area.sendKeys(feedback_notes);
 
         expect(submit_button.isDisplayed()).toBe(true);
+        utils.scrollTo(submit_button);
         submit_button.click();
       });
 
@@ -168,7 +182,7 @@
 
       it('should be able to resolve case', function () {
         case_rejected_with_feedback_link.click();
-        
+
         expect(case_rejected_with_feedback_link.isSelected()).toBe(true);
 
         checked_case = element(by.cssContainingText('tr.is-complete', case_to_reject_ref));
@@ -196,12 +210,12 @@
         resolved_cases = element.all(by.css('tr.is-complete')).get(0);
 
         expect(hide_resolved_btn.getAttribute('class')).toContain('is-selected');
-        expect(resolved_cases.isDisplayed()).toBeTruthy();
+        expect(resolved_cases.isPresent()).toBeTruthy();
 
         hide_resolved_btn.click();
 
         expect(hide_resolved_btn.getAttribute('class')).not.toContain('is-selected');
-        expect(resolved_cases.isDisplayed()).toBeFalsy();
+        expect(resolved_cases.isPresent()).toBeFalsy();
       });
     });
   });

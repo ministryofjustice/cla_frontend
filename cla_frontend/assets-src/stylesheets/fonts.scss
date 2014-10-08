@@ -1,14 +1,35 @@
+/* The below comment needs a ! so that the copyright message doesn't get removed during the minification step. See: http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#comments */
+
+/*! Copyright (c) 2011 by Margaret Calvert & Henrik Kubel. All rights reserved. The font has been customised for exclusive use on gov.uk. This cut is not commercially available. */
+
 @mixin font-src ($font-name) {
   src: url('../fonts/#{$font-name}.eot'); /* IE9 Compat Modes */
   src: url('../fonts/#{$font-name}.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
        url('../fonts/#{$font-name}.woff') format('woff'), /* Modern Browsers */
-       url('../fonts/#{$font-name}.ttf')  format('truetype') /* Safari, Android, iOS */
 }
 
-// Ministry of Justice Font
 @font-face {
-  font-family: 'Bliss2';
+  font-family: 'nta';
   font-weight: normal;
   font-style: normal;
-  @include font-src('Bliss2Rg');
+  @include font-src('NTA-Light-20130221');
+}
+
+@font-face {
+  font-family: 'nta';
+  font-weight: bold;
+  @include font-src('NTA-Bold-20130221');
+}
+
+@font-face {
+  font-family: 'ntatabularnumbers';
+  font-weight: normal;
+  font-style: normal;
+  @include font-src('NTATabularNumbers-Light');
+}
+
+@font-face {
+  font-family: 'ntatabularnumbers';
+  font-weight: bold;
+  @include font-src('NTATabularNumbers-Bold');
 }

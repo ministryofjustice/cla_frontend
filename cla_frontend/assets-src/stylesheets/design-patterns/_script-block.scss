@@ -1,0 +1,26 @@
+.ScriptBlock {
+  margin: 10px 0;
+  padding: 1px 40px;
+  background-color: $light-blue-25;
+  border: solid $grey-2;
+  border-width: 1px 0;
+  position: relative;
+
+  &:before, &:after {
+    @include core-48;
+    position: absolute;
+  }
+
+  &:before {
+    content: '\201C';
+    content: open-quote;
+    top: 6px;
+    left: 7px;
+  }
+  &:after {
+    content: '\201D';
+    content: close-quote;
+    bottom: -27px;
+    right: 8px;
+  }
+}

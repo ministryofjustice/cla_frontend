@@ -1,4 +1,6 @@
-html, body, button, input, table, td, th { font-family: $Bliss2; }
+@import 'govuk_frontend_toolkit/stylesheets/_font_stack.scss';
+
+html, body, button, input, table, td, th { font-family: $NTA-Light; }
 
 /* Make HTML 5 elements display block-level for consistent styling */
 header, nav, article, footer, address {
@@ -107,6 +109,7 @@ html {
 body {
   font-size: 160%; /* 1 */
   margin: 0; /* 2 */
+  @include core-14;
 }
 
 b,

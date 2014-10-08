@@ -25,7 +25,7 @@
 <form method="post" name="split_case_frm">
   <h2>New case</h2>
 
-  <div class="FormBlock FormBlock--yellow Grid">    
+  <div class="FormBlock FormBlock--yellow Grid">
     <label class="FormRow Grid-row cf">
       <span class="Grid-col Grid-col--1-3">
         <span class="FormRow-label FormRow-label--inline FormRow-label--right">Category of law</span>
@@ -38,7 +38,7 @@
           </select>
         </span>
 
-        <span class="Error-message" ng-show="split_case_frm.category.$error.server">{{ errors.category }}</span>
+        <span class="Error-message" ng-if="split_case_frm.category.$error.server">{{ errors.category }}</span>
       </span>
     </label>
 
@@ -57,8 +57,8 @@
           </select>
         </span>
 
-        <span class="Error-message" ng-show="split_case_frm.matter_type1.$error.server">Matter type 1: {{ errors.matter_type1 }}</span>
-        <span class="Error-message" ng-show="split_case_frm.matter_type2.$error.server">Matter type 2: {{ errors.matter_type2 }}</span>
+        <span class="Error-message" ng-if="split_case_frm.matter_type1.$error.server">Matter type 1: {{ errors.matter_type1 }}</span>
+        <span class="Error-message" ng-if="split_case_frm.matter_type2.$error.server">Matter type 2: {{ errors.matter_type2 }}</span>
       </span>
     </label>
 
@@ -67,7 +67,7 @@
         <span class="FormRow-label FormRow-label--inline FormRow-label--right">Notes</span>
       </span>
 
-      <span class="Error-message" ng-show="split_case_frm.notes.$error.server">{{ errors.notes }}</span>
+      <span class="Error-message" ng-if="split_case_frm.notes.$error.server">{{ errors.notes }}</span>
 
       <span class="Grid-col Grid-col--2-3">
         <textarea name="notes" cols="30" rows="4" ng-model="$parent.notes" placeholder="Enter comments"></textarea>
@@ -79,7 +79,7 @@
         <span class="FormRow-label FormRow-label--inline FormRow-label--right">Assign</span>
       </span>
 
-      <span class="Error-message" ng-show="split_case_frm.notes.$error.server">{{ errors.notes }}</span>
+      <span class="Error-message" ng-if="split_case_frm.notes.$error.server">{{ errors.notes }}</span>
 
       <span class="Grid-col Grid-col--2-3">
         <span class="FormRow">
@@ -87,7 +87,7 @@
             <input type="radio" name="internal" value="true" ng-model="$parent.internal" required>
             <span class="FormRow-labelText">
               Internally to {{user.provider.name}}
-              <span class="Error-message" ng-show="errors.internal">{{ errors.internal }}</span>
+              <span class="Error-message" ng-if="errors.internal">{{ errors.internal }}</span>
             </span>
           </label>
         </span>
@@ -98,13 +98,13 @@
           </label>
         </span>
 
-        <span class="Error-message" ng-show="split_case_frm.internal.$error.required && submitted">You must choose who to assign the case to</span>
+        <span class="Error-message" ng-if="split_case_frm.internal.$error.required && submitted">You must choose who to assign the case to</span>
       </span>
     </fieldset>
   </div>
 
   <div class="FormActions">
-    <p class="Error-message" ng-show="errors.__all__">{{ errors.__all__ }}</p>
+    <p class="Error-message" ng-if="errors.__all__">{{ errors.__all__ }}</p>
 
     <button class="Button" name="save-split-case" type="submit" ng-click="doSplit(split_case_frm)">Split case</button>
     <a href="" ng-click="cancel()">Cancel</a>
