@@ -1,8 +1,10 @@
 <section>
-  <h2 class="FormBlock-label">Your property (only for homeowners)</h2>
-
   <div ng-show="!eligibility_check.property_set || eligibility_check.property_set.length === 0">
-    <p><em>No properties have been added</em></p>
+    <h2 class="FormBlock-label">Your property (only for homeowners)</h2>
+
+    <p class="FormBlock FormBlock--grey">
+      No properties have been added
+    </p>
   </div>
 
   <div ng-repeat="property in eligibility_check.property_set">

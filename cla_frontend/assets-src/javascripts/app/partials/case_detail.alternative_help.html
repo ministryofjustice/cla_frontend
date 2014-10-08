@@ -2,17 +2,6 @@
   <h1 class="u-pullLeft">Alternative help</h1>
 </header>
 
-<form class="FormRow cf" ng-submit="searchProviders(keyword)">
-  <input type="text" name="keyword" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="keyword">
-  <input class="Search-submit" type="submit" value="Search">
-</form>
-
-<div class="CategorySelect FormRow cf u-pullRight">
-  <select ui-select2="{allowClear: true}" name="category" class="FormRow-field--m" data-placeholder="Law category" ng-options="s.id as s.name for s in categories track by s.id" ng-model="selected_category" ng-change="changeCategory(selected_category)">
-    <option value=""></option>
-  </select>
-</div>
-
 <ul class="Tabs"><!--
   --><li class="Tabs-tab is-active">
     <a href="" class="Tabs-tabLink">Knowledge base</a>
@@ -49,6 +38,15 @@
     </div>
   </div>
 </details>
+
+<form class="FormRow cf" ng-submit="searchProviders(keyword)">
+  <select ui-select2="{allowClear: true}" name="category" class="FormRow-field--inline FormRow-field--m" data-placeholder="Law category" ng-options="s.id as s.name for s in categories track by s.id" ng-model="selected_category" ng-change="changeCategory(selected_category)">
+    <option value=""></option>
+  </select>
+
+  <input type="text" name="keyword" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="keyword">
+  <input class="Search-submit" type="submit" value="Search">
+</form>
 
 <form class="FormRow cf" name="alternative_help" ng-submit="submit()">
   <p class="Error Error--basic" ng-if="valid === false">Please choose <strong>three providers</strong>.</p>
