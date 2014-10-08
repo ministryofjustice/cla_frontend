@@ -10,7 +10,7 @@
 
     describe('Case List', function () {
       var randomName = Math.random().toString(36).substring(7);
-      var personBinding = element.all(by.binding('person.full_name')).get(0);
+      var personBinding = element(by.name('person-filter'));
 
       function searchAndExpect(personQ, numResults) {
         element(by.css('#s2id_searchPerson a')).click();
@@ -37,7 +37,7 @@
           element.all(by.css('.ListTable tbody tr')).then(function(els) {
             expect(els.length).toBe(1);
           });
-          expect(personBinding.getText()).toBe(randomName);
+          expect(personBinding.getText()).toContain(randomName);
         });
       });
 
@@ -60,7 +60,7 @@
         element.all(by.css('.ListTable tbody tr')).then(function(els) {
           expect(els.length).toBe(2);
         });
-        expect(personBinding.getText()).toBe(randomName);
+        expect(personBinding.getText()).toContain(randomName);
         expect(browser.getLocationAbsUrl()).toContain('person_ref');
       });
 

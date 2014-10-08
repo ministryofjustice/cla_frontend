@@ -1,9 +1,9 @@
 <form ng-submit="save()" novalidate name="form">
-  <ul class="Tabs">
-    <li class="Tabs-tab" ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
-      <a href="" ng-click="gotoSection(section)" class="Tabs-tabLink">{{ section.title }}</a>
+  <button type="submit" class="Button v-Button" name="save-means-test">Save assessment</button>
+  <ul class="Pills">
+    <li class="Pills-pill" ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
+      <a href="" ng-click="gotoSection(section)" class="Pills-pillLink">{{ section.title }}</a>
     </li>
-    <li class="Tabs-tab u-pullRight"><button type="submit" class="Button" name="save-means-test">Save assessment</button></li>
   </ul>
 
   <div ng-repeat="section in sections" ng-include="section.template" ng-show="currentState() === section.state"></div>

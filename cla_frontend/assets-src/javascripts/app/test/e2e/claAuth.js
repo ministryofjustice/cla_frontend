@@ -9,7 +9,7 @@
       // browser elements
       loginForm = element(by.name('login_frm'));
 
-  function login_modal(username, password) {
+  function login_modal (username, password) {
     username = username || 'test_operator';
     password = password || 'test_operator';
 
@@ -17,6 +17,19 @@
     loginForm.element(by.name('password')).clear().sendKeys(password);
 
     return loginForm.submit();
+  }
+
+  function enter_personal_details (details) {
+    element(by.css('#personal_details .VCard-view')).click();
+
+    for (var name in details) {
+      utils.fillField(name, details[name]);
+    }
+  }
+
+  function save_personal_details () {
+    element(by.name('save-personal-details')).click();
+    utils.scrollTo(element(by.id('personal_details')));
   }
 
   describe('As Operator', function() {
@@ -27,8 +40,7 @@
         modelsRecipe.Case.createEmpty().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
-          utils.showPersonalDetailsForm();
-          utils.enterPersonalDetails({
+          enter_personal_details({
             'full_name': 'Foo Bar Quux'
           });
 
@@ -36,7 +48,7 @@
           ptor.manage().deleteCookie('sessionid');
 
           // saving personal details => a login modal should appear
-          utils.saveCase();
+          save_personal_details();
           expect(loginForm.isPresent()).toBe(true);
 
           // invalid login => errors
@@ -48,7 +60,7 @@
           expect(loginForm.isPresent()).toBe(false);
 
           // saving personal details again
-          utils.saveCase();
+          save_personal_details();
           expect(loginForm.isPresent()).toBe(false);
         });
       });

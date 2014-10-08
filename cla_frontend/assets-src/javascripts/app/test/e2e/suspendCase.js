@@ -40,7 +40,7 @@
           gotoSuspend();
 
           expect(modalEl.isPresent()).toBe(true);
-          expect(modalHeader.getText()).toContain('Limited information provided');
+          expect(modalHeader.getText()).toContain('Missing client information');
         });
       });
 
