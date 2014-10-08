@@ -37,9 +37,3 @@ nsp.on('connection', function (socket) {
     peopleManager.stopViewingCase(nsp, socket, caseref);
   });
 });
-
-
-// server.addListener('request', function (req, res) {
-//   res.writeHead(200, {'Content-Type': 'application/json'});
-//   res.end('{"status": "OK"}\n');
-// });

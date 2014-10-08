@@ -6,25 +6,25 @@
       CONSTANTS = require('../protractor.constants');
 
   function assertTabsShown(num) {
-    browser.findElements(by.css('[name="form"] ul.Tabs [ng-repeat="section in sections"]')).then(function (tabs) {
+    browser.findElements(by.css('ul [ng-repeat="section in sections"]')).then(function (tabs) {
       expect(tabs.length).toBe(num);
     });
   }
 
   function getTab(title) {
-    return element(by.cssContainingText('.Tabs-tab', title));
+    return element(by.cssContainingText('ul li', title));
   }
 
   function setPassported(value) {
-    browser.findElement(by.cssContainingText('.Tabs-tabLink', 'Details')).click();
+    getTab('Details').click();
     var yes_no = value ? '0' : '1';
     $('#id_your_details-passported_benefits_' + yes_no).click();
   }
 
-  describe('Operator Financial Assessment', function() {
+  describe('Operator Financial Assessment', function () {
     beforeEach(utils.setUp);
 
-    describe('The financial assessment', function() {
+    describe('The financial assessment', function () {
       it('should show 4 section tabs', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function (caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
