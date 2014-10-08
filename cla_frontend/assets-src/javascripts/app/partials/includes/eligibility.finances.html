@@ -14,7 +14,7 @@
     <div class="FormBlock FormBlock--grey">
       <div class="FormRow cf">
         <label>
-          <span class="FormRow-label">How much is the property worth? <guidance-link doc="eligibility_check#ecg-property_worth"></guidance-link></span>
+          <span class="FormRow-label">What is the current market value of the property? <guidance-link doc="eligibility_check#ecg-property_worth"></guidance-link></span>
           <span class="FormRow-prefix">£</span>
           <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.value">
         </label>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="FormRow cf">
-        <p class="FormRow-label">Is this property disputed? <guidance-link doc="eligibility_check#ecg-property_disputed"></guidance-link></p>
+        <p class="FormRow-label">Is the property disputed? <guidance-link doc="eligibility_check#ecg-property_disputed"></guidance-link></p>
 
         <label class="FormRow-option FormRow-option--inline">
           <input type="radio" value="1" name="property_disputed-{{ $index }}" ng-model="property.disputed">Yes
@@ -73,7 +73,7 @@
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
       <label>
-        <span class="FormRow-label">Do you have any money saved in a bank or building society? <guidance-link doc="eligibility_check#ecg-savings_bank_balance"></guidance-link></span>
+        <span class="FormRow-label">How much was in your bank account/building society before your last payment went in? <guidance-link doc="eligibility_check#ecg-savings_bank_balance"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
         <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.bank_balance">
       </label>
@@ -105,12 +105,12 @@
   </div>
 </section>
 
-<section ng-show="eligibility_check.has_partner && eligibility_check.has_partner !== '0'">
+<section ng-show="hasPartner()">
   <h2 id="partners_savings-label" class="FormBlock-label">Your partner's undisputed savings</h2>
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
       <label>
-        <span class="FormRow-label">Does your partner have any money saved in a bank or building society? <guidance-link doc="eligibility_check#ecg-savings_bank_balance"></guidance-link></span>
+        <span class="FormRow-label">How much was in your partner's bank account/building society before your last payment went in? <guidance-link doc="eligibility_check#ecg-savings_bank_balance"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
         <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.bank_balance">
       </label>
