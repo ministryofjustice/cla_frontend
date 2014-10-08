@@ -1,4 +1,6 @@
-<p>We will now look at your expenses for the last calendar month. This runs from today back to {{ oneMonthAgo }}</p>
+<div class="ScriptBlock">
+  <p>We will now look at your expenses for the last calendar month. This runs from today back to {{ oneMonthAgo }}</p>
+</div>
 
 <section>
   <h2 class="FormBlock-label">Your expenses</h2>
@@ -47,7 +49,7 @@
 
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.mortgage" mi-label="How much does your partner pay for your mortgage?" guidance-link="'eligibility_check#ecg-expenses_mortgage'" />
+      <money-interval ng-model="eligibility_check.partner.deductions.mortgage" mi-label="How much does your partner pay for their mortgage?" guidance-link="'eligibility_check#ecg-expenses_mortgage'" />
     </div>
 
     <div class="FormRow cf">
