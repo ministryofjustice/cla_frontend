@@ -1,6 +1,5 @@
 <header>
-  <h2 ng-if="canBeCalledBack">Schedule a {{ case.getCallbackDatetime() ? 'new' : '' }} callback</h2>
-  <h2 ng-if="!canBeCalledBack">Cancel callback</h2>
+  <h2>{{ title }}</h2>
 </header>
 
 <form method="post" novalidate ng-submit="submit(callback_frm)" name="callback_frm">

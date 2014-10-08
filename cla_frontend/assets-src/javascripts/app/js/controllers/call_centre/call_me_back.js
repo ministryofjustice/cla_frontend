@@ -29,6 +29,18 @@
           $scope.case = _case;
           $scope.canBeCalledBack = _case.canBeCalledBack();
 
+          if ($scope.canBeCalledBack) {
+            if (_case.isFinalCallback()) {
+              $scope.title = 'Schedule final callback';
+            } else if (_case.getCallbackDatetime()) {
+              $scope.title = 'Schedule a new callback';
+            } else {
+              $scope.title = 'Schedule a callback';
+            }
+          } else {
+            $scope.title = 'Cancel callback';
+          }
+
           function formatDate(dt) {
             return moment(dt).format('DD/MM/YYYY HH:mm');
           }
@@ -36,7 +48,7 @@
           $scope.datePickerConf = {
             time: true,
             weekStart: 1,
-            min: formatDate(new Date(new Date().getTime() + 30*60000)),  // starts from (now + 30 mins)
+            min: formatDate(new Date(new Date().getTime() + 31*60000)),  // starts from (now + 30 mins)
             inputFormat: 'DD/MM/YYYY HH:mm'
           };
 

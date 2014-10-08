@@ -119,6 +119,10 @@
         return this.requires_action_at;
       };
 
+      resource.prototype.isFinalCallback = function(){
+        return this.callback_attempt === 2;
+      };
+
       resource.prototype.$assign = function(data){
         var url = url_utils.proxy('case/'+this.reference+'/assign/');
         return $http.post(url, data);

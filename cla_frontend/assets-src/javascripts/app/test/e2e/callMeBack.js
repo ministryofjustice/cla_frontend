@@ -76,7 +76,7 @@
       });
 
       it('should be able to reschedule a callback with a CB3 code', function() {
-        assertCBx(3, cbCaseRef, 'Schedule a new callback');
+        assertCBx(3, cbCaseRef, 'Schedule final callback');
       });
 
       it('should only allow cancelling a callback after a CB3', function() {
