@@ -51,11 +51,14 @@
           },
           'case_details_patch': {
             method:'PATCH',
-            transformRequest: function(data, headers) {
+            transformRequest: function (data, headers) {
               return transformData({
                 notes: data.notes,
                 provider_notes: data.provider_notes
               }, headers, $http.defaults.transformRequest);
+            },
+            transformResponse: function () {
+              return null;
             }
           },
           'set_matter_types': {
