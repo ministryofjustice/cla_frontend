@@ -17,9 +17,11 @@
   }
 
   function setPassported(value) {
-    getTab('Details', 2).click();
+    var detailsTab = getTab('Details', 2);
     var yes_no = value ? '0' : '1';
-    $('#id_your_details-passported_benefits_' + yes_no).click();
+    utils.scrollTo(element(by.name('case.notes'))); // firefox fix!
+    detailsTab.element(by.css('a')).click();
+    element(by.id('id_your_details-passported_benefits_' + yes_no)).click();
   }
 
   describe('Operator Financial Assessment', function () {
