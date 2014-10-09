@@ -1,8 +1,9 @@
 .Button {
   @include button;
+  margin-right: 10px;
 
-  &:not(:last-child) {
-    margin-right: 10px;
+  &:last-child {
+    margin-right: 0;
   }
 
   // modifiers

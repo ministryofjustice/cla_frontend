@@ -11,12 +11,13 @@
     });
   }
 
-  function getTab(title) {
-    return element(by.cssContainingText('ul li', title));
+  function getTab(title, level) {
+    var selector = level > 1 ? '.Pills-pill' : '.Tabs-tab';
+    return element(by.cssContainingText(selector, title));
   }
 
   function setPassported(value) {
-    getTab('Details').click();
+    getTab('Details', 2).click();
     var yes_no = value ? '0' : '1';
     $('#id_your_details-passported_benefits_' + yes_no).click();
   }
@@ -36,15 +37,15 @@
       it('should not show income or expenses tabs if on passported benefits', function () {
         setPassported(true);
         assertTabsShown(2);
-        expect(getTab('Income').isPresent()).toBe(false);
-        expect(getTab('Expenses').isPresent()).toBe(false);
+        expect(getTab('Income', 2).isPresent()).toBe(false);
+        expect(getTab('Expenses', 2).isPresent()).toBe(false);
       });
 
       it('should show income and expenses if change to on passported benefits', function () {
         setPassported(false);
         assertTabsShown(4);
-        expect(getTab('Income').isPresent()).toBe(true);
-        expect(getTab('Expenses').isPresent()).toBe(true);
+        expect(getTab('Income', 2).isPresent()).toBe(true);
+        expect(getTab('Expenses', 2).isPresent()).toBe(true);
       });
 
       it('should not be allowed when not in scope', function () {

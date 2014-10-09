@@ -1,5 +1,7 @@
 <label>
-  <span class="FormRow-label">{{ miLabel }} <guidance-link doc="{{guidanceLink}}" ng-if="guidanceLink"></guidance-link></span>
+  <span class="FormRow-label">
+    <span ng-bind-html="miLabel"></span> <guidance-link doc="{{guidanceLink}}" ng-if="guidanceLink"></guidance-link>
+  </span>
 
   <span class="FormRow-prefix">£</span>
 

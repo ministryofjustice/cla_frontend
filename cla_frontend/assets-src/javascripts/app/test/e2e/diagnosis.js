@@ -73,7 +73,9 @@
         deleteBtn.click();
         browser.switchTo().alert().accept();
 
-        expect(element(by.cssContainingText('.Tabs-tabLink.Icon--info', 'Scope diagnosis')).isPresent()).toBe(true);
+        var tab = element(by.cssContainingText('.Tabs-tabLink', 'Scope diagnosis'));
+        expect(tab.isPresent()).toBe(true);
+        expect(tab.getAttribute('class')).not.toContain('Icon');
       });
 
       it('should create an out of scope diagnosis', function (){
