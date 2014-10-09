@@ -26,7 +26,8 @@
       utils.scrollTo(element(by.name(name))); // Firefox fix!
 
       if (name === 'adaptations') {
-        values[name].map(selectOption);
+        selectMultiOption(values[name], 's2id_autogen5');
+        // values[name].map(selectMultiOption);
       } else if (filterSelects.indexOf(name) > -1) {
         selectOption(values[name], name);
       } else if (name === 'dob') {
@@ -47,6 +48,16 @@
     // if not a string, will be adaptations
     field = typeof field === 'string' || field instanceof String ? field : 'adaptations';
     element(by.cssContainingText('[name="' + field + '"] option', option)).click();
+  }
+
+  function selectMultiOption (options, fieldId) {
+    var field = element(by.id(fieldId));
+    field.click();
+
+    for (var option in options) {
+      field.sendKeys(options[option]);
+      field.sendKeys(protractor.Key.ENTER);
+    }
   }
 
   function checkFields (values) {
@@ -82,13 +93,13 @@
         expect(element(by.css('[ng-if="selected_adaptations.length"]')).getText()).toContain(value[i]);
       }
     } else if (nonExact.indexOf(model) > -1) {
-      expect(element(by.binding(model)).getText()).toContain(value);
+      expect(element.all(by.binding(model)).get(0).getText()).toContain(value);
     } else {
       expect(element(by.exactBinding(model)).getText()).toContain(value);
     }
   }
 
-  describe('Operator Case Details', function (){
+  ddescribe('Operator Case Details', function (){
     beforeEach(utils.setUp);
 
     describe('A non-existant Case', function (){
