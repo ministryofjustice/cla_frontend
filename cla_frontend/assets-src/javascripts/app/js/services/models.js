@@ -112,7 +112,7 @@
       };
 
       resource.prototype.canBeCalledBack = function(){
-        return this.callback_attempt < 3;
+        return this.created_by !== 'web' && this.callback_attempt < 3;
       };
 
       resource.prototype.getCallbackDatetime = function(){
