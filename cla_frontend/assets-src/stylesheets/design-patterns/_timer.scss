@@ -13,6 +13,10 @@
   }
 }
 
+.Timer-warning {
+  margin-right: 10px;
+}
+
 .Timer-value {
   display: block;
   position: relative;
@@ -26,6 +30,9 @@
     padding-top: 0;
     top: 2px;
   }
+  .is-unstarted & {
+    color: $orange;
+  }
 }
 
 .Timer-button {
@@ -34,6 +41,9 @@
 
   &:link, &:visited, &:active, &:before, &:focus {
     color: $white;
+    .is-unstarted & {
+      color: $orange;
+    }
   }
   &:before {
     margin-right: 0;
