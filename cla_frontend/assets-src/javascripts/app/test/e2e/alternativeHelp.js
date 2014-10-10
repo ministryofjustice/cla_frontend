@@ -50,7 +50,6 @@
 
 
       it('should have enabled assign button if alternative help providers selected', function () {
-        // var provider_inputs = browser.findElements(by.css('input[name=selected_providers]')) || [];
         providers.then(function (data) {
           // select the first three
           var to_select = data.splice(0,3);

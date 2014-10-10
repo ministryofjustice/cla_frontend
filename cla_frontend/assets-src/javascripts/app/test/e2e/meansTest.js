@@ -12,7 +12,7 @@
       it('should show 4 section tabs', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function (caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
-          browser.findElement(by.css('[ui-sref="case_detail.edit.eligibility"]')).click();
+          element(by.css('[ui-sref="case_detail.edit.eligibility"]')).click();
           assertTabsShown(4);
         });
       });
@@ -62,7 +62,7 @@
 
   // helpers
   function assertTabsShown (num) {
-    browser.findElements(by.css('ul [ng-repeat="section in sections"]')).then(function (tabs) {
+    element.all(by.css('ul [ng-repeat="section in sections"]')).then(function (tabs) {
       expect(tabs.length).toBe(num);
     });
   }

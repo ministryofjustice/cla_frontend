@@ -71,7 +71,7 @@
       browser.getLocationAbsUrl().then(function (url) {
         _this.expectUrl(url, _this.APP_BASE_URL);
       });
-      browser.findElement(by.css('.newCaseForm')).submit();
+      element(by.css('.newCaseForm')).submit();
       return element.all(by.binding('case.reference')).get(0).getText();
     },
 

@@ -1,10 +1,6 @@
 .ContactBlock {
   margin: 0 0 20px;
 
-  &:not(:first-child) {
-    margin-top: 20px;
-  }
-
   &--grey {
     padding: 1em 1.5em;
     background-color: #E8F0F0;

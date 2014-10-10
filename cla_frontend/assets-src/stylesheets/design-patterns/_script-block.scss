@@ -6,10 +6,6 @@
   border-width: 1px 0;
   position: relative;
 
-  &:not(:first-child) {
-    margin-top: 20px;
-  }
-
   &:before, &:after {
     @include core-48;
     position: absolute;
