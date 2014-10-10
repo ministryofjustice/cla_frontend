@@ -423,5 +423,9 @@ $border-colour: $grey-2;
 }
 
 .FormActions {
-  margin: 20px 0;
+  margin: 20px 0 0;
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
 }
