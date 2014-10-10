@@ -6,8 +6,8 @@
       CONSTANTS = require('../protractor.constants');
 
   var modal = element(by.css('.modal-content'));
-  var mt1 = modal.element(by.css('input[name="matter_type1"]'));
-  var mt2 = modal.element(by.css('input[name="matter_type2"]'));
+  var mt1 = element.all(by.css('input[name="matter_type1"]')).get(0);
+  var mt2 = element.all(by.css('input[name="matter_type2"]')).get(0);
   var modalSubmit = modal.element(by.css('button[type="submit"]'));
   var notices = element(by.css('.NoticeContainer--fixed'));
   var assignBtn = element(by.name('assign-provider'));
