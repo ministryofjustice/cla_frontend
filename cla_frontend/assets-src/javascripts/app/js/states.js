@@ -246,6 +246,33 @@
         }
       },
       resolve: {
+        // check that the case can be given alternative help
+        CanAccess: ['$q', 'diagnosis', 'case', 'personal_details', function ($q, diagnosis, $case, personal_details) {
+          var deferred = $q.defer();
+          var errors = '';
+
+          if (!diagnosis || !diagnosis.category) {
+            errors += '<p>Cannot assign alternative help without setting area of law. <strong>Please complete diagnosis</strong>.</p><p>If diagnosis has been completed but you are still getting this message please escalate so missing data can be added to diagnosis engine</p>';
+          }
+
+          if (!personal_details.full_name || (!personal_details.postcode && !personal_details.mobile_phone)) {
+            errors += '<p>You must collect at least <strong>a name</strong> and <strong>a postcode or phone number</strong> from the client before assigning alternative help.</p>';
+          }
+
+          if (errors !== '') {
+            // reject promise and handle in $stateChangeError
+            deferred.reject({
+              modal: true,
+              title: 'Missing information',
+              msg: errors,
+              case: $case.reference,
+              goto: 'case_detail.edit.diagnosis'
+            });
+          } else {
+            deferred.resolve();
+          }
+          return deferred.promise;
+        }],
         kb_providers: ['$stateParams', 'KnowledgeBase', function($stateParams, KnowledgeBase){
           var params = {
             search: $stateParams.keyword,
