@@ -1,4 +1,4 @@
-(function(){
+(function () {
   'use strict';
 
   var protractor = require('protractor'),
@@ -8,7 +8,7 @@
   function login(login_path, user, pass) {
     var driver = ptor.driver;
 
-    ptor.manage().getCookie('sessionid').then(function(cookie) {
+    ptor.manage().getCookie('sessionid').then(function (cookie) {
       if (!cookie) {
         driver.get(ptor.baseUrl + login_path);
 
@@ -24,15 +24,15 @@
   }
 
   module.exports = {
-    setUp: function() {
+    setUp: function () {
       login(CONSTANTS.callcentreBaseUrl + 'login/', 'test_operator', 'test_operator');
     },
 
-    setUpAsOperatorManager: function() {
+    setUpAsOperatorManager: function () {
       login(CONSTANTS.callcentreBaseUrl + 'login/', 'test_operator_manager', 'test_operator_manager');
     },
 
-    setUpAsProvider: function() {
+    setUpAsProvider: function () {
       login(CONSTANTS.providerBaseUrl + 'login/', 'test_duncanlewis', 'test_duncanlewis');
     },
 
@@ -44,7 +44,7 @@
 
     debugTeardown: function () {
       // debug log
-      browser.manage().logs().get('browser').then(function(browserLog) {
+      browser.manage().logs().get('browser').then(function (browserLog) {
         console.log('====================================================');
         console.log('LOG:');
         console.log(require('util').inspect(browserLog));
@@ -58,24 +58,24 @@
       }, element);
     },
 
-    expectUrl: function(absUrl, expectedUrl) {
+    expectUrl: function (absUrl, expectedUrl) {
       expect((new RegExp(expectedUrl+'$')).test(absUrl)).toBe(true,
         ['Expected', absUrl, 'to be', ptor.baseUrl+expectedUrl].join(' ')
       );
     },
 
-    createCase: function() {
+    createCase: function () {
       var _this = this;
 
       browser.get(this.APP_BASE_URL);
       browser.getLocationAbsUrl().then(function (url) {
         _this.expectUrl(url, _this.APP_BASE_URL);
       });
-      browser.findElement(by.css('.newCaseForm')).submit();
+      element(by.css('.newCaseForm')).submit();
       return element.all(by.binding('case.reference')).get(0).getText();
     },
 
-    fillField: function(name, value) {
+    fillField: function (name, value) {
       if (value === true || value === false) {
         element(by.name(name)).click();
       } else {

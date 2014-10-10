@@ -1,4 +1,4 @@
-(function(){
+(function () {
   'use strict';
 
   var utils = require('./_utils'),
@@ -13,26 +13,12 @@
   var suspend_link = element(by.cssContainingText('.CaseDetails-actions a', 'Suspend'));
   var notifications = element(by.css('.NoticeContainer--fixed'));
 
-  // test helpers
-  function gotoSuspend () {
-    closeBtn.click();
-    suspend_link.click();
-  }
-
-  function suspendCase (reference) {
-    modalEl.element(by.css('input[type="radio"][value="TERM"]')).click();
-    modalEl.element(by.css('textarea[name="notes"]')).sendKeys('This case was suspended.');
-    modalEl.element(by.css('button[type="submit"]')).click();
-    expect(modalEl.isPresent()).toBe(false);
-    expect(notifications.getText()).toContain('Case ' + reference + ' suspended successfully');
-  }
-
-  describe('Operator Case Suspension', function() {
+  describe('suspendCase', function () {
     beforeEach(utils.setUp);
 
-    describe('Suspend a case', function () {
-      it('should warn about missing fields on empty case', function () {
-        modelsRecipe.Case.createEmpty().then(function(_caseRef) {
+    describe('An operator suspending a case', function () {
+      it('should be warned about missing fields', function () {
+        modelsRecipe.Case.createEmpty().then(function (_caseRef) {
           caseRef = _caseRef;
 
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
@@ -64,7 +50,7 @@
       });
 
       it('should suspend a completed case without confirmation', function () {
-        modelsRecipe.Case.createWithRequiredFields().then(function(_caseRef) {
+        modelsRecipe.Case.createWithRequiredFields().then(function (_caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + _caseRef + '/');
 
           gotoSuspend();
@@ -78,4 +64,18 @@
       });
     });
   });
+
+  // helpers
+  function gotoSuspend () {
+    closeBtn.click();
+    suspend_link.click();
+  }
+
+  function suspendCase (reference) {
+    modalEl.element(by.css('input[type="radio"][value="TERM"]')).click();
+    modalEl.element(by.css('textarea[name="notes"]')).sendKeys('This case was suspended.');
+    modalEl.element(by.css('button[type="submit"]')).click();
+    expect(modalEl.isPresent()).toBe(false);
+    expect(notifications.getText()).toContain('Case ' + reference + ' suspended successfully');
+  }
 })();

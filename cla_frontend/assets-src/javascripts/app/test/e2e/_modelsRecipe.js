@@ -1,4 +1,4 @@
-(function(){
+(function () {
   'use strict';
 
   var _ = require('lodash'),
@@ -6,7 +6,7 @@
 
   module.exports = {
     Case: {
-      createRecipe: function(caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields) {
+      createRecipe: function (caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields) {
 
         function _createCase(el, caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields, callback) {
           var $el = document.querySelector(el),
@@ -19,16 +19,16 @@
 
           $case = new Case();
 
-          angular.forEach(caseFields, function(value, key) {
+          angular.forEach(caseFields, function (value, key) {
             $case[key] = value;
           });
 
-          $case.$save().then(function(data) {
+          $case.$save().then(function (data) {
             $personalDetails = new PersonalDetails({
               case_reference: data.reference
             });
 
-            angular.forEach(personalDetailsFields, function(value, key) {
+            angular.forEach(personalDetailsFields, function (value, key) {
               $personalDetails[key] = value;
             });
             var dob = personalDetailsFields.dob || null;
@@ -65,7 +65,7 @@
 
               if (eligibilityCheckFields) {
                 eligibilityCheckFields = JSON.parse(eligibilityCheckFields);
-                angular.forEach(eligibilityCheckFields, function(value, key) {
+                angular.forEach(eligibilityCheckFields, function (value, key) {
                   $eligibilityCheck[key] = value;
                 });
               }
@@ -73,7 +73,7 @@
               return $eligibilityCheck.$save();
             }
 
-            $personalDetails.$save().then(function() {
+            $personalDetails.$save().then(function () {
               // only create if diagnosis nodes present
               if (diagnosisNodes) {
                 _createDiagnosis().then(function () {
@@ -99,11 +99,11 @@
         );
       },
 
-      createEmpty: function() {
+      createEmpty: function () {
         return this.createRecipe({}, {});
       },
 
-      createWithRequiredFields: function() {
+      createWithRequiredFields: function () {
         return this.createRecipe(
           CONSTANTS.case.required,
           CONSTANTS.personal_details.required,
@@ -112,7 +112,7 @@
         );
       },
 
-      createWithRequiredRecommendedFields: function() {
+      createWithRequiredRecommendedFields: function () {
         return this.createRecipe(
           CONSTANTS.case.required,
           _.extend(
@@ -125,7 +125,7 @@
         );
       },
 
-      createWithScopeAndEligibility: function(inScope, isEligible) {
+      createWithScopeAndEligibility: function (inScope, isEligible) {
         return this.createRecipe(
           CONSTANTS.case.required,
           _.extend(
@@ -176,8 +176,8 @@
         );
       },
 
-      createAndAssign: function(providerId) {
-        return this.createReadyToAssign().then(function(case_ref) {
+      createAndAssign: function (providerId) {
+        return this.createReadyToAssign().then(function (case_ref) {
           function _assign(el, case_ref, providerId, callback) {
             var $el = document.querySelector(el),
                 injector = angular.element($el).injector(),
@@ -188,9 +188,9 @@
               provider_id: providerId,
               is_manual: true,
               is_spor: false
-            }).then(function() {
+            }).then(function () {
               callback(case_ref);
-            }, function(data) {
+            }, function (data) {
               callback(data);
             });
           }
