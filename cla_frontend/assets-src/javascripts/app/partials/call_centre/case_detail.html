@@ -5,7 +5,7 @@
         <button class="Button Button--secondary Button--dropdown" ng-class="{'is-open': btnOpts}" ng-click="btnOpts=!btnOpts" name="close-case">Close</button>
         <div class="BtnDropdown-content" ng-show="btnOpts" ng-click="btnOpts=false">
           <a ui-sref="case_detail.suspend" class="u-block">Suspend</a>
-          <a href="" ng-click="validateAltHelp()" class="u-block" id="alternative_help" ng-controller="CaseDetailValidateAltHelpCtrl">Alternative help</a>
+          <a ui-sref="case_detail.alternative_help" class="u-block" id="alternative_help">Alternative help</a>
           <hr class="u-horLine">
           <button ng-click="assign_to_provider()" class="Button u-block" name="close--assign-provider" ng-controller="CaseDetailAssignProviderCtrl" ng-disabled="case.provider !== null">Assign provider</button>
         </div>

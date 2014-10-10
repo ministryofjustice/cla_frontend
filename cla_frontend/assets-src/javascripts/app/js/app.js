@@ -27,20 +27,35 @@
   var common_run,
       common_config;
 
-  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History',
-    function ($rootScope, $state, $stateParams, Timer, flash, bus, History) {
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$modal',
+    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $modal) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
       // handle state change errors
       $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
         // generic state change error / redirect
-        if (error.msg) {
+        if (error.msg && !error.modal) {
           flash('error', error.msg);
         }
         // if a transition has been suggested, go to it
         if (error.goto) {
           $state.go(error.goto, {caseref: error.case});
+        }
+        // if content should appear in modal
+        if (error.modal) {
+          $modal.open({
+            templateUrl: 'invalid_modal.html',
+            controller: 'InvalidCtrl',
+            resolve: {
+              tplVars: function () {
+                return {
+                  title: error.title,
+                  message: error.msg
+                };
+              }
+            }
+          });
         }
       });
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

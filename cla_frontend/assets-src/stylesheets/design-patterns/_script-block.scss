@@ -1,10 +1,14 @@
 .ScriptBlock {
-  margin: 0 0 15px;
+  margin: 0 0 20px;
   padding: 1px 40px;
   background-color: $light-blue-25;
   border: solid $grey-2;
   border-width: 1px 0;
   position: relative;
+
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
 
   &:before, &:after {
     @include core-48;

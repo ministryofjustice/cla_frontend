@@ -10,88 +10,65 @@
     beforeEach(utils.setUp);
 
     describe('Assign Alternative Help', function () {
-      it('should have a disabled assign button if no alternative help providers selected', function () {
-        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
+      var caseRef;
+      var selectProviders = element.all(by.css('input[name=selected_providers]:checked'));
+      var assignSubmit = element(by.name('assign-alternative-help'));
+      var modal = element(by.css('.modal-content'));
+
+
+      it('should not be able to assign without diagnosis', function () {
+        modelsRecipe.Case.createEmpty().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
-          clickCloseButton();
-          var alternative_help_link = findAlternativeHelpLink();
-          expect(browser.isElementPresent(alternative_help_link)).toBe(true);
-          browser.findElement(alternative_help_link).click();
+          gotoAltHelp();
 
-          var selected_provider_inputs = browser.findElements(by.css('input[name=selected_providers]:checked'));
-          expect(selected_provider_inputs).toEqual([]);
+          expect(modal.isPresent()).toBe(true);
+          expect(modal.getText()).toContain('Cannot assign alternative help without setting area of law. Please complete diagnosis.');
+        });
+      });
 
-          var submitButton = browser.findElement(by.css('button[name=assign-alternative-help]'));
-          expect(submitButton.isEnabled()).toBe(false);
+
+      it('should not be able to assign without minimum personal details', function () {
+        expect(modal.isPresent()).toBe(true);
+        expect(modal.getText()).toContain('You must collect at least a name and a postcode or phone number from the client before assigning alternative help.');
+      });
+
+
+      it('should have a disabled assign button if no alternative help providers selected', function () {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(_caseRef) {
+          caseRef = _caseRef;
+
+          browser.get(CONSTANTS.callcentreBaseUrl + _caseRef + '/');
+
+          gotoAltHelp();
+
+          expect(selectProviders.count()).toBe(0);
+          expect(assignSubmit.isEnabled()).toBe(false);
         });
       });
 
 
       it('should have enabled assign button if alternative help providers selected', function () {
-        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
-          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
+        var provider_inputs = browser.findElements(by.css('input[name=selected_providers]')) || [];
+        provider_inputs.then(function (data) {
+          // select the first three
+          var to_select = data.splice(0,3);
 
-          clickCloseButton();
-          var alternative_help_link = findAlternativeHelpLink();
-          expect(browser.isElementPresent(alternative_help_link)).toBe(true);
-          browser.findElement(alternative_help_link).click();
-
-          var selected_provider_inputs = browser.findElements(by.css('input[name=selected_providers]:checked'));
-          expect(selected_provider_inputs).toEqual([]);
-
-          var submitButton = browser.findElement(by.css('button[name=assign-alternative-help]'));
-          expect(submitButton.isEnabled()).toBe(false);
-
-          var provider_inputs = browser.findElements(by.css('input[name=selected_providers]')) || [];
-          provider_inputs.then(function (data) {
-            var to_select;
-
-            // select the first three
-            to_select = data.splice(0,3);
-
-            for (var i = 0; i < to_select.length; i+=1) {
-              var inputEl = to_select[i];
-              inputEl.click();
-            }
-          });
-
-          selected_provider_inputs = browser.findElements(by.css('input[name=selected_providers]:checked'));
-          selected_provider_inputs.then(function (data) {
-            expect(data.length).toBe(3);
-          });
-          expect(submitButton.isEnabled()).toBe(true);
+          for (var i = 0; i < to_select.length; i+=1) {
+            var inputEl = to_select[i];
+            inputEl.click();
+          }
         });
+
+        expect(selectProviders.count()).toBe(3);
+        expect(assignSubmit.isEnabled()).toBe(true);
       });
 
 
       it('should assign', function () {
-        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
-          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
-
-          clickCloseButton();
-          var alternative_help_link = findAlternativeHelpLink();
-          browser.findElement(alternative_help_link).click();
-
-          var provider_inputs = browser.findElements(by.css('input[name="selected_providers"]')) || [];
-          provider_inputs.then(function (data) {
-            var to_select;
-
-            // select the first three
-            to_select = data.splice(0,3);
-
-            for (var i = 0; i < to_select.length; i+=1) {
-              var inputEl = to_select[i];
-              inputEl.click();
-            }
-          });
-
-          browser.getCurrentUrl().then(function (caseUrl) {
-            browser.findElement(by.css('button[name="assign-alternative-help"]')).submit();
-            browser.get(caseUrl);
-            checkOutcomeCode('IRKB');
-          });
-        });
+        assignSubmit.click();
+        browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
+        checkOutcomeCode('IRKB');
       });
 
 
@@ -100,9 +77,7 @@
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
-          clickCloseButton();
-          var alternative_help_link = findAlternativeHelpLink();
-          browser.findElement(alternative_help_link).click();
+          gotoAltHelp();
 
           var origWindow = browser.getWindowHandle();
 
@@ -134,10 +109,8 @@
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
-          clickCloseButton();
+          gotoAltHelp();
 
-          var alternative_help_link = findAlternativeHelpLink();
-          browser.findElement(alternative_help_link).click();
           var submitButton = browser.findElement(by.cssContainingText('button.Button.Button--secondary', 'User declines all help / no appropriate help found'));
           expect(submitButton.isEnabled()).toBe(true);
           submitButton.click();
@@ -161,10 +134,8 @@
         modelsRecipe.Case.createWithOutScopeAndInEligible().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
-          clickCloseButton();
+          gotoAltHelp();
 
-          var alternative_help_link = findAlternativeHelpLink();
-          browser.findElement(alternative_help_link).click();
           var submitButton = browser.findElement(by.cssContainingText('button.Button.Button--secondary', 'User declines all help / no appropriate help found'));
           expect(submitButton.isEnabled()).toBe(true);
           submitButton.click();
@@ -201,12 +172,9 @@
         expect(codeSpan.get(0).getText()).toEqual(code);
       }
 
-      function clickCloseButton() {
-        return browser.findElement(by.css('.CaseDetails-actions button[name="close-case"]')).click();
-      }
-
-      function findAlternativeHelpLink(){
-        return by.css('#alternative_help');
+      function gotoAltHelp() {
+        browser.findElement(by.css('.CaseDetails-actions button[name="close-case"]')).click();
+        browser.findElement(by.css('#alternative_help')).click();
       }
     });
   });
