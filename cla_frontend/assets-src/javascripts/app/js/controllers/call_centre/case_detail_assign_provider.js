@@ -67,7 +67,10 @@
               $modal.open({
                 templateUrl: 'call_centre/case_detail.invalid.html',
                 controller: 'InvalidCtrl',
-                scope: child_scope
+                scope: child_scope,
+                resolve: {
+                  tplVars: {}
+                }
               });
             } else if (!($scope.case.matter_type1 && $scope.case.matter_type2)) {
               $scope.edit_matter_types(transition_to);
