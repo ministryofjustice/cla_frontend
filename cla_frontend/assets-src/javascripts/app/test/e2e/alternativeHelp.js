@@ -91,10 +91,10 @@
           expect(assignF2fBtn.isEnabled()).toBe(false);
 
           element(by.name('notes')).sendKeys('test');
-          expect(submitButton.isEnabled()).toBe(true);
+          expect(assignF2fBtn.isEnabled()).toBe(true);
 
           browser.getCurrentUrl().then(function (caseUrl) {
-            submitButton.click();
+            assignF2fBtn.click();
             browser.get(caseUrl);
             checkOutcomeCode('COSPF');
           });

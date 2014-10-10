@@ -208,7 +208,6 @@
   }
 
   function checkAssign (case_ref) {
-    var txt = element(by.css('.Notice.success')).getText();
-    expect(txt).toContain('Case ' + case_ref + ' assigned to');
+    expect(notices.getText()).toContain('Case ' + case_ref + ' assigned to');
   }
 })();
