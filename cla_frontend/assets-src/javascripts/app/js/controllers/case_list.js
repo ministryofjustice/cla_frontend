@@ -123,7 +123,7 @@
           });
 
           // push
-          postal.subscribe({
+          var newCaseSubscriber = postal.subscribe({
             channel: 'cla.operator',
             topic: 'case.new',
             callback: function () { // data, env
@@ -134,6 +134,10 @@
                 });
               }
             }
+          });
+
+          $scope.$on('$destroy', function () {
+            newCaseSubscriber.unsubscribe();
           });
         }
       ]
