@@ -1,33 +1,14 @@
-(function(){
+(function () {
   'use strict';
 
   var utils = require('./_utils'),
       modelsRecipe = require('./_modelsRecipe'),
       CONSTANTS = require('../protractor.constants');
 
-  function assertTabsShown(num) {
-    browser.findElements(by.css('ul [ng-repeat="section in sections"]')).then(function (tabs) {
-      expect(tabs.length).toBe(num);
-    });
-  }
-
-  function getTab(title, level) {
-    var selector = level > 1 ? '.Pills-pill' : '.Tabs-tab';
-    return element(by.cssContainingText(selector, title));
-  }
-
-  function setPassported(value) {
-    var detailsTab = getTab('Details', 2);
-    var yes_no = value ? '0' : '1';
-    utils.scrollTo(element(by.name('case.notes'))); // firefox fix!
-    detailsTab.element(by.css('a')).click();
-    element(by.id('id_your_details-passported_benefits_' + yes_no)).click();
-  }
-
-  describe('Operator Financial Assessment', function () {
+  describe('meansTest', function () {
     beforeEach(utils.setUp);
 
-    describe('The financial assessment', function () {
+    describe('Operator financial assessment', function () {
       it('should show 4 section tabs', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function (caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
@@ -78,4 +59,24 @@
       });
     });
   });
+
+  // helpers
+  function assertTabsShown (num) {
+    browser.findElements(by.css('ul [ng-repeat="section in sections"]')).then(function (tabs) {
+      expect(tabs.length).toBe(num);
+    });
+  }
+
+  function getTab (title, level) {
+    var selector = level > 1 ? '.Pills-pill' : '.Tabs-tab';
+    return element(by.cssContainingText(selector, title));
+  }
+
+  function setPassported (value) {
+    var detailsTab = getTab('Details', 2);
+    var yes_no = value ? '0' : '1';
+    utils.scrollTo(element(by.name('case.notes'))); // firefox fix!
+    detailsTab.element(by.css('a')).click();
+    element(by.id('id_your_details-passported_benefits_' + yes_no)).click();
+  }
 })();

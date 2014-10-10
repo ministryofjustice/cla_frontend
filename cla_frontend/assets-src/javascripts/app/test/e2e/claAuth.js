@@ -1,4 +1,4 @@
-(function(){
+(function () {
   'use strict';
 
   var protractor = require('protractor'),
@@ -9,35 +9,12 @@
       // browser elements
       loginForm = element(by.name('login_frm'));
 
-  function login_modal (username, password) {
-    username = username || 'test_operator';
-    password = password || 'test_operator';
-
-    loginForm.element(by.name('username')).clear().sendKeys(username);
-    loginForm.element(by.name('password')).clear().sendKeys(password);
-
-    return loginForm.submit();
-  }
-
-  function enter_personal_details (details) {
-    element(by.css('#personal_details .VCard-view')).click();
-
-    for (var name in details) {
-      utils.fillField(name, details[name]);
-    }
-  }
-
-  function save_personal_details () {
-    element(by.name('save-personal-details')).click();
-    utils.scrollTo(element(by.id('personal_details')));
-  }
-
-  describe('As Operator', function() {
+  describe('claAuth', function () {
     beforeEach(utils.setUp);
 
-    describe('Auth login', function () {
-      it('should allow the operator to login using a modal if logged out', function () {
-        modelsRecipe.Case.createEmpty().then(function(case_ref) {
+    describe('An operator', function () {
+      it('should be able to login using a modal if logged out', function () {
+        modelsRecipe.Case.createEmpty().then(function (case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           enter_personal_details({
@@ -66,4 +43,28 @@
       });
     });
   });
+
+  // helpers
+  function login_modal (username, password) {
+    username = username || 'test_operator';
+    password = password || 'test_operator';
+
+    loginForm.element(by.name('username')).clear().sendKeys(username);
+    loginForm.element(by.name('password')).clear().sendKeys(password);
+
+    return loginForm.submit();
+  }
+
+  function enter_personal_details (details) {
+    element(by.css('#personal_details .VCard-view')).click();
+
+    for (var name in details) {
+      utils.fillField(name, details[name]);
+    }
+  }
+
+  function save_personal_details () {
+    element(by.name('save-personal-details')).click();
+    utils.scrollTo(element(by.id('personal_details')));
+  }
 })();

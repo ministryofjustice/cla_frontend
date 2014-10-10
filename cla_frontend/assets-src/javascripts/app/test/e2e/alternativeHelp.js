@@ -1,15 +1,15 @@
 /* global xit */
-(function(){
+(function () {
   'use strict';
 
   var utils = require('./_utils'),
       modelsRecipe = require('./_modelsRecipe'),
       CONSTANTS = require('../protractor.constants');
 
-  describe('operatorApp', function() {
+  describe('alternativeHelp', function () {
     beforeEach(utils.setUp);
 
-    describe('Assign Alternative Help', function () {
+    describe('An operator', function () {
       var caseRef;
       var selectProviders = element.all(by.css('input[name=selected_providers]:checked'));
       var assignSubmit = element(by.name('assign-alternative-help'));
@@ -17,7 +17,7 @@
 
 
       it('should not be able to assign without diagnosis', function () {
-        modelsRecipe.Case.createEmpty().then(function(case_ref) {
+        modelsRecipe.Case.createEmpty().then(function (case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           gotoAltHelp();
@@ -35,7 +35,7 @@
 
 
       it('should have a disabled assign button if no alternative help providers selected', function () {
-        modelsRecipe.Case.createWithInScopeAndEligible().then(function(_caseRef) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function (_caseRef) {
           caseRef = _caseRef;
 
           browser.get(CONSTANTS.callcentreBaseUrl + _caseRef + '/');
@@ -74,7 +74,7 @@
 
       // xit-ing for now as it causes problems
       xit('should assign f2f', function () {
-        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function (case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           gotoAltHelp();
@@ -106,7 +106,7 @@
       //      An in-scope / eligible case shouldn't see ECF message;
       it('should be able to decline help (in_scope)', function () {
 
-        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function (case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           gotoAltHelp();
@@ -131,7 +131,7 @@
 
       //      An in-scope / eligible case shouldn't see ECF message;
       it('should be able to decline help (out_scope) & should see ECF message', function () {
-        modelsRecipe.Case.createWithOutScopeAndInEligible().then(function(case_ref) {
+        modelsRecipe.Case.createWithOutScopeAndInEligible().then(function (case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           gotoAltHelp();
@@ -154,28 +154,29 @@
           });
         });
       });
-
-      function pickECFStatement() {
-        browser.findElement(by.css('input[name="ecf_statement"][value="CLIENT_TERMINATED"]:first-child')).click();
-        browser.findElement(by.css('div.modal button[type="submit"]')).submit();
-        browser.waitForAngular();
-      }
-
-      function declineHelp() {
-        expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Decline Help');
-        expect(browser.isElementPresent(by.repeater('code in codes'))).toBe(true);
-        browser.findElement(by.css('input[name="code"][value="DECL"]:first-child')).click();
-      }
-
-      function checkOutcomeCode(code) {
-        var codeSpan = element.all(by.binding('log.code'));
-        expect(codeSpan.get(0).getText()).toEqual(code);
-      }
-
-      function gotoAltHelp() {
-        browser.findElement(by.css('.CaseDetails-actions button[name="close-case"]')).click();
-        browser.findElement(by.css('#alternative_help')).click();
-      }
     });
   });
+
+  // helpers
+  function pickECFStatement () {
+    browser.findElement(by.css('input[name="ecf_statement"][value="CLIENT_TERMINATED"]:first-child')).click();
+    browser.findElement(by.css('div.modal button[type="submit"]')).submit();
+    browser.waitForAngular();
+  }
+
+  function declineHelp () {
+    expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Decline Help');
+    expect(browser.isElementPresent(by.repeater('code in codes'))).toBe(true);
+    browser.findElement(by.css('input[name="code"][value="DECL"]:first-child')).click();
+  }
+
+  function checkOutcomeCode (code) {
+    var codeSpan = element.all(by.binding('log.code'));
+    expect(codeSpan.get(0).getText()).toEqual(code);
+  }
+
+  function gotoAltHelp () {
+    browser.findElement(by.css('.CaseDetails-actions button[name="close-case"]')).click();
+    browser.findElement(by.css('#alternative_help')).click();
+  }
 })();

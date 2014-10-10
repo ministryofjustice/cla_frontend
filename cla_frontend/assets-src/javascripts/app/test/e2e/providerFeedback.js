@@ -1,31 +1,17 @@
-(function(){
+(function () {
   'use strict';
 
   var utils = require('../e2e/_utils'),
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('Provider Feedback', function() {
+  var case_to_reject_ref,
+      case_to_feedback_without_reject_ref,
+      reject_notes = 'this is feedback left with rejection',
+      feedback_notes = 'this is plain feedback';
 
-    function get_provider() {
-      return element(by.css('.ContactBlock-heading')).getText();
-    }
-
-    function do_assign() {
-      element(by.css('[name=assign-provider]')).click();
-    }
-
-    function manually_select_provider() {
-      element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually')).click();
-      element(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
-    }
-
-    var case_to_reject_ref,
-        case_to_feedback_without_reject_ref,
-        reject_notes = 'this is feedback left with rejection',
-        feedback_notes = 'this is plain feedback';
-
-    describe('As Operator', function () {
+  describe('providerFeedback', function () {
+    describe('An operator', function () {
       beforeEach(utils.setUp);
 
       it('should create a case as operator and assign (manually) to a provider', function () {
@@ -66,12 +52,10 @@
     });
 
 
-    describe('As Provider', function () {
+    describe('A provider', function () {
       beforeEach(utils.setUpAsProvider);
 
-      it('should have example case assigned & ready to reject', function(){
-        browser.get(CONSTANTS.providerBaseUrl + case_to_reject_ref + '/');
-
+      it('should have example case assigned & ready to reject', function () {
         // case is ready to be rejected/accepted.
         var reject_button = element(by.css('button[name="reject-case"]')),
             reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
@@ -81,6 +65,8 @@
             feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
             modal_submit = element(by.css('.modal-content button.Button[type="submit"]'));
+
+        browser.get(CONSTANTS.providerBaseUrl + case_to_reject_ref + '/');
 
         expect(reject_button.isDisplayed()).toBe(true);
 
@@ -120,7 +106,7 @@
         modal_submit.click();
       });
 
-      it('should have example case assigned & ready to feedback without rejecting', function(){
+      it('should have example case assigned & ready to feedback without rejecting', function () {
         var leave_feedback_btn = element(by.css('button[name="leave-feedback"]')),
             reject_btn = element(by.css('button[name="reject-case"]')),
             feedback_issue_select = element(by.css('div#s2id_newFeedback_issue a')),
@@ -219,4 +205,18 @@
       });
     });
   });
+
+  // helpers
+  function get_provider () {
+    return element(by.css('.ContactBlock-heading')).getText();
+  }
+
+  function do_assign () {
+    element(by.css('[name=assign-provider]')).click();
+  }
+
+  function manually_select_provider () {
+    element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually')).click();
+    element(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
+  }
 })();

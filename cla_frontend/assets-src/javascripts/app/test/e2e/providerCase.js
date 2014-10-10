@@ -1,29 +1,16 @@
-(function(){
+(function () {
   'use strict';
 
   var utils = require('../e2e/_utils'),
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('Provider Case Control', function() {
-    var case_to_accept;
-    var accept_button = element(by.name('accept-case'));
-    var close_button = element(by.name('provider-close-case'));
+  var case_to_accept;
+  var accept_button = element(by.name('accept-case'));
+  var close_button = element(by.name('provider-close-case'));
 
-    function get_provider() {
-      return element(by.css('.ContactBlock-heading')).getText();
-    }
-
-    function do_assign() {
-      element(by.name('assign-provider')).click();
-    }
-
-    function manually_select_provider() {
-      element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually')).click();
-      element(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
-    }
-
-    describe('As Operator', function () {
+  describe('providerCase', function () {
+    describe('An operator', function () {
       beforeEach(utils.setUp);
 
       it('should create a case as operator and assign (manually) to a provider', function () {
@@ -48,10 +35,10 @@
       });
     });
 
-    describe('As Provider', function () {
+    describe('A provider', function () {
       beforeEach(utils.setUpAsProvider);
 
-      it('should be able to accept a case', function(){
+      it('should be able to accept a case', function () {
         browser.get(CONSTANTS.providerBaseUrl + case_to_accept + '/');
 
         expect(close_button.isPresent()).toBe(false);
@@ -66,7 +53,7 @@
         expect(element(by.css('.NoticeContainer--fixed')).getInnerHtml()).toContain('Case accepted successfully');
       });
 
-      it('should be able to close a case', function(){
+      it('should be able to close a case', function () {
         expect(close_button.isPresent()).toBe(true);
 
         // click but cancel accept
@@ -90,4 +77,18 @@
       });
     });
   });
+
+  // helpers
+  function get_provider () {
+    return element(by.css('.ContactBlock-heading')).getText();
+  }
+
+  function do_assign () {
+    element(by.name('assign-provider')).click();
+  }
+
+  function manually_select_provider () {
+    element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually')).click();
+    element(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
+  }
 })();
