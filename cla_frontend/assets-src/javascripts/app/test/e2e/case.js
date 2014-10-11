@@ -170,4 +170,76 @@
       expect(element(by.exactBinding(model)).getText()).toContain(value);
     }
   }
+
+  describe('Operator Case Details', function (){
+    beforeEach(utils.setUp);
+
+    describe('A non-existant Case', function (){
+      it('should get case list when given non existant case reference', function (){
+        browser.get(CONSTANTS.callcentreBaseUrl + 'XX-0000-0000/');
+
+        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
+        expect(element(by.css('.Notice.error')).getInnerHtml()).toBe('The Case XX-0000-0000 could not be found!');
+      });
+    });
+
+    describe('A full case', function (){
+      var caseRef,
+          mediaCode = 'DIAL UK';
+
+      it('should be created', function (){
+        element(by.buttonText('Create a case')).click();
+
+        caseRef = element(by.binding('case.reference'));
+        expect(caseRef.isPresent()).toBe(true);
+        expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
+      });
+
+      it('should fill in case details', function (){
+        element(by.name('case.notes')).sendKeys(CONSTANTS.case.required.notes);
+      });
+
+      it('should fill in personal details and adaptations', function (){
+        enterDetails(_.extend(
+          {},
+          CONSTANTS.personal_details.full,
+          CONSTANTS.adaptations,
+          {
+            media_code: mediaCode,
+            exempt_user: true,
+            exempt_user_reason: CONSTANTS.case.remaining.exempt_user_reason
+          }
+        ));
+      });
+
+      it('should fill in a third party', function (){
+        var thirdParty = _.extend({}, CONSTANTS.thirdparty, CONSTANTS.thirdparty.personal_details);
+        delete thirdParty.personal_details;
+
+        enterDetails(thirdParty, true);
+      });
+
+      it('should have stored all fields after reload', function (){
+        utils.scrollTo(caseRef); // Firefox fix!
+        caseRef.getText().then(function (text){
+          browser.get(CONSTANTS.callcentreBaseUrl + text + '/');
+
+          checkFields({
+            personal_details: CONSTANTS.personal_details.full,
+            adaptations: CONSTANTS.adaptations,
+            third_party: CONSTANTS.thirdparty
+          });
+
+          // case model patches
+          var mediaCodeEl = element(by.css('[ng-if="case.media_code"]'));
+          expect(mediaCodeEl.isPresent()).toBe(true);
+          expect(mediaCodeEl.getText()).toContain(mediaCode);
+          var exemptEl = element(by.css('[ng-if="case.exempt_user"]'));
+          expect(exemptEl.isPresent()).toBe(true);
+          expect(exemptEl.getText()).toContain(CONSTANTS.case.remaining.exempt_user_reason);
+          expect(element(by.name('case.notes')).getAttribute('value')).toBe(CONSTANTS.case.required.notes);
+        });
+      });
+    });
+  });
 })();

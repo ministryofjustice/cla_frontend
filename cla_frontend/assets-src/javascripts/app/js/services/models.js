@@ -257,7 +257,10 @@
   angular.module('cla.services')
     .factory('AdaptationsMetadata', ['$resource', 'url_utils', function ($resource, url_utils) {
       var resource = $resource(url_utils.proxy('adaptations/'), {}, {
-        'options': {method: 'OPTIONS'}
+        'options': {
+          method: 'OPTIONS',
+          cache: true
+        }
       });
 
       return resource;
@@ -365,7 +368,8 @@
       return $resource(url_utils.proxy('knowledgebase/category/'), {}, {
         get: {
           method: 'GET',
-          isArray: true
+          isArray: true,
+          cache: true
         }
       });
     }]);
@@ -375,7 +379,8 @@
       return $resource(url_utils.proxy('mattertype/'), {}, {
         get: {
           method: 'GET',
-          isArray: true
+          isArray: true,
+          cache: true
         }
       });
     }]);
@@ -385,7 +390,8 @@
       return $resource(url_utils.proxy('mediacode/'), {}, {
         get: {
           method: 'GET',
-          isArray: true
+          isArray: true,
+          cache: true
         }
       });
     }]);
