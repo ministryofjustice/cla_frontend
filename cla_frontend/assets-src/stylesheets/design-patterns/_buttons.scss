@@ -110,6 +110,11 @@
     z-index: 1;
   }
 
+  // modifiers
+  &--light {
+    @include button($grey-4, $grey-2, 0);
+  }
+
   // for round grouping
   &:not(:first-child) {
     margin-left: -1px;

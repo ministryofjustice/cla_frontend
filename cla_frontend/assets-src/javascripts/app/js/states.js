@@ -450,11 +450,6 @@
   providerStates.getStates = function(APP_BASE_URL){
     var providerStates = states.getStates(APP_BASE_URL);
 
-    providerStates.CaseDetailState.views['acceptReject@case_detail.edit'] = {
-      templateUrl: 'provider/includes/case_detail.edit.acceptreject.html',
-      controller: 'AcceptRejectCaseCtrl'
-    };
-
     providerStates.CaseDetailState.views['feedback@case_detail'] = {
       templateUrl: 'provider/case_detail.feedback.html',
       controller: 'FeedbackListCtrl'
