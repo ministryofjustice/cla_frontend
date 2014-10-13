@@ -1,0 +1,15 @@
+{
+    "capabilities":
+        [
+            {
+                "browserName": "firefox",
+                "maxInstances": 10,
+                "seleniumProtocol": "WebDriver",
+                "version": 99
+            }
+        ],
+    "configuration": {
+        "timeout": 60000,
+        "maxSession": 15
+    }
+}
