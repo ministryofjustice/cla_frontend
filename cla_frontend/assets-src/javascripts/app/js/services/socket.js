@@ -11,6 +11,7 @@
 
       // GENERIC CLIENT / SERVER MESSAGES
 
+      /*
       socket.on('server', function (message) {
         postal.channel('cla.operator').publish(
           message.type, message.data
@@ -27,6 +28,7 @@
           });
         }
       });
+      */
 
       // USER IDENTIFICATION
 

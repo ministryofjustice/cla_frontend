@@ -11,21 +11,23 @@ var http = require('http')
 
 
 nsp.on('connection', function (socket) {
+  /*
   socket.on('client', function (data) {
     socket.broadcast.emit('server', data);
   });
+  */
 
   socket.on('identify', function(username) {
     peopleManager.identify(nsp, socket, username);
 
-    console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
+    // console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
     statsd.gauge('people_connected', peopleManager.getPeopleCount());
   });
 
   socket.on('disconnect', function () {
     peopleManager.disconnect(nsp, socket);
 
-    console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
+    // console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
     statsd.gauge('people_connected', peopleManager.getPeopleCount());
   });
 

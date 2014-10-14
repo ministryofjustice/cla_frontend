@@ -13,14 +13,14 @@ module.exports = {
       this.people[username] = person;
     }
 
-    console.info('identified as '+username);
+    // console.info('identified as '+username);
     person.connect(socket);
 	},
 
 	disconnect: function(nsp, socket) {
     person = this.findPersonBySocket(socket, this.people);
     if (typeof person !== 'undefined') {
-      console.info('disconnected '+person.username);
+      // console.info('disconnected '+person.username);
 
       if (person.getViewedCase(socket)) {
       	this.stopViewingCase(nsp, socket, person.getViewedCase(socket));
@@ -29,7 +29,7 @@ module.exports = {
       person.disconnect(socket);
 
       if (person.canBeDeleted()) {
-        console.info('deleting '+person.username);
+        // console.info('deleting '+person.username);
         delete this.people[person.username];
       }
     }
@@ -38,7 +38,7 @@ module.exports = {
 	startViewingCase: function(nsp, socket, caseref) {
     person = this.findPersonBySocket(socket, this.people);
     if (typeof person !== 'undefined') {
-      console.info(person.username+' started viewing case '+caseref);
+      // console.info(person.username+' started viewing case '+caseref);
       person.startViewingCase(socket, caseref);
 
 
@@ -49,7 +49,7 @@ module.exports = {
 	stopViewingCase: function(nsp, socket, caseref) {
     person = this.findPersonBySocket(socket, this.people);
     if (typeof person !== 'undefined') {
-      console.info(person.username+' stopped viewing case '+caseref);
+      // console.info(person.username+' stopped viewing case '+caseref);
       person.stopViewingCase(socket, caseref);
 
       utils.sendToAllClientsInChannel(nsp, caseref, 'peopleViewing', this.getPeopleViewingCase(caseref));

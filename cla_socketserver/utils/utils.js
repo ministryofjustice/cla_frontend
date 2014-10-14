@@ -10,7 +10,7 @@ module.exports.sendToSelf = function(socket, method, data) {
 // }
 
 module.exports.sendToAllClientsInChannel = function(nsp, channel, method, data) {
-	console.info('sending message to all in channel '+channel);
+	// console.info('sending message to all in channel '+channel);
   nsp.in(channel).emit(method, data);
 }
 
