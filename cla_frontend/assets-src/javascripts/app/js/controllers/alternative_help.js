@@ -88,8 +88,8 @@
             }
           };
 
-          $scope.submit = function () {
-            var code = this.code;
+          $scope.submit = function (code) {
+            code = code || this.code;
             showECFModal().then(function () {
               saveAlternativeHelp(code)
                 .then(function () {

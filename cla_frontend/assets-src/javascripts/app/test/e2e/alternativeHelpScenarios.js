@@ -87,7 +87,7 @@
           });
 
           browser.getCurrentUrl().then(function (caseUrl) {
-            browser.findElement(by.css('button[name="assign-alternative-help"]')).submit();
+            browser.findElement(by.css('button[name="assign-alternative-help"]')).click();
             browser.get(caseUrl);
             checkOutcomeCode('IRKB');
           });
@@ -95,8 +95,7 @@
       });
 
 
-      // xit-ing for now as it causes problems
-      xit('should assign f2f', function () {
+      it('should assign f2f', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
@@ -104,17 +103,29 @@
           var alternative_help_link = findAlternativeHelpLink();
           browser.findElement(alternative_help_link).click();
 
-          var origWindow = browser.getWindowHandle();
 
           browser.findElement(
             by.css('a[href="http://find-legal-advice.justice.gov.uk/"]')
           ).click().then(function () {
-
-              browser.switchTo().window(origWindow);
+              browser.getAllWindowHandles().then(function (handles) {
+                var origWindow = handles[0];
+                var newWindowHandle = handles[1];
+                browser.switchTo().window(newWindowHandle).then(function () {
+                  browser.driver.close().then(function () {
+                    browser.switchTo().window(origWindow);
+                  });
+                });
+              });
             });
 
           var submitButton = browser.findElement(by.css('button[name="assign-f2f"]'));
+
+          browser.executeScript(function () {
+            angular.element(arguments[0]).scope().$parent.f2f_clicked = true;
+          }, submitButton);
+
           expect(submitButton.isEnabled()).toBe(false);
+
 
           browser.findElement(by.css('textarea[name="notes"]')).sendKeys('test');
           expect(submitButton.isEnabled()).toBe(true);
@@ -122,7 +133,7 @@
           browser.getCurrentUrl().then(function (caseUrl) {
             submitButton.click();
             browser.get(caseUrl);
-            checkOutcomeCode('COSPF');
+            checkOutcomeCode('SPFN');
           });
         });
       });
