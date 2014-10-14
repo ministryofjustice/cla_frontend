@@ -1,7 +1,7 @@
 <div data-extend-template="case_detail.html">
   <nav class="CaseBar-actions BtnGroup" data-block="case-actions">
     <a ui-sref="case_detail.suspend" class="BtnGroup-button BtnGroup-button--light">Suspend</a>
-    <a ui-sref="case_detail.alternative_help" class="BtnGroup-button BtnGroup-button--light" id="alternative_help">Alternative help</a>
+    <a ui-sref="case_detail.alternative_help" class="BtnGroup-button BtnGroup-button--light">Alternative help</a>
     <button ng-click="assign_to_provider()" class="BtnGroup-button BtnGroup-button--light" name="close--assign-provider" ng-controller="CaseDetailAssignProviderCtrl" ng-disabled="case.provider !== null">Assign provider</button>
   </nav>
 </div>

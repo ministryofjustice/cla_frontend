@@ -52,7 +52,14 @@
       });
     },
 
-    scrollTo: function (element) {
+    scrollTo: function(elemFinder) {
+      var promise = browser.executeScript(function(elem) {
+        elem.scrollIntoView(false);
+      }, elemFinder);
+      return promise;
+    },
+
+    scrollToBottom: function (element) {
       browser.executeScript(function () {
         arguments[0].scrollIntoView();
       }, element);

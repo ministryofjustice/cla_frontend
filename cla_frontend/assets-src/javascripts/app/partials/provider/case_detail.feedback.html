@@ -5,7 +5,7 @@
 <button type="button" class="Button Button--secondary Button--add" ng-hide="showFeedbackFrm" ng-click="showFeedbackFrm=!showFeedbackFrm" name="leave-feedback">Leave feedback</button>
 
 <div ng-show="showFeedbackFrm">
-  <form ng-submit="submit()">
+  <form ng-submit="submit()" name="inline-provider-feedback-frm">
     <label class="FormRow FormRow--narrow cf">
       <select
         id="newFeedback_issue"
