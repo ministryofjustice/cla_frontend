@@ -105,6 +105,7 @@
   // helpers
   function openSplitModal () {
     expect(createSplitBtn.isDisplayed()).toBe(true);
+    utils.scrollToBottom(createSplitBtn);
     createSplitBtn.click();
     expect(splitForm.isDisplayed()).toBe(true);
   }

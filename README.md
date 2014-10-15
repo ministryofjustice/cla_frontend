@@ -85,13 +85,15 @@ Unit tests-
 
     npm test
 
-Selenium front end testing-
+To run selenium end to end tests using [protractor](https://github.com/angular/protractor):
 
     npm run protractor
 
+To run a single suite/file use the following command:
 
-This will launch chrome in which the tests are run.
+    ./node_modules/.bin/protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.local.js --specs **/[filename].js
 
+These tests will launch your local versions of Chrome and Firefox to run the integration tests.
 
 ### Development
 
