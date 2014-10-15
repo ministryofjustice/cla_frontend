@@ -34,7 +34,7 @@
       it('should not be allowed when not in scope', function () {
         modelsRecipe.Case.createWithScopeAndEligibility(false).then(function (caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
-          var tab = getTab('Financial assessment');
+          var tab = getTab('Finances');
 
           // check is disabled
           expect(tab.getAttribute('class')).toContain('is-disabled');
@@ -48,7 +48,7 @@
       it('should be allowed when no/out of scope but has assessment', function () {
         modelsRecipe.Case.createRecipe({}, {}, {}, CONSTANTS.eligibility.true).then(function (caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
-          var tab = getTab('Financial assessment');
+          var tab = getTab('Finances');
 
           // check is not disabled
           expect(tab.getAttribute('class')).not.toContain('is-disabled');

@@ -162,6 +162,7 @@
           element.all(by.name('provider')).get(0).click();
 
           expect(assignBtn.isEnabled()).toBe(true);
+          utils.scrollTo(assignBtn);
           assignBtn.click();
           checkAssign(case_ref);
         });
@@ -187,6 +188,7 @@
           element.all(by.name('provider')).get(0).click();
 
           expect(assignBtn.isEnabled()).toBe(true);
+          utils.scrollTo(assignBtn);
           assignBtn.click();
           checkAssign(case_ref);
         });
@@ -196,8 +198,6 @@
 
   // helpers
   function goto_assign (as_of) {
-    utils.scrollTo(element(by.css('.CaseDetails-actions')));
-    element(by.name('close-case')).click();
     var clicked = element(by.name('close--assign-provider')).click();
     if (as_of) {
       browser.getLocationAbsUrl().then(function (url) {

@@ -10,7 +10,7 @@
   var selectedProviders = element.all(by.css('input[name=selected_providers]:checked'));
   var assignSubmit = element(by.name('assign-alternative-help'));
   var assignF2fBtn = element(by.name('assign-f2f'));
-  var declineBtn = element(by.name('decline-help'));
+  var declineBtn = element(by.name('btn-decline-help'));
   var modal = element(by.css('.modal-content'));
   var modalHeading = modal.element(by.css('h2'));
   var modalSubmit = modal.element(by.css('button[type="submit"]'));
@@ -67,6 +67,7 @@
 
       it('should assign', function () {
         browser.getCurrentUrl().then(function (caseUrl) {
+          utils.scrollTo(assignSubmit);
           assignSubmit.click();
           browser.get(caseUrl);
           checkOutcomeCode('IRKB');
@@ -104,13 +105,13 @@
 
       //      An in-scope / eligible case shouldn't see ECF message;
       it('should be able to decline help (in_scope)', function () {
-
         modelsRecipe.Case.createWithInScopeAndEligible().then(function (case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           gotoAltHelp();
 
           expect(declineBtn.isEnabled()).toBe(true);
+          utils.scrollTo(declineBtn);
           declineBtn.click();
 
           expect(modal.isPresent()).toBe(true);
@@ -135,6 +136,7 @@
           gotoAltHelp();
 
           expect(declineBtn.isEnabled()).toBe(true);
+          utils.scrollTo(declineBtn);
           declineBtn.click();
 
           expect(modal.isPresent()).toBe(true);
@@ -173,7 +175,6 @@
   }
 
   function gotoAltHelp () {
-    element(by.css('.CaseDetails-actions button[name="close-case"]')).click();
-    element(by.css('#alternative_help')).click();
+    element(by.cssContainingText('.CaseBar-actions a', 'Alternative help')).click();
   }
 })();

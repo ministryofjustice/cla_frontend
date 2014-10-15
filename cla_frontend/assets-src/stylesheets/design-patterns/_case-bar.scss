@@ -1,0 +1,46 @@
+.CaseBar {
+  background-color: $grey-3;
+  overflow: auto;
+  padding: 6px 0;
+
+  &.stuck {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+  }
+
+  .Timer {
+    @include media(desktop) {
+      float: right;
+      width: 62px;
+    }
+  }
+}
+
+.CaseBar-caseNum {
+  @include bold-19;
+  margin: 5px 0 0;
+  padding: 0;
+
+  a {
+    color: $black;
+    text-decoration: none;
+  }
+
+  &:before {
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+  }
+}
+
+.CaseBar-actions {
+  margin-top: 5px;
+
+  @include media(desktop) {
+    margin-top: 0;
+    margin-left: 10px;
+    float: right;
+  }
+}

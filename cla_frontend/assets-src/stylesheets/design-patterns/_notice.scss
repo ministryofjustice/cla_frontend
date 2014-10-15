@@ -12,9 +12,9 @@
       position: fixed;
       top: 0;
     }
-    
+
     @include media (tablet) {
-      top: 48px;
+      top: 90px;
       left: 50%;
       width: 59.375%; // 3/5 column width
       margin-left: -29.687%;
