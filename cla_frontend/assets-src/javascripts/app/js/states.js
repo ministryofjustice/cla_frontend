@@ -370,6 +370,11 @@
             deferred.resolve();
           }
           return deferred.promise;
+        }],
+        matter_types: ['MatterType', 'diagnosis', function (MatterType, diagnosis) {
+          return MatterType.get({
+            category__code: diagnosis.category
+          }).$promise;
         }]
       }
     };
