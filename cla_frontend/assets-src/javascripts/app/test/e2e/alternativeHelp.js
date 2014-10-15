@@ -74,32 +74,44 @@
       });
 
 
-      // xit-ing for now as it causes problems
-      xit('should assign f2f', function () {
-        modelsRecipe.Case.createWithInScopeAndEligible().then(function (case_ref) {
+      it('should be able assign f2f after clicking f2f link', function () {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
+
 
           gotoAltHelp();
 
-          var origWindow = browser.getWindowHandle();
-          var f2fLink = element(by.css('a[href="http://find-legal-advice.justice.gov.uk/"]'));
+          browser.findElement(
+            by.css('a[href="http://find-legal-advice.justice.gov.uk/"]')
+          ).click().then(function () {
+              browser.getAllWindowHandles().then(function (handles) {
+                var origWindow = handles[0];
+                var newWindowHandle = handles[1];
+                browser.switchTo().window(newWindowHandle).then(function () {
+                  browser.driver.close().then(function () {
+                    browser.switchTo().window(origWindow);
+                  });
+                });
+              });
+            });
 
-          f2fLink.click().then(function () {
-            browser.switchTo().window(origWindow);
-          });
 
           expect(assignF2fBtn.isEnabled()).toBe(false);
 
-          element(by.name('notes')).sendKeys('test');
-          expect(assignF2fBtn.isEnabled()).toBe(true);
 
-          browser.getCurrentUrl().then(function (caseUrl) {
-            assignF2fBtn.click();
-            browser.get(caseUrl);
-            checkOutcomeCode('COSPF');
-          });
+          browser.findElement(by.css('textarea[name="notes"]')).sendKeys('test');
+          expect(assignF2fBtn.isEnabled()).toBe(true);
         });
       });
+
+      it('should assign f2f', function () {
+        browser.getCurrentUrl().then(function (caseUrl) {
+          assignF2fBtn.click();
+          browser.get(caseUrl);
+          checkOutcomeCode('SPFN');
+        });
+      });
+
 
 
       //      An in-scope / eligible case shouldn't see ECF message;
