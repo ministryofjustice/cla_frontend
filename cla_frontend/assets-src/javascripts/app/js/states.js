@@ -169,9 +169,9 @@
       name: 'case_detail.edit.eligibility',
       url: 'eligibility/',
       deepStateRedirect: true,
-      onEnter: ['eligibility_check', 'diagnosis', 'flash', 'EligibilityCheckService',
-        function(eligibility_check, diagnosis, flash, EligibilityCheckService){
-          EligibilityCheckService.onEnter(eligibility_check, diagnosis, flash);
+      onEnter: ['eligibility_check', 'diagnosis', 'EligibilityCheckService',
+        function(eligibility_check, diagnosis, EligibilityCheckService){
+          EligibilityCheckService.onEnter(eligibility_check, diagnosis);
         }],
       views: {
         '@case_detail.edit': {
@@ -327,26 +327,44 @@
     operatorStates.CaseEditDetailState.views['@case_detail'].templateUrl = 'call_centre/case_detail.edit.html';
 
     operatorStates.CaseEditDetailAssignState = {
-      parent: 'case_detail',
+      parent: 'case_detail.edit',
       name: 'case_detail.assign',
       url: 'assign/?as_of',
       views: {
-        '@case_detail': {
+        '@case_detail.edit': {
           templateUrl:'call_centre/case_detail.assign.html',
           controller: 'AssignProviderCtrl'
         }
       },
+      onEnter: ['AssignProviderValidation', function (AssignProviderValidation) {
+        AssignProviderValidation.setWarned(false);
+      }],
       resolve: {
         // check that the eligibility check can be accessed
-        CanAssign: ['$q', 'diagnosis', 'eligibility_check', 'case', function ($q, diagnosis, eligibility_check, $case) {
+        CanAssign: ['AssignProviderValidation', '$q', 'diagnosis', 'eligibility_check', 'case', 'personal_details', 'History', function (AssignProviderValidation, $q, diagnosis, eligibility_check, $case, personal_details, History) {
           var deferred = $q.defer();
+          var valid = AssignProviderValidation.validate({case: $case, personal_details: personal_details});
 
           if (!diagnosis.isInScopeTrue() || !eligibility_check.isEligibilityTrue()) {
             // reject promise and handle in $stateChangeError
             deferred.reject({
-              msg: 'The Case must be in scope and eligible to be assigned.',
+              msg: 'The Case must be <strong>in scope</strong> and <strong>eligible</strong> to be assigned.',
               case: $case.reference,
               goto: 'case_detail.edit.diagnosis'
+            });
+          } else if (!valid && !AssignProviderValidation.getWarned()) {
+            var assign_errors = AssignProviderValidation.getErrors();
+            var assign_warnings = AssignProviderValidation.getWarnings();
+            var previousState = History.previousState;
+
+            deferred.reject({
+              modal: true,
+              title: 'Incomplete case',
+              errors: assign_errors,
+              warnings: assign_warnings,
+              case: $case.reference,
+              next: 'case_detail.assign',
+              goto: previousState.name ? previousState.name : 'case_detail.edit'
             });
           } else {
             deferred.resolve();
