@@ -2,21 +2,16 @@
   <li class="CaseHistory-card" ng-repeat="logList in logSet">
     <span>
       <timestamp ng-model="logList[0].created"></timestamp>
-      ({{ logList[0].created_by }})
+      ({{ ::logList[0].created_by }})
     </span>
 
     <ul class="CaseHistory-log">
       <li class="CaseHistory-logItem cf" ng-repeat="log in logList">
-        <span class="CaseHistory-label" ng-if="log.type == 'outcome'">{{ log.code }}</span>
+        <span class="CaseHistory-label" ng-if="log.type == 'outcome'">{{ ::log.code }}</span>
 
-        <details ng-if="log.code === 'MT_CHANGED'">
-          <summary role="button">Means test changed</summary>
-          <span class="CaseHistory-logItemNotes CaseHistory-logItemNotes--indent">{{ log.notes }}</span>
-        </details>
-
-        <details ng-if="log.code === 'MT_CREATED'">
-          <summary role="button">Means test created</summary>
-          <span class="CaseHistory-logItemNotes CaseHistory-logItemNotes--indent">{{ log.notes }}</span>
+        <details ng-if="log.code === 'MT_CHANGED' || log.code === 'MT_CREATED'">
+          <summary role="button">Means test {{ log.code === 'MT_CREATED' ? 'created' : 'changed' }}</summary>
+          <span class="CaseHistory-logItemNotes CaseHistory-logItemNotes--indent">{{ ::log.notes }}</span>
         </details>
 
         <div ng-if="log.code === 'DIAGNOSIS_DELETED'">
@@ -27,7 +22,7 @@
           <a href="" ng-click="showDiagnosisSummary(log)">Diagnosis created</a>
         </div>
 
-        <span class="CaseHistory-logItemNotes" ng-if="log.notes && log.code !== 'MT_CREATED' && log.code !== 'MT_CHANGED'">{{ log.notes }}</span>
+        <span class="CaseHistory-logItemNotes" ng-if="log.notes && log.code !== 'MT_CREATED' && log.code !== 'MT_CHANGED'">{{ ::log.notes }}</span>
       </li>
     </ul>
   </li>

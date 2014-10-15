@@ -5,16 +5,18 @@
       CONSTANTS = require('../protractor.constants'),
       modelsRecipe = require('./_modelsRecipe');
 
+  // test elements
+  var form = element(by.name('diagnosis-form')),
+      scopeTab = element(by.cssContainingText('.Tabs-tabLink', 'Scope')),
+      newBtn = element(by.name('diagnosis-new')),
+      deleteBtn = element(by.name('diagnosis-delete')),
+      nextBtn = element(by.name('diagnosis-next')),
+      backBtn = element(by.name('diagnosis-back'));
+
   describe('scopeDiagnosis', function () {
     beforeEach(utils.setUp);
 
     describe('An operator', function () {
-      var form = element(by.name('diagnosis-form')),
-          newBtn = element(by.name('diagnosis-new')),
-          deleteBtn = element(by.name('diagnosis-delete')),
-          nextBtn = element(by.name('diagnosis-next')),
-          backBtn = element(by.name('diagnosis-back'));
-
       it('should create and complete an in scope diagnosis', function () {
         modelsRecipe.Case.createEmpty().then(function (caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/diagnosis/');
@@ -49,7 +51,7 @@
 
         expect(deleteBtn.isPresent()).toBe(true);
         expect(element(by.cssContainingText('a', 'Create financial assessment')).isPresent()).toBe(true);
-        expect(element(by.cssContainingText('.Tabs-tabLink.Icon--solidTick', 'Scope diagnosis')).isPresent()).toBe(true);
+        expect(scopeTab.getAttribute('class')).toContain('Icon--solidTick');
         // check category
         expect(element(by.css('[ng-if="category"]')).getText()).toContain('Family, marriage, separation and children');
       });
@@ -58,23 +60,24 @@
         deleteBtn.click();
         browser.switchTo().alert().dismiss();
 
-        expect(element(by.cssContainingText('.Tabs-tabLink.Icon--solidTick', 'Scope diagnosis')).isPresent()).toBe(true);
+        expect(scopeTab.isPresent()).toBe(true);
+        expect(scopeTab.getAttribute('class')).toContain('Icon--solidTick');
       });
 
       it('should delete a scope diagnosis on ok', function () {
         deleteBtn.click();
         browser.switchTo().alert().accept();
 
-        var tab = element(by.cssContainingText('.Tabs-tabLink', 'Scope diagnosis'));
-        expect(tab.isPresent()).toBe(true);
-        expect(tab.getAttribute('class')).not.toContain('Icon');
+        expect(scopeTab.isPresent()).toBe(true);
+        expect(scopeTab.getAttribute('class')).not.toContain('Icon');
       });
 
       it('should create an out of scope diagnosis', function () {
         newBtn.click();
         fillDiagnosis(CONSTANTS.scope.false);
 
-        expect(element(by.cssContainingText('.Tabs-tabLink.Icon--solidCross', 'Scope diagnosis')).isPresent()).toBe(true);
+        expect(scopeTab.isPresent()).toBe(true);
+        expect(scopeTab.getAttribute('class')).toContain('Icon--solidCross');
       });
     });
   });
@@ -82,7 +85,7 @@
   // helpers
   function fillDiagnosis (nodes) {
     for (var node in nodes) {
-      utils.scrollTo(element(by.cssContainingText('.Tabs-tabLink', 'Scope diagnosis')));
+      utils.scrollTo(scopeTab);
       element(by.css('[name="choice"][value="' + nodes[node] + '"]')).click();
       element(by.name('diagnosis-next')).click();
     }

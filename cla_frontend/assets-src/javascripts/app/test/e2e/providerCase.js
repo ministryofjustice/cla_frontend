@@ -6,6 +6,7 @@
       modelsRecipe = require('./_modelsRecipe');
 
   var case_to_accept;
+  var assign_button = element(by.name('assign-provider'));
   var accept_button = element(by.name('accept-case'));
   var close_button = element(by.name('provider-close-case'));
 
@@ -84,7 +85,8 @@
   }
 
   function do_assign () {
-    element(by.name('assign-provider')).click();
+    utils.scrollTo(assign_button);
+    assign_button.click();
   }
 
   function manually_select_provider () {

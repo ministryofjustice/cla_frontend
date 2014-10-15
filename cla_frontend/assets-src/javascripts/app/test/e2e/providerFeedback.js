@@ -109,29 +109,33 @@
       it('should have example case assigned & ready to feedback without rejecting', function () {
         var leave_feedback_btn = element(by.css('button[name="leave-feedback"]')),
             reject_btn = element(by.css('button[name="reject-case"]')),
+            feedback_form = element(by.name('inline-provider-feedback-frm')),
             feedback_issue_select = element(by.css('div#s2id_newFeedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
             notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="newFeedback.comment"]')),
             submit_button = element(by.css('button[name="save-feedback"]'));
 
         browser.get(CONSTANTS.providerBaseUrl + case_to_feedback_without_reject_ref + '/');
+
         expect(reject_btn.isPresent()).toBe(true);
+        expect(feedback_form.isDisplayed()).toBe(false);
 
         leave_feedback_btn.click();
 
-        expect(feedback_issue_select.isDisplayed()).toBe(true);
-        feedback_issue_select.click();
+        expect(feedback_form.isDisplayed()).toBe(true);
 
+        // select feedback reason
+        feedback_issue_select.click();
         expect(feedback_issue_select_options.count()).not.toBe(0);
         feedback_issue_select_options.then(function (li) {
           li[0].click();
         });
 
-        expect(notes_area.isDisplayed()).toBe(true);
+        // enter notes
         notes_area.sendKeys(feedback_notes);
 
-        expect(submit_button.isDisplayed()).toBe(true);
-        utils.scrollTo(submit_button);
+        // submit feedback
+        utils.scrollToBottom(submit_button);
         submit_button.click();
       });
 
@@ -212,7 +216,9 @@
   }
 
   function do_assign () {
-    element(by.css('[name=assign-provider]')).click();
+    var assignBtn = element(by.css('[name=assign-provider]'));
+    utils.scrollTo(assignBtn);
+    assignBtn.click();
   }
 
   function manually_select_provider () {

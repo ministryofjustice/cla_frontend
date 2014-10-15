@@ -9,8 +9,7 @@
   var caseRef;
   var modalEl = element(by.css('div.modal'));
   var modalHeader = modalEl.element(by.css('header'));
-  var closeBtn = element(by.cssContainingText('.CaseDetails-actions button', 'Close'));
-  var suspend_link = element(by.cssContainingText('.CaseDetails-actions a', 'Suspend'));
+  var suspend_link = element(by.cssContainingText('.CaseBar-actions a', 'Suspend'));
   var notifications = element(by.css('.NoticeContainer--fixed'));
 
   describe('suspendCase', function () {
@@ -67,7 +66,6 @@
 
   // helpers
   function gotoSuspend () {
-    closeBtn.click();
     suspend_link.click();
   }
 
