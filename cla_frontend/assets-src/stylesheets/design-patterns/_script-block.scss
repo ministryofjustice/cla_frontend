@@ -7,10 +7,10 @@
   overflow: auto;
 
   @extend .Icon;
-  // @extend .Icon--script;
+  @extend .Icon--script;
   &:before {
     position: absolute;
-    top: 0.9em;
+    top: 0.95em;
     left: 0.8em;
     color: $light-blue;
   }
