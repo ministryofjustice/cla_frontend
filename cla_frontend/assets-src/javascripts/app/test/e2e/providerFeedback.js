@@ -22,7 +22,7 @@
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              manually_select_provider();
+              utils.manuallySelectProvider('Duncan Lewis');
             }
             do_assign();
           });
@@ -37,7 +37,7 @@
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              manually_select_provider();
+              utils.manuallySelectProvider('Duncan Lewis');
             }
             do_assign();
           });
@@ -216,13 +216,8 @@
   }
 
   function do_assign () {
-    var assignBtn = element(by.css('[name=assign-provider]'));
+    var assignBtn = element(by.name('assign-provider'));
     utils.scrollTo(assignBtn);
     assignBtn.click();
-  }
-
-  function manually_select_provider () {
-    element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually')).click();
-    element(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
   }
 })();

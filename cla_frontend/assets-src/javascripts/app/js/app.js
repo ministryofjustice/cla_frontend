@@ -27,8 +27,8 @@
   var common_run,
       common_config;
 
-  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$modal',
-    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $modal) {
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$modal', 'AssignProviderValidation',
+    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $modal, AssignProviderValidation) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
@@ -38,24 +38,37 @@
         if (error.msg && !error.modal) {
           flash('error', error.msg);
         }
-        // if a transition has been suggested, go to it
-        if (error.goto) {
-          $state.go(error.goto, {caseref: error.case});
-        }
         // if content should appear in modal
         if (error.modal) {
-          $modal.open({
+          var opts = {
             templateUrl: 'invalid_modal.html',
             controller: 'InvalidCtrl',
             resolve: {
               tplVars: function () {
                 return {
                   title: error.title,
-                  message: error.msg
+                  message: error.msg,
+                  errors: error.errors,
+                  warnings: error.warnings
                 };
               }
             }
-          });
+          };
+          var onConfirmSuccess = function (result) {
+            if (result) {
+              AssignProviderValidation.setWarned(true);
+              $state.go(error.next, {caseref: error.case});
+            } else {
+              $state.go(error.goto, {caseref: error.case});
+            }
+          };
+          var onDismiss = function () {
+            $state.go(error.goto, {caseref: error.case});
+          };
+
+          $modal.open(opts).result.then(onConfirmSuccess, onDismiss);
+        } else if (error.goto) {
+          $state.go(error.goto, {caseref: error.case});
         }
       });
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
