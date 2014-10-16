@@ -138,3 +138,28 @@
     color: $black;
   }
 }
+
+.ToggleButton {
+  @include box-sizing(border-box);
+  @include border-radius(3px);
+  @include core-14;
+  background: none;
+  color: $white;
+  height: 28px;
+  border: 0;
+  padding: 5px 10px;
+  margin: 0 10px 0 0;
+  cursor: pointer;
+
+  &:before {
+    margin-right: 8px;
+  }
+
+  &--light-blue.is-selected {
+    background-color: $light-blue-25;
+    color: $black;
+    &:before {
+      color: $light-blue;
+    }
+  }
+}
