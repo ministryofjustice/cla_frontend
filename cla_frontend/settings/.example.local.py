@@ -1,12 +1,35 @@
 from .base import *
 
 DEV_APPS = (
-    'django_extensions',
-    'debug_toolbar',
-    'django_pdb'
+    # 'django_extensions',
+    # 'debug_toolbar',
+    'django_pdb',
 )
 
 INSTALLED_APPS += DEV_APPS
 
-if DEBUG:
-  CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'ajax.googleapis.com', 'data:')
+CSP_DEFAULT_SRC = list(CSP_DEFAULT_SRC) + ['localhost:8005']
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
