@@ -107,8 +107,8 @@
         return this.createRecipe(
           CONSTANTS.case.required,
           CONSTANTS.personal_details.required,
-          undefined,
-          CONSTANTS.eligibility.required
+          CONSTANTS.scope.true,
+          CONSTANTS.eligibility.true
         );
       },
 
@@ -120,8 +120,8 @@
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
-          undefined,
-          CONSTANTS.eligibility.required
+          CONSTANTS.scope.true,
+          CONSTANTS.eligibility.true
         );
       },
 
@@ -136,6 +136,10 @@
           CONSTANTS.scope[inScope],
           inScope ? CONSTANTS.eligibility[isEligible] : undefined
         );
+      },
+
+      createEmptyWithInScopeAndEligible: function () {
+        return this.createRecipe({}, {}, CONSTANTS.scope.true, CONSTANTS.eligibility.true);
       },
 
       createWithInScopeAndEligible: function () {

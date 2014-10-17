@@ -28,6 +28,10 @@ $col-gutter: 20; // in pixels
         margin-right: 0;
       }
 
+      &[data-centre-col] {
+        padding-bottom: 20px;
+      }
+
       // 2 column grid
       &--1-2 {
         width: 49%;

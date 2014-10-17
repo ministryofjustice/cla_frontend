@@ -1,26 +1,17 @@
 .ScriptBlock {
   margin: 0 0 20px;
-  padding: 1px 40px;
+  padding: 0 20px 0 40px;
   background-color: $light-blue-25;
-  border: solid $grey-2;
-  border-width: 1px 0;
+  border-left: 3px solid $light-blue;
   position: relative;
+  overflow: auto;
 
-  &:before, &:after {
-    @include core-48;
-    position: absolute;
-  }
-
+  @extend .Icon;
+  @extend .Icon--script;
   &:before {
-    content: '\201C';
-    content: open-quote;
-    top: 6px;
-    left: 7px;
-  }
-  &:after {
-    content: '\201D';
-    content: close-quote;
-    bottom: -27px;
-    right: 8px;
+    position: absolute;
+    top: 0.95em;
+    left: 0.8em;
+    color: $light-blue;
   }
 }

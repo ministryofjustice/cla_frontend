@@ -90,6 +90,13 @@
         element(by.css('[name="' + name + '"]')).sendKeys(value).blur;
         /*jshint +W030 */
       }
+    },
+
+    manuallySelectProvider: function (providerName) {
+      var manualBtn = element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually'));
+      this.scrollTo(manualBtn);
+      manualBtn.click();
+      element(by.cssContainingText('input[name="provider"] + strong', providerName)).click();
     }
   };
 })();

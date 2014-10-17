@@ -59,7 +59,8 @@
       paths.src + 'vendor/angular-socket-io/socket.js',
       paths.src + 'vendor/angulartics/src/angulartics.js',
       paths.src + 'vendor/angulartics/src/angulartics-piwik.js',
-      paths.src + 'vendor/angular-hotkeys/build/hotkeys.js'
+      paths.src + 'vendor/angular-hotkeys/build/hotkeys.js',
+      paths.src + 'vendor/angular-local-storage/dist/angular-local-storage.js'
     ],
     app: [
       paths.src + 'javascripts/app/js/app.js',
