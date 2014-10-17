@@ -6,15 +6,15 @@
     float: right;
 
     @include media(desktop) {
-      padding-top: 4px;
-      padding-right: 10px;
+      padding-top: 6px;
+      padding-right: 15px;
       clear: none;
     }
   }
 }
 
 .Timer-warning {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .Timer-value {
@@ -28,16 +28,16 @@
     color: $white;
     min-width: 65px;
     padding-top: 0;
-    top: 2px;
+    top: 1px;
   }
   .is-unstarted & {
-    color: $orange;
+    // color: $orange;
   }
 }
 
-.Timer-button {
+.Timer-inlineIcon {
   @include inline-block;
-  margin-right: 6px;
+  margin: 0 4px;
 
   &:link, &:visited, &:active, &:before, &:focus {
     color: $white;
