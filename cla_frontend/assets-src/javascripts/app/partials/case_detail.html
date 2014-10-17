@@ -1,7 +1,5 @@
 <header class="CaseBar Grid" sticky use-placeholder>
   <div class="Grid-row">
-    <div class="Notice warning ng-cloak" ng-if="peopleViewingCase.length > 0"><strong>{{ peopleViewingCase|join }}</strong> {{peopleViewingCase.length === 1 ? 'is' : 'are' }} currently viewing this case.</div>
-
     <div class="Grid-col Grid-col--1-5">
       <h1 class="CaseBar-caseNum Icon Icon--folder">
         <a ui-sref="case_detail.edit">
@@ -10,6 +8,7 @@
       </h1>
     </div>
     <div class="Grid-col Grid-col--4-5">
+      <p class="Icon Icon--alert Icon--orange u-pullLeft" ng-if="peopleViewingCase.length > 0"><strong>{{ peopleViewingCase|join }}</strong> {{peopleViewingCase.length === 1 ? 'is' : 'are' }} also currently viewing this case</p>
       <span data-block="case-actions"></span>
       <timer base-time="case.billable_time"></timer>
     </div>
