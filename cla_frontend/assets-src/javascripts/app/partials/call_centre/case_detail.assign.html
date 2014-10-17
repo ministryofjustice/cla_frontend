@@ -56,12 +56,12 @@
     <div class="FormRow FormRow--group" ng-repeat="provider in suggested_providers | filter:provider_search">
       <label class="FormRow-label FormRow-label--odd">
         <input name="provider" type="radio" ng-model="$parent.selected_provider" ng-value="provider">
-        <strong>{{ provider.name }}</strong>
+        <strong>{{ ::provider.name }}</strong>
 
-        <p class="FormRow-inner">{{ provider.telephone_frontdoor }} (Front door)
-          <br>{{ provider.telephone_backdoor }} (Back door)</p>
+        <p class="FormRow-inner">{{ ::provider.telephone_frontdoor }} (Front door)
+          <br>{{ ::provider.telephone_backdoor }} (Back door)</p>
 
-        <p>Provider phone short code <strong>{{ provider.short_code }}</strong></p>
+        <p>Provider phone short code <strong>{{ ::provider.short_code }}</strong></p>
       </label>
     </div>
 

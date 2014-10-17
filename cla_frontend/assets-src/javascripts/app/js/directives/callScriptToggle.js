@@ -16,7 +16,7 @@
         }
 
         scope.state = function () {
-          return $rootScope.showCallScript ? 'on' : 'off';;
+          return $rootScope.showCallScript ? 'on' : 'off';
         };
 
         scope.toggle = function () {
