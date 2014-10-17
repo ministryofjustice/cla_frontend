@@ -7,25 +7,6 @@
   <p>This case has <strong>no category of law assigned</strong> but you can still manually assign a provider.</p>
 </div>
 
-<call-script ng-if="suggested_providers.length > 1 || suggested_provider">
-  <p>From the information you have provided, the assessment shows that you may be eligible for Legal Aid and I will transfer you to one of our Specialist Provers.</p>
-  <p>We cannot guarantee that the specialist will be able to take on your case, however their service is not your only option and the specialist will try to find you some help elsewhere. If they do take on your case you will need to provide proof of your financial circumstances for the specialist to continue.</p>
-  <p>I there anything else we can assist you with today?</p>
-  <p>If you require any further assistance please don't hesitate to call us back. We are open from 9am-8pm Monday to Friday and 9am-12:30pm on Saturdays.</p>
-  <p>Thank you for calling Civil Legal Advice, I will now put you through to one of our Specialists.</p>
-</call-script>
-
-<div ng-if="selected_provider.id">
-  <div class="ContactBlock ContactBlock--grey clearfix">
-    <h2 class="ContactBlock-heading">{{ selected_provider.name }}</h2>
-
-    <p>{{ selected_provider.telephone_frontdoor }} (Front door)
-      <br>{{ selected_provider.telephone_backdoor }} (Back door)</p>
-
-    <p>Provider phone short code: <strong>{{ selected_provider.short_code }}</strong></p>
-  </div>
-</div>
-
 <form method="post" name="assign_provider_form" ng-submit="assign(assign_provider_form)">
   <h2 class="FormBlock-label">Matter types</h2>
   <div class="FormBlock FormBlock--grey">
@@ -45,6 +26,25 @@
           <option value=""></option>
         </select>
       </label>
+    </div>
+  </div>
+
+  <call-script ng-if="suggested_providers.length > 1 || suggested_provider">
+    <p>From the information you have provided, the assessment shows that you may be eligible for Legal Aid and I will transfer you to one of our Specialist Provers.</p>
+    <p>We cannot guarantee that the specialist will be able to take on your case, however their service is not your only option and the specialist will try to find you some help elsewhere. If they do take on your case you will need to provide proof of your financial circumstances for the specialist to continue.</p>
+    <p>I there anything else we can assist you with today?</p>
+    <p>If you require any further assistance please don't hesitate to call us back. We are open from 9am-8pm Monday to Friday and 9am-12:30pm on Saturdays.</p>
+    <p>Thank you for calling Civil Legal Advice, I will now put you through to one of our Specialists.</p>
+  </call-script>
+
+  <div ng-if="selected_provider.id">
+    <div class="ContactBlock ContactBlock--grey clearfix">
+      <h2 class="ContactBlock-heading">{{ selected_provider.name }}</h2>
+
+      <p>{{ selected_provider.telephone_frontdoor }} (Front door)
+        <br>{{ selected_provider.telephone_backdoor }} (Back door)</p>
+
+      <p>Provider phone short code: <strong>{{ selected_provider.short_code }}</strong></p>
     </div>
   </div>
 
