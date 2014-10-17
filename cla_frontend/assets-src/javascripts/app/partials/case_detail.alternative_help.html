@@ -16,6 +16,13 @@
   <p class="Error Error--basic">There are <strong>no providers available</strong> matching your criteria. Please contact a supervisor.</p>
 </div>
 
+<call-script ng-if="diagnosis.isInScopeTrue() && eligibility_check.isEligibilityFalse()">
+  <p>From the information you have provided, the assessment shows that you are not eligible for Legal Aid. However, our service is not your only option, so I can find you alternative help for you elsewhere.</p>
+  <p>If you have Internet access I can tell you where to find more information and help for yourself online.</p>
+  <p>Or I can see if I can suggest another helpline or face to face advice service that may be able to help you.</p>
+  <p>I can't guarantee that they will be able to help you so please check with them. You may have to pay for their service so check any costs, their opening hours and whether you can make an appointment. Also check any insurance policies you may have that provide legal cover as any potential costs may be covered by this.</p>
+</call-script>
+
 <details class="SelectedProviders">
   <summary>Selected organisations ({{ alternativeHelpService.selected_providers_length() }})</summary>
   <div class="SummaryBlock SummaryBlock--compact">
