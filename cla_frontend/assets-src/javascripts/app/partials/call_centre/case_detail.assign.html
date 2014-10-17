@@ -13,7 +13,7 @@
     <div class="FormRow">
       <label for="matter_type1">
         <span class="FormRow-label">Matter type 1</span>
-        <select ui-select2="{allowClear: true}" ng-model="case.matter_type1" ng-options="s.code as s.code for s in matter1_types track by s.code" id="matter_type1" name="matter_type1" data-placeholder="Choose a matter type" class="FormRow-field--m">
+        <select ui-select2="{allowClear: true}" ng-model="case.matter_type1" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter1_types track by s.code" id="matter_type1" name="matter_type1" data-placeholder="Choose a matter type" class="FormRow-field--full">
           <option value=""></option>
         </select>
       </label>
@@ -22,7 +22,7 @@
     <div class="FormRow">
       <label for="matter_type2">
         <span class="FormRow-label">Matter type 2</span>
-        <select ui-select2="{allowClear: true}" ng-model="case.matter_type2" ng-options="s.code as s.code for s in matter2_types track by s.code" id="matter_type2" name="matter_type2" data-placeholder="Choose a matter type" class="FormRow-field--m">
+        <select ui-select2="{allowClear: true}" ng-model="case.matter_type2" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter2_types track by s.code" id="matter_type2" name="matter_type2" data-placeholder="Choose a matter type" class="FormRow-field--full">
           <option value=""></option>
         </select>
       </label>
