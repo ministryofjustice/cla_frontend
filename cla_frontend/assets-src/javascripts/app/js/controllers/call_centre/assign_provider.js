@@ -2,12 +2,13 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', '$stateParams', 'flash',
-      function($scope, _, $state, form_utils, $stateParams, flash) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', '$stateParams', 'flash', 'matter_types',
+      function($scope, _, $state, form_utils, $stateParams, flash, matter_types) {
         $scope.is_manual = false;
         $scope.is_spor = false;
         $scope.suggested_providers = [];
-
+        $scope.matter1_types = _.where(matter_types, {level: 1});
+        $scope.matter2_types = _.where(matter_types, {level: 2});
 
         var as_of = $stateParams.as_of;
 
@@ -45,15 +46,24 @@
             is_manual: $scope.is_manual,
             is_spor: $scope.is_spor
           };
+
           if ($scope.is_manual) {
             data.notes = $scope.notes;
           }
-          $scope.case.$assign(data).then(
-            function(response) {
-              $state.go('case_list');
-              flash('success', 'Case '+$scope.case.reference+' assigned to '+response.data.name);
+
+          $scope.case.$set_matter_types().then(
+            function () {
+              $scope.case.$assign(data).then(
+                function(response) {
+                  $state.go('case_list');
+                  flash('success', 'Case ' + $scope.case.reference + ' assigned to ' + response.data.name);
+                },
+                function(data) {
+                  form_utils.ctrlFormErrorCallback($scope, data, form);
+                }
+              );
             },
-            function(data) {
+            function (data) {
               form_utils.ctrlFormErrorCallback($scope, data, form);
             }
           );

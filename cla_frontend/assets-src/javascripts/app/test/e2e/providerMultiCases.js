@@ -1,18 +1,18 @@
-(function (){
+(function () {
   'use strict';
 
   var utils = require('../e2e/_utils'),
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('Specialist Multiple Cases', function () {
-    var case_ref1, case_ref2,
-        createSplitBtn = element.all(by.name('split-case')).get(0),
-        splitForm = element(by.name('split_case_frm')),
-        submitBtn = splitForm.element(by.name('save-split-case')),
-        cancelBtn = splitForm.element(by.cssContainingText('a', 'Cancel'));
+  var case_ref1, case_ref2,
+      createSplitBtn = element.all(by.name('split-case')).get(0),
+      splitForm = element(by.name('split_case_frm')),
+      submitBtn = splitForm.element(by.name('save-split-case')),
+      cancelBtn = splitForm.element(by.cssContainingText('a', 'Cancel'));
 
-    describe('As Operator', function () {
+  describe('providerMultiCases', function () {
+    describe('An operator', function () {
       beforeEach(utils.setUp);
 
       it('should create cases as operator and assign then to a provider', function () {
@@ -32,33 +32,8 @@
       });
     });
 
-    describe('As Provider', function () {
+    describe('A provider', function () {
       beforeEach(utils.setUpAsProvider);
-
-      function openSplitModal () {
-        expect(createSplitBtn.isDisplayed()).toBe(true);
-        createSplitBtn.click();
-        expect(splitForm.isDisplayed()).toBe(true);
-      }
-
-      function fillInSplitForm (categoryVal, internal) {
-        splitForm.element(by.css('[name="category"] option[value="' + categoryVal + '"]')).click();
-        splitForm.element(by.css('[name="matter_type1"] option:last-child')).click();
-        splitForm.element(by.css('[name="matter_type2"] option:last-child')).click();
-        splitForm.element(by.css('[name=internal][value="' + internal + '"]')).click();
-        splitForm.element(by.name('notes')).sendKeys('Notes');
-        submitBtn.click();
-      }
-
-      function assertOutcomeCode (code) {
-        expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe(code);
-      }
-
-      function assertError (error) {
-        expect(
-          splitForm.element(by.cssContainingText('.Error-message', error)).isDisplayed()
-        ).toBe(true);
-      }
 
       it('shouldnt\'t be able to split if the validation fails', function () {
         browser.get(CONSTANTS.providerBaseUrl + case_ref1 + '/');
@@ -126,4 +101,31 @@
       });
     });
   });
+
+  // helpers
+  function openSplitModal () {
+    expect(createSplitBtn.isDisplayed()).toBe(true);
+    utils.scrollToBottom(createSplitBtn);
+    createSplitBtn.click();
+    expect(splitForm.isDisplayed()).toBe(true);
+  }
+
+  function fillInSplitForm (categoryVal, internal) {
+    splitForm.element(by.css('[name="category"] option[value="' + categoryVal + '"]')).click();
+    splitForm.element(by.css('[name="matter_type1"] option:last-child')).click();
+    splitForm.element(by.css('[name="matter_type2"] option:last-child')).click();
+    splitForm.element(by.css('[name=internal][value="' + internal + '"]')).click();
+    splitForm.element(by.name('notes')).sendKeys('Notes');
+    submitBtn.click();
+  }
+
+  function assertOutcomeCode (code) {
+    expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe(code);
+  }
+
+  function assertError (error) {
+    expect(
+      splitForm.element(by.cssContainingText('.Error-message', error)).isDisplayed()
+    ).toBe(true);
+  }
 })();

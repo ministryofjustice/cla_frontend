@@ -17,23 +17,6 @@
             $rootScope.$emit('timer:check');
           });
 
-          $scope.edit_matter_types = function (next) {
-            var child_scope = $scope.$new();
-            child_scope.next = next;
-            $modal.open({
-              templateUrl: 'case_detail.matter_type.html',
-              controller: 'SetMatterTypeCtrl',
-              scope: child_scope,
-              resolve: {
-                'matter_types': function () {
-                  return MatterType.get({
-                    category__code: $scope.diagnosis.category
-                  }).$promise;
-                }
-              }
-            });
-          };
-
           hotkeys
             .bindTo($scope)
             .add({

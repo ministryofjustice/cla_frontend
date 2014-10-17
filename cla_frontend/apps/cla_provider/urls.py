@@ -10,9 +10,11 @@ from legalaid import views as legalaid_views
 
 from . import views
 
+from django.conf import settings
+zone = settings.ZONE_PROFILES.get('cla_provider')
 
 urlpatterns = patterns('',
-    url(r'^case/(?P<case_reference>.+)/means_summary/$', 
+    url(r'^case/(?P<case_reference>.+)/means_summary/$',
         zone_required(legalaid_views.case_means_summary, zone='cla_provider')
     ),
     url(r'^case/(?P<case_reference>.+)/legal_help_form/$',
@@ -28,6 +30,12 @@ urlpatterns = patterns('',
     }, name='logout'),
 
 
+    url(r'^proxy/caseExport/$', auth_views.backend_proxy_view,
+        name="backend_proxy_provider_export",
+        kwargs={
+            'use_auth_header': False,
+            'path': 'caseExport/',
+            'base_remote_url': zone.get('BASE_URI')}),
     url(r'^proxy/(?P<path>.*)', auth_views.backend_proxy_view, name="backend_proxy"),
     url(r'^.*$', views.dashboard, name='dashboard'),
 )

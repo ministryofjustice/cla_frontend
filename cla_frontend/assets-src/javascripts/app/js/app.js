@@ -27,19 +27,47 @@
   var common_run,
       common_config;
 
-  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History',
-    function ($rootScope, $state, $stateParams, Timer, flash, bus, History) {
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$modal', 'AssignProviderValidation',
+    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $modal, AssignProviderValidation) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
       // handle state change errors
       $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
         // generic state change error / redirect
-        if (error.msg) {
+        if (error.msg && !error.modal) {
           flash('error', error.msg);
         }
-        // if a transition has been suggested, go to it
-        if (error.goto) {
+        // if content should appear in modal
+        if (error.modal) {
+          var opts = {
+            templateUrl: 'invalid_modal.html',
+            controller: 'InvalidCtrl',
+            resolve: {
+              tplVars: function () {
+                return {
+                  title: error.title,
+                  message: error.msg,
+                  errors: error.errors,
+                  warnings: error.warnings
+                };
+              }
+            }
+          };
+          var onConfirmSuccess = function (result) {
+            if (result) {
+              AssignProviderValidation.setWarned(true);
+              $state.go(error.next, {caseref: error.case});
+            } else {
+              $state.go(error.goto, {caseref: error.case});
+            }
+          };
+          var onDismiss = function () {
+            $state.go(error.goto, {caseref: error.case});
+          };
+
+          $modal.open(opts).result.then(onConfirmSuccess, onDismiss);
+        } else if (error.goto) {
           $state.go(error.goto, {caseref: error.case});
         }
       });
@@ -84,7 +112,8 @@
       'angular-loading-bar',
       'angulartics',
       'angulartics.piwik',
-      'cfp.hotkeys'
+      'cfp.hotkeys',
+      'LocalStorageModule'
     ])
     .config(common_config)
     .run(common_run);
@@ -128,7 +157,8 @@
       'angular-loading-bar',
       'angulartics',
       'angulartics.piwik',
-      'cfp.hotkeys'
+      'cfp.hotkeys',
+      'LocalStorageModule'
     ])
     .config(common_config)
     .run(common_run);

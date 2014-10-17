@@ -1,13 +1,18 @@
-<p>The money you and your partner earn affects whether or not you qualify for legal aid. To find out if you're financially eligible, please answer these questions as honestly and fully as you can.</p>
+<call-script>
+  <p>We will now look at your income for the last calendar month. This runs from today back to {{ oneMonthAgo }}.</p>
+</call-script>
 
 <section>
   <h2 class="FormBlock-label">Your income</h2>
 
   <div class="FormBlock FormBlock--grey" aria-labelledby="your_income-label" role="group">
-    <a href="http://taxandnicalculator.co.uk/" target="_blank">Tax &amp; NI calculator</a><br>
-    <a href="http://www.uktaxcalculators.co.uk/reverse-tax-calculator.php" target="_blank">Reverse tax calculator</a>
+    <nav class="FormRow">
+      <a href="http://taxandnicalculator.co.uk/" target="_blank">Tax &amp; National Insurance calculator</a><br>
+      <a href="http://www.uktaxcalculators.co.uk/reverse-tax-calculator.php" target="_blank">Reverse tax calculator</a>
+    </nav>
+
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.earnings" mi-label="Wages (Before Tax)" guidance-link="'eligibility_check#ecg-earnings'" />
+      <money-interval ng-model="eligibility_check.you.income.earnings" mi-label="What did you earn before tax? (Check your most recent payslips)" guidance-link="'eligibility_check#ecg-earnings'" />
     </div>
 
     <div class="FormRow cf">
@@ -52,14 +57,14 @@
   </div>
 </section>
 
-<section ng-show="eligibility_check.has_partner && eligibility_check.has_partner !== '0'">
+<section ng-show="hasPartner()">
   <h2 class="FormBlock-label">Your partner's income</h2>
 
   <cla-server-validate data-for="partner.income"></cla-server-validate>
 
   <div class="FormBlock FormBlock--grey" aria-labelledby="partners_income-label" role="group">
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.earnings" mi-label="Wages (Before Tax)" guidance-link="'eligibility_check#ecg-earnings'" />
+      <money-interval ng-model="eligibility_check.partner.income.earnings" mi-label="What did your partner earn before tax? (Based on their most recent payslips)" guidance-link="'eligibility_check#ecg-earnings'" />
     </div>
 
     <div class="FormRow cf">
@@ -105,23 +110,21 @@
 
   <div class="FormBlock FormBlock--grey Grid" aria-labelledby="dependants-label" role="group">
     <div class="FormRow">
-      <div class="Grid-col Grid-col--1-2">
-        <label for="id_dependants-dependants_old" class="cf">
-          <span class="FormRow-label FormRow-label--inline">
-            Dependants aged 16 and over  <guidance-link doc="eligibility_check#ecg-dependants_over_16"></guidance-link>
-          </span>
-          <input class="FormRow-field--xs" id="id_dependants-dependants_old" min="0" type="number" ng-model="eligibility_check.dependants_old">
-        </label>
-      </div>
+      <label for="id_dependants-dependants_old" class="cf">
+        <span class="FormRow-label">
+          Do you<span ng-if="hasPartner()"> (and your partner)</span> have any dependants aged 16 and over? <guidance-link doc="eligibility_check#ecg-dependants_over_16"></guidance-link>
+        </span>
+        <input class="FormRow-field--xs" id="id_dependants-dependants_old" min="0" type="number" ng-model="eligibility_check.dependants_old">
+      </label>
+    </div>
 
-      <div class="Grid-col Grid-col--1-2">
-        <label for="id_dependants-dependants_young" class="cf">
-          <span class="FormRow-label FormRow-label--inline">
-            Children aged 15 and under  <guidance-link doc="eligibility_check#ecg-dependants_under_16"></guidance-link>
-          </span>
-          <input class="FormRow-field--xs" id="id_dependants-dependants_young" min="0" type="number" ng-model="eligibility_check.dependants_young">
-        </label>
-      </div>
+    <div class="FormRow">
+      <label for="id_dependants-dependants_young" class="cf">
+        <span class="FormRow-label">
+          Do you<span ng-if="hasPartner()"> (and your partner)</span> have any dependants aged 15 and under? <guidance-link doc="eligibility_check#ecg-dependants_under_16"></guidance-link>
+        </span>
+        <input class="FormRow-field--xs" id="id_dependants-dependants_young" min="0" type="number" ng-model="eligibility_check.dependants_young">
+      </label>
     </div>
   </div>
 </section>

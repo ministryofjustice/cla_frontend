@@ -105,17 +105,26 @@ def login(request, template_name='accounts/login.html',
 
 
 @csrf_exempt
-def backend_proxy_view(request, path):
+def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None):
     """
         TODO: hacky as it's getting the base_url and the auth header from the
             get_connection slumber object.
 
             Also, we should limit the endpoint accessible from this proxy
-    """
-    client = get_connection(request)
 
-    extra_requests_args = {
-        'headers': {k.upper(): v for k, v in dict([client._store['session'].auth.get_header()]).items()}
-    }
-    remoteurl = u"%s%s" % (client._store['base_url'], path)
+        if you specifiy `use_auth_header` to be false, then it won't use the zone
+        or url info from the get_connection slumber object. In that case you
+        should pass in the base_remote_url yourself.
+    """
+    assert use_auth_header or base_remote_url
+    if use_auth_header:
+        client = get_connection(request)
+        extra_requests_args = {
+            'headers': {k.upper(): v for k, v in dict([client._store['session'].auth.get_header()]).items()}
+        }
+        if not base_remote_url:
+            base_remote_url = client._store['base_url']
+    else:
+        extra_requests_args = {}
+    remoteurl = u"%s%s" % (base_remote_url, path)
     return proxy_view(request, remoteurl, extra_requests_args)

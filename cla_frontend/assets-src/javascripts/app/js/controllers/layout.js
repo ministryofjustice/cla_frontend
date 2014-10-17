@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('LayoutCtrl',
-      ['$rootScope', '$scope', '$window', 'History', 'user', 'hotkeys',
-        function($rootScope, $scope, $window, History, user, hotkeys){
+      ['$rootScope', '$scope', '$window', 'History', 'user', 'hotkeys', 'localStorageService',
+        function($rootScope, $scope, $window, History, user, hotkeys, localStorageService){
           var offStateChange = $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
             if (from.name === 'case_list') {
               History.caseListStateParams = fromParams;
@@ -23,7 +23,17 @@
             description: 'Search cases',
             callback: function(e) {
               e.preventDefault();
-              $('#search [name="q"]').focus();
+              angular.element('#search [name="q"]').focus();
+            }
+          });
+
+          hotkeys.add({
+            combo: '$',
+            description: 'Show call scripts',
+            callback: function(e) {
+              e.preventDefault();
+              $rootScope.showCallScript = !$rootScope.showCallScript;
+              localStorageService.set('showCallScript', $rootScope.showCallScript);
             }
           });
         }

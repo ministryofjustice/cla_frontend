@@ -42,3 +42,13 @@ iframe {
 ng\:form {
   display: block;
 }
+
+
+// entitlement number on case page
+.s-entitlementNum {
+  margin: 14px 0 0;
+
+  @include media(tablet) {
+    float: right;
+  }
+}

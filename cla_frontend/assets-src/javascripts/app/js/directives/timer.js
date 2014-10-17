@@ -49,7 +49,7 @@
 
         $scope.toggleTimer = function() {
           if ($scope.timer.running) {
-            if ($window.confirm('Are you sure you want to cancel the running timer? (time will not be billable')) {
+            if ($window.confirm('Are you sure you want to cancel the running timer? (Time will not be billable)')) {
               $scope.stopTimer();
             }
           } else {

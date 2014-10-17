@@ -1,8 +1,9 @@
 .Pills {
   @include core-19;
   list-style: none;
-  padding: 0 0 15px;
-  margin: 15px 0;
+  padding: 0 0 20px;
+  margin: 20px 0;
+  border-bottom: 1px solid $grey-2;
 
   &--large {
     @include core-24;
