@@ -104,6 +104,10 @@
             });
           };
 
+          $scope.hasSMOD = function () {
+            return $scope.eligibility_check.category === 'family' || $scope.eligibility_check.category === 'debt';
+          };
+
           $scope.hasPartner = function () {
             return $scope.eligibility_check.has_partner && $scope.eligibility_check.has_partner !== '0';
           };
@@ -164,10 +168,17 @@
             $scope.eligibility_check.property_set.splice(index, 1);
           };
           $scope.addProperty = function () {
+            var property = {};
+
             if (typeof $scope.eligibility_check.property_set === 'undefined') {
               $scope.eligibility_check.property_set = [];
             }
-            $scope.eligibility_check.property_set.push({});
+            // if not SMOD, set to not disputed
+            if (!$scope.hasSMOD()) {
+              property.disputed = 0;
+            }
+
+            $scope.eligibility_check.property_set.push(property);
           };
 
           $scope.eligibilityText = function (eligible) {

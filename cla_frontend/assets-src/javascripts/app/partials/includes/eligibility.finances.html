@@ -30,7 +30,7 @@
         </label>
       </div>
 
-      <div class="FormRow cf">
+      <div class="FormRow cf" ng-show="hasSMOD()">
         <p class="FormRow-label">Is the property disputed? <guidance-link doc="eligibility_check#ecg-property_disputed"></guidance-link></p>
 
         <label class="FormRow-option FormRow-option--inline">
@@ -70,7 +70,7 @@
 </section>
 
 <section>
-  <h2 class="FormBlock-label">Your undisputed savings <guidance-link doc="eligibility_check#ecg-undisputed_savings"></guidance-link></h2>
+  <h2 class="FormBlock-label">Your <span ng-show="hasSMOD()">undisputed </span>savings <guidance-link doc="eligibility_check#ecg-undisputed_savings"></guidance-link></h2>
 
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
@@ -108,7 +108,7 @@
 </section>
 
 <section ng-show="hasPartner()">
-  <h2 id="partners_savings-label" class="FormBlock-label">Your partner's undisputed savings</h2>
+  <h2 id="partners_savings-label" class="FormBlock-label">Your partner's <span ng-show="hasSMOD()">undisputed </span>savings</h2>
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
       <label>
@@ -144,7 +144,7 @@
   </div>
 </section>
 
-<section>
+<section ng-show="hasSMOD()">
   <h2 class="FormBlock-label">Disputed savings <guidance-link doc="eligibility_check#ecg-disputed_savings"></guidance-link></h2>
 
   <div class="FormBlock FormBlock--grey">
