@@ -15,6 +15,10 @@
           $rootScope.showCallScript = (localStorageService.get('showCallScript') === 'true');
         }
 
+        scope.state = function () {
+          return $rootScope.showCallScript ? 'on' : 'off';;
+        };
+
         scope.toggle = function () {
           $rootScope.showCallScript = !$rootScope.showCallScript;
           localStorageService.set('showCallScript', $rootScope.showCallScript);
