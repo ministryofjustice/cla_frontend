@@ -112,7 +112,8 @@
       'angular-loading-bar',
       'angulartics',
       'angulartics.piwik',
-      'cfp.hotkeys'
+      'cfp.hotkeys',
+      'LocalStorageModule'
     ])
     .config(common_config)
     .run(common_run);
@@ -156,7 +157,8 @@
       'angular-loading-bar',
       'angulartics',
       'angulartics.piwik',
-      'cfp.hotkeys'
+      'cfp.hotkeys',
+      'LocalStorageModule'
     ])
     .config(common_config)
     .run(common_run);
