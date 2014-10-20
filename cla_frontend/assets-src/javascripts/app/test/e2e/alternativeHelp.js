@@ -78,7 +78,6 @@
         modelsRecipe.Case.createWithInScopeAndEligible().then(function(case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
-
           gotoAltHelp();
 
           browser.findElement(
@@ -95,14 +94,13 @@
               });
             });
 
-
           expect(assignF2fBtn.isEnabled()).toBe(false);
 
-
-          browser.findElement(by.css('textarea[name="notes"]')).sendKeys('test');
+          element(by.css('textarea[name="notes"]')).sendKeys('test');
           expect(assignF2fBtn.isEnabled()).toBe(true);
         });
       });
+
 
       it('should assign f2f', function () {
         browser.getCurrentUrl().then(function (caseUrl) {
@@ -111,7 +109,6 @@
           checkOutcomeCode('SPFN');
         });
       });
-
 
 
       //      An in-scope / eligible case shouldn't see ECF message;
@@ -175,7 +172,7 @@
   }
 
   function declineHelp () {
-    expect(modalHeading.getText()).toBe('Decline Help');
+    expect(modalHeading.getText()).toBe('Decline help');
     expect(element(by.repeater('code in codes')).isPresent()).toBe(true);
     element(by.css('input[name="code"][value="DECL"]')).click();
   }

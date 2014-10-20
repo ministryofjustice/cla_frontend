@@ -60,7 +60,7 @@
         var reject_button = element(by.css('button[name="reject-case"]')),
             reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
             mis_reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="MIS"]')),
-            notes_area = element(by.css('.modal-content textarea[ng-model="notes"]')),
+            notes_area = element(by.css('.modal-content textarea[ng-model="::notes"]')),
             leave_feedback_btn = element(by.css('button[name="add-feedback"]')),
             feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
@@ -112,7 +112,7 @@
             feedback_form = element(by.name('inline-provider-feedback-frm')),
             feedback_issue_select = element(by.css('div#s2id_newFeedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
-            notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="newFeedback.comment"]')),
+            notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="::newFeedback.comment"]')),
             submit_button = element(by.css('button[name="save-feedback"]'));
 
         browser.get(CONSTANTS.providerBaseUrl + case_to_feedback_without_reject_ref + '/');
