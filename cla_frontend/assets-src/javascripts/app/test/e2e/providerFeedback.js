@@ -57,7 +57,7 @@
 
       it('should have example case assigned & ready to reject', function () {
         // case is ready to be rejected/accepted.
-        var reject_button = element(by.css('button[name="reject-case"]')),
+        var reject_button = element(by.name('reject-case')),
             reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
             mis_reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="MIS"]')),
             notes_area = element(by.css('.modal-content textarea[ng-model="::notes"]')),
@@ -68,9 +68,8 @@
 
         browser.get(CONSTANTS.providerBaseUrl + case_to_reject_ref + '/');
 
-        expect(reject_button.isDisplayed()).toBe(true);
-
         //press reject and can see feedback
+        expect(reject_button.isDisplayed()).toBe(true);
         reject_button.click();
 
         expect(reject_code.isDisplayed()).toBe(true);
