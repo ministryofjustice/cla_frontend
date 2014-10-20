@@ -9,25 +9,6 @@
       host = host.replace(/^https?:/, window.location.protocol);
       var socket = io.connect(host);
 
-      // GENERIC CLIENT / SERVER MESSAGES
-
-      socket.on('server', function (message) {
-        postal.channel('cla.operator').publish(
-          message.type, message.data
-        );
-      });
-
-      postal.subscribe({
-        channel: 'models',
-        topic: 'Case.created',
-        callback: function(data) {
-          socket.emit('client', {
-            type: 'case.new',
-            data: data.reference
-          });
-        }
-      });
-
       // USER IDENTIFICATION
 
       postal.subscribe({

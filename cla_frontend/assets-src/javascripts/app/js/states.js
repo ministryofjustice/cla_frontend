@@ -42,19 +42,9 @@
               }
             };
 
-        // push
-        this.newCaseSubscription = postal.subscribe({
-          channel: 'cla.operator',
-          topic: 'case.new',
-          callback: function() {
-            refreshCases(null, true);
-          }
-        });
-
         this.refreshCastListInterval = $interval(refreshCases, 60000);
       }],
       onExit: ['$interval', function($interval) {
-        this.newCaseSubscription.unsubscribe();
         $interval.cancel(this.refreshCastListInterval);
       }],
       getCaseQueryParams: function($stateParams) {
