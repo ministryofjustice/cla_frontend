@@ -69,14 +69,13 @@
         browser.get(CONSTANTS.providerBaseUrl + case_to_reject_ref + '/');
 
         //press reject and can see feedback
-        expect(reject_button.isDisplayed()).toBe(true);
+        expect(reject_button.isPresent()).toBe(true);
         reject_button.click();
 
         expect(reject_code.isDisplayed()).toBe(true);
         expect(mis_reject_code.isDisplayed()).toBe(true);
         reject_code.click();
 
-        expect(notes_area.isDisplayed()).toBe(true);
         notes_area.sendKeys(reject_notes);
 
         expect(leave_feedback_btn.isDisplayed()).toBe(true);
