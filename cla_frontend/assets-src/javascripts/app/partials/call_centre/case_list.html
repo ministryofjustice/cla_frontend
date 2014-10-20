@@ -3,7 +3,7 @@
 
   <span data-block="filters">
     <button type="button" name="person-filter" class="Label is-selected is-removable" ng-if="person.reference" ng-click="backToLatestSearch()">
-      {{ person.full_name }}<span ng-if="person.postcode"> ({{ person.postcode }})</span>
+      {{ ::person.full_name }}<span ng-if="person.postcode"> ({{ ::person.postcode }})</span>
     </button>
   </span>
 
@@ -14,8 +14,8 @@
 
   <span data-block="pd-column">
     <!-- if multi cases -->
-    <a href="" ng-if="!person.reference && case.full_name" ng-click="filterByPerson(case.personal_details)">{{ case.full_name }}<span ng-if="case.case_count > 1"> ({{ case.case_count }})</span></a>
+    <a href="" ng-if="!person.reference && case.full_name" ng-click="filterByPerson(case.personal_details)">{{ ::case.full_name }}<span ng-if="case.case_count > 1"> ({{ ::case.case_count }})</span></a>
     <!-- else -->
-    <span ng-if="person.reference">{{ case.full_name }}</span>
+    <span ng-if="person.reference">{{ ::case.full_name }}</span>
   </span>
 </div>

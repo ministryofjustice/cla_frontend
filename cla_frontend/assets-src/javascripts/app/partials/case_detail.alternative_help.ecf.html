@@ -13,10 +13,10 @@
   <div class="FormBlock FormBlock--yellow">
     <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="statement in ecf_statements">
       <label class="FormRow-label">
-        <input type="radio" value="{{ statement.key }}" ng-model="case.ecf_statement" name="ecf_statement" required>
+        <input type="radio" value="{{ ::statement.key }}" ng-model="::case.ecf_statement" name="ecf_statement" required>
         <span class="FormRow-labelText">
-          {{ statement.label }}
-          <span class="u-mute u-block" ng-if="statement.text">{{ statement.text }}</span>
+          {{ ::statement.label }}
+          <span class="u-mute u-block" ng-if="statement.text">{{ ::statement.text }}</span>
         </span>
       </label>
     </div>

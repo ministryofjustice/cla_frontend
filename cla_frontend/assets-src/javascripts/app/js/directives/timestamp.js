@@ -12,7 +12,7 @@
         },
         link: function(scope) {
           var builtInDateFilter = filter('date');
-          scope.formattedDate = builtInDateFilter('EEEE, dd MMMM yyyy @ HH:mm', scope.date);
+          scope.formattedDate = builtInDateFilter(scope.date, 'EEEE, dd MMMM yyyy \'at\' HH:mm');
         }
       };
     }]);

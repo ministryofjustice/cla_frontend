@@ -6,7 +6,7 @@
   <div data-block="case-notes-summary" ng-if="case.notes">
     <figure class="CommentBlock Icon Icon--row Icon--comments">
       <cite class="CommentBlock-author">Operator said</cite>
-      <blockquote class="Quote" ng-bind-html="case.notes|nl2br"></blockquote>
+      <blockquote class="Quote" ng-bind-html="::case.notes|nl2br"></blockquote>
     </figure>
   </div>
 </div>

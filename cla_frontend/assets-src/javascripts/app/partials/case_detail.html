@@ -8,7 +8,7 @@
       </h1>
     </div>
     <div class="Grid-col Grid-col--4-5">
-      <p class="Icon Icon--alert Icon--orange u-pullLeft" ng-if="peopleViewingCase.length > 0"><strong>{{ peopleViewingCase|join }}</strong> {{peopleViewingCase.length === 1 ? 'is' : 'are' }} also currently viewing this case</p>
+      <p class="Icon Icon--alert Icon--orange u-pullLeft" ng-if="peopleViewingCase.length > 0"><strong>{{ peopleViewingCase|join }}</strong> {{ peopleViewingCase.length === 1 ? 'is' : 'are' }} also currently viewing this case</p>
       <span data-block="case-actions"></span>
       <timer base-time="case.billable_time"></timer>
     </div>
