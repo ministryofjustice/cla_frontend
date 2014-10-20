@@ -21,6 +21,7 @@
     timerEnabled: function() {
       return true;
     },
+    callScriptEnabled: true,
     statesModule: 'cla.states.operator'
   });
 
@@ -128,6 +129,7 @@
     timerEnabled: function() {
       return false;
     },
+    callScriptEnabled: false,
     statesModule: 'cla.states.provider'
   });
 
