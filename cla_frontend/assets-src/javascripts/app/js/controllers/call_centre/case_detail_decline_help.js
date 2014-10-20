@@ -13,7 +13,7 @@
               resolve: {
                 tplVars: function() {
                   return {
-                    'title': 'Decline Help'
+                    'title': 'Decline help'
                   };
                 },
                 case: function() { return $scope.case; },

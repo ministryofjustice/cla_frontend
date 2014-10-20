@@ -13,7 +13,7 @@
     <div class="FormRow">
       <label for="matter_type1">
         <span class="FormRow-label">Matter type 1</span>
-        <select ui-select2="{allowClear: true}" ng-model="case.matter_type1" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter1_types track by s.code" id="matter_type1" name="matter_type1" data-placeholder="Choose a matter type" class="FormRow-field--full">
+        <select ui-select2="{allowClear: true}" ng-model="::case.matter_type1" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter1_types track by s.code" id="matter_type1" name="matter_type1" data-placeholder="Choose a matter type" class="FormRow-field--full">
           <option value=""></option>
         </select>
       </label>
@@ -22,7 +22,7 @@
     <div class="FormRow">
       <label for="matter_type2">
         <span class="FormRow-label">Matter type 2</span>
-        <select ui-select2="{allowClear: true}" ng-model="case.matter_type2" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter2_types track by s.code" id="matter_type2" name="matter_type2" data-placeholder="Choose a matter type" class="FormRow-field--full">
+        <select ui-select2="{allowClear: true}" ng-model="::case.matter_type2" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter2_types track by s.code" id="matter_type2" name="matter_type2" data-placeholder="Choose a matter type" class="FormRow-field--full">
           <option value=""></option>
         </select>
       </label>
@@ -50,12 +50,12 @@
 
   <div ng-show="is_manual && suggested_providers.length > 0">
     <div class="FormRow cf">
-      <input type="text" name="provider-search" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="provider_search">
+      <input type="text" name="provider-search" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="::provider_search">
     </div>
 
     <div class="FormRow FormRow--group" ng-repeat="provider in suggested_providers | filter:provider_search">
       <label class="FormRow-label FormRow-label--odd">
-        <input name="provider" type="radio" ng-model="$parent.selected_provider" ng-value="provider">
+        <input name="provider" type="radio" ng-model="::$parent.selected_provider" ng-value="provider">
         <strong>{{ ::provider.name }}</strong>
 
         <p class="FormRow-inner">{{ ::provider.telephone_frontdoor }} (Front door)
@@ -67,7 +67,7 @@
 
     <div class="FormRow cf">
       <label for="notes" class="visuallyhidden">Reassignment notes</label>
-      <textarea name="notes" id="notes" cols="30" rows="4" ng-model="notes" placeholder="Provider reassignment comments"></textarea>
+      <textarea name="notes" id="notes" cols="30" rows="4" ng-model="::notes" placeholder="Provider reassignment comments"></textarea>
     </div>
   </div>
 

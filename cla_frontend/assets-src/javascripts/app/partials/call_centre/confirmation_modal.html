@@ -1,12 +1,12 @@
 <header>
-  <h2>{{ tplVars.title }}</h2>
+  <h2>{{ ::tplVars.title }}</h2>
 </header>
 
 <div class="Notice">
-  <p ng-bind-html="tplVars.message"></p>
+  <p ng-bind-html="::tplVars.message"></p>
 </div>
 
 <div class="FormActions">
-  <button type="button" name="modal-confirm" class="Button" ng-click="confirm()">{{ tplVars.buttonText }}</button>
+  <button type="button" name="modal-confirm" class="Button" ng-click="confirm()">{{ ::tplVars.buttonText }}</button>
   <button type="button" name="modal-cancel" class="Button Button--text" ng-click="cancel()">Cancel</a>
 </div>
