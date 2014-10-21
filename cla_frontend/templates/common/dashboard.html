@@ -5,14 +5,13 @@
 {% block html_attrs %}{% block ng_app %}{% endblock ng_app %} ng-csp{% endblock %}
 
 {% block user_details %}{% verbatim %}
-{{ user.username }}
+{{ ::user.username }}
 {% endverbatim %}{% endblock user_details %}
 
 
 {% block messages %}{% verbatim %}
 <div class="NoticeContainer--fixed" sticky>
-  <div class="Notice warning ng-cloak" ng-if="multipleTabsOpen > 1">You currently have <strong>{{ multipleTabsOpen }} tabs open</strong>.</div>
-  <div class="Notice warning ng-cloak" ng-if="timerRunning === false"><strong>Timer not running</strong>: please note that whatever you do will not be billable.</div>
+  <div class="Notice warning ng-cloak" ng-if="multipleTabsOpen > 1">You currently have <strong>{{ ::multipleTabsOpen }} tabs open</strong>.</div>
 
   <flash-messages></flash-messages>
 </div>
@@ -21,13 +20,14 @@
 
 {% block timer %}
 <timer start-button="true" class="Timer--inline"></timer>
+<call-script-toggle />
 {% endblock timer %}
 
 
 {% block search %}{% verbatim %}
 <form id="search" class="CaseSearch"  role="search" ng-controller="SearchCtrl" ng-submit="submit()">
   <div class="CaseSearch-inner cf">
-    <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query" ng-model="search" autocomplete="off" placeholder="Search cases">
+    <input type="text" name="q" id="case-search" title="Search" class="CaseSearch-query" ng-model="::search" autocomplete="off" placeholder="Search cases">
     <input class="CaseSearch-submit" type="submit" value="Search" name="case-search-submit">
   </div>
 </form>

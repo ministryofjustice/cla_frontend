@@ -6,7 +6,11 @@
   <div data-block="case-notes-summary" ng-if="case.provider_notes">
     <figure class="CommentBlock Icon Icon--row Icon--comments">
       <cite class="CommentBlock-author">Provider said</cite>
-      <blockquote class="Quote" ng-bind-html="case.provider_notes|nl2br"></blockquote>
+      <blockquote class="Quote" ng-bind-html="::case.provider_notes|nl2br"></blockquote>
     </figure>
   </div>
+
+  <li data-block="extra-tabs" class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.assign'), 'is-disabled': !case.isInScopeAndEligible()}">
+    <a ui-sref="case_detail.assign" class="Tabs-tabLink">Assign</a>
+  </li>
 </div>

@@ -1,4 +1,5 @@
-<div class="Timer" ng-show="isEnabled">
-  <a href="#" class="Timer-button Icon" ng-if="startButton" ng-click="toggleTimer()" ng-class="{'Icon--timer': timer.running, 'Icon--play': !timer.running}"></a>
+<div class="Timer" ng-show="isEnabled" ng-class="{'is-unstarted': timer.running === false, 'is-hovered': hover}" ng-mouseover="hover=true" ng-mouseleave="hover=false" ng-click="toggleTimer(startButton)">
+  <span class="Timer-warning" ng-if="startButton && timer.running === false"><i class="Icon Icon--alert Icon--orange"></i>Timer not running</span class="Timer-warning">
+  <i class="Timer-icon" ng-if="startButton"></i>
   <span class="Timer-value">{{ timer.value }}</span>
 </div>

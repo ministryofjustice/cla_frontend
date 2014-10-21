@@ -4,13 +4,18 @@
   &--inline {
     color: $white;
     float: right;
+    cursor: pointer;
 
     @include media(desktop) {
-      padding-top: 4px;
-      padding-right: 10px;
+      padding-top: 6px;
+      padding-right: 15px;
       clear: none;
     }
   }
+}
+
+.Timer-warning {
+  margin-right: 5px;
 }
 
 .Timer-value {
@@ -24,17 +29,29 @@
     color: $white;
     min-width: 65px;
     padding-top: 0;
-    top: 2px;
+    top: 1px;
   }
 }
 
-.Timer-button {
+.Timer-icon {
+  @extend .Icon;
+  @extend .Icon--timer;
   @include inline-block;
-  margin-right: 6px;
+  margin: 0 4px;
+
+  .is-hovered & {
+    @extend .Icon--stop;
+  }
+  .is-hovered.is-unstarted & {
+    @extend .Icon--play;
+  }
 
   &:link, &:visited, &:active, &:before, &:focus {
-    color: $white;
+    .is-unstarted & {
+      color: $orange;
+    }
   }
+
   &:before {
     margin-right: 0;
   }

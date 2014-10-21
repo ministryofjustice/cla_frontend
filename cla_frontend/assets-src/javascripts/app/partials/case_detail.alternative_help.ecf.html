@@ -2,10 +2,10 @@
   <h2>Exceptional case funding</h2>
 </header>
 
-<div class="ScriptBlock">
+<call-script>
   <p>Is there anything else we can assist you with today?</p>
   <p>If you require any further assistance please do not hesitate to call us back. We are open from 9am-8pm Monday to Friday and 9am-12:30pm on Saturdays.</p>
-</div>
+</call-script>
 
 <p>Please indicate how you notified the client of the exceptional case funding.</p>
 
@@ -13,10 +13,10 @@
   <div class="FormBlock FormBlock--yellow">
     <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="statement in ecf_statements">
       <label class="FormRow-label">
-        <input type="radio" value="{{ statement.key }}" ng-model="case.ecf_statement" name="ecf_statement" required>
+        <input type="radio" value="{{ ::statement.key }}" ng-model="::case.ecf_statement" name="ecf_statement" required>
         <span class="FormRow-labelText">
-          {{ statement.label }}
-          <span class="u-mute u-block" ng-if="statement.text">{{ statement.text }}</span>
+          {{ ::statement.label }}
+          <span class="u-mute u-block" ng-if="statement.text">{{ ::statement.text }}</span>
         </span>
       </label>
     </div>

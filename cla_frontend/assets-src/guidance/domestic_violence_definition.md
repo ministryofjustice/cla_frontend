@@ -1,10 +1,12 @@
 ---
-title: Domestic violence and abuse
+title: Domestic violence/abuse - definition
 date: "2014-08-06 18:51"
 tags:
   - domestic violence
   - abuse
   - violence
+  - dv
+  - definition
 
 ---
 ##IMPORTANT NOTE - PLEASE READ

@@ -108,7 +108,7 @@
           hotkeys
             .bindTo($scope)
             .add({
-              combo: 'c+c',
+              combo: 'c c',
               description: 'Create case',
               callback: function() {
                 $scope.addCase($scope.person.reference);

@@ -40,7 +40,7 @@ $border-colour: $grey-2;
 }
 
 .FormRow {
-  margin: 0 0 10px;
+  margin: 0 0 20px;
   padding-top: 0;
   padding-bottom: 0;
   position: relative;
@@ -112,7 +112,7 @@ $border-colour: $grey-2;
       margin-left: 15px;
     }
   }
-  
+
   input[type=text],
   input[type=password],
   input[type=email],
@@ -152,7 +152,7 @@ $border-colour: $grey-2;
     }
   }
 
-  // size modifiers 
+  // size modifiers
   input,
   select,
   textarea,
@@ -177,7 +177,7 @@ $border-colour: $grey-2;
       float: left;
     }
   }
-  
+
   // shorten if in column
   .Grid-col--1-3 {
     .FormRow-prefix,
@@ -221,7 +221,7 @@ $border-colour: $grey-2;
   .QuestionPrompt-answer {
     margin: 0;
   }
-  
+
   // modifiers
   &--narrow {
     margin: 0;
@@ -423,5 +423,9 @@ $border-colour: $grey-2;
 }
 
 .FormActions {
-  margin: 20px 0;
+  margin: 20px 0 0;
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
 }

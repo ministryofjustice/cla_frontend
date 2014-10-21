@@ -3,10 +3,11 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal',
-        function($scope, Category, $stateParams, flash, $state, postal){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment){
           $scope.category_list = Category.query();
           $scope.warnings = {};
+          $scope.oneMonthAgo = new Moment().add(1, 'days').subtract(1, 'months').format('Do MMMM, YYYY');
           var all_sections = [{
               title: 'Details',
               state: 'case_detail.edit.eligibility.details',
@@ -103,6 +104,13 @@
             });
           };
 
+          $scope.hasSMOD = function () {
+            return $scope.eligibility_check.category === 'family' || $scope.eligibility_check.category === 'debt';
+          };
+
+          $scope.hasPartner = function () {
+            return $scope.eligibility_check.has_partner && $scope.eligibility_check.has_partner !== '0';
+          };
 
           $scope.isComplete = function (section) {
             var emptyInputs = angular.element('#' + section).find('input, select, textarea').filter(function() {
@@ -160,10 +168,17 @@
             $scope.eligibility_check.property_set.splice(index, 1);
           };
           $scope.addProperty = function () {
+            var property = {};
+
             if (typeof $scope.eligibility_check.property_set === 'undefined') {
               $scope.eligibility_check.property_set = [];
             }
-            $scope.eligibility_check.property_set.push({});
+            // if not SMOD, set to not disputed
+            if (!$scope.hasSMOD()) {
+              property.disputed = 0;
+            }
+
+            $scope.eligibility_check.property_set.push(property);
           };
 
           $scope.eligibilityText = function (eligible) {

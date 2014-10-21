@@ -5,11 +5,11 @@
 <button type="button" class="Button Button--secondary Button--add" ng-hide="showFeedbackFrm" ng-click="showFeedbackFrm=!showFeedbackFrm" name="leave-feedback">Leave feedback</button>
 
 <div ng-show="showFeedbackFrm">
-  <form ng-submit="submit()">
+  <form ng-submit="submit()" name="inline-provider-feedback-frm">
     <label class="FormRow FormRow--narrow cf">
       <select
         id="newFeedback_issue"
-        ng-model="newFeedback.issue"
+        ng-model="::newFeedback.issue"
         ui-select2="{allowClear: true}"
         placeholder="Issue"
         ng-options="s.value as s.text for s in FEEDBACK_ISSUE track by s.value"
@@ -19,7 +19,7 @@
     </label>
 
     <label class="FormRow FormRow--narrow cf">
-      <textarea ng-model="newFeedback.comment" rows="5" ng-required="true" placeholder="Comments"></textarea>
+      <textarea ng-model="::newFeedback.comment" rows="5" ng-required="true" placeholder="Comments"></textarea>
     </label>
 
     <div class="FormActions">
@@ -33,13 +33,13 @@
   <li class="CaseHistory-card" ng-repeat="feedbackItem in feedbackList">
     <span>
       <timestamp ng-model="feedbackItem.created"></timestamp>
-      ({{ feedbackItem.created_by }})
+      ({{ ::feedbackItem.created_by }})
     </span>
 
     <ul class="CaseHistory-log">
       <li class="CaseHistory-logItem cf">
-        <span class="CaseHistory-logItemNotes">{{ (feedbackItem.issue|constantByValue:FEEDBACK_ISSUE).text }}</span>
-        <span class="CaseHistory-logItemNotes">{{ feedbackItem.comment }}</span>
+        <span class="CaseHistory-logItemNotes">{{ ::(feedbackItem.issue|constantByValue:FEEDBACK_ISSUE).text }}</span>
+        <span class="CaseHistory-logItemNotes">{{ ::feedbackItem.comment }}</span>
       </li>
     </ul>
   </li>

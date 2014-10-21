@@ -1,23 +1,23 @@
 <header>
-  <h2>Split case {{ case.reference }}</h2>
+  <h2>Split case {{ ::case.reference }}</h2>
 </header>
 
 <div class="SummaryBlock">
   <div class="SummaryBlock-content Grid">
     <p class="Grid-row cf">
       <span class="Grid-col Grid-col--1-3 u-alignRight">Category of law</span>
-      <span class="Grid-col Grid-col--2-3">{{provider_category.name}}</span>
+      <span class="Grid-col Grid-col--2-3">{{ ::provider_category.name }}</span>
     </p>
     <p class="Grid-row cf">
       <span class="Grid-col Grid-col--1-3 u-alignRight">Matter type</span>
       <span class="Grid-col Grid-col--2-3">
-        {{case.matter_type1}}
-        <br>{{case.matter_type2}}
+        {{ ::case.matter_type1 }}
+        <br>{{ ::case.matter_type2 }}
       </span>
     </p>
     <p class="Grid-row cf">
       <span class="Grid-col Grid-col--1-3 u-alignRight">Assigned to</span>
-      <span class="Grid-col Grid-col--2-3">{{user.provider.name}}</span>
+      <span class="Grid-col Grid-col--2-3">{{ ::user.provider.name }}</span>
     </p>
   </div>
 </div>
@@ -33,7 +33,7 @@
 
       <span class="Grid-col Grid-col--2-3">
         <span class="cf">
-          <select name="category" class="FormRow-field--l" placeholder="Choose category of law" ui-select2 ng-model="$parent.category" ng-options="cat.code as cat.name for cat in categories track by cat.code" required server-error>
+          <select name="category" class="FormRow-field--l" placeholder="Choose category of law" ui-select2 ng-model="::$parent.category" ng-options="cat.code as cat.name for cat in categories track by cat.code" required server-error>
             <option value=""></option>
           </select>
         </span>
@@ -49,10 +49,10 @@
 
       <span class="Grid-col Grid-col--2-3">
         <span class="cf">
-          <select ui-select2 name="matter_type1" placeholder="Choose matter type 1" class="FormRow-field--inline FormRow-field--m" ng-model="$parent.matterType1" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 1} track by matterType.code" ng-disabled="!matterTypes.length" ng-required="matterTypes.length" server-error>
+          <select ui-select2 name="matter_type1" placeholder="Choose matter type 1" class="FormRow-field--inline FormRow-field--m" ng-model="::$parent.matterType1" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 1} track by matterType.code" ng-disabled="!matterTypes.length" ng-required="matterTypes.length" server-error>
             <option value=""></option>
           </select>
-          <select ui-select2 name="matter_type2" placeholder="Choose matter type 2" class="FormRow-field--inline FormRow-field--m" ng-model="$parent.matterType2" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 2} track by matterType.code" ng-disabled="!matterTypes.length" ng-required="matterTypes.length" server-error>
+          <select ui-select2 name="matter_type2" placeholder="Choose matter type 2" class="FormRow-field--inline FormRow-field--m" ng-model="::$parent.matterType2" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 2} track by matterType.code" ng-disabled="!matterTypes.length" ng-required="matterTypes.length" server-error>
             <option value=""></option>
           </select>
         </span>
@@ -70,7 +70,7 @@
       <span class="Error-message" ng-if="split_case_frm.notes.$error.server">{{ errors.notes }}</span>
 
       <span class="Grid-col Grid-col--2-3">
-        <textarea name="notes" cols="30" rows="4" ng-model="$parent.notes" placeholder="Enter comments"></textarea>
+        <textarea name="notes" cols="30" rows="4" ng-model="::$parent.notes" placeholder="Enter comments"></textarea>
       </span>
     </label>
 
@@ -84,16 +84,16 @@
       <span class="Grid-col Grid-col--2-3">
         <span class="FormRow">
           <label class="FormRow-label">
-            <input type="radio" name="internal" value="true" ng-model="$parent.internal" required>
+            <input type="radio" name="internal" value="true" ng-model="::$parent.internal" required>
             <span class="FormRow-labelText">
-              Internally to {{user.provider.name}}
+              Internally to {{ ::user.provider.name }}
               <span class="Error-message" ng-if="errors.internal">{{ errors.internal }}</span>
             </span>
           </label>
         </span>
         <span class="FormRow">
           <label class="FormRow-label">
-            <input type="radio" name="internal" value="false" ng-model="$parent.internal" required>
+            <input type="radio" name="internal" value="false" ng-model="::$parent.internal" required>
             <span class="FormRow-labelText">To operator for assignment</span>
           </label>
         </span>

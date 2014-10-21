@@ -1,20 +1,20 @@
-(function(){
+(function () {
   'use strict';
 
   var utils = require('./_utils'),
       CONSTANTS = require('../protractor.constants');
 
-  describe('Operator Case List', function() {
+  describe('caseList', function () {
     beforeEach(utils.setUp);
 
-    describe('Case list navigation', function () {
-      it('should get case list', function() {
+    describe('An operator', function () {
+      it('should be able to get a case list', function () {
         browser.get(CONSTANTS.callcentreBaseUrl);
 
         expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
       });
 
-      it('should correctly fill the search field, return results and clear the search', function () {
+      it('should fill the search field, return results and clear the search', function () {
         var query = element(by.name('q'));
         var queryBinding = element(by.binding('searchParams.search'));
 

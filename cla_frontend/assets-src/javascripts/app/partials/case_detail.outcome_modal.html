@@ -1,18 +1,18 @@
 <header>
-  <h2>{{tplVars.title}}</h2>
+  <h2>{{ ::tplVars.title }}</h2>
 </header>
 
 <form method="post" novalidate ng-submit="submit(reject_frm)" name="reject_frm">
   <div class="FormBlock FormBlock--yellow">
     <div class="FormRow cf">
-      <input type="text" name="code_search" placeholder="Search codes" class="FormRow-field--l" ng-model="code_search">
+      <input type="text" name="code_search" placeholder="Search codes" class="FormRow-field--l" ng-model="::code_search">
     </div>
 
     <span class="Error-message" ng-if="(reject_frm.code.$error.required) && reject_frm.$dirty">Code is required.</span>
     <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="code in codes | filter:code_search">
       <label class="FormRow-label">
-        <input type="radio" value="{{ code.code }}" ng-model="$parent.event_code" name="code" ng-required="true" server-error>
-        {{ code.code }} <span class="u-mute">- {{ code.description }}</span>
+        <input type="radio" value="{{ ::code.code }}" ng-model="::$parent.event_code" name="code" ng-required="true" server-error>
+        {{ ::code.code }} <span class="u-mute">- {{ ::code.description }}</span>
       </label>
     </div>
 
@@ -21,14 +21,14 @@
     <div class="FormRow cf">
       <label>
         <span class="Error-message" ng-if="(reject_frm.notes.$error.required||errors.comment) && reject_frm.$dirty">Notes are required.</span>
-        <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="notes" placeholder="Notes" server-error></textarea>
+        <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="::notes" placeholder="Notes" server-error></textarea>
       </label>
     </div>
     <div data-block="feedback"></div>
   </div>
 
   <div class="FormActions" data-block="formActions">
-    <button class="Button" type="submit">{{tplVars.buttonText}}</button>
+    <button class="Button" type="submit">{{ ::tplVars.buttonText }}</button>
     <a href="" ng-click="cancel()">Cancel</a>
   </div>
 </form>

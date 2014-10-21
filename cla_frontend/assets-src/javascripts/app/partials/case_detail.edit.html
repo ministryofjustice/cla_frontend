@@ -1,5 +1,5 @@
 <header class="PageHeader cf">
-  <h1>{{ pageTitle || 'Case details' }}</h1>
+  <h1>{{ ::pageTitle || 'Case details' }}</h1>
 </header>
 
 <div ui-view="notes">
@@ -15,15 +15,16 @@
 
 <div data-block="case-notes-summary"></div>
 
-<ui-view name="acceptReject"></ui-view>
+<p class="s-entitlementNum" ng-if="case.isInScopeAndEligible()">Entitlement: {{ ::case.laa_reference }}</p>
 
 <ul class="Tabs"><!--
   --><li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.diagnosis')}">
-    <a ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope diagnosis</a>
+    <a ui-sref="case_detail.edit.diagnosis" class="Tabs-tabLink" ng-class="diagnosisIcon()">Scope</a>
   </li><!--
   --><li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.eligibility'), 'is-disabled': !diagnosis.isInScopeTrue() && !eligibility_check.state}">
-    <a ui-sref="case_detail.edit.eligibility" class="Tabs-tabLink" ng-class="eligibilityIcon()">Financial assessment</a>
+    <a ui-sref="case_detail.edit.eligibility" class="Tabs-tabLink" ng-class="eligibilityIcon()">Finances</a>
   </li><!--
+  --><li data-block="extra-tabs"></li><!--
 --></ul>
 
 <div ui-view=""></div>

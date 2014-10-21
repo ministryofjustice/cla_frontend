@@ -4,16 +4,20 @@
 
   angular.module('cla.controllers.operator')
     .controller('InvalidCtrl',
-    ['$scope', '$modalInstance',
-      function ($scope, $modalInstance) {
+    ['$scope', 'tplVars',
+      function ($scope, tplVars) {
+        // template vars
+        tplVars = angular.extend({
+          'title': 'Missing information'
+        }, tplVars);
+        $scope.tplVars = tplVars;
+
         $scope.close = function () {
-          $modalInstance.dismiss('cancel');
+          $scope.$dismiss('cancel');
         };
 
         $scope.proceed = function() {
-          $modalInstance.close();
-          $scope.case.warned = true;
-          $scope.assign_to_provider();
+          $scope.$close(true);
         };
       }
     ]

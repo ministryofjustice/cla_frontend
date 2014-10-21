@@ -101,15 +101,19 @@ The total amount of money you earned before tax. Check your most recent payslips
 
 <h3 id="ecg-se_drawings">Self Employed Drawings (Before Tax)</h3>
 
-Self Employed Drawings (Before Tax).
+The total amount of money you have drawings from your business for personal use in the last month.
+
+If no drawings have been taken in the last month, or the most recent month’s drawings appear low, then consideration should be given as to whether the client is attempting to deliberately reduce his or her income for the purpose of qualifying for civil legal services. If the client states that they have not taken any drawings from the business for their personal use then enquiries should be made of the client to determine how they have met their day to day living costs during the relevant period.
 
 <h3 id="ecg-benefits">Benefits</h3>
 
-Benefits.
+Other state benefits received each week must be included as a source of income unless exempted.
+
+Some benefits do not need to be declared as income - search the guidance for 'disregarded benefits' to see a list of these. All other benefits should be included as income.
 
 <h3 id="ecg-tax_credits">Tax Credits</h3>
 
-Tax Credits.
+Other tax credits, including Working Tax Credit and Child Tax Credits must be declared.
 
 <h3 id="ecg-child_benefits">Child Benefit (for household)</h3>
 
@@ -119,17 +123,19 @@ Child Benefit (for household).
 
 <h3 id="ecg-maintenance_received">Maintenance Received</h3>
 
-Maintenance Received.
+Any money paid to you, for you or your child’s living expenses, from an ex-partner or the other parent of your child.
+
+Any payments made direct to others on your behalf should also be included e.g. payments made by an ex-partner directly to the mortgage company for the former matrimonial home.
 
 <h3 id="ecg-pension">Pension income</h3>
 
-Pension.
+Note that any pensions paid under the Naval, Military or Air Forces are disregarded.
 
 <h3 id="ecg-other_income">Other income</h3>
 
-Include Child Benefit, pensions, tax credits, income from investments, maintenance payments and employee benefits such as company car and fuel allowances.
+Other income from investments and employee benefits such as company car and fuel allowances.
 
-Some benefits do not need to be declared as income - search the guidance for 'disregarded benefits' to see a list of these. All other benefits should be included as income.
+Please note that any income or assistance that has been made available from other sources, e.g. assistance from friends or relatives with bills, should be treated as income and included here
 
 <h3 id="ecg-self_employed">Are you self employed?</h3>
 

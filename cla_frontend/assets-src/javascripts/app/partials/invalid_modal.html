@@ -1,0 +1,24 @@
+<header>
+  <h2>{{ ::tplVars.title }}</h2>
+</header>
+
+<div class="Error Error--basic" ng-if="tplVars.message" ng-bind-html="::tplVars.message"></div>
+
+<div class="Error Error--basic" ng-if="tplVars.errors.length > 0" data-case-errors>
+  <p>You must correct the following errors before you can proceed:</p>
+  <ul>
+    <li ng-repeat="error in tplVars.errors">{{ ::error.message }}</li>
+  </ul>
+</div>
+
+<div class="Notice" ng-if="tplVars.warnings.length > 0" data-case-warnings>
+  <p>Please make sure you have checked the following warnings before you can proceed:</p>
+  <ul>
+    <li ng-repeat="warning in tplVars.warnings">{{ ::warning.message }}</li>
+  </ul>
+</div>
+
+<div class="FormActions">
+  <button type="button" name="btn-proceed" class="Button" ng-if="tplVars.errors.length === 0" ng-click="proceed()">Continue</button>
+  <a href="" ng-click="close()">Close</a>
+</div>

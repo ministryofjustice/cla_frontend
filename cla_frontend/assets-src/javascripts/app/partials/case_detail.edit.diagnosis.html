@@ -1,21 +1,21 @@
 <form ng-submit="moveDown()" novalidate name="diagnosis-form">
   <section class="SummaryBlock SummaryBlock--compact" ng-if="diagnosis.nodes">
-    <div class="SummaryBlock-content" ng-repeat="statement in diagnosis.nodes" ng-bind-html="statement.label"></div>
+    <div class="SummaryBlock-content" ng-repeat="statement in diagnosis.nodes" ng-bind-html="::statement.label"></div>
     <div class="SummaryBlock-content" ng-if="category">
-      <p><strong>Category of law</strong>: {{category.name}}</p>
+      <p><strong>Category of law</strong>: {{ ::category.name }}</p>
     </div>
   </section>
 
   <div class="FormRow FormRow--group FormRow--groupNarrow FormRow--details" ng-repeat="choice in diagnosis.choices" ng-if="diagnosis.isInScopeUnknown()">
     <label class="FormRow-label">
-      <input type="radio" value="{{ choice.id }}" name="choice" ng-model="diagnosis.current_node_id" required>
+      <input type="radio" value="{{ ::choice.id }}" name="choice" ng-model="::diagnosis.current_node_id" required>
       <div class="FormRow-labelText">
-        <span ng-bind-html="choice.label"></span>
+        <span ng-bind-html="::choice.label"></span>
       </div>
     </label>
     <details ng-if="choice.help_text">
       <summary>Help</summary>
-      <div ng-bind-html="choice.help_text"></div>
+      <div ng-bind-html="::choice.help_text"></div>
     </details>
   </div>
 

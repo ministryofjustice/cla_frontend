@@ -1,5 +1,5 @@
 .ContactBlock {
-  margin: 2em 0 1.5em;
+  margin: 0 0 20px;
 
   &--grey {
     padding: 1em 1.5em;
@@ -9,6 +9,4 @@
 
 .ContactBlock-heading {
   @include bold-36;
-  // padding: 0;
-  // margin: 0 0 0.75em;
 }

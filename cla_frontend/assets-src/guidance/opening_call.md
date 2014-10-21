@@ -7,6 +7,7 @@ tags:
   - guidance
   - client
   - details
+  - prompts
 ---
 
 ## Opening the Call

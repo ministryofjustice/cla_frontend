@@ -1,31 +1,17 @@
-(function(){
+(function () {
   'use strict';
 
   var utils = require('../e2e/_utils'),
       CONSTANTS = require('../protractor.constants.js'),
       modelsRecipe = require('./_modelsRecipe');
 
-  describe('Provider Feedback', function() {
+  var case_to_reject_ref,
+      case_to_feedback_without_reject_ref,
+      reject_notes = 'this is feedback left with rejection',
+      feedback_notes = 'this is plain feedback';
 
-    function get_provider() {
-      return element(by.css('.ContactBlock-heading')).getText();
-    }
-
-    function do_assign() {
-      element(by.css('[name=assign-provider]')).click();
-    }
-
-    function manually_select_provider() {
-      element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually')).click();
-      element(by.cssContainingText('input[name="provider"] + strong', 'Duncan Lewis')).click();
-    }
-
-    var case_to_reject_ref,
-        case_to_feedback_without_reject_ref,
-        reject_notes = 'this is feedback left with rejection',
-        feedback_notes = 'this is plain feedback';
-
-    describe('As Operator', function () {
+  describe('providerFeedback', function () {
+    describe('An operator', function () {
       beforeEach(utils.setUp);
 
       it('should create a case as operator and assign (manually) to a provider', function () {
@@ -36,7 +22,7 @@
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              manually_select_provider();
+              utils.manuallySelectProvider('Duncan Lewis');
             }
             do_assign();
           });
@@ -51,7 +37,7 @@
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              manually_select_provider();
+              utils.manuallySelectProvider('Duncan Lewis');
             }
             do_assign();
           });
@@ -66,32 +52,30 @@
     });
 
 
-    describe('As Provider', function () {
+    describe('A provider', function () {
       beforeEach(utils.setUpAsProvider);
 
-      it('should have example case assigned & ready to reject', function(){
-        browser.get(CONSTANTS.providerBaseUrl + case_to_reject_ref + '/');
-
+      it('should have example case assigned & ready to reject', function () {
         // case is ready to be rejected/accepted.
-        var reject_button = element(by.css('button[name="reject-case"]')),
+        var reject_button = element(by.name('reject-case')),
             reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
             mis_reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="MIS"]')),
-            notes_area = element(by.css('.modal-content textarea[ng-model="notes"]')),
+            notes_area = element(by.css('.modal-content textarea[ng-model="::notes"]')),
             leave_feedback_btn = element(by.css('button[name="add-feedback"]')),
             feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
             modal_submit = element(by.css('.modal-content button.Button[type="submit"]'));
 
-        expect(reject_button.isDisplayed()).toBe(true);
+        browser.get(CONSTANTS.providerBaseUrl + case_to_reject_ref + '/');
 
         //press reject and can see feedback
+        expect(reject_button.isPresent()).toBe(true);
         reject_button.click();
 
         expect(reject_code.isDisplayed()).toBe(true);
         expect(mis_reject_code.isDisplayed()).toBe(true);
         reject_code.click();
 
-        expect(notes_area.isDisplayed()).toBe(true);
         notes_area.sendKeys(reject_notes);
 
         expect(leave_feedback_btn.isDisplayed()).toBe(true);
@@ -120,32 +104,36 @@
         modal_submit.click();
       });
 
-      it('should have example case assigned & ready to feedback without rejecting', function(){
+      it('should have example case assigned & ready to feedback without rejecting', function () {
         var leave_feedback_btn = element(by.css('button[name="leave-feedback"]')),
             reject_btn = element(by.css('button[name="reject-case"]')),
+            feedback_form = element(by.name('inline-provider-feedback-frm')),
             feedback_issue_select = element(by.css('div#s2id_newFeedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
-            notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="newFeedback.comment"]')),
+            notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="::newFeedback.comment"]')),
             submit_button = element(by.css('button[name="save-feedback"]'));
 
         browser.get(CONSTANTS.providerBaseUrl + case_to_feedback_without_reject_ref + '/');
+
         expect(reject_btn.isPresent()).toBe(true);
+        expect(feedback_form.isDisplayed()).toBe(false);
 
         leave_feedback_btn.click();
 
-        expect(feedback_issue_select.isDisplayed()).toBe(true);
-        feedback_issue_select.click();
+        expect(feedback_form.isDisplayed()).toBe(true);
 
+        // select feedback reason
+        feedback_issue_select.click();
         expect(feedback_issue_select_options.count()).not.toBe(0);
         feedback_issue_select_options.then(function (li) {
           li[0].click();
         });
 
-        expect(notes_area.isDisplayed()).toBe(true);
+        // enter notes
         notes_area.sendKeys(feedback_notes);
 
-        expect(submit_button.isDisplayed()).toBe(true);
-        utils.scrollTo(submit_button);
+        // submit feedback
+        utils.scrollToBottom(submit_button);
         submit_button.click();
       });
 
@@ -219,4 +207,15 @@
       });
     });
   });
+
+  // helpers
+  function get_provider () {
+    return element(by.css('.ContactBlock-heading')).getText();
+  }
+
+  function do_assign () {
+    var assignBtn = element(by.name('assign-provider'));
+    utils.scrollTo(assignBtn);
+    assignBtn.click();
+  }
 })();

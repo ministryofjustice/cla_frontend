@@ -1,8 +1,9 @@
 .Button {
   @include button;
+  margin-right: 10px;
 
-  &:not(:last-child) {
-    margin-right: 10px;
+  &:last-child {
+    margin-right: 0;
   }
 
   // modifiers
@@ -109,6 +110,11 @@
     z-index: 1;
   }
 
+  // modifiers
+  &--light {
+    @include button($grey-4, $grey-2, 0);
+  }
+
   // for round grouping
   &:not(:first-child) {
     margin-left: -1px;
@@ -130,5 +136,30 @@
     @include box-shadow(none);
     background-color: $grey-3;
     color: $black;
+  }
+}
+
+.ToggleButton {
+  @include box-sizing(border-box);
+  @include border-radius(3px);
+  @include core-14;
+  background: none;
+  color: $white;
+  height: 30px;
+  border: 0;
+  padding: 5px 10px;
+  margin: 0 10px 0 0;
+  cursor: pointer;
+
+  &:before {
+    margin-right: 8px;
+  }
+
+  &--light-blue.is-selected {
+    background-color: $light-blue-25;
+    color: $black;
+    &:before {
+      color: $light-blue;
+    }
   }
 }

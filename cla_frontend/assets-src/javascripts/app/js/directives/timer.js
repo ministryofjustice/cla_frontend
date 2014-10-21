@@ -39,21 +39,21 @@
           $scope.timer.stop();
         });
 
-        $scope.startTimer = function() {
+        var startTimer = function() {
           $rootScope.$emit('timer:start');
         };
 
-        $scope.stopTimer = function() {
+        var stopTimer = function() {
           $rootScope.$emit('timer:stop');
         };
 
         $scope.toggleTimer = function() {
-          if ($scope.timer.running) {
-            if ($window.confirm('Are you sure you want to cancel the running timer? (time will not be billable')) {
-              $scope.stopTimer();
+          if ($scope.startButton) {
+            if ($scope.timer.running && $window.confirm('Are you sure you want to cancel the running timer? (Time will not be billable)')) {
+              stopTimer();
+            } else {
+              startTimer();
             }
-          } else {
-            $scope.startTimer();
           }
         };
 
