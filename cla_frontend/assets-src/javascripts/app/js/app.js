@@ -22,7 +22,8 @@
       return true;
     },
     callScriptEnabled: true,
-    statesModule: 'cla.states.operator'
+    statesModule: 'cla.states.operator',
+    tabWarningEnabled: false
   });
 
   var common_run,
@@ -130,7 +131,8 @@
       return false;
     },
     callScriptEnabled: false,
-    statesModule: 'cla.states.provider'
+    statesModule: 'cla.states.provider',
+    tabWarningEnabled: false
   });
 
   angular.module('cla.providerApp',
