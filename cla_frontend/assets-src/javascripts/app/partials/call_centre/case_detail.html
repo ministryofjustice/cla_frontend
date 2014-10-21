@@ -1,7 +1,9 @@
 <div data-extend-template="case_detail.html">
   <nav class="CaseBar-actions BtnGroup" data-block="case-actions">
     <a ui-sref="case_detail.suspend" class="BtnGroup-button BtnGroup-button--light">Suspend</a>
-    <a href="" ng-click="callMeBack()" class="u-block" ng-controller="CallMeBackCtrl">Schedule callback</a>
+    <a href="" ng-click="callMeBack()" class="BtnGroup-button BtnGroup-button--light" ng-controller="CallMeBackCtrl">Schedule callback</a>
     <a ui-sref="case_detail.alternative_help" class="BtnGroup-button BtnGroup-button--light">Alternative help</a>
   </nav>
+
+  <callback-status data-block-prepend="rh-col" case="case"></callback-status>
 </div>

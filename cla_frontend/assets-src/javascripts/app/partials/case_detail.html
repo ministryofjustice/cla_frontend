@@ -13,12 +13,6 @@
       <timer base-time="case.billable_time"></timer>
     </div>
   </div>
-  <div class="Grid-row">
-    <div class="Notice warning ng-cloak" ng-if="case.getCallbackDatetime()">
-      <strong>Callback scheduled for {{ case.getCallbackDatetime()|date:"dd/MM/yyyy HH:mm" }}</strong>
-      <button class="Button Button--secondary }}" type="button" ng-really-message="Please only use this action if you managed to speak with the client. If you want to reschedule or cancel the callback use Close/Callback instead. Do you wish to continue?" ng-really-click="completeCallback()" ng-controller="CompleteCallbackCtrl">Stop callback</button>
-    </div>
-  </div>
 </header>
 
 <div class="Grid">
@@ -33,7 +27,7 @@
     <div class="Grid-col Grid-col--3-5" ui-view full-height data-centre-col></div>
 
     <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour Guidance-buffer">
-      <div class="Grid-colInner">
+      <div class="Grid-colInner" data-block="rh-col">
         <div ui-view="outcome"></div>
         <div ui-view="feedback"></div>
       </div>
