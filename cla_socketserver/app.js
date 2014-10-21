@@ -1,15 +1,37 @@
-var http = require('http')
+var app = require('express')()
   , _ = require('underscore')._
-  , server = http.createServer().listen(8005)
+  , server = require('http').Server(app)
   , io = require('socket.io')(server)
   , nsp = io.of('/socket.io')
+  , bodyParser = require('body-parser')
   , peopleManager = require('./utils/peopleManager')
+  , adminApp = require('./admin')
   , StatsD = require('node-statsd').StatsD
   , statsd = new StatsD({
       host: process.env.STATSD_HOST || 'localhost',
       post: process.env.STATSD_POST || 8125
     });
 
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jade')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+server.listen(8005);
+
+app.use(function(err, req, res, next){
+  // we may use properties of the error object
+  // here and next(err) appropriately, or if
+  // we possibly recovered from the error, simply next().
+  res.status(err.status || 500);
+  res.render('error', { error: err });
+});
+
+// ADMIN
+
+adminApp.install(app, nsp);
+
+
+// SOCKETS
 
 function sendConnStats() {
   console.log('sending to statsd people count: '+peopleManager.getPeopleCount());

@@ -1,0 +1,29 @@
+div
+	form(action='/admin/send-broadcast/', method='POST')
+		h4 Broadcast
+		select(name="msg")
+			for optText, optId in msgOptions
+				option(value=optId) !{optText}
+		input(type="submit", value='Send')
+
+
+div
+	form(action='/admin/send-to-clients/', method='POST')
+		h4 Send to selected sockets
+		select(name="msg")
+			for optText, optId in msgOptions
+				option(value=optId) !{optText}
+		input(type="submit", value='Send')
+
+		ul
+		for person in people
+			li
+				span !{person.username}
+				ul
+					for conn, socketID in person.connections
+						li
+							input(type="checkbox", name="socketID" value=socketID)
+							span !{socketID}
+							ul
+								li app version: !{conn.appVersion}
+								li case viewed: !{conn.caseViewed}
