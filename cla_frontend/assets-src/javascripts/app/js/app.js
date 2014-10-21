@@ -23,6 +23,7 @@
     },
     callScriptEnabled: true,
     callMeBackEnabled: false,
+    caseListRefreshDelay: -1,  // in ms. -1 to disable it
     statesModule: 'cla.states.operator'
   });
 
@@ -132,6 +133,7 @@
     },
     callScriptEnabled: false,
     callMeBackEnabled: false,
+    caseListRefreshDelay: -1,  // in ms. -1 to disable it
     statesModule: 'cla.states.provider'
   });
 

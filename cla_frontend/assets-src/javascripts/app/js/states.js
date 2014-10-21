@@ -33,16 +33,18 @@
       url: APP_BASE_URL+'?person_ref?search?ordering?page?new?accepted?viewed',
       templateUrl: 'case_list.html',
       controller: 'CaseListCtrl',
-      onEnter: ['$state', '$stateParams', 'postal', '$interval', 'cases', function($state, $stateParams, postal, $interval, cases) {
-        var self = this,
-            refreshCases = function(___, force) {
-              // only refresh if force === true or the page is active
-              if (force || !document.hidden) {
-                cases.$query(self.getCaseQueryParams($stateParams));
-              }
-            };
+      onEnter: ['$state', '$stateParams', 'postal', '$interval', 'cases', 'AppSettings', function($state, $stateParams, postal, $interval, cases, AppSettings) {
+        if (AppSettings.caseListRefreshDelay > 0) {
+          var self = this,
+              refreshCases = function(___, force) {
+                // only refresh if force === true or the page is active
+                if (force || !document.hidden) {
+                  cases.$query(self.getCaseQueryParams($stateParams));
+                }
+              };
 
-        this.refreshCastListInterval = $interval(refreshCases, 60000);
+          this.refreshCastListInterval = $interval(refreshCases, AppSettings.caseListRefreshDelay);
+        }
       }],
       onExit: ['$interval', function($interval) {
         $interval.cancel(this.refreshCastListInterval);
