@@ -24,7 +24,8 @@
     callScriptEnabled: true,
     callMeBackEnabled: false,
     caseListRefreshDelay: -1,  // in ms. -1 to disable it
-    statesModule: 'cla.states.operator'
+    statesModule: 'cla.states.operator',
+    tabWarningEnabled: false
   });
 
   var common_run,
@@ -134,7 +135,8 @@
     callScriptEnabled: false,
     callMeBackEnabled: false,
     caseListRefreshDelay: -1,  // in ms. -1 to disable it
-    statesModule: 'cla.states.provider'
+    statesModule: 'cla.states.provider',
+    tabWarningEnabled: false
   });
 
   angular.module('cla.providerApp',
