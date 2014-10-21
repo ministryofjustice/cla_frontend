@@ -22,6 +22,8 @@
       return true;
     },
     callScriptEnabled: true,
+    callMeBackEnabled: false,
+    caseListRefreshDelay: -1,  // in ms. -1 to disable it
     statesModule: 'cla.states.operator',
     tabWarningEnabled: false
   });
@@ -131,6 +133,8 @@
       return false;
     },
     callScriptEnabled: false,
+    callMeBackEnabled: false,
+    caseListRefreshDelay: -1,  // in ms. -1 to disable it
     statesModule: 'cla.states.provider',
     tabWarningEnabled: false
   });

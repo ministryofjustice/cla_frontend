@@ -38,6 +38,13 @@
   margin: 0.75em 0;
   position: relative;
 
+  p:first-child {
+    margin-top: 0;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+
   .NoticeContainer--fixed & {
     margin: 0 10px 10px;
     padding: 0.85em 1em;
@@ -83,6 +90,10 @@
     @extend .Icon;
     @extend .Icon--alert;
     &:before { color: $orange; }
+  }
+  &--secondary {
+    border-left: 3px solid $yellow;
+    background-color: $yellow-25;
   }
   &--closeable {
     cursor: pointer;
