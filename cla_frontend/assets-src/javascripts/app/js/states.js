@@ -22,7 +22,7 @@
         postal.publish({
           channel : 'system',
           topic   : 'user.identified',
-          data    : user.username
+          data    : user
         });
       }]
     };

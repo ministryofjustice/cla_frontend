@@ -1,15 +1,17 @@
 var _ = require('underscore')._;
 
 
-function Person(username) {
+function Person(username, userType) {
   this.username = username;
+  this.userType = userType;
   this.connections = {};
 };
 
-Person.prototype.connect = function(socket) {
+Person.prototype.connect = function(socket, appVersion) {
 	if (typeof this.connections[socket.id] === 'undefined') {
 		this.connections[socket.id] = {
-			caseViewed: null
+			caseViewed: null,
+			appVersion: appVersion
 		};
 	}
 };
@@ -63,6 +65,10 @@ Person.prototype.stopViewingCase = function(socket, caseref) {
 	socket.leave(conn.caseViewed);
 	conn.caseViewed = null;
 };
+
+Person.prototype.getAllAppVersions = function() {
+	return _.pluck(_.values(this.connections), 'appVersion');
+}
 
 
 module.exports = Person;

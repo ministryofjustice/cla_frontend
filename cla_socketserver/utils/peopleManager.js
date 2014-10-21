@@ -6,15 +6,15 @@ var _ = require('underscore')._
 module.exports = {
 	people: {},
 
-	identify: function(nsp, socket, username) {
+	identify: function(nsp, socket, username, userType, appVersion) {
     var person = this.people[username];
     if (typeof person === 'undefined') {
-      person = new Person(username);
+      person = new Person(username, userType);
       this.people[username] = person;
     }
 
     // console.info('identified as '+username);
-    person.connect(socket);
+    person.connect(socket, appVersion);
 	},
 
 	disconnect: function(nsp, socket) {
@@ -76,5 +76,14 @@ module.exports = {
 
   getPeopleCount: function() {
     return _.size(this.people);
+  },
+
+  getVersionCounts: function() {
+    var appVersions = [];
+
+    _.each(_.values(this.people), function(person) {
+      appVersions = appVersions.concat(person.getAllAppVersions());
+    });
+    return _.countBy(appVersions);
   }
 }

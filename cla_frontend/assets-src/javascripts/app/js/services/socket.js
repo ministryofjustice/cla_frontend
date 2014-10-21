@@ -3,70 +3,59 @@
   'use strict';
 
   angular.module('cla.services')
-    .factory('cla.bus', ['postal', '$rootScope', '_', function (postal, $rootScope, _) {
-      // io is global reference to socket.io
-      var host = $('head').data('socketioServer');
-      host = host.replace(/^https?:/, window.location.protocol);
-      var socket = io.connect(host);
+    .factory('cla.bus', ['postal', '$rootScope', '_', 'appUtils', function (postal, $rootScope, _, appUtils) {
 
-      // GENERIC CLIENT / SERVER MESSAGES
+      function init(user) {
+        // io is global reference to socket.io
+        var host = $('head').data('socketioServer');
+        host = host.replace(/^https?:/, window.location.protocol);
+        var socket = io.connect(host);
 
-      /*
-      socket.on('server', function (message) {
-        postal.channel('cla.operator').publish(
-          message.type, message.data
-        );
-      });
+        // USER IDENTIFICATION
 
-      postal.subscribe({
-        channel: 'models',
-        topic: 'Case.created',
-        callback: function(data) {
-          socket.emit('client', {
-            type: 'case.new',
-            data: data.reference
+        socket.on('connect', function() {
+          socket.emit('identify', {
+            'username': user.username,
+            'usertype': appUtils.appName,
+            'appVersion': appUtils.getVersion()
           });
-        }
-      });
-      */
+        });
 
-      // USER IDENTIFICATION
+        // VIEWING CASE
 
-      postal.subscribe({
-        channel: 'system',
-        topic: 'user.identified',
-        callback: function(username) {
-          // console.log('identified');
-          socket.emit('identify', username);
-        }
-      });
+        postal.subscribe({
+          channel: 'system',
+          topic: 'case.startViewing',
+          callback: function(data) {
+            socket.emit('startViewingCase', data.reference);
+          }
+        });
 
-      // VIEWING CASE
+        postal.subscribe({
+          channel: 'system',
+          topic: 'case.stopViewing',
+          callback: function(data) {
+            socket.emit('stopViewingCase', data.reference);
+          }
+        });
 
-      postal.subscribe({
-        channel: 'system',
-        topic: 'case.startViewing',
-        callback: function(data) {
-          socket.emit('startViewingCase', data.reference);
-        }
-      });
-
-      postal.subscribe({
-        channel: 'system',
-        topic: 'case.stopViewing',
-        callback: function(data) {
-          socket.emit('stopViewingCase', data.reference);
-        }
-      });
-
-      socket.on('peopleViewing', function(data) {
-        $rootScope.peopleViewingCase = _.without(data, $rootScope.user.username);
-        $rootScope.$apply();
-        // console.log('got people viewing case: '+$rootScope.peopleViewingCase);
-      });
+        socket.on('peopleViewing', function(data) {
+          $rootScope.peopleViewingCase = _.without(data, $rootScope.user.username);
+          $rootScope.$apply();
+          // console.log('got people viewing case: '+$rootScope.peopleViewingCase);
+        });
+      }
 
       return {
         install: function() {
+
+          postal.subscribe({
+            channel: 'system',
+            topic: 'user.identified',
+            callback: function(user) {
+              init(user);
+            }
+          });
 
         }
       };

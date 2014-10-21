@@ -1,4 +1,5 @@
 var http = require('http')
+  , _ = require('underscore')._
   , server = http.createServer().listen(8005)
   , io = require('socket.io')(server)
   , nsp = io.of('/socket.io')
@@ -10,25 +11,26 @@ var http = require('http')
     });
 
 
-nsp.on('connection', function (socket) {
-  /*
-  socket.on('client', function (data) {
-    socket.broadcast.emit('server', data);
+function sendConnStats() {
+  console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
+  statsd.gauge('people_connected', peopleManager.getPeopleCount());
+
+  var versionCounts = peopleManager.getVersionCounts();
+  _.each(versionCounts, function(value, key) {
+    console.log('version ' + key + ': ' + value);
+    statsd.gauge('people_connected.'+key, value);
   });
-  */
+}
 
-  socket.on('identify', function(username) {
-    peopleManager.identify(nsp, socket, username);
-
-    // console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
-    statsd.gauge('people_connected', peopleManager.getPeopleCount());
+nsp.on('connection', function (socket) {
+  socket.on('identify', function(data) {
+    peopleManager.identify(nsp, socket, data.username || data, data.usertype, data.appVersion);
+    sendConnStats();
   });
 
   socket.on('disconnect', function () {
     peopleManager.disconnect(nsp, socket);
-
-    // console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
-    statsd.gauge('people_connected', peopleManager.getPeopleCount());
+    sendConnStats();
   });
 
   socket.on('startViewingCase', function(caseref) {

@@ -23,6 +23,7 @@
     },
     callScriptEnabled: true,
     statesModule: 'cla.states.operator',
+    appName: 'operator',
     tabWarningEnabled: false
   });
 
@@ -132,6 +133,7 @@
     },
     callScriptEnabled: false,
     statesModule: 'cla.states.provider',
+    appName: 'provider',
     tabWarningEnabled: false
   });
 
