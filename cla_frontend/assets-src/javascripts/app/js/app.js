@@ -22,6 +22,7 @@
       return true;
     },
     callScriptEnabled: true,
+    callMeBackEnabled: false,
     statesModule: 'cla.states.operator'
   });
 
@@ -130,6 +131,7 @@
       return false;
     },
     callScriptEnabled: false,
+    callMeBackEnabled: false,
     statesModule: 'cla.states.provider'
   });
 

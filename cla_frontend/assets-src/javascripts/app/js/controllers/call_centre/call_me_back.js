@@ -3,8 +3,10 @@
 
   angular.module('cla.controllers.operator')
     .controller('CallMeBackCtrl',
-      ['$scope', '$modal',
-        function($scope, $modal){
+      ['$scope', '$modal', 'AppSettings',
+        function($scope, $modal, AppSettings){
+          $scope.callMeBackEnabled = AppSettings.callMeBackEnabled;
+
           $scope.callMeBack = function() {
             $modal.open({
               templateUrl: 'call_centre/case_detail.callmeback_modal.html',

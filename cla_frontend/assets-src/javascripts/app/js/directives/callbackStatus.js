@@ -3,7 +3,7 @@
 
   var mod = angular.module('cla.directives');
 
-  mod.directive('callbackStatus', ['$filter', 'flash', function (filter, flash) {
+  mod.directive('callbackStatus', ['AppSettings', '$filter', 'flash', function (AppSettings, filter, flash) {
     return {
       restrict: 'E',
       transclude: true,
@@ -12,6 +12,12 @@
         'case': '='
       },
       link: function (scope, elm) {
+        // remove if not enabled
+        if (!AppSettings.callMeBackEnabled) {
+          elm.remove();
+          return;
+        }
+
         var builtInDateFilter = filter('date');
 
         scope.time = builtInDateFilter(scope.case.getCallbackDatetime(), 'HH:mm \'on\' d MMM yy');
