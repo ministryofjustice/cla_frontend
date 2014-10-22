@@ -136,7 +136,7 @@ $border-colour: $grey-2;
     width: 100%;
   }
   select {
-    @include core-16;
+    @include core-14;
     display: inline-block;
     border: 1px solid $border-colour;
     padding: 2px 4px;
