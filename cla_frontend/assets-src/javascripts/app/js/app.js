@@ -25,6 +25,7 @@
     callMeBackEnabled: false,
     caseListRefreshDelay: -1,  // in ms. -1 to disable it
     statesModule: 'cla.states.operator',
+    appName: 'operator',
     tabWarningEnabled: false
   });
 
@@ -136,6 +137,7 @@
     callMeBackEnabled: false,
     caseListRefreshDelay: -1,  // in ms. -1 to disable it
     statesModule: 'cla.states.provider',
+    appName: 'provider',
     tabWarningEnabled: false
   });
 
