@@ -72,6 +72,7 @@
   }
 
   &--secondary {
+    @include border-radius(15px);
     padding: 3px 8px 1px;
     background-color: $white;
     color: $grey-1;
