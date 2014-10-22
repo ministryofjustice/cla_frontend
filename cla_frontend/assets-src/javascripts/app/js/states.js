@@ -33,8 +33,23 @@
       url: APP_BASE_URL+'?person_ref?search?ordering?page?new?accepted?viewed',
       templateUrl: 'case_list.html',
       controller: 'CaseListCtrl',
-      resolve: {
-        cases: ['$stateParams', 'Case', function($stateParams, Case){
+      onEnter: ['$state', '$stateParams', 'postal', '$interval', 'cases', 'AppSettings', function($state, $stateParams, postal, $interval, cases, AppSettings) {
+        if (AppSettings.caseListRefreshDelay > 0) {
+          var self = this,
+              refreshCases = function(___, force) {
+                // only refresh if force === true or the page is active
+                if (force || !document.hidden) {
+                  cases.$query(self.getCaseQueryParams($stateParams));
+                }
+              };
+
+          this.refreshCastListInterval = $interval(refreshCases, AppSettings.caseListRefreshDelay);
+        }
+      }],
+      onExit: ['$interval', function($interval) {
+        $interval.cancel(this.refreshCastListInterval);
+      }],
+      getCaseQueryParams: function($stateParams) {
           var params = {
             person_ref: $stateParams.person_ref,
             search: $stateParams.search,
@@ -51,7 +66,11 @@
             params.dashboard = 1;
           }
 
-          return Case.query(params).$promise;
+          return params;
+      },
+      resolve: {
+        cases: ['$stateParams', 'Case', function($stateParams, Case){
+          return Case.query(this.getCaseQueryParams($stateParams)).$promise;
         }],
         person: ['cases', '$stateParams', function(cases, $stateParams) {
           var person_ref = $stateParams.person_ref,
