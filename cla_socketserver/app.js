@@ -34,12 +34,12 @@ adminApp.install(app, nsp);
 // SOCKETS
 
 function sendConnStats() {
-  console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
+  // console.log('sending to statsd people count: '+peopleManager.getPeopleCount());
   statsd.gauge('people_connected', peopleManager.getPeopleCount());
 
   var versionCounts = peopleManager.getVersionCounts();
   _.each(versionCounts, function(value, key) {
-    console.log('version ' + key + ': ' + value);
+    // console.log('version ' + key + ': ' + value);
     statsd.gauge('people_connected.'+key, value);
   });
 }

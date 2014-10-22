@@ -136,7 +136,7 @@ $border-colour: $grey-2;
     width: 100%;
   }
   select {
-    @include core-16;
+    @include core-14;
     display: inline-block;
     border: 1px solid $border-colour;
     padding: 2px 4px;
@@ -254,9 +254,21 @@ $border-colour: $grey-2;
         margin-left: 35px;
         display: block;
 
-        p {
-          padding: 0;
-          margin: 0;
+        &:not(.FormRow-labelText--basic) {
+          p {
+            padding: 0;
+            margin: 0;
+          }
+        }
+
+        &.FormRow-labelText--basic {
+          p {
+            padding: 0;
+            margin: 0;
+          }
+          p:not(:last-child) {
+            margin-bottom: 10px;
+          }
         }
       }
     }
