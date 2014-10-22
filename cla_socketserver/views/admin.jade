@@ -18,7 +18,7 @@ div
 		ul
 		for person in people
 			li
-				span !{person.username}
+				span !{person.username} (!{person.userType})
 				ul
 					for conn, socketID in person.connections
 						li
