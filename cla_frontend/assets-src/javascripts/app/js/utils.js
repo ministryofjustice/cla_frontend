@@ -85,5 +85,23 @@
         });
       };
     }]);
+
+  angular.module('cla.utils')
+    .factory('appUtils', ['AppSettings', function(AppSettings){
+      var version;
+
+      return {
+        getVersion: function() {
+          if (!version) {
+            version = $('script[src*="cla.main"]').attr('src').split('.');
+            version = version[version.length - 2];
+          }
+
+          return version;
+        },
+
+        appName: AppSettings.appName
+      };
+    }]);
 })();
 

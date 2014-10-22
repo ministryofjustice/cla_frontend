@@ -1,4 +1,5 @@
 #!/bin/bash
+! $([[  "$CLA_ENV" == "prod" || "$CLA_ENV" == "staging" ]]) ||  grep sentry /etc/hosts > /dev/null 2>&1 || echo "$SENTRY_IPADDRESS $SENTRY_HOSTNAME" >> /etc/hosts
 cd /home/app/django
 
 python manage.py collectstatic --noinput

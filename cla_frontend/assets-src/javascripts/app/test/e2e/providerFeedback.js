@@ -57,10 +57,10 @@
 
       it('should have example case assigned & ready to reject', function () {
         // case is ready to be rejected/accepted.
-        var reject_button = element(by.css('button[name="reject-case"]')),
+        var reject_button = element(by.name('reject-case')),
             reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
             mis_reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="MIS"]')),
-            notes_area = element(by.css('.modal-content textarea[ng-model="notes"]')),
+            notes_area = element(by.css('.modal-content textarea[ng-model="::notes"]')),
             leave_feedback_btn = element(by.css('button[name="add-feedback"]')),
             feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
@@ -68,16 +68,14 @@
 
         browser.get(CONSTANTS.providerBaseUrl + case_to_reject_ref + '/');
 
-        expect(reject_button.isDisplayed()).toBe(true);
-
         //press reject and can see feedback
+        expect(reject_button.isPresent()).toBe(true);
         reject_button.click();
 
         expect(reject_code.isDisplayed()).toBe(true);
         expect(mis_reject_code.isDisplayed()).toBe(true);
         reject_code.click();
 
-        expect(notes_area.isDisplayed()).toBe(true);
         notes_area.sendKeys(reject_notes);
 
         expect(leave_feedback_btn.isDisplayed()).toBe(true);
@@ -112,7 +110,7 @@
             feedback_form = element(by.name('inline-provider-feedback-frm')),
             feedback_issue_select = element(by.css('div#s2id_newFeedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
-            notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="newFeedback.comment"]')),
+            notes_area = element(by.css('div[ui-view="feedback"] form  textarea[ng-model="::newFeedback.comment"]')),
             submit_button = element(by.css('button[name="save-feedback"]'));
 
         browser.get(CONSTANTS.providerBaseUrl + case_to_feedback_without_reject_ref + '/');

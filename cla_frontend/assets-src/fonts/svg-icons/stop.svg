@@ -6,7 +6,7 @@
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="stop" sketch:type="MSArtboardGroup" fill="#000000">
-            <path d="M372.009,0 L139.991,0 C62.676,0 0,62.685 0,139.991 L0,372.009 C0,449.324 62.685,512 139.991,512 L372.009,512 C449.324,512 512,449.315 512,372.009 L512,139.991 C512,62.676 449.315,0 372.009,0 L372.009,0 Z M136,136 L376,136 L376,376 L136,376 L136,136 Z" id="Imported-Layers" sketch:type="MSShapeGroup"></path>
+            <path d="M256,512 C397.384896,512 512,397.384896 512,256 C512,114.615104 397.384896,0 256,0 C114.615104,0 0,114.615104 0,256 C0,397.384896 114.615104,512 256,512 Z M136,136 L376,136 L376,376 L136,376 L136,136 Z" id="Imported-Layers-2" sketch:type="MSShapeGroup"></path>
         </g>
     </g>
 </svg>

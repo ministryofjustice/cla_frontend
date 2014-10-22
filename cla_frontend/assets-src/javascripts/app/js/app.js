@@ -21,7 +21,12 @@
     timerEnabled: function() {
       return true;
     },
-    statesModule: 'cla.states.operator'
+    callScriptEnabled: true,
+    callMeBackEnabled: false,
+    caseListRefreshDelay: 300000,  // in ms. -1 to disable it
+    statesModule: 'cla.states.operator',
+    appName: 'operator',
+    tabWarningEnabled: false
   });
 
   var common_run,
@@ -128,7 +133,12 @@
     timerEnabled: function() {
       return false;
     },
-    statesModule: 'cla.states.provider'
+    callScriptEnabled: false,
+    callMeBackEnabled: false,
+    caseListRefreshDelay: 300000,  // in ms. -1 to disable it
+    statesModule: 'cla.states.provider',
+    appName: 'provider',
+    tabWarningEnabled: false
   });
 
   angular.module('cla.providerApp',

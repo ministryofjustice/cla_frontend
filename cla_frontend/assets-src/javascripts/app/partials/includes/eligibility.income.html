@@ -112,7 +112,7 @@
     <div class="FormRow">
       <label for="id_dependants-dependants_old" class="cf">
         <span class="FormRow-label">
-          Do you<span ng-if="hasPartner()"> (and your partner)</span> have any dependants aged 16 and over? <guidance-link doc="eligibility_check#ecg-dependants_over_16"></guidance-link>
+          Do you<span ng-if="hasPartner()"> and your partner</span> have any dependants aged 16 and over? <guidance-link doc="eligibility_check#ecg-dependants_over_16"></guidance-link>
         </span>
         <input class="FormRow-field--xs" id="id_dependants-dependants_old" min="0" type="number" ng-model="eligibility_check.dependants_old">
       </label>
@@ -121,7 +121,7 @@
     <div class="FormRow">
       <label for="id_dependants-dependants_young" class="cf">
         <span class="FormRow-label">
-          Do you<span ng-if="hasPartner()"> (and your partner)</span> have any dependants aged 15 and under? <guidance-link doc="eligibility_check#ecg-dependants_under_16"></guidance-link>
+          Do you<span ng-if="hasPartner()"> and your partner</span> have any dependants aged 15 and under? <guidance-link doc="eligibility_check#ecg-dependants_under_16"></guidance-link>
         </span>
         <input class="FormRow-field--xs" id="id_dependants-dependants_young" min="0" type="number" ng-model="eligibility_check.dependants_young">
       </label>

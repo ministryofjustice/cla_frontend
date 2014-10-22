@@ -12,8 +12,8 @@
 --></ul>
 
 <!-- no providers -->
-<div ng-if="providers.count < 1">
-  <p class="Error Error--basic">There are <strong>no providers available</strong> matching your criteria. Please contact a supervisor.</p>
+<div class="Error Error--basic" ng-if="providers.count < 1">
+  <p>There are <strong>no providers available</strong> matching your criteria. Please contact a supervisor.</p>
 </div>
 
 <call-script ng-if="diagnosis.isInScopeTrue() && eligibility_check.isEligibilityFalse()">
@@ -28,18 +28,18 @@
   <div class="SummaryBlock SummaryBlock--compact">
     <div class="SummaryBlock-content" ng-repeat="provider in alternativeHelpService.selected_providers">
       <strong>
-        {{ provider.service_name }}
-        <span ng-if="provider.organisation"> - {{ provider.organisation }}</span>
+        {{ ::provider.service_name }}
+        <span ng-if="provider.organisation"> - {{ ::provider.organisation }}</span>
       </strong>
-      <p ng-if="provider.website"><a href="{{ provider.website }}" target="_blank">{{ provider.website }}</a></p>
-      <p ng-if="provider.description">{{ provider.description }}</p>
-      <p ng-if="provider.how_to_use"><strong>How to use:</strong> {{ provider.how_to_use }}</p>
-      <p ng-if="provider.when_to_use"><strong>When to use:</strong> {{ provider.when_to_use }}</p>
+      <p ng-if="provider.website"><a href="{{ ::provider.website }}" target="_blank">{{ ::provider.website }}</a></p>
+      <p ng-if="provider.description">{{ ::provider.description }}</p>
+      <p ng-if="provider.how_to_use"><strong>How to use:</strong> {{ ::provider.how_to_use }}</p>
+      <p ng-if="provider.when_to_use"><strong>When to use:</strong> {{ ::provider.when_to_use }}</p>
       <div class="Grid">
         <div class="Grid-row cf">
-          <div class="Grid-col Grid-col--1-3">{{ provider.address }}</div>
-          <div class="Grid-col Grid-col--1-3" ng-bind-html="provider.helpline|nl2br"></div>
-          <div class="Grid-col Grid-col--1-3">{{ provider.opening_hours }}</div>
+          <div class="Grid-col Grid-col--1-3">{{ ::provider.address }}</div>
+          <div class="Grid-col Grid-col--1-3" ng-bind-html="::provider.helpline|nl2br"></div>
+          <div class="Grid-col Grid-col--1-3">{{ ::provider.opening_hours }}</div>
         </div>
       </div>
     </div>
@@ -47,11 +47,11 @@
 </details>
 
 <form class="FormRow cf" ng-submit="searchProviders(keyword)">
-  <select ui-select2="{allowClear: true}" name="category" class="FormRow-field--inline FormRow-field--m" data-placeholder="Law category" ng-options="s.id as s.name for s in categories track by s.id" ng-model="selected_category" ng-change="changeCategory(selected_category)">
+  <select ui-select2="{allowClear: true}" name="category" class="FormRow-field--inline FormRow-field--m" data-placeholder="Law category" ng-options="s.id as s.name for s in categories track by s.id" ng-model="::selected_category" ng-change="changeCategory(selected_category)">
     <option value=""></option>
   </select>
 
-  <input type="text" name="keyword" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="keyword">
+  <input type="text" name="keyword" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="::keyword">
   <input class="Search-submit" type="submit" value="Search">
 </form>
 
@@ -63,23 +63,23 @@
       <input
         name="selected_providers"
         type="checkbox"
-        value="{{ provider.id }}"
-        ng-model="alternativeHelpService.selected_ids[provider.id]"
+        value="{{ ::provider.id }}"
+        ng-model="::alternativeHelpService.selected_ids[provider.id]"
         ng-change="toggleProvider(provider)">
       <strong>
-        {{ provider.service_name }}
-        <span ng-if="provider.organisation"> - {{ provider.organisation }}</span>
+        {{ ::provider.service_name }}
+        <span ng-if="provider.organisation"> - {{ ::provider.organisation }}</span>
       </strong>
       <span class="FormRow-inner">
-        <span class="u-block FormRow" ng-if="provider.website"><a href="{{ provider.website }}" target="_blank">{{ provider.website }}</a></span>
-        <span class="u-block FormRow" ng-if="provider.description">{{ provider.description }}</span>
-        <span class="u-block FormRow" ng-if="provider.how_to_use"><strong>How to use:</strong> {{ provider.how_to_use }}</span>
-        <span class="u-block FormRow" ng-if="provider.when_to_use"><strong>When to use:</strong> {{ provider.when_to_use }}</span>
+        <span class="u-block FormRow" ng-if="provider.website"><a href="{{ ::provider.website }}" target="_blank">{{ ::provider.website }}</a></span>
+        <span class="u-block FormRow" ng-if="provider.description">{{ ::provider.description }}</span>
+        <span class="u-block FormRow" ng-if="provider.how_to_use"><strong>How to use:</strong> {{ ::provider.how_to_use }}</span>
+        <span class="u-block FormRow" ng-if="provider.when_to_use"><strong>When to use:</strong> {{ ::provider.when_to_use }}</span>
         <span class="Grid">
           <span class="Grid-row cf">
-            <span class="Grid-col Grid-col--1-3">{{ provider.address }}</span>
-            <span class="Grid-col Grid-col--1-3" ng-bind-html="provider.helpline|nl2br"></span>
-            <span class="Grid-col Grid-col--1-3">{{ provider.opening_hours }}</span>
+            <span class="Grid-col Grid-col--1-3">{{ ::provider.address }}</span>
+            <span class="Grid-col Grid-col--1-3" ng-bind-html="::provider.helpline|nl2br"></span>
+            <span class="Grid-col Grid-col--1-3">{{ ::provider.opening_hours }}</span>
           </span>
         </span>
       </span>
@@ -88,7 +88,7 @@
 
   <div class="FormRow cf">
     <label for="notes" class="visuallyhidden">Reassignment notes</label>
-    <textarea name="notes" id="notes" cols="30" rows="4" ng-model="alternativeHelpService.notes" placeholder="Assignment comments"></textarea>
+    <textarea name="notes" id="notes" cols="30" rows="4" ng-model="::alternativeHelpService.notes" placeholder="Assignment comments"></textarea>
   </div>
 
   <dir-pagination-controls on-page-change="pageChanged(newPageNumber)" data-boundary-links="true"></dir-pagination-controls>

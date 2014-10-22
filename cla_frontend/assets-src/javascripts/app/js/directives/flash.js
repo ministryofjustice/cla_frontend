@@ -79,6 +79,8 @@
             // add msg to list
             $scope.messages = $scope.messages.concat([message]);
           });
+
+          $scope.$apply();
         });
       }
     };

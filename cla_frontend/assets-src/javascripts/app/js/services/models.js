@@ -93,6 +93,14 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.$query = function(params) {
+        var self = this;
+        resource.query(params).$promise.then(function(data) {
+          angular.extend(self, data);
+        });
+        return self;
+      };
+
       resource.prototype.get_suggested_providers = function(as_of){
         var url = '/call_centre/proxy/case/'+this.reference+'/assign_suggest/',
           as_of_datetime;
@@ -104,6 +112,18 @@
         }
 
         return $http.get(url);
+      };
+
+      resource.prototype.canBeCalledBack = function(){
+        return this.created_by !== 'web' && this.callback_attempt < 3;
+      };
+
+      resource.prototype.getCallbackDatetime = function(){
+        return this.requires_action_at;
+      };
+
+      resource.prototype.isFinalCallback = function(){
+        return this.callback_attempt === 2;
       };
 
       resource.prototype.$assign = function(data){
@@ -128,6 +148,25 @@
       resource.prototype.$assign_alternative_help = function (data) {
         var url = url_utils.proxy('case/'+this.reference+'/assign_alternative_help/');
         return $http.post(url, data);
+      };
+
+      resource.prototype.$call_me_back = function(data) {
+        var url = url_utils.proxy('case/'+this.reference+'/call_me_back/');
+        return $http.post(url, data);
+      };
+
+      resource.prototype.$cancel_call_me_back = function() {
+        var url = url_utils.proxy('case/'+this.reference+'/stop_call_me_back/');
+        return $http.post(url, {
+          action: 'cancel'
+        });
+      };
+
+      resource.prototype.$complete_call_me_back = function() {
+        var url = url_utils.proxy('case/'+this.reference+'/stop_call_me_back/');
+        return $http.post(url, {
+          action: 'complete'
+        });
       };
 
       // Provider only endpoints

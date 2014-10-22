@@ -3,12 +3,18 @@
 
   var mod = angular.module('cla.directives');
 
-  mod.directive('callScriptToggle', ['$rootScope', 'localStorageService', function ($rootScope, localStorageService) {
+  mod.directive('callScriptToggle', ['$rootScope', 'localStorageService', 'AppSettings', function ($rootScope, localStorageService, AppSettings) {
     return {
       restrict: 'E',
       transclude: true,
       templateUrl: 'directives/callScriptToggle.html',
-      link: function (scope) {
+      link: function (scope, elm) {
+        // remove if not enabled
+        if (!AppSettings.callScriptEnabled) {
+          elm.remove();
+          return;
+        }
+
         if (localStorageService.get('showCallScript') === null) {
           $rootScope.showCallScript = true;
         } else {
@@ -16,7 +22,7 @@
         }
 
         scope.state = function () {
-          return $rootScope.showCallScript ? 'on' : 'off';;
+          return $rootScope.showCallScript ? 'on' : 'off';
         };
 
         scope.toggle = function () {

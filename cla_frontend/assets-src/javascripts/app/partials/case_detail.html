@@ -8,7 +8,7 @@
       </h1>
     </div>
     <div class="Grid-col Grid-col--4-5">
-      <p class="Icon Icon--alert Icon--orange u-pullLeft" ng-if="peopleViewingCase.length > 0"><strong>{{ peopleViewingCase|join }}</strong> {{peopleViewingCase.length === 1 ? 'is' : 'are' }} also currently viewing this case</p>
+      <p class="Icon Icon--alert Icon--orange u-pullLeft" ng-if="peopleViewingCase.length > 0"><strong>{{ peopleViewingCase|join }}</strong> {{ peopleViewingCase.length === 1 ? 'is' : 'are' }} also currently viewing this case</p>
       <span data-block="case-actions"></span>
       <timer base-time="case.billable_time"></timer>
     </div>
@@ -21,14 +21,13 @@
       <nav class="SubNav">
         <a ui-sref="case_list(caseListStateParams)" class="SubNav-link SubNav-link--back">Back to cases</a>
       </nav>
-
       <div ui-view="personalDetails"></div>
     </div>
 
     <div class="Grid-col Grid-col--3-5" ui-view full-height data-centre-col></div>
 
     <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour Guidance-buffer">
-      <div class="Grid-colInner">
+      <div class="Grid-colInner" data-block="rh-col">
         <div ui-view="outcome"></div>
         <div ui-view="feedback"></div>
       </div>
