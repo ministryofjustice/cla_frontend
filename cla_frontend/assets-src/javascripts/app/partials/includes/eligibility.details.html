@@ -37,15 +37,9 @@
   </div>
 
   <div class="FormRow cf Grid">
-    <div class="FormRow-label">
-      <p class="u-compact">I am now going to read through a list of benefits. Could you please tell me if you<span ng-show="hasPartner()"> (or your partner)</span> receive any of these:</p>
-      <ul>
-        <li>Universal Credit</li>
-        <li>Income Support</li>
-        <li>Income based Job Seekers Allowance</li>
-        <li>Guarantee State Pension Credit or Income Based Employment and Support Allowance</li>
-      </ul>
-    </div>
+    <p class="FormRow-label">
+      Are you<span ng-show="hasPartner()"> or your partner</span> directly or indirectly in receipt of Income Support, Income-based Jobseeker's Allowance, Income-related Employment and Support Allowance or Guarantee Credit?
+    </p>
 
     <label for="id_your_details-passported_benefits_0" class="FormRow-option FormRow-option--inline">
       <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_0" value="1" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()">Yes
