@@ -36,17 +36,11 @@
         };
 
         $scope.canAssign = function () {
-          if($scope.suggested_providers.length < 1) {
-            return false;
-          }
-          if(!$scope.suggested_provider) {
-            return false;
-          }
-          if($scope.case.provider !== null) {
-            return false;
+          if($scope.suggested_providers.length > 0 || $scope.suggested_provider || $scope.case.provider) {
+            return true;
           }
 
-          return true;
+          return false;
         };
 
         $scope.assign = function(form) {
