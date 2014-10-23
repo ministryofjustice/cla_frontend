@@ -40,7 +40,7 @@ function sendConnStats() {
   var versionCounts = peopleManager.getVersionCounts();
   _.each(versionCounts, function(value, key) {
     // console.log('version ' + key + ': ' + value);
-    statsd.gauge('people_connected.'+key, value);
+    statsd.gauge('fe_version.'+key, value);
   });
 }
 
