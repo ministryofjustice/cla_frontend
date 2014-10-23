@@ -10,7 +10,7 @@
   var callMeBackLink = element(by.name('callback'));
   var modal = element(by.css('div.modal'));
 
-  xdescribe('callMeBack', function() {
+  describe('callMeBack', function() {
     beforeEach(utils.setUp);
 
     it('should be able to suspend a case with a CB1 code', function() {

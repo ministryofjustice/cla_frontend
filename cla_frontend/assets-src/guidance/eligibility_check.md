@@ -56,7 +56,9 @@ If you're separated and now living somewhere else, your former home is no longer
 
 <h3 id="ecg-property_share">What percentage of the property do you own?</h3>
 
-If you are the only owner of the property, you own 100% of the property. If two or more people own the property, we assume they own equal shares in it unless you tell us otherwise. (For example, a couple who own their home as joint owners own 50%  of the property each). 
+Select 100% if the property is solely owned by the client or jointly with a partner.
+
+If the property is jointly owned with an opponent enter 50% or enter an appropriate % if another party has any other interest
 
 ## Savings
 

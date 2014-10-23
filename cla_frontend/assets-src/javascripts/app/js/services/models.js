@@ -469,10 +469,31 @@
     }]);
 
   angular.module('cla.services.operator')
-    .factory('Feedback', ['$resource', 'url_utils', function($resource, url_utils) {
-      return $resource(url_utils.proxy('feedback/:reference/'), {'reference': '@reference'}, {
+    .factory('Feedback', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+      var resource = $resource(url_utils.proxy('feedback/:reference/'), {'reference': '@reference'}, {
+        'query':  {
+          method:'GET',
+          isArray:false,
+          transformResponse: function(data, headers) {
+            var _data = transformData(
+                  data, headers, $http.defaults.transformResponse
+                ),
+                results = [];
+
+            angular.forEach(_data.results, function (item) {
+              // jshint -W055
+              results.push(new resource(item));
+              // jshint +W055
+            });
+
+            _data.results = results;
+            return _data;
+          }
+        },
         'patch': {method: 'PATCH'}
       });
+
+      return resource;
     }]);
 
   angular.module('cla.services.provider')

@@ -120,7 +120,7 @@
     },
 
     manuallySelectProvider: function (providerName) {
-      var manualBtn = element(by.cssContainingText('.Button.Button--secondary', 'Assign other provider manually'));
+      var manualBtn = element(by.name('assign-manually'));
       this.scrollTo(manualBtn);
       manualBtn.click();
       element(by.cssContainingText('input[name="provider"] + strong', providerName)).click();
