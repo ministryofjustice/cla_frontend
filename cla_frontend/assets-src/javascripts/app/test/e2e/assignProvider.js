@@ -7,6 +7,8 @@
 
   var notices = element(by.css('.NoticeContainer--fixed'));
   var assignBtn = element(by.name('assign-provider'));
+  var selectedProvHeading = element(by.css('.ContactBlock-heading'));
+  var caseRef, provider;
 
   describe('assignProvider', function () {
     beforeEach(utils.setUp);
@@ -92,6 +94,8 @@
 
       it('should assign case outside office hours without rota set', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function (case_ref) {
+          caseRef = case_ref;
+
           goto_assign(case_ref, '2014-08-01T19:30');
 
           selectOption('matter_type1');
@@ -100,11 +104,24 @@
           // assign first provider in list
           element.all(by.name('provider')).get(0).click();
 
+          // store provider name
+          selectedProvHeading.getText().then(function (text) {
+            provider = text;
+          });
+
           expect(assignBtn.isEnabled()).toBe(true);
           utils.scrollTo(assignBtn);
           assignBtn.click();
           checkAssign(case_ref);
         });
+      });
+
+
+      it('should display selected provider when returning to assign page and prevent re-assigning', function () {
+        browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/assign/');
+
+        expect(assignBtn.isPresent()).toBe(false);
+        expect(selectedProvHeading.getText()).toBe(provider);
       });
     });
   });

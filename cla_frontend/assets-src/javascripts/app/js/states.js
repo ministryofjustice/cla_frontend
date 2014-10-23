@@ -390,10 +390,19 @@
           }
           return deferred.promise;
         }],
-        matter_types: ['MatterType', 'diagnosis', function (MatterType, diagnosis) {
+        MatterTypes: ['MatterType', 'diagnosis', function (MatterType, diagnosis) {
           return MatterType.get({
             category__code: diagnosis.category
           }).$promise;
+        }],
+        Suggestions: ['case', '$stateParams', '$q', function ($case, $stateParams, $q) {
+          var as_of = $stateParams.as_of;
+          var deferred = $q.defer();
+
+          $case.get_suggested_providers(as_of).success(function(data) {
+            deferred.resolve(data);
+          });
+          return deferred.promise;
         }]
       }
     };
