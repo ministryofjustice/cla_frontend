@@ -82,7 +82,7 @@
 
     <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
 
-    <button type="button" class="Button Button--secondary" ng-click="assignManually(true)" ng-if="!is_manual && suggested_providers.length > 0">Assign manually</button>
+    <button type="button" name="assign-manually" class="Button Button--secondary" ng-click="assignManually(true)" ng-if="!is_manual && suggested_providers.length > 0">Assign manually</button>
 
     <button type="button" ng-click="decline_help()" class="Button Button--secondary" ng-if="is_manual && suggested_provider.id" ng-controller="CaseDetailDeclineHelpCtrl">Decline help</button>
 
