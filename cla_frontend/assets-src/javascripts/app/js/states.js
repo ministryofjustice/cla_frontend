@@ -480,14 +480,15 @@
     operatorStates.FeedbackListState = {
       name: 'feedback_list',
       parent: 'layout',
-      url: APP_BASE_URL+'feedback/?start?end',
+      url: APP_BASE_URL+'feedback/?page?start?end',
       templateUrl: 'call_centre/feedback_list.html',
       controller: 'FeedbackListCtrl',
       resolve: {
         feedback: ['$stateParams', 'Feedback', function($stateParams, Feedback){
           var params = {
             start: $stateParams.start,
-            end: $stateParams.end
+            end: $stateParams.end,
+            page: $stateParams.page
           };
 
           return Feedback.query(params).$promise;

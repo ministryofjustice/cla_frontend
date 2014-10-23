@@ -61,7 +61,7 @@
                             scope.$watch(function() {
                                 return $parse(attrs.totalItems)(scope);
                             }, function (result) {
-                                if (0 < result) {
+                                if (0 <= result) {
                                     paginationService.setCollectionLength(result);
                                 }
                             });
