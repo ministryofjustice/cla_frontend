@@ -50,7 +50,7 @@
       restrict: 'E',
       replace: true,
       templateUrl: 'directives/flash_messages.html',
-      link: function(scope, elm) {
+      link: function(scope) {
         scope.messages = [];
 
         scope.levelClassName = function(level) {

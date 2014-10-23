@@ -15,7 +15,7 @@
             $state.go($state.current, {
               'page': $scope.currentPage
             });
-          };
+          }
 
           $scope.pageChanged = function(newPage) {
             $scope.currentPage = newPage;
