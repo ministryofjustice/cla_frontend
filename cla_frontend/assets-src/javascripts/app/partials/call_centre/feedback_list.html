@@ -30,7 +30,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="feedback in feedbackList" ng-if="showRow(feedback)" ng-class="{'is-complete': feedback.resolved}">
+    <tr dir-paginate="feedback in feedbackList.results | itemsPerPage: 20"
+      total-items="feedbackList.count" current-page="currentPage" ng-if="showRow(feedback)" ng-class="{'is-complete': feedback.resolved}">
       <td>
         <input type="checkbox" name="resolved" value="{{ ::feedback.case }}" ng-click="toggleResolved(feedback)" ng-model="::feedback.resolved">
       </td>
@@ -51,3 +52,5 @@
     </tr>
   </tbody>
 </table>
+
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" data-boundary-links="true"></dir-pagination-controls>
