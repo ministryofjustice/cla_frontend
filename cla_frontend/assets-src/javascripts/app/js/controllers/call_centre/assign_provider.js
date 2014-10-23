@@ -2,30 +2,24 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', '$stateParams', 'flash', 'matter_types',
-      function($scope, _, $state, form_utils, $stateParams, flash, matter_types) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions',
+      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions) {
         $scope.is_manual = false;
         $scope.is_spor = false;
         $scope.suggested_providers = [];
-        $scope.matter1_types = _.where(matter_types, {level: 1});
-        $scope.matter2_types = _.where(matter_types, {level: 2});
+        $scope.matter1_types = _.where(MatterTypes, {level: 1});
+        $scope.matter2_types = _.where(MatterTypes, {level: 2});
 
-        var as_of = $stateParams.as_of;
-
-        $scope.case.get_suggested_providers(as_of).success(function(data) {
-          $scope.suggested_providers = data.suggested_provider === null ? data.suitable_providers : _.reject(data.suitable_providers, {
-            id: data.suggested_provider.id
+        // if provider has already been assigned
+        if ($scope.case.provider) {
+          $scope.selected_provider = _.findWhere(Suggestions.suitable_providers, {id: $scope.case.provider});
+        } else {
+          $scope.suggested_providers = Suggestions.suggested_provider === null ? Suggestions.suitable_providers : _.reject(Suggestions.suitable_providers, {
+            id: Suggestions.suggested_provider.id
           });
-          $scope.suggested_provider = data.suggested_provider;
-          $scope.selected_provider = data.suggested_provider;
-
-          $scope.is_manual = data.suggested_provider === null;
-
-          // if provider has already been assigned
-          if ($scope.case.provider) {
-            $scope.selected_provider = _.findWhere(data.suitable_providers, {id: $scope.case.provider});
-          }
-        });
+          $scope.suggested_provider = $scope.selected_provider = Suggestions.suggested_provider;
+          $scope.is_manual = Suggestions.suggested_provider === null;
+        }
 
         $scope.assignManually = function(choice) {
           $scope.is_manual = choice;
@@ -52,10 +46,7 @@
             return false;
           }
 
-
-
           return true;
-          // return ($scope.suggested_providers.length > 0 || $scope.suggested_provider) && ($scope.case.diagnosis_state === 'INSCOPE' && $scope.case.eligibility_state === 'yes');
         };
 
         $scope.assign = function(form) {
