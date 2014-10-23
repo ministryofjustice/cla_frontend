@@ -20,6 +20,11 @@
           $scope.selected_provider = data.suggested_provider;
 
           $scope.is_manual = data.suggested_provider === null;
+
+          // if provider has already been assigned
+          if ($scope.case.provider) {
+            $scope.selected_provider = _.findWhere(data.suitable_providers, {id: $scope.case.provider});
+          }
         });
 
         $scope.assignManually = function(choice) {
@@ -37,7 +42,20 @@
         };
 
         $scope.canAssign = function () {
-          return ($scope.suggested_providers.length > 0 || $scope.suggested_provider) && ($scope.case.diagnosis_state === 'INSCOPE' && $scope.case.eligibility_state === 'yes');
+          if($scope.suggested_providers.length < 1) {
+            return false;
+          }
+          if(!$scope.suggested_provider) {
+            return false;
+          }
+          if($scope.case.provider !== null) {
+            return false;
+          }
+
+
+
+          return true;
+          // return ($scope.suggested_providers.length > 0 || $scope.suggested_provider) && ($scope.case.diagnosis_state === 'INSCOPE' && $scope.case.eligibility_state === 'yes');
         };
 
         $scope.assign = function(form) {

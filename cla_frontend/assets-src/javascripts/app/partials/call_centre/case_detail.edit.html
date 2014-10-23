@@ -10,7 +10,7 @@
     </figure>
   </div>
 
-  <li data-block="extra-tabs" class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.assign'), 'is-disabled': !case.isInScopeAndEligible()}">
+  <li data-block="extra-tabs" class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.assign'), 'is-disabled': !case.isInScopeAndEligible(), 'Icon Icon--right Icon--solidTick Icon--green': case.provider}">
     <a ui-sref="case_detail.assign" class="Tabs-tabLink">Assign</a>
   </li>
 </div>

@@ -75,17 +75,16 @@
     <p class="Error-message">{{ errors.__all__ }}</p>
   </div>
 
-  <div class="FormActions">
-    <button type="submit" name="assign-provider" class="Button" ng-if="canAssign()" ng-disabled="!selected_provider.id || case.provider !== null">Assign provider</button>
+  <div class="FormActions" ng-if="canAssign()">
+    <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id">Assign provider</button>
 
-    <button type="submit" class="Button Button--secondary" ng-click="assignSPOR()" ng-if="canAssign()" ng-disabled="!selected_provider.id || case.provider !== null">Refer for second opinion</button>
+    <button type="submit" class="Button Button--secondary" ng-click="assignSPOR()" ng-disabled="!selected_provider.id">Refer for second opinion</button>
 
-    <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary" ng-disabled="case.provider !== null">Defer assignment</a>
+    <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
 
-    <a class="Button Button--secondary" ng-click="assignManually(true)" ng-if="!is_manual && suggested_providers.length > 0" ng-disabled="case.provider !== null">Assign other provider manually</a>
-    <a ui-sref="case_detail.edit" ng-if="!is_manual">Cancel</a>
+    <button type="button" class="Button Button--secondary" ng-click="assignManually(true)" ng-if="!is_manual && suggested_providers.length > 0">Assign manually</button>
 
-    <a ng-click="decline_help()" class="Button Button--secondary" ng-if="is_manual && suggested_provider.id" ng-controller="CaseDetailDeclineHelpCtrl">Decline help</a>
+    <button type="button" ng-click="decline_help()" class="Button Button--secondary" ng-if="is_manual && suggested_provider.id" ng-controller="CaseDetailDeclineHelpCtrl">Decline help</button>
 
     <a href="" ng-click="assignManually(false)" ng-if="is_manual && suggested_provider.id">Cancel</a>
   </div>
