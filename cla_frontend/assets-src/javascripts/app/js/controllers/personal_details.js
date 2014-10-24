@@ -3,14 +3,15 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'adaptations_metadata', 'mediacodes', '$q', 'flash',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, adaptations_metadata, mediacodes, $q, flash){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'adaptations_metadata', 'mediacodes', '$q', 'flash',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, adaptations_metadata, mediacodes, $q, flash){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
           $scope.language_options = ADAPTATION_LANGUAGES;
           $scope.reasons = THIRDPARTY_REASON;
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
+          $scope.sources = CASE_SOURCE;
           $scope.exempt_user_reason_choices = EXEMPT_USER_REASON;
 
           $scope.language = {};
@@ -87,6 +88,10 @@
 
           if ($scope.case.media_code) {
             $scope.media_code = $scope.case.media_code;
+          }
+
+          if ($scope.case.source) {
+            $scope.source = $scope.case.source;
           }
 
           $scope.mediaCode = function (code) {
@@ -249,6 +254,7 @@
 
             // save media code & exempt_user
             $scope.case.media_code = this.media_code;
+            $scope.case.source = this.source;
 
             $scope.case.$patch().then(function () {
               $scope.media_code = $scope.case.media_code !== null ? $scope.case.media_code : undefined;

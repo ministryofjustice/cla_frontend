@@ -125,6 +125,12 @@
       </span>
     </div>
 
+    <div class="FormRow FormRow--narrow cf">
+      <span class="Icon Icon--source Icon--formRow">
+        <span editable-filterselect="source" e-ng-options="s.value as s.text for s in sources track by s.value" e-name="source" e-server-error></span>
+      </span>
+    </div>
+
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.vulnerable_user.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-if="personaldetails_frm.vulnerable_user.$error.server">{{ errors.vulnerable_user }}</span>
       <span editable-checkbox="personal_details.vulnerable_user" e-name="vulnerable_user" e-title="User is deemed vulnerable"></span>
