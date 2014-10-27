@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'hotkeys',
-        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, hotkeys) {
+      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'hotkeys', 'historicCases',
+        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, hotkeys, historicCases) {
           // PARAMS
           $scope.searchParams = angular.extend({}, $stateParams);
           $scope.searchParams.ordering = $scope.searchParams.ordering || '-priority';
@@ -12,6 +12,8 @@
 
           $scope.cases = cases;
           $scope.person = person;
+          $scope.historicCases = historicCases;
+
 
           // SEARCH ACTIONS
 
