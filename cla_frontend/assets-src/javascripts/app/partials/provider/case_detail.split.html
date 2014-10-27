@@ -33,7 +33,7 @@
 
       <span class="Grid-col Grid-col--2-3">
         <span class="cf">
-          <select name="category" class="FormRow-field--l" placeholder="Choose category of law" ui-select2 ng-model="::$parent.category" ng-options="cat.code as cat.name for cat in categories track by cat.code" required server-error>
+          <select name="category" class="FormRow-field--full" placeholder="Choose category of law" ui-select2 ng-model="::$parent.category" ng-options="cat.code as cat.name for cat in categories track by cat.code" required server-error>
             <option value=""></option>
           </select>
         </span>
@@ -44,20 +44,32 @@
 
     <label class="FormRow Grid-row cf">
       <span class="Grid-col Grid-col--1-3 u-alignRight">
-        <span class="FormRow-label FormRow-label--inline FormRow-label--right">Matter type</span>
+        <span class="FormRow-label FormRow-label--inline FormRow-label--right">Matter type 1</span>
       </span>
 
       <span class="Grid-col Grid-col--2-3">
         <span class="cf">
-          <select ui-select2 name="matter_type1" placeholder="Choose matter type 1" class="FormRow-field--inline FormRow-field--m" ng-model="::$parent.matterType1" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 1} track by matterType.code" ng-disabled="!matterTypes.length" ng-required="matterTypes.length" server-error>
-            <option value=""></option>
-          </select>
-          <select ui-select2 name="matter_type2" placeholder="Choose matter type 2" class="FormRow-field--inline FormRow-field--m" ng-model="::$parent.matterType2" ng-options="matterType.code as matterType.code for matterType in matterTypes | filter:{level: 2} track by matterType.code" ng-disabled="!matterTypes.length" ng-required="matterTypes.length" server-error>
+          <select ui-select2 name="matter_type1" placeholder="Choose matter type 1" class="FormRow-field--inline FormRow-field--full" ng-model="::$parent.matterType1" ng-options="matterType.code as (matterType.code + ' - ' + matterType.description) for matterType in matterTypes | filter:{level: 1} track by matterType.code" ng-disabled="!matterTypes.length" ng-required="matterTypes.length" server-error>
             <option value=""></option>
           </select>
         </span>
 
         <span class="Error-message" ng-if="split_case_frm.matter_type1.$error.server">Matter type 1: {{ errors.matter_type1 }}</span>
+      </span>
+    </label>
+
+    <label class="FormRow Grid-row cf">
+      <span class="Grid-col Grid-col--1-3 u-alignRight">
+        <span class="FormRow-label FormRow-label--inline FormRow-label--right">Matter type 2</span>
+      </span>
+
+      <span class="Grid-col Grid-col--2-3">
+        <span class="cf">
+          <select ui-select2 name="matter_type2" placeholder="Choose matter type 2" class="FormRow-field--inline FormRow-field--full" ng-model="::$parent.matterType2" ng-options="matterType.code as (matterType.code + ' - ' + matterType.description) for matterType in matterTypes | filter:{level: 2} track by matterType.code" ng-disabled="!matterTypes.length" ng-required="matterTypes.length" server-error>
+            <option value=""></option>
+          </select>
+        </span>
+
         <span class="Error-message" ng-if="split_case_frm.matter_type2.$error.server">Matter type 2: {{ errors.matter_type2 }}</span>
       </span>
     </label>
