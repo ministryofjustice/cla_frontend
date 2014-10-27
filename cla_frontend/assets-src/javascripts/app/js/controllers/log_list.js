@@ -34,10 +34,26 @@
               function($scope, $modalInstance, log, Diagnosis) {
                 $scope.diagnosis = new Diagnosis(log.patch);
                 $scope.diagnosisTitle = function () {
-                  return $scope.diagnosis.isInScopeTrue() ? 'In scope' : 'Not in scope';
+                  if ($scope.diagnosis.isInScopeTrue()) {
+                    return 'In scope';
+                  }
+
+                  if ($scope.diagnosis.isInScopeFalse()) {
+                    return 'Not in scope';
+                  }
+
+                  return 'Incomplete Diagnosis';
                 };
                 $scope.diagnosisTitleClass = function () {
-                  return $scope.diagnosis.isInScopeTrue() ? 'Icon Icon--lrg Icon--solidTick Icon--green' : 'Icon Icon--lrg Icon--solidCross Icon--red';
+                  if ($scope.diagnosis.isInScopeTrue()) {
+                    return 'Icon Icon--lrg Icon--solidTick Icon--green';
+                  }
+
+                  if ($scope.diagnosis.isInScopeFalse()) {
+                    return 'Icon Icon--lrg Icon--solidCross Icon--red';
+                  }
+
+                  return 'Icon Icon--lrg';
                 };
                 $scope.close = function () {
                   $modalInstance.dismiss('cancel');
