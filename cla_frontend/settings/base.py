@@ -277,6 +277,11 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SECURITY_WARN_AFTER = 3360
 SESSION_SECURITY_EXPIRE_AFTER = 3600
 
+SESSION_SECURITY_PASSIVE_URLS = [
+    '/call_centre/proxy/case/',
+    '/cla_provider/proxy/case/'
+]
+
 RAVEN_CONFIG = {
     'dsn': os.environ.get('RAVEN_CONFIG_DSN', ''),
     'site': os.environ.get('RAVEN_CONFIG_SITE', '')

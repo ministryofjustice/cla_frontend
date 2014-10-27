@@ -27,6 +27,9 @@
             method:'GET',
             isArray:false,
             transformResponse: function(data, headers) {
+              if (!data) {
+                return data;
+              }
               var _data = transformData(
                     data, headers, $http.defaults.transformResponse
                   ),
@@ -475,6 +478,10 @@
           method:'GET',
           isArray:false,
           transformResponse: function(data, headers) {
+            if (!data) {
+              return data;
+            }
+            
             var _data = transformData(
                   data, headers, $http.defaults.transformResponse
                 ),
