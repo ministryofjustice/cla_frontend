@@ -1,4 +1,9 @@
 <form ng-submit="moveDown()" novalidate name="diagnosis-form">
+  <div class="FormRow FormRow--group FormRow--groupNarrow FormRow--details" ng-if="diagnosis.version_in_conflict">
+    <p>It looks like this scope diagnosis has not been completed. Please delete it and create a new one if necessary.
+    <br>You can access any previous versions from the siderbar on the right.</p>
+  </div>
+
   <section class="SummaryBlock SummaryBlock--compact" ng-if="diagnosis.nodes">
     <div class="SummaryBlock-content" ng-repeat="statement in diagnosis.nodes" ng-bind-html="::statement.label"></div>
     <div class="SummaryBlock-content" ng-if="category">
@@ -22,10 +27,10 @@
   <div class="FormActions">
     <button type="submit" name="diagnosis-new" class="Button" ng-click="createDiagnosis" ng-if="!diagnosis.reference">Create scope diagnosis</button>
 
-    <button type="submit" name="diagnosis-next" class="Button" ng-if="diagnosis.isInScopeUnknown() && diagnosis.reference">Next</button>
-    <button type="button" name="diagnosis-back" class="Button Button--text" ng-if="diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
+    <button type="submit" name="diagnosis-next" class="Button" ng-if="!diagnosis.version_in_conflict && diagnosis.isInScopeUnknown() && diagnosis.reference">Next</button>
+    <button type="button" name="diagnosis-back" class="Button Button--text" ng-if="!diagnosis.version_in_conflict && diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
 
     <a ui-sref="case_detail.edit.eligibility" class="Button" ng-if="diagnosis.isInScopeTrue()">Create financial assessment</a>
-    <button type="button" name="diagnosis-delete" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-if="diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
+    <button type="button" name="diagnosis-delete" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-if="diagnosis.version_in_conflict || diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
   </div>
 </form>
