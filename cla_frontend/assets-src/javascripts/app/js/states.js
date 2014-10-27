@@ -345,6 +345,19 @@
 
     operatorStates.CaseEditDetailState.views['@case_detail'].templateUrl = 'call_centre/case_detail.edit.html';
 
+    operatorStates.CaseEditDetailDiversityState = {
+      parent: 'case_detail.edit',
+      name: 'case_detail.diversity',
+      url: 'diversity/',
+      views: {
+        '@case_detail.edit': {
+          templateUrl:'call_centre/case_detail.diversity.html',
+          controller: 'DiversityCtrl'
+        }
+      },
+      resolve: {}
+    };
+
     operatorStates.CaseEditDetailAssignState = {
       parent: 'case_detail.edit',
       name: 'case_detail.assign',
