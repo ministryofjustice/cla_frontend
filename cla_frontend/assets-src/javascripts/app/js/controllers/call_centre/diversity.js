@@ -2,8 +2,8 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('DiversityCtrl', ['$scope', 'GENDERS', 'ETHNICITIES', 'RELIGIONS', 'SEXUAL_ORIENTATIONS',
-      function($scope, GENDERS, ETHNICITIES, RELIGIONS, SEXUAL_ORIENTATIONS) {
+    .controller('DiversityCtrl', ['$scope', 'Diversity', 'GENDERS', 'ETHNICITIES', 'DISABILITIES', 'RELIGIONS', 'SEXUAL_ORIENTATIONS',
+      function($scope, Diversity, GENDERS, ETHNICITIES, DISABILITIES, RELIGIONS, SEXUAL_ORIENTATIONS) {
         $scope.current = {
           step: 1,
           answer: undefined
@@ -13,20 +13,37 @@
             title: 'Gender',
             name: 'gender',
             options: GENDERS
-          }, {
+          },
+          {
             title: 'Ethnic origin',
             name: 'ethnicity',
             options: ETHNICITIES
-          }, {
+          },
+          {
+            title: 'Disabilities',
+            name: 'disability',
+            options: DISABILITIES
+          },
+          {
             title: 'Religion / belief',
             name: 'religion',
             options: RELIGIONS
-          }, {
+          },
+          {
             title: 'Sexual orientation',
-            name: 'orientation',
+            name: 'sexual_orientation',
             options: SEXUAL_ORIENTATIONS
           }
         ];
+
+        var prepareData = function () {
+          var data = {};
+          for (var i=0; i<$scope.sections.length; i+=1) {
+            var section = $scope.sections[i];
+            data[section.name] = section.answer;
+          }
+          return data;
+        };
 
         $scope.getDisplayLabel = function(val, list) {
           var item = _.findWhere(list, {value: val});
@@ -64,9 +81,19 @@
         };
 
         $scope.save = function (valid) {
-          $scope.nextStep(valid);
+          if (valid) {
+            $scope.nextStep(valid);
 
+            var data = prepareData();
+            data.case_reference = $scope.case.reference;
 
+            var diversity = new Diversity(data);
+            diversity.$save(function () {
+              $scope.personal_details.has_diversity = true;
+            });
+          } else {
+            $scope.submitted = true;
+          }
         };
       }
     ]);

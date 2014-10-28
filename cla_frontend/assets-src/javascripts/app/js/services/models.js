@@ -297,6 +297,13 @@
     }]);
 
   angular.module('cla.services')
+    .factory('Diversity', ['$resource', 'url_utils', function($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/personal_details/set_diversity/'), {case_reference:'@case_reference'});
+
+      return resource;
+    }]);
+
+  angular.module('cla.services')
     .factory('AdaptationsMetadata', ['$resource', 'url_utils', function ($resource, url_utils) {
       var resource = $resource(url_utils.proxy('adaptations/'), {}, {
         'options': {
@@ -481,7 +488,7 @@
             if (!data) {
               return data;
             }
-            
+
             var _data = transformData(
                   data, headers, $http.defaults.transformResponse
                 ),

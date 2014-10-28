@@ -1,45 +1,55 @@
-<section class="SummaryBlock SummaryBlock--compact">
-  <div class="SummaryBlock-content cf" ng-repeat="statement in sections" ng-if="statement.answer">
-    <a class="u-pullRight" href="" ng-click="gotoStep($index+1)">Change answer</a>
-    <p class="u-pullLeft"><strong>{{ ::statement.title }}:</strong> {{ getDisplayLabel(statement.answer, statement.options) }}</p>
-  </div>
-</section>
-
-<form ng-submit="save(frmDiversity.$valid)" novalidate name="frmDiversity">
-
-  <div ng-repeat="section in sections" ng-if="current.step-1 === $index">
-    <h2 class="FormBlock-label">{{ ::section.title }}</h2>
-
-    <div class="FormRow cf">
-      <input type="text" name="code_search" placeholder="Search codes" class="FormRow-field--l" ng-model="::code_search">
+<div ng-if="personal_details.has_diversity">
+  <section class="SummaryBlock SummaryBlock--compact">
+    <div class="SummaryBlock-content">
+      <p>The client has completed diversity monitoring.</p>
     </div>
+  </section>
+</div>
 
-    <div class="FormBlock FormBlock--grey">
-      <div class="Grid">
-        <div class="Grid-row">
-          <div class="Grid-col Grid-col--1-2" ng-repeat="opt in section.options | filter:code_search">
-            <div class="FormRow FormRow--group FormRow--groupNarrow">
-              <label class="FormRow-label">
-                <input type="radio" name="{{ ::section.name }}" value="{{ ::opt.value }}" ng-model="current.answer" required>
-                {{ ::opt.text }}
-              </label>
+<div ng-if="!personal_details.has_diversity">
+  <section class="SummaryBlock SummaryBlock--compact">
+    <div class="SummaryBlock-content cf" ng-repeat="statement in sections" ng-if="statement.answer">
+      <a class="u-pullRight" href="" ng-click="gotoStep($index+1)">Change answer</a>
+      <p class="u-pullLeft"><strong>{{ ::statement.title }}:</strong> {{ getDisplayLabel(statement.answer, statement.options) }}</p>
+    </div>
+  </section>
+
+  <form ng-submit="save(frmDiversity.$valid)" novalidate name="frmDiversity">
+
+    <div ng-repeat="section in sections" ng-if="current.step-1 === $index">
+      <h2 class="FormBlock-label">{{ ::section.title }}</h2>
+
+      <div class="FormRow cf">
+        <input type="text" name="code_search" placeholder="Search codes" class="FormRow-field--l" ng-model="::code_search">
+      </div>
+
+      <div class="FormBlock FormBlock--grey">
+        <div class="Grid">
+          <div class="Grid-row">
+            <div class="Grid-col Grid-col--1-2" ng-repeat="opt in section.options | filter:code_search">
+              <div class="FormRow FormRow--group FormRow--groupNarrow">
+                <label class="FormRow-label">
+                  <input type="radio" name="{{ ::section.name }}" value="{{ ::opt.value }}" ng-model="current.answer" required>
+                  <span class="FormRow-labelText FormRow-labelText--basic">{{ ::opt.text }}</span>
+                </label>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="Error Error--basic" ng-if="frmDiversity.$error && submitted">
-    <p>Please select an choice from the options</p>
-  </div>
+    <div class="Error Error--basic" ng-if="frmDiversity.$error && submitted">
+      <p>Please select an choice from the options</p>
+    </div>
 
-  <div class="FormActions">
-    <button type="button" class="Button" ng-click="nextStep(frmDiversity.$valid)" ng-if="current.step < sections.length">Next</button>
+    <div class="FormActions">
+      <button type="button" class="Button" ng-click="nextStep(frmDiversity.$valid)" ng-if="current.step < sections.length">Next</button>
 
-    <button type="submit" class="Button" ng-if="current.step === sections.length">Save</button>
+      <button type="submit" class="Button" ng-if="current.step === sections.length">Save</button>
 
-    <button type="button" class="Button Button--text" ng-click="previousStep()" ng-if="current.step > 1 && current.step < sections.length">Back</button>
-  </div>
+      <button type="button" class="Button Button--text" ng-click="previousStep()" ng-if="current.step > 1 && current.step < sections.length">Back</button>
+    </div>
 
-</form>
+  </form>
+</div>
