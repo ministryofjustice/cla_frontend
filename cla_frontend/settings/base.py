@@ -294,7 +294,7 @@ ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
     'http://127.0.0.1:8003')
 ADDRESSFINDER_API_TOKEN = os.environ.get('ADDRESSFINDER_API_TOKEN', '')
 
-PIWIK_HOSTNAME = os.environ.get('ENABLE_PIWIK', '')
+PIWIK_HOSTNAME = os.environ.get('PIWIK_HOSTNAME', '')
 
 if 'RAVEN_CONFIG_DSN' in os.environ:
     MIDDLEWARE_CLASSES = (
