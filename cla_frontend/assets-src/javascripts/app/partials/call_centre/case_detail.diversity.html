@@ -44,11 +44,11 @@
     </div>
 
     <div class="FormActions">
-      <button type="button" class="Button" ng-click="nextStep(frmDiversity.$valid)" ng-if="current.step < sections.length">Next</button>
+      <button type="button" class="Button" name="diversity-next" ng-click="nextStep(frmDiversity.$valid)" ng-if="current.step < sections.length">Next</button>
 
-      <button type="submit" class="Button" ng-if="current.step === sections.length">Save</button>
+      <button type="submit" class="Button" name="diversity-save" ng-if="current.step === sections.length">Save</button>
 
-      <button type="button" class="Button Button--text" ng-click="previousStep()" ng-if="current.step > 1 && current.step < sections.length">Back</button>
+      <button type="button" class="Button Button--text" name="diversity-back" ng-click="previousStep()" ng-if="current.step > 1 && current.step < sections.length">Back</button>
     </div>
 
   </form>
