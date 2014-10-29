@@ -49,6 +49,10 @@
       <span>{{ mediaCode(media_code).label }}</span>
     </p>
 
+    <p class="VCard-row Icon Icon--row Icon--source" ng-if="case.source">
+      <span>{{ getDisplayLabel(case.source, sources) }}</span>
+    </p>
+
     <p class="VCard-row u-highlightRed" ng-if="personal_details.vulnerable_user">User is deemed vulnerable</p>
 
     <p class="VCard-row" ng-if="case.exempt_user">User is exempt because: {{ getExemptReasonByCode(case.exempt_user_reason).text }}</p>
@@ -122,6 +126,12 @@
     <div class="FormRow FormRow--narrow cf">
       <span class="Icon Icon--mediaCode Icon--formRow">
         <span editable-filterselect="media_code" e-ng-options="s.code as s.label group by s.group for s in media_codes track by s.code" e-name="media_code" e-data-placeholder="Choose media code" e-server-error></span>
+      </span>
+    </div>
+
+    <div class="FormRow FormRow--narrow cf">
+      <span class="Icon Icon--source Icon--formRow">
+        <span editable-filterselect="source" e-ng-options="s.value as s.text for s in sources track by s.value" e-name="source" data-placeholder="Choose source" e-server-error></span>
       </span>
     </div>
 

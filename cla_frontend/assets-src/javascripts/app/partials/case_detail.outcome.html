@@ -18,6 +18,10 @@
           <a href="" ng-click="showDiagnosisSummary(log)">Diagnosis deleted</a>
         </div>
 
+        <div ng-if="log.code === 'INCOMPLETE_DIAGNOSIS_DELETED'">
+          <a href="" ng-click="showDiagnosisSummary(log)">Incomplete Diagnosis deleted</a>
+        </div>
+
         <div ng-if="log.code === 'DIAGNOSIS_CREATED'">
           <a href="" ng-click="showDiagnosisSummary(log)">Diagnosis created</a>
         </div>

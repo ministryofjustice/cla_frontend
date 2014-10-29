@@ -64,7 +64,6 @@
         };
 
         $rootScope.$on('flash:message', function(__, messages) {
-          console.log('event');
           angular.forEach(messages, function(message) {
             // adding timeout to make msg disappear only if not error msg
             if (message.level !== 'error') {

@@ -89,8 +89,13 @@ STATIC_ROOT = root('static')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+PIWIK_HOSTNAME = os.environ.get('PIWIK_HOSTNAME', '')
+
 CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws:",
     "wss:")
+if PIWIK_HOSTNAME != '':
+    CSP_DEFAULT_SRC += (PIWIK_HOSTNAME,)
+
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 # Additional locations of static files
@@ -277,6 +282,11 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SECURITY_WARN_AFTER = 3360
 SESSION_SECURITY_EXPIRE_AFTER = 3600
 
+SESSION_SECURITY_PASSIVE_URLS = [
+    '/call_centre/proxy/case/',
+    '/cla_provider/proxy/case/'
+]
+
 RAVEN_CONFIG = {
     'dsn': os.environ.get('RAVEN_CONFIG_DSN', ''),
     'site': os.environ.get('RAVEN_CONFIG_SITE', '')
@@ -288,8 +298,6 @@ SOCKETIO_SERVER_URL = os.environ.get('SOCKETIO_SERVER_URL',
 ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
     'http://127.0.0.1:8003')
 ADDRESSFINDER_API_TOKEN = os.environ.get('ADDRESSFINDER_API_TOKEN', '')
-
-PIWIK_HOSTNAME = os.environ.get('ENABLE_PIWIK', '')
 
 if 'RAVEN_CONFIG_DSN' in os.environ:
     MIDDLEWARE_CLASSES = (

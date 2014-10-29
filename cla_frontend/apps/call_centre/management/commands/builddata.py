@@ -15,7 +15,8 @@ from django.templatetags.static import static
 from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
     TITLES, REQUIRES_ACTION_BY, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, \
     DIAGNOSIS_SCOPE, CONTACT_SAFETY, EXEMPT_USER_REASON, ECF_OPTIONS, \
-    FEEDBACK_ISSUE
+    FEEDBACK_ISSUE, CASE_SOURCE, GENDERS, ETHNICITIES, RELIGIONS, \
+    SEXUAL_ORIENTATIONS, DISABILITIES
 
 
 class Command(BaseCommand):
@@ -34,7 +35,13 @@ class Command(BaseCommand):
                                         ('THIRDPARTY_RELATIONSHIP', THIRDPARTY_RELATIONSHIP),
                                         ('ADAPTATION_LANGUAGES', ADAPTATION_LANGUAGES),
                                         ('EXEMPT_USER_REASON', EXEMPT_USER_REASON),
-                                        ('FEEDBACK_ISSUE', FEEDBACK_ISSUE)
+                                        ('FEEDBACK_ISSUE', FEEDBACK_ISSUE),
+                                        ('CASE_SOURCE', CASE_SOURCE),
+                                        ('GENDERS', GENDERS),
+                                        ('ETHNICITIES', ETHNICITIES),
+                                        ('RELIGIONS', RELIGIONS),
+                                        ('SEXUAL_ORIENTATIONS', SEXUAL_ORIENTATIONS),
+                                        ('DISABILITIES', DISABILITIES),
                                         ]:
                 l[json_name] = []
                 for k, v in iterator:
