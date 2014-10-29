@@ -8,7 +8,7 @@
       // 'reporter-hack.js',
       'e2e/caseList.js',
       'e2e/caseList.js',
-      'e2e/case.js',
+      'e2e/multiCases.js',
       'e2e/caseList.js'
     ],
 
@@ -19,10 +19,6 @@
     baseUrl: 'https://cla-frontend.service.dsd.io/',
 
     multiCapabilities: [
-      // {
-      //   browserName: 'chrome',
-      //   count: 5
-      // },
       {
         browserName: 'firefox',
         count: 16,
