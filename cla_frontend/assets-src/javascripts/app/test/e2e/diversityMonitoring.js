@@ -6,6 +6,7 @@
       CONSTANTS = require('../protractor.constants');
 
   var caseRef;
+  var notices = element(by.css('.NoticeContainer--fixed'));
   var diversityTab = element(by.cssContainingText('.Tabs-tabLink', 'Diversity'));
   var sectionTitle = element(by.css('.FormBlock-label'));
   var summary = element(by.css('.SummaryBlock'));
@@ -17,6 +18,14 @@
     beforeEach(utils.setUp);
 
     describe('Operator diversity monitoring', function () {
+      it('should not allow access without personal details object', function () {
+        modelsRecipe.Case.createEmpty().then(function (_caseRef) {
+          browser.get(CONSTANTS.callcentreBaseUrl + _caseRef + '/');
+          element(by.css('[ui-sref="case_detail.diversity"]')).click();
+          expect(notices.getText()).toContain('You must add the client\'s details before completing the diversity questionnaire.');
+        });
+      });
+
       it('should show diversity questions if incomplete', function () {
         modelsRecipe.Case.createWithInScopeAndEligible().then(function (_caseRef) {
           caseRef = _caseRef;
