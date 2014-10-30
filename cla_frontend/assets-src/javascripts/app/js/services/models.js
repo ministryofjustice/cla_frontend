@@ -513,4 +513,8 @@
       });
     }]);
 
+  angular.module('cla.services')
+    .factory('NotesHistory', ['$resource', 'url_utils', function($resource, url_utils) {
+      return $resource(url_utils.proxy('case/:case_reference/notes_history/'), {case_reference: '@case_reference'});
+    }]);
 })();
