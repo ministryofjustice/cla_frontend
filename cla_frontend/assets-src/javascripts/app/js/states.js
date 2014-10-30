@@ -72,17 +72,9 @@
         cases: ['$stateParams', 'Case', function($stateParams, Case){
           return Case.query(this.getCaseQueryParams($stateParams)).$promise;
         }],
-        historicCases: ['$stateParams','HistoricCase', function ($stateParams, HistoricCase) {
-          var params = {
-            search: $stateParams.search,
-            page: $stateParams.hpage
-          };
-          if (!params.search) {
-            return [];
-          }
-          return HistoricCase.query(params).$promise;
-
-        }],
+        historicCases: function () {
+          return [];
+        },
         person: ['cases', '$stateParams', function(cases, $stateParams) {
           var person_ref = $stateParams.person_ref,
               personal_details;
@@ -351,6 +343,16 @@
     var operatorStates = states.getStates(APP_BASE_URL);
 
     operatorStates.CaseListState.templateUrl = 'call_centre/case_list.html';
+    operatorStates.CaseListState.resolve.historicCases = ['$stateParams','HistoricCase', function ($stateParams, HistoricCase) {
+      var params = {
+        search: $stateParams.search,
+        page: $stateParams.hpage
+      };
+      if (!params.search) {
+        return [];
+      }
+      return HistoricCase.query(params).$promise;
+    }];
 
     operatorStates.CaseDetailState.views[''].templateUrl = 'call_centre/case_detail.html';
 
