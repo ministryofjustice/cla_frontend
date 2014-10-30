@@ -32,8 +32,8 @@
   var common_run,
       common_config;
 
-  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$modal', 'AssignProviderValidation',
-    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $modal, AssignProviderValidation) {
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$modal', 'AssignProviderValidation', 'postal',
+    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $modal, AssignProviderValidation, postal) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
@@ -83,6 +83,16 @@
       });
       Timer.install();
       bus.install();
+
+      // set Piwik user id as logged in username
+      postal.subscribe({
+        channel: 'system',
+        topic: 'user.identified',
+        callback: function(user) {
+          window._paq.push(['setUserId', user.username]);
+        }
+      });
+
     }];
 
   common_config = ['$resourceProvider', 'cfpLoadingBarProvider',
