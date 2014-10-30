@@ -1,0 +1,54 @@
+<header class="CaseBar Grid" sticky use-placeholder>
+  <div class="Grid-row">
+    <div class="Grid-col Grid-col--1-5">
+      <h1 class="CaseBar-caseNum Icon Icon--folder">
+        {{ ::historicCase.laa_reference }}
+      </h1>
+    </div>
+    <div class="Grid-col Grid-col--4-5">
+      Viewing a historic case
+    </div>
+  </div>
+</header>
+
+<div class="Grid">
+  <div class="Grid-row">
+    <div class="Grid-col Grid-col--1-5">
+      <div ui-view="personalDetails"></div>
+    </div>
+
+    <div class="Grid-col Grid-col--3-5" ui-view full-height data-centre-col>
+
+      <div class="ContactBlock ContactBlock--grey clearfix">
+        <h2 class="ContactBlock-heading">{{ historicCase.specialist_referred_to }}</h2>
+        <p>
+            {{ historicCase.date_specialist_referred | dob }}
+        </p>
+      </div>
+
+      <p>Area of Law: {{ historicCase.area_of_law }}</p>
+    </div>
+
+    <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour Guidance-buffer">
+      <div class="Grid-colInner" data-block="rh-col">
+        <div ui-view="outcome">
+          <div ui-view="outcome"></div>
+          <ul class="CaseHistory">
+            <li class="CaseHistory-card">
+              <span>
+                <timestamp ng-model="historicCase.outcome_code_date"></timestamp>
+                (Capita Operator)
+              </span>
+              <ul class="CaseHistory-log">
+                <li class="CaseHistory-logItem cf">
+                  <span class="CaseHistory-label">{{ ::historicCase.outcome_code }}</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

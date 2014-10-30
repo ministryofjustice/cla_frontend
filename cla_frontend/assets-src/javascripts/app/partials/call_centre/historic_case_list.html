@@ -1,0 +1,47 @@
+<header class="PageHeader cf">
+
+  <h1 data-block="title">Historic Cases</h1>
+
+  <nav class="Filters">
+    <a class="Label is-selected is-removable" ng-if="search" ui-sref="case_list">"{{ search }}"</a>
+    <span data-block="filters"></span>
+  </nav>
+</header>
+
+
+<table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
+  <thead>
+  <tr>
+    <th>Case Reference</th>
+    <th>Name</th>
+    <th>Postcode</th>
+    <th>Date of Birth</th>
+    <th>Area of Law</th>
+    <th>Modified</th>
+    <th>Last outcome</th>
+  </tr>
+  </thead>
+  <tbody>
+
+
+  <tr dir-paginate="case in historicCases.results | itemsPerPage: 20"
+      total-items="historicCases.count" current-page="currentPage">
+    <td>
+      <a href="" ui-sref="historic_case_detail({reference: case.laa_reference})">{{ case.laa_reference }}</a>
+    </td>
+    <td>
+      {{ ::case.full_name }}
+    </td>
+    <td>{{ ::case.postcode }}</td>
+    <td>{{ ::case.date_of_birth| dob }}</td>
+    <td>{{ ::case.area_of_law }}</td>
+    <td>
+      <timestamp ng-model="case.outcome_code_date"></timestamp>
+    </td>
+    <td><span class="Label Label--secondary" ng-if="case.outcome_code">{{ case.outcome_code }}</span></td>
+  </tr>
+
+  </tbody>
+</table>
+
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" data-boundary-links="true"></dir-pagination-controls>

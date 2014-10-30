@@ -1,0 +1,16 @@
+<section id="personal_details">
+
+  <div class="VCard VCard-view">
+    <h2 class="VCard-title Icon Icon--formRow Icon--user">{{ historicCase.full_name }}</h2>
+
+    <div class="VCard-row Icon Icon--row Icon--location" ng-if="historicCase.postcode">
+      <p class="u-compact" ng-if="historicCase.postcode">{{ historicCase.postcode }}</p>
+    </div>
+
+    <p class="VCard-row Icon Icon--row Icon--dob" ng-if="historicCase.date_of_birth">
+      {{ historicCase.date_of_birth | dob }} (Age {{ historicCase.date_of_birth | ageFromDate }})
+    </p>
+  </div>
+
+</section>
+

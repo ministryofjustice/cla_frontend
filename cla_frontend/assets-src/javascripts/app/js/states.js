@@ -72,6 +72,17 @@
         cases: ['$stateParams', 'Case', function($stateParams, Case){
           return Case.query(this.getCaseQueryParams($stateParams)).$promise;
         }],
+        historicCases: ['$stateParams','HistoricCase', function ($stateParams, HistoricCase) {
+          var params = {
+            search: $stateParams.search,
+            page: $stateParams.hpage
+          };
+          if (!params.search) {
+            return [];
+          }
+          return HistoricCase.query(params).$promise;
+
+        }],
         person: ['cases', '$stateParams', function(cases, $stateParams) {
           var person_ref = $stateParams.person_ref,
               personal_details;
@@ -493,6 +504,48 @@
 
           return Feedback.query(params).$promise;
         }]
+      }
+    };
+
+    operatorStates.HistoricCaseListState = {
+      name: 'historic_list',
+      parent: 'layout',
+      url: APP_BASE_URL+'historic/?search?page',
+      templateUrl: 'call_centre/historic_case_list.html',
+      controller: 'HistoricCaseListCtrl',
+      resolve: {
+        historicCases: ['$stateParams', 'HistoricCase',
+          function ($stateParams, HistoricCase) {
+          var params = {
+            search: $stateParams.search,
+            page: $stateParams.page
+          };
+          if (!params.search) {
+            return {count:0, results: []};
+          }
+          return HistoricCase.query(params).$promise;
+        }]
+      }
+    };
+
+    operatorStates.HistoricCaseDetailState = {
+      name: 'historic_case_detail',
+      parent: 'layout',
+      url: APP_BASE_URL+'historic/{reference:[0-9]{7}}/',
+      resolve: {
+        historicCase: ['$stateParams', 'HistoricCase',
+          function ($stateParams, HistoricCase) {
+            return HistoricCase.get({reference: $stateParams.reference}).$promise;
+          }]
+      },
+      views: {
+        '': {
+          templateUrl: 'call_centre/historic_case_detail.html',
+          controller: 'HistoricCaseDetailCtrl',
+        },
+        'personalDetails@historic_case_detail': {
+          templateUrl: 'call_centre/historic_case_detail.personal_details.html',
+        }
       }
     };
 
