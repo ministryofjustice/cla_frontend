@@ -43,43 +43,52 @@
 
       it('should complete ethnicity questions', function () {
         chooseOption('ethnicity', 'Chinese');
+        utils.scrollToBottom(nextBtn);
         nextBtn.click();
+        utils.scrollToBottom(summary);
         expect(summary.getText()).toContain('Ethnic origin: Chinese');
       });
 
       it('should be able to navigate back', function () {
+        utils.scrollTo(backBtn);
         backBtn.click();
         expect(sectionTitle.getText()).toBe('Ethnic origin');
         assertOption('ethnicity', 'Chinese');
 
+        utils.scrollTo(backBtn);
         backBtn.click();
         expect(sectionTitle.getText()).toBe('Gender');
         assertOption('gender', 'Male');
       });
 
       it('should be able to navigate forwards', function () {
+        utils.scrollTo(nextBtn);
         nextBtn.click();
         expect(sectionTitle.getText()).toBe('Ethnic origin');
         assertOption('ethnicity', 'Chinese');
 
+        utils.scrollTo(nextBtn);
         nextBtn.click();
         expect(sectionTitle.getText()).toBe('Disabilities');
       });
 
       it('should complete disability questions', function () {
         chooseOption('disability', 'BLI - Blind');
+        utils.scrollTo(nextBtn);
         nextBtn.click();
         expect(summary.getText()).toContain('Disabilities: BLI - Blind');
       });
 
       it('should complete religion questions', function () {
         chooseOption('religion', 'Christian');
+        utils.scrollTo(nextBtn);
         nextBtn.click();
         expect(summary.getText()).toContain('Religion / belief: Christian');
       });
 
       it('should complete sexual_orientation questions', function () {
         chooseOption('sexual_orientation', 'Bisexual');
+        utils.scrollTo(saveBtn);
         saveBtn.click();
         expect(summary.getText()).toContain('The client has completed diversity monitoring.');
         expect(diversityTab.getAttribute('class')).toContain('Icon--solidTick Icon--green');
@@ -95,7 +104,10 @@
 
   // helpers
   function chooseOption (name, value) {
-    element(by.css('[type="radio"][name="' + name + '"][value="' + value + '"]')).click();
+    var field = element(by.css('[type="radio"][name="' + name + '"][value="' + value + '"]'));
+
+    // utils.scrollTo(field);
+    field.click();
   }
 
   function assertOption (name, value) {
