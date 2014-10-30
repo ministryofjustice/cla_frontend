@@ -1,16 +1,13 @@
 (function () {
   'use strict';
 
-  var _ = require('lodash');
+  var protractor = require('protractor'),
+      ptor = protractor.getInstance(),
+      _ = require('lodash');
 
   var testConstants = {
     callcentreBaseUrl: 'call_centre/',
     providerBaseUrl: 'provider/',
-    getCallcentreBaseAbsoluteUrl: function() {
-      var protractor = require('protractor');
-
-      return protractor.getInstance().baseUrl + this.callcentreBaseUrl;
-    },
     scope: {
       true: [
         'n115', // Family

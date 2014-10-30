@@ -36,6 +36,10 @@
       login(CONSTANTS.providerBaseUrl + 'login/', 'test_duncanlewis', 'test_duncanlewis');
     },
 
+    getBaseAbsoluteUrl: function(suffix) {
+      return ptor.baseUrl + suffix;
+    },
+
     logout: function () {
       element(by.css('.UserMenu-toggle')).click();
       element(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
