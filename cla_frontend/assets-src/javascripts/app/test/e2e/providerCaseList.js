@@ -68,7 +68,7 @@
         assertContainsCase('TP-9999-0003');
       });
 
-      xit('should filter and show only accepted cases', function () {
+      it('should filter and show only accepted cases', function () {
         clickFilter('Accepted');
         assertCasesLength(1);
         assertContainsCase('TP-9999-0002');

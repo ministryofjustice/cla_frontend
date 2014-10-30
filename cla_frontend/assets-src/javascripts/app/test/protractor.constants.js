@@ -1,9 +1,7 @@
 (function () {
   'use strict';
 
-  var protractor = require('protractor'),
-      ptor = protractor.getInstance(),
-      _ = require('lodash');
+  var _ = require('lodash');
 
   var testConstants = {
     callcentreBaseUrl: 'call_centre/',
