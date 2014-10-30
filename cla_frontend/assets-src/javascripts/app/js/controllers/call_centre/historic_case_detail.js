@@ -3,8 +3,9 @@
 
   angular.module('cla.controllers.operator')
     .controller('HistoricCaseDetailCtrl',
-    ['$scope', 'historicCase',
-      function ($scope, historicCase) {
+    ['$scope', 'historicCase', 'History',
+      function ($scope, historicCase, History) {
+        $scope.caseListStateParams = History.caseListStateParams;
         $scope.historicCase = historicCase;
       }
     ]

@@ -5,28 +5,31 @@
         {{ ::historicCase.laa_reference }}
       </h1>
     </div>
-    <div class="Grid-col Grid-col--4-5">
-      Viewing a historic case
-    </div>
   </div>
 </header>
 
 <div class="Grid">
   <div class="Grid-row">
     <div class="Grid-col Grid-col--1-5">
+      <nav class="SubNav">
+        <a ui-sref="historic_list(caseListStateParams)" class="SubNav-link SubNav-link--back">Back to cases</a>
+      </nav>
       <div ui-view="personalDetails"></div>
     </div>
 
     <div class="Grid-col Grid-col--3-5" ui-view full-height data-centre-col>
+      <header class="PageHeader">
+        <h1>Historic case details</h1>
+      </header>
 
       <div class="ContactBlock ContactBlock--grey clearfix">
-        <h2 class="ContactBlock-heading">{{ historicCase.specialist_referred_to }}</h2>
-        <p>
-            {{ historicCase.date_specialist_referred | dob }}
-        </p>
+        <h2 class="ContactBlock-heading">{{ ::historicCase.specialist_referred_to }}</h2>
+
+        <p><strong>Date assigned:</strong> {{ ::historicCase.date_specialist_referred | dob }}</p>
+
+        <p><strong>Area of Law:</strong> {{ ::historicCase.area_of_law }}</p>
       </div>
 
-      <p>Area of Law: {{ historicCase.area_of_law }}</p>
     </div>
 
     <div class="Grid-col Grid-col--1-5 Grid-col--bg-colour Guidance-buffer">
