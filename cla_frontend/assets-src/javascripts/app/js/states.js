@@ -507,27 +507,6 @@
       }
     };
 
-    operatorStates.HistoricCaseDetailState = {
-      name: 'historic_case_detail',
-      parent: 'layout',
-      url: APP_BASE_URL+'historic/{reference:3[0-9]{7}}/',
-      resolve: {
-        historicCase: ['$stateParams', 'HistoricCase',
-          function ($stateParams, HistoricCase) {
-            return HistoricCase.get({reference: $stateParams.reference}).$promise;
-          }]
-      },
-      views: {
-        '': {
-          templateUrl: 'call_centre/historic_case_detail.html',
-          controller: 'HistoricCaseDetailCtrl',
-        },
-        'personalDetails@historic_case_detail': {
-          templateUrl: 'call_centre/historic_case_detail.personal_details.html',
-        }
-      }
-    };
-
     operatorStates.HistoricCaseListState = {
       name: 'historic_list',
       parent: 'layout',
@@ -549,7 +528,26 @@
       }
     };
 
-
+    operatorStates.HistoricCaseDetailState = {
+      name: 'historic_case_detail',
+      parent: 'layout',
+      url: APP_BASE_URL+'historic/{reference:[0-9]{7}}/',
+      resolve: {
+        historicCase: ['$stateParams', 'HistoricCase',
+          function ($stateParams, HistoricCase) {
+            return HistoricCase.get({reference: $stateParams.reference}).$promise;
+          }]
+      },
+      views: {
+        '': {
+          templateUrl: 'call_centre/historic_case_detail.html',
+          controller: 'HistoricCaseDetailCtrl',
+        },
+        'personalDetails@historic_case_detail': {
+          templateUrl: 'call_centre/historic_case_detail.personal_details.html',
+        }
+      }
+    };
 
     return operatorStates;
   };
