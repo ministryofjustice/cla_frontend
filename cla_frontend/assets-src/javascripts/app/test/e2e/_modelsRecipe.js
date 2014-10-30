@@ -24,21 +24,23 @@
           });
 
           $case.$save().then(function (data) {
-            $personalDetails = new PersonalDetails({
-              case_reference: data.reference
-            });
+            if (personalDetailsFields) {
+              $personalDetails = new PersonalDetails({
+                case_reference: data.reference
+              });
 
-            angular.forEach(personalDetailsFields, function (value, key) {
-              $personalDetails[key] = value;
-            });
-            var dob = personalDetailsFields.dob || null;
-            if (dob) {
-              var parts = dob.split('/');
-              $personalDetails.dob = {
-                day: parts[0],
-                month: parts[1],
-                year: parts[2]
-              };
+              angular.forEach(personalDetailsFields, function (value, key) {
+                $personalDetails[key] = value;
+              });
+              var dob = personalDetailsFields.dob || null;
+              if (dob) {
+                var parts = dob.split('/');
+                $personalDetails.dob = {
+                  day: parts[0],
+                  month: parts[1],
+                  year: parts[2]
+                };
+              }
             }
 
             function _completeDiagnosis(nodes, callback) {
@@ -73,7 +75,26 @@
               return $eligibilityCheck.$save();
             }
 
-            $personalDetails.$save().then(function () {
+            if (personalDetailsFields) {
+              $personalDetails.$save().then(function () {
+                // only create if diagnosis nodes present
+                if (diagnosisNodes) {
+                  _createDiagnosis().then(function () {
+                    _completeDiagnosis(diagnosisNodes, function () {
+                      if (eligibilityCheckFields) {
+                        _completeMeansTest().then(function () {
+                          callback(data.reference);
+                        });
+                      } else {
+                        callback(data.reference);
+                      }
+                    });
+                  });
+                } else {
+                  callback(data.reference);
+                }
+              });
+            } else {
               // only create if diagnosis nodes present
               if (diagnosisNodes) {
                 _createDiagnosis().then(function () {
@@ -90,7 +111,7 @@
               } else {
                 callback(data.reference);
               }
-            });
+            }
           });
         }
 
@@ -100,6 +121,10 @@
       },
 
       createEmpty: function () {
+        return this.createRecipe({}, null);
+      },
+
+      createEmptyWithPersonalDetails: function () {
         return this.createRecipe({}, {});
       },
 

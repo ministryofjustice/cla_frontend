@@ -14,7 +14,7 @@
 
     describe('An operator', function () {
       it('should be able to login using a modal if logged out', function () {
-        modelsRecipe.Case.createEmpty().then(function (case_ref) {
+        modelsRecipe.Case.createEmptyWithPersonalDetails().then(function (case_ref) {
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
 
           enter_personal_details({
