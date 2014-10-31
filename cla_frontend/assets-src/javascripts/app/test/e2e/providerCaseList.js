@@ -74,6 +74,12 @@
         assertContainsCase('TP-9999-0002');
         assertContainsClass('TP-9999-0002', 'is-complete');
       });
+
+      it('should logout', function () {
+        this.after(function () {
+          utils.logout();
+        });
+      });
     });
   });
 
