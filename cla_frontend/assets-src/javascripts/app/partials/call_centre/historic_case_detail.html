@@ -19,15 +19,43 @@
 
     <div class="Grid-col Grid-col--3-5" ui-view full-height data-centre-col>
       <header class="PageHeader">
-        <h1>Historic case details</h1>
+        <h1>Historical case (Capita)</h1>
       </header>
 
       <div class="ContactBlock ContactBlock--grey clearfix">
-        <h2 class="ContactBlock-heading">{{ ::historicCase.specialist_referred_to }}</h2>
+        <header ng-if="::historicCase.specialist_referred_to">
+          <p class="u-compact u-mute">Referred to</p>
+          <h2 class="ContactBlock-heading">{{ ::historicCase.specialist_referred_to }}</h2>
+        </header>
 
-        <p><strong>Date assigned:</strong> {{ ::historicCase.date_specialist_referred | dob }}</p>
+        <h2 class="ContactBlock-heading" ng-if="!::historicCase.specialist_referred_to">Not referred to specialist</h2>
 
-        <p><strong>Area of Law:</strong> {{ ::historicCase.area_of_law }}</p>
+        <div class="Grid">
+          <p ng-if="::historicCase.knowledgebase_items_used" class="Grid-row">
+            <strong class="Grid-col Grid-col--1-3">Knowledge base</strong>
+            <span class="Grid-col Grid-col--2-3">{{ ::historicCase.knowledgebase_items_used }}</span>
+          </p>
+
+          <p ng-if="::historicCase.date_specialist_referred" class="Grid-row">
+            <strong class="Grid-col Grid-col--1-3">Date assigned</strong>
+            <span class="Grid-col Grid-col--2-3">{{ ::historicCase.date_specialist_referred | dob }}</span>
+          </p>
+
+          <p ng-if="::historicCase.area_of_law" class="Grid-row">
+            <strong class="Grid-col Grid-col--1-3">Area of Law</strong>
+            <span class="Grid-col Grid-col--2-3">{{ ::historicCase.area_of_law }}</span>
+          </p>
+
+          <p class="Grid-row">
+            <strong class="Grid-col Grid-col--1-3">In scope</strong>
+            <span class="Grid-col Grid-col--2-3">{{ ::historicCase.in_scope ? 'Yes' : 'No' }}</span>
+          </p>
+
+          <p class="Grid-row">
+            <strong class="Grid-col Grid-col--1-3">Financially eligible</strong>
+            <span class="Grid-col Grid-col--2-3">{{ ::historicCase.financially_eligible ? 'Yes' : 'No' }}</span>
+          </p>
+        </div>
       </div>
 
     </div>
