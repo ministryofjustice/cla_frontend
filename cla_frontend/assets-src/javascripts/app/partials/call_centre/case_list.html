@@ -12,6 +12,8 @@
     <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase()" ng-if="!person.reference">Create a case</button>
   </form>
 
+  <p data-block="notices" class="Notice" ng-if="historicCases.count > 0">There are <strong>{{ historicCases.count }} historic cases</strong> (from capita's system) that match your search criteria. <a ui-sref="historic_list({search: searchParams.search})">View historic cases</a></p>
+
   <span data-block="pd-column">
     <!-- if multi cases -->
     <a href="" ng-if="!person.reference && case.full_name" ng-click="filterByPerson(case.personal_details)">{{ ::case.full_name }}<span ng-if="case.case_count > 1"> ({{ ::case.case_count }})</span></a>

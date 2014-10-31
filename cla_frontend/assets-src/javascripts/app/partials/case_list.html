@@ -14,8 +14,7 @@
   </nav>
 </header>
 
-<div class="Notice" ng-if="historicCases.count > 0">there are {{ historicCases.count }} historic cases (from capita's system) that match your search <a href="" ui-sref="historic_list({search: searchParams.search})">view them?</a></div>
-<table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
+<table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%" ng-show="cases.results.length > 0">
   <thead>
     <tr>
       <th width="2%"></th>
@@ -50,5 +49,11 @@
     </tr>
   </tbody>
 </table>
+
+<div ng-show="cases.results.length === 0" class="Notice">
+  There are no cases matching your search criteria.
+</div>
+
+<div data-block="notices"></div>
 
 <dir-pagination-controls on-page-change="pageChanged(newPageNumber)" data-boundary-links="true"></dir-pagination-controls>
