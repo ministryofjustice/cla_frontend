@@ -3,6 +3,8 @@
   var utils = require('./_utils');
   var CONSTANTS = require('../protractor.constants');
 
+  var notice = element(by.cssContainingText('.Notice', '(from capita\'s system) that match your search criteria'));
+
   describe('historc cases', function(){
 
     beforeEach(utils.setUp);
@@ -20,7 +22,7 @@
         element(by.name('case-search-submit')).submit();
 
         expect(browser.getLocationAbsUrl()).toContain('search=Bar123');
-        expect(element(by.css('div.Notice')).isPresent()).toBe(false);
+        expect(notice.isPresent()).toBe(false);
       });
 
     });
@@ -37,11 +39,11 @@
         element(by.name('case-search-submit')).submit();
 
         expect(browser.getLocationAbsUrl()).toContain('search=bob');
-        expect(element(by.css('div.Notice')).isPresent()).toBe(true);
+        expect(notice.isPresent()).toBe(true);
       });
 
       it('should allow you to view historic cases', function(){
-        element(by.css('div.Notice a')).click();
+        element(by.cssContainingText('a', 'View historic cases')).click();
         expect(browser.getLocationAbsUrl()).toContain('historic');
       });
 
