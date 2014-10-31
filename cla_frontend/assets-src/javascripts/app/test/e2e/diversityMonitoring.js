@@ -14,7 +14,7 @@
   var backBtn = element(by.name('diversity-back'));
   var saveBtn = element(by.name('diversity-save'));
 
-  describe('diversity', function () {
+  xdescribe('diversity', function () {
     beforeEach(utils.setUp);
 
     describe('Operator diversity monitoring', function () {
