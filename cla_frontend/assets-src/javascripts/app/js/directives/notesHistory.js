@@ -8,30 +8,49 @@
         transclude: true,
         templateUrl: 'directives/notesHistory.html',
         scope: {
-          case: '='
+          case: '=',
+          type: '@type'
         },
-        link: function(scope, element) {
-          element.on('click', function() {
+        controller: ['$scope', function($scope) {
+          $scope.showNotesHistory = function() {
             $modal.open({
               templateUrl: 'notes.history.modal.html',
-              controller: ['$scope', '$modalInstance', 'notes',
-                function($scope, $modalInstance, notes) {
-                  $scope.notes = notes;
+              controller: ['$scope', '$modalInstance', 'NotesHistory',
+                function($modalScope, $modalInstance, NotesHistory) {
+                  function updatePage() {
+                    NotesHistory.query(
+                      {
+                        case_reference: $scope.case.reference,
+                        type: $scope.type,
+                        page: $modalScope.currentPage
+                      }
+                    ).$promise.then(function(data) {
+                      $modalScope.notes = data;
+                    });
+                  }
+
+                  $modalScope.currentPage = 1;
+
+                  $modalScope.goToNextPage = function() {
+                    $modalScope.currentPage += 1;
+                    updatePage();
+                  };
+
+                  $modalScope.goToPreviousPage = function() {
+                    $modalScope.currentPage -= 1;
+                    updatePage();
+                  };
                   
-                  $scope.close = function () {
+                  $modalScope.close = function () {
                     $modalInstance.dismiss('cancel');
                   };
+
+                  updatePage();
                 }
-              ],
-              resolve: {
-                'notes': ['NotesHistory', function (NotesHistory) {
-                  return [];
-                  // return NotesHistory({case_reference: case_.reference}).$promise;
-                }]
-              }
+              ]
             });
-          });
-        }
+          };
+        }]
       };
     }]);
 }());

@@ -514,7 +514,36 @@
     }]);
 
   angular.module('cla.services')
-    .factory('NotesHistory', ['$resource', 'url_utils', function($resource, url_utils) {
-      return $resource(url_utils.proxy('case/:case_reference/notes_history/'), {case_reference: '@case_reference'});
+    .factory('NotesHistory', ['$resource', 'url_utils', '$http', function($resource, url_utils, $http) {
+      var resource = $resource(
+        url_utils.proxy('case/:case_reference/notes_history/'),
+        {case_reference: '@case_reference'},
+        {
+          'query':  {
+            method:'GET',
+            isArray:false,
+            transformResponse: function(data, headers) {
+              if (!data) {
+                return data;
+              }
+              var _data = transformData(
+                    data, headers, $http.defaults.transformResponse
+                  ),
+                  results = [];
+
+              angular.forEach(_data.results, function (item) {
+                // jshint -W055
+                results.push(new resource(item));
+                // jshint +W055
+              });
+
+              _data.results = results;
+              return _data;
+            }
+          }
+        }
+      );
+
+      return resource;
     }]);
 })();
