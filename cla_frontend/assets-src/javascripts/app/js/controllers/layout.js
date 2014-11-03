@@ -12,8 +12,14 @@
             $window.scrollTo(0,0);
           });
 
+          var numberFields = angular.element('body');
+          numberFields.on('mousewheel', ':input[type=number]',function () {
+            angular.element(this).blur();
+          });
+
           $scope.$on('$destroy', function () {
             offStateChange();
+            numberFields.off('mousewheel');
           });
 
           $rootScope.user = user;
