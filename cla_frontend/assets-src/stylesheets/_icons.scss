@@ -98,6 +98,12 @@ $icons: (
     top: 12px;
   }
 
+  &--abs-l {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+  }
+
   &--dark {
     &:before, &:after {
       color: $black;
