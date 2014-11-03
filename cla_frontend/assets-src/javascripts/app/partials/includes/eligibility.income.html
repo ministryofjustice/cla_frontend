@@ -2,7 +2,7 @@
   <p>We will now look at your income for the last calendar month. This runs from today back to {{ oneMonthAgo }}.</p>
 </call-script>
 
-<section>
+<section data-fieldset="your-income">
   <h2 class="FormBlock-label">Your income</h2>
 
   <div class="FormBlock FormBlock--grey" aria-labelledby="your_income-label" role="group">
@@ -57,7 +57,7 @@
   </div>
 </section>
 
-<section ng-show="hasPartner()">
+<section data-fieldset="partner-income" ng-show="hasPartner()">
   <h2 class="FormBlock-label">Your partner's income</h2>
 
   <cla-server-validate data-for="partner.income"></cla-server-validate>
