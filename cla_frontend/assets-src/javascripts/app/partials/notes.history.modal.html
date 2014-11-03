@@ -12,7 +12,8 @@
         <td>
           <p>
             {{ note.created}} ({{ note.created_by}}) <br>
-            {{note.type_notes}}
+
+            <p ng-bind-html="note.diffHTML"></p>
           </p>
         </td>
       </tr>

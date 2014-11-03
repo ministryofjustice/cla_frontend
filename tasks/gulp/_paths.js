@@ -60,7 +60,9 @@
       paths.src + 'vendor/angulartics/src/angulartics.js',
       paths.src + 'vendor/angulartics/src/angulartics-piwik.js',
       paths.src + 'vendor/angular-hotkeys/build/hotkeys.js',
-      paths.src + 'vendor/angular-local-storage/dist/angular-local-storage.js'
+      paths.src + 'vendor/angular-local-storage/dist/angular-local-storage.js',
+      paths.src + 'vendor/angular-diff-match-patch/angular-diff-match-patch.js',
+      paths.src + 'vendor/google-diff-match-patch/diff_match_patch.js',
     ],
     app: [
       paths.src + 'javascripts/app/js/app.js',
