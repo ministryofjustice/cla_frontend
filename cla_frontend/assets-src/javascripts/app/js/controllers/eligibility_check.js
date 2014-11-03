@@ -112,20 +112,25 @@
             return $scope.eligibility_check.has_partner && $scope.eligibility_check.has_partner !== '0';
           };
 
-          $scope.hasZeroIncome = function () {
+          $scope.hasZeroIncome = false;
+          var checkZeroIncome = function () {
             var you = fieldsAllZero($scope.eligibility_check.you.income);
 
             if ($scope.hasPartner()) {
               var partner = fieldsAllZero($scope.eligibility_check.partner.income);
-              return you && partner ? true : false;
+              $scope.hasZeroIncome = you && partner ? true : false;
             } else {
-              return you;
+              $scope.hasZeroIncome = you;
+            }
+
+            if(!$scope.$$phase) {
+              $scope.$apply();
             }
           };
           var fieldsAllZero = function (fields) {
             var total = false;
 
-            angular.forEach(fields, function(field, key) {
+            angular.forEach(fields, function(field) {
               if (field && typeof field === 'object' && field.hasOwnProperty('per_interval_value')) {
                 total += parseInt(field.per_interval_value);
               }
@@ -133,6 +138,7 @@
 
             return parseInt(total) <= 0 ? true : false;
           };
+          checkZeroIncome();
 
           $scope.isComplete = function (section) {
             var emptyInputs = angular.element('#' + section).find('input, select, textarea').filter(function() {
@@ -164,6 +170,8 @@
           };
 
           $scope.save = function () {
+            checkZeroIncome();
+
             $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
             $scope.eligibility_check.$update($scope.case.reference, function (data) {
               $scope.case.eligibility_check = data.reference;

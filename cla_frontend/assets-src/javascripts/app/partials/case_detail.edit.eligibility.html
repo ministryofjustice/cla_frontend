@@ -5,7 +5,7 @@
     </li>
   </ul>
 
-  <div class="Notice" ng-if="hasZeroIncome()">
+  <div class="Notice warning" ng-show="hasZeroIncome">
     <p>The system is showing me that you currently have no income. For our records I just need to know whether you<span ng-show="hasPartner()"> and your partner</span></p>
 
     <ul class="u-alphaList">
