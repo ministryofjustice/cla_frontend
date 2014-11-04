@@ -122,6 +122,23 @@ $border-colour: $grey-2;
     }
   }
 
+  // Disabled button styles
+  input[type=text],
+  input[type=password],
+  input[type=email],
+  input[type=number],
+  textarea,
+  select {
+    &.disabled,
+    &[disabled="disabled"],
+    &[disabled] {
+      @include opacity(0.5);
+      &:hover{
+        cursor: default;
+      }
+    }
+  }
+
   // size modifiers
   input,
   select,

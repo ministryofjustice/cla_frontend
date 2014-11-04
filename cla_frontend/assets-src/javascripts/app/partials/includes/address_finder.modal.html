@@ -1,27 +1,26 @@
-<h2>Choose Address</h2>
+<form name="frm-addressFinder" ng-submit="setAddress()">
+  <header>
+    <h2>Address Search</h2>
+    <p><strong>{{ ::addresses.length }} address{{ ::suffix }}</strong> were found for {{ ::postcode }}.</p>
+  </header>
 
-<section class="SummaryBlock SummaryBlock--compact">
-  <p ng-if="$parent.model.loading">Finding addresses...</p>
+  <div class="FormBlock FormBlock--grey" ng-if="::addresses.length > 0">
+    <div>
+      <div class="FormRow cf">
+        <input type="text" id="address_search" name="address_search" placeholder="Search addresses" class="FormRow-field--l" ng-model="::address_search" autofocus>
+      </div>
 
-  <div class="FormBlock FormBlock--yellow" ng-if="!$parent.model.loading && addresses.length > 0">
-    <div class="FormRow cf">
-      <input type="text" name="address_search" placeholder="Search addresses" class="FormRow-field--l" ng-model="address_search">
-    </div>
-
-    <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in addresses | filter:address_search">
-      <label class="FormRow-label">
-        <input type="radio" value="{{ address.formatted_address }}"
-        ng-click="setAddress(address.formatted_address)">
-        {{ address.formatted_address.split("\n").join(", ") }}
-      </label>
+      <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in ::addresses | filter:address_search">
+        <label class="FormRow-label">
+          <input type="radio" name="address_results" value="{{ ::address.formatted_address }}" ng-model="::selected.address">
+          {{ ::formatAddress(address.formatted_address) }}
+        </label>
+      </div>
     </div>
   </div>
 
-  <div class="FormBlock FormBlock--yellow" ng-if="!$parent.model.loading && addresses.length == 0">
-    <p>No addresses found.</p>
+  <div class="FormActions">
+    <button type="submit" class="Button" ng-if="::addresses.length > 0">Use address</button>
+    <button type="button" class="Button Button--text" ng-click="close()">Close</button>
   </div>
-</section>
-
-<div class="FormActions">
-  <a href="" ng-click="close()">Close</a>
-</div>
+</form>

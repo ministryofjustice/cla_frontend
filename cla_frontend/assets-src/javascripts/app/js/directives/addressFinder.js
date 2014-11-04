@@ -2,53 +2,80 @@
 (function(){
 
   angular.module('cla.directives')
-  .directive('addressFinder', ['Address', '$modal', function(Address, $modal) {
+  .directive('addressFinder', ['AddressService', '$modal', '$q', '$timeout', function (AddressService, $modal, $q, $timeout) {
     return  {
-      restrict: 'E',
-      require: 'ngModel',
-      templateUrl:  'directives/address_finder.html',
-      scope: {
-        model: '=ngModel'
-      },
-      link: function(scope, elem, attrs, ngModelCtrl) {
-        ngModelCtrl.$setViewValue(scope.model);
-      },
-      controller: function($scope){
-        $scope.findAddress = function(){
-          $scope.loading = true;
-          $scope.addresses = [];
+      restrict: 'A',
+      link: function (scope, elem, attrs) {
+        // hijack enter on this field
+        elem.bind('keydown keypress', function (event) {
+          if (event.which === 13) {
+            event.preventDefault();
+            scope.findAddress();
+          }
+        });
 
-          var params = {
-            postcode: $scope.model.postcode,
-            fields: 'formatted_address'
+        // find address and load modal
+        scope.findAddress = function () {
+          elem.attr('disabled', true);
+          scope.isLoading = true;
+
+          var modalOpts = {
+            templateUrl: 'includes/address_finder.modal.html',
+            controller: 'AddressFinderModalCtl',
+            resolve: {
+              AddressResponse: function () {
+                var deferred = $q.defer();
+
+                AddressService.query({
+                  postcode: elem.val(),
+                  fields: 'formatted_address'
+                }, function (addresses) {
+                  elem.removeAttr('disabled');
+                  scope.isLoading = false;
+
+                  deferred.resolve({
+                    addresses: addresses,
+                    postcode: elem.val()
+                  });
+                });
+
+                return deferred.promise;
+              }
+            }
+          };
+          var onConfirmSuccess = function (response) {
+            var parts = response.chosenAddress.split('\n');
+            var postcode = parts.pop();
+            var address = parts.join('\n');
+
+            // run inside timeout to avoid $digest clash
+            $timeout(function () {
+              elem
+                .val(postcode)
+                .change();
+              angular.element('[name="' + attrs.addressFinder + '"]')
+                .val(address)
+                .change()
+                .focus();
+            });
+          };
+          var onDismiss = function () {
+            elem.focus();
           };
 
-          Address.query(params, function(addresses){
-            $scope.loading = false;
-            $scope.addresses = addresses;
-
-            $modal.open({
-              templateUrl: 'includes/address_finder.modal.html',
-              scope: $scope,
-              controller: 'AddressFinderModalCtl',
-            });
-          });
+          $modal.open(modalOpts).result.then(onConfirmSuccess, onDismiss);
         };
+      },
+      template: function(elem) {
+        elem
+          .after('<button type="button" class="AddressLookup-search" name="find-address" ng-click="findAddress()" ng-disabled="isLoading">Find Address</button>')
+          .parents('.FormRow').addClass('AddressLookup');
       }
     };
   }]);
 
-  angular.module('xeditable').directive('editableAddressFinder', ['editableDirectiveFactory',
-    function(editableDirectiveFactory) {
-      return editableDirectiveFactory({
-        directiveName: 'editableAddressFinder',
-        inputTpl: '<address-finder></address-finder>',
-        useCopy: false
-      });
-    }]);
-
   angular.module('cla.services')
-    .factory('Address', ['$resource', function($resource) {
+    .factory('AddressService', ['$resource', function($resource) {
       return $resource('/addressfinder/addresses/?postcode=:postcode&fields=:fields',
         {postcode: '@postcode', fields: '@fields'}, {
         get: {
@@ -60,20 +87,27 @@
 
   angular.module('cla.controllers')
     .controller('AddressFinderModalCtl',
-      ['$scope', '$modalInstance',
-        function($scope, $modalInstance) {
-          $scope.close = function () {
-            $modalInstance.close();
+      ['$scope', 'AddressResponse',
+        function($scope, AddressResponse) {
+          $scope.addresses = AddressResponse.addresses;
+          $scope.postcode = AddressResponse.postcode;
+          $scope.suffix = $scope.addresses.length > 1 || $scope.addresses.length === 0 ? 'es' : '';
+          $scope.selected = {};
+
+          $scope.formatAddress = function (addr) {
+            return addr.split('\n').join(', ');
           };
 
-          $scope.setAddress = function(addr){
-            var parts = addr.split('\n');
-            $scope.$parent.model.postcode = parts.pop();
-            $scope.$parent.model.street = parts.join('\n');
-            $modalInstance.close();
+          $scope.close = function () {
+            $scope.$dismiss('cancel');
+          };
+
+          $scope.setAddress = function() {
+            $scope.$close({
+              chosenAddress: $scope.selected.address
+            });
           };
         }
       ]
     );
-
 })();
