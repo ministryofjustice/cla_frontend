@@ -38,17 +38,17 @@
       </span>
     </label>
 
-    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.thirdparty_postcode.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-if="third_party_frm.thirdparty_postcode.$error.server">{{ errors.postcode }}</span>
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.postcode.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-if="third_party_frm.postcode.$error.server">{{ errors.postcode }}</span>
       <span class="Icon Icon--formRow Icon--location">
-        <span editable-text="third_party.personal_details.postcode" e-name="thirdparty_postcode" e-class="FormRow-field--full" e-placeholder="Postcode" e-server-error e-address-finder="thirdparty_street"></span>
+        <span editable-text="third_party.personal_details.postcode" e-name="postcode" e-class="FormRow-field--full" e-placeholder="Postcode" e-server-error e-address-finder="street"></span>
       </span>
     </label>
 
-    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.thirdparty_street.$invalid && thirdparty_submitted}">
-      <span class="Error-message" ng-if="third_party_frm.thirdparty_street.$error.server">{{ errors.street }}</span>
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.street.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-if="third_party_frm.street.$error.server">{{ errors.street }}</span>
       <span class="Icon Icon--formRow Icon--address">
-        <span editable-textarea="third_party.personal_details.street" e-name="thirdparty_street" e-class="FormRow-field--full" e-placeholder="Address" e-rows="6" e-server-error></span>
+        <span editable-textarea="third_party.personal_details.street" e-name="street" e-class="FormRow-field--full" e-placeholder="Address" e-rows="6" e-server-error></span>
       </span>
     </label>
 

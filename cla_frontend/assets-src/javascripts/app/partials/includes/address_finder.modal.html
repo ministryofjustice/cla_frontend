@@ -1,6 +1,6 @@
 <form name="frm-addressFinder" ng-submit="setAddress()">
   <header>
-    <h2>Address Search</h2>
+    <h2>Address search</h2>
     <p><strong>{{ ::addresses.length }} address{{ ::suffix }}</strong> were found for {{ ::postcode }}.</p>
   </header>
 
@@ -20,7 +20,7 @@
   </div>
 
   <div class="FormActions">
-    <button type="submit" class="Button" ng-if="::addresses.length > 0">Use address</button>
-    <button type="button" class="Button Button--text" ng-click="close()">Close</button>
+    <button type="submit" name="select-address" class="Button" ng-if="::addresses.length > 0">Use address</button>
+    <button type="button" name="cancel-address" class="Button Button--text" ng-click="close()">Cancel</button>
   </div>
 </form>
