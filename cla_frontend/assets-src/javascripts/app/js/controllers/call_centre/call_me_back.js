@@ -30,6 +30,8 @@
 
           $scope.case = _case;
           $scope.canBeCalledBack = _case.canBeCalledBack();
+          $scope.createdByWeb = _case.createdByWeb();
+          $scope.isFinalCallBack = _case.isFinalCallback();
 
           if ($scope.canBeCalledBack) {
             if (_case.isFinalCallback()) {
