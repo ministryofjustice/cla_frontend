@@ -8,7 +8,7 @@
   var caseRef;
   var enteredPostcode = 'sw1h9aj';
   var returnedPostcode = 'SW1H 9AJ';
-  var modal = element(by.css('.modal'));
+  var modal = element(by.css('.modal-content'));
   var modalHeading = modal.element(by.css('header h2'));
   var addresses = element.all(by.repeater('address in ::addresses | filter:address_search'));
   var searchBtn = element(by.name('find-address'));
@@ -26,8 +26,8 @@
 
           browser.get(CONSTANTS.callcentreBaseUrl + _caseRef + '/');
 
-          createPersonalDetails();
-          searchPostcode('postcode', enteredPostcode);
+          element(by.name('create-newuser')).click();
+          element(by.name('postcode')).sendKeys(enteredPostcode);
           element(by.name('postcode')).sendKeys(protractor.Key.ENTER);
 
           // check modal is present
@@ -84,15 +84,4 @@
 
     });
   });
-
-  // helpers
-  function createPersonalDetails () {
-    element(by.name('create-newuser')).click();
-  }
-
-  function searchPostcode (fieldName, value) {
-    element(by.name(fieldName))
-      .clear()
-      .sendKeys(value);
-  }
 })();
