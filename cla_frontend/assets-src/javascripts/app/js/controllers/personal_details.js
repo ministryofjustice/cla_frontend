@@ -185,7 +185,9 @@
                 $scope.case.$link_personal_details(pd_ref).then(function() {
                   $scope.case.personal_details = pd_ref;
 
-                  flash('Case linked to '+pd_full_name);
+                  personal_details.$get().then(function() {
+                    flash('Case linked to '+pd_full_name);
+                  });
                 });
               } else {
                 $scope.person_q = '';
