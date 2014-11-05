@@ -20,24 +20,6 @@
             $scope.language.disable = true;
           }
 
-          function setUpAddress() {
-            $scope.address = {
-              postcode: $scope.personal_details.postcode,
-              street: $scope.personal_details.street
-            };
-          }
-          setUpAddress();
-
-          $scope.$watchCollection('address', function(){
-            $scope.personal_details.postcode = $scope.address.postcode;
-            $scope.personal_details.street = $scope.address.street;
-          });
-
-          $scope.thirdparty_address = {
-            postcode: $scope.third_party.personal_details ? $scope.third_party.personal_details.postcode : '',
-            street: $scope.third_party.personal_details ? $scope.third_party.personal_details.street : ''
-          };
-
           $scope.selected_adaptations = [];
           $scope.adaptation_flags = {};
           angular.forEach(adaptations_metadata.actions.POST, function (item, i) {
@@ -204,9 +186,8 @@
                   $scope.case.personal_details = pd_ref;
 
                   personal_details.$get().then(function() {
-                    setUpAddress();
+                    flash('Case linked to '+pd_full_name);
                   });
-                  flash('Case linked to '+pd_full_name);
                 });
               } else {
                 $scope.person_q = '';
@@ -268,12 +249,6 @@
           };
 
           $scope.saveThirdParty = function(form) {
-
-            if($scope.thirdparty_address){
-              $scope.third_party.personal_details.postcode = $scope.thirdparty_address.postcode;
-              $scope.third_party.personal_details.street = $scope.thirdparty_address.street;
-            }
-
             $scope.third_party.$update($scope.case.reference, function (data) {
               if (!$scope.case.thirdparty_details) {
                 $scope.case.thirdparty_details = data.reference;

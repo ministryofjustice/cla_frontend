@@ -131,7 +131,6 @@
   function fillIncomeFields (section, value) {
     var financesTab = getTab('Finances');
     var incomeTab = getTab('Income', 2);
-    var saveBtn = element(by.cssContainingText('button', 'Save assessment'));
 
     // click finances tab
     utils.scrollTo(financesTab);

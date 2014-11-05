@@ -1,9 +1,5 @@
 .AddressLookup {
   position: relative;
-}
-
-.AddressLookup-postcodeRow {
-  padding-right: 30px;
 
   input[type="text"] {
     border-right: 0;
@@ -27,5 +23,13 @@
 
   &:hover {
     background-color: lighten($grey-1, 5%);
+  }
+  &.disabled,
+  &[disabled="disabled"],
+  &[disabled] {
+    @include opacity(0.5);
+    &:hover{
+      cursor: default;
+    }
   }
 }
