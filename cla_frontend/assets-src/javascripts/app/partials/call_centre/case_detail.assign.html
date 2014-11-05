@@ -9,7 +9,7 @@
 
 <form method="post" name="assign_provider_form" ng-submit="assign(assign_provider_form)">
   <h2 class="FormBlock-label">Matter types</h2>
-  <div class="FormBlock FormBlock--grey">
+  <div class="FormBlock FormBlock--grey" ng-if="::canAssign()">
     <div class="FormRow">
       <label for="matter_type1">
         <span class="FormRow-label">Matter type 1</span>
@@ -29,6 +29,15 @@
     </div>
   </div>
 
+  <div ng-if="::!canAssign()" class="SummaryBlock SummaryBlock--compact">
+    <p class="SummaryBlock-content" ng-if="::case.matter_type1">
+      <strong>Matter type 1:</strong> {{ ::case.matter_type1 }} - {{ ::getMTDescription(case.matter_type1) }}
+    </p>
+    <p class="SummaryBlock-content" ng-if="::case.matter_type2">
+      <strong>Matter type 2:</strong> {{ ::case.matter_type2 }} - {{ ::getMTDescription(case.matter_type2) }}
+    </p>
+  </div>
+
   <call-script ng-if="suggested_providers.length > 1 || suggested_provider">
     <p>From the information you have provided, the assessment shows that you may be eligible for Legal Aid and I will transfer you to one of our Specialist Providers.</p>
     <p>We cannot guarantee that the specialist will be able to take on your case, however their service is not your only option and the specialist will try to find you some help elsewhere. If they do take on your case you will need to provide proof of your financial circumstances for the specialist to continue.</p>
@@ -38,6 +47,7 @@
   </call-script>
 
   <div ng-if="selected_provider.id">
+    <h2 class="FormBlock-label" ng-if="case.provider">Assigned to</h2>
     <div class="ContactBlock ContactBlock--grey clearfix">
       <h2 class="ContactBlock-heading">{{ selected_provider.name }}</h2>
 
@@ -75,7 +85,7 @@
     <p class="Error-message">{{ errors.__all__ }}</p>
   </div>
 
-  <div class="FormActions" ng-if="canAssign()">
+  <div class="FormActions" ng-if="::canAssign()">
     <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id">Assign provider</button>
 
     <button type="submit" class="Button Button--secondary" ng-click="assignSPOR()" ng-disabled="!selected_provider.id">Refer for second opinion</button>
