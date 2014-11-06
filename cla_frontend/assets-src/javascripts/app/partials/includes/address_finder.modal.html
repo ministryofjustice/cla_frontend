@@ -10,7 +10,7 @@
         <input type="text" id="address_search" name="address_search" placeholder="Search addresses" class="FormRow-field--l" ng-model="::address_search" autofocus>
       </div>
 
-      <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in ::addresses | filter:address_search">
+      <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in addresses | filter:address_search">
         <label class="FormRow-label">
           <input type="radio" name="address_results" value="{{ ::address.formatted_address }}" ng-model="::selected.address">
           {{ ::formatAddress(address.formatted_address) }}
