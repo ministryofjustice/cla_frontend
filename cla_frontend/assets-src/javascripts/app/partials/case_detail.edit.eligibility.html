@@ -5,6 +5,16 @@
     </li>
   </ul>
 
+  <div class="Notice warning" ng-if="hasZeroIncome">
+    <p>The system is showing me that you currently have no income. For our records I just need to know whether you<span ng-show="hasPartner()"> and your partner</span></p>
+
+    <ul class="u-alphaList">
+      <li>have had any financial help within the last month?</li>
+      <li>have any debts you would like advice about?</li>
+      <li>how you have been coping financially over the last calendar month?</li>
+    </ul>
+  </div>
+
   <div ng-repeat="section in sections" ng-include="section.template" ng-show="currentState() === section.state"></div>
 
   <button type="submit" class="Button v-SaveEligibilty" name="save-means-test">Save assessment</button>

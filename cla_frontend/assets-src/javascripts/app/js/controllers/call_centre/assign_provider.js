@@ -35,6 +35,11 @@
           $scope.is_spor = true;
         };
 
+        $scope.getMTDescription = function (code) {
+          var type = _.findWhere(MatterTypes, {code: code});
+          return type ? type.description : '';
+        };
+
         $scope.canAssign = function () {
           if($scope.suggested_providers.length > 0 || $scope.suggested_provider || !$scope.case.provider) {
             return true;

@@ -83,36 +83,6 @@ $border-colour: $grey-2;
     }
   }
 
-  .FormRow-prefix,
-  .FormRow-suffix {
-    display: inline-block;
-    float: left;
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
-    border: 1px solid $border-colour;
-    text-align: center;
-    @include box-sizing(border-box);
-  }
-  .FormRow-prefix {
-    border-right: 0;
-  }
-  .FormRow-suffix {
-    border-left: 0;
-  }
-  .FormRow-help {
-    display: block;
-    clear: both;
-    @include box-sizing(border-box);
-
-    @include media(960px) {
-      float: left;
-      clear: none;
-      padding-top: 6px;
-      margin-left: 15px;
-    }
-  }
-
   input[type=text],
   input[type=password],
   input[type=email],
@@ -152,6 +122,23 @@ $border-colour: $grey-2;
     }
   }
 
+  // Disabled button styles
+  input[type=text],
+  input[type=password],
+  input[type=email],
+  input[type=number],
+  textarea,
+  select {
+    &.disabled,
+    &[disabled="disabled"],
+    &[disabled] {
+      @include opacity(0.5);
+      &:hover{
+        cursor: default;
+      }
+    }
+  }
+
   // size modifiers
   input,
   select,
@@ -175,6 +162,15 @@ $border-colour: $grey-2;
     &.FormRow-field--inline {
       margin-right: 10px;
       float: left;
+    }
+  }
+
+  .is-warned {
+    input,
+    select,
+    textarea,
+    div {
+      border-color: $orange;
     }
   }
 
@@ -388,6 +384,41 @@ $border-colour: $grey-2;
     .FormRow-label {
       font-weight: 700;
     }
+  }
+}
+
+.FormRow-prefix,
+.FormRow-suffix {
+  display: inline-block;
+  float: left;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  border: 1px solid $border-colour;
+  text-align: center;
+  @include box-sizing(border-box);
+
+  &.is-warned,
+  .is-warned & {
+    border-color: $orange;
+  }
+}
+.FormRow-prefix {
+  border-right: 0;
+}
+.FormRow-suffix {
+  border-left: 0;
+}
+.FormRow-help {
+  display: block;
+  clear: both;
+  @include box-sizing(border-box);
+
+  @include media(960px) {
+    float: left;
+    clear: none;
+    padding-top: 6px;
+    margin-left: 15px;
   }
 }
 

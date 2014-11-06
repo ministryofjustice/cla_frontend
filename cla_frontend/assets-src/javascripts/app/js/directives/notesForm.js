@@ -4,7 +4,7 @@
   var saveDelay = 800;
 
   angular.module('cla.directives')
-    .directive('notesForm', ['$timeout', 'form_utils', function($timeout, form_utils) {
+    .directive('notesForm', ['$timeout', 'form_utils', 'AppSettings', function($timeout, form_utils, AppSettings) {
       return  {
         restrict: 'E',
         require: 'ngModel',
@@ -42,6 +42,8 @@
               ).finally(saveFinished);
             }
           };
+
+          scope.type = AppSettings.appName === 'operator' ? 'operator' : 'cla_provider';
 
           // watch fields
           scope.$watch('model', watchChange);

@@ -128,7 +128,8 @@
       'angulartics',
       'angulartics.piwik',
       'cfp.hotkeys',
-      'LocalStorageModule'
+      'LocalStorageModule',
+      'diff-match-patch'
     ])
     .config(common_config)
     .run(common_run);
@@ -178,7 +179,8 @@
       'angulartics',
       'angulartics.piwik',
       'cfp.hotkeys',
-      'LocalStorageModule'
+      'LocalStorageModule',
+      'diff-match-patch'
     ])
     .config(common_config)
     .run(common_run);
