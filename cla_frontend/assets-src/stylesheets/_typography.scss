@@ -32,3 +32,11 @@ blockquote {
     @include core-24
   }
 }
+
+ins {
+  background-color: $green-25;
+}
+del {
+  background-color: $red-25;
+  text-decoration: none;
+}
