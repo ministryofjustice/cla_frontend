@@ -121,6 +121,10 @@
         return this.created_by !== 'web' && this.callback_attempt < 3;
       };
 
+      resource.prototype.createdByWeb = function () {
+        return this.created_by === 'web';
+      };
+
       resource.prototype.getCallbackDatetime = function(){
         return this.requires_action_at;
       };
@@ -292,6 +296,13 @@
           return this.$save({case_reference: case_reference}, success, fail);
         }
       };
+
+      return resource;
+    }]);
+
+  angular.module('cla.services')
+    .factory('Diversity', ['$resource', 'url_utils', function($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/personal_details/set_diversity/'), {case_reference:'@case_reference'});
 
       return resource;
     }]);
@@ -481,7 +492,7 @@
             if (!data) {
               return data;
             }
-            
+
             var _data = transformData(
                   data, headers, $http.defaults.transformResponse
                 ),
@@ -511,6 +522,40 @@
       }, {
         'patch': {method: 'PATCH'}
       });
+    }]);
+
+  angular.module('cla.services.operator')
+    .factory('HistoricCase', ['$resource', 'url_utils', '$http', '$cacheFactory',
+      function($resource, url_utils, $http, $cacheFactory) {
+      var cache = $cacheFactory('historicCaseCache', {number: 5});
+      var resource = $resource(url_utils.proxy('case_archive/:reference/'), {}, {
+          'get': {
+            method: 'GET',
+            isArray: false,
+          },
+          'query':  {
+            method: 'GET',
+            isArray: false,
+            'cache': cache,
+            transformResponse: function(data, headers) {
+              var _data = transformData(
+                  data, headers, $http.defaults.transformResponse
+                ),
+                results = [];
+
+              angular.forEach(_data.results, function (item) {
+                // jshint -W055
+                results.push(new resource(item));
+                // jshint +W055
+              });
+
+              _data.results = results;
+              return _data;
+            }
+          }
+        }
+      );
+      return resource;
     }]);
 
   angular.module('cla.services')
@@ -546,4 +591,5 @@
 
       return resource;
     }]);
+
 })();

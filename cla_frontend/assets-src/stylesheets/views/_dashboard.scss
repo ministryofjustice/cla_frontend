@@ -4,7 +4,9 @@
   }
 
   .PageHeader {
-    padding-top: 30px;
+    &:not(.PageHeader--withNav) {
+      padding-top: 30px;
+    }
 
     h1 {
       padding: 9px 0 20px;
