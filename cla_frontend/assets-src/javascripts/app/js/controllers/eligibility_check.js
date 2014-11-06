@@ -114,10 +114,10 @@
 
           $scope.hasZeroIncome = false;
           var checkZeroIncome = function () {
-            var you = fieldsAllZero($scope.eligibility_check.you.income);
+            var you = $scope.eligibility_check.you ? fieldsAllZero($scope.eligibility_check.you.income) : false;
 
             if ($scope.hasPartner()) {
-              var partner = fieldsAllZero($scope.eligibility_check.partner.income);
+              var partner = $scope.eligibility_check.you ? fieldsAllZero($scope.eligibility_check.partner.income) : false;
               $scope.hasZeroIncome = you && partner ? true : false;
             } else {
               $scope.hasZeroIncome = you;
