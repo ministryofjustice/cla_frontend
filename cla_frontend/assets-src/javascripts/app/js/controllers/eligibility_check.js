@@ -116,7 +116,10 @@
           var checkZeroIncome = function () {
             var you = $scope.eligibility_check.you ? fieldsAllZero($scope.eligibility_check.you.income) : false;
 
-            if ($scope.hasPartner()) {
+            if (passported()) {
+              // if passported, don't show
+              $scope.hasZeroIncome = false;
+            } else if ($scope.hasPartner()) {
               var partner = $scope.eligibility_check.you ? fieldsAllZero($scope.eligibility_check.partner.income) : false;
               $scope.hasZeroIncome = you && partner ? true : false;
             } else {
