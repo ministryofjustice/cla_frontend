@@ -61,7 +61,7 @@
         expect(splitForm.isPresent()).toBe(false);
 
         // verify outcome code REF-INT created
-        assertOutcomeCode('REF-INT');
+        assertLogText('Split case created and referred internally');
 
         // try to split again => validation error
         openSplitModal();
@@ -82,7 +82,7 @@
         expect(splitForm.isPresent()).toBe(false);
 
         // verify outcome code REF-EXT created
-        assertOutcomeCode('REF-EXT');
+        assertLogText('Split case created and referred externally');
 
         // try to split again => validation error
         openSplitModal();
@@ -119,8 +119,12 @@
     submitBtn.click();
   }
 
-  function assertOutcomeCode (code) {
-    expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe(code);
+  // function assertOutcomeCode (code) {
+  //   expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe(code);
+  // }
+
+  function assertLogText (text) {
+    expect(element.all(by.css('.CaseHistory-logItemNotes:first-child')).get(0).getText()).toBe(text);
   }
 
   function assertError (error) {
