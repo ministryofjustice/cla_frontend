@@ -44,20 +44,27 @@
             }
           };
           var onConfirmSuccess = function (response) {
-            var parts = response.chosenAddress.split('\n');
-            var postcode = parts.pop();
-            var address = parts.join('\n');
+            if (response.chosenAddress) {
+              var parts = response.chosenAddress.split('\n');
+              var postcode = parts.pop();
+              var address = parts.join('\n');
+              var streetSelector = attrs.addressFinder;
 
-            // run inside timeout to avoid $digest clash
-            $timeout(function () {
-              elem
-                .val(postcode)
-                .change();
-              angular.element('[name="' + attrs.addressFinder + '"]')
-                .val(address)
-                .change()
-                .focus();
-            });
+              // run inside timeout to avoid $digest clash
+              $timeout(function () {
+                elem
+                  .val(postcode)
+                  .change();
+                angular.element(streetSelector)
+                  .val(address)
+                  .change()
+                  .focus();
+              });
+            } else {
+              $timeout(function () {
+                elem.focus();
+              });
+            }
           };
           var onDismiss = function () {
             elem.focus();

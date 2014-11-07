@@ -10,7 +10,7 @@
   var returnedPostcode = 'SW1H 9AJ';
   var modal = element(by.css('.modal-content'));
   var modalHeading = modal.element(by.css('header h2'));
-  var addresses = element.all(by.repeater('address in ::addresses | filter:address_search'));
+  var addresses = element.all(by.repeater('address in addresses | filter:address_search'));
   var searchBtn = element(by.name('find-address'));
   var submitBtn = element(by.name('select-address'));
   var cancelBtn = element(by.name('cancel-address'));
