@@ -37,6 +37,9 @@
                     addresses: addresses,
                     postcode: elem.val()
                   });
+                }, function () {
+                  elem.removeAttr('disabled');
+                  scope.isLoading = false;
                 });
 
                 return deferred.promise;
