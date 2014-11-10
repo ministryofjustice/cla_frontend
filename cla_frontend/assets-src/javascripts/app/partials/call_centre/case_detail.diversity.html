@@ -24,17 +24,11 @@
       </div>
 
       <div class="FormBlock FormBlock--grey">
-        <div class="Grid">
-          <div class="Grid-row">
-            <div class="Grid-col Grid-col--1-2" ng-repeat="opt in section.options | filter:code_search">
-              <div class="FormRow FormRow--group FormRow--groupNarrow">
-                <label class="FormRow-label">
-                  <input type="radio" name="{{ ::section.name }}" value="{{ ::opt.value }}" ng-model="current.answer" required>
-                  <span class="FormRow-labelText FormRow-labelText--basic">{{ ::opt.text }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
+        <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="opt in section.options | filter:code_search">
+          <label class="FormRow-label">
+            <input type="radio" name="{{ ::section.name }}" value="{{ ::opt.value }}" ng-model="current.answer" required>
+            <span class="FormRow-labelText FormRow-labelText--basic">{{ ::opt.text }}</span>
+          </label>
         </div>
       </div>
     </div>
