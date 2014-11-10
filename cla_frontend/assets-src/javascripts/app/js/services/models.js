@@ -483,6 +483,18 @@
       return resource;
     }]);
 
+
+  angular.module('cla.services')
+    .factory('CSVUpload', ['$resource', 'url_utils', function ($resource, url_utils) {
+      return $resource(url_utils.proxy('csvupload/:id/'), {
+        'id': '@id',
+      }, {
+        'put': {method: 'PUT'},
+        'post': {method: 'POST', ignoreExceptions:[409]}
+
+      });
+    }]);
+
   angular.module('cla.services.operator')
     .factory('Feedback', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
       var resource = $resource(url_utils.proxy('feedback/:reference/'), {'reference': '@reference'}, {

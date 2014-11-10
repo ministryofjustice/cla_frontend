@@ -13,6 +13,14 @@
     .factory('Raven', ['$window', function($window){
       return $window.Raven;
     }
+  ])
+    .factory('Papa', ['$window', function ($window) {
+      return $window.Papa;
+    }
+  ])
+    .factory('saveAs', ['$window', function ($window) {
+      return $window.saveAs;
+    }
   ]);
 
   angular.module('cla.utils')

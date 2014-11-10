@@ -600,6 +600,21 @@
     providerStates.CaseListState.templateUrl = 'provider/case_list.html';
 
     providerStates.CaseEditDetailState.views['@case_detail'].templateUrl = 'provider/case_detail.edit.html';
+
+    providerStates.CSVUploadListState = {
+      name: 'csv_upload_list',
+      parent: 'layout',
+      templateUrl: 'csv_upload_list.html',
+      controller: 'CSVUploadCtrl',
+      url: APP_BASE_URL+'csvupload/',
+      resolve: {
+        csvuploads: ['$stateParams', 'CSVUpload',
+          function ($stateParams, CSVUpload) {
+            return CSVUpload.query().$promise;
+          }]
+      },
+    };
+
     return providerStates;
   };
 
