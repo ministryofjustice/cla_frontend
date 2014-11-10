@@ -39,7 +39,9 @@ class AuthenticationFormTest(SimpleTestCase):
     def test_success(self):
         # The success case
 
-        self.mocked_authenticate.return_value = mock.MagicMock()
+        self.mocked_authenticate.return_value = mock.MagicMock(
+            is_locked_out=False
+        )
 
         data = {
             'username': 'testclient',
@@ -51,6 +53,23 @@ class AuthenticationFormTest(SimpleTestCase):
         self.assertEqual(form.non_field_errors(), [])
 
         self.mocked_authenticate.assert_called_with(self.zone_name, **data)
+
+    def test_locked_out(self):
+        self.mocked_authenticate.return_value = mock.MagicMock(
+            is_locked_out=True
+        )
+
+        data = {
+            'username': 'testclient',
+            'password': 'password',
+        }
+
+        form = AuthenticationForm(None, zone_name=self.zone_name, data=data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.non_field_errors(),
+            [u'Account locked: too many login attempts. Please try again later.']
+        )
 
     def test_get_login_redirect_url_invalid_zone(self):
         form = AuthenticationForm(None, zone_name='invalid')
