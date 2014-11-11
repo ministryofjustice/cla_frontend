@@ -10,26 +10,39 @@
 
     .header-global {
       @extend %contain-floats;
-      float: left;
+      margin-bottom: 10px;
+
+      @include media(desktop) {
+        float: left;
+        width: 18.75%;
+        margin-right: 1.5625%;
+        margin-bottom: 0;
+      }
 
       .header-logo {
-        @include bold-24;
+        @include bold-19;
         @include inline-block;
         @extend %contain-floats;
         line-height: 1em;
-        padding-top: 5px;
+        padding-top: 8px;
         color: $white;
         text-decoration: none;
         border-bottom: 1px solid transparent;
 
+        img {
+          display: inline;
+          float: left;
+          position: relative;
+          top: -2px;
+          height: 20px;
+          padding-right: 6px;
+          border: 0;
+          width: 23px;
+        }
+
         &:hover {
           border-bottom-color: $white;
         }
-      }
-
-      @include media(desktop) {
-        margin-top: 0;
-        margin-bottom: 0;
       }
     }
   }
