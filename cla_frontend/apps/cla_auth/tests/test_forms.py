@@ -68,7 +68,7 @@ class AuthenticationFormTest(SimpleTestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.non_field_errors(),
-            [u'Account locked: too many login attempts. Please try again later.']
+            [u'Account locked: too many login attempts. Please try again later or contact your Manager.']
         )
 
     def test_get_login_redirect_url_invalid_zone(self):

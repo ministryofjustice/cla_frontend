@@ -15,7 +15,7 @@ class AuthenticationForm(forms.Form):
     error_messages = {
         'invalid_login': _("Please enter a correct %(username)s and password. "
                            "Note that both fields may be case-sensitive."),
-        'locked_out': _("Account locked: too many login attempts. Please try again later.")
+        'locked_out': _("Account locked: too many login attempts. Please try again later or contact your Manager.")
     }
 
     def __init__(self, request=None, *args, **kwargs):

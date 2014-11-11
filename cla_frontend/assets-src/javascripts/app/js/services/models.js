@@ -479,6 +479,11 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.$resetLockout = function() {
+        var url = url_utils.proxy('user/'+this.username+'/reset_lockout/');
+        return $http.post(url, {});
+      };
+
       return resource;
     }]);
 
