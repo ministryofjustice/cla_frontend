@@ -2,20 +2,18 @@
   <h2>Notes history</h2>
 </header>
 
-<div class="CommentBlock">
-  <div class="Grid">
-    <dl class="Grid-row" ng-repeat="note in notes.results">
-      <dt class="Grid-col Grid-col--1-5">
-        <timestamp ng-model="::note.created"></timestamp>
-        <br>
-        ({{ ::note.created_by}})
-      </dt>
-      <dd class="Grid-col Grid-col--4-5">
-        <blockquote class="Quote" ng-bind-html="::note.diffHTML|nl2br"></blockquote>
-      </dd>
-    </dl>
-  </div>
-</div>
+<ul class="Grid NotesHistory">
+  <li ng-repeat="note in notes.results" class="Grid-row NotesHistory-item">
+    <span class="Grid-col Grid-col--1-5">
+      <timestamp ng-model="::note.created"></timestamp>
+      <br>
+      ({{ ::note.created_by }})
+    </span>
+    <span class="Grid-col Grid-col--4-5">
+      <blockquote class="Quote" ng-bind-html="::note.diffHTML|nl2br"></blockquote>
+    </span>
+  </li>
+</ul>
 
 <nav class="cf">
   <div class="BtnGroup cf u-pullLeft" ng-if="notes.next || notes.previous">
