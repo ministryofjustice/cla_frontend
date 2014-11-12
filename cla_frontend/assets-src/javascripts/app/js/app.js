@@ -129,7 +129,8 @@
       'angulartics.piwik',
       'cfp.hotkeys',
       'LocalStorageModule',
-      'diff-match-patch'
+      'diff-match-patch',
+      'angularUtils.directives.dirPagination'
     ])
     .config(common_config)
     .run(common_run);
@@ -180,7 +181,8 @@
       'angulartics.piwik',
       'cfp.hotkeys',
       'LocalStorageModule',
-      'diff-match-patch'
+      'diff-match-patch',
+      'angularUtils.directives.dirPagination'
     ])
     .config(common_config)
     .run(common_run);
