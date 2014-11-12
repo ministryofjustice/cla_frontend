@@ -5,7 +5,6 @@
 
   .factory('flash', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
     var messages = [];
-    var errors = [];
     var default_message = 'An error has occured';
     var reset;
 

@@ -3,7 +3,7 @@
 </header>
 
 <ul class="Grid NotesHistory">
-  <li ng-repeat="note in notes.results" class="Grid-row NotesHistory-item">
+  <li dir-paginate="note in notes.results | itemsPerPage: 5" total-items="notes.count" current-page="currentPage" class="Grid-row NotesHistory-item">
     <span class="Grid-col Grid-col--1-5">
       <timestamp ng-model="::note.created"></timestamp>
       <br>
@@ -16,10 +16,6 @@
 </ul>
 
 <nav class="cf">
-  <div class="BtnGroup cf u-pullLeft" ng-if="notes.next || notes.previous">
-    <a href="" class="BtnGroup-button" ng-disabled="notes.previous === null" ng-click="goToPreviousPage()">‹‹ Previous</a>
-    <a href="" class="BtnGroup-button" ng-disabled="notes.next === null" ng-click="goToNextPage()">Next ››</a>
-  </div>
-
-  <button ng-click="close()" class="Button Button--text u-pullLeft u-spaced">Close</button>
+  <dir-pagination-controls on-page-change="updatePage(newPageNumber)"></dir-pagination-controls>
+  <button ng-click="close()" class="Button Button--text u-pullLeft">Close</button>
 </nav>
