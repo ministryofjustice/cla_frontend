@@ -3,14 +3,15 @@
 
   angular.module('cla.directives')
 
-  .factory('flash', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+  // use $interval instead of $timeout as interval doesn't block the tests
+  .factory('flash', ['$rootScope', '$interval', function ($rootScope, $interval) {
     var messages = [];
     var default_message = 'An error has occured';
     var reset;
 
     var cleanup = function() {
-      $timeout.cancel(reset);
-      reset = $timeout(function() {
+      $interval.cancel(reset);
+      reset = $interval(function() {
         messages = [];
       });
     };
@@ -47,7 +48,7 @@
     };
   }])
 
-  .directive('flashMessages', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+  .directive('flashMessages', ['$rootScope', '$interval', function ($rootScope, $interval) {
     return {
       restrict: 'E',
       replace: true,
@@ -61,7 +62,7 @@
 
         scope.hide = function(_msg) {
           // hides the msg after cancelling the timeout if defined
-          $timeout.cancel(_msg.timeout);
+          $interval.cancel(_msg.timeout);
           scope.messages = _.reject(scope.messages, function(el) { return el === _msg;});
         };
 
@@ -73,7 +74,7 @@
                 scope.hide(_msg);
               };
 
-              _msg.timeout = $timeout(f, 3000);
+              _msg.timeout = $interval(f, 3000);
             })(message);
 
             // add msg to list
