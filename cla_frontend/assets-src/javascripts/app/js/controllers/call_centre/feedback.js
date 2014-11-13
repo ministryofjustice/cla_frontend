@@ -22,17 +22,14 @@
             updatePage();
           };
 
-          function toggleField (feedbackItem, field) {
-            feedbackItem[field] = !feedbackItem[field];
+          $scope.setJustified = function (feedbackItem, value) {
+            feedbackItem['justified'] = value;
             return feedbackItem.$patch();
-          }
-
-          $scope.toggleJustified = function (feedbackItem) {
-            toggleField(feedbackItem, 'justified');
           };
 
           $scope.toggleResolved = function (feedbackItem) {
-            toggleField(feedbackItem, 'resolved');
+            feedbackItem['resolved'] = !feedbackItem['resolved'];
+            return feedbackItem.$patch();
           };
 
           $scope.showRow = function (feedbackItem) {
