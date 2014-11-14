@@ -2,25 +2,27 @@
 (function(){
 
   angular.module('cla.directives')
-  .factory('flash', ['$rootScope', '$interval', function($rootScope, $interval){
-    var messages = [],
-    default_message = 'something happened, but we are not sure what',
-    reset, cleanup, emit, asMessage, asArrayOfMessages;
 
-    cleanup = function() {
+  // use $interval instead of $timeout as interval doesn't block the tests
+  .factory('flash', ['$rootScope', '$interval', function ($rootScope, $interval) {
+    var messages = [];
+    var default_message = 'An error has occured';
+    var reset;
+
+    var cleanup = function() {
       $interval.cancel(reset);
       reset = $interval(function() {
         messages = [];
       });
     };
 
-    emit = function() {
+    var emit = function() {
       $rootScope.$emit('flash:message', messages, cleanup);
     };
 
     $rootScope.$on('$routeChangeSuccess', emit);
 
-    asMessage = function(level, text) {
+    var asMessage = function(level, text) {
       if (text === undefined) {
         text = level;
         level = 'success';
@@ -31,7 +33,7 @@
       };
     };
 
-    asArrayOfMessages = function(level, text) {
+    var asArrayOfMessages = function(level, text) {
       if (level instanceof Array) {
         return level.map(function(message) {
           return message.text ? message : asMessage(message);
@@ -45,11 +47,12 @@
       emit(messages = asArrayOfMessages(level, text));
     };
   }])
-  .directive('flashMessages', ['$rootScope', '$interval', function($rootScope, $interval) {
+
+  .directive('flashMessages', ['$rootScope', '$interval', function ($rootScope, $interval) {
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'directives/flash_messages.html',
+      templateUrl: 'directives/flashMessages.html',
       link: function(scope) {
         scope.messages = [];
 
@@ -65,16 +68,14 @@
 
         $rootScope.$on('flash:message', function(__, messages) {
           angular.forEach(messages, function(message) {
-            // adding timeout to make msg disappear only if not error msg
-            if (message.level !== 'error') {
-              (function(_msg) {
-                var f = function() {
-                  scope.hide(_msg);
-                };
+            // adding timeout to make msg disappear
+            (function(_msg) {
+              var f = function() {
+                scope.hide(_msg);
+              };
 
-                _msg.timeout = $interval(f, 3000);
-              })(message);
-            }
+              _msg.timeout = $interval(f, 3000);
+            })(message);
 
             // add msg to list
             scope.messages = scope.messages.concat([message]);

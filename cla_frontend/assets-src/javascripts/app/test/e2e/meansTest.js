@@ -44,7 +44,7 @@
           tab.element(by.css('a')).click();
           // check has been redirected and message displayed
           expect(browser.getLocationAbsUrl()).toContain(caseRef + '/diagnosis/');
-          expect(element(by.repeater('m in messages').row(0)).getText()).toContain('You must complete an in scope diagnosis before completing the financial assessment');
+          expect(element(by.css('.NoticeContainer--fixed')).getText()).toContain('You must complete an in scope diagnosis before completing the financial assessment');
         });
       });
 

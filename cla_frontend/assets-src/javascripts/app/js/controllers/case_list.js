@@ -80,6 +80,24 @@
             }
           };
 
+          // Classes
+          $scope.rowClass = function (_case) {
+            return {
+              'is-rejected': _case.rejected, // OPERATOR
+              'is-new': !_case.provider_viewed && _case.provider_viewed !== undefined, // PROVIDER
+              'is-complete': _case.outcome_code === 'SPOP' // PROVIDER
+            };
+          };
+
+          $scope.caseTypeClass = function (_case) {
+            return {
+              'Icon--call': _case.source === 'PHONE',
+              'Icon--form': _case.source === 'WEB',
+              'Icon--sms': _case.source === 'SMS',
+              'Icon--voicemail': _case.source === 'VOICEMAIL'
+            };
+          };
+
           // ADD / EDIT CASE ACTIONS
 
           $scope.addCase = function(person_ref) {

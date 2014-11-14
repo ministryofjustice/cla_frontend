@@ -11,23 +11,25 @@
 }
 
 .Pills-pill {
-  display: inline-block;
-  padding: 8px 12px 4px;
-  border: 1px solid transparent;
-  @include border-radius(3px);
+  @include inline-block;
+  padding: 0;
 
-  &.is-active {
-    background-color: $grey-3;
-    border-color: $grey-2;
-  }
-  &.is-disabled {
-    color: $grey-2;
+  &:not(:last-child) {
+    margin-right: 5px;
   }
 }
 
 .Pills-pillLink {
+  @include inline-block;
+  @include border-radius(3px);
+  border: 1px solid transparent;
   color: $black;
   text-decoration: none;
+  padding: 8px 12px 4px;
+
+  &:hover {
+    background-color: $grey-3;
+  }
 
   &:link,
   &:hover,
@@ -35,9 +37,15 @@
   &:visited {
     color: $black;
 
+    .is-active & {
+      background-color: $grey-3;
+      border-color: $grey-1;
+    }
+
     .is-disabled & {
       color: $grey-2;
       cursor: default;
+      background-color: transparent;
     }
   }
 }

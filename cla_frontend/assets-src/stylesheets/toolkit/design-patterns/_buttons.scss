@@ -38,6 +38,7 @@ $Placeholder-Selectors: ();
   }
   &:active {
     @include box-shadow(0 0 0 $colour);
+    border-color: darken($border-colour, 20%);
   }
 
   // Set text colour depending on background colour
@@ -94,7 +95,8 @@ $Placeholder-Selectors: ();
     // Interaction
     cursor: pointer;
     &:active {
-      top: 2px;
+
+      // top: 2px;
     }
 
     // Disabled button styles
