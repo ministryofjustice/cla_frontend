@@ -36,7 +36,7 @@
   border: 1px solid $grey-2;
   display: block;
   height: 30px;
-  line-height: 30px;
+  line-height: 32px;
   white-space: nowrap;
   background-clip: padding-box;
   color: $black;
@@ -70,26 +70,18 @@
   }
 
   .select2-search-choice-close {
+    @extend .Icon;
+    @extend .Icon--cross;
     outline: none;
     display: none;
+
     &:before {
-      font-family: sans-serif;
-      content: "x";
-      display: block;
-      // width: 12px;
-      // height: 12px;
-      // text-align: center;
       position: absolute;
       left: 8px;
-      top: 9px;
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 12px;
+      top: 11px;
+      font-size: 8px;
       z-index: 10;
       color: $grey-1;
-      // color: $white;
-      // background: $black;
-      // @include border-radius(50%);
     }
   }
 }
@@ -286,7 +278,7 @@
 
     .select2-search-choice {
       @include box-sizing(border-box);
-      padding: 0 0 0 13px;
+      padding: 0 0 0 14px;
       margin: 5px 8px 0 0;
       position: relative;
       cursor: default;
@@ -303,19 +295,16 @@
     }
 
     .select2-search-choice-close {
+      @extend .Icon;
+      @extend .Icon--cross;
       outline: none;
-      color: $grey-1;
       &:before {
-        font-family: sans-serif;
-        content: "x";
-        display: block;
-        width: 13px;
-        height: 13px;
         position: absolute;
         left: 2px;
-        top: 2px;
-        font-size: 13px;
-        line-height: 1em;
+        top: 4px;
+        font-size: 8px;
+        z-index: 10;
+        color: $grey-1;
       }
     }
   }

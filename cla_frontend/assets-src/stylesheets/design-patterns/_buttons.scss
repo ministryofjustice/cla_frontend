@@ -8,7 +8,7 @@
 
   // modifiers
   &--secondary {
-    @include button($grey-3, $grey-2);
+    @include button($grey-4, $grey-3);
   }
   &--warning {
     @include button($red);
@@ -19,6 +19,7 @@
     text-decoration: underline;
     padding-left: 0;
     padding-right: 0;
+    border: 0;
 
     &:visited {
       color: $link-visited-colour;

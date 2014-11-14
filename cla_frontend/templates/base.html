@@ -39,6 +39,10 @@
 
     <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
       <div class="header-wrapper">
+        <div class="header-global">
+          <a href="/" class="header-logo" target="_self"><img src="{% static 'images/gov.uk_logotype_crown.png' %}" width="23" height="20" alt=""> {{ proposition_title }}</a>
+        </div>
+
         {% if zone %}
           {% block search %}
           <form id="search" class="CaseSearch" action="{% url zone.LOGIN_REDIRECT_URL %}" method="get" role="search">
@@ -50,10 +54,6 @@
           </form>
           {% endblock %}
         {% endif %}
-
-        <div class="header-global">
-          <a href="/" class="header-logo" target="_self">{{ proposition_title }}</a>
-        </div>
 
         {% if zone %}
           <div class="UserMenu">

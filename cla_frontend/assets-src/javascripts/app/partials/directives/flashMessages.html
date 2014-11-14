@@ -1,0 +1,3 @@
+<ul class="Notice-group" ng-if="messages">
+  <li ng-repeat="m in messages" ng-if="$last" class="Notice Notice--closeable {{levelClassName(m.level)}}" ng-click="hide(m)" ng-bind-html="m.text"></li>
+</ul>

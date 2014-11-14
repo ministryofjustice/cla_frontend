@@ -91,7 +91,7 @@
     <textarea name="notes" id="notes" cols="30" rows="4" ng-model="::alternativeHelpService.notes" placeholder="Assignment comments"></textarea>
   </div>
 
-  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)" data-boundary-links="true"></dir-pagination-controls>
+  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
 
   <div class="FormActions">
     <button type="submit" class="Button" name="assign-alternative-help" ng-disabled="alternativeHelpService.get_selected_provider_ids()==0" ng-click="submit()">Assign alternative help</button>

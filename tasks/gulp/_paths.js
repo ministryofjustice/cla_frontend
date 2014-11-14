@@ -61,6 +61,7 @@
       paths.src + 'vendor/angulartics/src/angulartics-piwik.js',
       paths.src + 'vendor/angular-hotkeys/build/hotkeys.js',
       paths.src + 'vendor/angular-local-storage/dist/angular-local-storage.js',
+      paths.src + 'vendor/angularUtils/src/directives/pagination/dirPagination.js',
       paths.src + 'javascripts/vendor/diff-match-patch/angular-diff-match-patch.js',
       paths.src + 'javascripts/vendor/diff-match-patch/google-diff-match-patch.js'
     ],

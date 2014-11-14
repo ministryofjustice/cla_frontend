@@ -1,33 +1,58 @@
 .Pagination {
-  margin: 30px 10px;
+  @extend %contain-floats;
+  margin: 15px 0;
+}
+
+.Pagination-prefix {
+  float: left;
+  padding: 0 10px 0 0;
+  line-height: 34px;
+  margin: 0;
+}
+
+.Pagination-list {
+  float: left;
+  margin: 0;
   padding: 0;
 }
 
 .Pagination-item {
   float: left;
   display: block;
-  padding: 0 10px;
-  margin: 0;
-  line-height: 0.9em;
+  padding: 0;
+  margin: 0 0 0 -1px;
+  border: 1px solid $grey-2;
 
-  &--num {
-    padding: 0 7px;
-    border-right: 1px solid $grey-1;
+  &:first-child {
+    @include border-radius(3px 0 0 3px);
+  }
+  &:last-child {
+    @include border-radius(0 3px 3px 0);
+  }
 
-    &:last-child {
-      border-right: 0;
+  a {
+    display: block;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 32px;
+    color: $black;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $grey-3;
     }
   }
 
   &.is-current a {
-    text-decoration: none;
-    font-weight: 700;
-    color: $black;
+    background-color: $grey-2;
+    color: $white;
   }
 
   &.is-disabled a {
     text-decoration: none;
-    color: $grey-1;
+    color: $grey-2;
     cursor: default;
+
+    &:hover { background-color: transparent; }
   }
 }
