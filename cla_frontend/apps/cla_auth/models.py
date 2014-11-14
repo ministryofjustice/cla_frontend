@@ -9,6 +9,7 @@ class ClaUser(object):
     def __init__(self, token, zone_name):
         self.pk = token
         self.zone_name = zone_name
+        self.is_locked_out = False
 
     def save(self, *args, **kwargs):
         # TODO call backend api with last_login ?

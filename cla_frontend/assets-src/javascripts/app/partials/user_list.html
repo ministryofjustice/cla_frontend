@@ -2,19 +2,19 @@
   <h1 class="u-pullLeft">User Managment</h1>
 </header>
 
-
-
 <div data-block="case-list">
   <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
     <thead>
     <tr data-block="column-headers">
-      <th>Username</th>
-      <th>Email</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Is Manager</th>
-      <th>Last Login</th>
-      <th>Created</th>
+      <th width="15%">Username</th>
+      <th width="10%">Email</th>
+      <th width="15%">First Name</th>
+      <th width="15%">Last Name</th>
+      <th width="5%">Is Manager</th>
+      <th width="10%">Last Login</th>
+      <th width="10%">Created</th>
+      <th width="10%"></th>
+      <th width="10%"></th>
     </tr>
     </thead>
     <tbody>
@@ -38,6 +38,9 @@
         </td>
         <td>
           <button class="Button" ng-click="reset_password(user)">Reset Password</button>
+        </td>
+        <td>
+          <button class="Button Button--secondary" ng-really-message="Are you sure you wish to unlock this account?" ng-really-click="reset_lockout(user)">Reset Lockout</button>
         </td>
       </tr>
     </tbody>
