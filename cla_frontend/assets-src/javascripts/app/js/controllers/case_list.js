@@ -84,8 +84,9 @@
           $scope.rowClass = function (_case) {
             return {
               'is-rejected': _case.rejected, // OPERATOR
-              'is-new': !_case.provider_viewed && _case.provider_viewed !== undefined, // PROVIDER
-              'is-complete': _case.outcome_code === 'SPOP' // PROVIDER
+              'is-closed': _case.provider_closed, // PROVIDER
+              'is-complete': _case.provider_accepted, // PROVIDER
+              'is-new': !_case.provider_viewed && _case.provider_viewed !== undefined // PROVIDER
             };
           };
 
