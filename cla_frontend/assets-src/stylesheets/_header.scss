@@ -9,7 +9,6 @@
     @extend %contain-floats;
 
     .header-global {
-      @extend %contain-floats;
       margin-bottom: 10px;
 
       @include media(desktop) {

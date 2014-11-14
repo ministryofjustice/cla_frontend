@@ -40,10 +40,7 @@
     <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
       <div class="header-wrapper">
         <div class="header-global">
-          <a href="/" class="header-logo" target="_self">
-            <img src="{% static 'images/gov.uk_logotype_crown.png' %}" width="23" height="20" alt="">
-            {{ proposition_title }}
-          </a>
+          <a href="/" class="header-logo" target="_self"><img src="{% static 'images/gov.uk_logotype_crown.png' %}" width="23" height="20" alt=""> {{ proposition_title }}</a>
         </div>
 
         {% if zone %}
