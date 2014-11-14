@@ -177,10 +177,6 @@
       };
 
       // Provider only endpoints
-      resource.prototype.isRequiresActionByProviderPreview = function(){
-        return this.requires_action_by === REQUIRES_ACTION_BY.PROVIDER_REVIEW;
-      };
-
       resource.prototype.$reject_case = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/reject/');
         return $http.post(url, data);
