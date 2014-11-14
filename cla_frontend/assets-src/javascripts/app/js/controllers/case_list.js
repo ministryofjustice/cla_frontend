@@ -85,7 +85,7 @@
             return {
               'is-rejected': _case.rejected, // OPERATOR
               'is-closed': _case.provider_closed, // PROVIDER
-              'is-complete': _case.provider_accepted, // PROVIDER
+              'is-complete': _case.provider_accepted && !_case.provider_closed, // PROVIDER
               'is-new': !_case.provider_viewed && _case.provider_viewed !== undefined // PROVIDER
             };
           };
