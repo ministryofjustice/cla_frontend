@@ -30,7 +30,7 @@
     defs.CaseListState = {
       name: 'case_list',
       parent: 'layout',
-      url: APP_BASE_URL+'?person_ref?search?ordering?page?new?accepted?viewed',
+      url: APP_BASE_URL+'?person_ref?search?ordering?page?only',
       templateUrl: 'case_list.html',
       controller: 'CaseListCtrl',
       onEnter: ['$state', '$stateParams', 'postal', '$interval', 'cases', 'AppSettings', function($state, $stateParams, postal, $interval, cases, AppSettings) {
@@ -55,9 +55,7 @@
             search: $stateParams.search,
             ordering: $stateParams.ordering,
             page: $stateParams.page,
-            new: $stateParams.new,
-            accepted: $stateParams.accepted,
-            viewed: $stateParams.viewed
+            only: $stateParams.only
           };
 
           // by default, if no search params is defined, get dashboard cases

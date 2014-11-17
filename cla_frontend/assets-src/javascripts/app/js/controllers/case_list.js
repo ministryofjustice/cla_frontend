@@ -47,27 +47,17 @@
 
           // FILTER ACTIONS
 
-          $scope.filterCases = function(newState, acceptedState){
-            $scope.searchParams.new = newState;
-            $scope.searchParams.accepted = acceptedState;
+          $scope.filterCases = function(onlyVal){
+            $scope.searchParams.only = onlyVal;
             _updatePage();
           };
 
-          $scope.filterClass = function(newState, acceptedState) {
-            if (
-              typeof $scope.searchParams.new !== 'undefined' &&
-              $scope.searchParams.new !== null &&
-              typeof $scope.searchParams.accepted !== 'undefined' &&
-              $scope.searchParams.accepted !== null
-            ) {
-              if (parseInt($scope.searchParams.new) === parseInt(newState) && parseInt($scope.searchParams.accepted) === parseInt(acceptedState)) {
-                return 'is-selected';
-              }
-            } else {
-              if (typeof newState === 'undefined' && typeof acceptedState === 'undefined') {
-                return 'is-selected';
-              }
+          $scope.filterClass = function(onlyVal) {
+            if (onlyVal === ($scope.searchParams.only || '')) {
+              return 'is-selected';
             }
+
+            return '';
           };
 
           // SORT ACTIONS
@@ -94,8 +84,9 @@
           $scope.rowClass = function (_case) {
             return {
               'is-rejected': _case.rejected, // OPERATOR
-              'is-new': !_case.provider_viewed && _case.provider_viewed !== undefined, // PROVIDER
-              'is-complete': _case.outcome_code === 'SPOP' // PROVIDER
+              'is-closed': _case.provider_closed, // PROVIDER
+              'is-complete': _case.provider_accepted && !_case.provider_closed, // PROVIDER
+              'is-new': !_case.provider_viewed && _case.provider_viewed !== undefined // PROVIDER
             };
           };
 
