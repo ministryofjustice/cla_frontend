@@ -10,6 +10,8 @@
         },
         link: function (scope, elem, attrs) {
           elem.on('click', function() {
+            postal.publish({channel: 'NotesHistory', topic: 'view'});
+
             scope.caseRef = attrs.notesHistory;
 
             var onModalClose = function () {

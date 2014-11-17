@@ -58,10 +58,14 @@
 
           $scope.search = function() {
             if ($scope.guidance !== undefined) {
+              postal.publish({channel: 'Guidance', topic: 'search'});
+
               guidance.search($scope.guidance.query).then(function(data) {
                 $scope.results = data;
                 $scope.no_results = data.length === 0 && $scope.guidance.query !== '' ? true : false;
               });
+            } else {
+              postal.publish({channel: 'Guidance', topic: 'search.blank'});
             }
           };
 
@@ -97,6 +101,8 @@
                   docRef = parts[0],
                   section = parts.length === 2 ? parts[1] : null;
 
+              postal.publish({channel: 'Guidance', topic: 'openDoc'});
+
               guidance.getDoc(docRef).then(function(doc) {
                 $http.get(doc.source).success(function(data) {
                   $scope.htmlDoc = $sce.trustAsHtml(data);
@@ -113,6 +119,7 @@
           });
 
           $rootScope.$on('guidance:closeDoc', function() {
+            postal.publish({channel: 'Guidance', topic: 'closeDoc'});
             $scope.htmlDoc = null;
             $scope.docRef = null;
           });
