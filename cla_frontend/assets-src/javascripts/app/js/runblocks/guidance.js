@@ -51,8 +51,8 @@
 
   angular.module('cla.controllers')
     .controller('GuidanceCtrl',
-      ['$scope', '$rootScope', '$http', 'cla.guidance', '$sce', '$location',
-        function($scope, $rootScope, $http, guidance, $sce, $location){
+      ['$scope', '$rootScope', '$http', 'cla.guidance', '$sce', '$location', 'postal',
+        function($scope, $rootScope, $http, guidance, $sce, $location, postal){
           $scope.results = [];
           $scope.htmlDoc = null;
 
