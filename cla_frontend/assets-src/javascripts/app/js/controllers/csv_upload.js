@@ -24,6 +24,17 @@
           return range;
         }
 
+        function handleError(err) {
+
+          if (err.status === 409) {
+            flash('error', err.data.detail);
+          }
+          if (err.status === 400 && err.data && err.data.body) {
+            flash('error', err.data.body);
+          } else {
+            flash('error', err.data);
+          }
+        }
         $scope.uploads = csvuploads;
         var firstOfThisMonth = new Moment().local().startOf('month');
         var twelveMonthsAgo = firstOfThisMonth.clone().subtract(12, 'months');
@@ -39,20 +50,16 @@
           upload.$post().then(function () {
             $scope.csvFile = null;
             updatePage();
-          }, function (err) {
-            if (err.status === 409) {
-              flash('error', err.data.detail);
-            }
-          });
+          }, handleError);
         };
 
         $scope.download = function(csv) {
-          csv.$get().then(downloadCSV);
+          csv.$get().then(downloadCSV, handleError);
         };
 
         $scope.overwrite = function(newCsv, oldCsv) {
           oldCsv.body = newCsv;
-          oldCsv.$put().then(updatePage);
+          oldCsv.$put().then(updatePage, handleError);
         };
       }
     ]
