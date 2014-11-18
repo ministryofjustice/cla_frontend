@@ -126,7 +126,7 @@
       'sticky',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.piwik',
+      'angulartics.google.analytics',
       'cfp.hotkeys',
       'LocalStorageModule',
       'diff-match-patch',
