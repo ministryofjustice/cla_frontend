@@ -47,17 +47,22 @@
   }
 
   &.Icon {
+    @extend .Icon--blue;
+    color: $light-blue;
     position: relative;
-    padding-left: 26px;
+    padding-left: 30px;
     &:before, &:after {
       position: absolute;
-      left: 6px;
+      left: 8px;
     }
   }
 
   &.is-selected {
     background-color: $light-blue;
     color: $white;
+    &:before, &:after {
+      color: $white;
+    }
   }
 
   &.is-removable {

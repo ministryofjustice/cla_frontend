@@ -90,13 +90,37 @@
             };
           };
 
-          $scope.caseTypeClass = function (_case) {
-            return {
-              'Icon--call': _case.source === 'PHONE',
-              'Icon--form': _case.source === 'WEB',
-              'Icon--sms': _case.source === 'SMS',
-              'Icon--voicemail': _case.source === 'VOICEMAIL'
-            };
+          $scope.opCaseClass = function (_case) {
+            var className = '';
+            switch (_case.source) {
+              case 'PHONE':
+                className = 'Icon--call';
+                break;
+              case 'WEB':
+                className = 'Icon--form';
+                break;
+              case 'SMS':
+                className = 'Icon--sms';
+                break;
+              case 'VOICEMAIL':
+                className = 'Icon--voicemail';
+                break;
+            }
+            return className;
+          };
+
+          $scope.provCaseClass = function (_case) {
+            if (!_case.provider_viewed && _case.provider_viewed !== undefined) {
+              return 'Icon--folderNew';
+            } else if (_case.provider_accepted && !_case.provider_closed) {
+              return 'Icon--folderAccepted';
+            } else if (_case.provider_closed) {
+              return 'Icon--folderClosed';
+            } else if (_case.provider_viewed) {
+              return 'Icon--folder';
+            } else  {
+              return false;
+            }
           };
 
           // ADD / EDIT CASE ACTIONS
