@@ -21,10 +21,17 @@ def legal_help_form(request, case_reference):
 
         ec = extract['eligibility_check']
         calculations = ec.get('calculations') or {}
+
+        # any specific benefits === True ?!
+        has_any_specific_benefits = False
+        if ec['on_passported_benefits'] and ec['specific_benefits']:
+            has_any_specific_benefits = any(ec['specific_benefits'].values())
+
         ec.update({
             'main_property': None,
             'additional_SMOD_property': None,
-            'additional_non_SMOD_property': None
+            'additional_non_SMOD_property': None,
+            'has_any_specific_benefits': has_any_specific_benefits
         })
 
         property_set = ec.get('property_set', [])

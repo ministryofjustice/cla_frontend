@@ -100,28 +100,31 @@ body
               td(width='30%')
                 input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No"}}')
             tr
+              td(colspan='2') Do you or your partner receive any of the following benefits:
+            tr
+              td Universal Credit
+              td
+                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.universal_credit|yesno:"Yes,No"}}{% endif %}')
+            tr
+              td Income Support
+              td
+                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.income_support|yesno:"Yes,No"}}{% endif %}')
+            tr
+              td Income Based Job-Seekers Allowance
+              td
+                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.job_seekers_allowance|yesno:"Yes,No"}}{% endif %}')
+            tr
+              td Guaranteed State Pension Credit
+              td
+                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.pension_credit|yesno:"Yes,No"}}{% endif %}')
+            tr
+              td Income Related Employment And Support Allowance
+              td
+                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.employment_support|yesno:"Yes,No"}}{% endif %}')
+            tr
               td Are you on National Asylum Support Service benefits?
               td(width='30%')
                 input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No"}}')
-
-            // tr
-            //   td(colspan='2') Do you or your partner receive any of the following benefits:
-            // tr
-            //   td Income Support
-            //   td
-            //     input(type='text', readonly='readonly', value='')
-            // tr
-            //   td Income Based Job-Seekers Allowance
-            //   td
-            //     input(type='text', readonly='readonly', value='')
-            // tr
-            //   td Guaranteed State Pension Credit
-            //   td
-            //     input(type='text', readonly='readonly', value='')
-            // tr
-            //   td Income Related Employment And Support Allowance
-            //   td
-            //     input(type='text', readonly='readonly', value='')
     // Property, Capital
     .page
       fieldset.box

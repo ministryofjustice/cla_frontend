@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService',
-        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS){
           $scope.category_list = Category.query();
 
           // income warnings
@@ -42,6 +42,8 @@
               template: 'includes/eligibility.expenses.html'
             }
           ];
+
+          $scope.specificBenefitsOptions = SPECIFIC_BENEFITS;
 
           var passported = function() {
             var _radio = $('#id_your_details-passported_benefits_0').get(0);
@@ -190,6 +192,10 @@
           };
 
           $scope.save = function () {
+            if (!passported()) {
+              $scope.eligibility_check.specific_benefits = null;
+            }
+
             $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
             $scope.eligibility_check.$update($scope.case.reference, function (data) {
               $scope.case.eligibility_check = data.reference;

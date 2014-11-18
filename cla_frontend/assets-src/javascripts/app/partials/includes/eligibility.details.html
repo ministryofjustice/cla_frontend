@@ -56,6 +56,16 @@
     </label>
   </div>
 
+  <div class="FormRow-label" ng-show="eligibility_check.on_passported_benefits && eligibility_check.on_passported_benefits !== '0'">
+    <p class="u-compact">Please specify which benefits:</p>
+    <ul>
+      <li ng-repeat="opt in specificBenefitsOptions">
+        <input type="checkbox" name="specific_benefits" value="{{ ::opt.value }}" ng-model="::eligibility_check.specific_benefits[opt.value]">
+        <span class="FormRow-labelText FormRow-labelText--basic">{{ ::opt.text }}</span>
+      </li>
+    </ul>
+  </div>
+
   <div class="FormRow cf Grid">
     <p class="FormRow-label">Are you on National Asylum Support Service benefits? <guidance-link doc="eligibility_check#ecg-on_nass_benefits"></guidance-link></p>
 

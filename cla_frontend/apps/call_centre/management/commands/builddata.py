@@ -16,7 +16,7 @@ from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
     TITLES, REQUIRES_ACTION_BY, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, \
     DIAGNOSIS_SCOPE, CONTACT_SAFETY, EXEMPT_USER_REASON, ECF_OPTIONS, \
     FEEDBACK_ISSUE, CASE_SOURCE, GENDERS, ETHNICITIES, RELIGIONS, \
-    SEXUAL_ORIENTATIONS, DISABILITIES, ETHNICITIES_GROUPS
+    SEXUAL_ORIENTATIONS, DISABILITIES, ETHNICITIES_GROUPS, SPECIFIC_BENEFITS
 
 
 class Command(BaseCommand):
@@ -41,6 +41,7 @@ class Command(BaseCommand):
                                         ('RELIGIONS', RELIGIONS),
                                         ('SEXUAL_ORIENTATIONS', SEXUAL_ORIENTATIONS),
                                         ('DISABILITIES', DISABILITIES),
+                                        ('SPECIFIC_BENEFITS', SPECIFIC_BENEFITS)
                                         ]:
                 l[json_name] = []
                 for k, v in iterator:
