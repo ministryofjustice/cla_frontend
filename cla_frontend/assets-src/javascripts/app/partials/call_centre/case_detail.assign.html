@@ -60,7 +60,7 @@
 
   <div ng-show="is_manual && suggested_providers.length > 0">
     <div class="FormRow cf">
-      <input type="text" name="provider-search" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="::provider_search" search-filter>
+      <input type="text" name="assign-provider-search" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="::provider_search" search-filter>
     </div>
 
     <div class="FormRow FormRow--group" ng-repeat="provider in suggested_providers | filter:provider_search">

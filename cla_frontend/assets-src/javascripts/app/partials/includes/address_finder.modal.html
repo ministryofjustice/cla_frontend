@@ -7,7 +7,7 @@
   <div class="FormBlock FormBlock--grey" ng-if="::addresses.length > 0">
     <div>
       <div class="FormRow cf">
-        <input type="text" id="address_search" name="address_search" placeholder="Search addresses" class="FormRow-field--l" ng-model="::address_search" autofocus>
+        <input type="text" id="address_search" name="address-finder-search" placeholder="Search addresses" class="FormRow-field--l" ng-model="::address_search" autofocus search-filter>
       </div>
 
       <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in addresses | filter:address_search">
