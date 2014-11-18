@@ -18,9 +18,7 @@
           }
         }
 
-        // $analytics.eventTrack(envelope.topic, {  category: 'envelope.channel' });
-        console.log(envelope.topic);
-        console.log(eventData);
+        $analytics.eventTrack(envelope.topic, {  category: envelope.channel });
       };
 
       // Address Finder
@@ -83,8 +81,7 @@
             (!$details.hasClass('is-notnative') && !$details.is('[open]')) ||
             ($details.hasClass('is-notnative') && $details.hasClass('is-open'))
           ) {
-            // $analytics.eventTrack('click', {  category: 'Summary', label: summaryText });
-            console.log('summary click', summaryText);
+            $analytics.eventTrack('click', {  category: 'Details Tag', label: summaryText });
           }
         })
         // External link clicks
@@ -93,8 +90,7 @@
           var text = $this.text();
           var loc = $this.attr('href');
 
-          // $analytics.eventTrack('click', {  category: 'Outbound', label: text, value: loc });
-          console.log(text, loc);
+          $analytics.eventTrack(loc, {  category: 'Outbound', label: text });
         });
     }]);
 })();

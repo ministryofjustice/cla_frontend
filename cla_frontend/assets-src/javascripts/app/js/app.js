@@ -89,7 +89,7 @@
         channel: 'system',
         topic: 'user.identified',
         callback: function(user) {
-          window._paq.push(['setUserId', user.username]);
+          ga('set', '&uid', user.username);
         }
       });
 
@@ -178,7 +178,7 @@
       'sticky',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.piwik',
+      'angulartics.google.analytics',
       'cfp.hotkeys',
       'LocalStorageModule',
       'diff-match-patch',
