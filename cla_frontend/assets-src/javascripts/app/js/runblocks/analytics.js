@@ -25,49 +25,49 @@
 
       // Address Finder
       var addressFinder = postal.channel('AddressFinder');
-      var searchSub = addressFinder.subscribe({
+      addressFinder.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
       // Notes History
       var notesHistory = postal.channel('NotesHistory');
-      var notesHistorySub = notesHistory.subscribe({
+      notesHistory.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
       // Eligibility Check
       var EligibilityCheck = postal.channel('EligibilityCheck');
-      var EligibilityCheckSub = EligibilityCheck.subscribe({
+      EligibilityCheck.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
       // Guidance
       var Guidance = postal.channel('Guidance');
-      var GuidanceSub = Guidance.subscribe({
+      Guidance.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
       // Call Scripts
       var CallScript = postal.channel('CallScript');
-      var CallScriptSub = CallScript.subscribe({
+      CallScript.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
       // Assign Provider
       var AssignProvider = postal.channel('AssignProvider');
-      var AssignProviderSub = AssignProvider.subscribe({
+      AssignProvider.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
       // Search filters
       var SearchFilter = postal.channel('SearchFilter');
-      var SearchFilterSub = SearchFilter.subscribe({
+      SearchFilter.subscribe({
         topic: '*',
         callback: trackEvent
       });

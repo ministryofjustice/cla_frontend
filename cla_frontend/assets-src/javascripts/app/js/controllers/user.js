@@ -50,7 +50,7 @@
             user.$resetLockout().then(function(data) {
               flash('Account unlocked successfully.');
             });
-          }
+          };
         }
       ]
     );

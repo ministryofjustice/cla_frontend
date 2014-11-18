@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('cla.directives')
-    .directive('notesHistory', ['$modal', function($modal) {
+    .directive('notesHistory', ['$modal', 'postal', function($modal, postal) {
       return {
         restrict: 'A',
         scope: {
