@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>arrowDown</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="arrowDown" sketch:type="MSArtboardGroup" fill="#000000">
+            <path d="M0,64.15625 L255.953125,448.191406 L512,64.15625 L417.197266,64.15625 L256.566406,304.722656 L95.6757812,64.15625 L0,64.15625 Z" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>
