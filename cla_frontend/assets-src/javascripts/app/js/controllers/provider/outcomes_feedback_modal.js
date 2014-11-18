@@ -32,10 +32,12 @@
 
           $scope.submit = function (form) {
             var that = this,
-            feedback_promise = $scope.shouldLeaveFeedback(this.event_code) ? $scope.submit_feedback(that.notes, form) : $q.when(true);
-            feedback_promise.then(function () {
-                return $scope.submit_outcome(that.event_code, that.notes);
-              }).then($scope.post_submit);
+                feedback_promise = $scope.shouldLeaveFeedback(this.event_code) ? $scope.submit_feedback(that.notes, form) : $q.when(true);
+                feedback_promise.then(function () {
+                  return $scope.submit_outcome(that.event_code, that.notes).then($scope.post_submit, function (data) {
+                    form_utils.ctrlFormErrorCallback($scope, data, form);
+                  });
+                });
           };
         }
       ]);
