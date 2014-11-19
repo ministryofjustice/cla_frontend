@@ -4,6 +4,7 @@
   padding: 6px 0;
 
   &.stuck {
+    @include box-shadow(0 2px 15px rgba(0, 0, 0, 0.5));
     position: fixed;
     top: 0;
     z-index: 100;

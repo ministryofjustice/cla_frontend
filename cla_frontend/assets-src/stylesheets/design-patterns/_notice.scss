@@ -3,14 +3,14 @@
     top: 109px;
     left: 0;
     margin: 0;
-    padding: 10px 0 0;
+    padding: 5px 0 0;
     z-index: 1000;
     position: absolute;
     width: 100%;
 
     &.stuck {
       position: fixed;
-      top: 0;
+      top: 43px;
     }
 
     @include media (tablet) {

@@ -177,10 +177,6 @@
       };
 
       // Provider only endpoints
-      resource.prototype.isRequiresActionByProviderPreview = function(){
-        return this.requires_action_by === REQUIRES_ACTION_BY.PROVIDER_REVIEW;
-      };
-
       resource.prototype.$reject_case = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/reject/');
         return $http.post(url, data);
@@ -479,7 +475,24 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.$resetLockout = function() {
+        var url = url_utils.proxy('user/'+this.username+'/reset_lockout/');
+        return $http.post(url, {});
+      };
+
       return resource;
+    }]);
+
+
+  angular.module('cla.services')
+    .factory('CSVUpload', ['$resource', 'url_utils', function ($resource, url_utils) {
+      return $resource(url_utils.proxy('csvupload/:id/'), {
+        'id': '@id',
+      }, {
+        'put': {method: 'PUT'},
+        'post': {method: 'POST', ignoreExceptions:[409]}
+
+      });
     }]);
 
   angular.module('cla.services.operator')

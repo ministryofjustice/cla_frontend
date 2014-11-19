@@ -1,74 +1,98 @@
-<header class="PageHeader cf" ng-class="{'PageHeader--wo-search': !search}">
-  <h1 class="u-pullLeft">User Managment</h1>
+<header class="PageHeader cf">
+  <h1>User Managment</h1>
 </header>
-
-
 
 <div data-block="case-list">
   <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
     <thead>
-    <tr data-block="column-headers">
-      <th>Username</th>
-      <th>Email</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Is Manager</th>
-      <th>Last Login</th>
-      <th>Created</th>
-    </tr>
+      <tr data-block="column-headers">
+        <th width="15%">Username</th>
+        <th width="10%">Email</th>
+        <th width="15%">First Name</th>
+        <th width="15%">Last Name</th>
+        <th width="5%">Manager</th>
+        <th width="10%">Last Login</th>
+        <th width="10%">Created</th>
+        <th width="10%"></th>
+        <th width="10%"></th>
+      </tr>
     </thead>
     <tbody>
       <tr ng-repeat="user in users" data->
         <td>
-          {{ user.username }}
+          {{ ::user.username }}
         </td>
         <td>
-          {{ user.email }}
+          {{ ::user.email }}
         </td>
-        <td>{{ user.first_name }}</td>
-        <td>{{ user.last_name }}</td>
+        <td>{{ ::user.first_name }}</td>
+        <td>{{ ::user.last_name }}</td>
         <td>
-          {{ user.is_manager }}
-        </td>
-        <td>
-          <timestamp ng-model="user.last_login"></timestamp>
+          {{ ::user.is_manager ? 'Yes' : 'No' }}
         </td>
         <td>
-          <timestamp ng-model="user.created"></timestamp>
+          <timestamp ng-model="::user.last_login"></timestamp>
         </td>
         <td>
-          <button class="Button" ng-click="reset_password(user)">Reset Password</button>
+          <timestamp ng-model="::user.created"></timestamp>
+        </td>
+        <td>
+          <a href="" ng-click="reset_password(user)">Reset Password</a>
+        </td>
+        <td>
+          <a href="" ng-really-message="Are you sure you wish to unlock this account?" ng-really-click="reset_lockout(user)">Reset Lockout</a>
         </td>
       </tr>
     </tbody>
   </table>
-  <form ng-submit="add_user(add_user_form)" name="add_user_form">
-    <button class="BlockLink BlockLink--add">Add user</button>
-    <div ng-class="{'Error': errors || (add_user_form.$invalid && !add_user_form.$pristine)}">
-      <h3>New User</h3>
-      <div data-block="form-content">
-        <label class="FormRow FormRow--narrow cf">
-          <span class="Error-message" ng-show="add_user_form.username.$error.server">{{ errors.full_name }}</span>
-          Username<input type="text" name="username" required="required" ng-model="new_user.username" server-error></label>
-        <label class="FormRow FormRow--narrow cf">
-          <span class="Error-message" ng-show="add_user_form.first_name.$error.server">{{ errors.first_name }}</span>
-          First name<input type="text" name="first_name" required="required" ng-model="new_user.first_name" server-error></label>
-        <label class="FormRow FormRow--narrow cf">
 
-          <span class="Error-message" ng-show="add_user_form.last_name.$error.server">{{ errors.last_name }}</span>
-          Last Name<input type="text" name="last_name" required="required" ng-model="new_user.last_name" server-error></label>
-        <label class="FormRow FormRow--narrow cf">
-          <span class="Error-message" ng-show="add_user_form.email.$error.server">{{ errors.email }}</span>
-          Email<input type="email" name="email" required="required" ng-model="new_user.email" server-error></label>
-        <label class="FormRow FormRow--narrow cf">
-          <span class="Error-message" ng-show="add_user_form.password.$error.server">{{ errors.password }}</span>
-          Password<input type="password" name="password" required="required" ng-model="new_user.password" server-error></label>
-      </div>
+  <br><br>
 
-      <div data-block="form-submit">
-        <input type="submit" class="Button" name="submit"/>
-      </div>
+  <button class="Button Button--secondary Button--add" ng-hide="showFrm" ng-click="showFrm=true" name="add-user">Add user</button>
+
+  <div class="Grid">
+    <div class="Grid-row">
+      <form ng-submit="add_user(add_user_form)" name="add_user_form" ng-show="showFrm" class="VCard VCard-edit Grid-col--1-3">
+        <div ng-class="{'Error': errors || (add_user_form.$invalid && !add_user_form.$pristine)}">
+          <div data-block="form-content">
+            <label class="FormRow FormRow--narrow cf">
+              <span class="Error-message" ng-show="add_user_form.username.$error.server">{{ errors.full_name }}</span>
+              <span class="FormRow-label">Username</span>
+              <input type="text" class="FormRow-field--full" name="username" required="required" ng-model="new_user.username" server-error>
+            </label>
+
+            <label class="FormRow FormRow--narrow cf">
+              <span class="Error-message" ng-show="add_user_form.first_name.$error.server">{{ errors.first_name }}</span>
+              <span class="FormRow-label">First name</span>
+              <input type="text" class="FormRow-field--full" name="first_name" required="required" ng-model="new_user.first_name" server-error>
+            </label>
+
+            <label class="FormRow FormRow--narrow cf">
+              <span class="Error-message" ng-show="add_user_form.last_name.$error.server">{{ errors.last_name }}</span>
+              <span class="FormRow-label">Last Name</span>
+              <input type="text" class="FormRow-field--full" name="last_name" required="required" ng-model="new_user.last_name" server-error>
+            </label>
+
+            <label class="FormRow FormRow--narrow cf">
+              <span class="Error-message" ng-show="add_user_form.email.$error.server">{{ errors.email }}</span>
+              <span class="FormRow-label">Email</span>
+              <input type="email" class="FormRow-field--full" name="email" required="required" ng-model="new_user.email" server-error>
+            </label>
+
+            <label class="FormRow FormRow--narrow cf">
+              <span class="Error-message" ng-show="add_user_form.password.$error.server">{{ errors.password }}</span>
+              <span class="FormRow-label">Password</span>
+              <input type="password" class="FormRow-field--full" name="password" required="required" ng-model="new_user.password" server-error>
+            </label>
+          </div>
+
+          <div class="FormActions" data-block="form-submit">
+            <button type="submit" class="Button" name="submit-add-use">Add user</button>
+            <button type="reset" class="Button Button--text" name="cancel-add-use" ng-click="showFrm=false">Cancel</button>
+          </div>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
 

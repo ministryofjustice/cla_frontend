@@ -12,6 +12,9 @@ html, body, div, h1, h2, h3, h4, h5, h6, article, aside, footer, header, hgroup,
   margin: 0;
   padding: 0;
   vertical-align: baseline;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 // self clearing floats
@@ -65,12 +68,9 @@ fieldset {
   padding: 0;
 }
 
+a,
 a:link {
   color: $link-colour;
-}
-
-a:visited {
-  color: $link-visited-colour;
 }
 
 a:hover {

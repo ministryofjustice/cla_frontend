@@ -39,10 +39,18 @@ class ClaBackend(object):
         except HttpClientError as hcerr:
             error = json.loads(hcerr.content)
             error = error.get('error')
+
             if error == u'invalid_client':
                 # the client is invalid log it
                 "Client used to authenticate with backend is invalid. {}: {}".format(hcerr, error)
                 logger.error(hcerr.message)
+
+            if error == u'locked_out':
+                # this is the django way of dealing with these cases, return a User
+                # with is_xxx == False. The user is authenticated but inactive atm.
+                user = ClaUser(None, self.zone_name)
+                user.is_locked_out = True
+                return user
             return
 
         user = ClaUser(response['access_token'], self.zone_name)

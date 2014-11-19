@@ -1,0 +1,24 @@
+.ToggleGroup {
+  @include border-radius(3px);
+  @include inline-block;
+  border: 1px solid $grey-2;
+  background-color: $white;
+  padding: 2px;
+}
+.ToggleGroup-option {
+  @include core-14;
+  background: none;
+  border: 0;
+  padding: 2px 8px 0;
+  height: 26px;
+  line-height: 26px;
+  cursor: pointer;
+  position: relative;
+  color: $grey-1;
+
+  &.is-selected {
+    @include border-radius(3px);
+    background-color: $grey-3;
+    color: $black;
+  }
+}

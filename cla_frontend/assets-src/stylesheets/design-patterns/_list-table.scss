@@ -20,24 +20,27 @@
 
       &:first-child {
         padding-right: 0;
+
+        .Icon:before {
+          margin-right: 0;
+        }
       }
     }
 
+    // states
     &.is-new td {
       background-color: $yellow-25;
     }
     &.is-complete td {
       background-color: #E8F0F0;
     }
+    &.is-closed td {
+      background-color: $grey-3;
+    }
     &.is-rejected td {
       background-color: $yellow-25;
-      &:first-child {
-        @extend .Icon;
-        @extend .Icon--alert;
+      .Icon {
         @extend .Icon--mellowred;
-        &:before {
-          margin-right: 0;
-        }
       }
     }
   }

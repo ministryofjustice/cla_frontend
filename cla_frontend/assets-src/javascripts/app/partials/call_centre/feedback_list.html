@@ -41,9 +41,9 @@
       <td>{{ ::(feedback.issue|constantByValue:FEEDBACK_ISSUE).text }}</td>
       <td>{{ ::feedback.comment }}</td>
       <td>
-        <div class="BtnGroup">
-          <button class="BtnGroup-button" name="justify-{{ ::feedback.case }}" ng-click="toggleJustified(feedback)" ng-class="{'is-selected': feedback.justified, 'is-deselected': !feedback.justified}">Yes</button>
-          <button class="BtnGroup-button" name="unjustify-{{ ::feedback.case }}" ng-click="toggleJustified(feedback)" ng-class="{'is-selected': !feedback.justified, 'is-deselected': feedback.justified}">No</button>
+        <div class="ToggleGroup">
+          <button class="ToggleGroup-option" name="justify-{{ ::feedback.case }}" ng-click="setJustified(feedback, true)" ng-class="{'is-selected': feedback.justified, 'is-deselected': !feedback.justified}">Yes</button>
+          <button class="ToggleGroup-option" name="unjustify-{{ ::feedback.case }}" ng-click="setJustified(feedback, false)" ng-class="{'is-selected': !feedback.justified, 'is-deselected': feedback.justified}">No</button>
         </div>
       </td>
       <td>
@@ -53,4 +53,4 @@
   </tbody>
 </table>
 
-<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" data-boundary-links="true"></dir-pagination-controls>
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>

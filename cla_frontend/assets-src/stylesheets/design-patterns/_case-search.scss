@@ -4,8 +4,9 @@
 
   @include media(desktop) {
     float: left;
-    width: 18.75%;
-    margin: 0 1.5625% 0 0;
+    margin-bottom: 0;
+    width: 25%;
+    // margin: 0 1.5625% 0 0;
   }
 }
 .CaseSearch-inner {

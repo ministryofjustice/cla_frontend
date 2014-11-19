@@ -1,0 +1,11 @@
+<div class="Error" ng-if="errors.length || global_error">
+    <span ng-if="global_error">{{ global_error.reason }}</span>
+    <div ng-repeat="error in errors">
+      Row: {{ error.row }} - {{ error.message }}
+    </div>
+</div>
+<label>
+  <span class="visuallyhidden">File</span>
+
+  <input type="file" name="csvfile" accept="text/csv">
+</label>

@@ -6,7 +6,7 @@
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="sms" sketch:type="MSArtboardGroup" fill="#0B0C0C">
-            <g id="Imported-Layers" sketch:type="MSLayerGroup" transform="translate(0.000000, 64.000000)">
+            <g sketch:type="MSLayerGroup" transform="translate(0.000000, 64.000000)">
                 <path d="M479.996,0.11 L32.004,0.11 C14.329,0.11 0,14.433 0,32.107 L0,352.113 C0,369.784 14.329,384.11 32.004,384.11 L479.996,384.11 C497.671,384.11 512,369.786 512,352.113 L512,32.107 C512,14.435 497.671,0.11 479.996,0.11 L479.996,0.11 Z M448,288.108 C448,305.775 433.674,320.11 416.003,320.11 L95.997,320.11 C78.324,320.11 64,305.782 64,288.108 L64,96.112 C64,78.445 78.326,64.11 95.997,64.11 L416.003,64.11 C433.677,64.11 448,78.438 448,96.112 L448,288.108 L448,288.108 Z" id="Fill-1" sketch:type="MSShapeGroup"></path>
                 <path d="M192,96.11 L256,96.11 L256,288.11 L192,288.11 L192,96.11 Z" id="Fill-2" sketch:type="MSShapeGroup"></path>
                 <path d="M288,96.11 L416,96.11 L416,160.11 L288,160.11 L288,96.11 Z" id="Fill-3" sketch:type="MSShapeGroup"></path>

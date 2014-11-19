@@ -1,0 +1,40 @@
+<header class="PageHeader cf">
+  <h2>CSV Upload</h2>
+</header>
+
+<form class="FormRow" name="csvForm" ng-submit="submit(csvForm)">
+  <csv-upload ng-model="csvFile"></csv-upload>
+  <label>
+    <select ng-model="month" ng-required="true" ng-options="month.value as month.name for month in validMonths">
+    </select>
+  </label>
+  <button type="submit" name="submit" class="Button Button--secondary">Upload</button>
+</form>
+
+<table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Date Uploaded</th>
+      <th>Submitted By</th>
+      <th>Rows</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="csv in uploads">
+      <td>{{ ::csv.month | date:'MMM yyyy'}} Upload</td>
+      <td>
+        <timestamp ng-model="csv.created"></timestamp>
+      </td>
+      <td>{{ ::csv.created_by }}</td>
+      <td>{{ ::csv.rows }}</td>
+      <td><a href="" ng-show="!upload_again" ng-click="upload_again=true">Upload Again</a>
+        <form ng-show="upload_again" ng-submit="overwrite(reuploadFile, csv)"><csv-upload ng-model="reuploadFile"></csv-upload><button class="Button Button--secondary" name="submit" type="submit">Overwrite</button>
+        </form>
+      </td>
+      <td><a href="" ng-click="download(csv)">Download</a></td>
+    </tr>
+  </tbody>
+</table>

@@ -1,9 +1,10 @@
 <div data-extend-template="case_list.html">
   <span data-block="filters" class="LabelGroup">
-    <a href="" class="Label" ng-class="filterClass()" ng-click="filterCases()">All</a>
-    <a href="" class="Label" ng-class="filterClass(1, 0)" ng-click="filterCases(1, 0)">New</a>
-    <a href="" class="Label" ng-class="filterClass(0, 0)" ng-click="filterCases(0, 0)">Opened</a>
-    <a href="" class="Label" ng-class="filterClass(0, 1)" ng-click="filterCases(0, 1)">Accepted</a>
+    <a href="" class="Label" ng-class="filterClass('')" ng-click="filterCases('')">All</a>
+    <a href="" class="Label Icon Icon--folderNew" ng-class="filterClass('new')" ng-click="filterCases('new')">New</a>
+    <a href="" class="Label Icon Icon--folder" ng-class="filterClass('opened')" ng-click="filterCases('opened')">Opened</a>
+    <a href="" class="Label Icon Icon--folderAccepted" ng-class="filterClass('accepted')" ng-click="filterCases('accepted')">Accepted</a>
+    <a href="" class="Label Icon Icon--folderClosed" ng-class="filterClass('closed')" ng-click="filterCases('closed')">Closed</a>
   </span>
 
   <span data-block="outcome-column">Outcome code</span>
