@@ -28,6 +28,7 @@
 
           if (err.status === 409) {
             flash('error', err.data.detail);
+            return;
           }
           if (err.status === 400 && err.data && err.data.body) {
             flash('error', err.data.body);
