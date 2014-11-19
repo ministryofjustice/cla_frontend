@@ -111,17 +111,22 @@
           };
 
           $scope.provCaseClass = function (_case) {
-            if (!_case.provider_viewed && !_case.provider_accepted && !_case.provider_closed) {
-              return 'Icon--folderNew';
-            } else if (_case.provider_accepted && !_case.provider_closed) {
-              return 'Icon--folderAccepted';
-            } else if (_case.provider_closed) {
-              return 'Icon--folderClosed';
-            } else if (_case.provider_viewed) {
-              return 'Icon--folder';
-            } else  {
+            if (_case.provider_viewed === undefined) {
               return false;
             }
+            if (!_case.provider_viewed && !_case.provider_accepted && !_case.provider_closed) {
+              return 'Icon--folderNew';
+            }
+            if (_case.provider_accepted && !_case.provider_closed) {
+              return 'Icon--folderAccepted';
+            }
+            if (_case.provider_closed) {
+              return 'Icon--folderClosed';
+            }
+            if (_case.provider_viewed) {
+              return 'Icon--folder';
+            }
+            return false;
           };
 
           // ADD / EDIT CASE ACTIONS
