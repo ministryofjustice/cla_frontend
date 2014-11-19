@@ -48,6 +48,7 @@
           // FILTER ACTIONS
 
           $scope.filterCases = function(onlyVal){
+            $scope.searchParams.page = 1;
             $scope.searchParams.only = onlyVal;
             _updatePage();
           };
@@ -86,7 +87,7 @@
               'is-rejected': _case.rejected, // OPERATOR
               'is-closed': _case.provider_closed, // PROVIDER
               'is-complete': _case.provider_accepted && !_case.provider_closed, // PROVIDER
-              'is-new': !_case.provider_viewed && _case.provider_viewed !== undefined // PROVIDER
+              'is-new': !_case.provider_viewed && !_case.provider_accepted && !_case.provider_closed // PROVIDER
             };
           };
 
@@ -110,7 +111,7 @@
           };
 
           $scope.provCaseClass = function (_case) {
-            if (!_case.provider_viewed && _case.provider_viewed !== undefined) {
+            if (!_case.provider_viewed && !_case.provider_accepted && !_case.provider_closed) {
               return 'Icon--folderNew';
             } else if (_case.provider_accepted && !_case.provider_closed) {
               return 'Icon--folderAccepted';
