@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS',
-        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout){
           $scope.category_list = Category.query();
 
           // income warnings
@@ -79,6 +79,9 @@
 
           $scope.selectBenefit = function () {
             $scope.eligibility_check.on_passported_benefits = true;
+            $timeout(function () {
+              $scope.updateTabs();
+            });
           };
 
           $scope.updateTabs = function () {

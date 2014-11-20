@@ -42,7 +42,7 @@
     </div>
 
     <div class="cf">
-      <label class="FormRow-option FormRow-option--narrow" ng-repeat="opt in specificBenefitsOptions">
+      <label class="FormRow-option FormRow-option--narrow" ng-repeat="opt in ::specificBenefitsOptions">
         <input type="checkbox" name="specific_benefits" value="{{ ::opt.value }}" ng-model="::eligibility_check.specific_benefits[opt.value]" ng-disabled="disabledBenefits()" ng-click="selectBenefit()">{{ ::opt.text }}
       </label>
     </div>

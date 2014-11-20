@@ -95,32 +95,34 @@ body
                 input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No"}}')
 
             // passported and nass questions should be replaced by the 5 questions below when ready
-            tr
-              td Are you or your partner directly or indirectly in receipt of Income Support, Income-based Jobseeker's Allowance, Income-related Employment and Support Allowance or Guarantee Credit?
-              td(width='30%')
-                input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No"}}')
-            tr
-              td(colspan='2') Do you or your partner receive any of the following benefits:
-            tr
-              td Universal Credit
-              td
-                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.universal_credit|yesno:"Yes,No"}}{% endif %}')
-            tr
-              td Income Support
-              td
-                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.income_support|yesno:"Yes,No"}}{% endif %}')
-            tr
-              td Income Based Job-Seekers Allowance
-              td
-                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.job_seekers_allowance|yesno:"Yes,No"}}{% endif %}')
-            tr
-              td Guaranteed State Pension Credit
-              td
-                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.pension_credit|yesno:"Yes,No"}}{% endif %}')
-            tr
-              td Income Related Employment And Support Allowance
-              td
-                input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.employment_support|yesno:"Yes,No"}}{% endif %}')
+            if eligibility_check.has_any_specific_benefits
+              tr
+                td(colspan='2') Do you or your partner receive any of the following benefits:
+              tr
+                td Universal Credit
+                td
+                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.universal_credit|yesno:"Yes,No"}}{% endif %}')
+              tr
+                td Income Support
+                td
+                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.income_support|yesno:"Yes,No"}}{% endif %}')
+              tr
+                td Income Based Job-Seekers Allowance
+                td
+                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.job_seekers_allowance|yesno:"Yes,No"}}{% endif %}')
+              tr
+                td Guaranteed State Pension Credit
+                td
+                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.pension_credit|yesno:"Yes,No"}}{% endif %}')
+              tr
+                td Income Related Employment And Support Allowance
+                td
+                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.employment_support|yesno:"Yes,No"}}{% endif %}')
+            else
+              tr
+                td Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker's Allowance, Income-related Employment and Support Allowance or Guarantee Credit?
+                td(width='30%')
+                  input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No"}}')
             tr
               td Are you on National Asylum Support Service benefits?
               td(width='30%')
@@ -204,7 +206,7 @@ body
               th(width='20%') Partner's Capital
           tbody
             tr
-              td Savings 
+              td Savings
                 small
                   em (Savings/Bank Accounts, Building Society)
               td
@@ -214,7 +216,7 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.bank_balance|in_pounds}}')
             tr
-              td Investments 
+              td Investments
                 small
                   em (Including Shares and Insurance Policies)
               td
@@ -224,8 +226,8 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.investment_balance|in_pounds}}')
             tr
-              td Valuable Items 
-                small 
+              td Valuable Items
+                small
                   em (e.g. Boat, Caravan, Jewellery etc)
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.asset_balance|in_pounds}}')
@@ -234,8 +236,8 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.asset_balance|in_pounds}}')
             tr
-              td Other Capital 
-                small 
+              td Other Capital
+                small
                   em (including money due to you)
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.credit_balance|in_pounds}}')
@@ -247,12 +249,12 @@ body
           tbody
             tr
               td(width='40%') Pensioner Capital Disregard
-              td(width='20%') 
+              td(width='20%')
                 input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.pensioner_disregard|in_pounds}}')
               td(width='20%')
               td(width='20%')
             tr
-              td 
+              td
                 strong TOTAL CAPITAL for Assessment Purposes
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.disposable_capital_assets|in_pounds}}')
@@ -275,7 +277,7 @@ body
               th(width='20%') Your Partner
           tbody
             tr
-              td Wages 
+              td Wages
                 small
                   em (Before Tax)
               td
@@ -283,7 +285,7 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.earnings|mi_as_monthly|in_pounds}}')
             tr
-              td Self Employed Drawings 
+              td Self Employed Drawings
                 small
                   em (Before Tax)
               td
@@ -303,7 +305,7 @@ body
               td
                 input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.tax_credits|mi_as_monthly|in_pounds}}')
             tr
-              td Child Benefit 
+              td Child Benefit
                 small
                   em (for household)
               td
@@ -336,7 +338,7 @@ body
         table.field-table(width='100%')
           thead
             tr
-              th.u-uppercase.u-alignLeft(colspan='3') 
+              th.u-uppercase.u-alignLeft(colspan='3')
                 strong Less monthly allowances
             tr
               th(width='60%')
@@ -420,11 +422,11 @@ body
         tbody
           tr
             td(width='80%') I have not been to an advisor or solicitor about this problem before to get advice on it paid for by the Legal Aid Agency
-            td(width='20%') 
+            td(width='20%')
               input.check(type='text', value='')
           tr
             td(width='80%') I have already been to an advisor or solicitor about this problem and had advice paid for by the Legal Aid Agency
-            td(width='20%') 
+            td(width='20%')
               input.check(type='text', value='')
           tr
             td(colspan='2')
@@ -445,9 +447,9 @@ body
             td(width='30%')
               label.block-label(for='') Date
               input(type='text', value='')
-      p 
+      p
         strong If you have a partner whose details have been completed on this form then they must sign the authority below.
-      p 
+      p
         strong Partners Declaration.
       p This is a true statement of all my income and assets in the UK and abroad. I agree to the LAA checking these facts with others such as the Department of Work and Pensions (DWP) and the HM Revenue and Customs (HMRC) and I authorise those parties (including HMRC and DWP) to provide the information they are asked for.
       table.field-table(width='100%')
@@ -471,9 +473,9 @@ body
       h2.section-heading Notes
       ol
         li By "partner" we mean anyone (including a person of the same sex) that you live with as a couple. Your partner "lives with" you even if they are not living in the same house as you (e.g. because you or your partner works away from home) unless one of you considers that your relationship is over. You should not give details of your partner's money if the problem you are seeking advice about is a dispute with your partner.
-        li You need to tell us if you get Income Support, Income-Based Jobseeker’s Allowance, Income-related employment and support allowance or Guaranteed State Pension Credit (under section 1(3)(a) of the State Pension Credit Act (a)) in ‘Your Finances’ but you do not need to fill in sections ‘Your Capital’ and ‘Your Income’ of the form. If your partner gets the benefit and you are included in your partner's benefit claim, you count as someone who gets the benefit "indirectly". 
-        li The equity in your home is the amount left over after the mortgage you owe has been paid in full. The first £100,000 equity is not counted. We work out equity as follows. Take the market value of your property and take away the mortgage you still have to pay up to a maximum of £100,000. If the result is £0 we assess the property as having no equity (£0). This will appear in the box called ‘Equity in the home for assessment purposes’. If £1 or more is left we subtract £100,000, which allows you some equity in your property. We use the figure that is left for our assessment. Where this £0 or less we count it as £0. Here is an example: 
-          .indent 
+        li You need to tell us if you get Income Support, Income-Based Jobseeker’s Allowance, Income-related employment and support allowance or Guaranteed State Pension Credit (under section 1(3)(a) of the State Pension Credit Act (a)) in ‘Your Finances’ but you do not need to fill in sections ‘Your Capital’ and ‘Your Income’ of the form. If your partner gets the benefit and you are included in your partner's benefit claim, you count as someone who gets the benefit "indirectly".
+        li The equity in your home is the amount left over after the mortgage you owe has been paid in full. The first £100,000 equity is not counted. We work out equity as follows. Take the market value of your property and take away the mortgage you still have to pay up to a maximum of £100,000. If the result is £0 we assess the property as having no equity (£0). This will appear in the box called ‘Equity in the home for assessment purposes’. If £1 or more is left we subtract £100,000, which allows you some equity in your property. We use the figure that is left for our assessment. Where this £0 or less we count it as £0. Here is an example:
+          .indent
             p Mr Smith has a home worth £215,000 with an outstanding mortgage of £120,000
             table
               tbody
@@ -489,30 +491,30 @@ body
                 tr
                   td Number to put in box:
                   td £15,000
-        li 
+        li
           p The figure for your gross monthly income is the total amount that you received last month before tax, national insurance etc. , excluding certain state benefits which are disregarded when determining gross income or disposable income (Regulation 24).
           p The disregarded benefits are:
           ol
             li The following payments under the Social Security Contributions and Benefits Act 1992 (or the Social Security Contributions and Benefits (Northern Ireland) Act 1992) namely:
             ol
               li Disability living allowance;
-              li Attendance allowance; 
-              li Constant attendance allowance paid as an increase to disability pension; 
-              li Any payment made out of the social fund; 
-              li Carer’s Allowance; and 
-              li Council Tax benefit. 
-            li Any direct payments made under regulations made under the Health and Social Care Act 2001 (direct payments), section 17A of the Children Act 1989 (direct payments) or the Carers and Direct Payments Act (Northern Ireland) 2002; 
-            li Severe Disablement Allowance paid under the Social Security Contributions and Benefits Act 1992 (or the Social Security Contributions and Benefits (Northern Ireland) Act 1992); 
+              li Attendance allowance;
+              li Constant attendance allowance paid as an increase to disability pension;
+              li Any payment made out of the social fund;
+              li Carer’s Allowance; and
+              li Council Tax benefit.
+            li Any direct payments made under regulations made under the Health and Social Care Act 2001 (direct payments), section 17A of the Children Act 1989 (direct payments) or the Carers and Direct Payments Act (Northern Ireland) 2002;
+            li Severe Disablement Allowance paid under the Social Security Contributions and Benefits Act 1992 (or the Social Security Contributions and Benefits (Northern Ireland) Act 1992);
             li Exceptionally Severe Disablement Allowance paid under the Personal Injuries (Civilians) (Amendment) Scheme 1983;
-            li Any pensions paid under the Naval, Military, Air Forces etc (Disability & Death) Service Pensions Order 2006(c); 
-            li To the extent that it exceeds the relevant dependants allowance made under reg.25(2)(b), any financial support paid under any agreement for the care of a foster child; and 
-            li Any payment made out of the Independent Living Fund (2006); and 
-            li Any personal independence payment paid under the Welfare Reform Act 2012. 
-        li If your gross income is more than £2,657 per month you will not normally get funding for Legal Aid but if you have more than 4 dependent children this figure goes up by £222 per extra child. E.g. if you have six children your gross income can be as much as £3,101 (£2,657+£222+£222) and you still might qualify. 
-        li If you receive Housing Benefit only the amount that you pay yourself should be put in the ‘Rent’ box. If you have no dependents, the maximum allowance for housing costs is £545. 
-        li Dependent relatives are: children under 15, or children between 16 and 19 still at school, who live in the same house as you and who rely on you to support them. There is a standard allowance of £285.13 for each dependent relative who lives with you. If you currently have a partner that lives with you then you will receive an allowance of £177.50 for this partner. 
-        li There is a standard allowance of £45 if you or your partner is working. If you both work, you both get the allowance. 
-        li You should put in the box how much you spent on childcare because you have to go to work. 
+            li Any pensions paid under the Naval, Military, Air Forces etc (Disability & Death) Service Pensions Order 2006(c);
+            li To the extent that it exceeds the relevant dependants allowance made under reg.25(2)(b), any financial support paid under any agreement for the care of a foster child; and
+            li Any payment made out of the Independent Living Fund (2006); and
+            li Any personal independence payment paid under the Welfare Reform Act 2012.
+        li If your gross income is more than £2,657 per month you will not normally get funding for Legal Aid but if you have more than 4 dependent children this figure goes up by £222 per extra child. E.g. if you have six children your gross income can be as much as £3,101 (£2,657+£222+£222) and you still might qualify.
+        li If you receive Housing Benefit only the amount that you pay yourself should be put in the ‘Rent’ box. If you have no dependents, the maximum allowance for housing costs is £545.
+        li Dependent relatives are: children under 15, or children between 16 and 19 still at school, who live in the same house as you and who rely on you to support them. There is a standard allowance of £285.13 for each dependent relative who lives with you. If you currently have a partner that lives with you then you will receive an allowance of £177.50 for this partner.
+        li There is a standard allowance of £45 if you or your partner is working. If you both work, you both get the allowance.
+        li You should put in the box how much you spent on childcare because you have to go to work.
         li Your disposable income is what is left when your (and any partner’s) total monthly allowances are taken away from your (and any partner’s) total gross monthly income.
       p
         strong Further Guidance
@@ -529,15 +531,15 @@ body
           tbody
             tr
               td(width='80%') Accepted an application from a child or patient or someone on their behalf
-              td(width='20%') 
+              td(width='20%')
                 input.check(type='text', value='')
             tr
               td(width='80%') Provided Legal Help to a client who has already received it on the same matter within the last 6 months
-              td(width='20%') 
+              td(width='20%')
                 input.check(type='text', value='')
             tr
               td(width='80%') Claimed for outward travel before the signature of the form
-              td(width='20%') 
+              td(width='20%')
                 input.check(type='text', value='')
         p If you have ticked any of the above boxes, please provide the circumstances justifying this in accordance with the relevant Rule in the Specification.
       .box
