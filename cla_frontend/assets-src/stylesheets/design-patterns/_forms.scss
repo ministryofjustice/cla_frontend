@@ -213,6 +213,11 @@ $border-colour: $grey-2;
       };
       padding: 0 35px 0 0;
     }
+
+    &--narrow {
+      margin: 2px 0;
+      padding: 0 20px 0 0;
+    }
   }
   .QuestionPrompt-answer {
     margin: 0;

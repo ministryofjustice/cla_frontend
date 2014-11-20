@@ -70,7 +70,21 @@
             return r;
           };
 
+          $scope.disabledBenefits = function () {
+            if (passported() || $scope.eligibility_check.on_passported_benefits === undefined) {
+              return false;
+            }
+            return true;
+          };
+
+          $scope.selectBenefit = function () {
+            $scope.eligibility_check.on_passported_benefits = true;
+          };
+
           $scope.updateTabs = function () {
+            if (!passported()) {
+              $scope.eligibility_check.specific_benefits = null;
+            }
             $scope.sections = all_sections.filter(isRequired);
           };
           $scope.updateTabs();
