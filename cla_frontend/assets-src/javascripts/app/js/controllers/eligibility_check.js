@@ -190,7 +190,7 @@
               total -= $scope.eligibility_check.partner.deductions.total;
             }
 
-            return total <= 0 ? true : false;
+            return total < 0 ? true : false;
           };
           var checkHousing = function (person) {
             var totalIncome = 0;
