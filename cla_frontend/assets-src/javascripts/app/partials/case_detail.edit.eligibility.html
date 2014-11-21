@@ -1,6 +1,6 @@
 <form ng-submit="save()" novalidate name="form" class="u-relative">
   <ul class="Pills">
-    <li class="Pills-pill" ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
+    <li class="Pills-pill {{ tabClass(section) }}" ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
       <a href="" ng-click="gotoSection(section)" class="Pills-pillLink">{{ ::section.title }}</a>
     </li>
   </ul>

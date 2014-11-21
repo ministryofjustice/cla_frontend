@@ -47,5 +47,10 @@
       cursor: default;
       background-color: transparent;
     }
+
+    .is-warned & {
+      border-color: $orange;
+      background-color: lighten($orange-25, 6%);
+    }
   }
 }

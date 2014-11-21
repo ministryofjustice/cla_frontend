@@ -236,6 +236,18 @@
           // check on load
           checkIncome();
 
+          $scope.tabClass = function (section) {
+            var incomeWarnings = $scope.incomeWarnings;
+            // console.log(section.title);
+            if (section.title === 'Income' && (incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing)) {
+              return 'is-warned';
+            } else if (section.title === 'Expenses' && (incomeWarnings.negativeDisposable || incomeWarnings.housing)) {
+              return 'is-warned';
+            }
+
+            return '';
+          };
+
           $scope.isComplete = function (section) {
             var emptyInputs = angular.element('#' + section).find('input, select, textarea').filter(function() {
               var $this = angular.element(this),
