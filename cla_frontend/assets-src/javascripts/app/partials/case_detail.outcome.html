@@ -26,6 +26,10 @@
           <a href="" ng-click="showDiagnosisSummary(log)">Diagnosis created</a>
         </div>
 
+        <div ng-if="log.code === 'CALLBACK_COMPLETE'">
+          <span class="CaseHistory-logItemNotes">Callback stopped</span>
+        </div>
+
         <span class="CaseHistory-logItemNotes" ng-if="log.notes && log.code !== 'MT_CREATED' && log.code !== 'MT_CHANGED'">{{ ::log.notes }}</span>
       </li>
     </ul>

@@ -118,7 +118,10 @@
       };
 
       resource.prototype.canBeCalledBack = function(){
-        return this.created_by !== 'web' && this.callback_attempt < 3;
+        if (this.created_by === 'web') {
+          return this.callback_attempt === 0;
+        }
+        return this.callback_attempt < 3;
       };
 
       resource.prototype.createdByWeb = function () {
