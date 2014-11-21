@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_',
-        function($scope, Category, $stateParams, flash, $state, postal, Moment, _){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'MoneyIntervalService',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, MoneyIntervalService){
           $scope.category_list = Category.query();
           $scope.warnings = {};
           $scope.oneMonthAgo = new Moment().add(1, 'days').subtract(1, 'months').format('Do MMMM, YYYY');
@@ -117,44 +117,120 @@
           var checkIncome = function () {
             var warnings = {};
             // if passported, don't show
-            if (passported()) {
-              warnings = {};
-            } else {
-              warnings.housing = checkHousing('you');
-
-              if ($scope.hasPartner()) {
-                warnings.zeroIncome = checkZeroIncome('you') && checkZeroIncome('partner') ? true : false;
-                warnings.negativeDisposable = checkDisposableIncome('you') && checkDisposableIncome('partner') ? true : false;
-              } else {
-                warnings.zeroIncome = checkZeroIncome('you');
-                warnings.negativeDisposable = checkDisposableIncome('you');
-              }
+            if (!passported()) {
+              warnings.housing = checkHousing();
+              warnings.zeroIncome = checkZeroIncome();
+              warnings.negativeDisposable = checkDisposableIncome();
             }
 
             $scope.incomeWarnings = _.pick(warnings, function (value) {
               return value;
             });
           };
-          var checkZeroIncome = function (person) {
-            var total = $scope.eligibility_check[person] ? $scope.eligibility_check[person].income.total : 0;
-            return parseInt(total) <= 0 ? true : false;
+          var isComplete = function (fields) {
+            var complete = true;
+            angular.forEach(fields, function (v, k) {
+              if (k !== 'self_employed' && v === null || v === undefined) {
+                complete = false;
+              }
+            });
+            return complete;
+          };
+          var checkZeroIncome = function () {
+            var total = 0;
+            // fail if you or income don't exist
+            if (!$scope.eligibility_check.you) {
+              return false
+            }
+            if (!isComplete($scope.eligibility_check.you.income)) {
+              return false;
+            }
+
+            // add income to total
+            total += $scope.eligibility_check.you.income.total;
+
+            if ($scope.hasPartner()) {
+              // fail if partner or partner income don't exist
+              if (!$scope.eligibility_check.partner) {
+                return false
+              }
+              if (!isComplete($scope.eligibility_check.partner.income)) {
+                return false;
+              }
+              // add partner income to total
+              total += $scope.eligibility_check.partner.income.total;
+            }
+
+            return total <= 0 ? true : false;
           };
           var checkDisposableIncome = function (person) {
-            if ($scope.eligibility_check[person]) {
-              var income = $scope.eligibility_check[person].income.total;
-              var expenses = $scope.eligibility_check[person].deductions.total;
-              var total = income - expenses;
-              return parseInt(total) <= 0 ? true : false;
+            var total = 0;
+            // fail if you or income don't exist
+            if (!$scope.eligibility_check.you) {
+              return false
             }
-            return false;
+            if (!isComplete($scope.eligibility_check.you.income) || !isComplete($scope.eligibility_check.you.deductions)) {
+              return false;
+            }
+
+            // add income to total
+            total += $scope.eligibility_check.you.income.total;
+            total -= $scope.eligibility_check.you.deductions.total;
+
+            if ($scope.hasPartner()) {
+              // fail if partner or partner income don't exist
+              if (!$scope.eligibility_check.partner) {
+                return false
+              }
+              if (!isComplete($scope.eligibility_check.partner.income) || !isComplete($scope.eligibility_check.partner.deductions)) {
+                return false;
+              }
+              // add partner income to total
+              total += $scope.eligibility_check.partner.income.total;
+              total -= $scope.eligibility_check.partner.deductions.total;
+            }
+
+            return total <= 0 ? true : false;
           };
           var checkHousing = function (person) {
-            if ($scope.eligibility_check[person]) {
-              var income = $scope.eligibility_check[person].income.total;
-              var housingCosts = $scope.eligibility_check[person].deductions.mortgage.per_interval_value + $scope.eligibility_check[person].deductions.rent.per_interval_value;
-              return housingCosts > (income / 3) ? true : false;
+            var totalIncome = 0;
+            var housingCosts = 0;
+            // fail if you or income don't exist
+            if (!$scope.eligibility_check.you) {
+              return false
             }
-            return false;
+            if (!isComplete($scope.eligibility_check.you.income) || !isComplete($scope.eligibility_check.you.deductions)) {
+              return false;
+            }
+
+            // add income to total
+            totalIncome += $scope.eligibility_check.you.income.total;
+
+            var mortgage = $scope.eligibility_check.you.deductions.mortgage;
+            var monthlyMortgage = MoneyIntervalService.asMonthly(mortgage.interval_period, mortgage.per_interval_value);
+            var rent = $scope.eligibility_check.you.deductions.rent;
+            var monthlyRent = MoneyIntervalService.asMonthly(rent.interval_period, rent.per_interval_value);
+            housingCosts += (monthlyMortgage + monthlyRent);
+
+            if ($scope.hasPartner()) {
+              // fail if partner or partner income don't exist
+              if (!$scope.eligibility_check.partner) {
+                return false
+              }
+              if (!isComplete($scope.eligibility_check.partner.income) || !isComplete($scope.eligibility_check.partner.deductions)) {
+                return false;
+              }
+              // add partner income to total
+              totalIncome += $scope.eligibility_check.partner.income.total;
+
+              var mortgage = $scope.eligibility_check.partner.deductions.mortgage;
+              var monthlyMortgage = MoneyIntervalService.asMonthly(mortgage.interval_period, mortgage.per_interval_value);
+              var rent = $scope.eligibility_check.partner.deductions.rent;
+              var monthlyRent = MoneyIntervalService.asMonthly(rent.interval_period, rent.per_interval_value);
+              housingCosts += (monthlyMortgage + monthlyRent);
+            }
+
+            return (housingCosts) > (totalIncome / 3) ? true : false;
           };
 
           // check on load

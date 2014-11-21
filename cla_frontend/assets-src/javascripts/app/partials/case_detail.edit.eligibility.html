@@ -9,7 +9,7 @@
     <p>The system is showing me that:</p>
 
     <ul>
-      <li ng-if="incomeWarnings.zeroIncome">you<span ng-show="hasPartner()"> or your partner</span> currently have no income;</li>
+      <li ng-if="incomeWarnings.zeroIncome">you<span ng-show="hasPartner()"> and your partner</span> currently have no income;</li>
       <li ng-if="incomeWarnings.negativeDisposable">you<span ng-show="hasPartner()"> or your partner</span> currently have negative disposable income;</li>
       <li ng-if="incomeWarnings.housing">your housing costs are greater than one third of your income;</li>
     </ul>
