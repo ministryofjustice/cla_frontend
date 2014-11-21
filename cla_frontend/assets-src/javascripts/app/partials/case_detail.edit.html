@@ -15,7 +15,7 @@
 
 <div data-block="case-notes-summary"></div>
 
-<p class="s-entitlementNum" ng-if="case.isInScopeAndEligible()">Entitlement: {{ ::case.laa_reference }}</p>
+<p class="s-entitlementNum" ng-if="case.isInScopeAndEligible() || (appName === 'provider' && case.laa_reference)">Entitlement: {{ ::case.laa_reference }}</p>
 
 <ul class="Tabs"><!--
   --><li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.edit.diagnosis')}">
