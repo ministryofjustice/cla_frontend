@@ -5,14 +5,22 @@
     </li>
   </ul>
 
-  <div class="Notice warning" ng-if="hasZeroIncome">
-    <p>The system is showing me that you currently have no income. For our records I just need to know whether you<span ng-show="hasPartner()"> and your partner</span></p>
+  <div class="Notice warning" ng-if="incomeWarnings|objLength">
+    <p>The system is showing me that:</p>
 
-    <ul class="u-alphaList">
+    <ul>
+      <li ng-if="incomeWarnings.zeroIncome">you<span ng-show="hasPartner()"> or your partner</span> currently have no income;</li>
+      <li ng-if="incomeWarnings.negativeDisposable">you<span ng-show="hasPartner()"> or your partner</span> currently have negative disposable income;</li>
+      <li ng-if="incomeWarnings.housing">your housing costs are greater than one third of your income;</li>
+    </ul>
+
+    <p>For our records I just need to know whether you<span ng-show="hasPartner()"> and your partner</span></p>
+
+    <ol class="u-alphaList">
       <li>have had any financial help within the last month?</li>
       <li>have any debts you would like advice about?</li>
       <li>how you have been coping financially over the last calendar month?</li>
-    </ul>
+    </ol>
   </div>
 
   <div ng-repeat="section in sections" ng-include="section.template" ng-show="currentState() === section.state"></div>

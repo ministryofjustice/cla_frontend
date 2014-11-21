@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment',
-        function($scope, Category, $stateParams, flash, $state, postal, Moment){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment, _){
           $scope.category_list = Category.query();
           $scope.warnings = {};
           $scope.oneMonthAgo = new Moment().add(1, 'days').subtract(1, 'months').format('Do MMMM, YYYY');
@@ -112,36 +112,53 @@
             return $scope.eligibility_check.has_partner && $scope.eligibility_check.has_partner !== '0';
           };
 
-          $scope.hasZeroIncome = false;
-          var checkZeroIncome = function () {
-            var you = $scope.eligibility_check.you ? fieldsAllZero($scope.eligibility_check.you.income) : false;
+          $scope.incomeWarnings = {};
 
+          var checkIncome = function () {
+            var warnings = {};
+            // if passported, don't show
             if (passported()) {
-              // if passported, don't show
-              $scope.hasZeroIncome = false;
-            } else if ($scope.hasPartner()) {
-              var partner = $scope.eligibility_check.you ? fieldsAllZero($scope.eligibility_check.partner.income) : false;
-              $scope.hasZeroIncome = you && partner ? true : false;
+              warnings = {};
             } else {
-              $scope.hasZeroIncome = you;
-            }
+              warnings.housing = checkHousing('you');
 
-            if(!$scope.$$phase) {
-              $scope.$apply();
-            }
-          };
-          var fieldsAllZero = function (fields) {
-            var total = false;
-
-            angular.forEach(fields, function(field) {
-              if (field && typeof field === 'object' && field.hasOwnProperty('per_interval_value')) {
-                total += parseInt(field.per_interval_value);
+              if ($scope.hasPartner()) {
+                warnings.zeroIncome = checkZeroIncome('you') && checkZeroIncome('partner') ? true : false;
+                warnings.negativeDisposable = checkDisposableIncome('you') && checkDisposableIncome('partner') ? true : false;
+              } else {
+                warnings.zeroIncome = checkZeroIncome('you');
+                warnings.negativeDisposable = checkDisposableIncome('you');
               }
-            });
+            }
 
+            $scope.incomeWarnings = _.pick(warnings, function (value) {
+              return value;
+            });
+          };
+          var checkZeroIncome = function (person) {
+            var total = $scope.eligibility_check[person] ? $scope.eligibility_check[person].income.total : 0;
             return parseInt(total) <= 0 ? true : false;
           };
-          checkZeroIncome();
+          var checkDisposableIncome = function (person) {
+            if ($scope.eligibility_check[person]) {
+              var income = $scope.eligibility_check[person].income.total;
+              var expenses = $scope.eligibility_check[person].deductions.total;
+              var total = income - expenses;
+              return parseInt(total) <= 0 ? true : false;
+            }
+            return false;
+          };
+          var checkHousing = function (person) {
+            if ($scope.eligibility_check[person]) {
+              var income = $scope.eligibility_check[person].income.total;
+              var housingCosts = $scope.eligibility_check[person].deductions.mortgage.per_interval_value + $scope.eligibility_check[person].deductions.rent.per_interval_value;
+              return housingCosts > (income / 3) ? true : false;
+            }
+            return false;
+          };
+
+          // check on load
+          checkIncome();
 
           $scope.isComplete = function (section) {
             var emptyInputs = angular.element('#' + section).find('input, select, textarea').filter(function() {
@@ -173,8 +190,6 @@
           };
 
           $scope.save = function () {
-            checkZeroIncome();
-
             $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
             $scope.eligibility_check.$update($scope.case.reference, function (data) {
               $scope.case.eligibility_check = data.reference;
@@ -185,6 +200,8 @@
 
               // updates the state of case.eligibility_state after each save
               $scope.case.state = data.state;
+
+              checkIncome();
 
               // fire a save notification
               flash('success', 'The means test has been saved. The current result is <strong>' + $scope.eligibilityText(data.state) + '</strong>');
