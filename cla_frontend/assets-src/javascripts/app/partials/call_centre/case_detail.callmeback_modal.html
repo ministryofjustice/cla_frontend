@@ -23,7 +23,7 @@
     <div ng-if="isFinalCallback">
       You can't schedule a new callback as you have already tried to reach the client three times.
     </div>
-    <div ng-if="createdByWeb">
+    <div ng-if="!canBeCalledBack && createdByWeb">
       You can't reschedule a web callback.
     </div>
   </div>

@@ -3,14 +3,15 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, log_set, hotkeys, $state){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, log_set, hotkeys, $state, AppSettings){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.log_set = log_set;
           $scope.eligibility_check = $eligibility_check;
           $scope.diagnosis = $diagnosis;
           $scope.personal_details = $personal_details;
+          $scope.appName = AppSettings.appName;
 
           // checking the time after the template as been rendered
           $scope.$evalAsync(function() {
