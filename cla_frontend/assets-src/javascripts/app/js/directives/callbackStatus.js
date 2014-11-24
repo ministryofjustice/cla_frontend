@@ -3,7 +3,7 @@
 
   var mod = angular.module('cla.directives');
 
-  mod.directive('callbackStatus', ['AppSettings', '$filter', 'flash', function (AppSettings, filter, flash) {
+  mod.directive('callbackStatus', ['AppSettings', '$filter', 'flash', 'postal', function (AppSettings, filter, flash, postal) {
     return {
       restrict: 'E',
       transclude: true,
@@ -28,7 +28,12 @@
             scope.case.callback_attempt = 0;
 
             elm.remove();
-            flash('Callback cancelled successfully');
+            flash('Callback stopped successfully');
+            // refreshing the logs
+            postal.publish({
+              channel : 'models',
+              topic   : 'Log.refresh'
+            });
           });
         };
 
