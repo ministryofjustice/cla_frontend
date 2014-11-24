@@ -2,7 +2,7 @@
   <p>We will now look at your expenses for the last calendar month. This runs from today back to {{ oneMonthAgo }}</p>
 </call-script>
 
-<section>
+<section data-fieldset="your-expenses">
   <h2 class="FormBlock-label">Your expenses</h2>
 
   <div class="FormBlock FormBlock--grey">
@@ -44,7 +44,7 @@
   </div>
 </section>
 
-<section ng-show="hasPartner()">
+<section data-fieldset="partner-expenses" ng-show="hasPartner()">
   <h2 class="FormBlock-label">Your partner's expenses</h2>
 
   <div class="FormBlock FormBlock--grey">

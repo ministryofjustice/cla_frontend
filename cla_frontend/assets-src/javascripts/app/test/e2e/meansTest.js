@@ -5,7 +5,7 @@
       modelsRecipe = require('./_modelsRecipe'),
       CONSTANTS = require('../protractor.constants');
 
-  var zeroIncomeNotice = element(by.cssContainingText('.Notice', 'The system is showing me that you currently have no income.'));
+  var zeroIncomeNotice = element(by.cssContainingText('.Notice', 'The system is showing me that:'));
   var saveBtn = element(by.cssContainingText('button', 'Save assessment'));
 
   describe('meansTest', function () {
@@ -61,40 +61,70 @@
         });
       });
 
-      it('should not show income alert when all income fields are zero with no partner', function () {
+      // income warnings
+      it('should show all income alerts (no partner)', function () {
         modelsRecipe.Case.createEmptyWithInScopeAndEligible(true, false).then(function (caseRef) {
-          browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
+          browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/eligibility/');
 
-          fillIncomeFields('your-income', '100');
-          utils.scrollTo(saveBtn);
-          saveBtn.click();
-          expect(zeroIncomeNotice.isPresent()).toBe(false);
+          setPartner(true);
+          fillIncomeFields('Income', 'partner-income', '0');
+          fillIncomeFields('Expenses', 'partner-expenses', '0');
+
+          getToSection('Expenses');
+
+          var mortgage = element(by.name('eligibility_check.you.deductions.mortgage'));
+          mortgage.clear();
+          mortgage.sendKeys(1);
+          saveEC();
+
+          expect(zeroIncomeNotice.isPresent()).toBe(true);
+          expect(zeroIncomeNotice.getText()).toContain('you and your partner currently have no income');
+          expect(zeroIncomeNotice.getText()).toContain('you and your partner currently have negative disposable income');
+          expect(zeroIncomeNotice.getText()).toContain('your housing costs exceed one third of your income');
         });
       });
 
-      it('should not show income alert when all income fields are not zero with no partner', function () {
-        fillIncomeFields('your-income', '0');
-        utils.scrollTo(saveBtn);
-        saveBtn.click();
+      it('show no longer show zero and negative income alerts', function () {
+        getToSection('Income');
+
+        var earnings = element(by.name('eligibility_check.partner.income.earnings'));
+        earnings.clear();
+        earnings.sendKeys(2.99);
+        saveEC();
+
         expect(zeroIncomeNotice.isPresent()).toBe(true);
+        expect(zeroIncomeNotice.getText()).not.toContain('have no income');
+        expect(zeroIncomeNotice.getText()).not.toContain('negative disposable income');
+        expect(zeroIncomeNotice.getText()).toContain('your housing costs exceed one third of your income');
       });
 
-      it('should show income alert when all income fields are not zero with partner', function () {
-        setPartner(true);
-        utils.scrollTo(saveBtn);
-        saveBtn.click();
+      it('show no longer show housing alert', function () {
+        var earnings = element(by.name('eligibility_check.partner.income.earnings'));
+        earnings.clear();
+        earnings.sendKeys(3);
+        saveEC();
+
         expect(zeroIncomeNotice.isPresent()).toBe(false);
-
-        fillIncomeFields('partner-income', '0');
-        utils.scrollTo(saveBtn);
-        saveBtn.click();
-        expect(zeroIncomeNotice.isPresent()).toBe(true);
       });
 
-      it('should not show income alert when all income fields are zero with partner', function () {
-        fillIncomeFields('partner-income', '100');
-        utils.scrollTo(saveBtn);
-        saveBtn.click();
+      it('show show alerts again when no partner', function () {
+        setPartner(false);
+        saveEC();
+
+        expect(zeroIncomeNotice.isPresent()).toBe(true);
+        expect(zeroIncomeNotice.getText()).toContain('you currently have no income');
+        expect(zeroIncomeNotice.getText()).toContain('you currently have negative disposable income');
+        expect(zeroIncomeNotice.getText()).toContain('your housing costs exceed one third of your income');
+      });
+
+      it('show hide alerts when setting income', function () {
+        getToSection('Income');
+
+        var earnings = element(by.name('eligibility_check.you.income.earnings'));
+        earnings.clear();
+        earnings.sendKeys(3);
+        saveEC();
+
         expect(zeroIncomeNotice.isPresent()).toBe(false);
       });
     });
@@ -112,6 +142,12 @@
     return element(by.cssContainingText(selector, title));
   }
 
+  function getToSection (title) {
+    var tab = getTab(title, 2);
+    utils.scrollTo(tab); // firefox fix!
+    return tab.element(by.css('a')).click();
+  }
+
   function setPassported (value) {
     var detailsTab = getTab('Details', 2);
     var yes_no = value ? '0' : '1';
@@ -123,24 +159,29 @@
   function setPartner (value) {
     var detailsTab = getTab('Details', 2);
     var yes_no = value ? '0' : '1';
+
+    // click details tab
     utils.scrollTo(element(by.name('case.notes'))); // firefox fix!
     detailsTab.element(by.css('a')).click();
     element(by.id('id_your_details-has_partner_' + yes_no)).click();
   }
 
-  function fillIncomeFields (section, value) {
-    var financesTab = getTab('Finances');
-    var incomeTab = getTab('Income', 2);
+  function fillIncomeFields (section, fieldset, value) {
+    var incomeTab = getTab(section, 2);
 
-    // click finances tab
-    utils.scrollTo(financesTab);
-    financesTab.element(by.css('a')).click();
     // click income tab
+    utils.scrollTo(incomeTab); // firefox fix!
     incomeTab.element(by.css('a')).click();
+
     // loop number fields and fill in
-    element.all(by.css('[data-fieldset="' + section + '"] input[type="number"]')).each(function(el) {
+    element.all(by.css('[data-fieldset="' + fieldset + '"] input[type="number"]')).each(function(el) {
       el.clear();
       el.sendKeys(value);
     });
+  }
+
+  function saveEC () {
+    utils.scrollTo(saveBtn);
+    saveBtn.click();
   }
 })();
