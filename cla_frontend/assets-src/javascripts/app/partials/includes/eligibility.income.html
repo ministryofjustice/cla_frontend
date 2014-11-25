@@ -12,35 +12,35 @@
     </nav>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.earnings" mi-label="What did you earn before tax? (Check your most recent payslips)" guidance-link="'eligibility_check#ecg-earnings'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.you.income.earnings" mi-label="What did you earn before tax? (Check your most recent payslips)" guidance-link="'eligibility_check#ecg-earnings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.self_employment_drawings" mi-label="Self Employed Drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.you.income.self_employment_drawings" mi-label="Self Employed Drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.benefits" mi-label="Benefits" guidance-link="'eligibility_check#ecg-benefits'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.you.income.benefits" mi-label="Benefits" guidance-link="'eligibility_check#ecg-benefits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.tax_credits" mi-label="Tax Credits" guidance-link="'eligibility_check#ecg-tax_credits'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.you.income.tax_credits" mi-label="Tax Credits" guidance-link="'eligibility_check#ecg-tax_credits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.child_benefits" mi-label="Child Benefit (for household)" guidance-link="'eligibility_check#ecg-child_benefits'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.you.income.child_benefits" mi-label="Child Benefit (for household)" guidance-link="'eligibility_check#ecg-child_benefits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.maintenance_received" mi-label="Maintenance Received" guidance-link="'eligibility_check#ecg-maintenance_received'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.you.income.maintenance_received" mi-label="Maintenance Received" guidance-link="'eligibility_check#ecg-maintenance_received'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.pension" mi-label="Pension income" guidance-link="'eligibility_check#ecg-pension'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.you.income.pension" mi-label="Pension income" guidance-link="'eligibility_check#ecg-pension'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.other_income" mi-label="Other income" guidance-link="'eligibility_check#ecg-other_income'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.you.income.other_income" mi-label="Other income" guidance-link="'eligibility_check#ecg-other_income'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
@@ -64,31 +64,31 @@
 
   <div class="FormBlock FormBlock--grey" aria-labelledby="partners_income-label" role="group">
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.earnings" mi-label="What did your partner earn before tax? (Based on their most recent payslips)" guidance-link="'eligibility_check#ecg-earnings'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.partner.income.earnings" mi-label="What did your partner earn before tax? (Based on their most recent payslips)" guidance-link="'eligibility_check#ecg-earnings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.self_employment_drawings" mi-label="Self Employed Drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.partner.income.self_employment_drawings" mi-label="Self Employed Drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.benefits" mi-label="Benefits" guidance-link="'eligibility_check#ecg-benefits'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.partner.income.benefits" mi-label="Benefits" guidance-link="'eligibility_check#ecg-benefits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.tax_credits" mi-label="Tax Credits" guidance-link="'eligibility_check#ecg-tax_credits'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.partner.income.tax_credits" mi-label="Tax Credits" guidance-link="'eligibility_check#ecg-tax_credits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.maintenance_received" mi-label="Maintenance Received" guidance-link="'eligibility_check#ecg-maintenance_received'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.partner.income.maintenance_received" mi-label="Maintenance Received" guidance-link="'eligibility_check#ecg-maintenance_received'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.pension" mi-label="Pension income" guidance-link="'eligibility_check#ecg-pension'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.partner.income.pension" mi-label="Pension income" guidance-link="'eligibility_check#ecg-pension'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.other_income" mi-label="Other income" guidance-link="'eligibility_check#ecg-other_income'" ng-class="{'is-warned': incomeWarnings.zeroIncome || incomeWarnings.negativeDisposable || incomeWarnings.housing}" />
+      <money-interval ng-model="eligibility_check.partner.income.other_income" mi-label="Other income" guidance-link="'eligibility_check#ecg-other_income'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">

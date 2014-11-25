@@ -1,11 +1,11 @@
 <form ng-submit="save()" novalidate name="form" class="u-relative">
   <ul class="Pills">
-    <li class="Pills-pill {{ tabClass(section) }}" ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
+    <li class="Pills-pill {{ tabWarningClass(section) }}" ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
       <a href="" ng-click="gotoSection(section)" class="Pills-pillLink">{{ ::section.title }}</a>
     </li>
   </ul>
 
-  <div class="Notice warning" ng-if="incomeWarnings|objLength">
+  <div class="Notice warning" ng-if="hasWarnings()">
     <p>The system is showing me that:</p>
 
     <ul>

@@ -48,7 +48,7 @@
       background-color: transparent;
     }
 
-    .is-warned & {
+    .is-warning & {
       border-color: $orange;
       background-color: lighten($orange-25, 6%);
     }
