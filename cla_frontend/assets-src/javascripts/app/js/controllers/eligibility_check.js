@@ -18,7 +18,7 @@
 
           IncomeWarningsService.setEligibilityCheck($scope.eligibility_check);
           $scope.incomeWarnings = IncomeWarningsService.warnings;
-          $scope.hasWarnings = function () {
+          $scope.hasIncomeWarnings = function () {
             return _.size($scope.incomeWarnings) > 0;
           };
 

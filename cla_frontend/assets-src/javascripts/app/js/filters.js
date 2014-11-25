@@ -79,12 +79,6 @@
         }
         return list.join(', ');
       };
-    })
-
-    .filter('objLength', function () {
-      return function (obj) {
-        return Object.keys(obj).length;
-      };
     });
 
 })();

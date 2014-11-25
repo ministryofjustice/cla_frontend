@@ -1,5 +1,3 @@
-/* jshint maxcomplexity: 10 */
-
 (function () {
   'use strict';
 
@@ -27,23 +25,15 @@
       };
 
       this.checkZeroIncome = function () {
-        var total = 0;
-        // fail if you or income don't exist
-        if (!this.eligibilityCheck.you) {
-          return false;
-        }
+        // fail if sections aren't complete
         if (!this.isComplete(this.eligibilityCheck.you.income)) {
           return false;
         }
 
-        // add income to total
-        total += this.eligibilityCheck.you.income.total;
+        var total = this.eligibilityCheck.you.income.total;
 
         if (this.hasPartner()) {
-          // fail if partner or partner income don't exist
-          if (!this.eligibilityCheck.partner) {
-            return false;
-          }
+          // fail if sections aren't complete
           if (!this.isComplete(this.eligibilityCheck.partner.income)) {
             return false;
           }
@@ -55,24 +45,16 @@
       };
 
       this.checkDisposableIncome = function () {
-        var total = 0;
-        // fail if you or income don't exist
-        if (!this.eligibilityCheck.you) {
-          return false;
-        }
+        // fail if sections aren't complete
         if (!this.isComplete(this.eligibilityCheck.you.income) || !this.isComplete(this.eligibilityCheck.you.deductions)) {
           return false;
         }
 
-        // add income to total
-        total += this.eligibilityCheck.you.income.total;
+        var total = this.eligibilityCheck.you.income.total;
         total -= this.eligibilityCheck.you.deductions.total;
 
         if (this.hasPartner()) {
-          // fail if partner or partner income don't exist
-          if (!this.eligibilityCheck.partner) {
-            return false;
-          }
+          // fail if sections aren't complete
           if (!this.isComplete(this.eligibilityCheck.partner.income) || !this.isComplete(this.eligibilityCheck.partner.deductions)) {
             return false;
           }
@@ -84,45 +66,36 @@
         return total < 0 ? true : false;
       };
 
+      this.calculateHousingCosts = function (person) {
+        var mortgage = this.eligibilityCheck[person].deductions.mortgage;
+        var monthlyMortgage = MoneyIntervalService.asMonthly(mortgage.interval_period, mortgage.per_interval_value);
+
+        var rent = this.eligibilityCheck[person].deductions.rent;
+        var monthlyRent = MoneyIntervalService.asMonthly(rent.interval_period, rent.per_interval_value);
+
+        return monthlyMortgage + monthlyRent;
+      };
+
       this.checkHousing = function () {
-        var totalIncome = 0;
-        var housingCosts = 0;
-        // fail if you or income don't exist
-        if (!this.eligibilityCheck.you) {
-          return false;
-        }
+        // fail if sections aren't complete
         if (!this.isComplete(this.eligibilityCheck.you.income) || !this.isComplete(this.eligibilityCheck.you.deductions)) {
           return false;
         }
 
-        // add income to total
-        totalIncome += this.eligibilityCheck.you.income.total;
-
-        var mortgage = this.eligibilityCheck.you.deductions.mortgage;
-        var monthlyMortgage = MoneyIntervalService.asMonthly(mortgage.interval_period, mortgage.per_interval_value);
-        var rent = this.eligibilityCheck.you.deductions.rent;
-        var monthlyRent = MoneyIntervalService.asMonthly(rent.interval_period, rent.per_interval_value);
-        housingCosts += (monthlyMortgage + monthlyRent);
+        var totalIncome = this.eligibilityCheck.you.income.total;
+        var housingCosts = this.calculateHousingCosts('you');
 
         if (this.hasPartner()) {
-          // fail if partner or partner income don't exist
-          if (!this.eligibilityCheck.partner) {
-            return false;
-          }
+          // fail if sections aren't complete
           if (!this.isComplete(this.eligibilityCheck.partner.income) || !this.isComplete(this.eligibilityCheck.partner.deductions)) {
             return false;
           }
           // add partner income to total
           totalIncome += this.eligibilityCheck.partner.income.total;
-
-          var partnerMortgage = this.eligibilityCheck.partner.deductions.mortgage;
-          var partnerMonthlyMortgage = MoneyIntervalService.asMonthly(partnerMortgage.interval_period, partnerMortgage.per_interval_value);
-          var partnerRent = this.eligibilityCheck.partner.deductions.rent;
-          var partnerMonthlyRent = MoneyIntervalService.asMonthly(partnerRent.interval_period, partnerRent.per_interval_value);
-          housingCosts += (partnerMonthlyMortgage + partnerMonthlyRent);
+          housingCosts += this.calculateHousingCosts('partner');
         }
 
-        return (housingCosts) > (totalIncome / 3) ? true : false;
+        return (totalIncome / 3) < housingCosts ? true : false;
       };
 
       // public methods
@@ -133,7 +106,7 @@
           this.eligibilityCheck = data.eligibilityCheck;
         }
 
-        if (!this.isPassported()) {
+        if (!this.isPassported() && this.eligibilityCheck.you !== undefined) {
           _warnings.housing = this.checkHousing();
           _warnings.zeroIncome = this.checkZeroIncome();
           _warnings.negativeDisposable = this.checkDisposableIncome();

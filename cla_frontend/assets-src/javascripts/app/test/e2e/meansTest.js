@@ -62,8 +62,15 @@
       });
 
       // income warnings
-      it('should show all income alerts (no partner)', function () {
-        modelsRecipe.Case.createEmptyWithInScopeAndEligible(true, false).then(function (caseRef) {
+      it('new case should show no alerts', function () {
+        modelsRecipe.Case.createWithScope(true).then(function (caseRef) {
+          browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/eligibility/');
+          expect(zeroIncomeNotice.isPresent()).toBe(false);
+        });
+      });
+
+      it('should show all income alerts', function () {
+        modelsRecipe.Case.createEmptyWithInScopeAndEligible().then(function (caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/eligibility/');
 
           setPartner(true);
@@ -82,6 +89,45 @@
           expect(zeroIncomeNotice.getText()).toContain('you and your partner currently have negative disposable income');
           expect(zeroIncomeNotice.getText()).toContain('your housing costs exceed one third of your income');
         });
+      });
+
+      it('show only show alerts when sections are complete', function () {
+        var youTax = element(by.name('eligibility_check.you.deductions.income_tax'));
+        var youBenefits = element(by.name('eligibility_check.you.income.benefits'));
+        var partnerTax = element(by.name('eligibility_check.partner.deductions.income_tax'));
+        var partnerBenefits = element(by.name('eligibility_check.partner.income.benefits'));
+
+        getToSection('Expenses');
+        youTax.clear();
+        getToSection('Income');
+        youBenefits.clear();
+        saveEC();
+
+        expect(zeroIncomeNotice.isPresent()).toBe(false);
+
+        getToSection('Expenses');
+        youTax.sendKeys(0);
+        getToSection('Income');
+        youBenefits.sendKeys(0);
+        saveEC();
+
+        expect(zeroIncomeNotice.isPresent()).toBe(true);
+
+        getToSection('Expenses');
+        partnerTax.clear();
+        getToSection('Income');
+        partnerBenefits.clear();
+        saveEC();
+
+        expect(zeroIncomeNotice.isPresent()).toBe(false);
+
+        getToSection('Expenses');
+        partnerTax.sendKeys(0);
+        getToSection('Income');
+        partnerBenefits.sendKeys(0);
+        saveEC();
+
+        expect(zeroIncomeNotice.isPresent()).toBe(true);
       });
 
       it('show no longer show zero and negative income alerts', function () {
