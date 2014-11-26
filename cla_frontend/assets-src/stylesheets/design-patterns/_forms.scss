@@ -165,7 +165,7 @@ $border-colour: $grey-2;
     }
   }
 
-  .is-warned {
+  .is-warning {
     input,
     select,
     textarea,
@@ -398,8 +398,8 @@ $border-colour: $grey-2;
   text-align: center;
   @include box-sizing(border-box);
 
-  &.is-warned,
-  .is-warned & {
+  &.is-warning,
+  .is-warning & {
     border-color: $orange;
   }
 }
