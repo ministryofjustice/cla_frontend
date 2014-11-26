@@ -54,11 +54,11 @@ Your main property is the home you live in. This includes caravans, houseboats o
 
 If you're separated and now living somewhere else, your former home is no longer your main property. 
 
-<h3 id="ecg-property_share">What percentage of the property do you own?</h3>
+<h3 id="ecg-property_share">What percentage of the property do you (and/or your partner) own?</h3>
 
-Select 100% if the property is solely owned by the client or jointly with a partner.
+Select 100% if the property is solely owned by the client or their partner, or jointly owned with their partner.
 
-If the property is jointly owned with an opponent enter 50% or enter an appropriate % if another party has any other interest
+If the property is jointly owned with an opponent, enter 50% (assuming equal share held) or enter an appropriate percentage if another party has an interest in the property.
 
 ## Savings
 
