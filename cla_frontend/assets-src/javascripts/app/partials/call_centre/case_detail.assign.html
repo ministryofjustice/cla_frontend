@@ -80,10 +80,10 @@
       <textarea name="notes" id="notes" cols="30" rows="4" ng-model="::notes" placeholder="Provider reassignment comments"></textarea>
     </div>
 
-    <div class="FormRow cf" ng-if="user.is_manager">
+    <label class="FormRow cf" ng-if="user.is_manager">
       <input type="checkbox" name="is_manual_ref" ng-model="$parent.is_manual_ref">
-      <span>Assign as MANREF</span>
-    </div>
+      Assign as MANREF
+    </label>
   </div>
 
   <div class="Error Error--basic" ng-if="errors.__all__">
