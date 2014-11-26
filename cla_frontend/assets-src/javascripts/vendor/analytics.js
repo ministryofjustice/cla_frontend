@@ -1,6 +1,8 @@
 (function(){
-  var analytics_id = document.getElementsByTagName('html')[0].getAttribute('data-analytics-id');
-  var analytics_domain = document.getElementsByTagName('html')[0].getAttribute('data-analytics-domain');
+  var html = document.getElementsByTagName('html')[0];
+  var analytics_id = html.getAttribute('data-analytics-id');
+  var analytics_domain = html.getAttribute('data-analytics-domain');
+  var ngApp = html.getAttribute('ng-app');
 
   if (analytics_id && analytics_domain) {
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -9,5 +11,9 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', analytics_id, analytics_domain);
+    // non ng tracking
+    if (!ngApp) {
+      ga('send', 'pageview');
+    }
   }
 })();
