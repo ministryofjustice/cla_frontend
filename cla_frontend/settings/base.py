@@ -90,7 +90,8 @@ STATIC_ROOT = root('static')
 STATIC_URL = '/static/'
 
 # Currently GA
-ANALYTICS_ID = os.environ.get('ANALYTICS_ID', '')
+ANALYTICS_ID = os.environ.get('GA_ID', '')
+ANALYTICS_DOMAIN = os.environ.get('GA_DOMAIN', '')
 
 CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws:",
     "wss:", "www.google-analytics.com")

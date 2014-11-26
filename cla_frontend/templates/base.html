@@ -1,7 +1,8 @@
 {% load staticfiles core_tags raven %}
 <!DOCTYPE html>
 <html lang="en" {% block html_attrs %}ng-csp{% endblock %}
-  data-analytics-id="{{ analytics_id }}">
+  data-analytics-id="{{ analytics_id }}"
+  data-analytics-domain="{{ analytics_domain }}">
 
   <head data-sentry-dsn="{% sentry_public_dsn %}"
     data-sentry-site="{{ raven_config_site }}"
