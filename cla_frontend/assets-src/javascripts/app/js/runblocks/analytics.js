@@ -18,7 +18,7 @@
           }
         }
 
-        $analytics.eventTrack(envelope.topic, {  category: envelope.channel });
+        $analytics.eventTrack(envelope.topic, eventData);
       };
 
       // Address Finder
@@ -70,6 +70,38 @@
         callback: trackEvent
       });
 
+      // Income Warnings
+      var IncomeWarnings = postal.channel('IncomeWarnings');
+      IncomeWarnings.subscribe({
+        topic: 'update',
+        callback: function (data) {
+          angular.forEach(data.warnings, function (value, key) {
+            $analytics.eventTrack(key, {category: 'IncomeWarnings'});
+          });
+        }
+      });
+
+      // User search on case creation
+      var Person = postal.channel('Person');
+      Person.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
+      // User search on case creation
+      var ThirdParty = postal.channel('ThirdParty');
+      ThirdParty.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
+      // User search on case creation
+      var HotKey = postal.channel('HotKey');
+      HotKey.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
 
       $body
         // Details/Summary clicks
@@ -81,7 +113,7 @@
             (!$details.hasClass('is-notnative') && !$details.is('[open]')) ||
             ($details.hasClass('is-notnative') && $details.hasClass('is-open'))
           ) {
-            $analytics.eventTrack('click', {  category: 'Details Tag', label: summaryText });
+            $analytics.eventTrack('click', {  category: 'DetailsTag', label: summaryText });
           }
         })
         // External link clicks
@@ -91,6 +123,13 @@
           var loc = $this.attr('href');
 
           $analytics.eventTrack(loc, {  category: 'Outbound', label: text });
+        })
+        // Diagnosis history
+        .on('click', '.CaseHistory-card a', function () {
+          var $this = angular.element(this);
+          var text = $this.text();
+
+          $analytics.eventTrack('click', {  category: 'CaseHistory', label: text });
         });
     }]);
 })();

@@ -25,7 +25,7 @@
         $scope.assignManually = function(choice) {
           $scope.is_manual = choice;
 
-          postal.publish({channel: 'AssignProvider', topic: 'manual', data: {value: choice}});
+          postal.publish({channel: 'AssignProvider', topic: 'manual', data: {label: choice}});
 
           // reset selected to suggested provider
           if (!choice) {

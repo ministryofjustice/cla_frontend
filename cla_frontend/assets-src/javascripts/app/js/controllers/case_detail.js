@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, log_set, hotkeys, $state, AppSettings){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.log_set = log_set;
@@ -23,42 +23,48 @@
             .add({
               combo: 'g c',
               description: 'Case home',
-              callback: function() {
+              callback: function(e, hotkey) {
+                ClaPostalService.publishHotKey(hotkey);
                 $state.go('case_detail.edit');
               }
             })
             .add({
               combo: 'g d',
               description: 'Scope diagnosis',
-              callback: function() {
+              callback: function(e, hotkey) {
+                ClaPostalService.publishHotKey(hotkey);
                 $state.go('case_detail.edit.diagnosis');
               }
             })
             .add({
               combo: 'g f',
               description: 'Financial assessment',
-              callback: function() {
+              callback: function(e, hotkey) {
+                ClaPostalService.publishHotKey(hotkey);
                 $state.go('case_detail.edit.eligibility');
               }
             })
             .add({
               combo: 'g a',
               description: 'Assign provider',
-              callback: function() {
+              callback: function(e, hotkey) {
+                ClaPostalService.publishHotKey(hotkey);
                 $state.go('case_detail.assign');
               }
             })
             .add({
               combo: 'g h',
               description: 'Alternative help',
-              callback: function() {
+              callback: function(e, hotkey) {
+                ClaPostalService.publishHotKey(hotkey);
                 $state.go('case_detail.alternative_help');
               }
             })
             .add({
               combo: 'g s',
-              description: 'Alternative help',
-              callback: function() {
+              description: 'Suspend a case',
+              callback: function(e, hotkey) {
+                ClaPostalService.publishHotKey(hotkey);
                 $state.go('case_detail.suspend');
               }
             });

@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'adaptations_metadata', 'mediacodes', '$q', 'flash',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, adaptations_metadata, mediacodes, $q, flash){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'adaptations_metadata', 'mediacodes', '$q', 'flash', 'postal',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, adaptations_metadata, mediacodes, $q, flash, postal){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -129,12 +129,30 @@
           $scope.showPersonalDetails = function(form) {
             form.$show();
             $scope.personal_details_frm_visible = true;
+
+            postal.publish({channel: 'Person', topic: 'create'});
           };
 
           $scope.cancelPersonalDetails = function (form) {
             form.$cancel();
             $scope.language.disable = $scope.adaptations.language === 'WELSH';
             $scope.personal_details_frm_visible = false;
+
+            postal.publish({channel: 'Person', topic: 'cancel'});
+          };
+
+          $scope.showThirdParty = function(form) {
+            form.$show();
+            $scope.add_thirdparty = true;
+
+            postal.publish({channel: 'ThirdParty', topic: 'create'});
+          };
+
+          $scope.cancelThirdParty = function(form) {
+            form.$cancel();
+            $scope.add_thirdparty = false;
+
+            postal.publish({channel: 'ThirdParty', topic: 'cancel'});
           };
 
           $scope.searchPersonOptions = {
@@ -187,6 +205,8 @@
 
                   personal_details.$get().then(function() {
                     flash('Case linked to '+pd_full_name);
+
+                    postal.publish({channel: 'Person', topic: 'link'});
                   });
                 });
               } else {
@@ -210,6 +230,9 @@
               if (!$scope.case.personal_details) {
                 $scope.case.personal_details = data.reference;
               }
+
+              postal.publish({channel: 'Person', topic: 'save'});
+
               pdPromise.resolve();
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
@@ -253,6 +276,8 @@
               if (!$scope.case.thirdparty_details) {
                 $scope.case.thirdparty_details = data.reference;
               }
+
+              postal.publish({channel: 'ThirdParty', topic: 'save'});
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.third_party = thirdparty_details;

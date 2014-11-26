@@ -10,7 +10,13 @@
         },
         link: function (scope, elem, attrs) {
           elem.on('click', function() {
-            postal.publish({channel: 'NotesHistory', topic: 'view'});
+            postal.publish({
+              channel: 'NotesHistory',
+              topic: 'view',
+              data: {
+                label: scope.type
+              }
+            });
 
             scope.caseRef = attrs.notesHistory;
 

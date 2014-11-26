@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseListCtrl',
-      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'hotkeys', 'historicCases',
-        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, hotkeys, historicCases) {
+      ['$rootScope', '$scope', 'cases', 'person', '$stateParams', '$state', 'Case', 'History', 'goToCase', 'hotkeys', 'historicCases', 'ClaPostalService',
+        function($rootScope, $scope, cases, person, $stateParams, $state, Case, History, goToCase, hotkeys, historicCases, ClaPostalService) {
           // PARAMS
           $scope.searchParams = angular.extend({}, $stateParams);
           $scope.searchParams.ordering = $scope.searchParams.ordering || '-priority';
@@ -151,7 +151,9 @@
             .add({
               combo: 'c c',
               description: 'Create case',
-              callback: function() {
+              callback: function(e, hotkey) {
+                ClaPostalService.publishHotKey(hotkey);
+
                 $scope.addCase($scope.person.reference);
               }
             });
