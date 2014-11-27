@@ -88,8 +88,12 @@
       postal.subscribe({
         channel: 'system',
         topic: 'user.identified',
-        callback: function(user) {
-          ga('set', '&uid', user.username);
+        callback: function (user) {
+          try {
+            ga('set', '&uid', user.username);
+          } catch (err) {
+            console.warn('Google analytics is not installed', err);
+          }
         }
       });
 
