@@ -47,8 +47,8 @@
           };
 
           $scope.reset_lockout = function (user) {
-            user.$resetLockout().then(function(data) {
-              flash('Account unlocked successfully.');
+            user.$resetLockout().then(function() {
+              flash('Account unlocked successfully');
             });
           };
         }
