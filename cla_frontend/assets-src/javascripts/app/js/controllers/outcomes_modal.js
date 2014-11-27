@@ -37,7 +37,7 @@
           $scope.submit = function() {
             $scope.submit_outcome(this.event_code, this.notes)
               .then($scope.post_submit, function(response) {
-                $scope.errors = response.data
+                $scope.errors = response.data;
               });
           };
 

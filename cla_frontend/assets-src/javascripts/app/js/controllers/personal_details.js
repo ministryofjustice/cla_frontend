@@ -126,11 +126,12 @@
             $scope.language.disable = value ? false : true;
           };
 
-          $scope.showPersonalDetails = function(form) {
+          $scope.showPersonalDetails = function(form, isNew) {
             form.$show();
             $scope.personal_details_frm_visible = true;
 
-            postal.publish({channel: 'Person', topic: 'create'});
+            var topic = isNew ? 'create' : 'edit';
+            postal.publish({channel: 'Person', topic: topic});
           };
 
           $scope.cancelPersonalDetails = function (form) {
@@ -141,11 +142,12 @@
             postal.publish({channel: 'Person', topic: 'cancel'});
           };
 
-          $scope.showThirdParty = function(form) {
+          $scope.showThirdParty = function(form, isNew) {
             form.$show();
             $scope.add_thirdparty = true;
 
-            postal.publish({channel: 'ThirdParty', topic: 'create'});
+            var topic = isNew ? 'create' : 'edit';
+            postal.publish({channel: 'ThirdParty', topic: topic});
           };
 
           $scope.cancelThirdParty = function(form) {
