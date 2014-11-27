@@ -128,7 +128,7 @@
           ).$promise;
         }],
         eligibility_check: ['case', 'EligibilityCheck', function(case_, EligibilityCheck){
-          return case_.eligibility_check ? EligibilityCheck.get({case_reference: case_.reference}).$promise : new EligibilityCheck({case_reference: case_.reference});
+          return case_.eligibility_check ? EligibilityCheck.get({case_reference: case_.reference}).$promise : new EligibilityCheck({case_reference: case_.reference, specific_benefits: {}});
         }],
         diagnosis: ['case', 'Diagnosis', function(case_, Diagnosis){
           return case_.diagnosis ? Diagnosis.get({case_reference: case_.reference}).$promise : new Diagnosis({case_reference: case_.reference});

@@ -70,24 +70,29 @@
             return r;
           };
 
-          $scope.disabledBenefits = function () {
-            if (passported() || $scope.eligibility_check.on_passported_benefits === undefined) {
-              return false;
-            }
-            return true;
+          $scope.hasSpecificBenefits = function () {
+            return $scope.eligibility_check.specific_benefits !== undefined
+                    && $scope.eligibility_check.specific_benefits !== null
+                    && typeof $scope.eligibility_check.specific_benefits === 'object';
           };
 
-          $scope.selectBenefit = function () {
-            $scope.eligibility_check.on_passported_benefits = true;
+          $scope.benefitChange = function () {
+            var passported = _.some($scope.eligibility_check.specific_benefits, function (benefit) {
+              return benefit === true || benefit === '1';
+            });
+
+            if (passported) {
+              $scope.eligibility_check.on_passported_benefits = true;
+            } else {
+              $scope.eligibility_check.on_passported_benefits = false;
+            }
+
             $timeout(function () {
               $scope.updateTabs();
             });
           };
 
           $scope.updateTabs = function () {
-            if (!passported()) {
-              $scope.eligibility_check.specific_benefits = null;
-            }
             $scope.sections = all_sections.filter(isRequired);
           };
           $scope.updateTabs();
@@ -209,10 +214,6 @@
           };
 
           $scope.save = function () {
-            if (!passported()) {
-              $scope.eligibility_check.specific_benefits = null;
-            }
-
             $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
             $scope.eligibility_check.$update($scope.case.reference, function (data) {
               $scope.case.eligibility_check = data.reference;

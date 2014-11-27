@@ -25,7 +25,7 @@
   </div>
 
   <div class="FormRow cf">
-    <p class="FormRow-label">Are you or your partner aged 60 or over? <guidance-link doc="eligibility_check#ecg-over_60"></guidance-link></p>
+    <p class="FormRow-label">Are you<span ng-show="hasPartner()"> or your partner</span> aged 60 or over? <guidance-link doc="eligibility_check#ecg-over_60"></guidance-link></p>
 
     <label for="id_your_details-older_than_sixty_0" class="FormRow-option FormRow-option--inline">
       <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_0" value="1" ng-model="::eligibility_check.is_you_or_your_partner_over_60">Yes
@@ -36,25 +36,38 @@
     </label>
   </div>
 
-  <div class="FormRow cf">
-    <div class="FormRow-label">
-      <p class="u-compact">I am now going to read through a list of benefits. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> receive any of these:</p>
-    </div>
+  <div ng-switch on="::hasSpecificBenefits()">
+    <div class="FormRow cf" ng-switch-when="true" ng-repeat="opt in ::specificBenefitsOptions">
+      <p class="FormRow-label">Are you<span ng-show="hasPartner()"> or your partner</span> on {{ ::opt.text }}?</p>
 
-    <div class="cf">
-      <label class="FormRow-option FormRow-option--narrow" ng-repeat="opt in ::specificBenefitsOptions">
-        <input type="checkbox" name="specific_benefits" value="{{ ::opt.value }}" ng-model="::eligibility_check.specific_benefits[opt.value]" ng-disabled="disabledBenefits()" ng-click="selectBenefit()">{{ ::opt.text }}
+      <label class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="your_details-specific_benefits-{{::opt.value}}" value="1" ng-model="::eligibility_check.specific_benefits[opt.value]" ng-change="benefitChange()">Yes
+      </label>
+
+      <label class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="your_details-specific_benefits-{{::opt.value}}" value="0" ng-model="::eligibility_check.specific_benefits[opt.value]" ng-change="benefitChange()">No
       </label>
     </div>
+    <div ng-switch-default>
+      <div class="FormRow cf Grid">
+        <div class="FormRow-label">
+          <p class="u-compact">I am now going to read through a list of benefits. Could you please tell me if you<span ng-show="hasPartner()" class="ng-hide"> or your partner</span> receive any of these:</p>
+          <ul>
+            <li>Universal Credit</li>
+            <li>Income Support</li>
+            <li>Income based Job Seekers Allowance</li>
+            <li>Guarantee State Pension Credit or Income Based Employment and Support Allowance</li>
+          </ul>
+        </div>
 
-    <div>
-      <label for="id_your_details-passported_benefits_0" class="FormRow-option FormRow-option--inline">
-        <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_0" value="1" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()">Yes
-      </label>
+        <label for="id_your_details-passported_benefits_0" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_0" value="1" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()" class="ng-pristine ng-untouched ng-valid">Yes
+        </label>
 
-      <label for="id_your_details-passported_benefits_1" class="FormRow-option FormRow-option--inline">
-        <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_1" value="0" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()">No
-      </label>
+        <label for="id_your_details-passported_benefits_1" class="FormRow-option FormRow-option--inline">
+          <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_1" value="0" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()" class="ng-pristine ng-untouched ng-valid">No
+        </label>
+      </div>
     </div>
   </div>
 
