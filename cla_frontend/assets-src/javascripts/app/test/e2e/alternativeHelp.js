@@ -96,7 +96,7 @@
 
           expect(assignF2fBtn.isEnabled()).toBe(false);
 
-          element(by.css('textarea[name="notes"]')).sendKeys('test');
+          element(by.name('assign-notes')).sendKeys('assigning face to face');
           expect(assignF2fBtn.isEnabled()).toBe(true);
         });
       });
@@ -178,7 +178,7 @@
   }
 
   function checkOutcomeCode (code) {
-    var codeSpan = element.all(by.binding('log.code')).get(0);
+    var codeSpan = element.all(by.css('.CaseHistory-label')).get(0);
     expect(codeSpan.getText()).toEqual(code);
   }
 
