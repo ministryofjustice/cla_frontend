@@ -3,7 +3,7 @@
 
   var mod = angular.module('cla.directives');
 
-  mod.directive('callScriptToggle', ['$rootScope', 'localStorageService', 'AppSettings', function ($rootScope, localStorageService, AppSettings) {
+  mod.directive('callScriptToggle', ['$rootScope', 'localStorageService', 'AppSettings', 'postal', function ($rootScope, localStorageService, AppSettings, postal) {
     return {
       restrict: 'E',
       transclude: true,
@@ -28,6 +28,12 @@
         scope.toggle = function () {
           $rootScope.showCallScript = !$rootScope.showCallScript;
           localStorageService.set('showCallScript', $rootScope.showCallScript);
+
+          if ($rootScope.showCallScript) {
+            postal.publish({channel: 'CallScript', topic: 'show'});
+          } else {
+            postal.publish({channel: 'CallScript', topic: 'hide'});
+          }
         };
       }
     };

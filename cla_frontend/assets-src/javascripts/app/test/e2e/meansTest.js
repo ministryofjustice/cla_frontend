@@ -42,9 +42,9 @@
           // check is disabled
           expect(tab.getAttribute('class')).toContain('is-disabled');
           tab.element(by.css('a')).click();
-          // check has been redirected and message displayed
+          // check not finances page
+          expect(browser.getLocationAbsUrl()).not.toContain(caseRef + '/eligibility/');
           expect(browser.getLocationAbsUrl()).toContain(caseRef + '/diagnosis/');
-          expect(element(by.css('.NoticeContainer--fixed')).getText()).toContain('You must complete an in scope diagnosis before completing the financial assessment');
         });
       });
 

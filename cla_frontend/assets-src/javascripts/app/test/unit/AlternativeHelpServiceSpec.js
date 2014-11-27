@@ -4,13 +4,13 @@
   /* jasmine specs for controllers go here */
   describe('AlternativeHelpService', function() {
 
-    beforeEach(module('cla.services'));
+    beforeEach(module('cla.operatorApp'));
 
 
     var scope, AlternativeHelpService;
 
-    beforeEach(inject(function ($rootScope, _AlternativeHelpService_) {
-      scope = $rootScope.$new();
+    beforeEach(inject(function (_$rootScope_, _AlternativeHelpService_) {
+      scope = _$rootScope_.$new();
       AlternativeHelpService = _AlternativeHelpService_;
     }));
 

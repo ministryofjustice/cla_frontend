@@ -9,6 +9,7 @@
     @extend %contain-floats;
 
     .header-global {
+      @extend %contain-floats;
       margin-bottom: 10px;
 
       @include media(desktop) {
@@ -27,6 +28,7 @@
         color: $white;
         text-decoration: none;
         border-bottom: 1px solid transparent;
+        float: left;
 
         img {
           display: inline;

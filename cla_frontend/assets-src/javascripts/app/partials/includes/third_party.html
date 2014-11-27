@@ -1,4 +1,4 @@
-<button href="" class="Button Button--secondary Button--add" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="add_thirdparty=true;third_party_frm.$show()" name="add-thirdparty">Add third party</button>
+<button href="" class="Button Button--secondary Button--add" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="showThirdParty(third_party_frm)" name="add-thirdparty">Add third party</button>
 
 <section ng-show="case.thirdparty_details || add_thirdparty" id="third_party">
   <div ng-click="third_party_frm.$show()" ng-hide="third_party_frm.$visible" class="VCard VCard--dark VCard-view">
@@ -103,7 +103,7 @@
 
     <div class="FormActions cf">
       <button type="submit" class="Button" ng-click="thirdparty_submitted=true" name="save-thirdparty">Save</button>
-      <button type="reset" class="Button Button--text" ng-click="add_thirdparty=false;third_party_frm.$cancel()">Cancel</button>
+      <button type="reset" class="Button Button--text" ng-click="cancelThirdParty(third_party_frm)">Cancel</button>
     </div>
   </form>
 </section>
