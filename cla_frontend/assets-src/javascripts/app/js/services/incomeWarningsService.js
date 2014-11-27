@@ -106,7 +106,7 @@
           this.eligibilityCheck = data.eligibilityCheck;
         }
 
-        if (!this.isPassported() && this.eligibilityCheck.you !== undefined) {
+        if (!this.isPassported() && this.eligibilityCheck.you !== undefined && this.eligibilityCheck.you !== null) {
           _warnings.housing = this.checkHousing();
           _warnings.zeroIncome = this.checkZeroIncome();
           _warnings.negativeDisposable = this.checkDisposableIncome();
