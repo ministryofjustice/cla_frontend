@@ -1,5 +1,5 @@
 ---
-title: Rent and mortgage payments: shared ownership and rent-to-buy situations
+title: Rent and mortgage payments - shared ownership and rent-to-buy situations
 date: "2014-08-01 18:04"
 tags:
   - rent
