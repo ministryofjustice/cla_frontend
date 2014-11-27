@@ -48,12 +48,16 @@ def case_means_summary(request, case_reference):
 
 @login_required
 def addressfinder_proxy_view(request, path):
-    resp = requests.get(
-        "%s/%s?%s" % (settings.ADDRESSFINDER_API_HOST,
-                      path, request.GET.urlencode()),
-        headers={
-            'Authorization': 'Token %s' % settings.ADDRESSFINDER_API_TOKEN
-        }
-    )
-
-    return HttpResponse(resp.text, content_type="application/json")
+    try:
+        resp = requests.get(
+            "%s/%s?%s" % (settings.ADDRESSFINDER_API_HOST,
+                          path, request.GET.urlencode()),
+            headers={
+                'Authorization': 'Token %s' % settings.ADDRESSFINDER_API_TOKEN
+            },
+            timeout=(2.0, 5.0)
+        )
+        return HttpResponse(resp.text, content_type="application/json")
+    except (requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout):
+        return HttpResponse('', content_type="application/json", status=404)
