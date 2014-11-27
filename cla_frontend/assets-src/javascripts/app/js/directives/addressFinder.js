@@ -2,7 +2,7 @@
 (function(){
 
   angular.module('cla.directives')
-  .directive('addressFinder', ['AddressService', '$modal', '$q', '$timeout', function (AddressService, $modal, $q, $timeout) {
+  .directive('addressFinder', ['AddressService', '$modal', '$q', '$timeout', 'postal', function (AddressService, $modal, $q, $timeout, postal) {
     return  {
       restrict: 'A',
       link: function (scope, elem, attrs) {
@@ -18,6 +18,8 @@
         scope.findAddress = function () {
           elem.attr('disabled', true);
           scope.isLoading = true;
+
+          postal.publish({channel: 'AddressFinder', topic: 'search'});
 
           var modalOpts = {
             templateUrl: 'includes/address_finder.modal.html',
@@ -40,6 +42,8 @@
                 }, function () {
                   elem.removeAttr('disabled');
                   scope.isLoading = false;
+
+                  deferred.reject();
                 });
 
                 return deferred.promise;
@@ -63,13 +67,19 @@
                   .change()
                   .focus();
               });
+
+              postal.publish({channel: 'AddressFinder', topic: 'selected'});
             } else {
+              postal.publish({channel: 'AddressFinder', topic: 'cancelled'});
+
               $timeout(function () {
                 elem.focus();
               });
             }
           };
           var onDismiss = function () {
+            postal.publish({channel: 'AddressFinder', topic: 'cancelled'});
+
             elem.focus();
           };
 

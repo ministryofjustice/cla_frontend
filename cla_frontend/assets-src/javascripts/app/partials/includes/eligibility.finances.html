@@ -56,7 +56,7 @@
 
       <div class="FormRow cf">
         <label>
-          <span class="FormRow-label">What percentage of the property do you own? <guidance-link doc="eligibility_check#ecg-property_share"></guidance-link></span>
+          <span class="FormRow-label">What percentage of the property do you<span ng-show="hasPartner()"> and/or your partner</span> own? <guidance-link doc="eligibility_check#ecg-property_share"></guidance-link></span>
           <input class="FormRow-field--s" max="100" min="0" type="number" ng-model="property.share">
           <span class="FormRow-suffix">%</span>
         </label>

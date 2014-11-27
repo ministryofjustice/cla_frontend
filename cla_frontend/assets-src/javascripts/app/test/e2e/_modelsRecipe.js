@@ -150,6 +150,18 @@
         );
       },
 
+      createWithScope: function (inScope) {
+        return this.createRecipe(
+          CONSTANTS.case.required,
+          _.extend(
+            {},
+            CONSTANTS.personal_details.required,
+            CONSTANTS.personal_details.recommended
+          ),
+          CONSTANTS.scope[inScope]
+        );
+      },
+
       createWithScopeAndEligibility: function (inScope, isEligible) {
         return this.createRecipe(
           CONSTANTS.case.required,

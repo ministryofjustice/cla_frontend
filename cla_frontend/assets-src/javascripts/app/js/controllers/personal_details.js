@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'adaptations_metadata', 'mediacodes', '$q', 'flash',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, adaptations_metadata, mediacodes, $q, flash){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'adaptations_metadata', 'mediacodes', '$q', 'flash', 'postal',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, adaptations_metadata, mediacodes, $q, flash, postal){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -126,15 +126,35 @@
             $scope.language.disable = value ? false : true;
           };
 
-          $scope.showPersonalDetails = function(form) {
+          $scope.showPersonalDetails = function(form, isNew) {
             form.$show();
             $scope.personal_details_frm_visible = true;
+
+            var topic = isNew ? 'create' : 'edit';
+            postal.publish({channel: 'Person', topic: topic});
           };
 
           $scope.cancelPersonalDetails = function (form) {
             form.$cancel();
             $scope.language.disable = $scope.adaptations.language === 'WELSH';
             $scope.personal_details_frm_visible = false;
+
+            postal.publish({channel: 'Person', topic: 'cancel'});
+          };
+
+          $scope.showThirdParty = function(form, isNew) {
+            form.$show();
+            $scope.add_thirdparty = true;
+
+            var topic = isNew ? 'create' : 'edit';
+            postal.publish({channel: 'ThirdParty', topic: topic});
+          };
+
+          $scope.cancelThirdParty = function(form) {
+            form.$cancel();
+            $scope.add_thirdparty = false;
+
+            postal.publish({channel: 'ThirdParty', topic: 'cancel'});
           };
 
           $scope.searchPersonOptions = {
@@ -187,6 +207,8 @@
 
                   personal_details.$get().then(function() {
                     flash('Case linked to '+pd_full_name);
+
+                    postal.publish({channel: 'Person', topic: 'link'});
                   });
                 });
               } else {
@@ -210,6 +232,9 @@
               if (!$scope.case.personal_details) {
                 $scope.case.personal_details = data.reference;
               }
+
+              postal.publish({channel: 'Person', topic: 'save'});
+
               pdPromise.resolve();
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
@@ -253,6 +278,8 @@
               if (!$scope.case.thirdparty_details) {
                 $scope.case.thirdparty_details = data.reference;
               }
+
+              postal.publish({channel: 'ThirdParty', topic: 'save'});
             }, function(response){
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.third_party = thirdparty_details;

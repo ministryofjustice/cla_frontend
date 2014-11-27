@@ -2,9 +2,10 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions',
-      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal',
+      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal) {
         $scope.is_manual = false;
+        $scope.is_manual_ref = false;
         $scope.is_spor = false;
         $scope.suggested_providers = [];
         $scope.matter1_types = _.where(MatterTypes, {level: 1});
@@ -24,8 +25,11 @@
         $scope.assignManually = function(choice) {
           $scope.is_manual = choice;
 
+          postal.publish({channel: 'AssignProvider', topic: 'manual', data: {label: choice}});
+
           // reset selected to suggested provider
           if (!choice) {
+            $scope.is_manual_ref = false;
             $scope.selected_provider = $scope.suggested_provider;
             $scope.provider_search = '';
           }
@@ -51,6 +55,7 @@
         $scope.assign = function(form) {
           var data = {
             provider_id: $scope.selected_provider.id,
+            is_manual_ref: $scope.is_manual_ref,
             is_manual: $scope.is_manual,
             is_spor: $scope.is_spor
           };

@@ -7,10 +7,10 @@ def globals(request):
     'phase': 'alpha',
     'product_type': 'service',
     'feedback_url': '#',
-    'ga_id': '',
     'raven_config_site': settings.RAVEN_CONFIG['site'] or '',
     'socketio_server_url': settings.SOCKETIO_SERVER_URL,
-    'piwik_hostname': settings.PIWIK_HOSTNAME,
+    'analytics_id': settings.ANALYTICS_ID,
+    'analytics_domain': settings.ANALYTICS_DOMAIN,
   }
 
   if hasattr(request, 'zone') and request.zone:

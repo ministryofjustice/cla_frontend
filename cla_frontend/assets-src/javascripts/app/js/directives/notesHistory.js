@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('cla.directives')
-    .directive('notesHistory', ['$modal', function($modal) {
+    .directive('notesHistory', ['$modal', 'postal', function($modal, postal) {
       return {
         restrict: 'A',
         scope: {
@@ -10,6 +10,14 @@
         },
         link: function (scope, elem, attrs) {
           elem.on('click', function() {
+            postal.publish({
+              channel: 'NotesHistory',
+              topic: 'view',
+              data: {
+                label: scope.type
+              }
+            });
+
             scope.caseRef = attrs.notesHistory;
 
             var onModalClose = function () {

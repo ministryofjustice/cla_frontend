@@ -2,13 +2,15 @@
   <h2>{{ ::tplVars.title }}</h2>
 </header>
 
+
 <form method="post" novalidate ng-submit="submit(reject_frm)" name="reject_frm">
   <div class="FormBlock FormBlock--yellow">
     <div class="FormRow cf">
-      <input type="text" name="code_search" placeholder="Search codes" class="FormRow-field--l" ng-model="::code_search">
+      <input type="text" name="outcome-modal-code-search" placeholder="Search codes" class="FormRow-field--l" ng-model="::code_search" search-filter>
     </div>
 
     <span class="Error-message" ng-if="(reject_frm.code.$error.required) && reject_frm.$dirty">Code is required.</span>
+    <span class="Error-message" ng-if="errors.event_code">{{errors.event_code.join(', ')}}</span>
     <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="code in codes | filter:code_search">
       <label class="FormRow-label">
         <input type="radio" value="{{ ::code.code }}" ng-model="::$parent.event_code" name="code" ng-required="true" server-error>

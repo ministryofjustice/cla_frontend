@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+
+
   exports.config = {
     // --- tests to run ---
     specs: [
@@ -23,6 +25,22 @@
       require('jasmine-spec-reporter');
       jasmine.getEnv().addReporter(new jasmine.SpecReporter({
         displayStacktrace: true
+      }));
+
+      // Add a screenshot reporter and store screenshots to `/tmp/screnshots`:
+      var ScreenShotReporter = require('protractor-screenshot-reporter');
+      var path = require('path');
+      var camel = require('to-camel-case');
+      jasmine.getEnv().addReporter(new ScreenShotReporter({
+        baseDirectory: 'reports/protractor-e2e/screenshots',
+        takeScreenShotsOnlyForFailedSpecs: true,
+        pathBuilder: function pathBuilder(spec, descriptions, results, capabilities) {
+          // Return '<platform>/<browser>/<specname>' as path for screenshots:
+          descriptions = descriptions.reverse().map(function (desc) {
+            return camel(desc);
+          });
+          return path.join(capabilities.caps_.platform, capabilities.caps_.browserName, descriptions.join('-'));
+        }
       }));
 
       // The require statement must be down here, since jasmine-reporters

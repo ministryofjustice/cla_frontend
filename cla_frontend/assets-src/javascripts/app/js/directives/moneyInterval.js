@@ -9,6 +9,7 @@
       templateUrl:  'directives/money_interval.html',
       scope: {
         model: '=ngModel',
+        name: '@ngModel',
         miLabel: '@',
         guidanceLink: '=?'
       },

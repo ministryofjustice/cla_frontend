@@ -2,36 +2,36 @@
   <p>We will now look at your expenses for the last calendar month. This runs from today back to {{ oneMonthAgo }}</p>
 </call-script>
 
-<section>
+<section data-fieldset="your-expenses">
   <h2 class="FormBlock-label">Your expenses</h2>
 
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.deductions.mortgage" mi-label="How much do you pay for your mortgage?" guidance-link="'eligibility_check#ecg-expenses_mortgage'" />
+      <money-interval ng-model="eligibility_check.you.deductions.mortgage" mi-label="How much do you pay for your mortgage?" guidance-link="'eligibility_check#ecg-expenses_mortgage'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.deductions.rent" mi-label="How much do you pay for rent excluding housing benefit?" guidance-link="'eligibility_check#ecg-expenses_rent'" />
+      <money-interval ng-model="eligibility_check.you.deductions.rent" mi-label="How much do you pay for rent excluding housing benefit?" guidance-link="'eligibility_check#ecg-expenses_rent'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.deductions.income_tax" mi-label="How much tax do you pay?" guidance-link="'eligibility_check#ecg-expenses_tax'" />
+      <money-interval ng-model="eligibility_check.you.deductions.income_tax" mi-label="How much tax do you pay?" guidance-link="'eligibility_check#ecg-expenses_tax'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.deductions.national_insurance" mi-label="How much National Insurance do you pay?" guidance-link="'eligibility_check#ecg-expenses_nic'" />
+      <money-interval ng-model="eligibility_check.you.deductions.national_insurance" mi-label="How much National Insurance do you pay?" guidance-link="'eligibility_check#ecg-expenses_nic'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.deductions.maintenance" mi-label="How much maintenance have you paid during the last calendar month (today back to {{ oneMonthAgo }})?" guidance-link="'eligibility_check#ecg-expenses_maintenance'" />
+      <money-interval ng-model="eligibility_check.you.deductions.maintenance" mi-label="How much maintenance have you paid during the last calendar month (today back to {{ oneMonthAgo }})?" guidance-link="'eligibility_check#ecg-expenses_maintenance'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.deductions.childcare" mi-label="Do you have any childcare costs because of work or study? If so, how much?" guidance-link="'eligibility_check#ecg-expenses_childcare'" />
+      <money-interval ng-model="eligibility_check.you.deductions.childcare" mi-label="Do you have any childcare costs because of work or study? If so, how much?" guidance-link="'eligibility_check#ecg-expenses_childcare'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <label>
+      <label ng-class="fieldWarningClass(['negativeDisposable', 'housing'])">
         <span class="FormRow-label">Are you currently paying towards legal aid for criminal defence? If so, how much have you paid during the last calendar month (today back to {{ oneMonthAgo }})? <guidance-link doc="eligibility_check#ecg-expenses_contribution_order"></guidance-link></span>
 
         <span class="FormRow-prefix">£</span>
@@ -44,36 +44,36 @@
   </div>
 </section>
 
-<section ng-show="hasPartner()">
+<section data-fieldset="partner-expenses" ng-show="hasPartner()">
   <h2 class="FormBlock-label">Your partner's expenses</h2>
 
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.mortgage" mi-label="How much does your partner pay for their mortgage?" guidance-link="'eligibility_check#ecg-expenses_mortgage'" />
+      <money-interval ng-model="eligibility_check.partner.deductions.mortgage" mi-label="How much does your partner pay for their mortgage?" guidance-link="'eligibility_check#ecg-expenses_mortgage'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.rent" mi-label="How much does your partner pay for rent excluding housing benefit?" guidance-link="'eligibility_check#ecg-expenses_rent'" />
+      <money-interval ng-model="eligibility_check.partner.deductions.rent" mi-label="How much does your partner pay for rent excluding housing benefit?" guidance-link="'eligibility_check#ecg-expenses_rent'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.income_tax" mi-label="How much tax does your partner pay?" guidance-link="'eligibility_check#ecg-expenses_tax'" />
+      <money-interval ng-model="eligibility_check.partner.deductions.income_tax" mi-label="How much tax does your partner pay?" guidance-link="'eligibility_check#ecg-expenses_tax'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.national_insurance" mi-label="How much National Insurance does your partner pay?" guidance-link="'eligibility_check#ecg-expenses_nic'" />
+      <money-interval ng-model="eligibility_check.partner.deductions.national_insurance" mi-label="How much National Insurance does your partner pay?" guidance-link="'eligibility_check#ecg-expenses_nic'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.maintenance" mi-label="How much maintenance has your partner paid during the last calendar month (today back to {{ oneMonthAgo }})?" guidance-link="'eligibility_check#ecg-expenses_maintenance'" />
+      <money-interval ng-model="eligibility_check.partner.deductions.maintenance" mi-label="How much maintenance has your partner paid during the last calendar month (today back to {{ oneMonthAgo }})?" guidance-link="'eligibility_check#ecg-expenses_maintenance'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.childcare" mi-label="Does your partner have any childcare costs because of work or study? If so, how much?" guidance-link="'eligibility_check#ecg-expenses_childcare'" />
+      <money-interval ng-model="eligibility_check.partner.deductions.childcare" mi-label="Does your partner have any childcare costs because of work or study? If so, how much?" guidance-link="'eligibility_check#ecg-expenses_childcare'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <label>
+      <label ng-class="fieldWarningClass(['negativeDisposable', 'housing'])">
         <span class="FormRow-label">Is your partner currently paying towards legal aid for criminal defence? If so, how much have they paid during the last calendar month (today back to {{ oneMonthAgo }})? <guidance-link doc="eligibility_check#ecg-expenses_contribution_order"></guidance-link></span>
 
         <span class="FormRow-prefix">£</span>

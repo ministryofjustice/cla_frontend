@@ -89,12 +89,12 @@ STATIC_ROOT = root('static')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-PIWIK_HOSTNAME = os.environ.get('PIWIK_HOSTNAME', '')
+# Currently GA
+ANALYTICS_ID = os.environ.get('GA_ID', '')
+ANALYTICS_DOMAIN = os.environ.get('GA_DOMAIN', '')
 
 CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws:",
-    "wss:")
-if PIWIK_HOSTNAME != '':
-    CSP_DEFAULT_SRC += (PIWIK_HOSTNAME,)
+    "wss:", "www.google-analytics.com")
 
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 

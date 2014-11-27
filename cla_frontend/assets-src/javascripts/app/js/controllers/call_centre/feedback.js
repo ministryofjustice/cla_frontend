@@ -23,12 +23,12 @@
           };
 
           $scope.setJustified = function (feedbackItem, value) {
-            feedbackItem['justified'] = value;
+            feedbackItem.justified = value;
             return feedbackItem.$patch();
           };
 
           $scope.toggleResolved = function (feedbackItem) {
-            feedbackItem['resolved'] = !feedbackItem['resolved'];
+            feedbackItem.resolved = !feedbackItem.resolved;
             return feedbackItem.$patch();
           };
 

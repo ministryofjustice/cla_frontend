@@ -60,7 +60,7 @@
 
   <div ng-show="is_manual && suggested_providers.length > 0">
     <div class="FormRow cf">
-      <input type="text" name="provider-search" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="::provider_search">
+      <input type="text" name="assign-provider-search" placeholder="Search providers and other help organisations" class="FormRow-field--l" ng-model="::provider_search" search-filter>
     </div>
 
     <div class="FormRow FormRow--group" ng-repeat="provider in suggested_providers | filter:provider_search">
@@ -79,6 +79,11 @@
       <label for="notes" class="visuallyhidden">Reassignment notes</label>
       <textarea name="notes" id="notes" cols="30" rows="4" ng-model="::notes" placeholder="Provider reassignment comments"></textarea>
     </div>
+
+    <label class="FormRow cf" ng-if="user.is_manager">
+      <input type="checkbox" name="is_manual_ref" ng-model="$parent.is_manual_ref">
+      Assign as MANREF
+    </label>
   </div>
 
   <div class="Error Error--basic" ng-if="errors.__all__">
@@ -88,7 +93,7 @@
   <div class="FormActions" ng-if="::canAssign()">
     <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id">Assign provider</button>
 
-    <button type="submit" class="Button Button--secondary" ng-click="assignSPOR()" ng-disabled="!selected_provider.id">Refer for second opinion</button>
+    <button type="submit" class="Button Button--secondary" ng-click="assignSPOR()" ng-disabled="!selected_provider.id || $parent.is_manual_ref">Refer for second opinion</button>
 
     <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
 

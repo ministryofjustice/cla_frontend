@@ -58,7 +58,7 @@
       paths.src + 'vendor/socket.io-client/socket.io.js',
       paths.src + 'vendor/angular-socket-io/socket.js',
       paths.src + 'vendor/angulartics/src/angulartics.js',
-      paths.src + 'vendor/angulartics/src/angulartics-piwik.js',
+      paths.src + 'vendor/angulartics/src/angulartics-ga.js',
       paths.src + 'vendor/angular-hotkeys/build/hotkeys.js',
       paths.src + 'vendor/angular-local-storage/dist/angular-local-storage.js',
       paths.src + 'vendor/angularUtils/src/directives/pagination/dirPagination.js',

@@ -84,8 +84,8 @@
           // assign first provider in list
           element.all(by.name('provider')).get(0).click();
 
-          expect(assignBtn.isEnabled()).toBe(true);
           utils.scrollTo(assignBtn);
+          expect(assignBtn.isEnabled()).toBe(true);
           assignBtn.click();
           checkAssign(case_ref);
         });

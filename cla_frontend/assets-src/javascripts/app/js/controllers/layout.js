@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('LayoutCtrl',
-      ['$rootScope', '$scope', '$window', 'History', 'user', 'hotkeys', 'localStorageService',
-        function($rootScope, $scope, $window, History, user, hotkeys, localStorageService){
+      ['$rootScope', '$scope', '$window', 'History', 'user', 'hotkeys', 'localStorageService', 'ClaPostalService',
+        function($rootScope, $scope, $window, History, user, hotkeys, localStorageService, ClaPostalService){
           var offStateChange = $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
             if (from.name === 'case_list') {
               History.caseListStateParams = fromParams;
@@ -27,8 +27,11 @@
           hotkeys.add({
             combo: 's c',
             description: 'Search cases',
-            callback: function(e) {
+            callback: function(e, hotkey) {
               e.preventDefault();
+
+              ClaPostalService.publishHotKey(hotkey);
+
               angular.element('#search [name="q"]').focus();
             }
           });
@@ -36,8 +39,11 @@
           hotkeys.add({
             combo: '$',
             description: 'Show call scripts',
-            callback: function(e) {
+            callback: function(e, hotkey) {
               e.preventDefault();
+
+              ClaPostalService.publishHotKey(hotkey);
+
               $rootScope.showCallScript = !$rootScope.showCallScript;
               localStorageService.set('showCallScript', $rootScope.showCallScript);
             }

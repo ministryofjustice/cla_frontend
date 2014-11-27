@@ -31,7 +31,7 @@
             eventClick: function(calEvent, jsEvent, view) {
                 if (confirm('Are you sure you want to delete '+calEvent.title+'?')) {
                     $.ajax({
-                        url: '/call_centre/proxy/provider/rota/'+calEvent.id,
+                        url: '/call_centre/proxy/provider/rota/'+calEvent.id+'/',
                         method: 'DELETE',
                         dataType: 'json',
                         success: function(data) {
