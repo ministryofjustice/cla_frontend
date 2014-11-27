@@ -36,7 +36,7 @@
         takeScreenShotsOnlyForFailedSpecs: true,
         pathBuilder: function pathBuilder(spec, descriptions, results, capabilities) {
           // Return '<platform>/<browser>/<specname>' as path for screenshots:
-          var descriptions = descriptions.reverse().map(function (desc) {
+          descriptions = descriptions.reverse().map(function (desc) {
             return camel(desc);
           });
           return path.join(capabilities.caps_.platform, capabilities.caps_.browserName, descriptions.join('-'));
