@@ -66,7 +66,7 @@
             });
             $scope.case = result;
           } else {
-            flash('error', 'There was a problem closing this case');
+            flash('error', 'There was a problem re-opening this case');
           }
         };
 
