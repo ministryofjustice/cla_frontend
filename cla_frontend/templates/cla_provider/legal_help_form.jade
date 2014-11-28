@@ -92,41 +92,26 @@ body
             tr
               td Do you have a partner that you live with?
               td(width='30%')
-                input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No"}}')
-
+                input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No,"}}')
             // passported and nass questions should be replaced by the 5 questions below when ready
-            if eligibility_check.has_any_specific_benefits
+            if eligibility_check.specific_benefits
               tr
                 td(colspan='2') Do you or your partner receive any of the following benefits:
-              tr
-                td Universal Credit
-                td
-                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.universal_credit|yesno:"Yes,No"}}{% endif %}')
-              tr
-                td Income Support
-                td
-                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.income_support|yesno:"Yes,No"}}{% endif %}')
-              tr
-                td Income Based Job-Seekers Allowance
-                td
-                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.job_seekers_allowance|yesno:"Yes,No"}}{% endif %}')
-              tr
-                td Guaranteed State Pension Credit
-                td
-                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.pension_credit|yesno:"Yes,No"}}{% endif %}')
-              tr
-                td Income Related Employment And Support Allowance
-                td
-                  input(type='text', readonly='readonly', value='{% if eligibility_check.has_any_specific_benefits %}{{eligibility_check.specific_benefits.employment_support|yesno:"Yes,No"}}{% endif %}')
+              for benefit in eligibility_check.all_benefits
+                - with benefit_key=benefit.0
+                  tr
+                    td {{ benefit.1 }}
+                    td
+                      input(type='text', readonly='readonly', value='{{ eligibility_check.specific_benefits|get:benefit_key|yesno:"Yes,No," }}')
             else
               tr
                 td Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker's Allowance, Income-related Employment and Support Allowance or Guarantee Credit?
                 td(width='30%')
-                  input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No"}}')
+                  input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No,"}}')
             tr
               td Are you on National Asylum Support Service benefits?
               td(width='30%')
-                input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No"}}')
+                input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No,"}}')
     // Property, Capital
     .page
       fieldset.box
