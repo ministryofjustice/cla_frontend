@@ -102,6 +102,11 @@
         callback: trackEvent
       });
 
+      var ServerError = postal.channel('ServerError');
+      ServerError.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
 
       $body
         // Details/Summary clicks
