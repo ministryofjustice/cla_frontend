@@ -149,7 +149,7 @@
           };
 
           $scope.hasPartner = function () {
-            return $scope.eligibility_check.has_partner && $scope.eligibility_check.has_partner !== '0';
+            return $scope.eligibility_check.has_partner;
           };
 
           $scope.tabWarningClass = function (section) {
