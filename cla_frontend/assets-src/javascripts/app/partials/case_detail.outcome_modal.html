@@ -4,13 +4,15 @@
 
 
 <form method="post" novalidate ng-submit="submit(reject_frm)" name="reject_frm">
+  <p class="Error-message" ng-if="errors.__all__">{{ errors.__all__ }}</p>
+
   <div class="FormBlock FormBlock--yellow">
-    <div class="FormRow cf">
+    <div class="FormRow cf" ng-if="codes">
       <input type="text" name="outcome-modal-code-search" placeholder="Search codes" class="FormRow-field--l" ng-model="::code_search" search-filter>
     </div>
 
     <span class="Error-message" ng-if="(reject_frm.code.$error.required) && reject_frm.$dirty">Code is required.</span>
-    <span class="Error-message" ng-if="errors.event_code">{{errors.event_code.join(', ')}}</span>
+    <span class="Error-message" ng-if="errors.event_code">{{errors.event_code}}</span>
     <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="code in codes | filter:code_search">
       <label class="FormRow-label">
         <input type="radio" value="{{ ::code.code }}" ng-model="::$parent.event_code" name="code" ng-required="true" server-error>
@@ -22,7 +24,7 @@
 
     <div class="FormRow cf">
       <label>
-        <span class="Error-message" ng-if="reject_frm.$dirty">
+        <span class="Error-message">
           <span ng-if="reject_frm.notes.$error.required">Notes are required</span>
           <span ng-if="errors.notes">{{ errors.notes }}</span>
           <span ng-if="errors.comment">{{ errors.comment }}</span>

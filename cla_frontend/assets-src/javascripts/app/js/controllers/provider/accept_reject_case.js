@@ -42,6 +42,37 @@
         $modal.open(modalOpts).result.then(onSuccess);
       };
 
+      $scope.reopen = function() {
+        var modalOpts = {
+          templateUrl: 'case_detail.outcome_modal.html',
+          controller: 'ImplicitOutcomeModalCtl',
+          resolve: {
+            tplVars: function() {
+              return {
+                title: 'Reopen case'
+              };
+            },
+            case: function() { return $scope.case; },
+            model_action: function() { return 'reopen_case'; },
+            notes: function() { return ''; }
+          }
+        };
+        var onSuccess = function (result) {
+          if (result) {
+            flash('Case re-opened successfully');
+            postal.publish({
+              channel : 'models',
+              topic   : 'Log.refresh'
+            });
+            $scope.case = result;
+          } else {
+            flash('error', 'There was a problem re-opening this case');
+          }
+        };
+
+        $modal.open(modalOpts).result.then(onSuccess);
+      };
+
       $scope.split = function() {
         $modal.open({
           templateUrl: 'provider/case_detail.split.html',

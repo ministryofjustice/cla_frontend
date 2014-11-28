@@ -4,6 +4,8 @@
     <button class="BtnGroup-button BtnGroup-button--light" name="accept-case" ng-click="accept()" ng-if="!case.provider_accepted && !case.provider_closed">Accept</button>
     
     <button class="BtnGroup-button BtnGroup-button--light" name="reject-case" ng-click="reject()" ng-if="!case.provider_closed">Reject</button>
+
+    <button class="BtnGroup-button BtnGroup-button--light" name="reopen-case" ng-click="reopen()" ng-if="case.provider_closed">Reopen</button>
     
     <button class="BtnGroup-button BtnGroup-button--light" name="split-case" ng-click="split()" ng-if="!case.provider_closed">Split</button>
     
