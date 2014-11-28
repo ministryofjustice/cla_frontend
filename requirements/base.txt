@@ -20,3 +20,4 @@ logstash-formatter==0.5.8
 django-ipware==0.0.8
 pyjade==3.0.0
 websocket-client==0.18.0
+requests==2.4.3
