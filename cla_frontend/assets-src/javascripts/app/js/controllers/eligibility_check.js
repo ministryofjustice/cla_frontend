@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService',
-        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout){
           $scope.category_list = Category.query();
 
           // income warnings
@@ -43,6 +43,8 @@
             }
           ];
 
+          $scope.specificBenefitsOptions = SPECIFIC_BENEFITS;
+
           var passported = function() {
             var _radio = $('#id_your_details-passported_benefits_0').get(0);
             if (_radio) {
@@ -66,6 +68,28 @@
             var isFalse = function (fn) { return !fn(); };
             var r = tabHideRules[section.title].every(isFalse);
             return r;
+          };
+
+          $scope.hasSpecificBenefits = function () {
+            return $scope.eligibility_check.specific_benefits !== undefined
+                    && $scope.eligibility_check.specific_benefits !== null
+                    && typeof $scope.eligibility_check.specific_benefits === 'object';
+          };
+
+          $scope.benefitChange = function () {
+            var passported = _.some($scope.eligibility_check.specific_benefits, function (benefit) {
+              return benefit === true || benefit === '1';
+            });
+
+            if (passported) {
+              $scope.eligibility_check.on_passported_benefits = true;
+            } else {
+              $scope.eligibility_check.on_passported_benefits = false;
+            }
+
+            $timeout(function () {
+              $scope.updateTabs();
+            });
           };
 
           $scope.updateTabs = function () {
@@ -125,7 +149,7 @@
           };
 
           $scope.hasPartner = function () {
-            return $scope.eligibility_check.has_partner && $scope.eligibility_check.has_partner !== '0';
+            return $scope.eligibility_check.has_partner;
           };
 
           $scope.tabWarningClass = function (section) {
