@@ -2,7 +2,48 @@
 (function(){
   // register the interceptor as a service
   angular.module('cla.services')
-    .factory('cla.httpInterceptor', ['$q', 'flash', '$injector', '$sce', 'form_utils', 'url_utils', function($q, flash, $injector, $sce, form_utils, url_utils) {
+    .factory('cla.httpInterceptor.uniqueThrottleInterceptor', function ($injector, $q) {
+      var DUPLICATE_REQUEST_STATUS_CODE = 420; // Twitter 'Enhance Your Calm' status code
+
+      function compare_predicate(v, k) {
+        return k.length > 0 && k[0] !== '$';
+      }
+
+      function makeEnhanceYourCalmResponse(config) {
+        return {
+          data: '',
+          headers: {},
+          status: DUPLICATE_REQUEST_STATUS_CODE,
+          config: config
+        };
+      }
+
+      function isRequestPending(config) {
+        var $http = $injector.get('$http');
+        var pending = $http.pendingRequests.filter(function (pendingReqConfig) {
+          return (pendingReqConfig.method === config.method &&
+            pendingReqConfig.url === config.url &&
+            _.isEqual(_.pick(pendingReqConfig.data, compare_predicate), _.pick(config.data, compare_predicate))
+            );
+        });
+        return pending.length > 0;
+      }
+
+      return {
+        request:  function(config) {
+          var deferred = $q.defer();
+
+          if (config.method !== 'GET' && isRequestPending(config)) {
+            deferred.reject(makeEnhanceYourCalmResponse(config));
+          }
+          deferred.resolve(config);
+          return deferred.promise;
+        }
+      };
+    }
+  )
+    .factory('cla.httpInterceptor', ['$q', 'flash', '$injector', '$sce', 'form_utils', 'url_utils', 'postal',
+      function($q, flash, $injector, $sce, form_utils, url_utils, postal) {
     return {
       // optional method
       responseError: function(rejection) {
@@ -12,6 +53,12 @@
           var msgs = {
               500: 'Server error! Please try again later. If the problem persists, please contact the administrator.',
               405: 'You are not allowed to perform this action on this resource.',
+              420: function () {
+                postal.publish({
+                  channel: 'ServerError',
+                  topic: 420
+                });
+              },
               404: 'Resource cannot be found.',
               403: 'You don\'t have permissions to access this page.',
               401: function() {
@@ -31,11 +78,11 @@
                         method: 'POST',
                         data: $.param({
                           username: this.username,
-                          password: this.password,
+                          password: this.password
                         }),
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                        }
+                          }
                       }).then(
                         function() {
                           flash('You are now logged in.');
@@ -67,10 +114,11 @@
       }
     };
   }]).config(['$httpProvider', function($httpProvider) {
-    $httpProvider.interceptors.push('cla.httpInterceptor');
+      $httpProvider.interceptors.push('cla.httpInterceptor.uniqueThrottleInterceptor');
+      $httpProvider.interceptors.push('cla.httpInterceptor');
 
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+      $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+      $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
-  }]);
+    }]);
 })();
