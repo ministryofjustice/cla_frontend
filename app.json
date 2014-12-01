@@ -2,7 +2,7 @@
   "name": "CLA Frontend",
   "description": "The call centre / provider interface for the UK's CLA system",
   "repository": "https://github.com/ministryofjustice/cla_frontend",
-  "success_url": "/admin/",
+  "success_url": "/auth/login/",
   "env": {
     "BUILDPACK_URL": "https://github.com/ddollar/heroku-buildpack-multi.git",
     "JAVA_OPTS": "-Xms32mb -Xmx64mb",
