@@ -8,7 +8,7 @@ $border-colour: $grey-2;
   margin: 0;
 
   &--grey {
-    padding: 1.5em 1.25em;
+    padding: 1.75em 1.4286em;
     margin: 0 0 1.5em;
     border-width: 1px 0;
     border-color: $border-colour;
@@ -46,6 +46,10 @@ $border-colour: $grey-2;
   position: relative;
   clear: both;
   display: block;
+
+  .FormBlock--grey &:last-child {
+    margin-bottom: 0;
+  }
 
   label {
     @include core-14;
