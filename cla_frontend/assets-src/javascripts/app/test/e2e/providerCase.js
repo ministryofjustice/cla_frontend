@@ -21,31 +21,29 @@
       beforeEach(utils.setUp);
 
       it('should create a specific benefits case as operator and assign (manually) to a provider', function () {
-        browser.get(CONSTANTS.callcentreBaseUrl);
-
         modelsRecipe.Case.createSpecificBenefitsReadyToAssign().then(function (case_ref) {
           case_to_accept = case_ref;
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              utils.manuallySelectProvider('Duncan Lewis');
+              utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
+            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
 
       it('should create a grouped benefits case as operator and assign (manually) to a provider', function () {
-        browser.get(CONSTANTS.callcentreBaseUrl);
-
         modelsRecipe.Case.createGroupedBenefitsReadyToAssign().then(function (case_ref) {
           grouped_benefits_case = case_ref;
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              utils.manuallySelectProvider('Duncan Lewis');
+              utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
+            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
@@ -136,5 +134,6 @@
   function do_assign () {
     utils.scrollTo(assign_button);
     assign_button.click();
+
   }
 })();
