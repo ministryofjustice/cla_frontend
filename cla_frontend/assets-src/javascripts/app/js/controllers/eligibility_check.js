@@ -6,6 +6,8 @@
       ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout',
         function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout){
           $scope.category_list = Category.query();
+          // set nass benefits to FALSE by default
+          $scope.eligibility_check.on_nass_benefits = $scope.eligibility_check.on_nass_benefits || false;
 
           // income warnings
           postal.subscribe({

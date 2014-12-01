@@ -78,15 +78,6 @@
     </div>
   </div>
 
-  <div class="FormRow cf">
-    <p class="FormRow-label">Are you on National Asylum Support Service benefits? <guidance-link doc="eligibility_check#ecg-on_nass_benefits"></guidance-link></p>
-
-    <label for="id_your_details-nass_benefits_0" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-nass_benefits" id="id_your_details-nass_benefits_0" value="1" ng-model="::eligibility_check.on_nass_benefits">Yes
-    </label>
-
-    <label for="id_your_details-nass_benefits_1" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-nass_benefits" id="id_your_details-nass_benefits_1" value="0" ng-model="::eligibility_check.on_nass_benefits">No
-    </label>
-  </div>
+  <!-- NASS Benefits are always set to FALSE for operator cases -->
+  <input type="hidden" name="your_details-nass_benefits" ng-model="::eligibility_check.on_nass_benefits">
 </section>
