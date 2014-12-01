@@ -1,0 +1,15 @@
+{
+  "name": "CLA Frontend",
+  "description": "The call centre / provider interface for the UK's CLA system",
+  "repository": "https://github.com/ministryofjustice/cla_frontend",
+  "success_url": "/auth/login/",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/ddollar/heroku-buildpack-multi.git",
+    "JAVA_OPTS": "-Xms32mb -Xmx64mb",
+    "BACKEND_BASE_URI": {
+      "required": true,
+      "description": "The URL where the API server is hosted, without the trailing slash"
+    }
+  },
+  "keywords": ["uk", "ministryofjustice", "legalaid", "python", "angularjs"]
+}
