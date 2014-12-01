@@ -212,24 +212,6 @@ LOGGING = {
         }
     },
     'handlers': {
-        'production_file':{
-            'level' : 'INFO',
-            'class' : 'logging.handlers.RotatingFileHandler',
-            'filename' : '/var/log/wsgi/app.log',
-            'maxBytes': 1024*1024*5, # 5 MB
-            'backupCount' : 7,
-            'formatter': 'logstash',
-            'filters': ['require_debug_false'],
-        },
-        'debug_file':{
-            'level' : 'DEBUG',
-            'class' : 'logging.handlers.RotatingFileHandler',
-            'filename' : '/var/log/wsgi/debug.log',
-            'maxBytes': 1024*1024*5, # 5 MB
-            'backupCount' : 7,
-            'formatter': 'verbose',
-            'filters': ['require_debug_true'],
-        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
@@ -241,16 +223,11 @@ LOGGING = {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
-        },
-        '': {
-            'handlers': ['production_file', 'debug_file'],
-            'level': "DEBUG",
-        },
+            }
     }
 }
 
-
-BACKEND_BASE_URI = 'http://127.0.0.1:8000'
+BACKEND_BASE_URI = os.environ.get('BACKEND_BASE_URI', 'http://127.0.0.1:8000')
 
 ZONE_PROFILES = {
     'call_centre': {

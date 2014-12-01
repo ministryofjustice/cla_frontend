@@ -244,3 +244,19 @@ By default, tests will be run on ``http://0.0.0.0:8001/``. To change
 this you can pass the ``--url`` argument on the command called in the
 make file. To see what command is called look at the ``Makefile`` at the
 project root.
+
+Try it on Heroku
+----------------
+
+You can deploy directly to Heroku if you want to get started quickly,
+just click here: |Deploy|_.
+
+Keep a note of the URL you deployed the backend to, you'll need to provide to
+heroku when you deploy this app.
+
+.. |Deploy| image:: https://www.herokucdn.com/deploy/button.png
+.. _Deploy: https://heroku.com/deploy
+
+You should now be able to visit your deployed app and be able go log into
+the call centre part of the system with the username / password: test_operator / test_operator
+and the provider part of the system with the username / password: test_staff/ test_staff
