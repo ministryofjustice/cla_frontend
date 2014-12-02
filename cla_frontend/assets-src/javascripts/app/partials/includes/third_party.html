@@ -15,7 +15,9 @@
       <span ng-bind-html="third_party.personal_details.street|nl2br"></span>
     </p>
 
-    <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone">{{ third_party.personal_details.mobile_phone }}</p>
+    <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': third_party.personal_details.safe_to_contact !== 'SAFE', 'Icon--green': third_party.personal_details.safe_to_contact === 'SAFE'}">
+      <span ng-class="{'u-strike': personal_details.safe_to_contact !== 'SAFE'}">{{ third_party.personal_details.mobile_phone }}</span>
+    </p>
 
     <p class="VCard-row Icon Icon--row Icon--email" ng-if="third_party.personal_details.email">{{ third_party.personal_details.email }}</p>
 
@@ -56,8 +58,9 @@
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.mobile_phone.$invalid && thirdparty_submitted}">
       <span class="Error-message" ng-if="third_party_frm.mobile_phone.$error.server">{{ errors.mobile_phone }}</span>
-      <span class="Icon--formRow Icon Icon--call">
+      <span class="Icon--formRow Icon">
         <span editable-text="third_party.personal_details.mobile_phone" e-name="mobile_phone" e-class="FormRow-field--full" e-placeholder="Contact number"></span>
+        <safe-to-contact person="third_party.personal_details"></safe-to-contact>
       </span>
     </label>
 

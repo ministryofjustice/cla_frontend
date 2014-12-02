@@ -143,7 +143,7 @@
           return AdaptationsMetadata.options().$promise;
         }],
         thirdparty_details: ['case', 'ThirdParty', function(case_, ThirdParty) {
-          return case_.thirdparty_details ? ThirdParty.get({case_reference: case_.reference}).$promise : new ThirdParty({case_reference: case_.reference});
+          return case_.thirdparty_details ? ThirdParty.get({case_reference: case_.reference}).$promise : new ThirdParty({case_reference: case_.reference, personal_details: {}});
         }],
         mediacodes: ['MediaCode', function(MediaCode) {
           return MediaCode.get().$promise;
