@@ -6,7 +6,7 @@
       modelsRecipe = require('./_modelsRecipe'),
       protractor = require('protractor'),
       ptor = protractor.getInstance(),
-      driver = ptor.driver;;
+      driver = ptor.driver;
 
   var case_to_accept;
   var grouped_benefits_case;

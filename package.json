@@ -58,8 +58,6 @@
     "performance": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.performance.js",
     "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor.conf.local.js",
     "protractor-phantom": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.phantom.js",
-    "protractor-allocation": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.allocation.js",
-    "postinstall": "bower install && gulp build-no-sass"
-
+    "protractor-allocation": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.allocation.js"
   }
 }
