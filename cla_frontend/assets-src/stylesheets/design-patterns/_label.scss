@@ -88,3 +88,11 @@
     margin: 0;
   }
 }
+
+.Label-helpText {
+  @include core-14;
+  font-size: 12px;
+  display: block;
+  color: $grey-1;
+  padding-top:5px;
+}

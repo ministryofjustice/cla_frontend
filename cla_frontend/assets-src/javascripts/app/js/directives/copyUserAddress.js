@@ -12,7 +12,7 @@
         pdEdit: '=',
         pdModel: '='
       },
-      link: function (scope, elm, attrs) {
+      link: function (scope) {
         scope.copyAddress = function () {
           var tpForm = angular.element('[name="third_party_frm"]');
           var tpPostcode = angular.element('input[name="postcode"]', tpForm);
