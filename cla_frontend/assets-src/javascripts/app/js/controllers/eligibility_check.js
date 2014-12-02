@@ -73,9 +73,7 @@
           };
 
           $scope.hasSpecificBenefits = function () {
-            return $scope.eligibility_check.specific_benefits !== undefined
-                    && $scope.eligibility_check.specific_benefits !== null
-                    && typeof $scope.eligibility_check.specific_benefits === 'object';
+            return $scope.eligibility_check.specific_benefits !== undefined && $scope.eligibility_check.specific_benefits !== null && typeof $scope.eligibility_check.specific_benefits === 'object';
           };
 
           $scope.benefitChange = function () {
