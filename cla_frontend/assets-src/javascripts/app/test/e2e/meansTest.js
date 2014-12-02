@@ -7,7 +7,6 @@
 
   var zeroIncomeNotice = element(by.cssContainingText('.Notice', 'The system is showing me that:'));
   var saveBtn = element(by.cssContainingText('button', 'Save assessment'));
-  var fieldset = element(by.css('.FormBlock'));
   var passportedBenefits = element(by.name('your_details-passported_benefits'));
   var specificBenefits = element(by.name('your_details-specific_benefits-universal_credit'));
 
