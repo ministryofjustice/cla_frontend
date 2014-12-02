@@ -16,7 +16,7 @@
     </p>
 
     <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': third_party.personal_details.safe_to_contact !== 'SAFE', 'Icon--green': third_party.personal_details.safe_to_contact === 'SAFE'}">
-      <span ng-class="{'u-strike': personal_details.safe_to_contact !== 'SAFE'}">{{ third_party.personal_details.mobile_phone }}</span>
+      <span ng-class="{'u-strike': third_party.personal_details.safe_to_contact !== 'SAFE'}">{{ third_party.personal_details.mobile_phone }}</span>
     </p>
 
     <p class="VCard-row Icon Icon--row Icon--email" ng-if="third_party.personal_details.email">{{ third_party.personal_details.email }}</p>
