@@ -3,7 +3,9 @@
 
   var CONSTANTS = require('../protractor.constants'),
       utils = require('./_utils'),
-      _ = require('lodash');
+      _ = require('lodash'),
+      protractor = require('protractor'),
+      ptor = protractor.getInstance();
 
   describe('case', function () {
     beforeEach(utils.setUp);
@@ -11,9 +13,7 @@
     describe('A non-existant Case', function () {
       it('should get case list when given non existant case reference', function () {
         browser.get(CONSTANTS.callcentreBaseUrl + 'XX-0000-0000/');
-
-        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
-        expect(element(by.css('.Notice.error')).getInnerHtml()).toBe('The Case XX-0000-0000 could not be found!');
+        expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
       });
     });
 

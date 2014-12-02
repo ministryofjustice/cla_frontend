@@ -3,7 +3,9 @@
 
   var utils = require('../e2e/_utils'),
       CONSTANTS = require('../protractor.constants.js'),
-      modelsRecipe = require('./_modelsRecipe');
+      modelsRecipe = require('./_modelsRecipe'),
+      protractor = require('protractor'),
+      ptor = protractor.getInstance();
 
   var case_to_reject_ref,
       case_to_feedback_without_reject_ref,
@@ -15,31 +17,29 @@
       beforeEach(utils.setUp);
 
       it('should create a case as operator and assign (manually) to a provider', function () {
-        browser.get(CONSTANTS.callcentreBaseUrl);
-
         modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
           case_to_reject_ref = case_ref;
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              utils.manuallySelectProvider('Duncan Lewis');
+              utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
+            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
 
       it('should create a case as operator and assign (manually) to a provider which wont be rejected', function () {
-        browser.get(CONSTANTS.callcentreBaseUrl);
-
         modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
           case_to_feedback_without_reject_ref = case_ref;
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              utils.manuallySelectProvider('Duncan Lewis');
+              utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
+            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });

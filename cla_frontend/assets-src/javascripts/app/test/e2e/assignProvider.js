@@ -29,7 +29,7 @@
         modelsRecipe.Case.createEmpty().then(function (case_ref) {
           goto_assign(case_ref);
 
-          expect(notices.getText()).toContain('The Case must be in scope and eligible to be assigned.');
+          expect(browser.getLocationAbsUrl()).not.toContain(caseRef + '/assign/');
         });
       });
 
