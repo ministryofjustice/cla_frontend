@@ -1,4 +1,6 @@
-<button href="" class="Button Button--secondary Button--add" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="showThirdParty(third_party_frm, true)" name="add-thirdparty">Add third party</button>
+<div ng-class="{'Icon--formRow': !personal_details.reference}">
+  <button href="" class="Button Button--secondary Button--add" ng-hide="case.thirdparty_details || add_thirdparty" ng-click="showThirdParty(third_party_frm, true)" name="add-thirdparty">Add third party</button>
+</div>
 
 <section ng-show="case.thirdparty_details || add_thirdparty" id="third_party">
   <div ng-click="showThirdParty(third_party_frm)" ng-hide="third_party_frm.$visible" class="VCard VCard--dark VCard-view">
