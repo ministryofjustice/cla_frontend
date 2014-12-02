@@ -6,6 +6,7 @@
       CONSTANTS = require('../protractor.constants');
 
   var notices = element(by.css('.NoticeContainer--fixed'));
+  var assignForm = element(by.name('assign_provider_form'));
   var assignBtn = element(by.name('assign-provider'));
   var selectedProvHeading = element(by.css('.ContactBlock-heading'));
   var caseRef, provider;
@@ -66,8 +67,7 @@
           selectOption('matter_type2');
 
           expect(assignBtn.isEnabled()).toBe(true);
-          utils.scrollTo(assignBtn);
-          assignBtn.click();
+          assignForm.submit();
 
           checkAssign(case_ref);
         });
@@ -84,9 +84,8 @@
           // assign first provider in list
           element.all(by.name('provider')).get(0).click();
 
-          utils.scrollTo(assignBtn);
           expect(assignBtn.isEnabled()).toBe(true);
-          assignBtn.click();
+          assignForm.submit();
           checkAssign(case_ref);
         });
       });
@@ -110,8 +109,7 @@
           });
 
           expect(assignBtn.isEnabled()).toBe(true);
-          utils.scrollTo(assignBtn);
-          assignBtn.click();
+          assignForm.submit();
           checkAssign(case_ref);
         });
       });

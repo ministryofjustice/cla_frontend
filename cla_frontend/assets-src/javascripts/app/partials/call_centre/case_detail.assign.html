@@ -93,7 +93,7 @@
   <div class="FormActions" ng-if="::canAssign()">
     <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id">Assign provider</button>
 
-    <button type="submit" class="Button Button--secondary" ng-click="assignSPOR()" ng-disabled="!selected_provider.id || $parent.is_manual_ref">Refer for second opinion</button>
+    <button type="button" class="Button Button--secondary" ng-click="assignSPOR()" ng-disabled="!selected_provider.id || $parent.is_manual_ref">Refer for second opinion</button>
 
     <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
 
