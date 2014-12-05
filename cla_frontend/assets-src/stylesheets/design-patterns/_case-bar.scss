@@ -1,6 +1,7 @@
 .CaseBar {
   background-color: $grey-3;
-  overflow: auto;
+  overflow: visible;
+  z-index: 1000;
   padding: 6px 0;
 
   &.stuck {

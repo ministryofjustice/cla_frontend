@@ -6,7 +6,6 @@
     .directive('datePicker', function() {
       return {
         restrict: 'A',
-        require: 'ngModel',
         scope: {
           config: '=pickerConfig'
         },
@@ -14,11 +13,17 @@
           var settings = $.extend({
             time: false,
             weekStart: 1,
+            dayFormat: 'D',
+            monthFormat: 'MMMM YY',
             inputFormat: 'DD/MM/YYYY'
           }, scope.config);
 
+          console.log(settings);
+
           rome(element[0], settings).on('data', function (value) {
-            ngModelCtrl.$setViewValue(value);
+            if (ngModelCtrl) {
+              ngModelCtrl.$setViewValue(value);
+            }
           });
         }
       };
@@ -34,12 +39,14 @@
         link: function(scope, element, attrs, ngModelCtrl) {
           var settings = $.extend({
             weekStart: 1,
-            inputFormat: 'DD/MM/YYYY',
+            inputFormat: 'DD/MM/YYYY HH:mm',
             timeInterval: 900
           }, scope.config);
 
           rome(element[0], settings).on('data', function (value) {
-            ngModelCtrl.$setViewValue(value);
+            if (ngModelCtrl) {
+              ngModelCtrl.$setViewValue(value);
+            }
           });
         }
       };
