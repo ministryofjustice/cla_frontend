@@ -43,5 +43,34 @@
         @extend .Icon--mellowred;
       }
     }
+    &.is-warning td {
+      .Icon {
+        @extend .Icon--mellowred;
+      }
+      .Label {
+        border-color: $mellow-red;
+        color: $mellow-red;
+      }
+      .Label-helpText {
+        color: $mellow-red;
+      }
+    }
+    &.is-important td {
+      background-color: #FAEBEC;
+      .Icon {
+        @extend .Icon--mellowred;
+      }
+      &:first-child {
+        border-left: 3px solid $mellow-red;
+      }
+      .Label {
+        border-color: $mellow-red;
+        background-color: $mellow-red;
+        color: $white;
+      }
+      .Label-helpText {
+        color: $mellow-red;
+      }
+    }
   }
 }

@@ -30,7 +30,8 @@
   <tbody>
     <tr dir-paginate="case in cases.results | itemsPerPage: 20"
       total-items="cases.count" current-page="searchParams.page"
-      ng-class="::rowClass(case)">
+      ng-class="::rowClass(case)"
+      callback-sla="{{ case.requires_action_at }}">
       <td>
         <abbr title="{{ ::case.source }} CASE" class="Icon {{ ::opCaseClass(case) }}" ng-if="::opCaseClass(case)"></abbr>
         <abbr title="Case status" class="Icon {{ ::provCaseClass(case) }}" ng-if="::provCaseClass(case)"></abbr>
@@ -48,7 +49,10 @@
       <td>
         <timestamp ng-model="case.modified"></timestamp>
       </td>
-      <td><span class="Label Label--secondary" ng-if="case.outcome_code">{{ ::case.outcome_code }}</span></td>
+      <td>
+        <span class="Label Label--secondary" ng-if="case.outcome_code">{{ ::case.outcome_code }}</span>
+        <span class="Label-helpText" ng-if="::isCallback(case)">{{ ::case.requires_action_at | date:"d/M/yy h:mma" }}</span>
+      </td>
     </tr>
   </tbody>
 </table>
