@@ -5,6 +5,8 @@ from django.conf import settings
 
 from slumber.exceptions import HttpClientError
 
+from cla_common.constants import SPECIFIC_BENEFITS
+
 from core.testing.test_base import CLATFrontEndTestCase
 
 from cla_auth.models import ClaUser
@@ -60,7 +62,9 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
 
         self.mocked_extract.get.return_value = {
             'eligibility_check': {
-                'calculations': {}
+                'calculations': {},
+                'on_passported_benefits': False,
+                'specific_benefits': None
             },
             'personal_details': {}
         }
@@ -68,7 +72,16 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
         response = self.client.get(self.url)
         self.assertExtractEqual(
             response,
-            {'additional_SMOD_property': None, 'main_property': None, 'calculations': {}, 'additional_non_SMOD_property': None},
+            {
+                'additional_SMOD_property': None,
+                'main_property': None,
+                'calculations': {},
+                'additional_non_SMOD_property': None,
+                'specific_benefits': None,
+                'on_passported_benefits': False,
+                'has_any_specific_benefits': False,
+                'all_benefits': SPECIFIC_BENEFITS
+            },
             {}
         )
 
@@ -119,7 +132,9 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                     ],
                     "employment_allowance": 0,
                     "liquid_capital": 3600000
-                }
+                },
+                'on_passported_benefits': False,
+                'specific_benefits': None
             },
             'personal_details': {}
         }
@@ -143,6 +158,10 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                 'additional_non_SMOD_property': additional_non_SMOD_property,
                 'property_set': data['eligibility_check']['property_set'],
                 'calculations': data['eligibility_check']['calculations'],
+                'specific_benefits': None,
+                'on_passported_benefits': False,
+                'has_any_specific_benefits': False,
+                'all_benefits': SPECIFIC_BENEFITS
             },
             {}
         )
@@ -190,7 +209,9 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                     "property_equities": [],
                     "employment_allowance": 0,
                     "liquid_capital": 3600000
-                }
+                },
+                'on_passported_benefits': False,
+                'specific_benefits': None
             },
             'personal_details': {}
         }
@@ -214,6 +235,10 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                 'additional_non_SMOD_property': additional_non_SMOD_property,
                 'property_set': data['eligibility_check']['property_set'],
                 'calculations': data['eligibility_check']['calculations'],
+                'specific_benefits': None,
+                'on_passported_benefits': False,
+                'has_any_specific_benefits': False,
+                'all_benefits': SPECIFIC_BENEFITS
             },
             {}
         )
