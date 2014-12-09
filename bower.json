@@ -22,7 +22,7 @@
     "angular-loading-bar": "0.5.1",
     "angular-socket-io": "0.6.0",
     "socket.io-client": "1.1.0",
-    "rome": "1.1.6",
+    "rome": "teneightfive/rome#580f2f4f4e760708ef2bf54e67a3100e6dd29f39",
     "angulartics": "0.16.5",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#1.4.5",
     "angular-local-storage": "0.1.3",
