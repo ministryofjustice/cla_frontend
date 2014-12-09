@@ -1,3 +1,4 @@
+/* global rome */
 (function() {
   'use strict';
 
@@ -60,7 +61,7 @@
         var bookSub = postal.subscribe({
           channel: 'CallBack',
           topic: 'toggle',
-          callback: function (data, envelope) {
+          callback: function (data) {
             if (data._case) {
               var show = true;
 
@@ -82,6 +83,10 @@
           }
         });
 
+        scope.$on('$destroy', function handleDestroyEvent () {
+          bookSub.unsubscribe();
+        });
+
         calendar.on('data', function (value) {
           var m = moment(formatUkDateTime(value));
           var firstSlot = m.hour(9).minutes(0);
@@ -101,7 +106,7 @@
           var datePieces = date.split('/');
           var timePieces = time.split(':');
           return new Date(datePieces[2], datePieces[1] - 1, datePieces[0], timePieces[0], timePieces[1]);
-        }
+        };
 
         var toggleModal = function (toggle) {
           scope.isVisible = toggle;
