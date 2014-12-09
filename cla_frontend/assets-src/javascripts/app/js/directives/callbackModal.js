@@ -13,7 +13,11 @@
       replace: true,
       templateUrl: 'directives/callbackModal.html',
       scope: {},
-      controller: function ($scope) {
+      controller: function ($scope, $element) {
+        if (!AppSettings.callMeBackEnabled) {
+          $element.remove();
+        }
+
         var minStart = moment().add(30, 'minutes');
         var start = moment(Math.ceil((+minStart) / timeRounding) * timeRounding);
 
