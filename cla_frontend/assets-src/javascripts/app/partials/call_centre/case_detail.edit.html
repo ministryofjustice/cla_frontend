@@ -12,7 +12,7 @@
   </div>
 
   <span data-block="extra-tabs">
-    <li ng-if="false" class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.diversity'), 'is-disabled': !case.personal_details}">
+    <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.diversity'), 'is-disabled': !case.personal_details}">
       <a ui-sref="case_detail.diversity" class="Tabs-tabLink" ng-class="{'Icon Icon--right Icon--solidTick Icon--green': personal_details.has_diversity}">Diversity</a>
     </li>
     <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.assign'), 'is-disabled': !case.isInScopeAndEligible()}">
