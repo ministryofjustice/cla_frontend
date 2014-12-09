@@ -31,9 +31,9 @@
             return;
           }
           if (err.status === 400 && err.data && err.data.body) {
-            flash('error', err.data.body);
+            $scope.errors = err.data.body;
           } else {
-            flash('error', err.data);
+            $scope.errors = err.data;
           }
         }
         $scope.uploads = csvuploads;
