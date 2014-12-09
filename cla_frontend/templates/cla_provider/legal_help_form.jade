@@ -1,641 +1,632 @@
 - load staticfiles core_tags helpers
 !!! 5
 html(lang='en')
-head
-  title Legal Help Form
-  link(href='{% staticmin "stylesheets/cla.legal-help-form.css" %}', media='all', rel='stylesheet', type='text/css')
-body
-  #wrapper
-    // Intro, Details, Finances
-    .page
-      .header
-        h1 Legal Help
-        .cf
-          h2.organisation-logo.u-pullRight
-            img.organisation-logo-img(src='{% static "images/org_crest_27px.png" %}')
-            br
-            | Legal Aid
-            br
-            | Agency
+  head(data-analytics-id='{{ analytics_id }}', data-analytics-domain='{{ analytics_domain }}')
+    title Legal Help Form
+    link(href='{% staticmin "stylesheets/cla.legal-help-form.css" %}', media='all', rel='stylesheet', type='text/css')
+  body
+    #wrapper
+      // Intro, Details, Finances
+      .page
+        .header
+          h1 Legal Help
+          .cf
+            h2.organisation-logo.u-pullRight
+              img.organisation-logo-img(src='{% static "images/org_crest_27px.png" %}')
+              br
+              | Legal Aid
+              br
+              | Agency
+            p
+              | To ensure we give out the best advice by the Legal Aid Agency fairly we need you to:
+            ul
+              li Check the details we have filled in from the telephone assessment are correct and change them if they are not
+              li Attach any evidence requested and return the form to us
+              li Sign the declaration on page 4
+        fieldset.box
+          table.field-table(width='100%')
+            tbody
+              tr
+                td Is this an application for Exceptional Case Funding
+                td
+                  label
+                    input.check(type='text')
+                    | Yes
+                td
+                  label
+                    input.check(type='text')
+                    | No
+              tr
+                td If Yes, have you provided the required completed ECF application form
+                td
+                  label
+                    input.check(type='text')
+                    | Yes
+                td
+                  label
+                    input.check(type='text')
+                    | No
+          p Please note that only Exceptional Cases in Education or Discrimination should be claimed under the CLA contract.
+        fieldset.box
+          h2.section-heading Your Details
+          table.field-table(width='100%')
+            tbody
+              tr
+                td(colspan='2')
+                  label.block-label.u-uppercase(for='') Full name
+                  input(type='text', readonly='readonly', value='{{personal_details.full_name}}')
+                td
+                  label.block-label.u-uppercase(for='') Our ref
+                  input(type='text', readonly='readonly', value='{{case.laa_reference}}')
+              tr
+                td
+                  label.block-label(for='') Date of Birth
+                  input(type='text', readonly='readonly', value='{{personal_details.dob.day}}/{{personal_details.dob.month}}/{{personal_details.dob.year}}')
+                td
+                  label.block-label(for='') Surname at Birth
+                  input(type='text', value='')
+                td
+                  label.block-label(for='') Sex
+                  input(type='text', value='')
+              tr
+                td(colspan='2', rowspan='2', valign='top')
+                  label.block-label(for='') Current Address
+                  textarea(readonly='readonly', rows='4') {{personal_details.street}}
+                td
+                  label.block-label(for='') N.I. Number
+                  input(type='text', readonly='readonly', value='{{personal_details.ni_number}}')
+              tr
+                td
+                  label.block-label(for='') Client No
+                  input(type='text', value='')
+              tr
+                td
+                  label.block-label(for='') Post Code
+                  input(type='text', readonly='readonly', value='{{personal_details.postcode}}')
+                td
+                td
+        fieldset.box
+          h2.section-heading Your Finances
+          table.field-table(width='100%')
+            tbody
+              tr
+                td Do you have a partner that you live with?
+                td(width='30%')
+                  input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No,"}}')
+              // passported and nass questions should be replaced by the 5 questions below when ready
+              if eligibility_check.specific_benefits
+                tr
+                  td(colspan='2') Do you or your partner receive any of the following benefits:
+                for benefit in eligibility_check.all_benefits
+                  - with benefit_key=benefit.0
+                    tr
+                      td {{ benefit.1 }}
+                      td
+                        input(type='text', readonly='readonly', name='{{benefit_key}}', value='{{ eligibility_check.specific_benefits|get:benefit_key|yesno:"Yes,No," }}')
+              else
+                tr
+                  td Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker's Allowance, Income-related Employment and Support Allowance or Guarantee Credit?
+                  td(width='30%')
+                    input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No,"}}')
+              tr
+                td Are you on National Asylum Support Service benefits?
+                td(width='30%')
+                  input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No,"}}')
+      // Property, Capital
+      .page
+        fieldset.box
+          h2.section-heading Your Property
+          table.field-table(width='100%')
+            tbody
+              tr
+                td(width='40%') Do you own any property?
+                td(width='20%')
+                  input(type='text', readonly='readonly', value='{{eligibility_check.property_set|yesno:"Yes,No"}}')
+                td(width='20%')
+                td(width='20%')
+          table.field-table(width='100%')
+            thead
+              tr
+                th(width='40%')
+                th(width='20%') Main Property
+                th(width='20%')
+                  | Additional Property
+                  br
+                  small Subject Matter of Dispute
+                th(width='20%')
+                  | Additional Property
+                  br
+                  small Non-Subject Matter of Dispute
+            tbody
+              tr
+                td Property Value
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.value|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.value|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.value|in_pounds}}')
+              tr
+                td Outstanding Mortage
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.mortgage_left|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.mortgage_left|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.mortgage_left|in_pounds}}')
+              // tr
+              //   td Secured Debt/Loan
+              //   td
+              //     input(type='text', readonly='readonly', value='£')
+              //   td
+              //     input(type='text', readonly='readonly', value='£')
+              //   td
+              //     input(type='text', readonly='readonly', value='£')
+              tr
+                td Percentage Share
+                td
+                  input(type='text', readonly='readonly', value='%{{eligibility_check.main_property.share}}')
+                td
+                  input(type='text', readonly='readonly', value='%{{eligibility_check.additional_SMOD_property.share}}')
+                td
+                  input(type='text', readonly='readonly', value='%{{eligibility_check.additional_non_SMOD_property.share}}')
+              tr
+                td Equilty in Home for Assessment Purposes
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.equity|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.equity|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.equity|in_pounds}}')
           p
-            | To ensure we give out the best advice by the Legal Aid Agency fairly we need you to:
-          ul
-            li Check the details we have filled in from the telephone assessment are correct and change them if they are not
-            li Attach any evidence requested and return the form to us
-            li Sign the declaration on page 4
-      fieldset.box
+            em We disregard up to £100,000 of the mortgage and £100,000 of the equity of your main home. We also apply a Subject Matter of Dispute disregard of up to £100,000 and a Pensioner Disregard of up to £100,000 based on disposable income
+        fieldset.box
+          h2.section-heading Your Capital
+          table.field-table(width='100%')
+            thead
+              tr
+                th(width='40%')
+                th(width='20%') Subject Matter of Dispute
+                th(width='20%') Your Capital
+                th(width='20%') Partner's Capital
+            tbody
+              tr
+                td Savings
+                  small
+                    em (Savings/Bank Accounts, Building Society)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.bank_balance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.bank_balance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.bank_balance|in_pounds}}')
+              tr
+                td Investments
+                  small
+                    em (Including Shares and Insurance Policies)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.investment_balance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.investment_balance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.investment_balance|in_pounds}}')
+              tr
+                td Valuable Items
+                  small
+                    em (e.g. Boat, Caravan, Jewellery etc)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.asset_balance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.asset_balance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.asset_balance|in_pounds}}')
+              tr
+                td Other Capital
+                  small
+                    em (including money due to you)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.credit_balance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.credit_balance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.credit_balance|in_pounds}}')
+          table.field-table(width='100%')
+            tbody
+              tr
+                td(width='40%') Pensioner Capital Disregard
+                td(width='20%')
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.pensioner_disregard|in_pounds}}')
+                td(width='20%')
+                td(width='20%')
+              tr
+                td
+                  strong TOTAL CAPITAL for Assessment Purposes
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.disposable_capital_assets|in_pounds}}')
+                td
+                td
+          p
+            strong Capital Does Not Include
+            br
+            | Household furniture and effects (unless of exceptional value), clothes or tools of the trade.
+      // Income, Expenses
+      .page
+        fieldset.box
+          h2.section-heading Your Income
+          p When looking at your income we will consider how much income you have and then deduct any outgoings up to a certain limit. The remaining amount (disposable income) tells us whether you are eligible. We look at this from your monthly income (i.e. by calendar month)
+          table.field-table(width='100%')
+            thead
+              tr
+                th(width='60%')
+                th(width='20%') You
+                th(width='20%') Your Partner
+            tbody
+              tr
+                td Wages
+                  small
+                    em (Before Tax)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.earnings|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.earnings|mi_as_monthly|in_pounds}}')
+              tr
+                td Self Employed Drawings
+                  small
+                    em (Before Tax)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.self_employment_drawings|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.self_employment_drawings|mi_as_monthly|in_pounds}}')
+              tr
+                td Benefits
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.benefits|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.benefits|mi_as_monthly|in_pounds}}')
+              tr
+                td Tax Credits
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.tax_credits|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.tax_credits|mi_as_monthly|in_pounds}}')
+              tr
+                td Child Benefit
+                  small
+                    em (for household)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.child_benefits|mi_as_monthly|in_pounds}}')
+                td
+              tr
+                td Maintenance Received
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.maintenance_received|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.maintenance_received|mi_as_monthly|in_pounds}}')
+              tr
+                td Pension Income
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.pension|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.pension|mi_as_monthly|in_pounds}}')
+              tr
+                td Any Other Income
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.other_income|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.other_income|mi_as_monthly|in_pounds}}')
+              tr
+                th TOTAL INCOME
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.total|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.total|in_pounds}}')
+          table.field-table(width='100%')
+            thead
+              tr
+                th.u-uppercase.u-alignLeft(colspan='3')
+                  strong Less monthly allowances
+              tr
+                th(width='60%')
+                th(width='20%') You
+                th(width='20%') Your Partner
+            tbody
+              tr
+                td Tax
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.income_tax|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.income_tax|mi_as_monthly|in_pounds}}')
+              tr
+                td National Insurance
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.national_insurance|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.national_insurance|mi_as_monthly|in_pounds}}')
+              tr
+                td Mortgage
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.mortgage|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.mortgage|mi_as_monthly|in_pounds}}')
+              tr
+                td Rent
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.rent|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.rent|mi_as_monthly|in_pounds}}')
+              tr
+                td Maintenance Payments being made
+                  small
+                    em (e.g. for Children and/or a former/separated spouse)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.maintenance|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.maintenance|mi_as_monthly|in_pounds}}')
+              tr
+                td Childcare Costs due to Work
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.childcare|mi_as_monthly|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.childcare|mi_as_monthly|in_pounds}}')
+              tr
+                td Legal Aid payments for Criminal Defence
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.criminal_legalaid_contributions|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.criminal_legalaid_contributions|in_pounds}}')
+              tr
+                th(colspan='3') Calculated expenses
+              tr
+                td Employment Expenses (standard £45 if employed)
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.employment_allowance|in_pounds}}')
+                td
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.partner_employment_allowance|in_pounds}}')
+              tr
+                td Dependants Allowance (certain amount for each dependant)
+                td(colspan='2')
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.dependants_allowance|in_pounds}}')
+              tr
+                td Partner Allowance
+                td(colspan='2')
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.partner_allowance|in_pounds}}')
+              tr
+                th TOTAL MONTHLY DISPOSABLE INCOME
+                td(colspan='2')
+                  input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.disposable_income|in_pounds}}')
+      // Evidence
+      .page.box
+        h2.section-heading Evidence We Need From You
+        p To ensure that the details you have given us are correct, we will require the following evidence:
+        textarea.lrg(rows='35')
+      // Declaration
+      .page.box
+        h2.section-heading Your Declaration
+        p Please tick the box that applies to you:
         table.field-table(width='100%')
           tbody
             tr
-              td Is this an application for Exceptional Case Funding
-              td
-                label
-                  input.check(type='text')
-                  | Yes
-              td
-                label
-                  input.check(type='text')
-                  | No
-            tr
-              td If Yes, have you provided the required completed ECF application form
-              td
-                label
-                  input.check(type='text')
-                  | Yes
-              td
-                label
-                  input.check(type='text')
-                  | No
-        p Please note that only Exceptional Cases in Education or Discrimination should be claimed under the CLA contract.
-      fieldset.box
-        h2.section-heading Your Details
-        table.field-table(width='100%')
-          tbody
-            tr
-              td(colspan='2')
-                label.block-label.u-uppercase(for='') Full name
-                input(type='text', readonly='readonly', value='{{personal_details.full_name}}')
-              td
-                label.block-label.u-uppercase(for='') Our ref
-                input(type='text', readonly='readonly', value='{{case.laa_reference}}')
-            tr
-              td
-                label.block-label(for='') Date of Birth
-                input(type='text', readonly='readonly', value='{{personal_details.dob.day}}/{{personal_details.dob.month}}/{{personal_details.dob.year}}')
-              td
-                label.block-label(for='') Surname at Birth
-                input(type='text', value='')
-              td
-                label.block-label(for='') Sex
-                input(type='text', value='')
-            tr
-              td(colspan='2', rowspan='2', valign='top')
-                label.block-label(for='') Current Address
-                textarea(readonly='readonly', rows='4') {{personal_details.street}}
-              td
-                label.block-label(for='') N.I. Number
-                input(type='text', readonly='readonly', value='{{personal_details.ni_number}}')
-            tr
-              td
-                label.block-label(for='') Client No
-                input(type='text', value='')
-            tr
-              td
-                label.block-label(for='') Post Code
-                input(type='text', readonly='readonly', value='{{personal_details.postcode}}')
-              td
-              td
-      fieldset.box
-        h2.section-heading Your Finances
-        table.field-table(width='100%')
-          tbody
-            tr
-              td Do you have a partner that you live with?
-              td(width='30%')
-                input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No"}}')
-
-            // passported and nass questions should be replaced by the 5 questions below when ready
-            tr
-              td Are you or your partner directly or indirectly in receipt of Income Support, Income-based Jobseeker's Allowance, Income-related Employment and Support Allowance or Guarantee Credit?
-              td(width='30%')
-                input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No"}}')
-            tr
-              td Are you on National Asylum Support Service benefits?
-              td(width='30%')
-                input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No"}}')
-
-            // tr
-            //   td(colspan='2') Do you or your partner receive any of the following benefits:
-            // tr
-            //   td Income Support
-            //   td
-            //     input(type='text', readonly='readonly', value='')
-            // tr
-            //   td Income Based Job-Seekers Allowance
-            //   td
-            //     input(type='text', readonly='readonly', value='')
-            // tr
-            //   td Guaranteed State Pension Credit
-            //   td
-            //     input(type='text', readonly='readonly', value='')
-            // tr
-            //   td Income Related Employment And Support Allowance
-            //   td
-            //     input(type='text', readonly='readonly', value='')
-    // Property, Capital
-    .page
-      fieldset.box
-        h2.section-heading Your Property
-        table.field-table(width='100%')
-          tbody
-            tr
-              td(width='40%') Do you own any property?
+              td(width='80%') I have not been to an advisor or solicitor about this problem before to get advice on it paid for by the Legal Aid Agency
               td(width='20%')
-                input(type='text', readonly='readonly', value='{{eligibility_check.property_set|yesno:"Yes,No"}}')
-              td(width='20%')
-              td(width='20%')
-        table.field-table(width='100%')
-          thead
-            tr
-              th(width='40%')
-              th(width='20%') Main Property
-              th(width='20%')
-                | Additional Property
-                br
-                small Subject Matter of Dispute
-              th(width='20%')
-                | Additional Property
-                br
-                small Non-Subject Matter of Dispute
-          tbody
-            tr
-              td Property Value
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.value|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.value|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.value|in_pounds}}')
-            tr
-              td Outstanding Mortage
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.mortgage_left|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.mortgage_left|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.mortgage_left|in_pounds}}')
-            // tr
-            //   td Secured Debt/Loan
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            //   td
-            //     input(type='text', readonly='readonly', value='£')
-            tr
-              td Percentage Share
-              td
-                input(type='text', readonly='readonly', value='%{{eligibility_check.main_property.share}}')
-              td
-                input(type='text', readonly='readonly', value='%{{eligibility_check.additional_SMOD_property.share}}')
-              td
-                input(type='text', readonly='readonly', value='%{{eligibility_check.additional_non_SMOD_property.share}}')
-            tr
-              td Equilty in Home for Assessment Purposes
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.main_property.equity|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_SMOD_property.equity|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.additional_non_SMOD_property.equity|in_pounds}}')
-        p
-          em We disregard up to £100,000 of the mortgage and £100,000 of the equity of your main home. We also apply a Subject Matter of Dispute disregard of up to £100,000 and a Pensioner Disregard of up to £100,000 based on disposable income
-      fieldset.box
-        h2.section-heading Your Capital
-        table.field-table(width='100%')
-          thead
-            tr
-              th(width='40%')
-              th(width='20%') Subject Matter of Dispute
-              th(width='20%') Your Capital
-              th(width='20%') Partner's Capital
-          tbody
-            tr
-              td Savings 
-                small
-                  em (Savings/Bank Accounts, Building Society)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.bank_balance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.bank_balance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.bank_balance|in_pounds}}')
-            tr
-              td Investments 
-                small
-                  em (Including Shares and Insurance Policies)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.investment_balance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.investment_balance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.investment_balance|in_pounds}}')
-            tr
-              td Valuable Items 
-                small 
-                  em (e.g. Boat, Caravan, Jewellery etc)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.asset_balance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.asset_balance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.asset_balance|in_pounds}}')
-            tr
-              td Other Capital 
-                small 
-                  em (including money due to you)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.disputed_savings.credit_balance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.savings.credit_balance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.savings.credit_balance|in_pounds}}')
-        table.field-table(width='100%')
-          tbody
-            tr
-              td(width='40%') Pensioner Capital Disregard
-              td(width='20%') 
-                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.pensioner_disregard|in_pounds}}')
-              td(width='20%')
-              td(width='20%')
-            tr
-              td 
-                strong TOTAL CAPITAL for Assessment Purposes
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.disposable_capital_assets|in_pounds}}')
-              td
-              td
-        p
-          strong Capital Does Not Include
-          br
-          | Household furniture and effects (unless of exceptional value), clothes or tools of the trade.
-    // Income, Expenses
-    .page
-      fieldset.box
-        h2.section-heading Your Income
-        p When looking at your income we will consider how much income you have and then deduct any outgoings up to a certain limit. The remaining amount (disposable income) tells us whether you are eligible. We look at this from your monthly income (i.e. by calendar month)
-        table.field-table(width='100%')
-          thead
-            tr
-              th(width='60%')
-              th(width='20%') You
-              th(width='20%') Your Partner
-          tbody
-            tr
-              td Wages 
-                small
-                  em (Before Tax)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.earnings|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.earnings|mi_as_monthly|in_pounds}}')
-            tr
-              td Self Employed Drawings 
-                small
-                  em (Before Tax)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.self_employment_drawings|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.self_employment_drawings|mi_as_monthly|in_pounds}}')
-            tr
-              td Benefits
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.benefits|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.benefits|mi_as_monthly|in_pounds}}')
-            tr
-              td Tax Credits
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.tax_credits|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.tax_credits|mi_as_monthly|in_pounds}}')
-            tr
-              td Child Benefit 
-                small
-                  em (for household)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.child_benefits|mi_as_monthly|in_pounds}}')
-              td
-            tr
-              td Maintenance Received
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.maintenance_received|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.maintenance_received|mi_as_monthly|in_pounds}}')
-            tr
-              td Pension Income
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.pension|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.pension|mi_as_monthly|in_pounds}}')
-            tr
-              td Any Other Income
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.other_income|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.other_income|mi_as_monthly|in_pounds}}')
-            tr
-              th TOTAL INCOME
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.income.total|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.income.total|in_pounds}}')
-        table.field-table(width='100%')
-          thead
-            tr
-              th.u-uppercase.u-alignLeft(colspan='3') 
-                strong Less monthly allowances
-            tr
-              th(width='60%')
-              th(width='20%') You
-              th(width='20%') Your Partner
-          tbody
-            tr
-              td Tax
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.income_tax|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.income_tax|mi_as_monthly|in_pounds}}')
-            tr
-              td National Insurance
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.national_insurance|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.national_insurance|mi_as_monthly|in_pounds}}')
-            tr
-              td Mortgage
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.mortgage|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.mortgage|mi_as_monthly|in_pounds}}')
-            tr
-              td Rent
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.rent|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.rent|mi_as_monthly|in_pounds}}')
-            tr
-              td Maintenance Payments being made
-                small
-                  em (e.g. for Children and/or a former/separated spouse)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.maintenance|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.maintenance|mi_as_monthly|in_pounds}}')
-            tr
-              td Childcare Costs due to Work
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.childcare|mi_as_monthly|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.childcare|mi_as_monthly|in_pounds}}')
-            tr
-              td Legal Aid payments for Criminal Defence
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.you.deductions.criminal_legalaid_contributions|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.partner.deductions.criminal_legalaid_contributions|in_pounds}}')
-            tr
-              th(colspan='3') Calculated expenses
-            tr
-              td Employment Expenses (standard £45 if employed)
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.employment_allowance|in_pounds}}')
-              td
-                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.partner_employment_allowance|in_pounds}}')
-            tr
-              td Dependants Allowance (certain amount for each dependant)
-              td(colspan='2')
-                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.dependants_allowance|in_pounds}}')
-            tr
-              td Partner Allowance
-              td(colspan='2')
-                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.partner_allowance|in_pounds}}')
-            tr
-              th TOTAL MONTHLY DISPOSABLE INCOME
-              td(colspan='2')
-                input(type='text', readonly='readonly', value='£{{eligibility_check.calculations.disposable_income|in_pounds}}')
-    // Evidence
-    .page.box
-      h2.section-heading Evidence We Need From You
-      p To ensure that the details you have given us are correct, we will require the following evidence:
-      textarea.lrg(rows='35')
-    // Declaration
-    .page.box
-      h2.section-heading Your Declaration
-      p Please tick the box that applies to you:
-      table.field-table(width='100%')
-        tbody
-          tr
-            td(width='80%') I have not been to an advisor or solicitor about this problem before to get advice on it paid for by the Legal Aid Agency
-            td(width='20%') 
-              input.check(type='text', value='')
-          tr
-            td(width='80%') I have already been to an advisor or solicitor about this problem and had advice paid for by the Legal Aid Agency
-            td(width='20%') 
-              input.check(type='text', value='')
-          tr
-            td(colspan='2')
-              | Date that advice was received:
-              input.inline(type='text', value='')
-      p I agree to my solicitor or contracted provider having a first charge on any money or property (including costs) which I recover or preserve in or in relation to the matter for which I am being advised. (Family Help (Lower) Cases which exceed the standard fee only).
-      p This is a true statement of all my and my partner's income and assets in the UK and abroad.
-      p I understand that I must tell you immediately if there are any changes in my or partner's financial circumstances.
-      p I agree that the Legal Aid Agency (LAA) can contact other parties to check these facts and I authorise those parties to provide the information they are asked for. I understand that the LAA may check my income and capital status with Her Majesty’s Revenue and Customs (HMRC) and authorise HMRC to carry out such checks as are necessary to verify my financial status and give that information to LAA.
-      p I understand that the LAA will confirm my receipt of and continuing benefit with the Department for Work and Pensions (DWP). The DWP may carry out such processing as is necessary to check this information remains correct and may inform the LAA of any relevant changes.
-      p I understand that if I give false information or withhold any relevant information the services provided to me may be cancelled at which point, I will become liable to pay all the costs that have been incurred and I may be prosecuted.
-      table.field-table(width='100%')
-        tbody
-          tr
-            td(width='70%')
-              label.block-label(for='') Signature
-              input(type='text', readonly='readonly', value='')
-            td(width='30%')
-              label.block-label(for='') Date
-              input(type='text', value='')
-      p 
-        strong If you have a partner whose details have been completed on this form then they must sign the authority below.
-      p 
-        strong Partners Declaration.
-      p This is a true statement of all my income and assets in the UK and abroad. I agree to the LAA checking these facts with others such as the Department of Work and Pensions (DWP) and the HM Revenue and Customs (HMRC) and I authorise those parties (including HMRC and DWP) to provide the information they are asked for.
-      table.field-table(width='100%')
-        tbody
-          tr
-            td(width='70%')
-              label.block-label(for='') Signature
-              input(type='text', readonly='readonly', value='')
-            td(width='30%')
-              label.block-label(for='') Date
-              input(type='text', value='')
-    // Data Protection Act
-    .page.box
-      h2.section-heading Data Protection Act - access to Personal Data
-      p Personal data relates to a living individual who can be identified from that data. The processing of personal data is governed by the Data Protection Act 1998 (DPA), under which the Ministry of Justice (MoJ) is registered as a data controller. The Legal Aid Agency is an executive agency within the MoJ. The Legal Aid Agency processes personal data in order to provide legal aid services.
-      p The MoJ complies with its obligations under the DPA by keeping the personal data we hold up to date; storing and destroying it securely; by not collecting or retaining excessive amounts of data; protecting personal data from loss, misuse, unauthorised access and disclosure; and ensuring that appropriate technical measures are in place to protect the personal data we process in line with Her Majesty’s Government standards. You have the right to request details about the personal information we hold about you; and subsequently request that we correct any personal information if it is found to be inaccurate or out of date.
-      p In order to fulfil its functions the MoJ may share personal data with other organisations. These organisations include other government departments, local authorities and private or voluntary sector organisations engaged to deliver services. Personal data is only shared outside the MoJ when the law allows.
-      p To request a copy of your personal information please refer to the MoJ website for further details on how you may do this.
-    // Notes
-    .page.box
-      h2.section-heading Notes
-      ol
-        li By "partner" we mean anyone (including a person of the same sex) that you live with as a couple. Your partner "lives with" you even if they are not living in the same house as you (e.g. because you or your partner works away from home) unless one of you considers that your relationship is over. You should not give details of your partner's money if the problem you are seeking advice about is a dispute with your partner.
-        li You need to tell us if you get Income Support, Income-Based Jobseeker’s Allowance, Income-related employment and support allowance or Guaranteed State Pension Credit (under section 1(3)(a) of the State Pension Credit Act (a)) in ‘Your Finances’ but you do not need to fill in sections ‘Your Capital’ and ‘Your Income’ of the form. If your partner gets the benefit and you are included in your partner's benefit claim, you count as someone who gets the benefit "indirectly". 
-        li The equity in your home is the amount left over after the mortgage you owe has been paid in full. The first £100,000 equity is not counted. We work out equity as follows. Take the market value of your property and take away the mortgage you still have to pay up to a maximum of £100,000. If the result is £0 we assess the property as having no equity (£0). This will appear in the box called ‘Equity in the home for assessment purposes’. If £1 or more is left we subtract £100,000, which allows you some equity in your property. We use the figure that is left for our assessment. Where this £0 or less we count it as £0. Here is an example: 
-          .indent 
-            p Mr Smith has a home worth £215,000 with an outstanding mortgage of £120,000
-            table
-              tbody
-                tr
-                  td Value of home:
-                  td £215,000
-                tr
-                  td Take away first £100,000 of mortgage:
-                  td -£100,000
-                tr
-                  td Take away £100,000 of value:
-                  td -£100,000
-                tr
-                  td Number to put in box:
-                  td £15,000
-        li 
-          p The figure for your gross monthly income is the total amount that you received last month before tax, national insurance etc. , excluding certain state benefits which are disregarded when determining gross income or disposable income (Regulation 24).
-          p The disregarded benefits are:
-          ol
-            li The following payments under the Social Security Contributions and Benefits Act 1992 (or the Social Security Contributions and Benefits (Northern Ireland) Act 1992) namely:
-            ol
-              li Disability living allowance;
-              li Attendance allowance; 
-              li Constant attendance allowance paid as an increase to disability pension; 
-              li Any payment made out of the social fund; 
-              li Carer’s Allowance; and 
-              li Council Tax benefit. 
-            li Any direct payments made under regulations made under the Health and Social Care Act 2001 (direct payments), section 17A of the Children Act 1989 (direct payments) or the Carers and Direct Payments Act (Northern Ireland) 2002; 
-            li Severe Disablement Allowance paid under the Social Security Contributions and Benefits Act 1992 (or the Social Security Contributions and Benefits (Northern Ireland) Act 1992); 
-            li Exceptionally Severe Disablement Allowance paid under the Personal Injuries (Civilians) (Amendment) Scheme 1983;
-            li Any pensions paid under the Naval, Military, Air Forces etc (Disability & Death) Service Pensions Order 2006(c); 
-            li To the extent that it exceeds the relevant dependants allowance made under reg.25(2)(b), any financial support paid under any agreement for the care of a foster child; and 
-            li Any payment made out of the Independent Living Fund (2006); and 
-            li Any personal independence payment paid under the Welfare Reform Act 2012. 
-        li If your gross income is more than £2,657 per month you will not normally get funding for Legal Aid but if you have more than 4 dependent children this figure goes up by £222 per extra child. E.g. if you have six children your gross income can be as much as £3,101 (£2,657+£222+£222) and you still might qualify. 
-        li If you receive Housing Benefit only the amount that you pay yourself should be put in the ‘Rent’ box. If you have no dependents, the maximum allowance for housing costs is £545. 
-        li Dependent relatives are: children under 15, or children between 16 and 19 still at school, who live in the same house as you and who rely on you to support them. There is a standard allowance of £285.13 for each dependent relative who lives with you. If you currently have a partner that lives with you then you will receive an allowance of £177.50 for this partner. 
-        li There is a standard allowance of £45 if you or your partner is working. If you both work, you both get the allowance. 
-        li You should put in the box how much you spent on childcare because you have to go to work. 
-        li Your disposable income is what is left when your (and any partner’s) total monthly allowances are taken away from your (and any partner’s) total gross monthly income.
-      p
-        strong Further Guidance
-      p
-        | For a full guide to determining Eligibility see the Guide to Determining Financial Eligibility for Controlled Work and Family Mediation April 2013 v1
-        br
-        a(target='_blank', href='http://www.justice.gov.uk/downloads/legal-aid/eligibility/guide-to-determine-eligibility-controlled-work-and-mediation.pdf') http://www.justice.gov.uk/downloads/legal-aid/eligibility/guide-to-determine-eligibility-controlled-work-and-mediation.pdf
-    // Advisor use, Time spent
-    .page
-      .box
-        h2.section-heading For Use By advisor
-        p Tick the relevant boxes if you have:
-        table.field-table(width='100%')
-          tbody
-            tr
-              td(width='80%') Accepted an application from a child or patient or someone on their behalf
-              td(width='20%') 
                 input.check(type='text', value='')
             tr
-              td(width='80%') Provided Legal Help to a client who has already received it on the same matter within the last 6 months
-              td(width='20%') 
+              td(width='80%') I have already been to an advisor or solicitor about this problem and had advice paid for by the Legal Aid Agency
+              td(width='20%')
                 input.check(type='text', value='')
-            tr
-              td(width='80%') Claimed for outward travel before the signature of the form
-              td(width='20%') 
-                input.check(type='text', value='')
-        p If you have ticked any of the above boxes, please provide the circumstances justifying this in accordance with the relevant Rule in the Specification.
-      .box
-        h2.section-heading Time spent and costs
-        table.field-table(width='100%')
-          thead
-            tr
-              th(width='50%')
-              th(width='30%') Time Spent
-              th(width='20%')
-          tbody
-            tr
-              td 1. Attendance
-              td
-                input(type='text', value='')
-              td
-            tr
-              td 2. Preparation
-              td
-                input(type='text', value='')
-              td
-            tr
-              td 3. Help at Court
-              td
-                input(type='text', value='')
-              td
-            tr
-              td 4. Travel and Waiting
-              td
-                input(type='text', value='')
-              td
-        table.field-table(width='100%')
-          thead
-            tr
-              th(width='50%')
-              th(width='30%') Number
-              th(width='20%')
-          tbody
-            tr
-              td 1. Letters written
-              td
-                input(type='text', value='')
-              td
-            tr
-              td 2. Phone calls
-              td
-                input(type='text', value='')
-        table.field-table(width='100%')
-          thead
-            tr
-              th(width='50%')
-              th(width='30%') Amount
-              th(width='20%') VAT
-          tbody
-            tr
-              th Total Profit Costs
-              td
-                input(type='text', value='')
-              td
-                input(type='text', value='')
-            tr
-              th Value or amount of contractual or statutory charge
-              td
-                input(type='text', value='')
-              td
-        table.field-table(width='100%')
-          thead
-            tr
-              th(width='50%') Disbursements
-              th(width='30%') Amount
-              th(width='20%') VAT
-          tbody
-            tr
-              td Mileage
-              td
-                input(type='text', value='')
-              td
-                input(type='text', value='')
-            tr
-              td Other disbursements
-              td
-                input(type='text', value='')
-              td
-                input(type='text', value='')
-            tr
-              th Total
-              td
-                input(type='text', value='')
-              td
-                input(type='text', value='')
-            tr
-              td Counsel's fees
-              td
-                input(type='text', value='')
-              td
-                input(type='text', value='')
             tr
               td(colspan='2')
-                | Dated
+                | Date that advice was received:
                 input.inline(type='text', value='')
-              td
-        p Note: When calculating profit costs, the time spent on each activity and the letters and telephone calls must be separated out according to the remuneration rate which applied at the time the work was carried out. Please see the Payment Annex of the 2010 Standard Civil Contract for the appropriate rates.
-        p Remember that you may not charge separately for letters in.
-        p The totals for profit costs, disbursements and counsel's fees from this form and the Controlled Legal Representation Form (if applicable) should be the same (after adding VAT and net of the amount of the statutory charge and any payment on account), as those reported by you in your online submission. Where a staged bill has been submitted in an Immigration matter a separate copy of this page should be completed for each stage reported.
+        p I agree to my solicitor or contracted provider having a first charge on any money or property (including costs) which I recover or preserve in or in relation to the matter for which I am being advised. (Family Help (Lower) Cases which exceed the standard fee only).
+        p This is a true statement of all my and my partner's income and assets in the UK and abroad.
+        p I understand that I must tell you immediately if there are any changes in my or partner's financial circumstances.
+        p I agree that the Legal Aid Agency (LAA) can contact other parties to check these facts and I authorise those parties to provide the information they are asked for. I understand that the LAA may check my income and capital status with Her Majesty’s Revenue and Customs (HMRC) and authorise HMRC to carry out such checks as are necessary to verify my financial status and give that information to LAA.
+        p I understand that the LAA will confirm my receipt of and continuing benefit with the Department for Work and Pensions (DWP). The DWP may carry out such processing as is necessary to check this information remains correct and may inform the LAA of any relevant changes.
+        p I understand that if I give false information or withhold any relevant information the services provided to me may be cancelled at which point, I will become liable to pay all the costs that have been incurred and I may be prosecuted.
+        table.field-table(width='100%')
+          tbody
+            tr
+              td(width='70%')
+                label.block-label(for='') Signature
+                input(type='text', readonly='readonly', value='')
+              td(width='30%')
+                label.block-label(for='') Date
+                input(type='text', value='')
+        p
+          strong If you have a partner whose details have been completed on this form then they must sign the authority below.
+        p
+          strong Partners Declaration.
+        p This is a true statement of all my income and assets in the UK and abroad. I agree to the LAA checking these facts with others such as the Department of Work and Pensions (DWP) and the HM Revenue and Customs (HMRC) and I authorise those parties (including HMRC and DWP) to provide the information they are asked for.
+        table.field-table(width='100%')
+          tbody
+            tr
+              td(width='70%')
+                label.block-label(for='') Signature
+                input(type='text', readonly='readonly', value='')
+              td(width='30%')
+                label.block-label(for='') Date
+                input(type='text', value='')
+      // Data Protection Act
+      .page.box
+        h2.section-heading Data Protection Act - access to Personal Data
+        p Personal data relates to a living individual who can be identified from that data. The processing of personal data is governed by the Data Protection Act 1998 (DPA), under which the Ministry of Justice (MoJ) is registered as a data controller. The Legal Aid Agency is an executive agency within the MoJ. The Legal Aid Agency processes personal data in order to provide legal aid services.
+        p The MoJ complies with its obligations under the DPA by keeping the personal data we hold up to date; storing and destroying it securely; by not collecting or retaining excessive amounts of data; protecting personal data from loss, misuse, unauthorised access and disclosure; and ensuring that appropriate technical measures are in place to protect the personal data we process in line with Her Majesty’s Government standards. You have the right to request details about the personal information we hold about you; and subsequently request that we correct any personal information if it is found to be inaccurate or out of date.
+        p In order to fulfil its functions the MoJ may share personal data with other organisations. These organisations include other government departments, local authorities and private or voluntary sector organisations engaged to deliver services. Personal data is only shared outside the MoJ when the law allows.
+        p To request a copy of your personal information please refer to the MoJ website for further details on how you may do this.
+      // Notes
+      .page.box
+        h2.section-heading Notes
+        ol
+          li By "partner" we mean anyone (including a person of the same sex) that you live with as a couple. Your partner "lives with" you even if they are not living in the same house as you (e.g. because you or your partner works away from home) unless one of you considers that your relationship is over. You should not give details of your partner's money if the problem you are seeking advice about is a dispute with your partner.
+          li You need to tell us if you get Income Support, Income-Based Jobseeker’s Allowance, Income-related employment and support allowance or Guaranteed State Pension Credit (under section 1(3)(a) of the State Pension Credit Act (a)) in ‘Your Finances’ but you do not need to fill in sections ‘Your Capital’ and ‘Your Income’ of the form. If your partner gets the benefit and you are included in your partner's benefit claim, you count as someone who gets the benefit "indirectly".
+          li The equity in your home is the amount left over after the mortgage you owe has been paid in full. The first £100,000 equity is not counted. We work out equity as follows. Take the market value of your property and take away the mortgage you still have to pay up to a maximum of £100,000. If the result is £0 we assess the property as having no equity (£0). This will appear in the box called ‘Equity in the home for assessment purposes’. If £1 or more is left we subtract £100,000, which allows you some equity in your property. We use the figure that is left for our assessment. Where this £0 or less we count it as £0. Here is an example:
+            .indent
+              p Mr Smith has a home worth £215,000 with an outstanding mortgage of £120,000
+              table
+                tbody
+                  tr
+                    td Value of home:
+                    td £215,000
+                  tr
+                    td Take away first £100,000 of mortgage:
+                    td -£100,000
+                  tr
+                    td Take away £100,000 of value:
+                    td -£100,000
+                  tr
+                    td Number to put in box:
+                    td £15,000
+          li
+            p The figure for your gross monthly income is the total amount that you received last month before tax, national insurance etc. , excluding certain state benefits which are disregarded when determining gross income or disposable income (Regulation 24).
+            p The disregarded benefits are:
+            ol
+              li The following payments under the Social Security Contributions and Benefits Act 1992 (or the Social Security Contributions and Benefits (Northern Ireland) Act 1992) namely:
+              ol
+                li Disability living allowance;
+                li Attendance allowance;
+                li Constant attendance allowance paid as an increase to disability pension;
+                li Any payment made out of the social fund;
+                li Carer’s Allowance; and
+                li Council Tax benefit.
+              li Any direct payments made under regulations made under the Health and Social Care Act 2001 (direct payments), section 17A of the Children Act 1989 (direct payments) or the Carers and Direct Payments Act (Northern Ireland) 2002;
+              li Severe Disablement Allowance paid under the Social Security Contributions and Benefits Act 1992 (or the Social Security Contributions and Benefits (Northern Ireland) Act 1992);
+              li Exceptionally Severe Disablement Allowance paid under the Personal Injuries (Civilians) (Amendment) Scheme 1983;
+              li Any pensions paid under the Naval, Military, Air Forces etc (Disability & Death) Service Pensions Order 2006(c);
+              li To the extent that it exceeds the relevant dependants allowance made under reg.25(2)(b), any financial support paid under any agreement for the care of a foster child; and
+              li Any payment made out of the Independent Living Fund (2006); and
+              li Any personal independence payment paid under the Welfare Reform Act 2012.
+          li If your gross income is more than £2,657 per month you will not normally get funding for Legal Aid but if you have more than 4 dependent children this figure goes up by £222 per extra child. E.g. if you have six children your gross income can be as much as £3,101 (£2,657+£222+£222) and you still might qualify.
+          li If you receive Housing Benefit only the amount that you pay yourself should be put in the ‘Rent’ box. If you have no dependents, the maximum allowance for housing costs is £545.
+          li Dependent relatives are: children under 15, or children between 16 and 19 still at school, who live in the same house as you and who rely on you to support them. There is a standard allowance of £285.13 for each dependent relative who lives with you. If you currently have a partner that lives with you then you will receive an allowance of £177.50 for this partner.
+          li There is a standard allowance of £45 if you or your partner is working. If you both work, you both get the allowance.
+          li You should put in the box how much you spent on childcare because you have to go to work.
+          li Your disposable income is what is left when your (and any partner’s) total monthly allowances are taken away from your (and any partner’s) total gross monthly income.
+        p
+          strong Further Guidance
+        p
+          | For a full guide to determining Eligibility see the Guide to Determining Financial Eligibility for Controlled Work and Family Mediation April 2013 v1
+          br
+          a(target='_blank', href='http://www.justice.gov.uk/downloads/legal-aid/eligibility/guide-to-determine-eligibility-controlled-work-and-mediation.pdf') http://www.justice.gov.uk/downloads/legal-aid/eligibility/guide-to-determine-eligibility-controlled-work-and-mediation.pdf
+      // Advisor use, Time spent
+      .page
+        .box
+          h2.section-heading For Use By advisor
+          p Tick the relevant boxes if you have:
+          table.field-table(width='100%')
+            tbody
+              tr
+                td(width='80%') Accepted an application from a child or patient or someone on their behalf
+                td(width='20%')
+                  input.check(type='text', value='')
+              tr
+                td(width='80%') Provided Legal Help to a client who has already received it on the same matter within the last 6 months
+                td(width='20%')
+                  input.check(type='text', value='')
+              tr
+                td(width='80%') Claimed for outward travel before the signature of the form
+                td(width='20%')
+                  input.check(type='text', value='')
+          p If you have ticked any of the above boxes, please provide the circumstances justifying this in accordance with the relevant Rule in the Specification.
+        .box
+          h2.section-heading Time spent and costs
+          table.field-table(width='100%')
+            thead
+              tr
+                th(width='50%')
+                th(width='30%') Time Spent
+                th(width='20%')
+            tbody
+              tr
+                td 1. Attendance
+                td
+                  input(type='text', value='')
+                td
+              tr
+                td 2. Preparation
+                td
+                  input(type='text', value='')
+                td
+              tr
+                td 3. Help at Court
+                td
+                  input(type='text', value='')
+                td
+              tr
+                td 4. Travel and Waiting
+                td
+                  input(type='text', value='')
+                td
+          table.field-table(width='100%')
+            thead
+              tr
+                th(width='50%')
+                th(width='30%') Number
+                th(width='20%')
+            tbody
+              tr
+                td 1. Letters written
+                td
+                  input(type='text', value='')
+                td
+              tr
+                td 2. Phone calls
+                td
+                  input(type='text', value='')
+          table.field-table(width='100%')
+            thead
+              tr
+                th(width='50%')
+                th(width='30%') Amount
+                th(width='20%') VAT
+            tbody
+              tr
+                th Total Profit Costs
+                td
+                  input(type='text', value='')
+                td
+                  input(type='text', value='')
+              tr
+                th Value or amount of contractual or statutory charge
+                td
+                  input(type='text', value='')
+                td
+          table.field-table(width='100%')
+            thead
+              tr
+                th(width='50%') Disbursements
+                th(width='30%') Amount
+                th(width='20%') VAT
+            tbody
+              tr
+                td Mileage
+                td
+                  input(type='text', value='')
+                td
+                  input(type='text', value='')
+              tr
+                td Other disbursements
+                td
+                  input(type='text', value='')
+                td
+                  input(type='text', value='')
+              tr
+                th Total
+                td
+                  input(type='text', value='')
+                td
+                  input(type='text', value='')
+              tr
+                td Counsel's fees
+                td
+                  input(type='text', value='')
+                td
+                  input(type='text', value='')
+              tr
+                td(colspan='2')
+                  | Dated
+                  input.inline(type='text', value='')
+                td
+          p Note: When calculating profit costs, the time spent on each activity and the letters and telephone calls must be separated out according to the remuneration rate which applied at the time the work was carried out. Please see the Payment Annex of the 2010 Standard Civil Contract for the appropriate rates.
+          p Remember that you may not charge separately for letters in.
+          p The totals for profit costs, disbursements and counsel's fees from this form and the Controlled Legal Representation Form (if applicable) should be the same (after adding VAT and net of the amount of the statutory charge and any payment on account), as those reported by you in your online submission. Where a staged bill has been submitted in an Immigration matter a separate copy of this page should be completed for each stage reported.
+    script(src='{% static "javascripts/vendor/analytics.js" %}')

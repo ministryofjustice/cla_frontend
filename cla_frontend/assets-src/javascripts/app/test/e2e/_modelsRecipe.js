@@ -162,6 +162,19 @@
         );
       },
 
+      createWithGroupedBenefits: function () {
+        return this.createRecipe(
+          CONSTANTS.case.required,
+          _.extend(
+            {},
+            CONSTANTS.personal_details.required,
+            CONSTANTS.personal_details.recommended
+          ),
+          CONSTANTS.scope.true,
+          CONSTANTS.eligibility.groupedBenefits
+        );
+      },
+
       createWithScopeAndEligibility: function (inScope, isEligible) {
         return this.createRecipe(
           CONSTANTS.case.required,
@@ -186,6 +199,38 @@
         return this.createWithScopeAndEligibility(false, false);
       },
 
+      createGroupedBenefitsReadyToAssign: function () {
+        return this.createRecipe(
+          _.extend(
+            CONSTANTS.case.required,
+            CONSTANTS.mattertypes.standard
+          ),
+          _.extend(
+            {},
+            CONSTANTS.personal_details.required,
+            CONSTANTS.personal_details.recommended
+          ),
+          CONSTANTS.scope.true,
+          CONSTANTS.eligibility.groupedBenefits
+        );
+      },
+
+      createSpecificBenefitsReadyToAssign: function () {
+        return this.createRecipe(
+          _.extend(
+            CONSTANTS.case.required,
+            CONSTANTS.mattertypes.standard
+          ),
+          _.extend(
+            {},
+            CONSTANTS.personal_details.required,
+            CONSTANTS.personal_details.recommended
+          ),
+          CONSTANTS.scope.true,
+          CONSTANTS.eligibility.specificBenefits
+        );
+      },
+
       createReadyToAssign: function () {
         return this.createRecipe(
           _.extend(
@@ -197,8 +242,8 @@
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
-          CONSTANTS.scope[true],
-          CONSTANTS.eligibility[true]
+          CONSTANTS.scope.true,
+          CONSTANTS.eligibility.true
         );
       },
 

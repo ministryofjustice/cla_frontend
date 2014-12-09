@@ -8,12 +8,16 @@ $border-colour: $grey-2;
   margin: 0;
 
   &--grey {
-    padding: 1.5em 1.25em;
+    padding: 1.75em 1.4286em;
     margin: 0 0 1.5em;
     border-width: 1px 0;
     border-color: $border-colour;
     border-style: solid;
     background-color: $grey-4;
+
+    p:first-child {
+      margin-top: 0;
+    }
   }
 
   &--yellow {
@@ -46,6 +50,10 @@ $border-colour: $grey-2;
   position: relative;
   clear: both;
   display: block;
+
+  .FormBlock--grey &:last-child {
+    margin-bottom: 0;
+  }
 
   label {
     @include core-14;
@@ -212,6 +220,11 @@ $border-colour: $grey-2;
         right: 0;
       };
       padding: 0 35px 0 0;
+    }
+
+    &--narrow {
+      margin: 2px 0;
+      padding: 0 20px 0 0;
     }
   }
   .QuestionPrompt-answer {

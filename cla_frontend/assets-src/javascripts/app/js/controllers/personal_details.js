@@ -270,6 +270,8 @@
               mcPromise.reject(err);
             });
 
+            $scope.personal_details_frm_visible = false;
+
             return $q.all([pdPromise.promise, adaptationsPromise.promise, mcPromise.promise]);
           };
 

@@ -87,7 +87,7 @@
               'is-rejected': _case.rejected, // OPERATOR
               'is-closed': _case.provider_closed, // PROVIDER
               'is-complete': _case.provider_accepted && !_case.provider_closed, // PROVIDER
-              'is-new': !_case.provider_viewed && !_case.provider_accepted && !_case.provider_closed // PROVIDER
+              'is-new': _case.provider_viewed === null && _case.provider_accepted === null && _case.provider_closed === null // PROVIDER
             };
           };
 
@@ -130,6 +130,13 @@
           };
 
           // ADD / EDIT CASE ACTIONS
+          $scope.isCallback = function (_case) {
+            var callbackCodes = ['CB1', 'CB2', 'CB3'];
+            if (callbackCodes.indexOf(_case.outcome_code) !== -1) {
+              return true;
+            }
+            return false;
+          };
 
           $scope.addCase = function(person_ref) {
             var saveParams = {

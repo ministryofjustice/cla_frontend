@@ -7,6 +7,10 @@
 </div>
 
 <div ng-if="!personal_details.has_diversity">
+  <call-script>
+    <p>Before I transfer you, I just need to ask you some equality and diversity questions. You do not need to answer any of these questions but your cooperation in providing us with accurate data will ensure that we not only meet our legal obligations, but even more importantly will result in you receiving fair and just treatment in your interactions with us. Any information provided on this form will be treated as strictly confidential and will be used for statistical purposes only. No information will be published or used in any way which allows any individual to be identified.</p>
+  </call-script>
+
   <section class="SummaryBlock SummaryBlock--compact">
     <div class="SummaryBlock-content cf" ng-repeat="statement in sections" ng-if="statement.answer">
       <a class="u-pullRight" href="" ng-click="gotoStep($index+1)">Change answer</a>
@@ -20,8 +24,12 @@
       <h2 class="FormBlock-label">{{ ::section.title }}</h2>
 
       <div class="FormRow cf">
-        <input type="text" name="diversity-code-search" placeholder="Search codes" class="FormRow-field--l" ng-model="::code_search" search-filter>
+        <input type="text" name="diversity-{{ ::section.name }}-filter" placeholder="Filter answers" class="FormRow-field--l" ng-model="::code_search" search-filter>
       </div>
+
+      <call-script ng-show="section.script">
+        <div ng-bind-html="::section.script"></div>
+      </call-script>
 
       <div class="FormBlock FormBlock--grey">
         <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="opt in section.options | filter:code_search">
@@ -40,6 +48,9 @@
     <div class="FormActions">
       <button type="button" class="Button" name="diversity-next" ng-click="nextStep(frmDiversity.$valid)" ng-if="current.step < sections.length">Next</button>
 
+      <call-script ng-if="current.step === sections.length">
+        <p>Thank you very much for completing those questions.</p>
+      </call-script>
       <button type="submit" class="Button" name="diversity-save" ng-if="current.step === sections.length">Save</button>
 
       <button type="button" class="Button Button--text" name="diversity-back" ng-click="previousStep()" ng-if="current.step > 1 && current.step < sections.length">Back</button>

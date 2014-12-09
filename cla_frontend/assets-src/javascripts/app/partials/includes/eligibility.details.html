@@ -1,3 +1,6 @@
+<!-- NASS Benefits are always set to FALSE for operator cases -->
+<input type="hidden" name="your_details-nass_benefits" ng-model="::eligibility_check.on_nass_benefits">
+
 <call-script>
   <p>From the information you have given today we may be able to put you through to a specialist who could help you with this area of law.</p>
   <p>Before I can transfer you we need to complete a short financial assessment to see if you can get Legal Aid. Do you have financial information to hand?</p>
@@ -11,60 +14,69 @@
   </ul>
 </call-script>
 
+<h2 class="FormBlock-label">About you</h2>
 <section class="FormBlock FormBlock--grey">
   <div class="FormRow cf">
     <p class="FormRow-label">Do you have a partner? <guidance-link doc="eligibility_check#ecg-has_partner"></guidance-link></p>
 
     <label for="id_your_details-has_partner_0" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-has_partner" id="id_your_details-has_partner_0" value="1" ng-model="::eligibility_check.has_partner">Yes
+      <input type="radio" name="your_details-has_partner" id="id_your_details-has_partner_0" ng-value="true" ng-model="::eligibility_check.has_partner">Yes
     </label>
 
     <label for="id_your_details-has_partner_1" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-has_partner" id="id_your_details-has_partner_1" value="0" ng-model="::eligibility_check.has_partner">No
+      <input type="radio" name="your_details-has_partner" id="id_your_details-has_partner_1" ng-value="false" ng-model="::eligibility_check.has_partner">No
     </label>
   </div>
 
-  <div class="FormRow cf Grid">
-    <p class="FormRow-label">Are you or your partner aged 60 or over? <guidance-link doc="eligibility_check#ecg-over_60"></guidance-link></p>
+  <div class="FormRow cf">
+    <p class="FormRow-label">Are you<span ng-show="hasPartner()"> or your partner</span> aged 60 or over? <guidance-link doc="eligibility_check#ecg-over_60"></guidance-link></p>
 
     <label for="id_your_details-older_than_sixty_0" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_0" value="1" ng-model="::eligibility_check.is_you_or_your_partner_over_60">Yes
+      <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_0" ng-value="true" ng-model="::eligibility_check.is_you_or_your_partner_over_60">Yes
     </label>
 
     <label for="id_your_details-older_than_sixty_1" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_1" value="0" ng-model="::eligibility_check.is_you_or_your_partner_over_60">No
+      <input type="radio" name="your_details-older_than_sixty" id="id_your_details-older_than_sixty_1" ng-value="false" ng-model="::eligibility_check.is_you_or_your_partner_over_60">No
     </label>
   </div>
+</section>
 
-  <div class="FormRow cf Grid">
-    <div class="FormRow-label">
-      <p class="u-compact">I am now going to read through a list of benefits. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> receive any of these:</p>
-      <ul>
-        <li>Universal Credit</li>
-        <li>Income Support</li>
-        <li>Income based Job Seekers Allowance</li>
-        <li>Guarantee State Pension Credit or Income Based Employment and Support Allowance</li>
-      </ul>
+<h2 class="FormBlock-label">Benefits</h2>
+<call-script ng-if="::hasSpecificBenefits()">
+  <p>I am now going to read through a list of benefits. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> receive any of these.</p>
+</call-script>
+<section class="FormBlock FormBlock--grey" ng-switch on="::hasSpecificBenefits()">
+  <div class="FormRow cf" ng-switch-when="true" ng-repeat="opt in ::specificBenefitsOptions">
+    <p class="FormRow-label">{{ ::opt.text }}</p>
+
+    <label class="FormRow-option FormRow-option--inline">
+      <input type="radio" name="your_details-specific_benefits-{{::opt.value}}" ng-value="true" ng-model="::eligibility_check.specific_benefits[opt.value]" ng-change="benefitChange()">Yes
+    </label>
+
+    <label class="FormRow-option FormRow-option--inline">
+      <input type="radio" name="your_details-specific_benefits-{{::opt.value}}" ng-value="false" ng-model="::eligibility_check.specific_benefits[opt.value]" ng-change="benefitChange()">No
+    </label>
+  </div>
+  <div ng-switch-default>
+    <div class="FormRow cf Grid">
+      <div class="FormRow-label">
+        <p class="u-compact">I am now going to read through a list of benefits. Could you please tell me if you<span ng-show="hasPartner()" class="ng-hide"> or your partner</span> receive any of these:</p>
+        <ul>
+          <li>Universal Credit</li>
+          <li>Income Support</li>
+          <li>Income based Job Seekers Allowance</li>
+          <li>Guarantee State Pension Credit</li>
+          <li>Income Based Employment and Support Allowance</li>
+        </ul>
+      </div>
+
+      <label for="id_your_details-passported_benefits_0" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_0" ng-value="true" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()" class="ng-pristine ng-untouched ng-valid">Yes
+      </label>
+
+      <label for="id_your_details-passported_benefits_1" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_1" ng-value="false" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()" class="ng-pristine ng-untouched ng-valid">No
+      </label>
     </div>
-
-    <label for="id_your_details-passported_benefits_0" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_0" value="1" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()">Yes
-    </label>
-
-    <label for="id_your_details-passported_benefits_1" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-passported_benefits" id="id_your_details-passported_benefits_1" value="0" ng-model="::eligibility_check.on_passported_benefits" ng-click="updateTabs()">No
-    </label>
-  </div>
-
-  <div class="FormRow cf Grid">
-    <p class="FormRow-label">Are you on National Asylum Support Service benefits? <guidance-link doc="eligibility_check#ecg-on_nass_benefits"></guidance-link></p>
-
-    <label for="id_your_details-nass_benefits_0" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-nass_benefits" id="id_your_details-nass_benefits_0" value="1" ng-model="::eligibility_check.on_nass_benefits">Yes
-    </label>
-
-    <label for="id_your_details-nass_benefits_1" class="FormRow-option FormRow-option--inline">
-      <input type="radio" name="your_details-nass_benefits" id="id_your_details-nass_benefits_1" value="0" ng-model="::eligibility_check.on_nass_benefits">No
-    </label>
   </div>
 </section>

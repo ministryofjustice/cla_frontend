@@ -128,7 +128,7 @@
           ).$promise;
         }],
         eligibility_check: ['case', 'EligibilityCheck', function(case_, EligibilityCheck){
-          return case_.eligibility_check ? EligibilityCheck.get({case_reference: case_.reference}).$promise : new EligibilityCheck({case_reference: case_.reference});
+          return case_.eligibility_check ? EligibilityCheck.get({case_reference: case_.reference}).$promise : new EligibilityCheck({case_reference: case_.reference, specific_benefits: {}});
         }],
         diagnosis: ['case', 'Diagnosis', function(case_, Diagnosis){
           return case_.diagnosis ? Diagnosis.get({case_reference: case_.reference}).$promise : new Diagnosis({case_reference: case_.reference});
@@ -143,7 +143,7 @@
           return AdaptationsMetadata.options().$promise;
         }],
         thirdparty_details: ['case', 'ThirdParty', function(case_, ThirdParty) {
-          return case_.thirdparty_details ? ThirdParty.get({case_reference: case_.reference}).$promise : new ThirdParty({case_reference: case_.reference});
+          return case_.thirdparty_details ? ThirdParty.get({case_reference: case_.reference}).$promise : new ThirdParty({case_reference: case_.reference, personal_details: {}});
         }],
         mediacodes: ['MediaCode', function(MediaCode) {
           return MediaCode.get().$promise;

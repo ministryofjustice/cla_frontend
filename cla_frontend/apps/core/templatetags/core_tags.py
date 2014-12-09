@@ -16,3 +16,9 @@ def staticmin(name):
 @register.filter
 def subtract(value, arg):
     return value - arg
+
+
+
+@register.filter
+def get(value, arg):
+    return value.get(arg)

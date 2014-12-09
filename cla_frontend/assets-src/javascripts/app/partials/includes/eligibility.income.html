@@ -5,7 +5,21 @@
 <section data-fieldset="your-income">
   <h2 class="FormBlock-label">Your income</h2>
 
-  <div class="FormBlock FormBlock--grey" aria-labelledby="your_income-label" role="group">
+  <div class="FormBlock FormBlock--grey">
+    <div class="FormRow cf">
+      <p class="FormRow-label">Are you self employed? <guidance-link doc="eligibility_check#ecg-self_employed"></guidance-link></p>
+
+      <label for="id_your_income-self_employed_0" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="id_your_income-self_employed" id="id_your_income-self_employed_0" value="1" ng-model="eligibility_check.you.income.self_employed">Yes
+      </label>
+
+      <label for="id_your_income-self_employed_1" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="id_your_income-self_employed" id="id_your_income-self_employed_1" value="0" ng-model="eligibility_check.you.income.self_employed">No
+      </label>
+    </div>
+  </div>
+
+  <div class="FormBlock FormBlock--grey">
     <nav class="FormRow">
       <a href="http://taxandnicalculator.co.uk/" target="_blank">Tax &amp; National Insurance calculator</a><br>
       <a href="http://www.uktaxcalculators.co.uk/reverse-tax-calculator.php" target="_blank">Reverse tax calculator</a>
@@ -42,18 +56,6 @@
     <div class="FormRow cf">
       <money-interval ng-model="eligibility_check.you.income.other_income" mi-label="Other income" guidance-link="'eligibility_check#ecg-other_income'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
-
-    <div class="FormRow cf">
-      <p class="FormRow-label">Are you self employed? <guidance-link doc="eligibility_check#ecg-self_employed"></guidance-link></p>
-
-      <label for="id_your_income-self_employed_0" class="FormRow-option FormRow-option--inline">
-        <input type="radio" name="id_your_income-self_employed" id="id_your_income-self_employed_0" value="1" ng-model="eligibility_check.you.income.self_employed">Yes
-      </label>
-
-      <label for="id_your_income-self_employed_1" class="FormRow-option FormRow-option--inline">
-        <input type="radio" name="id_your_income-self_employed" id="id_your_income-self_employed_1" value="0" ng-model="eligibility_check.you.income.self_employed">No
-      </label>
-    </div>
   </div>
 </section>
 
@@ -62,7 +64,21 @@
 
   <cla-server-validate data-for="partner.income"></cla-server-validate>
 
-  <div class="FormBlock FormBlock--grey" aria-labelledby="partners_income-label" role="group">
+  <div class="FormBlock FormBlock--grey">
+    <div class="FormRow cf">
+      <p class="FormRow-label">Is your partner self employed? <guidance-link doc="eligibility_check#ecg-self_employed"></guidance-link></p>
+
+      <label for="id_partners_income-self_employed_0" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="id_partners_income-self_employed" id="id_partners_income-self_employed_0" value="1" ng-model="eligibility_check.partner.income.self_employed">Yes
+      </label>
+
+      <label for="id_partners_income-self_employed_1" class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="id_partners_income-self_employed" id="id_partners_income-self_employed_1" value="0" ng-model="eligibility_check.partner.income.self_employed">No
+      </label>
+    </div>
+  </div>
+
+  <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
       <money-interval ng-model="eligibility_check.partner.income.earnings" mi-label="What did your partner earn before tax? (Based on their most recent payslips)" guidance-link="'eligibility_check#ecg-earnings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
@@ -90,25 +106,13 @@
     <div class="FormRow cf">
       <money-interval ng-model="eligibility_check.partner.income.other_income" mi-label="Other income" guidance-link="'eligibility_check#ecg-other_income'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
-
-    <div class="FormRow cf">
-      <p class="FormRow-label">Is your partner self employed? <guidance-link doc="eligibility_check#ecg-self_employed"></guidance-link></p>
-
-      <label for="id_partners_income-self_employed_0" class="FormRow-option FormRow-option--inline">
-        <input type="radio" name="id_partners_income-self_employed" id="id_partners_income-self_employed_0" value="1" ng-model="eligibility_check.partner.income.self_employed">Yes
-      </label>
-
-      <label for="id_partners_income-self_employed_1" class="FormRow-option FormRow-option--inline">
-        <input type="radio" name="id_partners_income-self_employed" id="id_partners_income-self_employed_1" value="0" ng-model="eligibility_check.partner.income.self_employed">No
-      </label>
-    </div>
   </div>
 </section>
 
 <section>
   <h2 class="FormBlock-label">Dependants</h2>
 
-  <div class="FormBlock FormBlock--grey Grid" aria-labelledby="dependants-label" role="group">
+  <div class="FormBlock FormBlock--grey Grid">
     <div class="FormRow">
       <label for="id_dependants-dependants_old" class="cf">
         <span class="FormRow-label">

@@ -7,17 +7,24 @@
 
   var zeroIncomeNotice = element(by.cssContainingText('.Notice', 'The system is showing me that:'));
   var saveBtn = element(by.cssContainingText('button', 'Save assessment'));
+  var passportedBenefits = element(by.name('your_details-passported_benefits'));
+  var specificBenefits = element(by.name('your_details-specific_benefits-universal_credit'));
 
   describe('meansTest', function () {
     beforeEach(utils.setUp);
 
     describe('Operator financial assessment', function () {
-      it('should show 4 section tabs', function () {
-        modelsRecipe.Case.createWithInScopeAndEligible().then(function (caseRef) {
-          browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/');
-          element(by.css('[ui-sref="case_detail.edit.eligibility"]')).click();
-          assertTabsShown(4);
+      it('cases without specific benefits get grouped question', function () {
+        modelsRecipe.Case.createWithGroupedBenefits().then(function (caseRef) {
+          browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/eligibility/details/');
+
+          expect(passportedBenefits.isPresent()).toBe(true);
+          expect(specificBenefits.isPresent()).toBe(false);
         });
+      });
+
+      it('should display all 4 sections', function () {
+        assertTabsShown(4);
       });
 
       it('should not show income or expenses tabs if on passported benefits', function () {
@@ -29,6 +36,33 @@
 
       it('should show income and expenses if change to on passported benefits', function () {
         setPassported(false);
+        assertTabsShown(4);
+        expect(getTab('Income', 2).isPresent()).toBe(true);
+        expect(getTab('Expenses', 2).isPresent()).toBe(true);
+      });
+
+      it('specific benefits should be listed', function () {
+        modelsRecipe.Case.createEmptyWithInScopeAndEligible().then(function (caseRef) {
+          browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/eligibility/details/');
+
+          expect(passportedBenefits.isPresent()).toBe(false);
+          expect(specificBenefits.isPresent()).toBe(true);
+        });
+      });
+
+      it('should display all 4 sections', function () {
+        assertTabsShown(4);
+      });
+
+      it('should not show income or expenses tabs if on passported benefits', function () {
+        setSpecificBenefits(true);
+        assertTabsShown(2);
+        expect(getTab('Income', 2).isPresent()).toBe(false);
+        expect(getTab('Expenses', 2).isPresent()).toBe(false);
+      });
+
+      it('should show income and expenses if change to on passported benefits', function () {
+        setSpecificBenefits(false);
         assertTabsShown(4);
         expect(getTab('Income', 2).isPresent()).toBe(true);
         expect(getTab('Expenses', 2).isPresent()).toBe(true);
@@ -200,6 +234,10 @@
     utils.scrollTo(element(by.name('case.notes'))); // firefox fix!
     detailsTab.element(by.css('a')).click();
     element(by.id('id_your_details-passported_benefits_' + yes_no)).click();
+  }
+
+  function setSpecificBenefits (value) {
+    element(by.css('[name="your_details-specific_benefits-universal_credit"][value="' + value + '"]')).click();
   }
 
   function setPartner (value) {

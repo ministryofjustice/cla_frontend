@@ -3,28 +3,47 @@
 
   var utils = require('../e2e/_utils'),
       CONSTANTS = require('../protractor.constants.js'),
-      modelsRecipe = require('./_modelsRecipe');
+      modelsRecipe = require('./_modelsRecipe'),
+      protractor = require('protractor'),
+      ptor = protractor.getInstance(),
+      driver = ptor.driver;
 
   var case_to_accept;
+  var grouped_benefits_case;
   var assign_button = element(by.name('assign-provider'));
   var accept_button = element(by.name('accept-case'));
   var close_button = element(by.name('provider-close-case'));
+  var grouped_text = 'Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker\'s Allowance, Income-related Employment and Support Allowance or Guarantee Credit?';
+  var specific_text = 'Do you or your partner receive any of the following benefits:';
 
   describe('providerCase', function () {
     describe('An operator', function () {
       beforeEach(utils.setUp);
 
-      it('should create a case as operator and assign (manually) to a provider', function () {
-        browser.get(CONSTANTS.callcentreBaseUrl);
-
-        modelsRecipe.Case.createReadyToAssign().then(function (case_ref) {
+      it('should create a specific benefits case as operator and assign (manually) to a provider', function () {
+        modelsRecipe.Case.createSpecificBenefitsReadyToAssign().then(function (case_ref) {
           case_to_accept = case_ref;
           browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
           get_provider().then(function (provider) {
             if (provider !== 'Duncan Lewis') {
-              utils.manuallySelectProvider('Duncan Lewis');
+              utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
+            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
+          });
+        });
+      });
+
+      it('should create a grouped benefits case as operator and assign (manually) to a provider', function () {
+        modelsRecipe.Case.createGroupedBenefitsReadyToAssign().then(function (case_ref) {
+          grouped_benefits_case = case_ref;
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/?as_of=2014-08-06T11:50');
+          get_provider().then(function (provider) {
+            if (provider !== 'Duncan Lewis') {
+              utils.manuallySetProvider(1); // set to Duncan Lewis
+            }
+            do_assign();
+            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
@@ -71,6 +90,34 @@
         expect(element(by.css('.NoticeContainer--fixed')).getInnerHtml()).toContain('Case ' + case_to_accept + ' closed successfully');
       });
 
+      it('should be able to view legal help form with specific benefits', function () {
+        browser.ignoreSynchronization = true;
+        driver.get(ptor.baseUrl + 'provider/case/' + case_to_accept + '/legal_help_form/');
+
+        var legal_help_form = driver.findElement(by.css('.page'));
+        expect(legal_help_form.getText()).not.toContain(grouped_text);
+        expect(legal_help_form.getText()).toContain(specific_text);
+
+        var universalCredit = driver.findElement(by.name('universal_credit'));
+        var incomeSupport = driver.findElement(by.name('income_support'));
+        var jobSeekers = driver.findElement(by.name('job_seekers_allowance'));
+
+        expect(universalCredit.getAttribute('value')).toBe('Yes');
+        expect(incomeSupport.getAttribute('value')).toBe('No');
+        expect(jobSeekers.getAttribute('value')).toBe('');
+      });
+
+      it('should be able to view legal help form with grouped benefits', function () {
+        driver.get(ptor.baseUrl + 'provider/case/' + grouped_benefits_case + '/legal_help_form/');
+
+        var legal_help_form = driver.findElement(by.css('.page'));
+        expect(legal_help_form.getText()).toContain(grouped_text);
+        expect(legal_help_form.getText()).not.toContain(specific_text);
+
+        browser.ignoreSynchronization = false;
+        browser.get(CONSTANTS.providerBaseUrl + grouped_benefits_case + '/');
+      });
+
       it('should logout', function () {
         this.after(function () {
           utils.logout();
@@ -87,5 +134,6 @@
   function do_assign () {
     utils.scrollTo(assign_button);
     assign_button.click();
+
   }
 })();

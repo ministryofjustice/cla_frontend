@@ -22,7 +22,7 @@
           };
 
           scope.iconClass = function () {
-            if (typeof scope.person.safe_to_contact === 'undefined') {
+            if (!scope.person || typeof scope.person.safe_to_contact === 'undefined') {
               return 'Icon--call';
             } else if (scope.person.safe_to_contact === CONTACT_SAFETY.SAFE) {
               return 'Icon--call Icon--green';
