@@ -134,6 +134,12 @@ $icons: (
       color: $green;
     }
   }
+  &--compact {
+    &:before, &:after {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
 }
 
 @each $name, $icon in $icons {

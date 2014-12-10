@@ -1,32 +1,34 @@
-<form name="callback_form" class="CallbackModal" ng-submit="bookCallback(callback_form)" ng-show="isVisible">
-  <div ng-hide="!canBeCalledBack">
-    <nav class="CallbackModal-daySelect">
-      <button class="Button Button--secondary" type="button" ng-click="setToday($event)">Today</button>
-      <button class="Button Button--secondary" type="button" ng-click="setTomorrow($event)">Tomorrow</button>
-    </nav>
+<div class="CallbackModal-wrapper">
+  <form name="callback_form" class="CallbackModal" ng-submit="bookCallback(callback_form)" ng-show="isVisible">
+    <div ng-hide="!canBeCalledBack">
+      <nav class="CallbackModal-daySelect">
+        <button class="Button Button--secondary" type="button" ng-click="setToday($event)">Today</button>
+        <button class="Button Button--secondary" type="button" ng-click="setTomorrow($event)">Tomorrow</button>
+      </nav>
 
-    <span class="Error-message" ng-if="errors.datetime">{{ errors.datetime }}</span>
-    <div datetime-picker picker-Config="datePickerConf"></div>
+      <span class="Error-message" ng-if="errors.datetime">{{ errors.datetime }}</span>
+      <div datetime-picker picker-Config="datePickerConf"></div>
 
-    <div class="FormRow cf">
-      <label>
-        <span class="Error-message" ng-if="(callback_frm.notes.$error.required||errors.notes) && callback_frm.$dirty">{{ errors.notes }}</span>
-        <textarea class="FormRow-field--full" cols="20" rows="5" name="notes" ng-model="::notes" placeholder="Comments" server-error></textarea>
-      </label>
+      <div class="FormRow cf">
+        <label>
+          <span class="Error-message" ng-if="(callback_frm.notes.$error.required||errors.notes) && callback_frm.$dirty">{{ errors.notes }}</span>
+          <textarea class="FormRow-field--full" cols="20" rows="5" name="notes" ng-model="::notes" placeholder="Comments" server-error></textarea>
+        </label>
+      </div>
     </div>
-  </div>
 
-  <div ng-show="!canBeCalledBack">
-    <p ng-if="createdByWeb">You can't reschedule a web callback.</p>
-    <p ng-if="!createdByWeb">You can't schedule a new callback as you have already tried to reach the client three times.</p>
-  </div>
+    <div ng-show="!canBeCalledBack">
+      <p ng-if="createdByWeb">You can't reschedule a web callback.</p>
+      <p ng-if="!createdByWeb">You can't schedule a new callback as you have already tried to reach the client three times.</p>
+    </div>
 
-  <div class="FormActions">
-    <button class="Button" type="submit" ng-if="canBeCalledBack">Schedule</button>
-    <button class="Button {{ canBeCalledBack ? 'Button--secondary' : '' }}" type="button" ng-if="case.getCallbackDatetime()" ng-really-message="This action will cancel the callback with a CBC outcome code and suspend the Case. Do you wish to continue?" ng-really-click="cancelCallback()">Cancel callback</button>
-    <a href="" ng-click="close()">Cancel</a>
+    <div class="FormActions">
+      <button class="Button" type="submit" ng-if="canBeCalledBack">Schedule</button>
+      <button class="Button {{ canBeCalledBack ? 'Button--secondary' : '' }}" type="button" ng-if="case.getCallbackDatetime()" ng-really-message="This action will cancel the callback with a CBC outcome code and suspend the Case. Do you wish to continue?" ng-really-click="cancelCallback()">Cancel callback</button>
+      <a href="" ng-click="close()">Cancel</a>
 
 
-    <!-- <button class="Button" type="submit" name="schedule-callback">Schedule callback</button> -->
-  </div>
-</form>
+      <!-- <button class="Button" type="submit" name="schedule-callback">Schedule callback</button> -->
+    </div>
+  </form>
+</div>
