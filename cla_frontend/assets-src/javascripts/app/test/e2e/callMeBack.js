@@ -8,7 +8,7 @@
   // test vars
   var cbCaseRef;
   var callMeBackLink = element(by.name('callback'));
-  var modal = element(by.css('div.modal'));
+  var modal = element(by.css('.CallbackModal'));
 
   describe('callMeBack', function() {
     beforeEach(utils.setUp);
@@ -89,8 +89,8 @@
     ).toBe(attemptNum === 1 ? false : true);
 
     // fill in the modal form and submit
-    modal.element(by.css('input[name="datetime"]')).sendKeys('08/10/2020 11:00');
-    modal.element(by.css('textarea[name="notes"]')).sendKeys(expectedCode+' scheduled.');
+    modal.element(by.name('set-tomorrow')).click();
+    modal.element(by.name('callbackNotes')).sendKeys(expectedCode + ' scheduled.');
     modal.element(by.css('button[type="submit"]')).click();
     expect(modal.isPresent()).toBe(false);
 

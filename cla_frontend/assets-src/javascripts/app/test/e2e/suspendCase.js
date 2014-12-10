@@ -9,7 +9,7 @@
   var caseRef;
   var modalEl = element(by.css('div.modal'));
   var modalHeader = modalEl.element(by.css('header'));
-  var suspend_link = element(by.cssContainingText('.CaseBar-actions a', 'Suspend'));
+  var suspend_link = element(by.css('.CaseBar-actions a[ui-sref="case_detail.suspend"]'));
   var notifications = element(by.css('.NoticeContainer--fixed'));
 
   describe('suspendCase', function () {
