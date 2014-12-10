@@ -162,6 +162,18 @@
           scope.canBeCalledBack = _case.canBeCalledBack();
           scope.createdByWeb = _case.createdByWeb();
           scope.isFinalCallBack = _case.isFinalCallback();
+
+          if (scope.canBeCalledBack) {
+            if (_case.isFinalCallback()) {
+              scope.callbackTitle = 'Schedule final callback';
+            } else if (_case.getCallbackDatetime()) {
+              scope.callbackTitle = 'Schedule a new callback';
+            } else {
+              scope.callbackTitle = 'Schedule a callback';
+            }
+          } else {
+            scope.callbackTitle = 'Cancel callback';
+          }
         };
 
         scope.setToday = function () {
@@ -185,7 +197,7 @@
         scope.bookCallback = function (form) {
           scope.case.$call_me_back({
             'datetime': calendar.getDateString('DD/MM/YYYY HH:mm'),
-            'notes': scope.notes || ''
+            'notes': scope.callbackNotes || ''
           }).then(function() {
             flash('success', 'Callback scheduled successfully.');
             $state.go('case_list');

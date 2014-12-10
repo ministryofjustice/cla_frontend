@@ -39,6 +39,12 @@
     }
   }
 }
+.CallbackModal-heading {
+  @include core-19;
+  text-align: center;
+  padding: 0;
+  margin-bottom: 15px;
+}
 .CallbackModal-daySelect {
   text-align: center;
   margin-bottom: 15px;
