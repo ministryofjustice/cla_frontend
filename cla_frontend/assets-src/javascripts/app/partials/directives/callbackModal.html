@@ -28,11 +28,8 @@
 
     <div class="FormActions">
       <button class="Button" type="submit" ng-if="canBeCalledBack">Schedule</button>
-      <button class="Button {{ canBeCalledBack ? 'Button--secondary' : '' }}" type="button" ng-if="case.getCallbackDatetime()" ng-really-message="This action will cancel the callback with a CBC outcome code and suspend the Case. Do you wish to continue?" ng-really-click="cancelCallback()">Cancel callback</button>
+      <button class="Button {{ canBeCalledBack ? 'Button--secondary' : '' }}" type="button" ng-if="case.getCallbackDatetime()" ng-really-message="This action will cancel the callback with a CBC outcome code and suspend the Case. Do you wish to continue?" ng-really-click="cancelCallback()">Stop callback</button>
       <a href="" ng-click="close()">Cancel</a>
-
-
-      <!-- <button class="Button" type="submit" name="schedule-callback">Schedule callback</button> -->
     </div>
   </form>
 </div>
