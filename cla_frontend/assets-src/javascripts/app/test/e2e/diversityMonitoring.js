@@ -14,7 +14,7 @@
   var backBtn = element(by.name('diversity-back'));
   var saveBtn = element(by.name('diversity-save'));
 
-  xdescribe('diversity', function () {
+  describe('diversityMonitoring', function () {
     beforeEach(utils.setUp);
 
     describe('Operator diversity monitoring', function () {
@@ -37,26 +37,30 @@
 
       it('should complete gender questions', function () {
         chooseOption('gender', 'Male');
+        utils.scrollTo(nextBtn);
         nextBtn.click();
+        utils.scrollTo(summary);
         expect(summary.getText()).toContain('Gender: Male');
       });
 
       it('should complete ethnicity questions', function () {
         chooseOption('ethnicity', 'Chinese');
-        utils.scrollToBottom(nextBtn);
+        utils.scrollTo(nextBtn);
         nextBtn.click();
-        utils.scrollToBottom(summary);
+        utils.scrollTo(summary);
         expect(summary.getText()).toContain('Ethnic origin: Chinese');
       });
 
       it('should be able to navigate back', function () {
         utils.scrollTo(backBtn);
         backBtn.click();
+        utils.scrollTo(sectionTitle);
         expect(sectionTitle.getText()).toBe('Ethnic origin');
         assertOption('ethnicity', 'Chinese');
 
         utils.scrollTo(backBtn);
         backBtn.click();
+        utils.scrollTo(sectionTitle);
         expect(sectionTitle.getText()).toBe('Gender');
         assertOption('gender', 'Male');
       });
@@ -64,11 +68,13 @@
       it('should be able to navigate forwards', function () {
         utils.scrollTo(nextBtn);
         nextBtn.click();
+        utils.scrollTo(sectionTitle);
         expect(sectionTitle.getText()).toBe('Ethnic origin');
         assertOption('ethnicity', 'Chinese');
 
         utils.scrollTo(nextBtn);
         nextBtn.click();
+        utils.scrollTo(sectionTitle);
         expect(sectionTitle.getText()).toBe('Disabilities');
       });
 
@@ -76,13 +82,15 @@
         chooseOption('disability', 'BLI - Blind');
         utils.scrollTo(nextBtn);
         nextBtn.click();
-        expect(summary.getText()).toContain('Disabilities: BLI - Blind');
+        utils.scrollTo(summary);
+        expect(summary.getText()).toContain('Blind');
       });
 
       it('should complete religion questions', function () {
         chooseOption('religion', 'Christian');
         utils.scrollTo(nextBtn);
         nextBtn.click();
+        utils.scrollTo(summary);
         expect(summary.getText()).toContain('Religion / belief: Christian');
       });
 
@@ -90,6 +98,7 @@
         chooseOption('sexual_orientation', 'Bisexual');
         utils.scrollTo(saveBtn);
         saveBtn.click();
+        utils.scrollTo(summary);
         expect(summary.getText()).toContain('The client has completed diversity monitoring.');
         expect(diversityTab.getAttribute('class')).toContain('Icon--solidTick Icon--green');
       });
@@ -106,11 +115,13 @@
   function chooseOption (name, value) {
     var field = element(by.css('[type="radio"][name="' + name + '"][value="' + value + '"]'));
 
-    // utils.scrollTo(field);
+    utils.scrollTo(field);
     field.click();
   }
 
   function assertOption (name, value) {
-    expect(element(by.css('[type="radio"][name="' + name + '"][value="' + value + '"]')).getAttribute('checked')).toBeTruthy();
+    var el = element(by.css('[type="radio"][name="' + name + '"][value="' + value + '"]'));
+    utils.scrollTo(el);
+    expect(el.getAttribute('checked')).toBeTruthy();
   }
 })();
