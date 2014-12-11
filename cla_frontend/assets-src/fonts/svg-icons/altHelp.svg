@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2 (9961) - http://www.bohemiancoding.com/sketch -->
+    <title>altHelp</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="altHelp" sketch:type="MSArtboardGroup" fill="#0B0C0C">
+            <path d="M160.615194,177.796296 L160.615194,101.5 L-1.38480648,256 L160.615194,410.5 L160.615194,334.203704 L78.6151935,256 L160.615194,177.796296 Z M277.038972,101.5 L116.055645,256.0529 L277.038972,410.605799 L277.038972,334.003821 C460.908899,332.013333 511.440452,410.605804 511.440452,410.605804 C511.440452,410.605804 512.831167,178.776453 277.038972,178.77645 L277.038972,101.5 Z" id="alternativehelp" sketch:type="MSShapeGroup" transform="translate(255.027917, 256.052902) scale(-1, 1) translate(-255.027917, -256.052902) "></path>
+        </g>
+    </g>
+</svg>
