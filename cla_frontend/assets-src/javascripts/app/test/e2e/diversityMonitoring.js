@@ -14,7 +14,7 @@
   var backBtn = element(by.name('diversity-back'));
   var saveBtn = element(by.name('diversity-save'));
 
-  xdescribe('diversity', function () {
+  describe('diversityMonitoring', function () {
     beforeEach(utils.setUp);
 
     describe('Operator diversity monitoring', function () {
@@ -69,6 +69,7 @@
 
         utils.scrollTo(nextBtn);
         nextBtn.click();
+        utils.scrollTo(sectionTitle);
         expect(sectionTitle.getText()).toBe('Disabilities');
       });
 
@@ -76,7 +77,7 @@
         chooseOption('disability', 'BLI - Blind');
         utils.scrollTo(nextBtn);
         nextBtn.click();
-        expect(summary.getText()).toContain('Disabilities: BLI - Blind');
+        expect(summary.getText()).toContain('Disabilities: Blind');
       });
 
       it('should complete religion questions', function () {
