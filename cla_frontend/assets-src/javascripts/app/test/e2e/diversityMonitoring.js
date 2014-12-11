@@ -83,7 +83,7 @@
         utils.scrollTo(nextBtn);
         nextBtn.click();
         utils.scrollTo(summary);
-        expect(summary.getText()).toContain('Disabilities: Blind');
+        expect(summary.getText()).toContain('Blind');
       });
 
       it('should complete religion questions', function () {
