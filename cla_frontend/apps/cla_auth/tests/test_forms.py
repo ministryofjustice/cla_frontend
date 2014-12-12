@@ -71,6 +71,23 @@ class AuthenticationFormTest(SimpleTestCase):
             [u'Account locked: too many login attempts. Please try again later or contact your Manager.']
         )
 
+    def test_inactive(self):
+        self.mocked_authenticate.return_value = mock.MagicMock(
+            is_locked_out=False, is_active=False
+        )
+
+        data = {
+            'username': 'testclient',
+            'password': 'password',
+        }
+
+        form = AuthenticationForm(None, zone_name=self.zone_name, data=data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.non_field_errors(),
+            [u'Account disabled, please contact your supervisor.']
+        )
+
     def test_get_login_redirect_url_invalid_zone(self):
         form = AuthenticationForm(None, zone_name='invalid')
 
