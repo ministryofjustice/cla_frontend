@@ -20,7 +20,7 @@
           $scope.feedback = {case: _case.reference};
 
           $scope.shouldLeaveFeedback = function (code) {
-            return $scope.leaveFeedback || (code||'').indexOf('MIS') === 0;
+            return $scope.leaveFeedback || (code||'') === 'MIS';
           };
 
           $scope.submit_feedback = function (comment, form) {
