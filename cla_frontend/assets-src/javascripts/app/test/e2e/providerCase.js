@@ -10,7 +10,7 @@
 
   var case_to_accept;
   var grouped_benefits_case;
-  var assign_button = element(by.name('assign-provider'));
+  var assign_form = element(by.name('assign_provider_form'));
   var accept_button = element(by.name('accept-case'));
   var close_button = element(by.name('provider-close-case'));
   var grouped_text = 'Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker\'s Allowance, Income-related Employment and Support Allowance or Guarantee Credit?';
@@ -86,8 +86,8 @@
         close_button.click();
         browser.switchTo().alert().accept();
 
-        // check can't accept anymore
-        expect(element(by.css('.NoticeContainer--fixed')).getInnerHtml()).toContain('Case ' + case_to_accept + ' closed successfully');
+        // check redirected
+        expect(browser.getLocationAbsUrl()).not.toContain(case_to_accept);
       });
 
       it('should be able to view legal help form with specific benefits', function () {
@@ -132,8 +132,6 @@
   }
 
   function do_assign () {
-    utils.scrollTo(assign_button);
-    assign_button.click();
-
+    assign_form.submit();
   }
 })();
