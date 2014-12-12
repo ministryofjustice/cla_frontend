@@ -10,7 +10,6 @@
   var modalEl = element(by.css('div.modal'));
   var modalHeader = modalEl.element(by.css('header'));
   var suspend_link = element(by.css('.CaseBar-actions a[ui-sref="case_detail.suspend"]'));
-  var notifications = element(by.css('.NoticeContainer--fixed'));
 
   describe('suspendCase', function () {
     beforeEach(utils.setUp);
@@ -74,6 +73,6 @@
     modalEl.element(by.css('textarea[name="notes"]')).sendKeys('This case was suspended.');
     modalEl.element(by.css('button[type="submit"]')).click();
     expect(modalEl.isPresent()).toBe(false);
-    expect(notifications.getText()).toContain('Case ' + reference + ' suspended successfully');
+    expect(browser.getLocationAbsUrl()).not.toContain(reference);
   }
 })();
