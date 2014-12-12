@@ -5,9 +5,9 @@
       modelsRecipe = require('./_modelsRecipe'),
       CONSTANTS = require('../protractor.constants');
 
-  var notices = element(by.css('.NoticeContainer--fixed'));
   var assignForm = element(by.name('assign_provider_form'));
   var assignBtn = element(by.name('assign-provider'));
+  var secondOpinionBtn = element(by.name('assign-second-opinion'));
   var selectedProvHeading = element(by.css('.ContactBlock-heading'));
   var caseRef, provider;
 
@@ -84,9 +84,14 @@
           // assign first provider in list
           element.all(by.name('provider')).get(0).click();
 
+          // store provider name
+          selectedProvHeading.getText().then(function (text) {
+            provider = text;
+          });
+
           expect(assignBtn.isEnabled()).toBe(true);
           assignForm.submit();
-          checkAssign(case_ref);
+          checkAssign(case_ref, provider);
         });
       });
 
@@ -110,16 +115,27 @@
 
           expect(assignBtn.isEnabled()).toBe(true);
           assignForm.submit();
-          checkAssign(case_ref);
+          checkAssign(case_ref, provider);
         });
       });
 
 
-      it('should display selected provider when returning to assign page and prevent re-assigning', function () {
-        browser.get(CONSTANTS.callcentreBaseUrl + caseRef + '/assign/');
+      it('should refer a case for a second opinion', function () {
+        modelsRecipe.Case.createWithInScopeAndEligible().then(function (case_ref) {
+          caseRef = case_ref;
 
-        expect(assignBtn.isPresent()).toBe(false);
-        expect(selectedProvHeading.getText()).toBe(provider);
+          goto_assign(case_ref, '2014-08-06T11:50');
+
+          selectOption('matter_type1');
+          selectOption('matter_type2');
+
+          utils.scrollTo(secondOpinionBtn);
+          expect(secondOpinionBtn.isEnabled()).toBe(true);
+          secondOpinionBtn.click();
+          checkAssign(case_ref);
+
+          utils.checkLastOutcome('SPOR');
+        });
       });
     });
   });
@@ -130,8 +146,18 @@
     return browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/' + params);
   }
 
-  function checkAssign (case_ref) {
-    expect(notices.getText()).toContain('Case ' + case_ref + ' assigned to');
+  function checkAssign (case_ref, provider) {
+    // has been redirected
+    expect(browser.getLocationAbsUrl()).not.toContain(case_ref);
+
+    // cannot reassign
+    browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/');
+    expect(assignBtn.isPresent()).toBe(false);
+
+    // if provider specified, check correct one has been assigned
+    if (provider) {
+      expect(selectedProvHeading.getText()).toBe(provider);
+    }
   }
 
   function selectOption (field) {

@@ -56,6 +56,11 @@
       });
     },
 
+    checkLastOutcome: function(code) {
+      var codeSpan = element.all(by.css('.CaseHistory-label')).get(0);
+      expect(codeSpan.getText()).toEqual(code);
+    },
+
     scrollTo: function(elemFinder) {
       var promise = browser.driver.executeScript(function(elem) {
         elem.scrollIntoView(false);

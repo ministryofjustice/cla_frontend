@@ -35,8 +35,9 @@
           }
         };
 
-        $scope.assignSPOR = function () {
+        $scope.assignSPOR = function (assign_provider_form) {
           $scope.is_spor = true;
+          $scope.assign(assign_provider_form);
         };
 
         $scope.getMTDescription = function (code) {

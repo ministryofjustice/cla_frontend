@@ -69,7 +69,7 @@
           utils.scrollTo(assignSubmit);
           assignSubmit.click();
           browser.get(caseUrl);
-          checkOutcomeCode('IRKB');
+          utils.checkLastOutcome('IRKB');
         });
       });
 
@@ -106,7 +106,7 @@
         browser.getCurrentUrl().then(function (caseUrl) {
           assignF2fBtn.click();
           browser.get(caseUrl);
-          checkOutcomeCode('SPFN');
+          utils.checkLastOutcome('SPFN');
         });
       });
 
@@ -130,7 +130,7 @@
           browser.getCurrentUrl().then(function (caseUrl) {
             modalSubmit.click();
             browser.get(caseUrl);
-            checkOutcomeCode('DECL');
+            utils.checkLastOutcome('DECL');
           });
         });
       });
@@ -157,7 +157,7 @@
             modalSubmit.click();
             browser.waitForAngular();
             browser.get(caseUrl);
-            checkOutcomeCode('DECL');
+            utils.checkLastOutcome('DECL');
           });
         });
       });
@@ -175,11 +175,6 @@
     expect(modalHeading.getText()).toBe('Decline help');
     expect(element(by.repeater('code in codes')).isPresent()).toBe(true);
     element(by.css('input[name="code"][value="DECL"]')).click();
-  }
-
-  function checkOutcomeCode (code) {
-    var codeSpan = element.all(by.css('.CaseHistory-label')).get(0);
-    expect(codeSpan.getText()).toEqual(code);
   }
 
   function gotoAltHelp () {
