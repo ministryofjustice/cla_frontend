@@ -190,6 +190,15 @@
         return $http.post(url, data);
       };
 
+      resource.prototype.$close_case_debt_referral = function(data) {
+        var url = url_utils.proxy('case/'+this.reference+'/close/');
+
+        data = data || {};
+
+        data.is_debt_referral = true;
+        return $http.post(url, data);
+      };
+
       resource.prototype.$reopen_case = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/reopen/');
         var deferred = $q.defer();

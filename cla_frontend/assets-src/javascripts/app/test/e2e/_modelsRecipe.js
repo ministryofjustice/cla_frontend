@@ -226,7 +226,7 @@
             CONSTANTS.personal_details.required,
             CONSTANTS.personal_details.recommended
           ),
-          CONSTANTS.scope.true,
+          CONSTANTS.scope.true_debt,
           CONSTANTS.eligibility.specificBenefits
         );
       },

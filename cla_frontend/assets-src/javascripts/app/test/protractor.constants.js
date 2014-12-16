@@ -12,6 +12,13 @@
         'n116', // The client wants to protect themselves
         'n119' // Child abuse
       ],
+      true_debt: [
+        'n2', // debt
+        'n3', // Client owns a house
+        'n4', // Mortgage lender seeking a court order
+        'n5', // confirm
+        'n6' // received a default notice
+      ],
       false: [
         'n2', // debt
         'n77', // other money owed

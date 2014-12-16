@@ -13,8 +13,11 @@
   var assign_form = element(by.name('assign_provider_form'));
   var accept_button = element(by.name('accept-case'));
   var close_button = element(by.name('provider-close-case'));
+  var reopen_button = element(by.name('reopen-case'));
+  var debt_referral_button = element(by.name('debt-referral-case'));
   var grouped_text = 'Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker\'s Allowance, Income-related Employment and Support Allowance or Guarantee Credit?';
   var specific_text = 'Do you or your partner receive any of the following benefits:';
+  var modalEl = element(by.css('div.modal'));
 
   describe('providerCase', function () {
     describe('An operator', function () {
@@ -85,6 +88,35 @@
         // click and accept case
         close_button.click();
         browser.switchTo().alert().accept();
+
+        // check redirected
+        expect(browser.getLocationAbsUrl()).not.toContain(case_to_accept);
+      });
+
+      it('should be able to reopen a case', function () {
+        browser.get(CONSTANTS.providerBaseUrl + case_to_accept + '/');
+
+        expect(reopen_button.isPresent()).toBe(true);
+
+        // click
+        reopen_button.click();
+
+        expect(modalEl.isPresent()).toBe(true);
+        modalEl.element(by.css('textarea[name="notes"]')).sendKeys('Notes.');
+        modalEl.element(by.css('button[type="submit"]')).click();
+        expect(modalEl.isPresent()).toBe(false);
+      });
+
+      it('should be able to close case as debt referral', function () {
+        expect(debt_referral_button.isPresent()).toBe(true);
+
+        // click
+        debt_referral_button.click();
+
+        expect(modalEl.isPresent()).toBe(true);
+        modalEl.element(by.css('textarea[name="notes"]')).sendKeys('Notes.');
+        modalEl.element(by.css('button[type="submit"]')).click();
+        expect(modalEl.isPresent()).toBe(false);
 
         // check redirected
         expect(browser.getLocationAbsUrl()).not.toContain(case_to_accept);
