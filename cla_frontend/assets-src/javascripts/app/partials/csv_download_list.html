@@ -1,0 +1,28 @@
+<header class="PageHeader cf">
+  <h2>CSV Download</h2>
+</header>
+
+<table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Date Uploaded</th>
+      <th>Submitted By</th>
+      <th>Rows</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="csv in uploads">
+      <td>{{ ::csv.month | date:'MMM yyyy'}} Upload</td>
+      <td>
+        <timestamp ng-model="csv.created"></timestamp>
+      </td>
+      <td>{{ ::csv.created_by }}</td>
+      <td>{{ ::csv.rows }}</td>
+      <td><a href="" ng-click="download(csv)">Download</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
