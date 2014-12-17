@@ -73,6 +73,9 @@ RUN cd /home/app/django && cat docker/version >> /etc/profile
 # PIP INSTALL APPLICATION
 RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 
+# Collect static
+RUN cd /home/app/django && python manage.py collectstatic --noinput
+
 # Install socket.io application
 RUN cd /home/app/django/cla_socketserver && npm install
 
