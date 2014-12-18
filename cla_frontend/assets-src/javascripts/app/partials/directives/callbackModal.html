@@ -1,5 +1,5 @@
 <div class="CallbackModal-wrapper">
-  <form name="callback_form" class="CallbackModal" ng-submit="bookCallback(callback_form)" ng-show="isVisible">
+  <form name="callback_form" class="CallbackModal" ng-show="isVisible">
     <header>
       <h2 class="CallbackModal-heading">{{ ::callbackTitle }}</h2>
     </header>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="FormActions">
-      <button class="Button" type="submit" ng-if="canBeCalledBack">Schedule</button>
+      <button class="Button" type="submit" ng-click="bookCallback(callback_form)" ng-if="canBeCalledBack">Schedule</button>
       <button class="Button {{ canBeCalledBack ? 'Button--secondary' : '' }}" type="button" ng-if="case.getCallbackDatetime()" ng-really-message="This action will cancel the callback with a CBC outcome code and suspend the Case. Do you wish to continue?" ng-really-click="cancelCallback()">Stop callback</button>
       <a href="" ng-click="close()">Cancel</a>
     </div>
