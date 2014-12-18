@@ -73,14 +73,14 @@ RUN cd /home/app/django && cat docker/version >> /etc/profile
 # PIP INSTALL APPLICATION
 RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 
-# LN settings.docker -> settings.local
-RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
-
 # Collect static
-RUN cd /home/app/django && python manage.py collectstatic --noinput
+RUN cd /home/app/django && python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
 
 # Install socket.io application
 RUN cd /home/app/django/cla_socketserver && npm install
+
+# ln settings.docker -> settings.local
+RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
 
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
 ADD ./docker/server.key /etc/ssl/private/server.key

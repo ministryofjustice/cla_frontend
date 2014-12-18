@@ -15,14 +15,13 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Marco Fucci', 'marco.fucci@digital.justice.co.uk'),
-    ('Rai Kotecha', 'ravi.kotecha@digital.justice.gov.uk'),
+    ('CLA', 'cla-alerts@digital.justice.gov.uk'),
 )
 
 MANAGERS = ADMINS
 
 
-HOST_NAME = os.environ["HOST_NAME"]
+HOST_NAME = os.environ.get('HOST_NAME', 'localhost')
 
 BACKEND_BASE_URI = os.environ["BACKEND_BASE_URI"]
 

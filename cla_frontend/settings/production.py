@@ -1,14 +1,7 @@
 from .base import *
 
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    ('MoJ', 'Your email'),
-)
-
-MANAGERS = ADMINS
-
-
-DATABASES = { }
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
