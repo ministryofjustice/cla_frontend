@@ -1,0 +1,10 @@
+@mixin repeating-linear-gradient($from, $to) {
+  // Creates a linear gradient where $from is the colour at the top of the element
+  // and $to is the colour at the bottom. The top colour is used as a background-color
+  // for browsers that don't support gradients.
+  background-color: $from;
+  background-image: -webkit-repeating-linear-gradient(-45deg, $to 45%, $from 49%, $from 51%, $to 55%); // Chrome 10.0 to 25.0, Safari 5.1 to 6.0, Mobile Safari 5.0 to 6.1, Android Browser 4.0 to 4.3
+  background-image:    -moz-repeating-linear-gradient(-45deg, $to 45%, $from 49%, $from 51%, $to 55%); // Firefox 3.6 to 15.0
+  background-image:      -o-repeating-linear-gradient(-45deg, $to 45%, $from 49%, $from 51%, $to 55%); // Opera 11.1 to 12.0
+  background-image:         repeating-linear-gradient(-45deg, $to 45%, $from 49%, $from 51%, $to 55%);
+}

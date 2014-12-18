@@ -178,6 +178,6 @@
   }
 
   function gotoAltHelp () {
-    element(by.cssContainingText('.CaseBar-actions a', 'Alternative help')).click();
+    element(by.css('.CaseBar-actions a[ui-sref="case_detail.alternative_help"]')).click();
   }
 })();

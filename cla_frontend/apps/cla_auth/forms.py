@@ -15,7 +15,8 @@ class AuthenticationForm(forms.Form):
     error_messages = {
         'invalid_login': _("Please enter a correct %(username)s and password. "
                            "Note that both fields may be case-sensitive."),
-        'locked_out': _("Account locked: too many login attempts. Please try again later or contact your Manager.")
+        'locked_out': _("Account locked: too many login attempts. Please try again later or contact your Manager."),
+        'account_disabled': _("Account disabled, please contact your supervisor.")
     }
 
     def __init__(self, request=None, *args, **kwargs):
@@ -46,6 +47,12 @@ class AuthenticationForm(forms.Form):
                 raise forms.ValidationError(
                     self.error_messages['locked_out'],
                     code='locked_out'
+                )
+
+            if not self.user_cache.is_active:
+                raise forms.ValidationError(
+                    self.error_messages['account_disabled'],
+                    code='account_disabled'
                 )
         return self.cleaned_data
 

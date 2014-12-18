@@ -1,0 +1,51 @@
+.CallbackModal-wrapper {
+  position: relative;
+}
+.CallbackModal {
+  @include box-sizing(border-box);
+  @include box-shadow(1px 1px 3px $grey-3);
+  width: 100%;
+  padding: 20px;
+  margin: 10px 0 0;
+  background-color: $white;
+  border: 1px solid $grey-2;
+
+  @include media(desktop) {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    width: 300px;
+
+    &:before,
+    &:after {
+      bottom: 100%;
+      right: 41px;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+    &:before {
+      border-bottom-color: $grey-2;
+      border-width: 0 15px 15px;
+      margin-right: -1px;
+    }
+    &:after {
+      border-bottom-color: $white;
+      border-width: 0 14px 14px;
+    }
+  }
+}
+.CallbackModal-heading {
+  @include core-19;
+  text-align: center;
+  padding: 0;
+  margin-bottom: 15px;
+}
+.CallbackModal-daySelect {
+  text-align: center;
+  margin-bottom: 15px;
+}

@@ -3,6 +3,14 @@
 
   angular.module('cla.controllers.provider').
     controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', '$state', function($scope, $modal, flash, postal, $state){
+      $scope.showDebtReferralButton = function() {
+        if (!$scope.case.provider_accepted || $scope.case.provider_closed) {
+          return false;
+        }
+
+        return $scope.diagnosis.category === 'debt';
+      };
+
       $scope.accept = function() {
         this.case.$accept_case().then(function(data) {
           flash('Case accepted successfully');

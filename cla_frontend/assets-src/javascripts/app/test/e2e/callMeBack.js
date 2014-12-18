@@ -8,7 +8,7 @@
   // test vars
   var cbCaseRef;
   var callMeBackLink = element(by.name('callback'));
-  var modal = element(by.css('div.modal'));
+  var modal = element(by.css('.CallbackModal'));
 
   describe('callMeBack', function() {
     beforeEach(utils.setUp);
@@ -23,7 +23,7 @@
 
     it('should allow stopping a callback', function() {
       // stop callback
-      element(by.cssContainingText('callback-status a', 'Stop callback')).click();
+      element(by.cssContainingText('callback-status a', 'Remove callback')).click();
       browser.switchTo().alert().accept();
 
       // notice box disappears
@@ -55,10 +55,10 @@
         modal.element(by.cssContainingText('div.modal button', 'Save')).isPresent()
       ).toBe(false);
       expect(
-        modal.element(by.cssContainingText('button', 'Cancel callback')).isPresent()
+        modal.element(by.cssContainingText('button', 'Stop callback')).isPresent()
       ).toBe(true);
 
-      element(by.cssContainingText('button', 'Cancel callback')).click();
+      element(by.cssContainingText('button', 'Stop callback')).click();
       browser.switchTo().alert().accept();
       expect(modal.isPresent()).toBe(false);
 
@@ -85,12 +85,12 @@
     // check modal header and buttons
     expect(modal.element(by.css('header')).getText()).toBe(expectedScheduleTitle);
     expect(
-      modal.element(by.cssContainingText('button', 'Cancel callback')).isPresent()
+      modal.element(by.cssContainingText('button', 'Stop callback')).isPresent()
     ).toBe(attemptNum === 1 ? false : true);
 
     // fill in the modal form and submit
-    modal.element(by.css('input[name="datetime"]')).sendKeys('08/10/2020 11:00');
-    modal.element(by.css('textarea[name="notes"]')).sendKeys(expectedCode+' scheduled.');
+    modal.element(by.name('set-tomorrow')).click();
+    modal.element(by.name('callbackNotes')).sendKeys(expectedCode + ' scheduled.');
     modal.element(by.css('button[type="submit"]')).click();
     expect(modal.isPresent()).toBe(false);
 

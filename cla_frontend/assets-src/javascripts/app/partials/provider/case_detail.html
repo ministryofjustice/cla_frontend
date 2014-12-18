@@ -13,5 +13,7 @@
     
     <button class="BtnGroup-button BtnGroup-button--light" name="provider-close-case" ng-really-message="This permanently closes the case, indicating all specialist work has been completed and the case is now billable. Don't use this button to indicate you have only completed a session or call with a client - just return to the case queue. Do you wish to continue?" ng-really-click="close()" ng-controller="CaseDetailCloseCtrl" ng-if="case.provider_accepted && !case.provider_closed">Close</button>
 
+    <button class="BtnGroup-button BtnGroup-button--light" name="debt-referral-case" ng-click="closeAsDREFER()" ng-controller="CaseDetailCloseCtrl" ng-if="showDebtReferralButton()">Debt Referral</button>
+
   </nav>
 </div>

@@ -51,6 +51,13 @@ class ClaBackend(object):
                 user = ClaUser(None, self.zone_name)
                 user.is_locked_out = True
                 return user
+
+            if error == u'account_disabled':
+                # this is the django way of dealing with these cases, return a User
+                # with is_xxx == False. The user is authenticated but inactive atm.
+                user = ClaUser(None, self.zone_name)
+                user.is_active = False
+                return user     
             return
 
         user = ClaUser(response['access_token'], self.zone_name)
