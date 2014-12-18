@@ -20,6 +20,11 @@
 
         var minStart = moment().add(30, 'minutes');
         var start = moment(Math.ceil((+minStart) / timeRounding) * timeRounding);
+        $scope.setCurrentDateTime = function(dt) {
+          $scope.currentDateTime = moment(dt);
+        }
+
+        $scope.setCurrentDateTime(start);
 
         // datepicker conf has to be set before template and other directive loads
         $scope.datePickerConf = {
@@ -96,12 +101,15 @@
           var firstSlot = m.hour(9).minutes(0);
           var today = moment();
 
-          if (m.isSame(today, 'day')) {
-            scope.setToday();
-            return;
+          if (!m.isSame(scope.currentDateTime, 'day')) {
+            if (m.isSame(today, 'day')) {
+              scope.setToday();
+            } else {
+              calendar.setValue(firstSlot);
+            }
           }
 
-          calendar.setValue(firstSlot);
+          scope.setCurrentDateTime(calendar.getDate());
         });
 
         var formatUkDateTime = function(str) {
