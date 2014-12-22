@@ -1,4 +1,4 @@
-<form name="frm-addressFinder" ng-submit="setAddress()">
+<form name="frmAddressFinder" novalidate ng-submit="setAddress(frmAddressFinder.$valid)">
   <header>
     <h2>Address search</h2>
     <p><strong>{{ ::addresses.length }} address{{ ::suffix }}</strong> were found for {{ ::postcode }}.</p>
@@ -7,16 +7,20 @@
   <div class="FormBlock FormBlock--grey" ng-if="::addresses.length > 0">
     <div>
       <div class="FormRow cf">
-        <input type="text" id="address_search" name="address-finder-search" placeholder="Search addresses" class="FormRow-field--l" ng-model="::address_search" autofocus search-filter>
+        <input type="text" id="addressSearch" name="address-finder-search" placeholder="Search addresses" class="FormRow-field--l" ng-model="::address_search" search-filter ng-change="singleAddr(address_search)">
       </div>
 
       <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="address in addresses | filter:address_search">
         <label class="FormRow-label">
-          <input type="radio" name="address_results" value="{{ ::address.formatted_address }}" ng-model="::selected.address">
+          <input type="radio" name="address_results" value="{{ ::address.formatted_address }}" ng-model="::selected.address" required>
           {{ ::formatAddress(address.formatted_address) }}
         </label>
       </div>
     </div>
+  </div>
+
+  <div class="Error Error--basic" ng-show="frmAddressFinder.$submitted && frmAddressFinder.address_results.$error.required">
+    <p>Please select an address to populate the card</p>
   </div>
 
   <div class="FormActions">

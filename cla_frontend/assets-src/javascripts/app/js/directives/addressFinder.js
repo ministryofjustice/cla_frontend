@@ -77,13 +77,22 @@
               });
             }
           };
+          var onOpen = function () {
+            $timeout(function () {
+              angular.element('[name="address-finder-search"]').focus();
+            }, 50);
+          };
           var onDismiss = function () {
             postal.publish({channel: 'AddressFinder', topic: 'cancelled'});
 
-            elem.focus();
+            $timeout(function () {
+              elem.focus();
+            });
           };
 
-          $modal.open(modalOpts).result.then(onConfirmSuccess, onDismiss);
+          var modal = $modal.open(modalOpts);
+          modal.opened.then(onOpen);
+          modal.result.then(onConfirmSuccess, onDismiss);
         };
       },
       template: function(elem) {
@@ -107,12 +116,22 @@
 
   angular.module('cla.controllers')
     .controller('AddressFinderModalCtl',
-      ['$scope', 'AddressResponse',
-        function($scope, AddressResponse) {
+      ['$scope', 'AddressResponse', '$timeout', '$filter',
+        function($scope, AddressResponse, $timeout, $filter) {
           $scope.addresses = AddressResponse.addresses;
           $scope.postcode = AddressResponse.postcode;
           $scope.suffix = $scope.addresses.length > 1 || $scope.addresses.length === 0 ? 'es' : '';
           $scope.selected = {};
+
+          $scope.singleAddr = function (query) {
+            var filtered = $filter('filter')($scope.addresses, query);
+
+            if (filtered.length === 1) {
+              $scope.selected.address = filtered[0].formatted_address;
+            } else {
+              $scope.selected.address = null;
+            }
+          };
 
           $scope.formatAddress = function (addr) {
             return addr.split('\n').join(', ');
@@ -122,11 +141,15 @@
             $scope.$dismiss('cancel');
           };
 
-          $scope.setAddress = function() {
-            $scope.$close({
-              chosenAddress: $scope.selected.address
-            });
+          $scope.setAddress = function(isValid) {
+            if (isValid) {
+              $scope.$close({
+                chosenAddress: $scope.selected.address
+              });
+            }
           };
+
+          $scope.singleAddr();
         }
       ]
     );
