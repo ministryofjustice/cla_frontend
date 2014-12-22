@@ -77,13 +77,22 @@
               });
             }
           };
+          var onOpen = function () {
+            $timeout(function () {
+              angular.element('[name="address-finder-search"]').focus();
+            }, 50);
+          };
           var onDismiss = function () {
             postal.publish({channel: 'AddressFinder', topic: 'cancelled'});
 
-            elem.focus();
+            $timeout(function () {
+              elem.focus();
+            });
           };
 
-          $modal.open(modalOpts).result.then(onConfirmSuccess, onDismiss);
+          var modal = $modal.open(modalOpts);
+          modal.opened.then(onOpen);
+          modal.result.then(onConfirmSuccess, onDismiss);
         };
       },
       template: function(elem) {
@@ -107,8 +116,8 @@
 
   angular.module('cla.controllers')
     .controller('AddressFinderModalCtl',
-      ['$scope', 'AddressResponse',
-        function($scope, AddressResponse) {
+      ['$scope', 'AddressResponse', '$timeout',
+        function($scope, AddressResponse, $timeout) {
           $scope.addresses = AddressResponse.addresses;
           $scope.postcode = AddressResponse.postcode;
           $scope.suffix = $scope.addresses.length > 1 || $scope.addresses.length === 0 ? 'es' : '';
