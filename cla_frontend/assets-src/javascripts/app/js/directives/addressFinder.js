@@ -116,12 +116,22 @@
 
   angular.module('cla.controllers')
     .controller('AddressFinderModalCtl',
-      ['$scope', 'AddressResponse', '$timeout',
-        function($scope, AddressResponse, $timeout) {
+      ['$scope', 'AddressResponse', '$timeout', '$filter',
+        function($scope, AddressResponse, $timeout, $filter) {
           $scope.addresses = AddressResponse.addresses;
           $scope.postcode = AddressResponse.postcode;
           $scope.suffix = $scope.addresses.length > 1 || $scope.addresses.length === 0 ? 'es' : '';
           $scope.selected = {};
+
+          $scope.singleAddr = function (query) {
+            var filtered = $filter('filter')($scope.addresses, query);
+
+            if (filtered.length === 1) {
+              $scope.selected.address = filtered[0].formatted_address;
+            } else {
+              $scope.selected.address = null;
+            }
+          };
 
           $scope.formatAddress = function (addr) {
             return addr.split('\n').join(', ');
@@ -131,11 +141,15 @@
             $scope.$dismiss('cancel');
           };
 
-          $scope.setAddress = function() {
-            $scope.$close({
-              chosenAddress: $scope.selected.address
-            });
+          $scope.setAddress = function(isValid) {
+            if (isValid) {
+              $scope.$close({
+                chosenAddress: $scope.selected.address
+              });
+            }
           };
+
+          $scope.singleAddr();
         }
       ]
     );
