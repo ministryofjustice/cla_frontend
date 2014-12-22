@@ -176,6 +176,11 @@
       parent: 'case_detail',
       name: 'case_detail.edit',
       url: '',
+      onEnter: ['$state', '$timeout', function ($state, $timeout) {
+        $timeout(function () {
+          $state.go('case_detail.edit.diagnosis');
+        });
+      }],
       views: {
         '@case_detail': {
           templateUrl: 'case_detail.edit.html',

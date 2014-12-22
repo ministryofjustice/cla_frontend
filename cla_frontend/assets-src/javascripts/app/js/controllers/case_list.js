@@ -145,8 +145,8 @@
 
             $rootScope.$emit('timer:start', {
               success: function() {
-                new Case(saveParams).$save(function(data) {
-                  $state.go('case_detail.edit', {caseref:data.reference});
+                new Case(saveParams).$save(function (data) {
+                  $state.go('case_detail.edit.diagnosis', {caseref: data.reference});
                 });
               }
             });

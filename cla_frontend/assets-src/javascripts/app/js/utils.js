@@ -86,7 +86,7 @@
       return function(case_reference) {
         $rootScope.$emit('timer:start', {
           success: function() {
-            $state.go('case_detail.edit', {
+            $state.go('case_detail.edit.diagnosis', {
               'caseref': case_reference
             });
           }
