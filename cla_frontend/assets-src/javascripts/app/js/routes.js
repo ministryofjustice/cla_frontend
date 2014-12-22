@@ -7,17 +7,13 @@
     function(AppSettings, $stateProvider, $locationProvider, $urlRouterProvider) {
       $locationProvider.html5Mode(true);
 
-      var states = angular.module(AppSettings.statesModule).getStates(AppSettings.BASE_URL);
+      var states = angular.module(AppSettings.statesModule).states;
+
       angular.forEach(states, function (stateDefinition) {
         $stateProvider.state(stateDefinition);
       });
 
-      $stateProvider.state('404', {
-        name: '404',
-        url: AppSettings.BASE_URL + 'page-not-found/',
-        templateUrl: '404.html'
-      });
-
+      // handle angular 404s
       $urlRouterProvider
         .otherwise(AppSettings.BASE_URL + 'page-not-found/')
         .rule(function($injector, $location) {
