@@ -22,7 +22,7 @@
         var start = moment(Math.ceil((+minStart) / timeRounding) * timeRounding);
         $scope.setCurrentDateTime = function(dt) {
           $scope.currentDateTime = moment(dt);
-        }
+        };
 
         $scope.setCurrentDateTime(start);
 
