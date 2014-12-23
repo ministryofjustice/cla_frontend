@@ -63,6 +63,21 @@
         callback: trackEvent
       });
 
+      // Assign Provider
+      var AssignProvider = postal.channel('CallBack');
+      AssignProvider.subscribe({
+        topic: 'open',
+        callback: trackEvent
+      });
+      AssignProvider.subscribe({
+        topic: 'close',
+        callback: trackEvent
+      });
+      AssignProvider.subscribe({
+        topic: 'set.*',
+        callback: trackEvent
+      });
+
       // Search filters
       var SearchFilter = postal.channel('SearchFilter');
       SearchFilter.subscribe({
