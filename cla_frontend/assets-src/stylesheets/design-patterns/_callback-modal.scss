@@ -38,6 +38,10 @@
       border-width: 0 14px 14px;
     }
   }
+
+  .rd-container {
+    display: block !important; // SHAMEFULL!
+  }
 }
 .CallbackModal-heading {
   @include core-19;

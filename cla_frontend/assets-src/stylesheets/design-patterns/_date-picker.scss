@@ -5,7 +5,6 @@
  * @license MIT
  */
 .rd-container {
-  display: block !important; // SHAMEFULL!!
   background-color: $white;
   position: relative;
   z-index: 5;
@@ -14,6 +13,11 @@
   }
 }
 .rd-container-attachment {
+  @include box-sizing(border-box);
+  @include box-shadow(1px 1px 3px $grey-3);
+  border: 1px solid $grey-2;
+  padding: 10px;
+  margin-top: 3px;
   position: absolute;
   z-index: 1051;
 }
@@ -82,8 +86,10 @@
 .rd-day-body {
   cursor: pointer;
   text-align: center;
-  padding-top: 9px;
-  padding-bottom: 6px;
+  padding: 9px 8px 6px;
+}
+.rd-container-attachment .rd-day-body {
+  padding: 5px 5px 3px;
 }
 .rd-day-prev-month,
 .rd-day-next-month {
