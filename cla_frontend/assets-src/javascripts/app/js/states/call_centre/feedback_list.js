@@ -9,7 +9,7 @@
     states.FeedbackList = {
       name: 'feedback_list',
       parent: 'layout',
-      url: AppSettings.BASE_URL + 'feedback/?page?start?end',
+      url: AppSettings.BASE_URL + 'feedback/?page?start?end?hide_resolved',
       templateUrl: 'call_centre/feedback_list.html',
       controller: 'FeedbackListCtrl',
       resolve: {
@@ -19,6 +19,10 @@
             end: $stateParams.end,
             page: $stateParams.page
           };
+
+          if ($stateParams.hide_resolved === 'True') {
+            params.resolved = 'False';
+          }
 
           return Feedback.query(params).$promise;
         }]

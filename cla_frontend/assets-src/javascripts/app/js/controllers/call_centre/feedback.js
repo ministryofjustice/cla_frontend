@@ -11,6 +11,8 @@
           $scope.endDate = $stateParams.end ? new Moment($stateParams.end).format('DD/MM/YYYY') : null;
           $scope.currentPage = $stateParams.page || 1;
 
+          $scope.hideResolved = $stateParams.hide_resolved === 'true';
+
           function updatePage() {
             $state.go($state.current, {
               'page': $scope.currentPage
@@ -30,6 +32,12 @@
           $scope.toggleResolved = function (feedbackItem) {
             feedbackItem.resolved = !feedbackItem.resolved;
             return feedbackItem.$patch();
+          };
+
+          $scope.toggleResolvedState = function () {
+            $scope.hideResolved = !$scope.hideResolved;
+            $stateParams.hide_resolved = $scope.hideResolved;
+            $state.go($state.current, $stateParams, {reload: true});
           };
 
           $scope.showRow = function (feedbackItem) {
