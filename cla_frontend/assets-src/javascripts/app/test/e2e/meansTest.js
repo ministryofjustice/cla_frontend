@@ -126,13 +126,13 @@
       });
 
       it('show only show alerts when sections are complete', function () {
-        var youTax = element(by.name('eligibility_check.you.deductions.income_tax'));
+        var youNI = element(by.name('eligibility_check.you.deductions.national_insurance'));
         var youBenefits = element(by.name('eligibility_check.you.income.benefits'));
-        var partnerTax = element(by.name('eligibility_check.partner.deductions.income_tax'));
+        var partnerNI = element(by.name('eligibility_check.partner.deductions.national_insurance'));
         var partnerBenefits = element(by.name('eligibility_check.partner.income.benefits'));
 
         getToSection('Expenses');
-        youTax.clear();
+        youNI.clear();
         getToSection('Income');
         youBenefits.clear();
         saveEC();
@@ -140,7 +140,7 @@
         expect(zeroIncomeNotice.isPresent()).toBe(false);
 
         getToSection('Expenses');
-        youTax.sendKeys(0);
+        youNI.sendKeys(0);
         getToSection('Income');
         youBenefits.sendKeys(0);
         saveEC();
@@ -148,7 +148,7 @@
         expect(zeroIncomeNotice.isPresent()).toBe(true);
 
         getToSection('Expenses');
-        partnerTax.clear();
+        partnerNI.clear();
         getToSection('Income');
         partnerBenefits.clear();
         saveEC();
@@ -156,7 +156,7 @@
         expect(zeroIncomeNotice.isPresent()).toBe(false);
 
         getToSection('Expenses');
-        partnerTax.sendKeys(0);
+        partnerNI.sendKeys(0);
         getToSection('Income');
         partnerBenefits.sendKeys(0);
         saveEC();

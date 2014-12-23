@@ -30,6 +30,10 @@
     </div>
 
     <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.you.deductions.income_tax" mi-label="How much tax do you pay?" guidance-link="'eligibility_check#ecg-expenses_tax'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
+    </div>
+
+    <div class="FormRow cf">
       <money-interval ng-model="eligibility_check.you.income.self_employment_drawings" mi-label="Self Employed Drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
@@ -81,6 +85,10 @@
   <div class="FormBlock FormBlock--grey">
     <div class="FormRow cf">
       <money-interval ng-model="eligibility_check.partner.income.earnings" mi-label="What did your partner earn before tax? (Based on their most recent payslips)" guidance-link="'eligibility_check#ecg-earnings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.partner.deductions.income_tax" mi-label="How much tax does your partner pay?" guidance-link="'eligibility_check#ecg-expenses_tax'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
