@@ -101,9 +101,16 @@
                   docRef = parts[0],
                   section = parts.length === 2 ? parts[1] : null;
 
-              postal.publish({channel: 'Guidance', topic: 'openDoc'});
-
               guidance.getDoc(docRef).then(function(doc) {
+                // track the document that has been opened
+                postal.publish({
+                  channel: 'Guidance',
+                  topic: 'openDoc',
+                  data: {
+                    label: doc.source
+                  }
+                });
+
                 $http.get(doc.source).success(function(data) {
                   $scope.htmlDoc = $sce.trustAsHtml(data);
                   if (section) {
