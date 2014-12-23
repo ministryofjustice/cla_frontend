@@ -21,8 +21,6 @@
 
       // handle state change errors
       $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
-        console.log(event);
-
         // generic state change error / redirect
         if (error.msg && !error.modal) {
           flash('error', error.msg);
@@ -110,7 +108,6 @@
   angular.module('cla.operatorApp',
     [
       'cla.settings.operator',
-      // 'cla.states',
       'cla.states.operator',
       'ngSanitize',
       'ngMessages',
