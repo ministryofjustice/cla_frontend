@@ -110,6 +110,8 @@
           }
 
           scope.setCurrentDateTime(calendar.getDate());
+
+          postal.publish({ channel: 'CallBack', topic: 'set.date' });
         });
 
         var formatUkDateTime = function(str) {
@@ -153,6 +155,8 @@
             $timeout(function() {
               elm.find('button').first().focus();
             });
+
+            postal.publish({ channel: 'CallBack', topic: 'open' });
           } else {
             angular.element('body').off('click.callbackDelegate');
             hotkeys.del('esc');
@@ -162,6 +166,8 @@
                 target.focus();
               });
             }
+
+            postal.publish({ channel: 'CallBack', topic: 'close' });
           }
         };
 
@@ -188,6 +194,7 @@
           var minTime = moment().add(30, 'minutes');
           var today = moment(Math.ceil((+minTime) / timeRounding) * timeRounding);
           calendar.setValue(today);
+          postal.publish({ channel: 'CallBack', topic: 'set.today' });
         };
 
         scope.setTomorrow = function () {
@@ -200,6 +207,7 @@
 
           firstSlotTomorrow = m.hour(9).minute(0);
           calendar.setValue(firstSlotTomorrow);
+          postal.publish({ channel: 'CallBack', topic: 'set.tomorrow' });
         };
 
         scope.bookCallback = function (form) {

@@ -63,6 +63,21 @@
         callback: trackEvent
       });
 
+      // Callback modal
+      var CallBack = postal.channel('CallBack');
+      CallBack.subscribe({
+        topic: 'open',
+        callback: trackEvent
+      });
+      CallBack.subscribe({
+        topic: 'close',
+        callback: trackEvent
+      });
+      CallBack.subscribe({
+        topic: 'set.*',
+        callback: trackEvent
+      });
+
       // Search filters
       var SearchFilter = postal.channel('SearchFilter');
       SearchFilter.subscribe({
@@ -81,27 +96,42 @@
         }
       });
 
-      // User search on case creation
+      // Person card
       var Person = postal.channel('Person');
       Person.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
-      // User search on case creation
+      // Third party card
       var ThirdParty = postal.channel('ThirdParty');
       ThirdParty.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
-      // User search on case creation
+      // Safe to contact flag
+      var SafeToContact = postal.channel('SafeToContact');
+      SafeToContact.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
+      // User address copy
+      var AddressCopy = postal.channel('AddressCopy');
+      AddressCopy.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
+      // Hotkey use
       var HotKey = postal.channel('HotKey');
       HotKey.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
+      // Server side error catching
       var ServerError = postal.channel('ServerError');
       ServerError.subscribe({
         topic: '*',
