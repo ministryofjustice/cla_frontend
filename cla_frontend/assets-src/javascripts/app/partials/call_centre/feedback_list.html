@@ -15,7 +15,7 @@
 
   <button type="submit" name="update-filter" class="Button Button--secondary">Search by date</button>
 
-  <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !hideResolved}" ng-click="hideResolved=!hideResolved">{{ hideResolved ? 'Show' : 'Hide' }} resolved cases</a>
+  <a href="" class="Label toggle-resolved" ng-class="{'is-selected': !hideResolved}" ng-click="toggleResolvedState()">{{ hideResolved ? 'Show' : 'Hide' }} resolved cases</a>
 </form>
 
 <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
