@@ -110,6 +110,13 @@
         callback: trackEvent
       });
 
+      // Safe to contact flag
+      var SafeToContact = postal.channel('SafeToContact');
+      SafeToContact.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
       // User address copy
       var AddressCopy = postal.channel('AddressCopy');
       AddressCopy.subscribe({
