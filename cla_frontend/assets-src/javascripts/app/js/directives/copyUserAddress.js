@@ -3,7 +3,7 @@
 
   var mod = angular.module('cla.directives');
 
-  mod.directive('copyUserAddress', ['$timeout', function ($timeout) {
+  mod.directive('copyUserAddress', ['$timeout', 'postal', function ($timeout, postal) {
     return {
       restrict: 'E',
       replace: true,
@@ -34,6 +34,8 @@
           $timeout(function () {
             tpPostcode.val(postcode).change();
             tpStreet.val(street).change();
+
+            postal.publish({ channel: 'AddressCopy', topic: 'click' });
           });
         };
       }

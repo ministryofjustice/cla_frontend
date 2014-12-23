@@ -63,17 +63,17 @@
         callback: trackEvent
       });
 
-      // Assign Provider
-      var AssignProvider = postal.channel('CallBack');
-      AssignProvider.subscribe({
+      // Callback modal
+      var CallBack = postal.channel('CallBack');
+      CallBack.subscribe({
         topic: 'open',
         callback: trackEvent
       });
-      AssignProvider.subscribe({
+      CallBack.subscribe({
         topic: 'close',
         callback: trackEvent
       });
-      AssignProvider.subscribe({
+      CallBack.subscribe({
         topic: 'set.*',
         callback: trackEvent
       });
@@ -96,27 +96,35 @@
         }
       });
 
-      // User search on case creation
+      // Person card
       var Person = postal.channel('Person');
       Person.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
-      // User search on case creation
+      // Third party card
       var ThirdParty = postal.channel('ThirdParty');
       ThirdParty.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
-      // User search on case creation
+      // User address copy
+      var AddressCopy = postal.channel('AddressCopy');
+      AddressCopy.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
+      // Hotkey use
       var HotKey = postal.channel('HotKey');
       HotKey.subscribe({
         topic: '*',
         callback: trackEvent
       });
 
+      // Server side error catching
       var ServerError = postal.channel('ServerError');
       ServerError.subscribe({
         topic: '*',
