@@ -21,12 +21,6 @@
     padding-bottom: 60px;
   }
 
-  @include media(desktop) {
-    .ListTable {
-      margin-top: -10px;
-    }
-  }
-
   .newCaseForm {
     margin-right: 10px;
   }
