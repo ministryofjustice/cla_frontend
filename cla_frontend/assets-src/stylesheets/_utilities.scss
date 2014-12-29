@@ -89,3 +89,14 @@
 .js-hidden {
   display: none;
 }
+
+.ngTruncateToggleText {
+  display: block;
+  color: $link-colour;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: $link-hover-colour;
+  }
+}
