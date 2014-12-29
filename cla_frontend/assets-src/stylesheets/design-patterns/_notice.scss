@@ -1,20 +1,17 @@
 .NoticeContainer {
   &--fixed {
-    top: 109px;
-    left: 0;
     margin: 0;
-    padding: 5px 0 0;
-    z-index: 1000;
-    position: absolute;
-    width: 100%;
+    padding: 0;
 
     &.stuck {
       position: fixed;
-      top: 43px;
+      top: 0;
     }
 
-    @include media (tablet) {
-      top: 90px;
+    @include media (desktop) {
+      position: absolute;
+      z-index: 1000;
+      top: 46px;
       left: 50%;
       width: 59.375%; // 3/5 column width
       margin-left: -29.687%;
@@ -45,17 +42,6 @@
     margin-bottom: 0;
   }
 
-  .NoticeContainer--fixed & {
-    margin: 0 10px 10px;
-    padding: 0.85em 1em;
-    border-width: 1px 1px 1px 4px;
-
-    @include media (tablet) {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
-
   .VCard-view & {
     margin: -11px;
     border-width: 1px 1px 1px 4px;
@@ -74,7 +60,8 @@
   }
   &.error {
     @extend .Icon;
-    @extend .Icon--solidCross;
+    @extend .Icon--alert;
+    color: $mellow-red;
     border-color: $mellow-red;
     background-color: #FAEBEC;
     &:before { color: $mellow-red; }
@@ -97,7 +84,7 @@
   }
   &--closeable {
     cursor: pointer;
-    padding-right: 2em;
+    padding-right: 2.5em;
     &:after {
       content: "x";
       display: block;
@@ -106,6 +93,19 @@
       right: 0.8em;
       font-size: 16px;
       color: $black;
+    }
+  }
+
+  .NoticeContainer--fixed & {
+    margin: 0 10px;
+    padding-top: 13px;
+    padding-bottom: 11px;
+    background-color: transparent;
+    border-width: 0;
+
+    @include media (tablet) {
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 }
