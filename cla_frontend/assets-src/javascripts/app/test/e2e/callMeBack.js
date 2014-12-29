@@ -8,7 +8,7 @@
   // test vars
   var cbCaseRef;
   var callMeBackLink = element(by.name('callback'));
-  var modal = element(by.css('.CallbackModal'));
+  var modal = element(by.css('.CallbackModal-wrapper'));
 
   describe('callMeBack', function() {
     beforeEach(utils.setUp);
@@ -69,7 +69,7 @@
       // reload the case and check that the outcome code is there and that the Notice 'Callback scheduled for ...'
       // is there
       utils.goToCaseDetail(cbCaseRef);
-      expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe('CBC');
+      utils.checkLastOutcome('CBC');
     });
   });
 
@@ -91,7 +91,7 @@
     // fill in the modal form and submit
     modal.element(by.name('set-tomorrow')).click();
     modal.element(by.name('callbackNotes')).sendKeys(expectedCode + ' scheduled.');
-    modal.element(by.css('button[type="submit"]')).click();
+    modal.element(by.name('callback_form')).submit();
     expect(modal.isPresent()).toBe(false);
 
     // check that the case is not in the case list
@@ -101,7 +101,7 @@
     // reload the case and check that the outcome code is there and that the Notice 'Callback scheduled for ...'
     // is there
     utils.goToCaseDetail(caseref);
-    expect(element.all(by.css('.CaseHistory-label:first-child')).get(0).getText()).toBe(expectedCode);
+    utils.checkLastOutcome(expectedCode);
     expect(
       element(by.cssContainingText('callback-status', 'Callback scheduled for')).isPresent()
     ).toBe(true);
