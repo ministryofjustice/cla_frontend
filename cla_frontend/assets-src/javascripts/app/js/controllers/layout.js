@@ -9,7 +9,10 @@
             if (from.name === 'case_list') {
               History.caseListStateParams = fromParams;
             }
-            $window.scrollTo(0,0);
+
+            if (to.parent !== 'case_detail.edit.eligibility') {
+              $window.scrollTo(0,0);
+            }
           });
 
           var numberFields = angular.element('body');
