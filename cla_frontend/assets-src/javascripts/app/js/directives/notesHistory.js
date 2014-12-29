@@ -19,6 +19,7 @@
             });
 
             scope.caseRef = attrs.notesHistory;
+            scope.summary = attrs.summary || true;
 
             var onModalClose = function () {
               elem.focus();
@@ -38,30 +39,32 @@
     .controller('NotesHistoryModalCtl',
       ['$scope', '$modalInstance', 'NotesHistory', 'dmp',
         function($scope, $modalInstance, NotesHistory, dmp) {
+
           function getPages () {
             NotesHistory.query(
               {
                 case_reference: $scope.caseRef,
                 type: $scope.type,
                 page: $scope.currentPage,
-                with_extra: true
+                with_extra: true,
+                summary: $scope.summary
               }
             ).$promise.then(function(data) {
-              var el,
-                  prevNotes = ' ';
+                var el,
+                  prevNotes = {};
 
-              $scope.notes = data;
+                $scope.notes = data;
 
-              for (var i=$scope.notes.results.length-1; i>=0; i-=1) {
-                el = $scope.notes.results[i];
-                el.diffHTML = dmp.createSemanticDiffHtml(prevNotes || ' ', el.type_notes || ' ');
-                prevNotes = el.type_notes;
-              }
+                for (var i=$scope.notes.results.length-1; i>=0; i-=1) {
+                  el = $scope.notes.results[i];
+                  el.diffHTML = dmp.createSemanticDiffHtml(prevNotes.type_notes || ' ', el.type_notes || ' ');
+                  prevNotes = el;
+                }
 
-              if (data.next !== null) {
-                $scope.notes.results.pop();
-              }
-            });
+                if (data.next !== null) {
+                  $scope.notes.results.pop();
+                }
+              });
           }
 
           $scope.updatePage = function(page) {
@@ -71,6 +74,12 @@
 
           $scope.close = function () {
             $modalInstance.dismiss('cancel');
+          };
+
+          $scope.toggleSummary = function() {
+            $scope.summary = !$scope.summary;
+            $scope.currentPage = 1;
+            getPages();
           };
 
           $scope.currentPage = 1;

@@ -5,7 +5,7 @@
 
   <div data-block="case-notes-summary" ng-if="case.provider_notes">
     <figure class="CommentBlock Icon Icon--row Icon--comments">
-      <a href="" notes-history="{{ case.reference }}" history-type="cla_provider" class="CommentBlock-history"></a>
+      <a href="" notes-history="{{ case.reference }}" history-type="cla_provider" summary="true" class="CommentBlock-history"></a>
       <cite class="CommentBlock-author">Specialist provider said</cite>
       <blockquote class="Quote" ng-bind-html="::case.provider_notes|nl2br"></blockquote>
     </figure>
