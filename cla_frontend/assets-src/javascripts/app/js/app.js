@@ -134,7 +134,8 @@
       'cfp.hotkeys',
       'LocalStorageModule',
       'diff-match-patch',
-      'angularUtils.directives.dirPagination'
+      'angularUtils.directives.dirPagination',
+      'ngTextTruncate'
     ])
     .config(common_config)
     .run(common_run);
@@ -187,7 +188,8 @@
       'cfp.hotkeys',
       'LocalStorageModule',
       'diff-match-patch',
-      'angularUtils.directives.dirPagination'
+      'angularUtils.directives.dirPagination',
+      'ngTextTruncate'
     ])
     .config(common_config)
     .run(common_run);
