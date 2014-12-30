@@ -13,6 +13,13 @@
           $scope.cases = cases;
           $scope.person = person;
           $scope.historicCases = historicCases;
+          $scope.pagesObj = [];
+          $scope.selectedPage = $scope.searchParams.page;
+
+          var totalPages = cases.count / 20;
+          for (var i = 1; i < totalPages + 1; i++) {
+            $scope.pagesObj.push(i);
+          }
 
 
           // SEARCH ACTIONS
