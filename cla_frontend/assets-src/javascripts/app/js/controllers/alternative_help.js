@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('AlternativeHelpCtrl',
-      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q',
-        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q){
+      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q', '$window',
+        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q, $window){
           $scope.category = $stateParams.category || null;
           $scope.selected_category = $scope.category;
           $scope.keyword = $stateParams.keyword;
@@ -58,6 +58,14 @@
               event_code: code
             });
           }
+
+          $scope.getF2fDeepLink = function () {
+            if ($scope.personal_details && $scope.personal_details.postcode) {
+              var postcode = $window.encodeURIComponent($scope.personal_details.postcode);
+              return 'http://find-legal-advice.justice.gov.uk/search.php?searchtype=location&searchtext='+ postcode +'&searchbtn=';
+            }
+            return 'http://find-legal-advice.justice.gov.uk/';
+          };
 
           $scope.pageChanged = function(newPage) {
             $scope.currentPage = newPage;
