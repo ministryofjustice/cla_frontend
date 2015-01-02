@@ -17,7 +17,7 @@
           $scope.selectedPage = $scope.searchParams.page;
 
           var totalPages = cases.count / 20;
-          for (var i = 1; i < totalPages + 1; i++) {
+          for (var i = 1; i < totalPages + 1; i+=1) {
             $scope.pagesObj.push(i);
           }
 
