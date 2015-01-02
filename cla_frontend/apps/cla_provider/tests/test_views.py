@@ -9,8 +9,6 @@ from cla_common.constants import SPECIFIC_BENEFITS
 
 from core.testing.test_base import CLATFrontEndTestCase
 
-from cla_auth.models import ClaUser
-
 
 class LegalHelpFormTestCase(CLATFrontEndTestCase):
     zone = 'cla_provider'
