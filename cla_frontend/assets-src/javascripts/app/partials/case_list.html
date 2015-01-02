@@ -63,9 +63,9 @@
 
 <div data-block="notices"></div>
 
-<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" template-url="directives/pagination/dirPagination-jumpTo.tpl.html"></dir-pagination-controls>
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
 
-<div>
+<div ng-if="pagesObj.length > 1">
   <p class="Pagination-prefix">Jump to page</p>
 
   <select class="Pagination-select" ng-model="selectedPage" ng-change="pageChanged(selectedPage)">
