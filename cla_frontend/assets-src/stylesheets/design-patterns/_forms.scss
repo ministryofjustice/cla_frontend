@@ -317,6 +317,16 @@ $border-colour: $grey-2;
       }
     }
   }
+  .editable-radiolist {
+    label {
+      float: left;
+      margin-right: 20px;
+
+      input {
+        margin-top: 3px;
+      }
+    }
+  }
 
   &--details {
     border-bottom: 1px solid transparent;

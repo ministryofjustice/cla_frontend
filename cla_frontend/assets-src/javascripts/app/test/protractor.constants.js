@@ -81,6 +81,7 @@
         mobile_phone: '9876543210',
         email: 'bar.foo@foobar.com'
       },
+      spoke_to: 'false',
       reason: 'Child or patient',
       personal_relationship: 'Parent or guardian',
       pass_phrase: 'Earth'
