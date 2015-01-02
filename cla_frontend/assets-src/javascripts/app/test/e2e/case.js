@@ -100,6 +100,8 @@
       if (name === 'adaptations') {
         selectMultiOption(values[name], 's2id_autogen5');
         // values[name].map(selectMultiOption);
+      } else if (name === 'spoke_to') {
+        selectRadioOption(values[name], name);
       } else if (filterSelects.indexOf(name) > -1) {
         selectOption(values[name], name);
       } else if (name === 'dob') {
@@ -120,6 +122,10 @@
     // if not a string, will be adaptations
     field = typeof field === 'string' || field instanceof String ? field : 'adaptations';
     element(by.cssContainingText('[name="' + field + '"] option', option)).click();
+  }
+
+  function selectRadioOption (value, field) {
+    element(by.css('[name="' + field + '"][value="' + value + '"]')).click();
   }
 
   function selectMultiOption (options, fieldId) {
@@ -164,6 +170,8 @@
       for (var i in value) {
         expect(element(by.css('[ng-if="selected_adaptations.length"]')).getText()).toContain(value[i]);
       }
+    } else if (model === 'third_party.spoke_to') {
+      expect(element(by.css('[ng-if="third_party.spoke_to === true || third_party.spoke_to === false"]')).getText()).toContain('has not spoken with client');
     } else if (nonExact.indexOf(model) > -1) {
       expect(element.all(by.binding(model)).get(0).getText()).toContain(value);
     } else {
