@@ -27,8 +27,8 @@
       {{ getDisplayLabel(third_party.personal_relationship, relationships) }}<span ng-if="third_party.organisation_name">: {{ third_party.organisation_name }}</span>
     </p>
 
-    <p class="VCard-row">
-      <span class="u-block">Adviser <strong>has <span ng-if="!third_party.spoke_to">not </span></strong> spoken with client<span ng-if="!third_party.spoke_to"> <strong>because</strong> '{{ getDisplayLabel(third_party.reason, reasons) }}'</span></span>
+    <p class="VCard-row" ng-if="third_party.spoke_to === true || third_party.spoke_to === false">
+      <span class="u-block">Adviser <strong>has <span ng-if="!third_party.spoke_to">not </span></strong> spoken with client<span ng-if="!third_party.spoke_to && third_party.reason"> <strong>because</strong> '{{ getDisplayLabel(third_party.reason, reasons) }}'</span></span>
     </p>
   </div>
 
@@ -97,11 +97,14 @@
     </div>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.spoke_to.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-if="third_party_frm.spoke_to.$error.server">{{ errors.spoke_to }}</span>
-      <span editable-checkbox="third_party.spoke_to" e-name="spoke_to" e-title="Advisor has spoken to client" e-ng-change="spokenWithToggle($data)" ></span>
+      <div class="Icon--formRow">
+        <span class="Error-message" ng-if="third_party_frm.spoke_to.$error.server">{{ errors.spoke_to }}</span>
+        <label>Advisor has spoken to client</label>
+        <span editable-radiolist="third_party.spoke_to" e-name="spoke_to" e-ng-options="s.value as s.text for s in spokenOptions" e-ng-click="spokenWithToggle($data)"></span>
+      </div>
     </div>
 
-    <div class="FormRow FormRow--narrow cf" ng-if="!spoke_to" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
+    <div class="FormRow FormRow--narrow cf" ng-if="show_reason" ng-class="{Error: third_party_frm.reason.$invalid && thirdparty_submitted}">
       <span class="Error-message" ng-if="third_party_frm.reason.$error.server">{{ errors.reason }}</span>
       <span class="Icon--formRow">
         <span editable-filterselect="third_party.reason" e-name="reason" e-ng-options="s.value as s.text for s in reasons track by s.value" e-data-placeholder="Choose a reason for why not"></span>
