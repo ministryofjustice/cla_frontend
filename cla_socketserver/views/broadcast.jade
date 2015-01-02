@@ -1,0 +1,45 @@
+extend admin
+block adminContent
+  p Send a message to a particular session or broadcast to all current session
+  form(action='/admin/send-broadcast/', method='post')
+    h2.FormBlock-label Send to all sessions
+    fieldset.FormBlock.FormBlock--grey
+      label.FormRow
+        span.FormRow-label Message
+        select(name='msg')
+          for optText, optId in msgOptions
+            option(value=optId) #{optText}
+    .FormActions
+      input.Button(type='submit', value='Broadcast')
+  br
+  br
+  form(action='/admin/send-to-clients/', method='post')
+    h2.FormBlock-label Send to selected sessions
+    fieldset.FormBlock
+      table.ListTable(cellpadding='0', cellspacing='0', border='0', width='100%')
+        thead
+          tr
+            th
+            th User
+            th User type
+            th Socket ID
+            th Version
+            th Current case
+        tbody
+          for person in people
+            for conn, socketID in person.connections
+              tr
+                td
+                  input(type='checkbox', name='socketID' value=socketID)
+                td #{person.username}
+                td #{person.userType}
+                td #{socketID}
+                td #{conn.appVersion}
+                td #{conn.caseViewed}
+      label.FormRow
+        span.FormRow-label Message
+        select(name='msg')
+          for optText, optId in msgOptions
+            option(value=optId) #{optText}
+      .FormActions
+        input.Button(type='submit', value='Broadcast')
