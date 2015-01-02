@@ -3,12 +3,14 @@
 
   angular.module('cla.controllers')
     .controller('AlternativeHelpCtrl',
-      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q', '$window',
-        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q, $window){
+      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q', '$window', 'AppSettings',
+        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q, $window, AppSettings){
           $scope.category = $stateParams.category || null;
           $scope.selected_category = $scope.category;
           $scope.keyword = $stateParams.keyword;
           $scope.currentPage = $stateParams.page || 1;
+
+          $scope.includePath = AppSettings.BASE_URL.substring(1);
 
           $scope.categories = kb_categories;
           $scope.providers = kb_providers;

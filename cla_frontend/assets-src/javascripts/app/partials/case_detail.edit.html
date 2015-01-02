@@ -2,18 +2,7 @@
   <h1>{{ ::pageTitle || 'Case details' }}</h1>
 </header>
 
-<div ui-view="notes">
-  <div data-block="case-notes"></div>
-
-  <div ng-if="eligibility_check.notes">
-    <figure class="CommentBlock Icon Icon--row Icon--comments">
-      <cite class="CommentBlock-author">User said</cite>
-      <blockquote class="Quote" ng-bind-html="eligibility_check.notes|nl2br"></blockquote>
-    </figure>
-  </div>
-</div>
-
-<div data-block="case-notes-summary"></div>
+<ng-include src="includePath + 'includes/case_notes.html'"></ng-include>
 
 <p class="s-entitlementNum" ng-if="case.isInScopeAndEligible() || (appName === 'provider' && case.laa_reference)">Entitlement: {{ ::case.laa_reference }}</p>
 

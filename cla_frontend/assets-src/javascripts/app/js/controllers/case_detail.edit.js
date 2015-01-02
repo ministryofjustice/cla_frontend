@@ -2,9 +2,9 @@
   'use strict';
 
   angular.module('cla.controllers')
-    .controller('CaseEditDetailCtrl',
-      ['$scope', 'AlternativeHelpService',
-        function($scope, AlternativeHelpService){
+    .controller('CaseDetailEditCtrl',
+      ['$scope', 'AlternativeHelpService', 'AppSettings',
+        function($scope, AlternativeHelpService, AppSettings){
           // when viewing coming back to the details view
           // clear out the Alternative Help selections.
           AlternativeHelpService.clear();
@@ -15,6 +15,8 @@
           $scope.eligibilityIcon = function () {
             return $scope.eligibility_check.isEligibilityTrue() ? 'Icon Icon--right Icon--solidTick Icon--green' : ($scope.eligibility_check.isEligibilityFalse() ? 'Icon Icon--right Icon--solidCross Icon--red' : '');
           };
+
+          $scope.includePath = AppSettings.BASE_URL.substring(1);
         }
       ]
     );
