@@ -1,0 +1,16 @@
+<notes-form ng-model="case.provider_notes" case="case"></notes-form>
+
+<div ng-if="eligibility_check.notes">
+  <figure class="CommentBlock Icon Icon--row Icon--comments">
+    <cite class="CommentBlock-author">User said</cite>
+    <blockquote class="Quote" ng-bind-html="eligibility_check.notes|nl2br"></blockquote>
+  </figure>
+</div>
+
+<div ng-if="case.notes">
+  <figure class="CommentBlock Icon Icon--row Icon--comments">
+    <a href="" notes-history="{{ case.reference }}" history-type="operator" summary="true" class="CommentBlock-history"></a>
+    <cite class="CommentBlock-author">Operator said</cite>
+    <blockquote class="Quote" ng-bind-html="::case.notes|nl2br"></blockquote>
+  </figure>
+</div>

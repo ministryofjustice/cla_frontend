@@ -13,7 +13,7 @@
       views: {
         '@case_detail': {
           templateUrl: 'case_detail.edit.html',
-          controller: 'CaseEditDetailCtrl'
+          controller: 'CaseDetailEditCtrl'
         }
       }
     };
