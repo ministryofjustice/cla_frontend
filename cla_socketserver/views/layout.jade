@@ -1,0 +1,24 @@
+- var assetPath = 'http://localhost:8001/static/'
+doctype html
+html
+  head
+    title Civil Legal Advice
+    // favicon
+    link(href=assetPath + 'images/favicon.ico', rel='shortcut icon', type='image/x-icon')
+    // webfonts
+    //- link(href=assetPath + 'stylesheets/fonts.css', media='all', rel='stylesheet', type='text/css')
+    // main styles
+    link(href=assetPath + 'stylesheets/cla.main.css', media='screen', rel='stylesheet')
+    // print styles
+    link(href=assetPath + 'stylesheets/cla.print.css', media='print', rel='stylesheet', type='text/css')
+    block head_extra
+  body
+    header#global-header(role='banner')
+      .header-wrapper
+        .header-global
+          a.header-logo(href='/', target='_self')
+            img(src=assetPath + 'images/gov.uk_logotype_crown.png', width='23', height='20', alt='')
+            | Civil Legal Advice
+    main#wrapper
+      block content
+    block javascripts
