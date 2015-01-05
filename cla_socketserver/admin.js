@@ -1,13 +1,12 @@
 (function () {
   'use strict';
 
-  var _ = require('underscore')._
-    , peopleManager = require('./utils/peopleManager')
-    , utils = require('./utils/utils')
-    , MSG_OPTIONS = {
-      '1': 'Out of date version, refresh browser'
-    };
-
+  var _ = require('underscore')._;
+  var peopleManager = require('./utils/peopleManager');
+  var utils = require('./utils/utils');
+  var MSG_OPTIONS = {
+    '1': 'Out of date version, refresh browser'
+  };
 
   function getViews(nsp) {
     function validateMsg(msg) {
@@ -28,33 +27,34 @@
       },
 
       broadcast: function (req, res) {
-        res.render('broadcast', {
+        var data = {
           activeTab: 'broadcast',
           people: peopleManager.people,
           msgOptions: MSG_OPTIONS
-        });
-      },
+        };
 
-      sendBroadcast: function (req, res, next) {
-        validateMsg(req.body.msg);
+        if (req.body.selectedClients === 'true') {
+          validateMsg(req.body.msg);
 
-        utils.sendToAllConnectedClients(nsp, 'systemMessage', req.body.msg);
-        res.send("Done");
-      },
+          var socketIDs = req.body.socketID;
 
-      sendToClients: function (req, res) {
-        validateMsg(req.body.msg);
+          if (!_.isArray(socketIDs)) {
+            socketIDs = [socketIDs];
+          }
 
-        var socketIDs = req.body.socketID;
+          _.each(socketIDs, function(socketID) {
+            utils.sendToClient(nsp, socketID, 'systemMessage', req.body.msg);
+          });
 
-        if (!_.isArray(socketIDs)) {
-          socketIDs = [socketIDs];
+          data.success = true;
+        } else if (req.body.allClients === 'true') {
+          validateMsg(req.body.msg);
+          utils.sendToAllConnectedClients(nsp, 'systemMessage', req.body.msg);
+
+          data.success = true;
         }
 
-        _.each(socketIDs, function(socketID) {
-          utils.sendToClient(nsp, socketID, 'systemMessage', req.body.msg);
-        })
-        res.send("Done");
+        res.render('broadcast', data);
       }
     }
   }
@@ -64,9 +64,7 @@
       var views = getViews(nsp);
 
       app.get('/admin/', views.admin);
-      app.get('/admin/broadcast/', views.broadcast);
-      app.post('/admin/send-broadcast/', views.sendBroadcast);
-      app.post('/admin/send-to-clients/', views.sendToClients);
+      app.all('/admin/broadcast/', views.broadcast);
       app.get('/admin/peopleMap/', views.peopleMap);
     }
   }
