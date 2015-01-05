@@ -8,20 +8,21 @@
 {{ ::user.username }}
 {% endverbatim %}{% endblock user_details %}
 
+{% block before_header %}
+<system-message></system-message>
+{% endblock %}
 
-{% block messages %}{% verbatim %}
+{% block messages %}
 <div class="NoticeContainer--fixed" sticky>
-  <div class="Notice warning ng-cloak" ng-if="multipleTabsOpen > 1">You currently have <strong>{{ ::multipleTabsOpen }} tabs open</strong>.</div>
-
   <flash-messages></flash-messages>
 </div>
-{% endverbatim %}{% endblock messages %}
+{% endblock %}
 
 
 {% block timer %}
 <timer start-button="true" class="Timer--inline"></timer>
 <call-script-toggle />
-{% endblock timer %}
+{% endblock %}
 
 
 {% block search %}{% verbatim %}

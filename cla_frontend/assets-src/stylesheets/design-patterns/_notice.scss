@@ -11,7 +11,7 @@
     @include media (desktop) {
       position: absolute;
       z-index: 1000;
-      top: 46px;
+      top: 0;
       left: 50%;
       width: 59.375%; // 3/5 column width
       margin-left: -29.687%;
@@ -94,6 +94,13 @@
       font-size: 16px;
       color: $black;
     }
+  }
+  &--system {
+    @extend .Icon;
+    @extend .Icon--alert;
+    margin: 0;
+
+    &:before { color: $orange; }
   }
 
   .NoticeContainer--fixed & {
