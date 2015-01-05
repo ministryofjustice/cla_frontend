@@ -79,6 +79,15 @@
         }
         return list.join(', ');
       };
+    })
+
+    .filter('stripTags', function () {
+      return function(input) {
+        if(angular.isString(input)) {
+          return input.replace(/<\S[^><]*>/g, '');
+        }
+        return input;
+      };
     });
 
 })();

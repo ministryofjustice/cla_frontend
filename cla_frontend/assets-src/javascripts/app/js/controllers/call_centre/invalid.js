@@ -13,24 +13,28 @@
         $scope.tplVars = tplVars;
 
         // track which data hasn't been entered
-        angular.forEach(tplVars.errors, function (value) {
-          postal.publish({
-            channel: 'ConfirmationModal',
-            topic: 'error',
-            data: {
-              label: value.message
-            }
+        if (tplVars.errors) {
+          angular.forEach(tplVars.errors, function (value) {
+            postal.publish({
+              channel: 'ConfirmationModal',
+              topic: 'error',
+              data: {
+                label: value.message
+              }
+            });
           });
-        });
-        angular.forEach(tplVars.warnings, function (value) {
-          postal.publish({
-            channel: 'ConfirmationModal',
-            topic: 'warning',
-            data: {
-              label: value.message
-            }
+        }
+        if (tplVars.warnings) {
+          angular.forEach(tplVars.warnings, function (value) {
+            postal.publish({
+              channel: 'ConfirmationModal',
+              topic: 'warning',
+              data: {
+                label: value.message
+              }
+            });
           });
-        });
+        }
 
         $scope.close = function () {
           $scope.$dismiss('cancel');
