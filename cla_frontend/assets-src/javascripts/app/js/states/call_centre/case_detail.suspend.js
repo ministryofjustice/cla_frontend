@@ -10,7 +10,7 @@
       parent: 'case_detail',
       name: 'case_detail.suspend',
       url: 'suspend/',
-      onEnter: ['$stateParams', '$state', '$modal', 'case', 'personal_details', 'History', 'flash', function($stateParams, $state, $modal, $case, personal_details, History, flash) {
+      onEnter: ['$stateParams', '$state', '$modal', 'case', 'personal_details', 'History', 'flash', 'postal', function($stateParams, $state, $modal, $case, personal_details, History, flash, postal) {
         var previousState = History.previousState;
         var suspendOpts = {
           templateUrl: 'case_detail.outcome_modal.html',
@@ -57,6 +57,13 @@
 
         // check personal details before suspending
         if (!personal_details.full_name || (!personal_details.postcode && !personal_details.mobile_phone)) {
+          postal.publish({
+            channel: 'ConfirmationModal',
+            topic: 'warning',
+            data: {
+              label: 'Suspend case data'
+            }
+          });
           $modal.open(confirmOpts).result.then(onConfirmSuccess, onDismiss);
         } else {
           $modal.open(suspendOpts).result.then(onSuspendSuccess, onDismiss);

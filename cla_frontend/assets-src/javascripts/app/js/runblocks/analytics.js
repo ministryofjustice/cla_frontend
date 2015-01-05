@@ -138,6 +138,13 @@
         callback: trackEvent
       });
 
+      // Server side error catching
+      var ConfirmationModal = postal.channel('ConfirmationModal');
+      ConfirmationModal.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
       $body
         // Details/Summary clicks
         .on('click', 'summary', function () {
