@@ -29,7 +29,7 @@
         modelsRecipe.Case.createEmpty().then(function (case_ref) {
           goto_assign(case_ref);
 
-          expect(browser.getLocationAbsUrl()).not.toContain(caseRef + '/assign/');
+          expect(browser.getLocationAbsUrl()).not.toContain(case_ref + '/assign/');
         });
       });
 
