@@ -193,15 +193,19 @@
 
       it('should be able to hide all justified cases', function () {
         hide_resolved_btn = element(by.css('.toggle-resolved'));
-        resolved_cases = element.all(by.css('tr.is-complete')).get(0);
+        resolved_cases = element.all(by.css('tr.is-complete'));
 
         expect(hide_resolved_btn.getAttribute('class')).toContain('is-selected');
-        expect(resolved_cases.isPresent()).toBeTruthy();
+        resolved_cases.then(function (items) {
+          expect(items.length).toBeGreaterThan(0);
+        });
 
         hide_resolved_btn.click();
 
         expect(hide_resolved_btn.getAttribute('class')).not.toContain('is-selected');
-        expect(resolved_cases.isPresent()).toBeFalsy();
+        resolved_cases.then(function (items) {
+          expect(items.length).toBe(0);
+        });
       });
     });
   });
