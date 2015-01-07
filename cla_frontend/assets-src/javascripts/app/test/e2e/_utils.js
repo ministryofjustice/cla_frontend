@@ -1,24 +1,28 @@
 (function () {
   'use strict';
 
-  var protractor = require('protractor'),
-      ptor = protractor.getInstance(),
-      CONSTANTS = require('../protractor.constants');
+  var CONSTANTS = require('../protractor.constants');
 
   function login(login_path, user, pass) {
-    var driver = ptor.driver;
+    var username = element(by.id('id_username'));
+    var password = element(by.id('id_password'));
+    var form = element(by.name('login_frm'));
 
-    ptor.manage().getCookie('sessionid').then(function (cookie) {
+    browser.manage().getCookie('sessionid').then(function (cookie) {
       if (!cookie) {
-        driver.get(ptor.baseUrl + login_path);
+        browser.ignoreSynchronization = true;
+        browser.get(login_path);
 
         // kill django debug toolbar if it's showing
-        ptor.manage().addCookie('djdt', 'hide');
+        browser.manage().addCookie('djdt', 'hide');
+        browser.get(login_path);
 
-        driver.get(ptor.baseUrl + login_path);
-        driver.findElement(by.id('id_username')).sendKeys(user);
-        driver.findElement(by.id('id_password')).sendKeys(pass);
-        driver.findElement(by.css('form')).submit();
+        username.sendKeys(user);
+        password.sendKeys(pass);
+        form.submit();
+
+        browser.ignoreSynchronization = false;
+        browser.get('');
       }
     });
   }
@@ -37,13 +41,13 @@
     },
 
     getBaseAbsoluteUrl: function(suffix) {
-      return ptor.baseUrl + suffix;
+      return browser.baseUrl + suffix;
     },
 
     logout: function () {
       element(by.css('.UserMenu-toggle')).click();
       element(by.cssContainingText('a[target="_self"]', 'Sign out')).click();
-      ptor.manage().deleteAllCookies();
+      browser.manage().deleteAllCookies();
     },
 
     debugTeardown: function () {
@@ -61,22 +65,22 @@
       expect(codeSpan.getText()).toEqual(code);
     },
 
-    scrollTo: function(elemFinder) {
+    scrollTo: function(element) {
       var promise = browser.driver.executeScript(function(elem) {
         elem.scrollIntoView(false);
-      }, elemFinder);
+      }, element.getWebElement());
       return promise;
     },
 
     scrollToBottom: function (element) {
       browser.driver.executeScript(function () {
         arguments[0].scrollIntoView();
-      }, element);
+      }, element.getWebElement());
     },
 
     expectUrl: function (absUrl, expectedUrl) {
       expect((new RegExp(expectedUrl+'$')).test(absUrl)).toBe(true,
-        ['Expected', absUrl, 'to be', ptor.baseUrl+expectedUrl].join(' ')
+        ['Expected', absUrl, 'to be', browser.baseUrl+expectedUrl].join(' ')
       );
     },
 
