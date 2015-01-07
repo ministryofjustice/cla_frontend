@@ -1,16 +1,14 @@
 (function () {
   'use strict';
 
-  var utils = require('../e2e/_utils'),
-      CONSTANTS = require('../protractor.constants.js'),
-      modelsRecipe = require('./_modelsRecipe'),
-      protractor = require('protractor'),
-      ptor = protractor.getInstance();
+  var utils = require('../e2e/_utils');
+  var CONSTANTS = require('../protractor.constants.js');
+  var modelsRecipe = require('./_modelsRecipe');
 
-  var case_to_reject_ref,
-      case_to_feedback_without_reject_ref,
-      reject_notes = 'this is feedback left with rejection',
-      feedback_notes = 'this is plain feedback';
+  var case_to_reject_ref;
+  var case_to_feedback_without_reject_ref;
+  var reject_notes = 'this is feedback left with rejection';
+  var feedback_notes = 'this is plain feedback';
 
   describe('providerFeedback', function () {
     describe('An operator', function () {
@@ -25,7 +23,7 @@
               utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
-            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
+            expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
@@ -39,7 +37,7 @@
               utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
-            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
+            expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });

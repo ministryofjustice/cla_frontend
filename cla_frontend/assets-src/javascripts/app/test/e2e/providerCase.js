@@ -1,12 +1,9 @@
 (function () {
   'use strict';
 
-  var utils = require('../e2e/_utils'),
-      CONSTANTS = require('../protractor.constants.js'),
-      modelsRecipe = require('./_modelsRecipe'),
-      protractor = require('protractor'),
-      ptor = protractor.getInstance(),
-      driver = ptor.driver;
+  var utils = require('../e2e/_utils');
+  var CONSTANTS = require('../protractor.constants.js');
+  var modelsRecipe = require('./_modelsRecipe');
 
   var case_to_accept;
   var grouped_benefits_case;
@@ -32,7 +29,7 @@
               utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
-            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
+            expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
@@ -46,7 +43,7 @@
               utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
-            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
+            expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
@@ -124,15 +121,15 @@
 
       it('should be able to view legal help form with specific benefits', function () {
         browser.ignoreSynchronization = true;
-        driver.get(ptor.baseUrl + 'provider/case/' + case_to_accept + '/legal_help_form/');
+        browser.get(browser.baseUrl + 'provider/case/' + case_to_accept + '/legal_help_form/');
 
-        var legal_help_form = driver.findElement(by.css('.page'));
+        var legal_help_form = element(by.css('.page'));
         expect(legal_help_form.getText()).not.toContain(grouped_text);
         expect(legal_help_form.getText()).toContain(specific_text);
 
-        var universalCredit = driver.findElement(by.name('universal_credit'));
-        var incomeSupport = driver.findElement(by.name('income_support'));
-        var jobSeekers = driver.findElement(by.name('job_seekers_allowance'));
+        var universalCredit = element(by.name('universal_credit'));
+        var incomeSupport = element(by.name('income_support'));
+        var jobSeekers = element(by.name('job_seekers_allowance'));
 
         expect(universalCredit.getAttribute('value')).toBe('Yes');
         expect(incomeSupport.getAttribute('value')).toBe('No');
@@ -140,9 +137,9 @@
       });
 
       it('should be able to view legal help form with grouped benefits', function () {
-        driver.get(ptor.baseUrl + 'provider/case/' + grouped_benefits_case + '/legal_help_form/');
+        browser.get(browser.baseUrl + 'provider/case/' + grouped_benefits_case + '/legal_help_form/');
 
-        var legal_help_form = driver.findElement(by.css('.page'));
+        var legal_help_form = element(by.css('.page'));
         expect(legal_help_form.getText()).toContain(grouped_text);
         expect(legal_help_form.getText()).not.toContain(specific_text);
 
