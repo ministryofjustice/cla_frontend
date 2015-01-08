@@ -1,16 +1,14 @@
 (function () {
   'use strict';
 
-  var utils = require('../e2e/_utils'),
-      CONSTANTS = require('../protractor.constants.js'),
-      modelsRecipe = require('./_modelsRecipe'),
-      protractor = require('protractor'),
-      ptor = protractor.getInstance();
+  var utils = require('../e2e/_utils');
+  var CONSTANTS = require('../protractor.constants.js');
+  var modelsRecipe = require('./_modelsRecipe');
 
-  var case_to_reject_ref,
-      case_to_feedback_without_reject_ref,
-      reject_notes = 'this is feedback left with rejection',
-      feedback_notes = 'this is plain feedback';
+  var case_to_reject_ref;
+  var case_to_feedback_without_reject_ref;
+  var reject_notes = 'this is feedback left with rejection';
+  var feedback_notes = 'this is plain feedback';
 
   describe('providerFeedback', function () {
     describe('An operator', function () {
@@ -25,7 +23,7 @@
               utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
-            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
+            expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
@@ -39,7 +37,7 @@
               utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
-            expect(browser.getLocationAbsUrl()).toBe(ptor.baseUrl + CONSTANTS.callcentreBaseUrl);
+            expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
@@ -195,15 +193,19 @@
 
       it('should be able to hide all justified cases', function () {
         hide_resolved_btn = element(by.css('.toggle-resolved'));
-        resolved_cases = element.all(by.css('tr.is-complete')).get(0);
+        resolved_cases = element.all(by.css('tr.is-complete'));
 
         expect(hide_resolved_btn.getAttribute('class')).toContain('is-selected');
-        expect(resolved_cases.isPresent()).toBeTruthy();
+        resolved_cases.then(function (items) {
+          expect(items.length).toBeGreaterThan(0);
+        });
 
         hide_resolved_btn.click();
 
         expect(hide_resolved_btn.getAttribute('class')).not.toContain('is-selected');
-        expect(resolved_cases.isPresent()).toBeFalsy();
+        resolved_cases.then(function (items) {
+          expect(items.length).toBe(0);
+        });
       });
     });
   });

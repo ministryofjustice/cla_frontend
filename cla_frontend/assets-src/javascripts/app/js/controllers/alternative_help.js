@@ -3,12 +3,14 @@
 
   angular.module('cla.controllers')
     .controller('AlternativeHelpCtrl',
-      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q',
-        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q){
+      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q', '$window', 'AppSettings',
+        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q, $window, AppSettings){
           $scope.category = $stateParams.category || null;
           $scope.selected_category = $scope.category;
           $scope.keyword = $stateParams.keyword;
           $scope.currentPage = $stateParams.page || 1;
+
+          $scope.includePath = AppSettings.BASE_URL.substring(1);
 
           $scope.categories = kb_categories;
           $scope.providers = kb_providers;
@@ -58,6 +60,14 @@
               event_code: code
             });
           }
+
+          $scope.getF2fDeepLink = function () {
+            if ($scope.personal_details && $scope.personal_details.postcode) {
+              var postcode = $window.encodeURIComponent($scope.personal_details.postcode);
+              return 'http://find-legal-advice.justice.gov.uk/search.php?searchtype=location&searchtext='+ postcode +'&searchbtn=';
+            }
+            return 'http://find-legal-advice.justice.gov.uk/';
+          };
 
           $scope.pageChanged = function(newPage) {
             $scope.currentPage = newPage;

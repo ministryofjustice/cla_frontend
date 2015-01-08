@@ -1,6 +1,6 @@
 {% extends app_base_template %}{% load humanize i18n static %}
 
-{% block body_attrs %} ng-class="{'v-Dashboard': $state.includes('case_list') || $state.includes('feedback_list') || $state.includes('historic_list') || $state.includes('user_list'), 'v-Case': $state.includes('case_detail') || $state.includes('historic_case_detail'), 'v-AlternativeHelp': $state.includes('case_detail.alternative_help')}"{% endblock %}
+{% block body_attrs %} ng-class="{'v-Dashboard': $state.includes('case_list') || $state.includes('feedback_list') || $state.includes('historic_list') || $state.includes('user_list') || $state.includes('404'), 'v-Case': $state.includes('case_detail') || $state.includes('historic_case_detail'), 'v-AlternativeHelp': $state.includes('case_detail.alternative_help')}"{% endblock %}
 
 {% block html_attrs %}{% block ng_app %}{% endblock ng_app %} ng-csp{% endblock %}
 
@@ -8,20 +8,21 @@
 {{ ::user.username }}
 {% endverbatim %}{% endblock user_details %}
 
+{% block before_header %}
+<system-message></system-message>
+{% endblock %}
 
-{% block messages %}{% verbatim %}
+{% block messages %}
 <div class="NoticeContainer--fixed" sticky>
-  <div class="Notice warning ng-cloak" ng-if="multipleTabsOpen > 1">You currently have <strong>{{ ::multipleTabsOpen }} tabs open</strong>.</div>
-
   <flash-messages></flash-messages>
 </div>
-{% endverbatim %}{% endblock messages %}
+{% endblock %}
 
 
 {% block timer %}
 <timer start-button="true" class="Timer--inline"></timer>
 <call-script-toggle />
-{% endblock timer %}
+{% endblock %}
 
 
 {% block search %}{% verbatim %}

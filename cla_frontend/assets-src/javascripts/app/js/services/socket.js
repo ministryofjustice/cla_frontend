@@ -3,7 +3,7 @@
   'use strict';
 
   angular.module('cla.services')
-    .factory('cla.bus', ['postal', '$rootScope', '_', 'appUtils', 'flash', function (postal, $rootScope, _, appUtils, flash) {
+    .factory('cla.bus', ['postal', '$rootScope', '_', 'appUtils', function (postal, $rootScope, _, appUtils) {
 
       function init(user) {
         // io is global reference to socket.io
@@ -11,7 +11,10 @@
         host = host.replace(/^https?:/, window.location.protocol);
         var socket = io.connect(host);
         var SYSTEM_MSG_OPTIONS = {  // hardcoded for now for security reasons
-          '1': 'Please refresh your browser. <a href="" target="_self">Reload now</a>'
+          '1': {
+            text: 'Your version of the software is now <strong>out of date</strong>. Please <a href="" target="_self">refresh your browser</a> to correct this problem',
+            closeable: false
+          }
         };
 
         // USER IDENTIFICATION
@@ -27,7 +30,7 @@
         socket.on('systemMessage', function(msgID) {
           var msg = SYSTEM_MSG_OPTIONS[msgID];
           if (typeof msg !== undefined) {
-            flash('error', msg);
+            $rootScope.$emit('system:message', msg.text, msg.closeable);
           }
         });
 

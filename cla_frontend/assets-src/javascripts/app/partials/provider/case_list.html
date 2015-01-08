@@ -1,4 +1,6 @@
 <div data-extend-template="case_list.html">
+  <div data-block="title" ng-include="'provider/includes/case_tab_navigation.html'"></div>
+
   <span data-block="filters" class="LabelGroup">
     <a href="" class="Label" ng-class="filterClass('')" ng-click="filterCases('')">All</a>
     <a href="" class="Label Icon Icon--folderNew" ng-class="filterClass('new')" ng-click="filterCases('new')">New</a>

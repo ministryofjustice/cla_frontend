@@ -115,9 +115,12 @@
           // trigger on first load
           $scope.relationshipChange($scope.third_party.personal_relationship);
 
-
+          $scope.spokenOptions = [
+            {value: true, text: 'Yes'},
+            {value: false, text: 'No'}
+          ];
           $scope.spokenWithToggle = function (value) {
-            $scope.spoke_to = value;
+            $scope.show_reason = value === undefined || value === null ? false : !value;
           };
           // trigger on first load
           $scope.spokenWithToggle($scope.third_party.spoke_to);
@@ -153,6 +156,7 @@
           $scope.cancelThirdParty = function(form) {
             form.$cancel();
             $scope.add_thirdparty = false;
+            $scope.spokenWithToggle($scope.third_party.spoke_to);
 
             postal.publish({channel: 'ThirdParty', topic: 'cancel'});
           };

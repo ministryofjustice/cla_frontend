@@ -21,14 +21,6 @@
           hotkeys
             .bindTo($scope)
             .add({
-              combo: 'g c',
-              description: 'Case home',
-              callback: function(e, hotkey) {
-                ClaPostalService.publishHotKey(hotkey);
-                $state.go('case_detail.edit');
-              }
-            })
-            .add({
               combo: 'g d',
               description: 'Scope diagnosis',
               callback: function(e, hotkey) {

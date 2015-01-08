@@ -48,7 +48,7 @@
     };
   }])
 
-  .directive('flashMessages', ['$rootScope', '$interval', function ($rootScope, $interval) {
+  .directive('flashMessages', ['$rootScope', '$interval', '$filter', 'postal', function ($rootScope, $interval, $filter, postal) {
     return {
       restrict: 'E',
       replace: true,
@@ -66,7 +66,7 @@
           scope.messages = _.reject(scope.messages, function(el) { return el === _msg;});
         };
 
-        $rootScope.$on('flash:message', function(__, messages) {
+        $rootScope.$on('flash:message', function(event, messages) {
           angular.forEach(messages, function(message) {
             // adding timeout to make msg disappear
             (function(_msg) {
@@ -74,11 +74,21 @@
                 scope.hide(_msg);
               };
 
-              _msg.timeout = $interval(f, 3000);
+              _msg.timeout = $interval(f, 4500);
             })(message);
 
             // add msg to list
             scope.messages = scope.messages.concat([message]);
+            // track message in analytics if not a success message
+            if (message.level !== 'success') {
+              postal.publish({
+                channel: 'FlashMessage',
+                topic: message.level,
+                data: {
+                  label: $filter('stripTags')(message.text)
+                }
+              });
+            }
           });
 
           if(!scope.$$phase) {

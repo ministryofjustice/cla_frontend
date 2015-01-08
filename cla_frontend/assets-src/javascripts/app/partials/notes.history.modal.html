@@ -1,8 +1,9 @@
 <header>
   <h2>Notes history</h2>
+  <a href="" ng-click="toggleSummary()" class="Label" ng-class="{'is-selected': !summary}" ng-if="notes.results.length">Show in detail</a>
 </header>
 
-<ul class="Grid NotesHistory">
+<ul class="Grid NotesHistory" ng-if="notes.results.length">
   <li dir-paginate="note in notes.results | itemsPerPage: 5" total-items="notes.count" current-page="currentPage" class="Grid-row NotesHistory-item">
     <span class="Grid-col Grid-col--1-5">
       <timestamp ng-model="::note.created"></timestamp>
@@ -14,6 +15,8 @@
     </span>
   </li>
 </ul>
+
+<p ng-if="!notes.results.length">There are currently no historical notes events for this case.</p>
 
 <nav class="cf">
   <dir-pagination-controls on-page-change="updatePage(newPageNumber)"></dir-pagination-controls>

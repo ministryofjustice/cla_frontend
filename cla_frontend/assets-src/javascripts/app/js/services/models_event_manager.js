@@ -24,10 +24,18 @@
                   // NOTE: always check for object identity (_diagnosis === diagnosis)
                   // otherwise, you might end up updating other case's objects if the destroy
                   // callback doesn't get triggered for any reason
-                  if (_diagnosis === diagnosis && _diagnosis.isInScopeTrue() && _diagnosis.category) {
+                  if (_diagnosis === diagnosis && _diagnosis.category) {
+                    // update eligibility check
                     eligibility_check.category = _diagnosis.category;
                     if (eligibility_check.reference) {
                       eligibility_check.$update(case_.reference);
+                    }
+
+                    // update case matter types
+                    if (_diagnosis.matter_type1 || _diagnosis.matter_type2) {
+                      case_.matter_type1 = _diagnosis.matter_type1;
+                      case_.matter_type2 = _diagnosis.matter_type2;
+                      case_.$set_matter_types();
                     }
                   }
                 }

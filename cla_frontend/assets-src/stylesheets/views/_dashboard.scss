@@ -5,7 +5,7 @@
 
   .PageHeader {
     &:not(.PageHeader--withNav) {
-      padding-top: 30px;
+      padding-top: 50px;
     }
 
     h1 {
@@ -19,12 +19,6 @@
 
   #wrapper {
     padding-bottom: 60px;
-  }
-
-  @include media(desktop) {
-    .ListTable {
-      margin-top: -10px;
-    }
   }
 
   .newCaseForm {

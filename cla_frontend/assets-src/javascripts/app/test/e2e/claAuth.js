@@ -1,13 +1,12 @@
 (function () {
   'use strict';
 
-  var protractor = require('protractor'),
-      ptor = protractor.getInstance(),
-      utils = require('./_utils'),
-      modelsRecipe = require('./_modelsRecipe'),
-      CONSTANTS = require('../protractor.constants'),
-      // browser elements
-      loginForm = element(by.name('login_frm'));
+  var utils = require('./_utils');
+  var modelsRecipe = require('./_modelsRecipe');
+  var CONSTANTS = require('../protractor.constants');
+
+  // browser elements
+  var loginForm = element(by.name('login_frm'));
 
   describe('claAuth', function () {
     beforeEach(utils.setUp);
@@ -22,7 +21,7 @@
           });
 
           // loggin the user out
-          ptor.manage().deleteCookie('sessionid');
+          browser.manage().deleteCookie('sessionid');
 
           // saving personal details => a login modal should appear
           save_personal_details();

@@ -1,7 +1,7 @@
 'use strict';
 (function(){
   angular.module('cla.directives')
-    .directive('safeToContact', ['CONTACT_SAFETY', function(CONTACT_SAFETY) {
+    .directive('safeToContact', ['CONTACT_SAFETY', 'postal', function(CONTACT_SAFETY, postal) {
       return {
         restrict: 'E',
         scope: {
@@ -19,6 +19,14 @@
           scope.setSafe = function(name) {
             scope.person.safe_to_contact = lookup[name];
             scope.showOpts = false;
+
+            postal.publish({
+              channel: 'SafeToContact',
+              topic: 'change',
+              data: {
+                label: name
+              }
+            });
           };
 
           scope.iconClass = function () {

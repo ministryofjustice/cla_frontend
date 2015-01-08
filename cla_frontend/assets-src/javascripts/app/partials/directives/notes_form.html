@@ -1,6 +1,6 @@
 <form method="post" ng-submit="save()" name="notesFrm">
   <div class="FormRow cf Notes" ng-class="{'Error': notesFrm.notes.$invalid}">
-    <a href="" notes-history="{{ case.reference }}" history-type="{{ type }}" class="Notes-history"></a>
+    <a href="" notes-history="{{ case.reference }}" history-type="{{ type }}" summary="true" class="Notes-history"></a>
 
     <!-- error messages -->
     <ul class="ErrorSummary-list" ng-messages="notesFrm.notes.$error">

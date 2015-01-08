@@ -10,7 +10,10 @@
 
     multiCapabilities: [
       {
-        browserName: 'chrome'
+        browserName: 'chrome',
+        'chromeOptions': {
+          args: ['--test-type']
+        }
       },
       {
         browserName: 'firefox'

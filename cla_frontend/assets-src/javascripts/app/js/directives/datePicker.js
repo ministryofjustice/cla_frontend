@@ -18,8 +18,6 @@
             inputFormat: 'DD/MM/YYYY'
           }, scope.config);
 
-          console.log(settings);
-
           rome(element[0], settings).on('data', function (value) {
             if (ngModelCtrl) {
               ngModelCtrl.$setViewValue(value);

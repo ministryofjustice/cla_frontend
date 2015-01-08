@@ -81,7 +81,7 @@
           gotoAltHelp();
 
           browser.findElement(
-            by.css('a[href="http://find-legal-advice.justice.gov.uk/"]')
+            by.css('a[href^="http://find-legal-advice.justice.gov.uk/"]')
           ).click().then(function () {
               browser.getAllWindowHandles().then(function (handles) {
                 var origWindow = handles[0];
@@ -155,7 +155,6 @@
           declineHelp();
           browser.getCurrentUrl().then(function (caseUrl) {
             modalSubmit.click();
-            browser.waitForAngular();
             browser.get(caseUrl);
             utils.checkLastOutcome('DECL');
           });

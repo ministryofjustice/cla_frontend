@@ -41,7 +41,7 @@
     "lodash": "2.4.1",
     "lunr": "0.5.4",
     "phantomjs": "1.9.7-8",
-    "protractor": "1.1.0",
+    "protractor": "1.5.0",
     "protractor-screenshot-reporter": "0.0.5",
     "require-dir": "0.1.0",
     "run-sequence": "0.3.6",

@@ -104,7 +104,7 @@ try:
     # start backend and frontend dev servers
 
     backend_process = run_bg(
-        "cd %s && %s/python manage.py testserver kb_from_knowledgebase.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json test_casearchived.json test_providercases.json test_provider_allocations.json --addrport %s --noinput --settings=cla_backend.settings.jenkins > /dev/null" % (backend_workspace.replace(' ', '\ '), backend_bin_path, backend_port)
+        "cd %s && %s/python manage.py testserver initial_groups.json kb_from_knowledgebase.json initial_category.json test_provider.json initial_mattertype.json test_auth_clients.json initial_media_codes.json test_rotas.json test_casearchived.json test_providercases.json test_provider_allocations.json --addrport %s --noinput --settings=cla_backend.settings.jenkins > /dev/null" % (backend_workspace.replace(' ', '\ '), backend_bin_path, backend_port)
     )
     wget_backend = run_bg("wget http://localhost:%s/admin/ -O/dev/null -t 20 --retry-connrefused --waitretry=2 -T 60" % backend_port)
 

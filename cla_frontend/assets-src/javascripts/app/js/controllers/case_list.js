@@ -13,6 +13,13 @@
           $scope.cases = cases;
           $scope.person = person;
           $scope.historicCases = historicCases;
+          $scope.pagesObj = [];
+          $scope.selectedPage = $scope.searchParams.page;
+
+          var totalPages = cases.count / 20;
+          for (var i = 1; i < totalPages + 1; i+=1) {
+            $scope.pagesObj.push(i);
+          }
 
 
           // SEARCH ACTIONS
@@ -145,8 +152,8 @@
 
             $rootScope.$emit('timer:start', {
               success: function() {
-                new Case(saveParams).$save(function(data) {
-                  $state.go('case_detail.edit', {caseref:data.reference});
+                new Case(saveParams).$save(function (data) {
+                  $state.go('case_detail.edit.diagnosis', {caseref: data.reference});
                 });
               }
             });

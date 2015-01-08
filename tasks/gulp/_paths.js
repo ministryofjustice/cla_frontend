@@ -60,6 +60,7 @@
       paths.src + 'vendor/angulartics/src/angulartics.js',
       paths.src + 'vendor/angulartics/src/angulartics-ga.js',
       paths.src + 'vendor/angular-hotkeys/build/hotkeys.js',
+      paths.src + 'vendor/ng-text-truncate/ng-text-truncate.js',
       paths.src + 'vendor/angular-local-storage/dist/angular-local-storage.js',
       paths.src + 'vendor/angularUtils/src/directives/pagination/dirPagination.js',
       paths.src + 'javascripts/vendor/diff-match-patch/angular-diff-match-patch.js',

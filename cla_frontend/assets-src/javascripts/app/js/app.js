@@ -11,26 +11,8 @@
   angular.module('cla.templates',[]);
   angular.module('cla.routes', ['cla.states']);
 
-
-  // Operator App
-
-  angular.module('cla.states.operator',['cla.states']);
-  angular.module('cla.controllers.operator',[]);
-  angular.module('cla.settings.operator', []).constant('AppSettings', {
-    BASE_URL: '/call_centre/',
-    timerEnabled: function() {
-      return true;
-    },
-    callScriptEnabled: true,
-    callMeBackEnabled: true,
-    caseListRefreshDelay: 150000,  // in ms. -1 to disable it
-    statesModule: 'cla.states.operator',
-    appName: 'operator',
-    tabWarningEnabled: false
-  });
-
-  var common_run,
-      common_config;
+  var common_run;
+  var common_config;
 
   common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$modal', 'AssignProviderValidation', 'postal',
     function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $modal, AssignProviderValidation, postal) {
@@ -96,7 +78,6 @@
           }
         }
       });
-
     }];
 
   common_config = ['$resourceProvider', 'cfpLoadingBarProvider',
@@ -105,10 +86,29 @@
     cfpLoadingBarProvider.includeBar = false;
   }];
 
+
+  //
+  // Operator App
+  //
+  angular.module('cla.states.operator',['cla.states']);
+  angular.module('cla.controllers.operator',[]);
+  angular.module('cla.settings.operator', []).constant('AppSettings', {
+    BASE_URL: '/call_centre/',
+    timerEnabled: function() {
+      return true;
+    },
+    callScriptEnabled: true,
+    callMeBackEnabled: true,
+    caseListRefreshDelay: 150000,  // in ms. -1 to disable it
+    statesModule: 'cla.states.operator',
+    appName: 'operator',
+    tabWarningEnabled: false
+  });
+
   angular.module('cla.operatorApp',
     [
       'cla.settings.operator',
-      'cla.states',
+      'cla.states.operator',
       'ngSanitize',
       'ngMessages',
       'angularMoment',
@@ -134,14 +134,16 @@
       'cfp.hotkeys',
       'LocalStorageModule',
       'diff-match-patch',
-      'angularUtils.directives.dirPagination'
+      'angularUtils.directives.dirPagination',
+      'ngTextTruncate'
     ])
     .config(common_config)
     .run(common_run);
 
 
+  //
   // Provider App
-
+  //
   angular.module('cla.states.provider',['cla.states']);
   angular.module('cla.controllers.provider',[]);
   angular.module('cla.settings.provider', []).constant('AppSettings', {
@@ -160,7 +162,7 @@
   angular.module('cla.providerApp',
     [
       'cla.settings.provider',
-      'cla.states',
+      'cla.states.provider',
       'ngSanitize',
       'ngMessages',
       'angularMoment',
@@ -186,9 +188,9 @@
       'cfp.hotkeys',
       'LocalStorageModule',
       'diff-match-patch',
-      'angularUtils.directives.dirPagination'
+      'angularUtils.directives.dirPagination',
+      'ngTextTruncate'
     ])
     .config(common_config)
     .run(common_run);
-
 })();

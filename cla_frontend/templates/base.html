@@ -39,6 +39,8 @@
 
   <body class="{{ product_type }} {{ phase }}{% block body_classes %}{% endblock %}"{% block body_attrs %}{% endblock %}>
 
+    {% block before_header %}{% endblock %}
+
     <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
       <div class="header-wrapper">
         <div class="header-global">

@@ -20,7 +20,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-
 HOST_NAME = os.environ.get('HOST_NAME', 'localhost')
 
 BACKEND_BASE_URI = os.environ["BACKEND_BASE_URI"]

@@ -1,16 +1,4 @@
 <div data-extend-template="case_detail.edit.html">
-  <div data-block="case-notes">
-    <notes-form ng-model="case.notes" case="case"></notes-form>
-  </div>
-
-  <div data-block="case-notes-summary" ng-if="case.provider_notes">
-    <figure class="CommentBlock Icon Icon--row Icon--comments">
-      <a href="" notes-history="{{ case.reference }}" history-type="cla_provider" class="CommentBlock-history"></a>
-      <cite class="CommentBlock-author">Specialist provider said</cite>
-      <blockquote class="Quote" ng-bind-html="::case.provider_notes|nl2br"></blockquote>
-    </figure>
-  </div>
-
   <span data-block="extra-tabs">
     <li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_detail.diversity'), 'is-disabled': !case.personal_details}">
       <a ui-sref="case_detail.diversity" class="Tabs-tabLink" ng-class="{'Icon Icon--right Icon--solidTick Icon--green': personal_details.has_diversity}">Diversity</a>
