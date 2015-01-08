@@ -74,7 +74,7 @@
                 scope.hide(_msg);
               };
 
-              _msg.timeout = $interval(f, 5000);
+              _msg.timeout = $interval(f, 3000);
             })(message);
 
             // add msg to list
@@ -95,7 +95,7 @@
             scope.$apply();
           }
 
-          callback();
+          // callback();
         });
       }
     };
