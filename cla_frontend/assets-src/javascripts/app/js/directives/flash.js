@@ -66,7 +66,7 @@
           scope.messages = _.reject(scope.messages, function(el) { return el === _msg;});
         };
 
-        $rootScope.$on('flash:message', function(event, messages, callback) {
+        $rootScope.$on('flash:message', function(event, messages) {
           angular.forEach(messages, function(message) {
             // adding timeout to make msg disappear
             (function(_msg) {
@@ -74,7 +74,7 @@
                 scope.hide(_msg);
               };
 
-              _msg.timeout = $interval(f, 3000);
+              _msg.timeout = $interval(f, 4500);
             })(message);
 
             // add msg to list
@@ -94,8 +94,6 @@
           if(!scope.$$phase) {
             scope.$apply();
           }
-
-          // callback();
         });
       }
     };
