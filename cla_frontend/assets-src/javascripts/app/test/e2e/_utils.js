@@ -113,7 +113,7 @@
         }
         var $state = window.__injector.get('$state');
 
-        $state.go('case_detail.edit', {'caseref': caseRef}).then(callback);
+        $state.go('case_detail.edit.diagnosis', {'caseref': caseRef}).then(callback);
 
       }, browser.rootEl, caseRef);
     },

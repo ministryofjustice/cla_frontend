@@ -44,7 +44,7 @@
               warnings: assign_warnings,
               case: $case.reference,
               next: 'case_detail.assign',
-              goto: previousState.name ? previousState.name : 'case_detail.edit'
+              goto: previousState.name ? previousState.name : 'case_detail.edit.diagnosis'
             });
           } else {
             deferred.resolve();

@@ -35,7 +35,7 @@
           $state.go('case_list');
         };
         var onDismiss = function () {
-          var state = previousState.name ? previousState.name : 'case_detail.edit';
+          var state = previousState.name ? previousState.name : 'case_detail.edit.diagnosis';
           $state.go(state, {caseref: $case.reference});
         };
         var confirmOpts = {
