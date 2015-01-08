@@ -5,6 +5,7 @@
     <button type="button" name="person-filter" class="Label is-selected is-removable" ng-if="person.reference" ng-click="backToLatestSearch()">
       {{ ::person.full_name }}<span ng-if="person.postcode"> ({{ ::person.postcode }})</span>
     </button>
+    <a ui-sref="callbacks" class="Button Button--secondary" ng-if="user.is_manager">Future callbacks</a>
   </span>
 
   <form data-block="top-actions" name="newCaseForm" class="newCaseForm u-pullLeft">
