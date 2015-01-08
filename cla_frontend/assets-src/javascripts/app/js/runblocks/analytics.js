@@ -138,6 +138,20 @@
         callback: trackEvent
       });
 
+      // Error/warning modal tracking
+      var ConfirmationModal = postal.channel('ConfirmationModal');
+      ConfirmationModal.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
+      // Error/warning flash message tracking
+      var FlashMessage = postal.channel('FlashMessage');
+      FlashMessage.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
       $body
         // Details/Summary clicks
         .on('click', 'summary', function () {

@@ -155,7 +155,6 @@
           declineHelp();
           browser.getCurrentUrl().then(function (caseUrl) {
             modalSubmit.click();
-            browser.waitForAngular();
             browser.get(caseUrl);
             utils.checkLastOutcome('DECL');
           });

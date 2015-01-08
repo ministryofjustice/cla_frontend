@@ -18,16 +18,32 @@
       },
       resolve: {
         // check that the case can be given alternative help
-        CanAccess: ['$q', 'diagnosis', 'case', 'personal_details', function ($q, diagnosis, $case, personal_details) {
+        CanAccess: ['$q', 'diagnosis', 'case', 'personal_details', 'postal', function ($q, diagnosis, $case, personal_details, postal) {
           var deferred = $q.defer();
           var errors = '';
 
           if (!diagnosis || !diagnosis.category) {
-            errors += '<p>Cannot assign alternative help without setting area of law. <strong>Please complete diagnosis</strong>.</p><p>If diagnosis has been completed but you are still getting this message please escalate so missing data can be added to diagnosis engine</p>';
+            errors += '<p>Cannot assign alternative help without setting area of law. <strong>Please complete diagnosis</strong>.</p><p>If diagnosis has been completed but you are still getting this message please escalate so missing data can be added to diagnosis engine.</p>';
+            // track which data hasn't been completed
+            postal.publish({
+              channel: 'ConfirmationModal',
+              topic: 'error',
+              data: {
+                label: 'Diagnosis missing for alternative help'
+              }
+            });
           }
 
           if (!personal_details.full_name || (!personal_details.postcode && !personal_details.mobile_phone)) {
             errors += '<p>You must collect at least <strong>a name</strong> and <strong>a postcode or phone number</strong> from the client before assigning alternative help.</p>';
+            // track which data hasn't been completed
+            postal.publish({
+              channel: 'ConfirmationModal',
+              topic: 'error',
+              data: {
+                label: 'Personal details missing for alternative help'
+              }
+            });
           }
 
           if (errors !== '') {
