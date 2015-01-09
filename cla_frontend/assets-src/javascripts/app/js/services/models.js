@@ -24,8 +24,8 @@
         {
           'get':    {method:'GET', ignoreExceptions: [404]},
           'query':  {
-            method:'GET',
-            isArray:false,
+            method: 'GET',
+            isArray: false,
             transformResponse: function(data, headers) {
               if (!data) {
                 return data;
@@ -44,6 +44,11 @@
               _data.results = results;
               return _data;
             }
+          },
+          'query_future_callbacks': {
+            method: 'GET',
+            url: url_utils.proxy('case/future_callbacks/'),
+            isArray: true
           },
           'save': {
             method: 'POST',
@@ -102,6 +107,12 @@
           angular.extend(self, data);
         });
         return self;
+      };
+
+      resource.prototype.$getFutureCallbacks = function () {
+        return {};
+        // var url = '/call_centre/proxy/case/future_callbacks/';
+        // return $http.get(url);
       };
 
       resource.prototype.get_suggested_providers = function(as_of){
