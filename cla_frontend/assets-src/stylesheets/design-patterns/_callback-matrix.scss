@@ -1,13 +1,43 @@
 .CallbackMatrix {
-
+  margin: 30px 0 20px;
+  display: block;
 }
-.CallbackMatrix-day {
 
+.CallbackMatrix-label {
+  &--unavailable {
+    fill: $grey-2;
+  }
 }
-.CallbackMatrix-time {
 
+.CallbackMatrix-cell {
+  fill: $grey-4;
 }
-.CallbackMatrix-hour {
-  stroke: $white;
-  stroke-width: 4px;
+
+.CallbackMatrix-cellText {
+  @include core-24;
+}
+
+.CallbackMatrix-heatSpot {
+  fill: $grey-4;
+}
+
+.CallbackMatrix-density {
+  &--1 {
+    fill: lighten($light-blue, 40%);
+  }
+  &--2 {
+    fill: lighten($light-blue, 32%);
+  }
+  &--3 {
+    fill: lighten($light-blue, 24%);
+  }
+  &--4 {
+    fill: lighten($light-blue, 16%);
+  }
+  &--5 {
+    fill: lighten($light-blue, 8%);
+  }
+  &--6 {
+    fill: $light-blue;
+  }
 }

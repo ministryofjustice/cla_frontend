@@ -11,7 +11,12 @@
       parent: 'layout',
       url: AppSettings.BASE_URL + 'callbacks/',
       templateUrl: 'call_centre/case_list.callbacks.html',
-      controller: 'CallbacksCtrl'
+      controller: 'CallbacksCtrl',
+      resolve: {
+        cases: ['$stateParams', 'Case', function ($stateParams, Case){
+          return Case.query_future_callbacks().$promise;
+        }]
+      }
     };
 
     mod.states = states;
