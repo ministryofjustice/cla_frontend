@@ -1,43 +1,107 @@
 .CallbackMatrix {
-  margin: 30px 0 20px;
-  display: block;
+  margin: 11px 0 20px;
 }
 
-.CallbackMatrix-label {
+.CallbackMatrix-th {
+  font-weight: 400;
+
+  thead & {
+    padding-bottom: 10px;
+  }
+  tbody & {
+    padding-right: 15px;
+  }
+
   &--unavailable {
-    fill: $grey-2;
+    color: $grey-2;
   }
 }
 
 .CallbackMatrix-cell {
-  fill: $grey-4;
+  height: 40px;
+  background-color: $white;
+  border: 1px solid $grey-3;
+  position: relative;
+  overflow: hidden;
+
+  &--unavailable {
+    @include repeating-linear-gradient($grey-3, $white);
+    border: 0;
+  }
+  &--unselected {
+    @include opacity(0.4);
+  }
+
+  &:not(.CallbackMatrix-cell--unavailable) {
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      top: 20px;
+      left: -6px;
+      height: 1px;
+      width: 120%;
+      display: block;
+      background-color: $grey-3;
+    }
+
+    &:before {
+      @include rotate(33);
+    }
+
+    &:after {
+      @include rotate(-33);
+    }
+
+    &:hover {
+      @include opacity(1);
+    }
+  }
 }
 
-.CallbackMatrix-cellText {
-  @include core-24;
-}
+.CallbackMatrix-slot {
+  display: block;
+  height: 100%;
+  border: 1px solid transparent;
 
-.CallbackMatrix-heatSpot {
-  fill: $grey-4;
+  &:hover {
+    border-color: $grey-1;
+  }
 }
 
 .CallbackMatrix-density {
+  border: 0;
+  position: relative;
+  z-index: 2;
+  // &--1 {
+  //   fill: lighten($light-blue, 40%);
+  // }
+  // &--2 {
+  //   fill: lighten($light-blue, 32%);
+  // }
+  // &--3 {
+  //   fill: lighten($light-blue, 24%);
+  // }
+  // &--4 {
+  //   fill: lighten($light-blue, 16%);
+  // }
+  // &--5 {
+  //   fill: lighten($light-blue, 8%);
+  // }
+  // &--6 {
+  //   fill: $light-blue;
+  // }
   &--1 {
-    fill: lighten($light-blue, 40%);
+    background-color: $grey-3;
   }
   &--2 {
-    fill: lighten($light-blue, 32%);
+    background-color: $grey-2;
   }
   &--3 {
-    fill: lighten($light-blue, 24%);
+    background-color: $grey-1;
   }
   &--4 {
-    fill: lighten($light-blue, 16%);
-  }
-  &--5 {
-    fill: lighten($light-blue, 8%);
-  }
-  &--6 {
-    fill: $light-blue;
+    background-color: $black;
   }
 }

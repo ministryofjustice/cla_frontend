@@ -9,7 +9,8 @@
           var allSlots = cases.map(function ($case) {
             var callbackDate = new Date($case.requires_action_at);
             return {
-              slot: callbackDate.getDay() + '-' + callbackDate.getHours()
+              slot: callbackDate.getDay() + '-' + callbackDate.getHours(),
+              case: $case
             };
           });
 
@@ -19,7 +20,7 @@
           });
 
           // map to required format for heatmap
-          $scope.callbackData = _.map(countedSlots, function (value, key){
+          $scope.slotData = _.map(countedSlots, function (value, key){
             var slot = key.split('-');
             return {
               day: parseInt(slot[0]),
@@ -27,6 +28,8 @@
               value: value
             };
           });
+          // all cases
+          $scope.callbackCases = cases;
         }
       ]
     );

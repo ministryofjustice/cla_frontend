@@ -3,8 +3,23 @@
   // and $to is the colour at the bottom. The top colour is used as a background-color
   // for browsers that don't support gradients.
   background-color: $from;
-  background-image: -webkit-repeating-linear-gradient(-45deg, $to 45%, $from 49%, $from 51%, $to 55%); // Chrome 10.0 to 25.0, Safari 5.1 to 6.0, Mobile Safari 5.0 to 6.1, Android Browser 4.0 to 4.3
-  background-image:    -moz-repeating-linear-gradient(-45deg, $to 45%, $from 49%, $from 51%, $to 55%); // Firefox 3.6 to 15.0
-  background-image:      -o-repeating-linear-gradient(-45deg, $to 45%, $from 49%, $from 51%, $to 55%); // Opera 11.1 to 12.0
-  background-image:         repeating-linear-gradient(-45deg, $to 45%, $from 49%, $from 51%, $to 55%);
+  background-size: 3px 3px;
+  background-image: -webkit-linear-gradient(to top right, $to 33%, $from 33%, $from 66%, $to 66%); // Chrome 10.0 to 25.0, Safari 5.1 to 6.0, Mobile Safari 5.0 to 6.1, Android Browser 4.0 to 4.3
+  background-image:    -moz-linear-gradient(to top right, $to 33%, $from 33%, $from 66%, $to 66%); // Firefox 3.6 to 15.0
+  background-image:      -o-linear-gradient(to top right, $to 33%, $from 33%, $from 66%, $to 66%); // Opera 11.1 to 12.0
+  background-image:         linear-gradient(to top right, $to 33%, $from 33%, $from 66%, $to 66%);
+}
+
+
+@mixin transform($transforms) {
+  -webkit-transform: $transforms; // Still in use now, started at: Chrome 4.0, Safari 3.1, Mobile Safari 3.2, Android 2.1
+     -moz-transform: $transforms; // Firefox 3.5 to 15.0
+      -ms-transform: $transforms; // IE9 only
+       -o-transform: $transforms; // Opera 10.5 to 12.0
+          transform: $transforms;
+}
+
+
+@mixin rotate($deg) {
+  @include transform(rotate(#{$deg}deg));
 }
