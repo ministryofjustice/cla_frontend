@@ -62,9 +62,9 @@
             }
             return false;
           });
-          ele.find('.CallbackMatrix-cell').addClass('CallbackMatrix-cell--unselected');
-          ele.find(event.target).parent().removeClass('CallbackMatrix-cell--unselected');
-          scope.slotsCases = cases;
+          // ele.find('.CallbackMatrix-cell').addClass('CallbackMatrix-cell--unselected');
+          // ele.find(event.target).parent().removeClass('CallbackMatrix-cell--unselected');
+          scope.slotsCases = _.sortBy(cases, 'requires_action_at');
         };
 
         // from parent - FIX

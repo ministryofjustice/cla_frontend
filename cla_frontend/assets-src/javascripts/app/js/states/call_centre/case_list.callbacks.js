@@ -7,15 +7,19 @@
     var states = mod.states || angular.module('cla.states').states;
 
     states.Callbacks = {
-      name: 'callbacks',
-      parent: 'layout',
-      url: AppSettings.BASE_URL + 'callbacks/',
-      templateUrl: 'call_centre/case_list.callbacks.html',
-      controller: 'CallbacksCtrl',
+      name: 'case_list.callbacks',
+      parent: 'case_list',
+      url: 'callbacks/',
       resolve: {
         cases: ['$stateParams', 'Case', function ($stateParams, Case){
           return Case.query_future_callbacks().$promise;
         }]
+      },
+      views: {
+        'list-content@case_list': {
+          templateUrl: 'call_centre/case_list.callbacks.html',
+          controller: 'CallbacksCtrl'
+        }
       }
     };
 

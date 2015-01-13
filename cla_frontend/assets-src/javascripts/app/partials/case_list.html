@@ -12,63 +12,67 @@
     <a class="Label is-selected is-removable" ng-if="searchParams.search" ng-click="resetSearch()">"{{ searchParams.search }}"</a>
     <span data-block="filters"></span>
   </nav>
+
+  <div data-block="page-nav"></div>
 </header>
 
-<table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%" ng-show="cases.results.length > 0">
-  <thead>
-    <tr>
-      <th width="2%"></th>
-      <th width="18%">Reference number</th>
-      <th width="20%"><a href="" ng-click="sortToggle('personal_details__full_name')" ng-class="sortClass('personal_details__full_name')">Name</a></th>
-      <th width="10%"><a href="" ng-click="sortToggle('personal_details__postcode')" ng-class="sortClass('personal_details__postcode')">Postcode</a></th>
-      <th width="10%"><a href="" ng-click="sortToggle('personal_details__date_of_birth')" ng-class="sortClass('personal_details__date_of_birth')">Date of Birth</a></th>
-      <th width="20%"><a href="" ng-click="sortToggle('eligibility_check__category__name')" ng-class="sortClass('eligibility_check__category__name')">Area of Law</a></th>
-      <th width="10%"><a href="" ng-click="sortToggle('modified')" ng-class="sortClass('modified')">Modified</a></th>
-      <th width="10%"><span data-block="outcome-column"><a href="" ng-click="sortToggle('priority')" ng-class="sortClass('priority')">Priority</a></span></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr dir-paginate="case in cases.results | itemsPerPage: 20"
-      total-items="cases.count" current-page="searchParams.page"
-      ng-class="::rowClass(case)"
-      callback-sla="{{ case.requires_action_at }}">
-      <td>
-        <abbr title="{{ ::case.source }} CASE" class="Icon {{ ::opCaseClass(case) }}" ng-if="::opCaseClass(case)"></abbr>
-        <abbr title="Case status" class="Icon {{ ::provCaseClass(case) }}" ng-if="::provCaseClass(case)"></abbr>
-      </td>
-      <td>
-        <a href="" ng-click="goToCase(case.reference)">{{ ::case.reference }}</a>
-        <span ng-if="case.isInScopeAndEligible()"> / {{ ::case.laa_reference }}</span>
-      </td>
-      <td>
-        <span data-block="pd-column">{{ ::case.full_name }}</span>
-      </td>
-      <td>{{ ::case.postcode }}</td>
-      <td>{{ ::case.date_of_birth|date:'dd/MM/yyyy' }}</td>
-      <td>{{ ::case.category }}</td>
-      <td>
-        <timestamp ng-model="case.modified"></timestamp>
-      </td>
-      <td>
-        <span class="Label Label--secondary" ng-if="case.outcome_code">{{ ::case.outcome_code }}</span>
-        <span class="Label-helpText" ng-if="::isCallback(case)">{{ ::case.requires_action_at | date:"d/M/yy h:mma" }}</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div ui-view="list-content">
+  <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%" ng-show="cases.results.length > 0">
+    <thead>
+      <tr>
+        <th width="2%"></th>
+        <th width="18%">Reference number</th>
+        <th width="20%"><a href="" ng-click="sortToggle('personal_details__full_name')" ng-class="sortClass('personal_details__full_name')">Name</a></th>
+        <th width="10%"><a href="" ng-click="sortToggle('personal_details__postcode')" ng-class="sortClass('personal_details__postcode')">Postcode</a></th>
+        <th width="10%"><a href="" ng-click="sortToggle('personal_details__date_of_birth')" ng-class="sortClass('personal_details__date_of_birth')">Date of Birth</a></th>
+        <th width="20%"><a href="" ng-click="sortToggle('eligibility_check__category__name')" ng-class="sortClass('eligibility_check__category__name')">Area of Law</a></th>
+        <th width="10%"><a href="" ng-click="sortToggle('modified')" ng-class="sortClass('modified')">Modified</a></th>
+        <th width="10%"><span data-block="outcome-column"><a href="" ng-click="sortToggle('priority')" ng-class="sortClass('priority')">Priority</a></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr dir-paginate="case in cases.results | itemsPerPage: 20"
+        total-items="cases.count" current-page="searchParams.page"
+        ng-class="::rowClass(case)"
+        callback-sla="{{ case.requires_action_at }}">
+        <td>
+          <abbr title="{{ ::case.source }} CASE" class="Icon {{ ::opCaseClass(case) }}" ng-if="::opCaseClass(case)"></abbr>
+          <abbr title="Case status" class="Icon {{ ::provCaseClass(case) }}" ng-if="::provCaseClass(case)"></abbr>
+        </td>
+        <td>
+          <a href="" ng-click="goToCase(case.reference)">{{ ::case.reference }}</a>
+          <span ng-if="case.isInScopeAndEligible()"> / {{ ::case.laa_reference }}</span>
+        </td>
+        <td>
+          <span data-block="pd-column">{{ ::case.full_name }}</span>
+        </td>
+        <td>{{ ::case.postcode }}</td>
+        <td>{{ ::case.date_of_birth|date:'dd/MM/yyyy' }}</td>
+        <td>{{ ::case.category }}</td>
+        <td>
+          <timestamp ng-model="case.modified"></timestamp>
+        </td>
+        <td>
+          <span class="Label Label--secondary" ng-if="case.outcome_code">{{ ::case.outcome_code }}</span>
+          <span class="Label-helpText" ng-if="::isCallback(case)">{{ ::case.requires_action_at | date:"d/M/yy h:mma" }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<div ng-show="cases.results.length === 0" class="Notice">
-  There are no cases matching your search criteria.
-</div>
+  <div ng-show="cases.results.length === 0" class="Notice">
+    There are no cases matching your search criteria.
+  </div>
 
-<div data-block="notices"></div>
+  <div data-block="notices"></div>
 
-<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
 
-<div ng-if="pagesObj.length > 1">
-  <p class="Pagination-prefix">Jump to page</p>
+  <div ng-if="pagesObj.length > 1">
+    <p class="Pagination-prefix">Jump to page</p>
 
-  <select class="Pagination-select" ng-model="selectedPage" ng-change="pageChanged(selectedPage)">
-    <option ng-repeat="page in pagesObj" value="{{ page }}" ng-selected="page == selectedPage">{{ page }}</option>
-  </select>
+    <select class="Pagination-select" ng-model="selectedPage" ng-change="pageChanged(selectedPage)">
+      <option ng-repeat="page in pagesObj" value="{{ page }}" ng-selected="page == selectedPage">{{ page }}</option>
+    </select>
+  </div>
 </div>

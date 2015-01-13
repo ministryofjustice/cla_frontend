@@ -5,8 +5,12 @@
     <button type="button" name="person-filter" class="Label is-selected is-removable" ng-if="person.reference" ng-click="backToLatestSearch()">
       {{ ::person.full_name }}<span ng-if="person.postcode"> ({{ ::person.postcode }})</span>
     </button>
-    <a ui-sref="callbacks" class="Button Button--secondary" ng-if="user.is_manager">View upcoming callbacks</a>
   </span>
+
+  <nav data-block="page-nav" class="u-pullRight" ng-if="user.is_manager">
+    <a ui-sref="case_list" class="BtnGroup-button BtnGroup-button--light" ng-class="{'is-selected': $state.is('case_list')}"><span class="Icon Icon--compact Icon--list"></span></a>
+    <a ui-sref="case_list.callbacks" class="BtnGroup-button BtnGroup-button--light" ng-class="{'is-selected': $state.is('case_list.callbacks')}"><span class="Icon Icon--compact Icon--date"></span></a>
+  </nav>
 
   <form data-block="top-actions" name="newCaseForm" class="newCaseForm u-pullLeft">
     <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase(person.reference)" ng-if="person.reference">Create a case for {{ person.full_name }}</button>
