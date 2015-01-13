@@ -2,12 +2,12 @@
   // Creates a linear gradient where $from is the colour at the top of the element
   // and $to is the colour at the bottom. The top colour is used as a background-color
   // for browsers that don't support gradients.
-  background-color: $from;
-  background-size: 3px 3px;
-  background-image: -webkit-linear-gradient(to top right, $to 33%, $from 33%, $from 66%, $to 66%); // Chrome 10.0 to 25.0, Safari 5.1 to 6.0, Mobile Safari 5.0 to 6.1, Android Browser 4.0 to 4.3
-  background-image:    -moz-linear-gradient(to top right, $to 33%, $from 33%, $from 66%, $to 66%); // Firefox 3.6 to 15.0
-  background-image:      -o-linear-gradient(to top right, $to 33%, $from 33%, $from 66%, $to 66%); // Opera 11.1 to 12.0
-  background-image:         linear-gradient(to top right, $to 33%, $from 33%, $from 66%, $to 66%);
+  // background-color: $from;
+  // background-size: 6px 6px;
+  background-image: -webkit-repeating-linear-gradient(45deg, $to, $to 5px, $from 5px, $from 10px); // Chrome 10.0 to 25.0, Safari 5.1 to 6.0, Mobile Safari 5.0 to 6.1, Android Browser 4.0 to 4.3
+  background-image:    -moz-repeating-linear-gradient(45deg, $to, $to 5px, $from 5px, $from 10px); // Firefox 3.6 to 15.0
+  background-image:      -o-repeating-linear-gradient(45deg, $to, $to 5px, $from 5px, $from 10px); // Opera 11.1 to 12.0
+  background-image:         repeating-linear-gradient(45deg, $to, $to 5px, $from 5px, $from 10px);
 }
 
 

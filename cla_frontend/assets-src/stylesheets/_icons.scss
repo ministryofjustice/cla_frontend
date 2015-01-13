@@ -109,6 +109,11 @@ $icons: (
       color: $black;
     }
   }
+  &--light {
+    &:before, &:after {
+      color: $white;
+    }
+  }
   &--blue {
     &:before, &:after {
       color: $light-blue;

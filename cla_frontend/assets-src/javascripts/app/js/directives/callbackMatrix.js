@@ -26,7 +26,7 @@
     return days;
   };
 
-  mod.directive('callbackMatrix', ['_', function (_) {
+  mod.directive('callbackMatrix', ['goToCase', '_', function (goToCase, _) {
     return {
       restrict: 'E',
       replace: true,
@@ -53,6 +53,13 @@
           { hour: 18, text: '6pm' },
           { hour: 19, text: '7pm' }
         ];
+        scope.goToCase = goToCase;
+        scope.max = _.max(scope.slots, 'value').value || 0;
+        scope.min = _.min(scope.slots, 'value').value || 0;
+
+        scope.getSlot = function (day, hour) {
+          return _.findWhere(scope.slots, {day: day, hour: hour});
+        };
 
         scope.showSlotCases = function (event, day, time) {
           var cases = _.filter(scope.cases, function ($case) {
@@ -62,8 +69,8 @@
             }
             return false;
           });
-          // ele.find('.CallbackMatrix-cell').addClass('CallbackMatrix-cell--unselected');
-          // ele.find(event.target).parent().removeClass('CallbackMatrix-cell--unselected');
+          ele.find('.CallbackMatrix-slot.is-active').removeClass('is-active');
+          ele.find(event.target).addClass('is-active');
           scope.slotsCases = _.sortBy(cases, 'requires_action_at');
         };
 

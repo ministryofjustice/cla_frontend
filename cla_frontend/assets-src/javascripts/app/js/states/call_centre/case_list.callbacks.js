@@ -3,7 +3,7 @@
 
   var mod = angular.module('cla.states.operator');
 
-  mod.config(['AppSettings', function (AppSettings) {
+  mod.config(function () {
     var states = mod.states || angular.module('cla.states').states;
 
     states.Callbacks = {
@@ -24,5 +24,5 @@
     };
 
     mod.states = states;
-  }]);
+  });
 })();

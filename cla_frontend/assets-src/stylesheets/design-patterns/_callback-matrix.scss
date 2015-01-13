@@ -1,5 +1,14 @@
+// $colours: #eee, $grey-3, $grey-2, $grey-1, $black;
+// $colours: #deebf7, #9ecae1, #6baed6, #3182bd, #08519c;
+$colours: $yellow-50, $yellow, $orange, $mellow-red, $red;
+
 .CallbackMatrix {
   margin: 11px 0 20px;
+}
+
+.CallbackMatrix-placeholder {
+  @include core-19;
+  margin: 55px 0 0;
 }
 
 .CallbackMatrix-th {
@@ -19,90 +28,100 @@
 
 .CallbackMatrix-cell {
   height: 40px;
-  background-color: $white;
-  border: 1px solid $grey-3;
-  position: relative;
-  overflow: hidden;
+
+  &--empty {
+    background-color: $grey-4;
+    position: relative;
+    overflow: hidden;
+  }
 
   &--unavailable {
     @include repeating-linear-gradient($grey-3, $white);
     border: 0;
-  }
-  &--unselected {
-    @include opacity(0.4);
-  }
 
-  &:not(.CallbackMatrix-cell--unavailable) {
-    &:before,
-    &:after {
-      content: "";
-      position: absolute;
-      z-index: 1;
-      top: 20px;
-      left: -6px;
-      height: 1px;
-      width: 120%;
-      display: block;
-      background-color: $grey-3;
-    }
-
-    &:before {
-      @include rotate(33);
-    }
-
-    &:after {
-      @include rotate(-33);
-    }
-
-    &:hover {
-      @include opacity(1);
+    svg {
+      display: none;
     }
   }
+}
+
+.CallbackMatrix-cellCross {
+  @include box-sizing(border-box);
+  background-color: $white;
+  position: absolute;
+  border: 1px solid $grey-3;
+  top: 0;
+  left: 0;
+  stroke: $grey-3;
+  stroke-width: 1;
+  display: none;
 }
 
 .CallbackMatrix-slot {
   display: block;
-  height: 100%;
+  height: 40px;
   width: 100%;
   border: 1px solid transparent;
-
-  &:hover {
-    border-color: $grey-1;
-  }
 }
 
 .CallbackMatrix-density {
-  border: 0;
+  @include box-sizing(border-box);
   position: relative;
-  z-index: 2;
-  // &--1 {
-  //   fill: lighten($light-blue, 40%);
-  // }
-  // &--2 {
-  //   fill: lighten($light-blue, 32%);
-  // }
-  // &--3 {
-  //   fill: lighten($light-blue, 24%);
-  // }
-  // &--4 {
-  //   fill: lighten($light-blue, 16%);
-  // }
-  // &--5 {
-  //   fill: lighten($light-blue, 8%);
-  // }
-  // &--6 {
-  //   fill: $light-blue;
-  // }
-  &--1 {
-    background-color: $grey-3;
+  border: 3px solid transparent;
+
+  &:active,
+  &:focus {
+    outline: none;
+    background-color: transparent;
   }
-  &--2 {
-    background-color: $grey-2;
+
+  &.is-active {
+    @extend .Icon;
+    @extend .Icon--compact;
+    @extend .Icon--solidTick;
   }
-  &--3 {
-    background-color: $grey-1;
+
+  @each $colour in $colours {
+    $i: index($colours, $colour);
+    &--#{$i} {
+      background-color: $colour;
+
+      &:active,
+      &:focus {
+        background-color: $colour;
+      }
+
+      &.is-active {
+        @if $i > 3 {
+          @extend .Icon--light;
+        } @else {
+          @extend .Icon--dark;
+        }
+      }
+    }
   }
-  &--4 {
-    background-color: $black;
+}
+
+// legend
+.CallbackMatrix-legend {
+  margin: 15px 0;
+}
+.CallbackMatrix-legendLabel {
+  display: block;
+  float: left;
+  color: $grey-1;
+
+  &:first-child {
+    margin-right: 10px;
   }
+  &:last-child {
+    margin-left: 10px;
+  }
+}
+.CallbackMatrix-legendItem {
+  display: block;
+  float: left;
+  margin: 1px 2px;
+  height: 14px;
+  width: 14px;
 }
