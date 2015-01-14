@@ -12,7 +12,25 @@
       }
     ])
 
-    .filter('nl2br', function() {
+    .provider('$escapeHtml', function() {
+      this.$get = [function() {
+        return function(html) {
+          if (typeof html !== 'undefined' && html) {
+            var text = document.createTextNode(html);
+            var div = document.createElement('div');
+            div.appendChild(text);
+            return div.innerHTML;
+          } else {
+            return;
+          }
+        };
+      }];
+    })
+    .filter('escapeHtml', ['$escapeHtml', function($escapeHtml) {
+      return $escapeHtml;
+    }])
+
+    .filter('nl2br', [function() {
       return function(text) {
         if (typeof text !== 'undefined' && text) {
           return text.replace(/\n/g, '<br/>');
@@ -20,7 +38,7 @@
           return;
         }
       };
-    })
+    }])
 
     .filter('ordinal', function() {
       return function(input) {
