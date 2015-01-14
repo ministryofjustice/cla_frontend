@@ -10,7 +10,7 @@
 
     <p class="VCard-row Icon Icon--row Icon--location" ng-if="third_party.personal_details.postcode || third_party.personal_details.street">
       {{ third_party.personal_details.postcode }}<br>
-      <span ng-bind-html="third_party.personal_details.street|nl2br"></span>
+      <span ng-bind-html="third_party.personal_details.street|escapeHtml|nl2br"></span>
     </p>
 
     <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': third_party.personal_details.safe_to_contact !== 'SAFE', 'Icon--green': third_party.personal_details.safe_to_contact === 'SAFE'}">
