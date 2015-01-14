@@ -3,7 +3,7 @@
 <div ng-if="eligibility_check.notes">
   <figure class="CommentBlock Icon Icon--row Icon--comments">
     <cite class="CommentBlock-author">User said</cite>
-    <blockquote class="Quote" ng-bind-html="eligibility_check.notes|nl2br"></blockquote>
+    <blockquote class="Quote" ng-bind-html="eligibility_check.notes|escapeHtml|nl2br"></blockquote>
   </figure>
 </div>
 
@@ -11,6 +11,6 @@
   <figure class="CommentBlock Icon Icon--row Icon--comments">
     <a href="" notes-history="{{ case.reference }}" history-type="operator" summary="true" class="CommentBlock-history"></a>
     <cite class="CommentBlock-author">Operator said</cite>
-    <blockquote class="Quote" ng-bind-html="::case.notes|nl2br"></blockquote>
+    <blockquote class="Quote" ng-bind-html="::case.notes|escapeHtml|nl2br"></blockquote>
   </figure>
 </div>

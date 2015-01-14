@@ -16,7 +16,7 @@
 
     <div class="VCard-row Icon Icon--row Icon--location" ng-if="personal_details.postcode || personal_details.street">
       <p class="u-compact" ng-if="personal_details.postcode">{{ personal_details.postcode }}</p>
-      <p class="u-compact" ng-bind-html="personal_details.street|nl2br"></p>
+      <p class="u-compact" ng-bind-html="personal_details.street|escapeHtml|nl2br"></p>
     </div>
 
     <p class="VCard-row Icon Icon--row Icon--call" ng-if="personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': personal_details.safe_to_contact !== 'SAFE', 'Icon--green': personal_details.safe_to_contact === 'SAFE'}">
