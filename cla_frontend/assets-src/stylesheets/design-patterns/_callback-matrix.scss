@@ -1,6 +1,5 @@
-// $colours: #eee, $grey-3, $grey-2, $grey-1, $black;
-// $colours: #deebf7, #9ecae1, #6baed6, #3182bd, #08519c;
 $colours: $yellow-50, $yellow, $orange, $mellow-red, $red;
+$cell-height: 38px;
 
 .CallbackMatrix {
   margin: 11px 0 20px;
@@ -21,53 +20,39 @@ $colours: $yellow-50, $yellow, $orange, $mellow-red, $red;
     padding-right: 15px;
   }
 
-  &--unavailable {
+  &.is-unavailable {
     color: $grey-2;
   }
 }
 
-.CallbackMatrix-cell {
-  height: 40px;
+.CallbackMatrix-total {
+  text-align: center;
+  padding-top: 10px;
+}
 
-  &--empty {
+.CallbackMatrix-cell {
+  height: $cell-height;
+
+  &.is-empty {
     background-color: $grey-4;
     position: relative;
     overflow: hidden;
   }
 
-  &--unavailable {
+  &.is-unavailable {
     @include repeating-linear-gradient($grey-3, $white);
     border: 0;
-
-    svg {
-      display: none;
-    }
   }
-}
-
-.CallbackMatrix-cellCross {
-  @include box-sizing(border-box);
-  background-color: $white;
-  position: absolute;
-  border: 1px solid $grey-3;
-  top: 0;
-  left: 0;
-  stroke: $grey-3;
-  stroke-width: 1;
-  display: none;
 }
 
 .CallbackMatrix-slot {
   display: block;
-  height: 40px;
+  height: $cell-height;
   width: 100%;
-  border: 1px solid transparent;
 }
 
 .CallbackMatrix-density {
-  @include box-sizing(border-box);
   position: relative;
-  border: 3px solid transparent;
 
   &:active,
   &:focus {
@@ -76,9 +61,17 @@ $colours: $yellow-50, $yellow, $orange, $mellow-red, $red;
   }
 
   &.is-active {
+    text-align: center;
+
     @extend .Icon;
     @extend .Icon--compact;
     @extend .Icon--solidTick;
+    &:before {
+      position: relative;
+      margin-left: auto;
+      margin-right: auto;
+      top: ($cell-height - 16) / 2;
+    }
   }
 
   @each $colour in $colours {
@@ -92,7 +85,7 @@ $colours: $yellow-50, $yellow, $orange, $mellow-red, $red;
       }
 
       &.is-active {
-        @if $i > 3 {
+        @if lightness($colour) < 55% {
           @extend .Icon--light;
         } @else {
           @extend .Icon--dark;
@@ -106,22 +99,17 @@ $colours: $yellow-50, $yellow, $orange, $mellow-red, $red;
 .CallbackMatrix-legend {
   margin: 15px 0;
 }
-.CallbackMatrix-legendLabel {
-  display: block;
-  float: left;
-  color: $grey-1;
-
-  &:first-child {
-    margin-right: 10px;
-  }
-  &:last-child {
-    margin-left: 10px;
-  }
-}
 .CallbackMatrix-legendItem {
   display: block;
   float: left;
-  margin: 1px 2px;
-  height: 14px;
-  width: 14px;
+  white-space: nowrap;
+  margin: 0 15px 0 0;
+
+  .CallbackMatrix-density {
+    display: block;
+    float: left;
+    height: 14px;
+    width: 14px;
+    margin: 1px 5px 0 0;
+  }
 }

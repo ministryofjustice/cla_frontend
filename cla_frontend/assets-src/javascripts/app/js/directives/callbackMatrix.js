@@ -53,12 +53,38 @@
           { hour: 18, text: '6pm' },
           { hour: 19, text: '7pm' }
         ];
+        scope.colours = [
+          { suffix: '1', text: '1-2', lowerLimit: 0 },
+          { suffix: '2', text: '3-4', lowerLimit: 2 },
+          { suffix: '3', text: '5-6', lowerLimit: 4 },
+          { suffix: '4', text: '7-8', lowerLimit: 6 },
+          { suffix: '5', text: '9+', lowerLimit: 8 }
+        ];
         scope.goToCase = goToCase;
-        scope.max = _.max(scope.slots, 'value').value || 0;
-        scope.min = _.min(scope.slots, 'value').value || 0;
 
         scope.getSlot = function (day, hour) {
           return _.findWhere(scope.slots, {day: day, hour: hour});
+        };
+
+        scope.getDayTotal = function (day) {
+          var slotsByDay = _.map(scope.slots, function (slot) {
+            return slot.day === day ? slot.value : 0;
+          });
+          var sum = _.reduce(slotsByDay, function (memo, num) { return memo + num; }, 0);
+          return sum;
+        };
+
+        scope.getCellClass = function (day, time) {
+          if (
+            day.day === 7 ||
+            (day.day === 6 && time !== undefined && time.hour > 12)
+          ) {
+            return ' is-unavailable';
+          }
+
+          if (time !== undefined && scope.getSlot(day.day, time.hour) === undefined) {
+            return ' is-empty';
+          }
         };
 
         scope.showSlotCases = function (event, day, time) {
@@ -72,26 +98,6 @@
           ele.find('.CallbackMatrix-slot.is-active').removeClass('is-active');
           ele.find(event.target).addClass('is-active');
           scope.slotsCases = _.sortBy(cases, 'requires_action_at');
-        };
-
-        // from parent - FIX
-        scope.opCaseClass = function (_case) {
-          var className = '';
-          switch (_case.source) {
-            case 'PHONE':
-              className = 'Icon--call';
-              break;
-            case 'WEB':
-              className = 'Icon--form';
-              break;
-            case 'SMS':
-              className = 'Icon--sms';
-              break;
-            case 'VOICEMAIL':
-              className = 'Icon--voicemail';
-              break;
-          }
-          return className;
         };
       }
     };
