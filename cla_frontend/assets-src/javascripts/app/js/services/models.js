@@ -109,12 +109,6 @@
         return self;
       };
 
-      resource.prototype.$getFutureCallbacks = function () {
-        return {};
-        // var url = '/call_centre/proxy/case/future_callbacks/';
-        // return $http.get(url);
-      };
-
       resource.prototype.get_suggested_providers = function(as_of){
         var url = '/call_centre/proxy/case/'+this.reference+'/assign_suggest/',
           as_of_datetime;
