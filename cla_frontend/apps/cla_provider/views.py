@@ -11,7 +11,7 @@ from cla_common.constants import SPECIFIC_BENEFITS
 
 @cla_provider_zone_required
 def dashboard(request):
-    return render(request, 'cla_provider/dashboard.html', {})
+    return render(request, 'cla_provider/angular_app.html', {})
 
 
 @cla_provider_zone_required

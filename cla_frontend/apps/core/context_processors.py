@@ -14,7 +14,7 @@ def globals(request):
   }
 
   if hasattr(request, 'zone') and request.zone:
-    context['app_base_template'] = '%s/base.html' % request.zone['name']
+    context['app_base_template'] = 'base.html'
     context['zone'] = request.zone
 
   return context
