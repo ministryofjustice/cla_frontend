@@ -29,6 +29,7 @@
   // partials
   paths.vendor_static.push(paths.src + 'javascripts/vendor/**/*');
   paths.vendor_static.push(paths.src + 'vendor/fullcalendar/fullcalendar.min.js');
+  paths.vendor_static.push(paths.src + 'vendor/raven-js/dist/raven.min.js');
   // scripts
   paths.scripts = {
     vendor: [
