@@ -26,10 +26,14 @@
   paths.images.push(paths.src + 'images/**/*');
   // partials
   paths.ng_partials.push(paths.src + 'javascripts/app/partials/**/*.html');
-  // partials
+  // vendor scripts
   paths.vendor_static.push(paths.src + 'javascripts/vendor/**/*');
   paths.vendor_static.push(paths.src + 'vendor/fullcalendar/fullcalendar.min.js');
   paths.vendor_static.push(paths.src + 'vendor/raven-js/dist/raven.min.js');
+  // ignore certain vendor scripts from the copy
+  paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/');
+  paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/**');
+  paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js');
   // scripts
   paths.scripts = {
     vendor: [
