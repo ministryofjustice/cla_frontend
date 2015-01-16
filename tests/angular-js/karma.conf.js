@@ -10,7 +10,7 @@
         'assets/javascripts/lib.min.js',
         'assets/javascripts/cla.main.min.js',
         'assets-src/vendor/angular-mocks/angular-mocks.js',
-        'assets-src/javascripts/app/test/unit/**/*.js'
+        'tests/angular-js/unit/**/*.js'
       ],
 
       autoWatch : true,

@@ -91,7 +91,11 @@ try:
 
     # build js assets
     run('%s/python manage.py builddata constants_json' % bin_path)
+    npm_prune = run_bg('npm prune')
+    bower_prune = run_bg('bower prune')
+    npm_prune.wait()
     npm = run_bg('npm install')
+    bower_prune.wait()
     bower = run_bg("bower install")
     npm.wait()
     bower.wait()
@@ -120,10 +124,12 @@ try:
     wget_frontend.wait()
 
     # run protractor tests against SauceLabs
-    run('node_modules/protractor/bin/protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.jenkins.js')
+    run('node_modules/protractor/bin/protractor tests/angular-js/protractor.conf.jenkins.js')
 
     karma.wait()
     print 'exiting...'
+except Exeception as e:
+    print e
 finally:
     print "killing processes: queue size: %s" % background_processes.qsize()
     while not background_processes.empty():

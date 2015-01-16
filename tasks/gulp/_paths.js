@@ -26,13 +26,19 @@
   paths.images.push(paths.src + 'images/**/*');
   // partials
   paths.ng_partials.push(paths.src + 'javascripts/app/partials/**/*.html');
-  // partials
+  // vendor scripts
   paths.vendor_static.push(paths.src + 'javascripts/vendor/**/*');
+  paths.vendor_static.push(paths.src + 'vendor/fullcalendar/fullcalendar.min.js');
+  paths.vendor_static.push(paths.src + 'vendor/raven-js/dist/raven.min.js');
+  // ignore certain vendor scripts from the copy
+  paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/');
+  paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/**');
+  paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js');
   // scripts
   paths.scripts = {
     vendor: [
-      paths.src + 'vendor/lodash/dist/lodash.min.js',
-      paths.src + 'vendor/jquery/dist/jquery.min.js',
+      paths.src + 'vendor/lodash/dist/lodash.js',
+      paths.src + 'vendor/jquery/jquery.js',
       paths.src + 'vendor/select2/select2.js',
       // angular specific
       paths.src + 'vendor/angular/angular.js',
@@ -50,8 +56,8 @@
       paths.src + 'vendor/angular-blocks/dist/angular-blocks.js',
       paths.src + 'vendor/lunr.js/lunr.js',
       paths.src + 'vendor/rome/dist/rome.standalone.js', // datepicker
-      paths.src + 'javascripts/vendor/xeditable.js',
       paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js',
+      paths.src + 'vendor/angular-xeditable/dist/js/xeditable.js',
       paths.src + 'vendor/conduitjs/lib/conduit.js',
       paths.src + 'vendor/postal.js/lib/postal.js',
       paths.src + 'vendor/angular-loading-bar/build/loading-bar.js',

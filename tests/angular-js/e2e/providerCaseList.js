@@ -17,7 +17,7 @@
       it('should be able to get a case list', function () {
         browser.get(CONSTANTS.providerBaseUrl);
 
-        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.providerBaseUrl);
+        expect(browser.getCurrentUrl()).toContain(CONSTANTS.providerBaseUrl);
         expect(pageTitle.getText()).toBe('Cases');
       });
 
@@ -29,20 +29,20 @@
         querySubmit.submit();
 
         expect(query.getAttribute('value')).toBe('Foo123');
-        expect(browser.getLocationAbsUrl()).toContain('search=Foo123');
+        expect(browser.getCurrentUrl()).toContain('search=Foo123');
         expect(queryBinding.getText()).toContain('Foo123');
 
         // clearing the search
         queryBinding.click();
         expect(query.getAttribute('value')).toBe('');
-        expect(browser.getLocationAbsUrl()).toBe(utils.getBaseAbsoluteUrl(CONSTANTS.providerBaseUrl));
+        expect(browser.getCurrentUrl()).toBe(utils.getBaseAbsoluteUrl(CONSTANTS.providerBaseUrl));
       });
 
       it('should change the sort field', function () {
         element(by.cssContainingText('.ListTable th a', 'Name')).click();
-        expect(browser.getLocationAbsUrl()).toContain('ordering=personal_details__full_name');
+        expect(browser.getCurrentUrl()).toContain('ordering=personal_details__full_name');
         element(by.cssContainingText('.ListTable th a', 'Name')).click();
-        expect(browser.getLocationAbsUrl()).toContain('ordering=-personal_details__full_name');
+        expect(browser.getCurrentUrl()).toContain('ordering=-personal_details__full_name');
       });
 
       it('should filter and show all test cases', function () {
