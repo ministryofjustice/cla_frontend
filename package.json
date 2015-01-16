@@ -45,7 +45,8 @@
     "run-sequence": "0.3.6",
     "string": "1.9.0",
     "through2": "0.5.1",
-    "to-camel-case": "^0.2.1"
+    "to-camel-case": "0.2.1",
+    "gulp-uglify": "1.0.2"
   },
   "scripts": {
     "test": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js",
@@ -57,8 +58,5 @@
     "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor.conf.local.js",
     "protractor-phantom": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.phantom.js",
     "protractor-allocation": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.allocation.js"
-  },
-  "devDependencies": {
-    "gulp-uglify": "^1.0.2"
   }
 }

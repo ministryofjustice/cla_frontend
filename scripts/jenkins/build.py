@@ -91,7 +91,11 @@ try:
 
     # build js assets
     run('%s/python manage.py builddata constants_json' % bin_path)
+    npm_prune = nrun_bg('npm prune')
+    bower_prune = run_bg('bower prune')
+    npm_prune.wait()
     npm = run_bg('npm install')
+    bower_prune.wait()
     bower = run_bg("bower install")
     npm.wait()
     bower.wait()
