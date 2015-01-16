@@ -1,5 +1,5 @@
 <ul class="Tabs Tabs--large"><!--
-  --><li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_list')}">
+  --><li class="Tabs-tab" ng-class="{'is-active': $state.includes('case_list') || $state.includes('callbacks')}">
     <a ui-sref="case_list" class="Tabs-tabLink">Cases</a>
   </li><!--
   --><li class="Tabs-tab" ng-class="{'is-active': $state.includes('feedback_list')}">

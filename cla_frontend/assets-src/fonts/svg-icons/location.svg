@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.2 (9961) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
     <title>location</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="location" sketch:type="MSArtboardGroup" fill="#0B0C0C">
-            <g id="Imported-Layers" sketch:type="MSLayerGroup" transform="translate(64.000000, 2.000000)">
-                <path d="M191.97,0.11 C86.116,0.11 0.312,82.562 0.007,184.427 C0.617,314.286 191.97,507.331 191.97,507.331 C191.97,507.331 383.383,314.286 383.993,184.427 C383.688,82.562 297.884,0.11 191.97,0.11 L191.97,0.11 Z M194.422,317.664 C119.705,317.664 59.077,259.324 59.077,187.331 C59.077,115.31 119.705,56.999 194.422,56.999 C269.214,56.985 329.827,115.296 329.827,187.331 C329.827,259.324 269.214,317.664 194.422,317.664 L194.422,317.664 Z" id="Fill-1" sketch:type="MSShapeGroup"></path>
-                <path d="M0,184.97 C0,184.789 0.007,184.609 0.007,184.427 C0.006,184.22 0,184.011 0,183.804 L0,184.97" id="Fill-2" sketch:type="MSShapeGroup"></path>
-                <path d="M384,183.804 C384,184.011 383.994,184.22 383.993,184.427 C383.993,184.609 384,184.789 384,184.97 L384,183.804" id="Fill-3" sketch:type="MSShapeGroup"></path>
-            </g>
+            <path d="M255.97,2.11 C150.116,2.11 64.312,84.562 64.007,186.427 C64.617,316.286 255.97,509.331 255.97,509.331 C255.97,509.331 447.383,316.286 447.993,186.427 C447.688,84.562 361.884,2.11 255.97,2.11 L255.97,2.11 Z M258.422,319.664 C183.705,319.664 123.077,261.324 123.077,189.331 C123.077,117.31 183.705,58.999 258.422,58.999 C333.214,58.985 393.827,117.296 393.827,189.331 C393.827,261.324 333.214,319.664 258.422,319.664 L258.422,319.664 Z" id="Fill-1" sketch:type="MSShapeGroup"></path>
         </g>
     </g>
 </svg>
