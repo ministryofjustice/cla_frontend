@@ -91,7 +91,7 @@ try:
 
     # build js assets
     run('%s/python manage.py builddata constants_json' % bin_path)
-    npm_prune = nrun_bg('npm prune')
+    npm_prune = run_bg('npm prune')
     bower_prune = run_bg('bower prune')
     npm_prune.wait()
     npm = run_bg('npm install')
@@ -128,6 +128,8 @@ try:
 
     karma.wait()
     print 'exiting...'
+except Exeception as e:
+    print e
 finally:
     print "killing processes: queue size: %s" % background_processes.qsize()
     while not background_processes.empty():
