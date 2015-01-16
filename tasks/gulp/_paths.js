@@ -28,11 +28,12 @@
   paths.ng_partials.push(paths.src + 'javascripts/app/partials/**/*.html');
   // partials
   paths.vendor_static.push(paths.src + 'javascripts/vendor/**/*');
+  paths.vendor_static.push(paths.src + 'vendor/fullcalendar/fullcalendar.min.js');
   // scripts
   paths.scripts = {
     vendor: [
-      paths.src + 'vendor/lodash/dist/lodash.min.js',
-      paths.src + 'vendor/jquery/dist/jquery.min.js',
+      paths.src + 'vendor/lodash/dist/lodash.js',
+      paths.src + 'vendor/jquery/jquery.js',
       paths.src + 'vendor/select2/select2.js',
       // angular specific
       paths.src + 'vendor/angular/angular.js',
