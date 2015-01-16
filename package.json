@@ -49,14 +49,14 @@
     "gulp-uglify": "1.0.2"
   },
   "scripts": {
-    "test": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js",
-    "test-single-run": "karma start cla_frontend/assets-src/javascripts/app/test/karma.conf.js  --single-run",
+    "test": "karma start tests/angular-js/karma.conf.js",
+    "test-single-run": "karma start tests/angular-js/karma.conf.js --single-run",
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
-    "protractor": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.local.js",
-    "performance": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.performance.js",
-    "protractor-debug": "protractor debug cla_frontend/assets-src/javascripts/app/test/protractor.conf.local.js",
-    "protractor-phantom": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.phantom.js",
-    "protractor-allocation": "protractor cla_frontend/assets-src/javascripts/app/test/protractor.conf.allocation.js"
+    "protractor": "protractor tests/angular-js/protractor.conf.local.js",
+    "performance": "protractor tests/angular-js/protractor.conf.performance.js",
+    "protractor-debug": "protractor debug tests/angular-js/protractor.conf.local.js",
+    "protractor-phantom": "protractor tests/angular-js/protractor.conf.phantom.js",
+    "protractor-allocation": "protractor tests/angular-js/protractor.conf.allocation.js"
   }
 }

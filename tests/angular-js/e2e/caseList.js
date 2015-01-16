@@ -29,7 +29,7 @@
         // clearing the search
         queryBinding.click();
         expect(query.getAttribute('value')).toBe('');
-        expect(browser.getLocationAbsUrl()).toBe(utils.getBaseAbsoluteUrl(CONSTANTS.callcentreBaseUrl));
+        expect(browser.getCurrentUrl()).toBe(utils.getBaseAbsoluteUrl(CONSTANTS.callcentreBaseUrl));
       });
 
       it('should change the sort field', function () {
@@ -50,7 +50,7 @@
         expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
 
         element(by.cssContainingText('a','Back to cases')).click();
-        expect(browser.getLocationAbsUrl()).toBe(utils.getBaseAbsoluteUrl(CONSTANTS.callcentreBaseUrl));
+        expect(browser.getCurrentUrl()).toBe(utils.getBaseAbsoluteUrl(CONSTANTS.callcentreBaseUrl));
       });
     });
   });

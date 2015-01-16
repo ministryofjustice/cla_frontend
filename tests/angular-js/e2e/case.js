@@ -11,7 +11,7 @@
     describe('A non-existant Case', function () {
       it('should get case list when given non existant case reference', function () {
         browser.get(CONSTANTS.callcentreBaseUrl + 'XX-0000-0000/');
-        expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
+        expect(browser.getCurrentUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
       });
     });
 

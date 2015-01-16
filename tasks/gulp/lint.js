@@ -1,12 +1,12 @@
 (function(){
   'use strict';
-  
+
   var gulp = require('gulp');
   var paths = require('./_paths');
   var jshint = require('gulp-jshint');
   var stylish = require('jshint-stylish');
   var filesToLint = paths.scripts.app.concat([
-    paths.src + 'javascripts/app/test/**/*.js',
+    'tests/**/*.js',
     'gulpfile.js',
     'tasks/gulp/*.js',
     '!' + paths.tmp + 'javascripts/app/partials/**/*'

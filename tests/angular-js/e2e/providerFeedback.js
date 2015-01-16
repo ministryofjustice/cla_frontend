@@ -23,7 +23,7 @@
               utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
-            expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
+            expect(browser.getCurrentUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
@@ -37,7 +37,7 @@
               utils.manuallySetProvider(1); // set to Duncan Lewis
             }
             do_assign();
-            expect(browser.getLocationAbsUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
+            expect(browser.getCurrentUrl()).toBe(browser.baseUrl + CONSTANTS.callcentreBaseUrl);
           });
         });
       });
