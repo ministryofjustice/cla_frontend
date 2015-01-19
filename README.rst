@@ -9,7 +9,7 @@ Dependencies
 -  `Virtualenv <http://www.virtualenv.org/en/latest/>`__
 -  `Python 2.7 <http://www.python.org/>`__ (Can be installed using ``brew``)
 -  `nodejs.org <http://nodejs.org/>`__
--  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.3)
+-  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.4)
 -  `gulp.js <http://gulpjs.com/>`__ (Installed globally using
    ``npm install -g gulp``)
 -  `Bower <http://bower.io/>`__ (Installed globally using
