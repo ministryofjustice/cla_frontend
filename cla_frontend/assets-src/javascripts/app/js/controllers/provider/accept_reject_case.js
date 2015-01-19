@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('cla.controllers.provider').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', '$state', function($scope, $modal, flash, postal, $state){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', '$state', 'Event', function($scope, $modal, flash, postal, $state, Event){
       $scope.showDebtReferralButton = function() {
         if (!$scope.case.provider_accepted || $scope.case.provider_closed) {
           return false;
@@ -25,8 +25,8 @@
 
       $scope.reject = function() {
         var modalOpts = {
-          templateUrl: 'case_detail.outcome_modal.with_feedback.html',
-          controller: 'OutcomesFeedbackModalCtl',
+          templateUrl: 'case_detail.outcome_modal.html',
+          controller: 'OutcomesModalCtl',
           resolve: {
             tplVars: function() {
               return {
@@ -35,7 +35,12 @@
             },
             case: function() { return $scope.case; },
             event_key: function() { return 'reject_case'; },  //this is also the function name on Case model
-            notes: function() { return ''; }
+            notes: function() { return null; },
+            outcome_codes: function () {
+              return new Event().list_by_event_key('reject_case').then(function (response) {
+                return response.data;
+              });
+            }
           }
         };
         var onSuccess = function (result) {

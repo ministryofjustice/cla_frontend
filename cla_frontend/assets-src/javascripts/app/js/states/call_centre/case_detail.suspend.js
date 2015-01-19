@@ -10,7 +10,7 @@
       parent: 'case_detail',
       name: 'case_detail.suspend',
       url: 'suspend/',
-      onEnter: ['$stateParams', '$state', '$modal', 'case', 'personal_details', 'History', 'flash', 'postal', function($stateParams, $state, $modal, $case, personal_details, History, flash, postal) {
+      onEnter: ['$stateParams', '$state', '$modal', 'case', 'personal_details', 'History', 'flash', 'postal', 'Event', function($stateParams, $state, $modal, $case, personal_details, History, flash, postal, Event) {
         var previousState = History.previousState;
         var suspendOpts = {
           templateUrl: 'case_detail.outcome_modal.html',
@@ -23,7 +23,12 @@
             },
             case: function() { return $case; },
             event_key: function() { return 'suspend_case'; }, // this is also the function name on Case model
-            notes: function() { return ''; }
+            notes: function () { return null; },
+            outcome_codes: function () {
+              return new Event().list_by_event_key('suspend_case').then(function (response) {
+                return response.data;
+              });
+            }
           }
         };
         var onSuspendSuccess = function (result) {

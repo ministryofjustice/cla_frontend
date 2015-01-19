@@ -1,0 +1,17 @@
+<div class="FormRow cf" ng-hide="shouldLeaveFeedback()">
+  <button type="button" class="Button Button--secondary Button--add" ng-click="showFeedback=true" name="add-feedback">Add feedback</button>
+</div>
+
+<div class="FormRow cf" ng-show="shouldLeaveFeedback()">
+  <span class="Error-message" ng-show="form.reject_feedback_issue.$error.required && submitted">Feedback is required for this outcome code</span>
+  <select
+    id="reject_feedback_issue"
+    ng-model="issue"
+    name="reject_feedback_issue"
+    ui-select2="{allowClear: true}"
+    placeholder="Choose feedback reason"
+    ng-options="s.value as s.text for s in issues track by s.value"
+    ng-required="shouldLeaveFeedback() && !showFeedback">
+      <option value=""></option>
+  </select>
+</div>

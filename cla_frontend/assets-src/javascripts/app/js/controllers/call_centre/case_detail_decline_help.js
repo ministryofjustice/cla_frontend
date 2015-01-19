@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers.operator')
     .controller('CaseDetailDeclineHelpCtrl',
-      ['$scope', '$modal', '$q', '$state', 'flash',
-        function($scope, $modal, $q, $state, flash){
+      ['$scope', '$modal', '$q', '$state', 'flash', 'Event',
+        function($scope, $modal, $q, $state, flash, Event){
           $scope.decline_help = function(notes) {
             var parentQ = $q.when(true);
             var modalOpts = {
@@ -18,7 +18,12 @@
                 },
                 case: function() { return $scope.case; },
                 event_key: function() { return 'decline_help'; },  //this is also the function name on Case model
-                notes: function() { return notes || ''; }
+                notes: function() { return notes || ''; },
+                outcome_codes: function () {
+                  return new Event().list_by_event_key('decline_help').then(function (response) {
+                    return response.data;
+                  });
+                }
               }
             };
             var onSuccess = function (result) {
