@@ -74,7 +74,7 @@
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.pass_phrase.$invalid && thirdparty_submitted}">
       <span class="Error-message" ng-if="third_party_frm.pass_phrase.$error.server">{{ errors.pass_phrase }}</span>
       <span class="Icon--formRow Icon Icon--safe">
-        <span editable-text="third_party.pass_phrase" e-name="pass_phrase" e-class="FormRow-field--full" e-placeholder="Passphrase" e-required></span>
+        <span editable-text="third_party.pass_phrase" e-name="pass_phrase" e-class="FormRow-field--full" e-placeholder="Passphrase" e-ng-required="passphrase_required"></span>
       </span>
     </label>
 

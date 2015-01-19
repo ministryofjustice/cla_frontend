@@ -121,6 +121,7 @@
           ];
           $scope.spokenWithToggle = function (value) {
             $scope.show_reason = value === undefined || value === null ? false : !value;
+            $scope.passphrase_required = !$scope.show_reason;
           };
           // trigger on first load
           $scope.spokenWithToggle($scope.third_party.spoke_to);
