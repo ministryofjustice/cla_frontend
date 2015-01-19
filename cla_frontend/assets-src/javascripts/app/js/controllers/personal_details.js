@@ -93,8 +93,8 @@
             return v;
           };
 
-          $scope.validate = function (isValid) {
-            if (isValid) {
+          $scope.validate = function (isValid, submitted) {
+            if (isValid || submitted) {
               return true;
             } else {
               return 'false';
@@ -242,6 +242,7 @@
 
               pdPromise.resolve();
             }, function(response){
+              form.$show();
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.personal_details = personal_details;
               pdPromise.reject('fail');
@@ -258,6 +259,7 @@
               }
               adaptationsPromise.resolve();
             }, function(response){
+              form.$show();
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.adaptations = adaptation_details;
               adaptationsPromise.reject();
@@ -271,6 +273,7 @@
               $scope.media_code = $scope.case.media_code !== null ? $scope.case.media_code : undefined;
               mcPromise.resolve();
             }, function(err){
+              form.$show();
               form_utils.ctrlFormErrorCallback($scope, err, form);
               mcPromise.reject(err);
             });
@@ -288,6 +291,7 @@
 
               postal.publish({channel: 'ThirdParty', topic: 'save'});
             }, function(response){
+              form.$show();
               form_utils.ctrlFormErrorCallback($scope, response, form);
               $scope.third_party = thirdparty_details;
             });
