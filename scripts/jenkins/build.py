@@ -91,7 +91,7 @@ try:
 
     # build js assets
     run('%s/python manage.py builddata constants_json' % bin_path)
-    run('bundle install')
+    bundle = run_bg('bundle install')
     npm_prune = run_bg('npm prune')
     bower_prune = run_bg('bower prune')
     npm_prune.wait()
@@ -100,6 +100,7 @@ try:
     bower = run_bg("bower install")
     npm.wait()
     bower.wait()
+    bundle.wait()
     gulp = run_bg("gulp build")
 
     # run python tests
