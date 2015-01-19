@@ -34,14 +34,16 @@
             });
           };
 
-          $scope.submit = function() {
-            $scope.submit_outcome(this.event_code, this.notes)
-              .then($scope.post_submit, function(response) {
-                $scope.errors = {};
-                angular.forEach(response.data, function(errors, field) {
-                  $scope.errors[field] = errors.join(', ');
+          $scope.submit = function(isValid) {
+            if (isValid) {
+              $scope.submit_outcome(this.event_code, this.notes)
+                .then($scope.post_submit, function(response) {
+                  $scope.errors = {};
+                  angular.forEach(response.data, function(errors, field) {
+                    $scope.errors[field] = errors.join(', ');
+                  });
                 });
-              });
+            }
           };
 
         }
