@@ -52,7 +52,6 @@
     loginForm.element(by.name('password')).clear().sendKeys(password);
 
     return loginForm.submit();
-    browser.pause(10000);
   }
 
   function enter_personal_details (details) {
