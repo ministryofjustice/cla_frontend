@@ -13,7 +13,7 @@
         'form': '=',
         'submitted': '='
       },
-      link: function (scope, elm) {
+      link: function (scope) {
         scope.issues = FEEDBACK_ISSUE; // possible reasons
         scope.showFeedback = false; // default show value
 

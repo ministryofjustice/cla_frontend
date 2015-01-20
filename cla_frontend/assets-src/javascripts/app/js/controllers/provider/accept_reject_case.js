@@ -58,7 +58,7 @@
       $scope.reopen = function() {
         var modalOpts = {
           templateUrl: 'case_detail.outcome_modal.html',
-          controller: 'ImplicitOutcomeModalCtl',
+          controller: 'OutcomesModalCtl',
           resolve: {
             tplVars: function() {
               return {
@@ -66,8 +66,9 @@
               };
             },
             case: function() { return $scope.case; },
-            model_action: function() { return 'reopen_case'; },
-            notes: function() { return ''; }
+            event_key: function() { return 'reopen_case'; },
+            notes: function() { return null; },
+            outcome_codes: function() { return null; }
           }
         };
         var onSuccess = function (result) {
@@ -91,8 +92,8 @@
           templateUrl: 'provider/case_detail.split.html',
           controller: 'SplitCaseCtrl',
           resolve: {
-            'case': function() { return $scope.case; },
-            'diagnosis': function() { return $scope.diagnosis; },
+            case: function() { return $scope.case; },
+            diagnosis: function() { return $scope.diagnosis; },
             provider_category: ['Category', function(Category) {
               return Category.get({code: $scope.diagnosis.category}).$promise;
             }],
