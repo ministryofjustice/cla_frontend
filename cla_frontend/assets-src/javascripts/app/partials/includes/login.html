@@ -9,7 +9,7 @@
         <p>Your last session has timed out.
           <br>Sign in again to avoid losing any data you have entered.</p>
 
-        <form action="" method="post" ng-submit="login(login_frm)" name="login_frm">
+        <form autocomplete="off" action="" method="post" ng-submit="login(login_frm)" name="login_frm">
           <span class="Error-message Error-all" ng-if="login_frm.$error.server">{{ errors.__all__ }}</span>
           <input type="hidden" name="csrfmiddlewaretoken" value="ouXbtrw2UtE9fg0dRwExncwVkP3MVgpP">
 
