@@ -24,8 +24,9 @@
           });
 
           // on save event
-          var onSuccess = function () {
-            $scope.$close(true);
+          var onSuccess = function (response) {
+            // console.log(response);
+            $scope.$close(response);
           };
           var onFail = function (response) {
             $scope.errors = {};
@@ -39,8 +40,8 @@
           };
           var saveEvent = function () {
             _case['$' + event_key]({
-              'event_code': $scope.selected.outcome_code,
-              'notes': $scope.selected.notes
+              event_code: $scope.selected.outcome_code,
+              notes: $scope.selected.notes
             }).then(onSuccess, onFail);
           };
 
