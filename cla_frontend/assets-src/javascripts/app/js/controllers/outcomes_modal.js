@@ -25,7 +25,6 @@
 
           // on save event
           var onSuccess = function (response) {
-            // console.log(response);
             $scope.$close(response);
           };
           var onFail = function (response) {

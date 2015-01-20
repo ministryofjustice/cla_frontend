@@ -25,11 +25,11 @@
     <div class="FormRow cf">
       <label>
         <span class="Error-message">
-          <span ng-show="reject_frm.notes.$error.required">Notes are required</span>
+          <span ng-show="reject_frm.outcomeNotes.$error.required">Notes are required</span>
           <span ng-show="errors.notes">{{ errors.notes }}</span>
           <span ng-show="errors.comment">{{ errors.comment }}</span>
         </span>
-        <textarea class="FormRow-field--full" cols="20" rows="6" name="notes" ng-model="selected.notes" placeholder="Notes" server-error></textarea>
+        <textarea class="FormRow-field--full" cols="20" rows="6" name="outcomeNotes" ng-model="selected.notes" placeholder="Notes" server-error></textarea>
       </label>
     </div>
 

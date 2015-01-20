@@ -17,7 +17,7 @@
           $scope.closeAsDREFER = function() {
             var modalOpts = {
               templateUrl: 'case_detail.outcome_modal.html',
-              controller: 'ImplicitOutcomeModalCtl',
+              controller: 'OutcomesModalCtl',
               resolve: {
                 tplVars: function() {
                   return {
@@ -25,8 +25,9 @@
                   };
                 },
                 case: function() { return $scope.case; },
-                model_action: function() { return 'close_case_debt_referral'; },
-                notes: function() { return null; }
+                event_key: function() { return 'close_case_debt_referral'; },
+                notes: function() { return null; },
+                outcome_codes: function() { return null; }
               }
             };
             var onSuccess = function (result) {
