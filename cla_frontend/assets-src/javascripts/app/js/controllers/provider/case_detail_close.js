@@ -26,7 +26,7 @@
                 },
                 case: function() { return $scope.case; },
                 model_action: function() { return 'close_case_debt_referral'; },
-                notes: function() { return ''; }
+                notes: function() { return null; }
               }
             };
             var onSuccess = function (result) {

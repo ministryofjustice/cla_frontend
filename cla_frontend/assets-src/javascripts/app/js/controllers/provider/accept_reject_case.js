@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('cla.controllers.provider').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', '$state', 'Event', function($scope, $modal, flash, postal, $state, Event){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', '$state', function($scope, $modal, flash, postal, $state){
       $scope.showDebtReferralButton = function() {
         if (!$scope.case.provider_accepted || $scope.case.provider_closed) {
           return false;
@@ -36,11 +36,11 @@
             case: function() { return $scope.case; },
             event_key: function() { return 'reject_case'; },  //this is also the function name on Case model
             notes: function() { return null; },
-            outcome_codes: function () {
+            outcome_codes: ['Event', function (Event) {
               return new Event().list_by_event_key('reject_case').then(function (response) {
                 return response.data;
               });
-            }
+            }]
           }
         };
         var onSuccess = function (result) {
