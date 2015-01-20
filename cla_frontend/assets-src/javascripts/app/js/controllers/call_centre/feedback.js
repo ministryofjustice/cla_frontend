@@ -30,8 +30,7 @@
           };
 
           $scope.toggleResolved = function (feedbackItem) {
-            feedbackItem.resolved = !feedbackItem.resolved;
-            return feedbackItem.$patch();
+            feedbackItem.$patch();
           };
 
           $scope.toggleResolvedState = function () {
