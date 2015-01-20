@@ -64,7 +64,7 @@
     </p>
   </div>
 
-   <form novalidate method="post" name="personaldetails_frm" class="VCard VCard-edit" ng-class="{submitted: personaldetails_submitted}" onbeforesave="validate(personaldetails_frm.$valid, personaldetails_submitted)" onaftersave="savePersonalDetails(personaldetails_frm)" ng-show="personaldetails_frm.$visible" editable-form>
+   <form novalidate autocomplete="off" method="post" name="personaldetails_frm" class="VCard VCard-edit" ng-class="{submitted: personaldetails_submitted}" onbeforesave="validate(personaldetails_frm.$valid, personaldetails_submitted)" onaftersave="savePersonalDetails(personaldetails_frm)" ng-show="personaldetails_frm.$visible" editable-form>
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.full_name.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-if="personaldetails_frm.full_name.$error.server">{{ errors.full_name }}</span>
       <span class="Icon Icon--formRow Icon--user">

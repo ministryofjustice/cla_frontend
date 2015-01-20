@@ -1,4 +1,4 @@
-<form name="frmAddressFinder" novalidate ng-submit="setAddress(frmAddressFinder.$valid)">
+<form name="frmAddressFinder" autocomplete="off" novalidate ng-submit="setAddress(frmAddressFinder.$valid)">
   <header>
     <h2>Address search</h2>
     <p><strong>{{ ::addresses.length }} address{{ ::suffix }}</strong> were found for {{ ::postcode }}.</p>
