@@ -1,0 +1,5 @@
+<a href="" ng-mouseover="showTip=true" ng-mouseleave="showTip=false">
+  <span class="Tooltip" ng-show="showTip">
+    <strong>{{ ::slot.value }} call{{ ::slot.value > 1 ? 's' : '' }}</strong> scheduled between {{ ::slotTimeStart }} and {{ ::slotTimeEnd }} on {{ ::day }}
+  </span>
+</a>

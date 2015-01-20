@@ -30,7 +30,7 @@
     </p>
   </div>
 
-  <form novalidate method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" ng-show="third_party_frm.$visible" editable-form>
+  <form novalidate autocomplete="off" method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid, thirdparty_submitted)" onaftersave="saveThirdParty(third_party_frm)" ng-show="third_party_frm.$visible" editable-form>
     <h2 class="VCard-legend">Third Party</h2>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}">
@@ -74,7 +74,7 @@
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.pass_phrase.$invalid && thirdparty_submitted}">
       <span class="Error-message" ng-if="third_party_frm.pass_phrase.$error.server">{{ errors.pass_phrase }}</span>
       <span class="Icon--formRow Icon Icon--safe">
-        <span editable-text="third_party.pass_phrase" e-name="pass_phrase" e-class="FormRow-field--full" e-placeholder="Passphrase" e-required></span>
+        <span editable-text="third_party.pass_phrase" e-name="pass_phrase" e-class="FormRow-field--full" e-placeholder="Passphrase" e-ng-required="passphrase_required"></span>
       </span>
     </label>
 

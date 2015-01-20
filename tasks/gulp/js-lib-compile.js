@@ -1,27 +1,16 @@
 (function(){
   'use strict';
-  
+
   var gulp = require('gulp');
   var paths = require('./_paths');
-  var ngAnnotate = require('gulp-ng-annotate');
-  var closureCompiler = require('gulp-closure-compiler');
-  var path = require('path');
+  var uglify = require('gulp-uglify');
+  var rename = require('gulp-rename');
 
-  process.env.PATH = path.resolve('node_modules/closurecompiler/jre/bin') + ':' + process.env.PATH;
-
-  gulp.task('js-lib-compile', function(){
+  gulp.task('js-lib-compile', ['js-lib-concat'], function(){
     return gulp
-      .src(paths.scripts.vendor)
-      .pipe(ngAnnotate())
-      .pipe(closureCompiler({
-        compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
-        fileName: 'lib.min.js',
-        compilerFlags: {
-          language_in: 'ECMASCRIPT5',
-          warning_level: 'QUIET',
-          compilation_level: 'SIMPLE_OPTIMIZATIONS',
-        }
-      }))
+      .src(paths.dest + 'javascripts/lib.js')
+      .pipe(uglify())
+      .pipe(rename({ suffix: '.min' }))
       .pipe(gulp.dest(paths.dest + 'javascripts/'));
   });
 })();

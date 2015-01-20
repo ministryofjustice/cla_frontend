@@ -1,0 +1,73 @@
+<div class="Grid">
+  <div class="Grid-row">
+    <div class="Grid-col Grid-col--1-2">
+      <table cellpadding="0" cellspacing="4" border="0" width="100%" class="CallbackMatrix">
+        <thead>
+          <th width="10%"></th>
+          <th ng-repeat="day in ::days" class="CallbackMatrix-th{{ ::getCellClass(day) }}" width="{{ 90 / days.length}}%">{{ ::day.text }}</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="time in ::times">
+            <th class="CallbackMatrix-th" align="right">{{ ::time.text }}</th>
+            <td
+              ng-repeat="day in ::days"
+              class="CallbackMatrix-cell{{ ::getCellClass(day, time) }}">
+              <callback-matrix-slot class="CallbackMatrix-slot" colours="::colours" callback-slot="::getSlot(day.day, time.hour)" ng-click="showSlotCases($event, day.day, time.hour)"></callback-matrix-slot>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td class="CallbackMatrix-total" ng-repeat="day in ::days">{{ ::getDayTotal(day.day) }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="{{ ::days.length }}">
+              <div class="CallbackMatrix-legend cf">
+                <span class="CallbackMatrix-legendItem" ng-repeat="colour in ::colours">
+                  <span class="CallbackMatrix-density CallbackMatrix-density--{{ ::colour.suffix }}"></span>
+                  {{ ::colour.text }}
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+    </div>
+    <div class="Grid-col Grid-col--1-2">
+      <p class="CallbackMatrix-placeholder" ng-hide="slotsCases.length > 0">Select a timeslot from the grid to see cases scheduled for that hour.</p>
+
+      <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%" ng-show="slotsCases.length > 0">
+        <thead>
+          <tr>
+            <th width="5%"></th>
+            <th width="35%">Case</th>
+            <th width="35%">Name</th>
+            <th width="15%">Time</th>
+            <th width="10%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="case in slotsCases">
+            <td>
+              <abbr title="{{ ::case.source }} CASE" class="Icon {{ ::$parent.$parent.opCaseClass(case) }}"></abbr>
+            </td>
+            <td>
+              <a href="" ng-click="$parent.goToCase(case.reference)">{{ ::case.reference }}</a>
+              <span ng-if="case.isInScopeAndEligible()"> / {{ ::case.laa_reference }}</span>
+            </td>
+            <td>
+              <span data-block="pd-column">{{ ::case.full_name }}</span>
+            </td>
+            <td>{{ ::case.requires_action_at | date:"h:mma" }}</td>
+            <td>
+              <span class="Label Label--secondary" ng-if="case.outcome_code">{{ ::case.outcome_code }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

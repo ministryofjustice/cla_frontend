@@ -98,7 +98,7 @@
 .rd-day-disabled {
   cursor: default;
   color: $grey-2;
-  @include repeating-linear-gradient($grey-3, $white);
+  @include repeating-linear-gradient($grey-3, $white, 3px);
 }
 .rd-day-selected {
   @include border-radius(50%);
@@ -106,7 +106,7 @@
   color: $white;
   font-weight: 700;
   &.rd-day-disabled {
-    @include repeating-linear-gradient($grey-3, $light-blue);
+    @include repeating-linear-gradient($light-blue-50, $light-blue, 3px);
   }
 }
 .rd-time {

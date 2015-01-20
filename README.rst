@@ -9,7 +9,7 @@ Dependencies
 -  `Virtualenv <http://www.virtualenv.org/en/latest/>`__
 -  `Python 2.7 <http://www.python.org/>`__ (Can be installed using ``brew``)
 -  `nodejs.org <http://nodejs.org/>`__
--  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.3)
+-  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.4)
 -  `gulp.js <http://gulpjs.com/>`__ (Installed globally using
    ``npm install -g gulp``)
 -  `Bower <http://bower.io/>`__ (Installed globally using
@@ -223,27 +223,6 @@ assets run:
 ::
 
     gulp images
-
-Testing - methods to be obsoleted soon
---------------------------------------
-
-CasperJS is used to run basic functional/browser tests on basic DOM
-interactions. To run the tests, make sure you have the following
-dependencies:
-
--  `PhantomJS <http://phantomjs.org/>`__
--  `CasperJS <http://casperjs.org/>`__ (dev version)
-
-To run the tests, use the following make command:
-
-::
-
-    make test
-
-By default, tests will be run on ``http://0.0.0.0:8001/``. To change
-this you can pass the ``--url`` argument on the command called in the
-make file. To see what command is called look at the ``Makefile`` at the
-project root.
 
 Try it on Heroku
 ----------------

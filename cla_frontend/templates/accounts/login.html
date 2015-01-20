@@ -11,11 +11,11 @@
         </header>
 
         <p>Sign in using your account details to access the system.</p>
-        
+
         <form action="" name="login_frm" method="post" autocomplete="off">
           {% csrf_token %}
 
-          {% include "common/includes/error_summary.html" %}
+          {% include "includes/error_summary.html" %}
 
           {% for field in form %}
             <div class="FormRow cf{% if field.errors %} Error{% endif %}">
@@ -30,7 +30,7 @@
               </label>
             </div>
           {% endfor %}
-          
+
           <div class="FormActions">
             <button type="submit" value="signin" name="login-submit" class="Button">Sign in</button>
           </div>
