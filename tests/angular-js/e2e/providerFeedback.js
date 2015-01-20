@@ -58,7 +58,7 @@
         var reject_button = element(by.name('reject-case')),
             reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="COI"]')),
             mis_reject_code = element(by.css('.modal-content input[type="radio"][name="code"][value="MIS"]')),
-            notes_area = element(by.css('.modal-content textarea[ng-model="::notes"]')),
+            notes_area = element(by.name('outcomeNotes')),
             leave_feedback_btn = element(by.css('button[name="add-feedback"]')),
             feedback_issue_select = element(by.css('div#s2id_reject_feedback_issue a')),
             feedback_issue_select_options = element.all(by.css('li.select2-results-dept-0')),
@@ -157,12 +157,12 @@
       it('feedback should be created for rejected case', function () {
         browser.get(CONSTANTS.callcentreBaseUrl + 'feedback/');
 
-        case_rejected_with_feedback_link = element(by.css('input[value="' + case_to_reject_ref + '"]'));
+        case_rejected_with_feedback_link = element(by.css('input[data-case="' + case_to_reject_ref + '"]'));
         expect(case_rejected_with_feedback_link.isPresent()).toBe(true);
       });
 
       it('feedback should be created for non-rejected case', function () {
-        case_not_rejected_with_feedback_link = element(by.css('input[value="' + case_to_feedback_without_reject_ref + '"]'));
+        case_not_rejected_with_feedback_link = element(by.css('input[data-case="' + case_to_feedback_without_reject_ref + '"]'));
         expect(case_not_rejected_with_feedback_link.isPresent()).toBe(true);
       });
 
