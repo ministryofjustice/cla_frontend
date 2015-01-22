@@ -15,10 +15,6 @@
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.deductions.national_insurance" mi-label="How much National Insurance do you pay?" guidance-link="'eligibility_check#ecg-expenses_nic'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
-    </div>
-
-    <div class="FormRow cf">
       <money-interval ng-model="eligibility_check.you.deductions.maintenance" mi-label="How much maintenance have you paid during the last calendar month (today back to {{ oneMonthAgo }})?" guidance-link="'eligibility_check#ecg-expenses_maintenance'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
@@ -50,10 +46,6 @@
 
     <div class="FormRow cf">
       <money-interval ng-model="eligibility_check.partner.deductions.rent" mi-label="How much does your partner pay for rent excluding housing benefit?" guidance-link="'eligibility_check#ecg-expenses_rent'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
-    </div>
-
-    <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.deductions.national_insurance" mi-label="How much National Insurance does your partner pay?" guidance-link="'eligibility_check#ecg-expenses_nic'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">

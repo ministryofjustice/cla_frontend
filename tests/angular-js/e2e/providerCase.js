@@ -15,6 +15,8 @@
   var grouped_text = 'Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker\'s Allowance, Income-related Employment and Support Allowance or Guarantee Credit?';
   var specific_text = 'Do you or your partner receive any of the following benefits:';
   var modalEl = element(by.css('div.modal'));
+  var notes = modalEl.element(by.name('outcomeNotes'));
+  var modalSubmit = modalEl.element(by.css('button[type="submit"]'));
 
   describe('providerCase', function () {
     describe('An operator', function () {
@@ -99,8 +101,8 @@
         reopen_button.click();
 
         expect(modalEl.isPresent()).toBe(true);
-        modalEl.element(by.css('textarea[name="notes"]')).sendKeys('Notes.');
-        modalEl.element(by.css('button[type="submit"]')).click();
+        notes.sendKeys('Notes.');
+        modalSubmit.click();
         expect(modalEl.isPresent()).toBe(false);
       });
 
@@ -111,8 +113,8 @@
         debt_referral_button.click();
 
         expect(modalEl.isPresent()).toBe(true);
-        modalEl.element(by.css('textarea[name="notes"]')).sendKeys('Notes.');
-        modalEl.element(by.css('button[type="submit"]')).click();
+        notes.sendKeys('Notes.');
+        modalSubmit.click();
         expect(modalEl.isPresent()).toBe(false);
 
         // check redirected
@@ -123,7 +125,7 @@
         browser.ignoreSynchronization = true;
         browser.get(browser.baseUrl + 'provider/case/' + case_to_accept + '/legal_help_form/');
 
-        var legal_help_form = element(by.css('.page'));
+        var legal_help_form = element.all(by.css('.page')).get(0);
         expect(legal_help_form.getText()).not.toContain(grouped_text);
         expect(legal_help_form.getText()).toContain(specific_text);
 
@@ -139,7 +141,7 @@
       it('should be able to view legal help form with grouped benefits', function () {
         browser.get(browser.baseUrl + 'provider/case/' + grouped_benefits_case + '/legal_help_form/');
 
-        var legal_help_form = element(by.css('.page'));
+        var legal_help_form = element.all(by.css('.page')).get(0);
         expect(legal_help_form.getText()).toContain(grouped_text);
         expect(legal_help_form.getText()).not.toContain(specific_text);
 

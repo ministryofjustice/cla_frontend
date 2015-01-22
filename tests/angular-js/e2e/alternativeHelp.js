@@ -80,19 +80,19 @@
 
           gotoAltHelp();
 
-          browser.findElement(
-            by.css('a[href^="http://find-legal-advice.justice.gov.uk/"]')
-          ).click().then(function () {
-              browser.getAllWindowHandles().then(function (handles) {
-                var origWindow = handles[0];
-                var newWindowHandle = handles[1];
-                browser.switchTo().window(newWindowHandle).then(function () {
-                  browser.driver.close().then(function () {
-                    browser.switchTo().window(origWindow);
-                  });
+          var f2f = element.all(by.css('a[href^="http://find-legal-advice.justice.gov.uk/"]')).get(0);
+
+          f2f.click().then(function () {
+            browser.getAllWindowHandles().then(function (handles) {
+              var origWindow = handles[0];
+              var newWindowHandle = handles[1];
+              browser.switchTo().window(newWindowHandle).then(function () {
+                browser.driver.close().then(function () {
+                  browser.switchTo().window(origWindow);
                 });
               });
             });
+          });
 
           expect(assignF2fBtn.isEnabled()).toBe(false);
 
@@ -107,6 +107,50 @@
           assignF2fBtn.click();
           browser.get(caseUrl);
           utils.checkLastOutcome('SPFN');
+        });
+      });
+
+
+      //      An in-scope / eligible case shouldn't see ECF message;
+      it('should see ECF message if declining out of scope case', function () {
+        modelsRecipe.Case.createWithOutScopeAndInEligible().then(function (case_ref) {
+          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
+
+          gotoAltHelp();
+
+          expect(declineBtn.isEnabled()).toBe(true);
+          utils.scrollTo(declineBtn);
+          declineBtn.click();
+
+          expect(modal.isPresent()).toBe(true);
+
+          expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Exceptional case funding');
+          pickECFStatement();
+        });
+      });
+
+
+      //      An in-scope / eligible case shouldn't see ECF message;
+      it('should be able to filter out of scope outcome codes', function () {
+        var searchField = modal.element(by.name('outcome-modal-code-search'));
+        searchField.sendKeys('all help options');
+
+        var outcomes = element.all(by.repeater('code in outcome_codes'));
+        outcomes.then(function (items) {
+          expect(items.length).toBe(1);
+        });
+        expect(outcomes.getText()).toEqual(['DECL - Client declined all help options']);
+      });
+
+
+      //      An in-scope / eligible case shouldn't see ECF message;
+      it('should decline help for out of scope case', function () {
+        declineHelp();
+
+        browser.getCurrentUrl().then(function (caseUrl) {
+          modalSubmit.click();
+          browser.get(caseUrl);
+          utils.checkLastOutcome('DECL');
         });
       });
 
@@ -134,32 +178,6 @@
           });
         });
       });
-
-
-      //      An in-scope / eligible case shouldn't see ECF message;
-      it('should be able to decline help (out_scope) & should see ECF message', function () {
-        modelsRecipe.Case.createWithOutScopeAndInEligible().then(function (case_ref) {
-          browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/');
-
-          gotoAltHelp();
-
-          expect(declineBtn.isEnabled()).toBe(true);
-          utils.scrollTo(declineBtn);
-          declineBtn.click();
-
-          expect(modal.isPresent()).toBe(true);
-
-          expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Exceptional case funding');
-          pickECFStatement();
-
-          declineHelp();
-          browser.getCurrentUrl().then(function (caseUrl) {
-            modalSubmit.click();
-            browser.get(caseUrl);
-            utils.checkLastOutcome('DECL');
-          });
-        });
-      });
     });
   });
 
@@ -172,7 +190,7 @@
 
   function declineHelp () {
     expect(modalHeading.getText()).toBe('Decline help');
-    expect(element(by.repeater('code in codes')).isPresent()).toBe(true);
+    expect(element(by.repeater('code in outcome_codes')).isPresent()).toBe(true);
     element(by.css('input[name="code"][value="DECL"]')).click();
   }
 

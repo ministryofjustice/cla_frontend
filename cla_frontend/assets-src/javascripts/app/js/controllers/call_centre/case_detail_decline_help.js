@@ -18,7 +18,12 @@
                 },
                 case: function() { return $scope.case; },
                 event_key: function() { return 'decline_help'; },  //this is also the function name on Case model
-                notes: function() { return notes || ''; }
+                notes: function() { return notes || ''; },
+                outcome_codes: ['Event', function (Event) {
+                  return new Event().list_by_event_key('decline_help').then(function (response) {
+                    return response.data;
+                  });
+                }]
               }
             };
             var onSuccess = function (result) {
