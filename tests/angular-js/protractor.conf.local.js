@@ -9,12 +9,12 @@
     // baseUrl: 'http://Marcos-MacBook-Pro-2.local:8001/',
 
     multiCapabilities: [
-      // {
-      //   browserName: 'chrome',
-      //   'chromeOptions': {
-      //     args: ['--test-type']
-      //   }
-      // },
+      {
+        browserName: 'chrome',
+        'chromeOptions': {
+          args: ['--test-type']
+        }
+      },
       {
         browserName: 'firefox'
       }
