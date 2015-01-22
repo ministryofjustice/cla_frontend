@@ -80,19 +80,19 @@
 
           gotoAltHelp();
 
-          browser.findElement(
-            by.css('a[href^="http://find-legal-advice.justice.gov.uk/"]')
-          ).click().then(function () {
-              browser.getAllWindowHandles().then(function (handles) {
-                var origWindow = handles[0];
-                var newWindowHandle = handles[1];
-                browser.switchTo().window(newWindowHandle).then(function () {
-                  browser.driver.close().then(function () {
-                    browser.switchTo().window(origWindow);
-                  });
+          var f2f = element.all(by.css('a[href^="http://find-legal-advice.justice.gov.uk/"]')).get(0);
+
+          f2f.click().then(function () {
+            browser.getAllWindowHandles().then(function (handles) {
+              var origWindow = handles[0];
+              var newWindowHandle = handles[1];
+              browser.switchTo().window(newWindowHandle).then(function () {
+                browser.driver.close().then(function () {
+                  browser.switchTo().window(origWindow);
                 });
               });
             });
+          });
 
           expect(assignF2fBtn.isEnabled()).toBe(false);
 
@@ -172,7 +172,7 @@
 
   function declineHelp () {
     expect(modalHeading.getText()).toBe('Decline help');
-    expect(element(by.repeater('code in codes')).isPresent()).toBe(true);
+    expect(element(by.repeater('code in ::outcome_codes')).isPresent()).toBe(true);
     element(by.css('input[name="code"][value="DECL"]')).click();
   }
 

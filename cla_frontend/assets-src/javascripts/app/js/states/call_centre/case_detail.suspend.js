@@ -23,7 +23,12 @@
             },
             case: function() { return $case; },
             event_key: function() { return 'suspend_case'; }, // this is also the function name on Case model
-            notes: function() { return ''; }
+            notes: function () { return null; },
+            outcome_codes: ['Event', function (Event) {
+              return new Event().list_by_event_key('suspend_case').then(function (response) {
+                return response.data;
+              });
+            }]
           }
         };
         var onSuspendSuccess = function (result) {

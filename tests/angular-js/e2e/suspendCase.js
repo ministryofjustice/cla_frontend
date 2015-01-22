@@ -70,7 +70,7 @@
 
   function suspendCase (reference) {
     modalEl.element(by.css('input[type="radio"][value="TERM"]')).click();
-    modalEl.element(by.css('textarea[name="notes"]')).sendKeys('This case was suspended.');
+    modalEl.element(by.name('outcomeNotes')).sendKeys('This case was suspended.');
     modalEl.element(by.css('button[type="submit"]')).click();
     expect(modalEl.isPresent()).toBe(false);
     expect(browser.getLocationAbsUrl()).not.toContain(reference);
