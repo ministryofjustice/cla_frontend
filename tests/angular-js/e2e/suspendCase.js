@@ -47,8 +47,10 @@
         suspendCase(caseRef);
       });
 
-      it('should suspend a completed case without confirmation', function () {
+      it('should goto suspend modal on a completed case without confirmation', function () {
         modelsRecipe.Case.createWithRequiredFields().then(function (_caseRef) {
+          caseRef = _caseRef;
+
           browser.get(CONSTANTS.callcentreBaseUrl + _caseRef + '/');
 
           gotoSuspend();
@@ -56,9 +58,22 @@
           expect(modalEl.isPresent()).toBe(true);
           expect(browser.getLocationAbsUrl()).toContain('suspend');
           expect(modalHeader.getText()).toContain('Suspend case');
-
-          suspendCase(_caseRef);
         });
+      });
+
+      it('should filter codes on search', function () {
+        var searchField = modalEl.element(by.name('outcome-modal-code-search'));
+        searchField.sendKeys('TERM');
+
+        var outcomes = element.all(by.repeater('code in outcome_codes'));
+        outcomes.then(function (items) {
+          expect(items.length).toBe(1);
+        });
+        expect(outcomes.getText()).toEqual(['TERM - Hung up call']);
+      });
+
+      it('should suspend a completed case', function () {
+        suspendCase(caseRef);
       });
     });
   });

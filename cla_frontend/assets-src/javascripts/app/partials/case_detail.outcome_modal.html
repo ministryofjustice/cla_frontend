@@ -14,7 +14,7 @@
     <fieldset class="FormRow" ng-show="outcome_codes">
       <span class="Error-message" ng-show="reject_frm.code.$error.required && submitted">An outcome code is required</span>
       <span class="Error-message" ng-show="errors.event_code">{{ errors.event_code }}</span>
-      <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="code in ::outcome_codes | filter:code_search">
+      <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="code in outcome_codes | filter:code_search">
         <label class="FormRow-label">
           <input type="radio" value="{{ ::code.code }}" ng-model="selected.outcome_code" name="code" ng-required="true" server-error>
           {{ ::code.code }} <span class="u-mute">- {{ ::code.description }}</span>
