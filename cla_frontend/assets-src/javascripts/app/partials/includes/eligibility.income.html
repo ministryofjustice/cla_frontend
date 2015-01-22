@@ -34,7 +34,11 @@
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.self_employment_drawings" mi-label="Self Employed Drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
+      <money-interval ng-model="eligibility_check.you.deductions.national_insurance" mi-label="How much National Insurance do you pay?" guidance-link="'eligibility_check#ecg-expenses_nic'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.you.income.self_employment_drawings" mi-label="Self employed drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
@@ -42,7 +46,7 @@
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.tax_credits" mi-label="Tax Credits" guidance-link="'eligibility_check#ecg-tax_credits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
+      <money-interval ng-model="eligibility_check.you.income.tax_credits" mi-label="Tax credits" guidance-link="'eligibility_check#ecg-tax_credits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
@@ -50,7 +54,7 @@
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.you.income.maintenance_received" mi-label="Maintenance Received" guidance-link="'eligibility_check#ecg-maintenance_received'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
+      <money-interval ng-model="eligibility_check.you.income.maintenance_received" mi-label="Maintenance received" guidance-link="'eligibility_check#ecg-maintenance_received'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
@@ -92,7 +96,11 @@
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.self_employment_drawings" mi-label="Self Employed Drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
+      <money-interval ng-model="eligibility_check.partner.deductions.national_insurance" mi-label="How much National Insurance does your partner pay?" guidance-link="'eligibility_check#ecg-expenses_nic'" ng-class="fieldWarningClass(['negativeDisposable', 'housing'])" />
+    </div>
+
+    <div class="FormRow cf">
+      <money-interval ng-model="eligibility_check.partner.income.self_employment_drawings" mi-label="Self employed drawings (Before Tax)" guidance-link="'eligibility_check#ecg-se_drawings'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
@@ -100,11 +108,11 @@
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.tax_credits" mi-label="Tax Credits" guidance-link="'eligibility_check#ecg-tax_credits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
+      <money-interval ng-model="eligibility_check.partner.income.tax_credits" mi-label="Tax credits" guidance-link="'eligibility_check#ecg-tax_credits'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">
-      <money-interval ng-model="eligibility_check.partner.income.maintenance_received" mi-label="Maintenance Received" guidance-link="'eligibility_check#ecg-maintenance_received'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
+      <money-interval ng-model="eligibility_check.partner.income.maintenance_received" mi-label="Maintenance received" guidance-link="'eligibility_check#ecg-maintenance_received'" ng-class="fieldWarningClass(['zeroIncome', 'negativeDisposable', 'housing'])" />
     </div>
 
     <div class="FormRow cf">

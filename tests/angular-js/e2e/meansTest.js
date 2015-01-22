@@ -126,13 +126,13 @@
       });
 
       it('show only show alerts when sections are complete', function () {
-        var youNI = element(by.name('eligibility_check.you.deductions.national_insurance'));
+        var youRent = element(by.name('eligibility_check.you.deductions.rent'));
         var youBenefits = element(by.name('eligibility_check.you.income.benefits'));
-        var partnerNI = element(by.name('eligibility_check.partner.deductions.national_insurance'));
+        var partnerRent = element(by.name('eligibility_check.partner.deductions.rent'));
         var partnerBenefits = element(by.name('eligibility_check.partner.income.benefits'));
 
         getToSection('Expenses');
-        youNI.clear();
+        youRent.clear();
         getToSection('Income');
         youBenefits.clear();
         saveEC();
@@ -140,7 +140,7 @@
         expect(zeroIncomeNotice.isPresent()).toBe(false);
 
         getToSection('Expenses');
-        youNI.sendKeys(0);
+        youRent.sendKeys(0);
         getToSection('Income');
         youBenefits.sendKeys(0);
         saveEC();
@@ -148,7 +148,7 @@
         expect(zeroIncomeNotice.isPresent()).toBe(true);
 
         getToSection('Expenses');
-        partnerNI.clear();
+        partnerRent.clear();
         getToSection('Income');
         partnerBenefits.clear();
         saveEC();
@@ -156,7 +156,7 @@
         expect(zeroIncomeNotice.isPresent()).toBe(false);
 
         getToSection('Expenses');
-        partnerNI.sendKeys(0);
+        partnerRent.sendKeys(0);
         getToSection('Income');
         partnerBenefits.sendKeys(0);
         saveEC();
