@@ -33,7 +33,7 @@
     <tr ng-repeat="csv in uploads">
       <td>{{ ::csv.month | date:'MMM yyyy'}} Upload</td>
       <td>
-        <timestamp ng-model="csv.created"></timestamp>
+        <timestamp ng-model="csv.modified"></timestamp>
       </td>
       <td>{{ ::csv.created_by }}</td>
       <td>{{ ::csv.rows }}</td>
