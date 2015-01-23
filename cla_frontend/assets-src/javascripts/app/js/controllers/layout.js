@@ -10,7 +10,7 @@
               History.caseListStateParams = fromParams;
             }
 
-            if (to.parent !== 'case_detail.edit.eligibility') {
+            if (to.parent !== 'case_detail.edit') {
               $window.scrollTo(0,0);
             }
           });
