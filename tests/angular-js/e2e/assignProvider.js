@@ -7,7 +7,6 @@
 
   var assignForm = element(by.name('assign_provider_form'));
   var assignBtn = element(by.name('assign-provider'));
-  var secondOpinionBtn = element(by.name('assign-second-opinion'));
   var selectedProvHeading = element(by.css('.ContactBlock-heading'));
   var caseRef, provider;
 
@@ -129,11 +128,14 @@
           selectOption('matter_type1');
           selectOption('matter_type2');
 
-          utils.scrollTo(secondOpinionBtn);
-          expect(secondOpinionBtn.isEnabled()).toBe(true);
-          secondOpinionBtn.click();
-          checkAssign(case_ref);
+          var sporFlag = element(by.name('is_spor'));
+          utils.scrollTo(sporFlag);
+          expect(sporFlag.isEnabled()).toBe(true);
 
+          sporFlag.click();
+          assignForm.submit();
+
+          checkAssign(case_ref);
           utils.checkLastOutcome('SPOR');
         });
       });

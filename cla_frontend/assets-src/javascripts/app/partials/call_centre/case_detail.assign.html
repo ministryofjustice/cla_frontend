@@ -81,10 +81,15 @@
     </div>
 
     <label class="FormRow cf" ng-if="user.is_manager">
-      <input type="checkbox" name="is_manual_ref" ng-model="$parent.is_manual_ref">
+      <input type="checkbox" name="is_manual_ref" ng-model="$parent.is_manual_ref" ng-change="$parent.is_spor=false">
       Assign as manual reference (MANREF)
     </label>
   </div>
+
+  <label class="FormRow cf">
+    <input type="checkbox" name="is_spor" ng-model="is_spor" ng-disabled="!selected_provider.id || is_manual_ref">
+    Refer for second opinion (SPOR)
+  </label>
 
   <div class="Error Error--basic" ng-if="errors.__all__">
     <p class="Error-message">{{ errors.__all__ }}</p>
@@ -92,8 +97,6 @@
 
   <div class="FormActions" ng-if="::canAssign()">
     <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id">Assign provider</button>
-
-    <button type="button" name="assign-second-opinion" class="Button Button--secondary" ng-click="assignSPOR(assign_provider_form)" ng-disabled="!selected_provider.id || $parent.is_manual_ref">Refer for second opinion</button>
 
     <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
 
