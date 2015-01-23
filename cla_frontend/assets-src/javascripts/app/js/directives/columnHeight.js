@@ -5,9 +5,12 @@
       return {
         restrict: 'A',
         link: function(scope, element) {
-          var headerAndFooter = 48;
+          var headerHeight = angular.element('#global-header').height();
+          var caseBarHeight = angular.element('.CaseBar').height();
+          var headerFooterPadding = headerHeight + caseBarHeight;
+
           scope.initializeWindowSize = function () {
-            $(element).css('min-height', $window.innerHeight - headerAndFooter);
+            $(element).css('min-height', $window.innerHeight - headerFooterPadding);
           };
           scope.initializeWindowSize();
           angular.element($window).bind('resize', function () {
