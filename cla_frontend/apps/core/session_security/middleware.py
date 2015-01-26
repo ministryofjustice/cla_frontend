@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from core.session_security.utils import get_expires_in
 
 from django.contrib.auth import logout
 from django.conf import settings
@@ -38,3 +39,13 @@ class SessionSecurityMiddleware(BaseSessionSecurityMiddleware):
             logout(request)
         elif not self.is_passive_request(request):
             set_last_activity(request.session, now)
+
+
+    def process_response(self, request, response):
+        if not request.user.is_authenticated():
+            return response
+        if '_session_security' not in request.session:
+            return response
+
+        response['Session-Expires-In'] = get_expires_in(request.session).total_seconds() * 1000
+        return response
