@@ -44,7 +44,6 @@ class SessionSecurityMiddleware(BaseSessionSecurityMiddleware):
         elif not self.is_passive_request(request):
             set_last_activity(request.session, now)
 
-
     def process_response(self, request, response):
         if not request.user.is_authenticated():
             return response
