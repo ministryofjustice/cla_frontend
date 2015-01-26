@@ -263,8 +263,8 @@ SESSION_SECURITY_PASSIVE_URLS = [
     '/call_centre/proxy/case/',
     '/cla_provider/proxy/case/'
 ]
-SESSION_SECURITY_PASSIVE_HEADER = '_autorequest'
-SESSION_SECURITY_PASSIVE_QUERYSTRING = '_autorequest'
+SESSION_SECURITY_PASSIVE_HEADER = 'HTTP__PASSIVE'
+SESSION_SECURITY_PASSIVE_QUERYSTRING = '_passive'
 
 RAVEN_CONFIG = {
     'dsn': os.environ.get('RAVEN_CONFIG_DSN', ''),
