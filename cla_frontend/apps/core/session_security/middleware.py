@@ -17,12 +17,16 @@ PASSIVE_QUERYSTRING = getattr(
 
 
 class SessionSecurityMiddleware(BaseSessionSecurityMiddleware):
+    """
+    Extends session_security and adds the ability to specify a passive
+    request via querystring or header.
+    """
     def is_passive_request(self, request):
         if request.path in PASSIVE_URLS:
             return True
-        if PASSIVE_HEADER and request.META.get(PASSIVE_HEADER, False):
+        if request.META.get(PASSIVE_HEADER) == '1':
             return True
-        if PASSIVE_QUERYSTRING and request.REQUEST.get(PASSIVE_QUERYSTRING, False):
+        if request.REQUEST.get(PASSIVE_QUERYSTRING) == '1':
             return True
         return False
 
