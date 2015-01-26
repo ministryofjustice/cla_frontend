@@ -5,8 +5,8 @@
       return {
         restrict: 'A',
         link: function(scope, element) {
-          var headerHeight = angular.element('#global-header').height();
-          var caseBarHeight = angular.element('.CaseBar').height();
+          var headerHeight = angular.element('#global-header').outerHeight();
+          var caseBarHeight = angular.element('.CaseBar').outerHeight();
           var headerFooterPadding = headerHeight + caseBarHeight;
 
           scope.initializeWindowSize = function () {
