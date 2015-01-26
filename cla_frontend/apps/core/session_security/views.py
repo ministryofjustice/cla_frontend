@@ -10,7 +10,9 @@ from django.core.serializers.json import DjangoJSONEncoder
 from session_security.utils import get_last_activity
 from session_security.views import PingView
 
+
 class JsonPingView(PingView):
+
     """
     This view is just in charge of returning the number of seconds since the
     'real last activity' that is maintained in the session by the middleware.
