@@ -4,12 +4,12 @@
   module.exports = function(config){
     config.set({
 
-      basePath : '../../../../',
+      basePath : '../../',
 
       files : [
-        'assets/javascripts/lib.min.js',
-        'assets/javascripts/cla.main.min.js',
-        'assets-src/vendor/angular-mocks/angular-mocks.js',
+        'cla_frontend/assets/javascripts/lib.min.js',
+        'cla_frontend/assets/javascripts/cla.main.min.js',
+        'cla_frontend/assets-src/vendor/angular-mocks/angular-mocks.js',
         'tests/angular-js/unit/**/*.js'
       ],
 
