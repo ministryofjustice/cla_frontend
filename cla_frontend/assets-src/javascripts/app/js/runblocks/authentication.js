@@ -18,7 +18,7 @@
         var loginModal, warningModal;
 
         var openLoginModal = function () {
-          closeWarningModal();
+          closeModals();
 
           loginModal = $modal.open({
             templateUrl: 'includes/login.html',
@@ -79,10 +79,14 @@
           });
         };
 
-        var closeWarningModal = function () {
+        var closeModals = function () {
           if (warningModal) {
             warningModal.close();
             warningModal = null;
+          }
+          if (loginModal) {
+            loginModal.close();
+            loginModal = null;
           }
         };
 
@@ -110,7 +114,7 @@
         // Open modal when idle time has passed without action
         $rootScope.$on('IdleStart', openWarningModal);
         // close modal if idle time is interrupted
-        $rootScope.$on('IdleEnd', closeWarningModal);
+        $rootScope.$on('IdleEnd', closeModals);
         // open modal if idle time ends without interruption
         $rootScope.$on('IdleTimeout', logout);
 
