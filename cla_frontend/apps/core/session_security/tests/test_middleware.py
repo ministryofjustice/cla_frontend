@@ -9,9 +9,8 @@ from session_security.settings import EXPIRE_AFTER
 
 class TestSessionSecurityMiddleware(TestCase):
 
-    def assertIsAlmostEqualMinutes(self, msec_str, minutes, delta=0.0):
-        msec = float(msec_str)
-        sec = msec / 1000
+    def assertIsAlmostEqualMinutes(self, sec_str, minutes, delta=0.0):
+        sec = float(sec_str)
         min = sec / 60
         self.assertAlmostEqual(min, minutes, delta=delta)
 
@@ -66,7 +65,7 @@ class TestSessionSecurityMiddleware(TestCase):
 
         response = self.middleware.process_response(request, before_response)
         self.assertIsNotNone(response.get('Session-Expires-In'))
-        self.assertIsAlmostEqualMinutes(response.get('Session-Expires-In'), EXPIRE_AFTER//60, delta=0.1)
+        self.assertIsAlmostEqualMinutes(response.get('Session-Expires-In'), EXPIRE_AFTER//60, delta=1.0)
 
     def assert_expire_in_extended(self, req_path, should_expire_in,
                                   should_extend, headers=None, query_string=None):
@@ -91,16 +90,16 @@ class TestSessionSecurityMiddleware(TestCase):
         self.assertIsNotNone(response.get('Session-Expires-In'))
 
         self.assertIsAlmostEqualMinutes(response.get('Session-Expires-In'),
-                                        should_expire_in - 30, delta=0.1)
+                                        should_expire_in - 30, delta=1.0)
         self.middleware.process_request(request)
         response2 = self.middleware.process_response(request, before_response)
         self.assertIsNotNone(response2.get('Session-Expires-In'))
         if should_extend:
             self.assertIsAlmostEqualMinutes(response.get('Session-Expires-In'),
-                                            should_expire_in, delta=0.1)
+                                            should_expire_in, delta=1.0)
         else:
             self.assertIsAlmostEqualMinutes(response.get('Session-Expires-In'),
-                                            should_expire_in - 30, delta=0.1)
+                                            should_expire_in - 30, delta=1.0)
 
     def test_process_response_has_extended_expire_time(self):
         self.assert_expire_in_extended('/', EXPIRE_AFTER//60, True)

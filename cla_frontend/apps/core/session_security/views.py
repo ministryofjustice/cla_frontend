@@ -24,8 +24,8 @@ class JsonPingView(PingView):
             return HttpResponseForbidden(json.dumps({'logout': True}), content_type='application/json', status=403)
 
         last_activity = get_last_activity(request.session)
-        inactive_for = (datetime.now() - last_activity).total_seconds() * 1000
-        expires_in = get_expires_in(request.session).total_seconds() * 1000
+        inactive_for = (datetime.now() - last_activity).total_seconds()
+        expires_in = get_expires_in(request.session).total_seconds()
 
         return http.HttpResponse(json.dumps({
             'inactive_for': inactive_for,

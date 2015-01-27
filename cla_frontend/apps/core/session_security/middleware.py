@@ -50,5 +50,5 @@ class SessionSecurityMiddleware(BaseSessionSecurityMiddleware):
         if '_session_security' not in request.session:
             return response
 
-        response['Session-Expires-In'] = get_expires_in(request.session).total_seconds() * 1000
+        response['Session-Expires-In'] = get_expires_in(request.session).total_seconds()
         return response
