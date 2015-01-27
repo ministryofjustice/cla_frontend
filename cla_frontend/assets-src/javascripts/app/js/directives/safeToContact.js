@@ -37,7 +37,7 @@
             } else if (scope.person.safe_to_contact === CONTACT_SAFETY.DONT_CALL) {
               return 'Icon--dontcall Icon--red';
             } else if (scope.person.safe_to_contact === CONTACT_SAFETY.NO_MESSAGE) {
-              return 'Icon--voicemail Icon--red';
+              return 'Icon--novoicemail Icon--red';
             }
           };
 
