@@ -65,38 +65,9 @@
                   404: 'Resource cannot be found.',
                   403: 'You don\'t have permissions to access this page.',
                   401: function() {
-                    if ($('form[name=login_frm]').length) {
-                      return;
-                    }
-
-                    var $modal = $injector.get('$modal'),
-                        $http = $injector.get('$http');
-
-                    $modal.open({
-                      templateUrl: 'includes/login.html',
-                      controller: function($scope) {
-                        $scope.login = function(form) {
-                          $http({
-                            url: url_utils.url('login/'),
-                            method: 'POST',
-                            data: $.param({
-                              username: this.username,
-                              password: this.password
-                            }),
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                              }
-                          }).then(
-                            function() {
-                              flash('You are now logged in.');
-                              $scope.$close();
-                            },
-                            function(response){
-                              form_utils.ctrlFormErrorCallback($scope, response, form);
-                            }
-                          );
-                        };
-                      }
+                    postal.publish({
+                      channel: 'Authentication',
+                      topic: 'unauthorized'
                     });
                   },
                   400: angular.noop,

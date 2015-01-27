@@ -1,0 +1,12 @@
+<header class="PageHeader">
+  <h1>Your session is about to expire</h1>
+</header>
+
+<form autocomplete="off" action="" method="post" ng-submit="extend()" name="expire_frm">
+  <p>You have been inactive for too long. Your session will expire in <strong idle-countdown="countdown">{{ countdown }}</strong> seconds if you do not do anything.</p>
+
+  <div class="FormActions">
+    <button type="submit" value="extend" name="extend-submit" class="Button">Extend session</button>
+    <button type="button" value="logout" name="logout" class="Button Button--secondary" ng-click="logout()">Sign out</button>
+  </div>
+</form>
