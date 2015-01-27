@@ -92,12 +92,32 @@
     .factory('cla.httpInterceptor.stateTagger', ['$injector', function($injector) {
       return {
         // optional method
-        response: function(config) {
+        response: function(response) {
           var $state = $injector.get('$state');
 
-          config.config.state = $state.current.name;
+          response.config.state = $state.current.name;
 
-          return config;
+          return response;
+        }
+      };
+    }])
+
+    .factory('cla.httpInterceptor.sessionSecurity', ['postal', function(postal) {
+      return {
+        // optional method
+        response: function(response) {
+          var expiresResponse = response.headers()['session-expires-in'];
+          if (expiresResponse) {
+            postal.publish({
+              channel: 'Authentication',
+              topic: 'extend',
+              data: {
+                expiresIn: parseInt(expiresResponse)
+              }
+            });
+          }
+          // console.log(response.headers()['session-expires-in']);
+          return response;
         }
       };
     }])
@@ -105,10 +125,10 @@
     .config(['$httpProvider', function($httpProvider) {
       $httpProvider.interceptors.push('cla.httpInterceptor.uniqueThrottleInterceptor');
       $httpProvider.interceptors.push('cla.httpInterceptor.stateTagger');
+      $httpProvider.interceptors.push('cla.httpInterceptor.sessionSecurity');
       $httpProvider.interceptors.push('cla.httpInterceptor');
 
       $httpProvider.defaults.xsrfCookieName = 'csrftoken';
       $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-
     }]);
 })();

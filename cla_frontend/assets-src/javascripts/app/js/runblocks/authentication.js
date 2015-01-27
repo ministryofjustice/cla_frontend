@@ -2,8 +2,8 @@
   'use strict';
 
   // in seconds
-  var idle = 5;
-  var timeout = 60;
+  var idle = 3300;
+  var timeout = 300;
 
   angular.module('cla.operatorApp')
     .config(['IdleProvider', function(IdleProvider) {
@@ -18,9 +18,7 @@
         var loginModal, warningModal;
 
         var openLoginModal = function () {
-          if (warningModal) {
-            warningModal.close();
-          }
+          closeWarningModal();
 
           loginModal = $modal.open({
             templateUrl: 'includes/login.html',
@@ -59,14 +57,41 @@
               $scope.countdown = timeout;
 
               $scope.extend = function () {
-                $scope.$close();
+                $http({
+                  url: url_utils.proxy('user/me/'),
+                  method: 'GET'
+                })
+                .then(
+                  function () {
+                    $scope.$close();
+                    warningModal = null;
+                  },
+                  function () {
+                    logout();
+                  }
+                );
               };
 
               $scope.logout = function () {
-                openLoginModal();
+                logout();
               };
             }
           });
+        };
+
+        var closeWarningModal = function () {
+          if (warningModal) {
+            warningModal.close();
+            warningModal = null;
+          }
+        };
+
+        var logout = function () {
+          $http({
+            url: 'auth/logout/',
+            method: 'GET'
+          })
+          .then(openLoginModal);
         };
 
         // Listen to authentication events
@@ -78,24 +103,16 @@
         AuthSub.subscribe({
           topic: 'extend',
           callback: function (data) {
-            console.log(data);
+            Idle.setIdle(data.expiresIn - timeout);
           }
         });
 
         // Open modal when idle time has passed without action
-        $rootScope.$on('IdleStart', function() {
-          openWarningModal();
-        });
+        $rootScope.$on('IdleStart', openWarningModal);
         // close modal if idle time is interrupted
-        $rootScope.$on('IdleEnd', function() {
-          if (warningModal) {
-            warningModal.close();
-          }
-        });
+        $rootScope.$on('IdleEnd', closeWarningModal);
         // open modal if idle time ends without interruption
-        $rootScope.$on('IdleTimeout', function() {
-          openLoginModal();
-        });
+        $rootScope.$on('IdleTimeout', logout);
 
         // start watching for idleness
         Idle.watch();
