@@ -128,7 +128,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'session_security.middleware.SessionSecurityMiddleware',
+    'core.session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cla_auth.middleware.ZoneMiddleware',
@@ -259,10 +259,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SECURITY_WARN_AFTER = 3360
 SESSION_SECURITY_EXPIRE_AFTER = 3600
 
-SESSION_SECURITY_PASSIVE_URLS = [
-    '/call_centre/proxy/case/',
-    '/cla_provider/proxy/case/'
-]
+SESSION_SECURITY_PASSIVE_URLS = []
+SESSION_SECURITY_PASSIVE_HEADER = 'HTTP__PASSIVE'
+SESSION_SECURITY_PASSIVE_QUERYSTRING = '_passive'
 
 RAVEN_CONFIG = {
     'dsn': os.environ.get('RAVEN_CONFIG_DSN', ''),
