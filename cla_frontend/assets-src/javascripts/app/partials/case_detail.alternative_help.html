@@ -40,7 +40,11 @@
       <div class="Grid">
         <div class="Grid-row cf">
           <div class="Grid-col Grid-col--1-3">{{ ::provider.address }}</div>
-          <div class="Grid-col Grid-col--1-3" ng-bind-html="::provider.helpline|escapeHtml|nl2br"></div>
+          <div class="Grid-col Grid-col--1-3" ng-If="provider.telephone_numbers">
+            <span ng-repeat="(key, value) in provider.telephone_numbers">
+              <span ng-If="value.name">({{ ::value.name}}) </span>{{ ::value.number}}<br>
+            </span>
+          </div>
           <div class="Grid-col Grid-col--1-3">{{ ::provider.opening_hours }}</div>
         </div>
       </div>
@@ -80,7 +84,11 @@
         <span class="Grid">
           <span class="Grid-row cf">
             <span class="Grid-col Grid-col--1-3">{{ ::provider.address }}</span>
-            <span class="Grid-col Grid-col--1-3" ng-bind-html="::provider.helpline|escapeHtml|nl2br"></span>
+            <span class="Grid-col Grid-col--1-3" ng-If="provider.telephone_numbers">
+              <span ng-repeat="(key, value) in provider.telephone_numbers">
+                <span ng-If="value.name">({{ ::value.name}}) </span>{{ ::value.number}}<br>
+              </span>
+            </span>
             <span class="Grid-col Grid-col--1-3">{{ ::provider.opening_hours }}</span>
           </span>
         </span>
