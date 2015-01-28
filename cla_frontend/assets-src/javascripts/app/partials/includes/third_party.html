@@ -30,7 +30,7 @@
     </p>
   </div>
 
-  <form novalidate autocomplete="off" method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid, thirdparty_submitted)" onaftersave="saveThirdParty(third_party_frm)" ng-show="third_party_frm.$visible" editable-form>
+  <form novalidate autocomplete="off" method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" ng-show="third_party_frm.$visible" editable-form>
     <h2 class="VCard-legend">Third Party</h2>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}">
