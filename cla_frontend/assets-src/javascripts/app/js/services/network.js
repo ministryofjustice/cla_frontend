@@ -65,38 +65,9 @@
                   404: 'Resource cannot be found.',
                   403: 'You don\'t have permissions to access this page.',
                   401: function() {
-                    if ($('form[name=login_frm]').length) {
-                      return;
-                    }
-
-                    var $modal = $injector.get('$modal'),
-                        $http = $injector.get('$http');
-
-                    $modal.open({
-                      templateUrl: 'includes/login.html',
-                      controller: function($scope) {
-                        $scope.login = function(form) {
-                          $http({
-                            url: url_utils.url('login/'),
-                            method: 'POST',
-                            data: $.param({
-                              username: this.username,
-                              password: this.password
-                            }),
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                              }
-                          }).then(
-                            function() {
-                              flash('You are now logged in.');
-                              $scope.$close();
-                            },
-                            function(response){
-                              form_utils.ctrlFormErrorCallback($scope, response, form);
-                            }
-                          );
-                        };
-                      }
+                    postal.publish({
+                      channel: 'Authentication',
+                      topic: 'unauthorized'
                     });
                   },
                   400: angular.noop,
@@ -121,12 +92,32 @@
     .factory('cla.httpInterceptor.stateTagger', ['$injector', function($injector) {
       return {
         // optional method
-        response: function(config) {
+        response: function(response) {
           var $state = $injector.get('$state');
 
-          config.config.state = $state.current.name;
+          response.config.state = $state.current.name;
 
-          return config;
+          return response;
+        }
+      };
+    }])
+
+    .factory('cla.httpInterceptor.sessionSecurity', ['postal', function(postal) {
+      return {
+        // optional method
+        response: function(response) {
+          var expiresResponse = response.headers()['session-expires-in'];
+          if (expiresResponse) {
+            postal.publish({
+              channel: 'Authentication',
+              topic: 'extend',
+              data: {
+                expiresIn: parseInt(expiresResponse)
+              }
+            });
+          }
+          // console.log(response.headers()['session-expires-in']);
+          return response;
         }
       };
     }])
@@ -134,10 +125,10 @@
     .config(['$httpProvider', function($httpProvider) {
       $httpProvider.interceptors.push('cla.httpInterceptor.uniqueThrottleInterceptor');
       $httpProvider.interceptors.push('cla.httpInterceptor.stateTagger');
+      $httpProvider.interceptors.push('cla.httpInterceptor.sessionSecurity');
       $httpProvider.interceptors.push('cla.httpInterceptor');
 
       $httpProvider.defaults.xsrfCookieName = 'csrftoken';
       $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-
     }]);
 })();

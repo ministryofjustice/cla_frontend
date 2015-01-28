@@ -18,7 +18,10 @@
               refreshCases = function(___, force) {
                 // only refresh if force === true or the page is active
                 if (force || !document.hidden) {
-                  cases.$query(self.getCaseQueryParams($stateParams));
+                  var params = self.getCaseQueryParams($stateParams, {
+                    '_passive': '1'
+                  });
+                  cases.$query(params);
                 }
               };
 
@@ -28,7 +31,7 @@
       onExit: ['$interval', function($interval) {
         $interval.cancel(this.refreshCastListInterval);
       }],
-      getCaseQueryParams: function($stateParams) {
+      getCaseQueryParams: function($stateParams, extraParams) {
           var params = {
             person_ref: $stateParams.person_ref,
             search: $stateParams.search,
@@ -42,6 +45,7 @@
           if (!params.search) {
             params.dashboard = 1;
           }
+          angular.extend(params, extraParams || {});
 
           return params;
       },
