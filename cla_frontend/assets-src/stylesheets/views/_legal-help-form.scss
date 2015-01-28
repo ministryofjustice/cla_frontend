@@ -1,6 +1,14 @@
 #wrapper {
   width: 1024px;
   margin: 30px auto 0;
+  font-size: 13pt;
+}
+
+.header {
+  li {
+    max-width: 67%;
+    margin-bottom: 5px;
+  }
 }
 
 h1 {
@@ -51,6 +59,10 @@ ol {
   padding: 10px 15px;
   margin: 30px 0;
   @include box-shadow(8px 8px 0 $black);
+
+  &.notes {
+    font-size: 11pt;
+  }
 }
 
 .field-table {
@@ -87,7 +99,7 @@ input[type=text],
 textarea {
   @include core-16;
   font-weight: 700;
-  border: 1px solid $border-colour;
+  border: 1px solid $black;
   padding: 5px 0;
   text-indent: 5px;
   margin: 0;
