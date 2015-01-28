@@ -130,7 +130,7 @@ try:
 
     karma.wait()
     print 'exiting...'
-except Exeception as e:
+except Exception as e:
     print e
 finally:
     print "killing processes: queue size: %s" % background_processes.qsize()
