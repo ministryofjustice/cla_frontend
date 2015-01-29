@@ -60,8 +60,11 @@
     </tbody>
   </table>
 
-  <div ng-show="cases.results.length === 0" class="Notice">
-    There are no cases matching your search criteria.
+  <div class="Notice" ng-if="cases.results.length === 0">
+    There are no cases<span ng-if="!searchParams.search && !searchParams.only">.</span>
+    <span ng-if="searchParams.search || searchParams.only">
+      matching your <span ng-if="searchParams.search">search</span> criteria.
+    </span>
   </div>
 
   <div data-block="notices"></div>

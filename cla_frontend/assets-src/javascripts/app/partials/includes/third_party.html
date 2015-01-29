@@ -13,7 +13,7 @@
       <span ng-bind-html="third_party.personal_details.street|escapeHtml|nl2br"></span>
     </p>
 
-    <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': third_party.personal_details.safe_to_contact === 'DONT_CALL', 'Icon--red Icon--voicemail': third_party.personal_details.safe_to_contact === 'NO_MESSAGE', 'Icon--green': third_party.personal_details.safe_to_contact === 'SAFE'}">
+    <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': third_party.personal_details.safe_to_contact === 'DONT_CALL', 'Icon--red Icon--novoicemail': third_party.personal_details.safe_to_contact === 'NO_MESSAGE', 'Icon--green': third_party.personal_details.safe_to_contact === 'SAFE'}">
       <span ng-class="{'u-strike': third_party.personal_details.safe_to_contact !== 'SAFE'}">{{ third_party.personal_details.mobile_phone }}</span>
     </p>
 
@@ -30,7 +30,7 @@
     </p>
   </div>
 
-  <form novalidate autocomplete="off" method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid, thirdparty_submitted)" onaftersave="saveThirdParty(third_party_frm)" ng-show="third_party_frm.$visible" editable-form>
+  <form novalidate autocomplete="off" method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" ng-show="third_party_frm.$visible" editable-form>
     <h2 class="VCard-legend">Third Party</h2>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.full_name.$invalid && thirdparty_submitted}">

@@ -63,6 +63,7 @@
         History.previousState = fromState;
         History.previousState.params = fromParams;
       });
+
       Timer.install();
       bus.install();
 
@@ -135,7 +136,8 @@
       'LocalStorageModule',
       'diff-match-patch',
       'angularUtils.directives.dirPagination',
-      'ngTextTruncate'
+      'ngTextTruncate',
+      'ngIdle'
     ])
     .config(common_config)
     .run(common_run);
@@ -189,7 +191,8 @@
       'LocalStorageModule',
       'diff-match-patch',
       'angularUtils.directives.dirPagination',
-      'ngTextTruncate'
+      'ngTextTruncate',
+      'ngIdle'
     ])
     .config(common_config)
     .run(common_run);
