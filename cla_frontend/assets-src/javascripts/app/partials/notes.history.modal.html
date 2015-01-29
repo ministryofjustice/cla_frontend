@@ -19,6 +19,6 @@
 <p ng-if="!notes.results.length">There are currently no historical notes events for this case.</p>
 
 <nav class="cf">
-  <dir-pagination-controls on-page-change="updatePage(newPageNumber)"></dir-pagination-controls>
+  <dir-pagination-controls ng-if="notes.results.length" on-page-change="updatePage(newPageNumber)"></dir-pagination-controls>
   <button ng-click="close()" class="Button Button--text u-pullLeft">Close</button>
 </nav>
