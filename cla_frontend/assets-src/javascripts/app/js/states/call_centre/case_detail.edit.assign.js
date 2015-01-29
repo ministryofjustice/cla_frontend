@@ -21,7 +21,8 @@
       }],
       resolve: {
         // check that the eligibility check can be accessed
-        CanAssign: ['AssignProviderValidation', '$q', 'diagnosis', 'eligibility_check', 'case', 'personal_details', 'History', function (AssignProviderValidation, $q, diagnosis, eligibility_check, $case, personal_details, History) {
+        CanAssign: ['AssignProviderValidation', '$q', 'diagnosis', 'eligibility_check', 'case', 'personal_details', 'History',
+          function (AssignProviderValidation, $q, diagnosis, eligibility_check, $case, personal_details, History) {
           var deferred = $q.defer();
           var valid = AssignProviderValidation.validate({case: $case, personal_details: personal_details});
 
@@ -56,13 +57,18 @@
             category__code: diagnosis.category
           }).$promise;
         }],
-        Suggestions: ['case', '$stateParams', '$q', function ($case, $stateParams, $q) {
+        Suggestions: ['case', '$stateParams', '$q', 'CanAssign', function ($case, $stateParams, $q) {
+          // don't remove CanAssign from deps because adding that there stops this
+          // function from ever being called if CanAssign is not allowed.
           var as_of = $stateParams.as_of;
           var deferred = $q.defer();
-
-          $case.get_suggested_providers(as_of).success(function(data) {
-            deferred.resolve(data);
-          });
+          if ($case.provider) {
+            deferred.resolve();
+          } else {
+            $case.get_suggested_providers(as_of).success(function(data) {
+              deferred.resolve(data);
+            });
+          }
           return deferred.promise;
         }]
       }
