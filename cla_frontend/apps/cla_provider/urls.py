@@ -3,7 +3,10 @@ from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
 
 from cla_auth import views as auth_views
+from cla_auth.utils import cla_provider_zone_required
 from cla_provider import views as provider_views
+
+from zendesk.views import ZendeskView
 
 from . import views
 
@@ -20,6 +23,7 @@ urlpatterns = patterns('',
         provider_views.legal_help_form,
         name='legal_help_form'
     ),
+    url(r'^zendesk/$', cla_provider_zone_required(ZendeskView.as_view()), name='zendesk'),
     url(r'^proxy/caseExport/$', auth_views.backend_proxy_view,
         name="backend_proxy_provider_export",
         kwargs={

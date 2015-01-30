@@ -269,6 +269,13 @@ ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
     'http://127.0.0.1:8003')
 ADDRESSFINDER_API_TOKEN = os.environ.get('ADDRESSFINDER_API_TOKEN', '')
 
+# Zendesk feedback settings
+ZENDESK_API_USERNAME = os.environ.get('ZENDESK_API_USERNAME', '')
+ZENDESK_API_TOKEN = os.environ.get('ZENDESK_API_TOKEN', '')
+ZENDESK_REQUESTER_ID = os.environ.get('ZENDESK_REQUESTER_ID', 762871298) # Defaults to 'Civil Legal Advice' user
+ZENDESK_GROUP_ID = os.environ.get('ZENDESK_GROUP_ID', 24287107) # Defaults to 'CLA Operator/Provider' group
+ZENDESK_API_ENDPOINT = 'https://ministryofjustice.zendesk.com/api/v2/'
+
 if 'RAVEN_CONFIG_DSN' in os.environ:
     MIDDLEWARE_CLASSES = (
         'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',

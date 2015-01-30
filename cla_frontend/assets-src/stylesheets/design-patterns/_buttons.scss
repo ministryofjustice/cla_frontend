@@ -164,3 +164,29 @@
     }
   }
 }
+
+.FeedbackButton {
+  @include box-sizing(border-box);
+  @include border-radius(0);
+  background: none;
+  width: 16px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+
+  &::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+
+  &::before {
+    color: white;
+    display: block;
+  }
+
+  &--toggled,
+  &:focus {
+    background: $yellow;
+    outline: 3px solid $yellow;
+  }
+}
