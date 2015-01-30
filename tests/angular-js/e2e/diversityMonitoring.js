@@ -22,7 +22,7 @@
         modelsRecipe.Case.createEmpty().then(function (_caseRef) {
           browser.get(CONSTANTS.callcentreBaseUrl + _caseRef + '/');
           element(by.css('[ui-sref="case_detail.diversity"]')).click();
-          expect(notices.getText()).toContain('You must add the client\'s details before completing the diversity questionnaire.');
+          expect(notices.getText()).toContain('The Case must be in scope and eligible before completing the diversity questionnaire.');
         });
       });
 
