@@ -45,7 +45,7 @@ class SessionSecurityMiddleware(BaseSessionSecurityMiddleware):
             set_last_activity(request.session, now)
 
     def process_response(self, request, response):
-        if not request.user.is_authenticated():
+        if not hasattr(request, 'user') or not request.user.is_authenticated():
             return response
         if '_session_security' not in request.session:
             return response
