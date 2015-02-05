@@ -21,8 +21,8 @@
           var className;
           var diff = getDiff();
 
-          // over 15 mins, under 2h
-          if (diff < -810 && diff >= -7200) {
+          // over 30 mins, under 2h
+          if (diff < -1710 && diff >= -7200) {
             className = classes[0];
           }
           // over 2 hour SLA
