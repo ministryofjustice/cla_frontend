@@ -33,6 +33,12 @@ Next, create the environment and start it up:
 
     source env/bin/activate
 
+Update pip to the latest version:
+
+::
+
+    pip install -U pip
+
 Install python dependencies:
 
 ::

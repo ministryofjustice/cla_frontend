@@ -37,10 +37,6 @@ def get_env_value(var_name):
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = ()
-
-MANAGERS = ADMINS
-
 DATABASES = {}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -56,8 +52,6 @@ TIME_ZONE = 'Europe/London'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-gb'
-
-SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.

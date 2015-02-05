@@ -33,3 +33,8 @@ LOGGING = {
         },
     }
 }
+
+
+# requires a running instance of address-finder https://github.com/ministryofjustice/addressfinder
+ADDRESSFINDER_API_HOST = ''
+ADDRESSFINDER_API_TOKEN = ''
