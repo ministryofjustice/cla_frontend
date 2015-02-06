@@ -6,7 +6,7 @@
 
 
   mod.directive('callbackModal', ['AppSettings', 'moment', 'postal', '$timeout', 'ClaPostalService', 'hotkeys', 'flash', 'form_utils', '$state', function (AppSettings, moment, postal, $timeout, ClaPostalService, hotkeys, flash, form_utils, $state) {
-    var timeRounding = 15 * 60 * 1000; // to nearest 15 mins
+    var timeRounding = 30 * 60 * 1000; // to nearest 30 mins
     var startBuffer = 120; // in mins
 
     return {
@@ -33,8 +33,8 @@
             var m = moment(d);
             var day = m.clone().day();
             var start = m.clone().hour(8).minute(59).second(59);
-            var end = m.clone().hour(19).minute(45).second(1);
-            var satEnd = m.clone().hour(12).minute(15).second(1);
+            var end = m.clone().hour(19).minute(30).second(1);
+            var satEnd = m.clone().hour(12).minute(0).second(1);
 
             if (day === 0) { // sunday
               return false;
@@ -49,7 +49,7 @@
             var today = moment();
             var day = m.clone().day();
             var start = m.clone().hour(8).minute(59).second(59);
-            var end = day === 6 ? m.clone().hour(12).minute(15).second(1) : m.clone().hour(19).minute(45).second(1);
+            var end = day === 6 ? m.clone().hour(12).minute(0).second(1) : m.clone().hour(19).minute(30).second(1);
 
             if (day === 0) { // sunday
               return false;
