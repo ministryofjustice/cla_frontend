@@ -28,7 +28,7 @@ global_urls = patterns(
     '',
     url(r'^logout/$', 'django.contrib.auth.views.logout',
         {'next_page': reverse_lazy('login')},
-        name='global_logout'),
+        name='logout'),
     )
 
 

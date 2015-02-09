@@ -243,7 +243,7 @@ ZONE_PROFILES = {
 # LOGIN_REDIRECT_URL = 'cla_auth.views.login_redirect_url'
 
 AUTH_USER_MODEL = 'cla_auth.ClaUser'
-LOGIN_URL = 'auth:global_login'
+LOGIN_URL = 'auth:login'
 
 # AUTHENTICATION_BACKENDS from ZONE_PROFILES
 AUTHENTICATION_BACKENDS = [v['AUTHENTICATION_BACKEND'] for k,v in ZONE_PROFILES.items()]

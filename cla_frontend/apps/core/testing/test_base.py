@@ -24,7 +24,7 @@ class CLATFrontEndTestCase(SimpleTestCase):
         }
         self.mocked_get_auth_connection.return_value = auth_connection
 
-        self.login_url = reverse('%s:login' % self.zone)
+        self.login_url = reverse('auth:login')
 
 
         super(CLATFrontEndTestCase, self).__call__(result, *args, **kwargs)

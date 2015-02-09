@@ -26,7 +26,7 @@
             controller: function ($scope) {
               $scope.login = function (form) {
                 $http({
-                  url: url_utils.url('login/'),
+                  url: url_utils.login,
                   method: 'POST',
                   data: $.param({
                     username: this.username,
