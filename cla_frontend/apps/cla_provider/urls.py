@@ -1,4 +1,6 @@
 from django.conf.urls import patterns, url
+from django.views.generic import RedirectView
+from django.core.urlresolvers import reverse_lazy
 
 from cla_auth import views as auth_views
 from cla_provider import views as provider_views
@@ -9,6 +11,11 @@ from django.conf import settings
 zone = settings.ZONE_PROFILES.get('cla_provider')
 
 urlpatterns = patterns('',
+    url(
+        r'^login/$',
+        RedirectView.as_view(url=reverse_lazy('auth:login')),
+        name='login'
+    ),
     url(r'^case/(?P<case_reference>.+)/legal_help_form/$',
         provider_views.legal_help_form,
         name='legal_help_form'

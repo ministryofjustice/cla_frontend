@@ -1,4 +1,6 @@
 from django.conf.urls import patterns, url, include
+from django.views.generic import RedirectView
+from django.core.urlresolvers import reverse_lazy
 
 from cla_auth import views as auth_views
 
@@ -6,6 +8,11 @@ from . import views
 
 
 urlpatterns = patterns('',
+    url(
+        r'^login/$',
+        RedirectView.as_view(url=reverse_lazy('auth:login')),
+        name='login'
+    ),
     url(r'^admin/', include('call_centre.admin.urls', namespace='admin',)),
 
     url(r'^proxy/(?P<path>.*)', auth_views.backend_proxy_view, name="backend_proxy"),
