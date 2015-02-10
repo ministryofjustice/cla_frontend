@@ -90,11 +90,7 @@ def login(request, template_name='accounts/login.html',
     if extra_context is not None:
         context.update(extra_context)
 
-    if is_json:
-        raise Http404()
-    else:
-        return TemplateResponse(request, template_name, context,
-                                current_app=current_app)
+    return TemplateResponse(request, template_name, context, current_app=current_app)
 
 
 @csrf_exempt

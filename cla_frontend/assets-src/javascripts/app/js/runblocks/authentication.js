@@ -39,6 +39,7 @@
                   function() {
                     flash('Your session has been successfully restored');
                     $scope.$close();
+                    loginModal = null;
                   },
                   function(response){
                     form_utils.ctrlFormErrorCallback($scope, response, form);
@@ -81,12 +82,20 @@
 
         var closeModals = function () {
           if (warningModal) {
-            warningModal.close();
-            warningModal = null;
+            try {
+              warningModal.close();
+            } catch (err) {
+            } finally {
+              warningModal = null;
+            }
           }
           if (loginModal) {
-            loginModal.close();
-            loginModal = null;
+            try {
+              loginModal.close();
+            } catch (err) {
+            } finally {
+              loginModal = null;
+            }
           }
         };
 

@@ -24,7 +24,7 @@ class AuthenticationForm(forms.Form):
         """
         self.request = request
         self.user_cache = None
-        self.zone_name = None
+        self.current_zone_name = None
         self.zone_names = kwargs.pop('zone_names', get_available_zone_names())
         super(AuthenticationForm, self).__init__(*args, **kwargs)
 
@@ -43,7 +43,7 @@ class AuthenticationForm(forms.Form):
         password = self.cleaned_data.get('password')
 
         if username and password:
-            self.user_cache, self.zone_name = self._authenticate(username, password)
+            self.user_cache, self.current_zone_name = self._authenticate(username, password)
 
             if self.user_cache is None:
                 raise forms.ValidationError(
@@ -74,7 +74,7 @@ class AuthenticationForm(forms.Form):
         return self.user_cache
 
     def get_login_redirect_url(self):
-        zone_profile = get_zone_profile(self.zone_name)
+        zone_profile = get_zone_profile(self.current_zone_name)
         if not zone_profile:
             return None
         return reverse(zone_profile['LOGIN_REDIRECT_URL'])
