@@ -103,7 +103,7 @@
 
   <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
 
-  <call-script>
+  <call-script ng-if="diagnosis.isInScopeFalse() || eligibility_check.isEligibilityFalse()">
     <p>If you require any further assistance please do not hesitate to call us back.  We are open from 9am - 8pm Monday to Friday and 9am - 12.30pm on Saturdays.</p>
     <p>Just before you go today the line will go silent as I transfer you to a short automated survey which will ask you a few questions about the service you receive today.</p>
     <p>Thank you for calling Civil Legal Advice. Goodbye.</p>
