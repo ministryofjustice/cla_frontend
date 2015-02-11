@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
 from . import authenticate
-from .utils import get_zone_profile
+from .utils import get_zone_profile, get_available_zone_names
 
 
 class AuthenticationForm(forms.Form):
@@ -24,17 +24,26 @@ class AuthenticationForm(forms.Form):
         """
         self.request = request
         self.user_cache = None
-        self.zone_name = kwargs.pop('zone_name', None)
+        self.current_zone_name = None
+        self.zone_names = kwargs.pop('zone_names', get_available_zone_names())
         super(AuthenticationForm, self).__init__(*args, **kwargs)
+
+    def _authenticate(self, username, password):
+        for zone_name in self.zone_names:
+            user_cache = authenticate(
+                zone_name, username=username, password=password,
+            )
+
+            if user_cache:
+                return (user_cache, zone_name)
+        return (None, None)
 
     def clean(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
 
         if username and password:
-            self.user_cache = authenticate(
-                self.zone_name, username=username, password=password,
-            )
+            self.user_cache, self.current_zone_name = self._authenticate(username, password)
 
             if self.user_cache is None:
                 raise forms.ValidationError(
@@ -65,7 +74,7 @@ class AuthenticationForm(forms.Form):
         return self.user_cache
 
     def get_login_redirect_url(self):
-        zone_profile =  get_zone_profile(self.zone_name)
+        zone_profile = get_zone_profile(self.current_zone_name)
         if not zone_profile:
             return None
         return reverse(zone_profile['LOGIN_REDIRECT_URL'])

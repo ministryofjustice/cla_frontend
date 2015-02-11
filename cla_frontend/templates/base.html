@@ -70,7 +70,7 @@
                   {% block user_details %}{{ user.username }}{% endblock %}
                 </li>
                 <li class="UserMenu-option">
-                  <a href="{% url 'auth:global_logout' %}" target="_self">Sign out</a>
+                  <a href="{% url 'auth:logout' %}" target="_self">Sign out</a>
                 </li>
               </ul>
             </nav>

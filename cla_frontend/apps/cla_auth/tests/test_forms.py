@@ -26,7 +26,7 @@ class AuthenticationFormTest(SimpleTestCase):
             'password': 'test123',
         }
 
-        form = AuthenticationForm(None, zone_name=self.zone_name, data=data)
+        form = AuthenticationForm(None, zone_names=[self.zone_name], data=data)
 
         self.assertFalse(form.is_valid())
         self.assertEqual(form.non_field_errors(),
@@ -37,6 +37,9 @@ class AuthenticationFormTest(SimpleTestCase):
         self.mocked_authenticate.assert_called_with(self.zone_name, **data)
 
     def test_success(self):
+        zone_name = settings.ZONE_PROFILES.keys()[0]
+        zone_profile = settings.ZONE_PROFILES[zone_name]
+
         # The success case
 
         self.mocked_authenticate.return_value = mock.MagicMock(
@@ -48,11 +51,16 @@ class AuthenticationFormTest(SimpleTestCase):
             'password': 'password',
         }
 
-        form = AuthenticationForm(None, zone_name=self.zone_name, data=data)
+        form = AuthenticationForm(None, zone_names=[zone_name], data=data)
         self.assertTrue(form.is_valid())
         self.assertEqual(form.non_field_errors(), [])
 
-        self.mocked_authenticate.assert_called_with(self.zone_name, **data)
+        self.mocked_authenticate.assert_called_with(zone_name, **data)
+
+        self.assertEqual(
+            form.get_login_redirect_url(),
+            reverse(zone_profile['LOGIN_REDIRECT_URL'])
+        )
 
     def test_locked_out(self):
         self.mocked_authenticate.return_value = mock.MagicMock(
@@ -64,7 +72,7 @@ class AuthenticationFormTest(SimpleTestCase):
             'password': 'password',
         }
 
-        form = AuthenticationForm(None, zone_name=self.zone_name, data=data)
+        form = AuthenticationForm(None, zone_names=[self.zone_name], data=data)
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.non_field_errors(),
@@ -81,7 +89,7 @@ class AuthenticationFormTest(SimpleTestCase):
             'password': 'password',
         }
 
-        form = AuthenticationForm(None, zone_name=self.zone_name, data=data)
+        form = AuthenticationForm(None, zone_names=[self.zone_name], data=data)
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.non_field_errors(),
@@ -89,17 +97,6 @@ class AuthenticationFormTest(SimpleTestCase):
         )
 
     def test_get_login_redirect_url_invalid_zone(self):
-        form = AuthenticationForm(None, zone_name='invalid')
+        form = AuthenticationForm(None, zone_names=['invalid'])
 
         self.assertEqual(form.get_login_redirect_url(), None)
-
-    def test_get_login_redirect_url_valid_zone(self):
-        zone_name = settings.ZONE_PROFILES.keys()[0]
-        zone_profile = settings.ZONE_PROFILES[zone_name]
-
-        form = AuthenticationForm(None, zone_name=settings.ZONE_PROFILES.keys()[0])
-
-        self.assertEqual(
-            form.get_login_redirect_url(),
-            reverse(zone_profile['LOGIN_REDIRECT_URL'])
-        )
