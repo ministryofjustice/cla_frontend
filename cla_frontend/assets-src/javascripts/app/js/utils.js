@@ -66,7 +66,8 @@
           },
           proxy: function(suffix) {
             return url_utils.url('proxy/'+suffix);
-          }
+          },
+          login: '/auth/login/'
         };
       })();
 

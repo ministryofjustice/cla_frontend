@@ -29,11 +29,11 @@
 
   module.exports = {
     setUp: function () {
-      login(CONSTANTS.callcentreBaseUrl + 'login/', 'test_operator', 'test_operator');
+      login(CONSTANTS.authUrl + 'login/', 'test_operator', 'test_operator');
     },
 
     setUpAsOperatorManager: function () {
-      login(CONSTANTS.callcentreBaseUrl + 'login/', 'test_operator_manager', 'test_operator_manager');
+      login(CONSTANTS.authUrl + 'login/', 'test_operator_manager', 'test_operator_manager');
     },
 
     setUpAsProvider: function () {

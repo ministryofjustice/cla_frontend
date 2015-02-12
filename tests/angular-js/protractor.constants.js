@@ -4,6 +4,7 @@
   var _ = require('lodash');
 
   var testConstants = {
+    authUrl: 'auth/',
     callcentreBaseUrl: 'call_centre/',
     providerBaseUrl: 'provider/',
     scope: {
