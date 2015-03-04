@@ -43,14 +43,35 @@
           }
 
           function showECFModal() {
-            if (!isECFRequired()) {
-              return $q.when(true);
-            }
             return $modal.open({
               templateUrl: 'case_detail.alternative_help.ecf.html',
               controller: 'SetECFundCtrl',
               scope: $scope
             }).result;
+          }
+
+          function showSurveyModal() {
+            return $modal.open({
+              templateUrl: 'alternative_help_survey.modal.html',
+              controller: function ($scope, $modalInstance) {
+                $scope.cancel = function () {
+                  $modalInstance.dismiss('cancel');
+                };
+                $scope.continue = function() {
+                  $modalInstance.close();
+                };
+              }
+            }).result;
+          }
+
+          function showModal() {
+            if(isECFRequired()) {
+              return showECFModal();
+            }
+            if($scope.$root.showCallScript) {
+              return showSurveyModal();
+            }
+            return $q.when(true);
           }
 
           function saveAlternativeHelp(code) {
@@ -87,7 +108,7 @@
           };
 
           $scope.decline_help = function() {
-            return showECFModal();
+            return showModal();
           };
 
           $scope.toggleProvider = function (provider) {
@@ -100,7 +121,7 @@
 
           $scope.submit = function (code) {
             code = code || this.code;
-            showECFModal().then(function () {
+            showModal().then(function () {
               saveAlternativeHelp(code)
                 .then(function () {
                   AlternativeHelpService.clear();
