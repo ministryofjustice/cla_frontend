@@ -68,6 +68,9 @@
         browser.getCurrentUrl().then(function (caseUrl) {
           utils.scrollTo(assignSubmit);
           assignSubmit.click();
+
+          ensureHasSurveyModal();
+
           browser.get(caseUrl);
           utils.checkLastOutcome('IRKB');
         });
@@ -105,6 +108,7 @@
       it('should assign f2f', function () {
         browser.getCurrentUrl().then(function (caseUrl) {
           assignF2fBtn.click();
+          ensureHasSurveyModal();
           browser.get(caseUrl);
           utils.checkLastOutcome('SPFN');
         });
@@ -166,9 +170,11 @@
           utils.scrollTo(declineBtn);
           declineBtn.click();
 
-          expect(modal.isPresent()).toBe(true);
 
+          ensureHasSurveyModal();
           declineHelp();
+
+          expect(modal.isPresent()).toBe(true);
           expect(modalSubmit.isPresent()).toBe(true);
 
           browser.getCurrentUrl().then(function (caseUrl) {
@@ -196,5 +202,11 @@
 
   function gotoAltHelp () {
     element(by.css('.CaseBar-actions a[ui-sref="case_detail.alternative_help"]')).click();
+  }
+
+  function ensureHasSurveyModal() {
+    expect(modal.isPresent()).toBe(true);
+    expect(element.all(by.css('div.modal h2')).get(0).getText()).toBe('Survey reminder');
+    modalSubmit.click();
   }
 })();
