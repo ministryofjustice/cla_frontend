@@ -68,9 +68,13 @@
         return window.getSize();
       }).then(function showWindowSize(dimensions) {
         console.log('Browser:', browserName, 'on', platform, 'at', dimensions.width + 'x' + dimensions.height);
-      });
 
-      window.maximize();
+        if(dimensions.width > 1280) {
+          window.setSize(1280, 1024);
+        } else {
+          window.maximize();
+        }
+      });
     },
 
     // --- test framework ---
