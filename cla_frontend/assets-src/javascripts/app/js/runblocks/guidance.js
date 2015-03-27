@@ -1,49 +1,14 @@
 'use strict';
 (function(){
   angular.module('cla.services')
-    .factory('cla.guidance', ['lunr', '$http', '$q', 'STATIC_ROOT', function(lunr, $http, $q, STATIC_ROOT) {
-      var _index,
-          indexPath = STATIC_ROOT+'javascripts/guidance_index.json',
-          guidanceHtmlPath = function(fileName) {
-            return STATIC_ROOT+'guidance/'+fileName+'.html';
-          };
-
-      function getIndex() {
-        var deferred = $q.defer();
-
-        if (_index !== undefined) {
-          deferred.resolve(_index);
-        } else {
-          $http.get(indexPath).success(function(data) {
-            _index = lunr.Index.load(data);
-            _index._claTitles = data._claTitles;
-
-            deferred.resolve(_index);
-          }).error(function(data) {
-            deferred.reject(data);
-          });
-        }
-        return deferred.promise;
-      }
-
+    .factory('cla.guidance', ['GuidanceNote', function(GuidanceNote) {
       return {
         search: function(query) {
-          return getIndex().then(function(index) {
-            return index.search(query).map(function (result) {
-              result.title = index._claTitles[result.ref];
-              result.source = guidanceHtmlPath(result.ref);
-              return result;
-            });
-          });
+          return GuidanceNote.query({'search': query}).$promise;
         },
 
-        getDoc: function(docRef) {
-          return getIndex().then(function(index) {
-            return {
-              title: index._claTitles[docRef],
-              source: guidanceHtmlPath(docRef)
-            };
-          });
+        getDoc: function(docId) {
+          return GuidanceNote.get({'id': docId}).$promise;
         }
       };
     }
@@ -69,9 +34,9 @@
             }
           };
 
-          $scope.addDoc = function(docRef) {
+          $scope.addDoc = function(docId) {
             $scope.toggleResults(false);
-            $scope.docRef = docRef;
+            $scope.docId = docId;
           };
 
           $scope.closeDoc = function() {
@@ -93,42 +58,35 @@
             }
           };
 
-          $scope.$watch('docRef', function(newVal) {
+          $scope.$watch('docId', function(newVal) {
             if (!newVal) {
               $scope.htmlDoc = null;
             } else {
-              var parts = newVal.split('#'),
-                  docRef = parts[0],
-                  section = parts.length === 2 ? parts[1] : null;
+              var docId = newVal;
 
-              guidance.getDoc(docRef).then(function(doc) {
+              guidance.getDoc(docId).then(function(doc) {
                 // track the document that has been opened
                 postal.publish({
                   channel: 'Guidance',
                   topic: 'openDoc',
                   data: {
-                    label: doc.source
+                    label: '/static/guidance/' + doc.name + '.html'
                   }
                 });
 
-                $http.get(doc.source).success(function(data) {
-                  $scope.htmlDoc = $sce.trustAsHtml(data);
-                  if (section) {
-                    $location.hash(section);
-                  }
-                });
+                $scope.htmlDoc = $sce.trustAsHtml(doc.body);
               });
             }
           });
 
-          $rootScope.$on('guidance:openDoc', function(__, docRef) {
-            $scope.addDoc(docRef);
+          $rootScope.$on('guidance:openDoc', function(__, docId) {
+            $scope.addDoc(docId);
           });
 
           $rootScope.$on('guidance:closeDoc', function() {
             postal.publish({channel: 'Guidance', topic: 'closeDoc'});
             $scope.htmlDoc = null;
-            $scope.docRef = null;
+            $scope.docId = null;
           });
         }
       ]

@@ -1,8 +1,3 @@
-# from django.core.urlresolvers import reverse
-
-
-# def login_redirect_url(request):
-#     return reverse('call_centre:dashboard')
 import json
 import logging
 
@@ -36,7 +31,7 @@ logger = logging.getLogger(__name__)
 def login(request, template_name='accounts/login.html',
           redirect_field_name=REDIRECT_FIELD_NAME,
           authentication_form=AuthenticationForm,
-          current_app=None, extra_context=None, zone_name=None):
+          current_app=None, extra_context=None):
     """
     Displays the login form and handles the login action.
     """
@@ -44,9 +39,7 @@ def login(request, template_name='accounts/login.html',
     redirect_to = request.REQUEST.get(redirect_field_name, '')
 
     if request.method == "POST":
-        form = authentication_form(
-            request, data=request.POST, zone_name=zone_name
-        )
+        form = authentication_form(request, data=request.POST)
         if form.is_valid():
             # Ensure the user-originating redirection url is safe.
             if not is_safe_url(url=redirect_to, host=request.get_host()):
@@ -84,7 +77,7 @@ def login(request, template_name='accounts/login.html',
                     content_type='application/json'
                 )
     else:
-        form = authentication_form(request, zone_name=zone_name)
+        form = authentication_form(request)
 
     current_site = get_current_site(request)
 
@@ -97,11 +90,7 @@ def login(request, template_name='accounts/login.html',
     if extra_context is not None:
         context.update(extra_context)
 
-    if is_json:
-        raise Http404()
-    else:
-        return TemplateResponse(request, template_name, context,
-                                current_app=current_app)
+    return TemplateResponse(request, template_name, context, current_app=current_app)
 
 
 @csrf_exempt

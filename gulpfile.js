@@ -12,7 +12,7 @@
   // run build
   gulp.task('build', function () {
     runSequence('clean-pre',
-      ['copy-fonts', 'images', 'copy-vendor-js', 'build-guidance', 'lint', 'js-lib-compile', 'js-app-compile', 'css-min'],
+      ['copy-fonts', 'images', 'copy-vendor-js', 'lint', 'js-lib-compile', 'js-app-compile', 'css-min'],
       'clean-post');
   });
 })();

@@ -1,0 +1,13 @@
+--- Comments -----------------
+
+{{ comments|safe }}
+
+
+
+--- Additional information ---
+
+Username:   {{ user.username }} {% if user.is_manager %}(manager){% endif %}
+User ID:    {{ user.pk }}
+User type:  {{ app_name }}
+URL:        {{ url }}
+Browser:    {{ user_agent }}

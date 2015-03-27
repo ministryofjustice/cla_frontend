@@ -1,0 +1,23 @@
+.FeedbackPopover {
+  @extend .CallbackModal;
+  right: 5px;
+  top: 40px;
+
+  @include media(desktop) {
+    &:before,
+    &:after {
+      right: 3px;
+    }
+    &:before {
+      border-width: 0 10px 10px;
+    }
+    &:after {
+      border-width: 0 9px 9px;
+    }
+  }
+}
+
+.FeedbackPopover-heading {
+  @extend .CallbackModal-heading;
+}
+

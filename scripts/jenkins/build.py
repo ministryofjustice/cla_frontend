@@ -18,6 +18,19 @@ def kill_child_processes(parent_pid, sig=signal.SIGTERM):
 
 
 background_processes = Queue()
+
+def run(command, ignore_rc=False, **kwargs):
+    defaults = {
+        'shell': True
+    }
+    defaults.update(kwargs)
+
+    return_code = subprocess.call(command, **defaults)
+    if return_code:
+        if not ignore_rc:
+            sys.exit(return_code)
+
+
 try:
     PROJECT_NAME = "cla_frontend"
     BACKEND_PROJECT_NAME = "cla_backend"
@@ -45,16 +58,6 @@ try:
     backend_bin_path = "%s/bin" % backend_env_path
 
 
-    def run(command, ignore_rc=False, **kwargs):
-        defaults = {
-            'shell': True
-        }
-        defaults.update(kwargs)
-
-        return_code = subprocess.call(command, **defaults)
-        if return_code:
-            if not ignore_rc:
-                sys.exit(return_code)
 
 
     def run_bg(command, **kwargs):

@@ -9,6 +9,9 @@ from django.utils.functional import curry
 from django.http import Http404
 
 
+def get_available_zone_names():
+    return settings.ZONE_PROFILES.keys()
+
 
 def get_zone_profile(zone_name):
     zone = dict(settings.ZONE_PROFILES.get(zone_name, {}))
