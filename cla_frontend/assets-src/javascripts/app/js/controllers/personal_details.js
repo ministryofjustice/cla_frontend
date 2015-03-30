@@ -14,11 +14,6 @@
           $scope.sources = CASE_SOURCE;
           $scope.exempt_user_reason_choices = EXEMPT_USER_REASON;
 
-          if($scope.personal_details && $scope.personal_details.safe_to_contact === null) {
-            // return undefined rather than null to fix 'icon not appearing' bug
-            $scope.personal_details.safe_to_contact = undefined;
-          }
-
           $scope.language = {};
           if ($scope.adaptations.language === 'WELSH') {
             $scope.language.welsh_override = true;
