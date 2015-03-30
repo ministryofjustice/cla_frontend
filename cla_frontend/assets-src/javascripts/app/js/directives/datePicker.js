@@ -38,7 +38,7 @@
           var settings = $.extend({
             weekStart: 1,
             inputFormat: 'DD/MM/YYYY HH:mm',
-            timeInterval: 900
+            timeInterval: 1800
           }, scope.config);
 
           rome(element[0], settings).on('data', function (value) {

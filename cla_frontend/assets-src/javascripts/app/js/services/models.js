@@ -636,4 +636,19 @@
       return resource;
     }]);
 
+  angular.module('cla.services')
+    .factory('GuidanceNote', ['$resource', 'url_utils', function ($resource, url_utils) {
+      return $resource(url_utils.proxy('guidance/note/:id/'), {}, {
+        get: {
+          method: 'GET',
+          cache: true
+        },
+        query: {
+          method: 'GET',
+          isArray: true,
+          cache: true
+        }
+      });
+    }]);
+
 })();

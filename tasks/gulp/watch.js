@@ -14,7 +14,6 @@
     gulp.watch(paths.vendor_static, ['copy-vendor-js']);
     gulp.watch(paths.src + 'javascripts/**/*', ['lint', 'js-concat']);
     gulp.watch('tests/**/*.js', ['lint']);
-    gulp.watch(paths.guidance, ['guidance-build']);
     // watch built files and send reload event
     gulp.watch(paths.dest + '**/*').on('change', lr.changed);
   });

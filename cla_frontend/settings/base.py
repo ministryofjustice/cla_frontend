@@ -37,10 +37,6 @@ def get_env_value(var_name):
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = ()
-
-MANAGERS = ADMINS
-
 DATABASES = {}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -56,8 +52,6 @@ TIME_ZONE = 'Europe/London'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-gb'
-
-SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -249,7 +243,7 @@ ZONE_PROFILES = {
 # LOGIN_REDIRECT_URL = 'cla_auth.views.login_redirect_url'
 
 AUTH_USER_MODEL = 'cla_auth.ClaUser'
-LOGIN_URL = 'auth:global_login'
+LOGIN_URL = 'auth:login'
 
 # AUTHENTICATION_BACKENDS from ZONE_PROFILES
 AUTHENTICATION_BACKENDS = [v['AUTHENTICATION_BACKEND'] for k,v in ZONE_PROFILES.items()]
@@ -274,6 +268,13 @@ SOCKETIO_SERVER_URL = os.environ.get('SOCKETIO_SERVER_URL',
 ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
     'http://127.0.0.1:8003')
 ADDRESSFINDER_API_TOKEN = os.environ.get('ADDRESSFINDER_API_TOKEN', '')
+
+# Zendesk feedback settings
+ZENDESK_API_USERNAME = os.environ.get('ZENDESK_API_USERNAME', '')
+ZENDESK_API_TOKEN = os.environ.get('ZENDESK_API_TOKEN', '')
+ZENDESK_REQUESTER_ID = os.environ.get('ZENDESK_REQUESTER_ID', 762871298) # Defaults to 'Civil Legal Advice' user
+ZENDESK_GROUP_ID = os.environ.get('ZENDESK_GROUP_ID', 24287107) # Defaults to 'CLA Operator/Provider' group
+ZENDESK_API_ENDPOINT = 'https://ministryofjustice.zendesk.com/api/v2/'
 
 if 'RAVEN_CONFIG_DSN' in os.environ:
     MIDDLEWARE_CLASSES = (

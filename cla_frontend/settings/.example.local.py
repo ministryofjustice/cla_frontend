@@ -33,3 +33,14 @@ LOGGING = {
         },
     }
 }
+
+# requires a running instance of address-finder https://github.com/ministryofjustice/addressfinder
+ADDRESSFINDER_API_HOST = ''
+ADDRESSFINDER_API_TOKEN = ''
+
+ZENDESK_API_USERNAME = os.environ.get(
+    'ZENDESK_API_USERNAME',
+    '<Zendesk user email>')
+ZENDESK_API_TOKEN = os.environ.get(
+    'ZENDESK_API_TOKEN',
+    '<Zendesk API token>')

@@ -27,7 +27,7 @@ class LoginTestCase(SimpleTestCase):
 
     def setUp(self, *args, **kwargs):
         super(LoginTestCase, self).setUp(*args, **kwargs)
-        self.url = reverse(u'%s:login' % base.DEFAULT_ZONE_NAME)
+        self.url = reverse(u'auth:login')
 
     def test_get(self):
         response = self.client.get(self.url)
