@@ -638,7 +638,7 @@
 
   angular.module('cla.services')
     .factory('GuidanceNote', ['$resource', 'url_utils', function ($resource, url_utils) {
-      return $resource(url_utils.proxy('guidance/note/:id/'), {}, {
+      return $resource(url_utils.proxy('guidance/note/:id'.replace(/^([^#]+)/, '$1/')), {}, {
         get: {
           method: 'GET',
           cache: true
