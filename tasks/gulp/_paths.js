@@ -51,7 +51,7 @@
       paths.src + 'vendor/angular-ui-select2/src/select2.js',
       paths.src + 'vendor/angular-i18n/angular-locale_en-gb.js',
       paths.src + 'vendor/moment/moment.js',
-      paths.src + 'vendor/moment/moment-timezone-with-data-2010-2020.js',
+      paths.src + 'vendor/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
       paths.src + 'vendor/angular-moment/angular-moment.js',
       paths.src + 'vendor/angular-blocks/dist/angular-blocks.js',
       paths.src + 'vendor/rome/dist/rome.standalone.js', // datepicker
