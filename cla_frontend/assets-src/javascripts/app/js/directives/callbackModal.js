@@ -213,7 +213,10 @@
 
         scope.bookCallback = function (form) {
           scope.case.$call_me_back({
-            'datetime': calendar.getDateString('DD/MM/YYYY HH:mm'),
+            'datetime': (function () {
+              var local = moment.tz(calendar.getDate(), 'Europe/London');
+              return local.tz('UTC').format('DD/MM/YYYY HH:mm');
+            })(),
             'notes': scope.callbackNotes || ''
           }).then(function() {
             flash('success', 'Callback scheduled successfully.');
