@@ -105,7 +105,7 @@
       });
 
       it('should see the callback for tomorrow in the list', function() {
-        var cell = element.all(by.css('.CallbackMatrix .CallbackMatrix-cell')).get(1);
+        var cell = element.all(by.css('.CallbackMatrix .CallbackMatrix-cell')).get(8);
         var caseLink = caseList.element(by.cssContainingText('tbody tr a', cbCaseRef));
 
         expect(caseList.isDisplayed()).toBe(false);
@@ -143,6 +143,15 @@
 
     // fill in the modal form and submit
     modal.element(by.name('set-tomorrow')).click();
+
+    var selected_time = modal.element(by.css('.rd-time-selected'))
+    selected_time.click();
+    var option_10am = modal.element(by.cssContainingText('.rd-time-list .rd-time-option', '10:00'));
+    expect(option_10am.isPresent()).toBe(true);
+    option_10am.click();
+    selected_time.click();
+    option_10am.click();
+    expect(selected_time.getText()).toBe('10:00');
     modal.element(by.name('callbackNotes')).sendKeys(expectedCode + ' scheduled.');
     modal.element(by.name('callback_form')).submit();
     expect(modal.isPresent()).toBe(false);
