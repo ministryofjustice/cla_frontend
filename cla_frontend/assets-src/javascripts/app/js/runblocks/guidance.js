@@ -7,8 +7,8 @@
           return GuidanceNote.query({'search': query}).$promise;
         },
 
-        getDoc: function(docId) {
-          return GuidanceNote.get({'id': docId}).$promise;
+        getDoc: function(docName) {
+          return GuidanceNote.get({'name': docName}).$promise;
         }
       };
     }
@@ -34,9 +34,9 @@
             }
           };
 
-          $scope.addDoc = function(docId) {
+          $scope.addDoc = function(docName) {
             $scope.toggleResults(false);
-            $scope.docId = docId;
+            $scope.docName = docName;
           };
 
           $scope.closeDoc = function() {
@@ -58,13 +58,13 @@
             }
           };
 
-          $scope.$watch('docId', function(newVal) {
+          $scope.$watch('docName', function(newVal) {
             if (!newVal) {
               $scope.htmlDoc = null;
             } else {
-              var docId = newVal;
+              var docName = newVal;
 
-              guidance.getDoc(docId).then(function(doc) {
+              guidance.getDoc(docName).then(function(doc) {
                 // track the document that has been opened
                 postal.publish({
                   channel: 'Guidance',
@@ -79,14 +79,14 @@
             }
           });
 
-          $rootScope.$on('guidance:openDoc', function(__, docId) {
-            $scope.addDoc(docId);
+          $rootScope.$on('guidance:openDoc', function(__, docName) {
+            $scope.addDoc(docName);
           });
 
           $rootScope.$on('guidance:closeDoc', function() {
             postal.publish({channel: 'Guidance', topic: 'closeDoc'});
             $scope.htmlDoc = null;
-            $scope.docId = null;
+            $scope.docName = null;
           });
         }
       ]
