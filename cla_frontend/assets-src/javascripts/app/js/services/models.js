@@ -651,4 +651,23 @@
       });
     }]);
 
+  angular.module('cla.services')
+    .factory('GuidanceNoteRequestInterceptor', function () {
+      return {
+        request: function (config) {
+          if (config.url.match(/guidance\/note\/.+/)) {
+            config.url = config.url.replace(/%2F%23/, '#');
+            config.url = config.url.replace(/(.*\/[^#]+)(#.*)?$/, '$1/$2');
+            config.url = config.url.replace(/\/\//, '/');
+          }
+          return config;
+        }
+      };
+    });
+
+  angular.module('cla.services')
+    .config(['$httpProvider', function ($httpProvider) {
+      $httpProvider.interceptors.push('GuidanceNoteRequestInterceptor');
+    }]);
+
 })();
