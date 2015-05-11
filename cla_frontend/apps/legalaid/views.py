@@ -24,7 +24,7 @@ def home(request):
 @login_required
 def addressfinder_proxy_view(request, path):
     try:
-        response = addressfinder.query(path, request.GET)
+        response = addressfinder.query(path, **dict(request.GET.items()))
         return HttpResponse(response.text, content_type="application/json")
     except (requests.exceptions.ConnectionError,
             requests.exceptions.Timeout):
