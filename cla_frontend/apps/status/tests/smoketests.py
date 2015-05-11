@@ -3,6 +3,7 @@ import json
 import time
 import unittest
 import urllib
+from urlparse import urlparse, urlunparse
 
 from django.conf import settings
 import requests
@@ -33,19 +34,30 @@ class SmokeTests(unittest.TestCase):
     def test_can_access_socketserver(self):
         "connect to socket server"
 
-        response = requests.get('{host}/1/?{params}'.format(
-            host=settings.SOCKETIO_SERVER_URL,
+        parts = urlparse(settings.SOCKETIO_SERVER_URL)
+        host, _, port = parts.netloc.partition(':')
+        host = host or 'localhost'
+        port = port or '80'
+        path = parts.path + '/1/'
+        parts = list(parts)
+
+        response = requests.get('http://{host}:{port}{path}?{params}'.format(
+            host=host,
+            port=port,
+            path=path,
             params=urllib.urlencode({
                 't': unix_timestamp(),
                 'transport': 'polling',
                 'b64': '1'})))
         session_id = json.loads(response.text[4:])['sid']
 
-        ws_url = '{host}/1/websocket/?{params}'.format(
-            host=settings.SOCKETIO_SERVER_URL.replace('http://', 'ws://'),
-            params=urllib.urlencode({
-                'sid': session_id,
-                'transport': 'polling',
-                'timestamp': unix_timestamp()}))
+        parts[0] = 'ws'
+        parts[1] = parts[1] or host
+        parts[2] = path + 'websocket/'
+        parts[4] = urllib.urlencode({
+            'sid': session_id,
+            'transport': 'polling',
+            'timestamp': unix_timestamp()})
+        ws_url = urlunparse(parts)
         ws = websocket.create_connection(ws_url)
         ws.send('0:::')
