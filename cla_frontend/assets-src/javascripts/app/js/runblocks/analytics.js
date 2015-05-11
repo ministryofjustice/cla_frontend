@@ -152,6 +152,13 @@
         callback: trackEvent
       });
 
+      // EOD
+      var EOD = postal.channel('EOD');
+      EOD.subscribe({
+        topic: '*',
+        callback: trackEvent
+      });
+
       $body
         // Details/Summary clicks
         .on('click', 'summary', function () {

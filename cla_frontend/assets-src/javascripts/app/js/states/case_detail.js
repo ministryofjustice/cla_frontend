@@ -55,6 +55,9 @@
         adaptations_metadata: ['AdaptationsMetadata', function(AdaptationsMetadata) {
           return AdaptationsMetadata.options().$promise;
         }],
+        eod_details: ['case', 'EODDetails', function(case_, EODDetails) {
+          return case_.eod_details ? EODDetails.get({case_reference: case_.reference}).$promise : new EODDetails({case_reference: case_.reference});
+        }],
         thirdparty_details: ['case', 'ThirdParty', function(case_, ThirdParty) {
           return case_.thirdparty_details ? ThirdParty.get({case_reference: case_.reference}).$promise : new ThirdParty({case_reference: case_.reference, personal_details: {}});
         }],

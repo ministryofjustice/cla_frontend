@@ -1,4 +1,14 @@
 <div data-extend-template="case_detail.html">
+  <nav class="u-pullRight" data-block="case-eod_details"
+
+      style="margin-left:10px"
+
+      >
+    <a ui-sref="case_detail.eod_details" ng-class="eod_details && eod_details.$eodFlag() ? 'Button--warning' : 'Button--secondary'">
+      {{ eod_details && eod_details.$eodFlag() ? ':(' : ':)' }}
+    </a>
+  </nav>
+
   <nav class="CaseBar-actions BtnGroup" data-block="case-actions">
     <a ui-sref="case_detail.suspend" class="BtnGroup-button BtnGroup-button--light" title="Suspend case"><span class="Icon Icon--compact Icon--suspend"></span></a>
     <callback-button case="case"><span class="Icon Icon--compact Icon--callback"></span></callback-button>

@@ -1,0 +1,41 @@
+<header>
+  <h2>{{ ::tplVars.title }}</h2>
+</header>
+
+<form novalidate ng-submit="submit(eod_frm)" name="eod_frm">
+  <p class="Error-message" ng-if="errors.__all__">{{ errors.__all__ }}</p>
+
+  <div class="FormBlock FormBlock--yellow">
+
+    <div class="FormRow cf">
+      <input id="eod-modal-search" type="text" placeholder="Search categories" class="FormRow-field--l" ng-model="::category_search" search-filter>
+    </div>
+
+    <fieldset class="FormRow">
+      <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="eod in EXPRESSIONS_OF_DISSATISFACTION | filter:category_search">
+        <label class="FormRow-label u-pullLeft">
+          <input type="checkbox" value="{{ ::eod.value }}" ng-checked="isCategorySelected(eod.value)" ng-click="toggleCategory(eod.value)">
+          <span class="u-mute">{{ ::eod.text }}</span>
+        </label>
+
+        <label class="u-pullRight" ng-if="isCategorySelected(eod.value) && categoryNeedsMajorFlag(eod.value)">
+          <input type="checkbox" ng-checked="isCategoryFlaggedMajor(eod.value)" ng-click="toggleCategoryMajorFlag(eod.value)">
+          <span class="u-mute">Major issue?</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="FormRow cf">
+      <label>
+        <textarea class="FormRow-field--full" cols="20" rows="6" ng-model="eod_details_model.notes" placeholder="Notes"></textarea>
+      </label>
+    </div>
+
+  </div>
+
+  <div class="FormActions" data-block="formActions">
+    <button class="Button" type="submit" ng-click="submitted=true">{{ ::tplVars.buttonText }}</button>
+    <a href="" ng-click="cancel()">Cancel</a>
+  </div>
+
+</form>
