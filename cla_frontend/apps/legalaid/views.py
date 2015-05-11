@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 import requests
 
+import addressfinder
 from cla_auth import get_zone
 
 
@@ -23,15 +24,8 @@ def home(request):
 @login_required
 def addressfinder_proxy_view(request, path):
     try:
-        resp = requests.get(
-            "%s/%s?%s" % (settings.ADDRESSFINDER_API_HOST,
-                          path, request.GET.urlencode()),
-            headers={
-                'Authorization': 'Token %s' % settings.ADDRESSFINDER_API_TOKEN
-            },
-            timeout=(2.0, 5.0)
-        )
-        return HttpResponse(resp.text, content_type="application/json")
+        response = addressfinder.query(path, **dict(request.GET.items()))
+        return HttpResponse(response.text, content_type="application/json")
     except (requests.exceptions.ConnectionError,
             requests.exceptions.Timeout):
         return HttpResponse('', content_type="application/json", status=404)
