@@ -78,3 +78,5 @@ reports/
 
 # js constants builds
 cla_frontend/assets-src/javascripts/app/**/constants.js
+
+!/bin
