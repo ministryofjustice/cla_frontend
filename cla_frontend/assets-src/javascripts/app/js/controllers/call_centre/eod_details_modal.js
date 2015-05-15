@@ -3,16 +3,8 @@
 
   angular.module('cla.controllers.operator')
     .controller('EODDetailsModalCtrl',
-      ['$scope', 'case', 'eod_details', 'tplVars', '$modalInstance', 'EXPRESSIONS_OF_DISSATISFACTION', 'EXPRESSIONS_OF_DISSATISFACTION_FLAGS', '$q', '$timeout', 'flash', 'postal',
-        function($scope, $case, eod_details, tplVars, $modalInstance, EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, $q, $timeout, flash, postal) {
-
-          // template vars
-          tplVars = angular.extend({
-            title: 'Expressions of Dissatisfaction',
-            buttonText: 'Save'
-          }, tplVars);
-          $scope.tplVars = tplVars;
-
+      ['$scope', 'case', 'eod_details', '$modalInstance', 'EXPRESSIONS_OF_DISSATISFACTION', 'EXPRESSIONS_OF_DISSATISFACTION_FLAGS', '$q', '$timeout', 'flash', 'postal',
+        function($scope, $case, eod_details, $modalInstance, EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, $q, $timeout, flash, postal) {
           $scope.case = $case;
           $scope.EXPRESSIONS_OF_DISSATISFACTION = EXPRESSIONS_OF_DISSATISFACTION;
 

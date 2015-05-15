@@ -37,11 +37,6 @@
             templateUrl: 'call_centre/case_detail.eod_details_modal.html',
             controller: 'EODDetailsModalCtrl',
             resolve: {
-              tplVars: function () {
-                return {
-                  title: 'Expressions of Dissatisfaction'
-                };
-              },
               case: function() {
                 return $case;
               },
