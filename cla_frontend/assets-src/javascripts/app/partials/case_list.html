@@ -57,7 +57,7 @@
           <span class="Label Label--secondary" ng-if="case.outcome_code">{{ ::case.outcome_code }}</span>
           <span class="Label-helpText" ng-if="::isCallback(case)">{{ ::case.requires_action_at | date:"d/M/yy h:mma" }}</span>
         </td>
-        <td ng-show="::user.is_manager">{{ ::case.flagged_with_eod ? 'YES' : '' }}</td>
+        <td ng-if="::user.is_manager" class="u-highlightRed">{{ ::case.flagged_with_eod ? 'YES' : '' }}</td>
       </tr>
     </tbody>
   </table>
