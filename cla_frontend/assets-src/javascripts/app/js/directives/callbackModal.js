@@ -72,6 +72,9 @@
           channel: 'CallBack',
           topic: 'toggle',
           callback: function (data) {
+            if(data.prevented) {
+              return;
+            }
             if (data._case) {
               var show = true;
 
@@ -84,6 +87,7 @@
               // if a targer has been passed, store it
               if (data.target) {
                 target = data.target;
+                target.toggled = !target.toggled;
               }
 
               toggleModal(show);
