@@ -289,6 +289,12 @@ $border-colour: $grey-2;
       }
     }
   }
+
+  &--ruled {
+    border-bottom: 1px solid rgba($black, 0.1);
+    overflow: hidden;
+  }
+
   // Duplicate to handle xeditable form styles
   .editable-radiolist,
   .editable-checklist,

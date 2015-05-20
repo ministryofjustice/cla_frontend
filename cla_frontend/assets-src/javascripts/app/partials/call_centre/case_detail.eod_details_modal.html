@@ -12,7 +12,7 @@
     </div>
 
     <fieldset class="FormRow">
-      <div class="FormRow FormRow--group FormRow--groupNarrow" ng-repeat="eod in EXPRESSIONS_OF_DISSATISFACTION | filter:category_search">
+      <div class="FormRow FormRow--group FormRow--groupNarrow FormRow--ruled" ng-repeat="eod in EXPRESSIONS_OF_DISSATISFACTION | filter:category_search">
         <label class="FormRow-label u-pullLeft">
           <input type="checkbox" value="{{ ::eod.value }}" ng-checked="isCategorySelected(eod.value)" ng-click="toggleCategory(eod.value)">
           <span class="u-mute">{{ ::eod.text }}</span>
