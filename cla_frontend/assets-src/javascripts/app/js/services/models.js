@@ -377,8 +377,10 @@
         }
       };
 
-      resource.prototype.$eodFlag = function() {
-        return this.notes || (this.categories && this.categories.length);
+      resource.prototype.$eodBadge = function() {
+        // returns either the number of selected categories or ! if there are only notes
+        var badge = this.categories && this.categories.length;
+        return badge || (this.notes && '!');
       };
 
       return resource;
