@@ -132,6 +132,9 @@
     <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
     <script src="{% staticmin 'javascripts/cla.main.js' %}"></script>
     <script src="{% static 'javascripts/vendor/analytics.js' %}"></script>
+    {% if debug %}
+    <script src="{% static 'javascripts/vendor/postal.diagnostics.js' %}"></script>
+    {% endif %}
     {% block javascripts %}{% endblock %}
 
     {% block body_end %}{% endblock %}
