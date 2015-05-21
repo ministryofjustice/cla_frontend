@@ -75,53 +75,46 @@
     });
 
     describe('Prevention of accidental loss of personal details when editing Personal Details', function() {
-      var unloadAlertMessage = 'The Personal Details form is being edited.';
-      var confirmAlertMessage = unloadAlertMessage + '\n\nAre you sure you want to leave this page?';
-
-      function testAlertDialogue(selector, caseUrl, caseListUrl, alertMessage) {
+      function testAlertDialogue(selector) {
         selector = selector || '.SubNav-link--back';
-        alertMessage = alertMessage || confirmAlertMessage;
 
-        var alertDialogue = browser.switchTo().alert();
-        expect(alertDialogue.getText()).toEqual(alertMessage);
-        alertDialogue.dismiss();
-        expect(browser.getCurrentUrl()).toBe(caseUrl);
+        browser.switchTo().alert().dismiss();
+        expect(element(by.css('.PageHeader h1')).getText()).toBe('Case details');
         element(by.css(selector)).click();
         browser.switchTo().alert().accept();
-        expect(browser.getCurrentUrl()).toBe(caseListUrl);
+        expect(element(by.css('.PageHeader h1')).getText()).toBe('Cases');
       }
 
       beforeEach(function () {
         element(by.css('.header-logo')).click();
-        this.caseListUrl = browser.getCurrentUrl();
+        element.all(by.css('.ListTable thead a[ng-click]')).get(0).click();
         element(by.css('.ListTable tbody tr:first-child a[ng-click^=goToCase]')).click();
         element(by.css('.VCard-view[ng-click^=showPersonalDetails]')).click();
-        this.caseUrl = browser.getCurrentUrl();
       });
 
       it('should prevent navigating away to Case List', function() {
         element(by.css('.SubNav-link--back')).click();
-        testAlertDialogue(undefined, this.caseUrl, this.caseListUrl);
+        testAlertDialogue();
       });
 
       it('should prevent navigating away when clicking "Suspend case" button', function() {
         element(by.css('.CaseBar-actions a[ui-sref="case_detail.suspend"]')).click();
-        testAlertDialogue('.header-logo', this.caseUrl, this.caseListUrl);
+        testAlertDialogue('.header-logo');
       });
 
       it('should prevent navigating away when clicking "Schedule a callback" button', function() {
         element(by.css('.CaseBar-actions button[name="callback"]')).click();
-        testAlertDialogue('.header-logo', this.caseUrl, this.caseListUrl);
+        testAlertDialogue('.header-logo');
       });
 
       it('should prevent navigating away when clicking "Assign alternative help" button', function() {
         element(by.css('.CaseBar-actions a[ui-sref="case_detail.alternative_help"]')).click();
-        testAlertDialogue('.header-logo', this.caseUrl, this.caseListUrl);
+        testAlertDialogue('.header-logo');
       });
 
       it('should prevent navigating away refreshing the page', function() {
         browser.refresh();
-        testAlertDialogue(undefined, this.caseUrl, this.caseListUrl, unloadAlertMessage);
+        testAlertDialogue();
       });
     });
   });
