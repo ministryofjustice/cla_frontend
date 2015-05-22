@@ -298,33 +298,15 @@
 
           var unloadPrefixMsg = 'The Personal Details form is being edited.';
 
-          postal.subscribe({
-            channel: 'CallBack',
-            topic: 'toggle',
-            callback: function(evt) {
-              if(!$scope.personal_details_frm_visible || evt.target.toggled) {
-                return;
-              }
-              var answer = confirm(unloadPrefixMsg + '\n\nAre you sure you want to leave this page?');
-              evt.prevented = !answer;
-            }
-          });
-
           $scope.$on('$stateChangeStart', function(evt, toState) {
-            if(!$scope.personal_details_frm_visible) {
+            if(!$scope.personal_details_frm_visible || toState.name !== 'case_list') {
               return;
             }
-            if(
-              toState.name === 'case_list' ||
-              toState.name === 'case_detail.suspend' ||
-              toState.name === 'case_detail.alternative_help'
-            ) {
-              var answer = confirm(unloadPrefixMsg + '\n\nAre you sure you want to leave this page?');
-              if (answer) {
-                window.onbeforeunload = null;
-              } else {
-                evt.preventDefault();
-              }
+            var answer = confirm(unloadPrefixMsg + '\n\nAre you sure you want to leave this page?');
+            if (answer) {
+              window.onbeforeunload = null;
+            } else {
+              evt.preventDefault();
             }
           });
 
