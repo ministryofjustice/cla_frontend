@@ -73,37 +73,6 @@
         });
       });
     });
-
-    describe('Prevention of accidental loss of personal details when editing Personal Details', function() {
-      function testAlertDialogue(navigateAwaySelector) {
-        var alertDialog1 = browser.switchTo().alert();
-        expect(alertDialog1.dismiss).toBeDefined();
-        alertDialog1.dismiss();
-        expect(element(by.css('.PageHeader h1')).getText()).toBe('Case details');
-        element(by.css(navigateAwaySelector)).click();
-        var alertDialog2 = browser.switchTo().alert();
-        expect(alertDialog2.accept).toBeDefined();
-        alertDialog2.accept();
-        expect(element(by.css('.PageHeader h1')).getText()).toBe('Cases');
-      }
-
-      beforeEach(function () {
-        element(by.css('.header-logo')).click();
-        element.all(by.css('.ListTable thead a[ng-click]')).get(0).click();
-        element(by.css('.ListTable tbody tr:first-child a[ng-click^=goToCase]')).click();
-        element(by.css('.VCard-view[ng-click^=showPersonalDetails]')).click();
-      });
-
-      it('should prevent navigating away to Case List', function() {
-        element(by.css('.SubNav-link--back')).click();
-        testAlertDialogue('.SubNav-link--back');
-      });
-
-      it('should prevent navigating away when clicking the logo', function() {
-        element(by.css('.header-logo')).click();
-        testAlertDialogue('.header-logo');
-      });
-    });
   });
 
   // helper methods
