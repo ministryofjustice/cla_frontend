@@ -293,6 +293,28 @@
             });
             return true;
           };
+
+          // Prevent user from navigating away when Personal Details form is being edited
+
+          var unloadPrefixMsg = 'The Personal Details form is being edited.';
+
+          $scope.$on('$stateChangeStart', function(evt, toState) {
+            if(!$scope.personal_details_frm_visible || toState.name !== 'case_list') {
+              return;
+            }
+            var answer = confirm(unloadPrefixMsg + '\n\nAre you sure you want to leave this page?');
+            if (answer) {
+              window.onbeforeunload = null;
+            } else {
+              evt.preventDefault();
+            }
+          });
+
+          window.onbeforeunload = function() {
+            if($scope.personal_details_frm_visible) {
+              return unloadPrefixMsg;
+            }
+          };
         }
       ]
     );
