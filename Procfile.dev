@@ -1,0 +1,3 @@
+Django: python manage.py runserver 8001
+Gulp: gulp watch
+SocketIO: node cla_socketserver/app.js

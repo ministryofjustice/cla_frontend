@@ -3,10 +3,11 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', '$modal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, $modal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', 'eod_details', '$modal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, eod_details, $modal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
+          $scope.eod_details = eod_details;
           $scope.log_set = log_set;
           $scope.eligibility_check = $eligibility_check;
           $scope.diagnosis = $diagnosis;
@@ -58,6 +59,14 @@
               callback: function(e, hotkey) {
                 ClaPostalService.publishHotKey(hotkey);
                 $state.go('case_detail.suspend');
+              }
+            })
+            .add({
+              combo: 'g e',
+              description: 'Add expressions of dissatisfaction',
+              callback: function(e, hotkey) {
+                ClaPostalService.publishHotKey(hotkey);
+                $state.go('case_detail.eod_details');
               }
             });
 

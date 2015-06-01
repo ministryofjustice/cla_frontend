@@ -16,7 +16,8 @@ from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
     TITLES, REQUIRES_ACTION_BY, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, \
     DIAGNOSIS_SCOPE, CONTACT_SAFETY, EXEMPT_USER_REASON, ECF_OPTIONS, \
     FEEDBACK_ISSUE, CASE_SOURCE, GENDERS, ETHNICITIES, RELIGIONS, \
-    SEXUAL_ORIENTATIONS, DISABILITIES, ETHNICITIES_GROUPS, SPECIFIC_BENEFITS
+    SEXUAL_ORIENTATIONS, DISABILITIES, ETHNICITIES_GROUPS, SPECIFIC_BENEFITS, \
+    EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS
 
 
 class Command(BaseCommand):
@@ -41,7 +42,8 @@ class Command(BaseCommand):
                                         ('RELIGIONS', RELIGIONS),
                                         ('SEXUAL_ORIENTATIONS', SEXUAL_ORIENTATIONS),
                                         ('DISABILITIES', DISABILITIES),
-                                        ('SPECIFIC_BENEFITS', SPECIFIC_BENEFITS)
+                                        ('SPECIFIC_BENEFITS', SPECIFIC_BENEFITS),
+                                        ('EXPRESSIONS_OF_DISSATISFACTION', EXPRESSIONS_OF_DISSATISFACTION),
                                         ]:
                 l[json_name] = []
                 for k, v in iterator:
@@ -51,7 +53,8 @@ class Command(BaseCommand):
             for json_name, iterator in [('REQUIRES_ACTION_BY', REQUIRES_ACTION_BY.CHOICES_CONST_DICT),
                                         ('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES_CONST_DICT),
                                         ('DIAGNOSIS_SCOPE', DIAGNOSIS_SCOPE.CHOICES_CONST_DICT),
-                                        ('CONTACT_SAFETY', CONTACT_SAFETY.CHOICES_CONST_DICT)
+                                        ('CONTACT_SAFETY', CONTACT_SAFETY.CHOICES_CONST_DICT),
+                                        ('EXPRESSIONS_OF_DISSATISFACTION_FLAGS', EXPRESSIONS_OF_DISSATISFACTION_FLAGS),
                                         ]:
                 l[json_name] = iterator
                 l_count += 1
