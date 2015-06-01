@@ -364,6 +364,29 @@
     }]);
 
   angular.module('cla.services')
+    .factory('EODDetails', ['$resource', 'url_utils', function($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/eod_details/'), {case_reference: '@case_reference'}, {
+        patch: {method: 'PATCH'}
+      });
+
+      resource.prototype.$update = function(case_reference, success, fail) {
+        if(this.reference) {
+          return this.$patch({case_reference: case_reference}, success, fail);
+        } else {
+          return this.$save({case_reference: case_reference}, success, fail);
+        }
+      };
+
+      resource.prototype.$eodBadge = function() {
+        // returns either the number of selected categories or ! if there are only notes
+        var badge = this.categories && this.categories.length;
+        return badge || (this.notes && '!');
+      };
+
+      return resource;
+    }]);
+
+  angular.module('cla.services')
     .factory('ThirdParty', ['$resource', 'url_utils', function($resource, url_utils) {
       var resource = $resource(url_utils.proxy('case/:case_reference/thirdparty_details/'), {case_reference:'@case_reference'}, {
         'patch': {method: 'PATCH'}
