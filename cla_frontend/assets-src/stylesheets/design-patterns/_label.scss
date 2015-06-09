@@ -4,6 +4,11 @@
   margin-right: 5px;
   display: inline-block;
   font-size: 0;
+
+  .GroupPrefix {
+    @include core-14;
+    margin-right: 5px;
+  }
 }
 
 .Label {
