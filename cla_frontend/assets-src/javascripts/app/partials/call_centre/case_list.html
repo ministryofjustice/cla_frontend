@@ -5,6 +5,15 @@
     <button type="button" name="person-filter" class="Label is-selected is-removable" ng-if="person.reference" ng-click="backToLatestSearch()">
       {{ ::person.full_name }}<span ng-if="person.postcode"> ({{ ::person.postcode }})</span>
     </button>
+
+    <span class="LabelGroup">
+      <span class="GroupPrefix">Showing:</span>
+      <a href="" class="Label" ng-class="filterClass('')" ng-click="filterCases('')">All</a>
+      <a href="" class="Label" ng-class="filterClass('phone')" ng-click="filterCases('phone')">Phone cases</a>
+      <a href="" class="Label" ng-class="filterClass('web')" ng-click="filterCases('web')">Web cases</a>
+      <a href="" class="Label" ng-class="filterClass('eod')" ng-click="filterCases('eod')">EOD</a>
+      <a href="" class="Label" ng-class="filterClass('my')" ng-click="filterCases('my')">My cases</a>
+    </span>
   </span>
 
   <nav data-block="page-nav" class="u-pullRight" ng-if="user.is_manager">
@@ -12,10 +21,12 @@
     <a ui-sref="case_list.callbacks" class="BtnGroup-button BtnGroup-button--light" ng-class="{'is-selected': $state.is('case_list.callbacks')}"><span class="Icon Icon--compact Icon--date"></span></a>
   </nav>
 
-  <form data-block="top-actions" name="newCaseForm" class="newCaseForm u-pullLeft">
-    <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase(person.reference)" ng-if="person.reference">Create a case for {{ person.full_name }}</button>
-    <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase()" ng-if="!person.reference">Create a case</button>
-  </form>
+  <div data-block="top-actions">
+    <form name="newCaseForm" class="newCaseForm u-pullLeft">
+      <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase(person.reference)" ng-if="person.reference">Create a case for {{ person.full_name }}</button>
+      <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase()" ng-if="!person.reference">Create a case</button>
+    </form>
+  </div>
 
   <p data-block="notices" class="Notice" ng-if="historicCases.count > 0">There are <strong>{{ historicCases.count }} historic cases</strong> (from capita's system) that match your search criteria. <a ui-sref="historic_list({search: searchParams.search})">View historic cases</a></p>
 
