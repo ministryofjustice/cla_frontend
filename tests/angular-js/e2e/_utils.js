@@ -67,6 +67,9 @@
 
     scrollTo: function(element) {
       var promise = browser.driver.executeScript(function(elem) {
+        // workaround angular-sticky issue with scrollIntoView interference
+        document.body.style.paddingBottom = '100px';
+
         elem.scrollIntoView(false);
       }, element.getWebElement());
       return promise;
