@@ -9,27 +9,27 @@
     providerBaseUrl: 'provider/',
     scope: {
       true: [
-        'n115', // Family
-        'n116', // The client wants to protect themselves
-        'n119' // Child abuse
+        'n97',  // Family
+        'n307', // Domestic violence or abuse
+        'n98',  // Domestic violence or abuse
+        'n272'  // Click 'Next' to continue
       ],
       true_debt: [
-        'n2', // debt
-        'n3', // Client owns a house
-        'n4', // Mortgage lender seeking a court order
-        'n5', // confirm
-        'n6' // received a default notice
+        'n2',   // Debt and housing - loss of home
+        'n3',   // Home owner
+        'n4',   // The mortgage lender is seeking a court order
+        'n5'    // Documentation: A warrant of possession
       ],
       false: [
-        'n2', // debt
-        'n77', // other money owed
-        'n80' // business debts
+        'n2',   // Debt and housing - loss of home
+        'n70',  // Owes other money
+        'n289'  // Please read the following to the client
       ],
       allocation: [
-        'n2', // debt
-        'n29', // rented
-        'n49', // unlawfully evicting
-        'n50' // describe
+        'n2',   // Debt and housing
+        'n24',  // In rented accommodation
+        'n43',  // The landlord is unlawfully evicting the client
+        'n44'   // Describe scenario carefully in notes
       ]
     },
     eligibility: {
