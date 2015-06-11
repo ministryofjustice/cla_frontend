@@ -284,10 +284,6 @@ if 'RAVEN_CONFIG_DSN' in os.environ:
 
 # EMAILS
 
-# importing test settings file if necessary (TODO chould be done better)
-if len(sys.argv) > 1 and 'test' in sys.argv[1]:
-    from .testing import *
-
 # .local.py overrides all the common settings.
 try:
     from .local import *
