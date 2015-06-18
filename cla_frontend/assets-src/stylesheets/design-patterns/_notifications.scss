@@ -1,0 +1,16 @@
+.NotificationsContainer {
+  background-color: $yellow-25;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+
+    li {
+      margin: 0;
+      padding: 10px;
+      border-bottom: $yellow;
+    }
+  }
+}

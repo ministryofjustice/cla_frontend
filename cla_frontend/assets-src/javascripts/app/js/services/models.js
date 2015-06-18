@@ -689,6 +689,17 @@
     });
 
   angular.module('cla.services')
+    .factory('Notification', ['$resource', 'url_utils', function($resource, url_utils) {
+      return $resource(url_utils.proxy('notifications/notification/'), {}, {
+        get: {
+          method: 'GET',
+          isArray: true,
+          cache: false
+        }
+      });
+    }]);
+
+  angular.module('cla.services')
     .config(['$httpProvider', function ($httpProvider) {
       $httpProvider.interceptors.push('GuidanceNoteRequestInterceptor');
     }]);
