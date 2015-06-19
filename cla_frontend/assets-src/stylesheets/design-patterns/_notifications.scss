@@ -1,6 +1,4 @@
 .NotificationsContainer {
-  background-color: $yellow-25;
-
   ul {
     margin: 0;
     padding: 0;
@@ -10,7 +8,17 @@
     li {
       margin: 0;
       padding: 10px;
-      border-bottom: $yellow;
+
+      &.Notification-notificationItem-alert {
+        background-color: $red-25;
+        border-bottom: 1px solid $red;
+      }
+
+      &.Notification-notificationItem-notification {
+        background-color: $yellow-25;
+        border-bottom: 1px solid  $yellow;
+      }
+
     }
   }
 }

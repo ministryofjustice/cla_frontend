@@ -1,6 +1,6 @@
 <div class="NotificationsContainer">
     <ul>
-        <li class="Notification-notificationItem" ng-repeat="notification in notifications">
+        <li class="Notification-notificationItem-{{ notification.type }}" ng-repeat="notification in notifications">
             {{ notification.notification }}
         </li>
     </ul>
