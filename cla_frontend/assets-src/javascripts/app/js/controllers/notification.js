@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('NotificationCtrl',
-      ['$scope', '$state', '$location', 'cla.notification',
-        function($scope, $state, $location, notification) {
+      ['$scope', 'cla.notification',
+        function($scope, notification) {
           notification.list().then(function (notifications) {
             $scope.notifications = notifications;
           });
