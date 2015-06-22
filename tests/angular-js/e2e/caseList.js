@@ -1,8 +1,9 @@
 (function () {
   'use strict';
 
-  var utils = require('./_utils'),
-      CONSTANTS = require('../protractor.constants');
+  var utils = require('./_utils');
+  var CONSTANTS = require('../protractor.constants');
+  var caseFilters = element(by.css('.Filters .LabelGroup'));
 
   describe('caseList', function () {
     beforeEach(utils.setUp);
@@ -51,6 +52,22 @@
 
         element(by.cssContainingText('a','Back to cases')).click();
         expect(browser.getCurrentUrl()).toBe(utils.getBaseAbsoluteUrl(CONSTANTS.callcentreBaseUrl));
+      });
+
+      it('should have case filters', function() {
+        expect(caseFilters.isPresent()).toBe(true);
+      });
+
+      it('should update URL for case filter selections', function() {
+        element(by.linkText('Phone cases')).click();
+        expect(browser.getCurrentUrl()).toContain('only=phone');
+        element(by.linkText('Web cases')).click();
+        expect(browser.getCurrentUrl()).toContain('only=web');
+        element(by.linkText('EOD')).click();
+        expect(browser.getCurrentUrl()).toContain('only=eod');
+        element(by.linkText('My cases')).click();
+        expect(browser.getCurrentUrl()).toContain('only=my');
+        expect(caseFilters.isPresent()).toBe(true);
       });
     });
   });
