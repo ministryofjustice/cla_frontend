@@ -55,6 +55,15 @@
         }
 
         res.render('broadcast', data);
+      },
+
+      notifications: function (req, res) {
+        var data = {
+          activeTab: 'notifications'
+        };
+        utils.sendToAllConnectedClients(nsp, 'notification', req.body.notifications);
+        data.success = true;
+        res.send(data);
       }
     }
   }
@@ -66,6 +75,7 @@
       app.get('/admin/', views.admin);
       app.all('/admin/broadcast/', views.broadcast);
       app.get('/admin/peopleMap/', views.peopleMap);
+      app.all('/admin/notifications/', views.notifications);
     }
   }
 })();

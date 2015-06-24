@@ -1,0 +1,23 @@
+.NotificationsContainer {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+
+    li {
+      padding: 10px;
+
+      &.Notification-notificationItem-alert {
+        background-color: $red-25;
+        border-bottom: 1px solid $red;
+      }
+
+      &.Notification-notificationItem-notification {
+        background-color: $yellow-25;
+        border-bottom: 1px solid  $yellow;
+      }
+
+    }
+  }
+}

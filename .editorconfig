@@ -12,7 +12,7 @@ root = true
 [*.py]
     indent_size = 4
 
-[*.js]
+[*.{js,html}]
     indent_size = 2
 
 [*.scss]

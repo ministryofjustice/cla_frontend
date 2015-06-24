@@ -57,6 +57,11 @@
           $rootScope.$apply();
           // console.log('got people viewing case: '+$rootScope.peopleViewingCase);
         });
+
+        socket.on('notification', function(data) {
+          $rootScope.notifications = data;
+          $rootScope.$apply();
+        });
       }
 
       return {

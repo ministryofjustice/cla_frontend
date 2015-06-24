@@ -40,7 +40,7 @@
   </head>
 
   <body class="{{ product_type }} {{ phase }}{% block body_classes %}{% endblock %}"{% block body_attrs %}{% endblock %}>
-
+    {% block notifications %}{% endblock %}
     {% block before_header %}{% endblock %}
 
     <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
@@ -95,6 +95,8 @@
     <![endif]-->
 
     <!--[if gt IE 9]><!-->
+
+
     {% block after_header %}{% endblock %}
 
     {% block before_content %}{% endblock %}
