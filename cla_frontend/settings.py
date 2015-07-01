@@ -2,17 +2,12 @@ import sys
 import os
 from os.path import join, abspath, dirname
 
-# PATH vars
-
 here = lambda *x: join(abspath(dirname(__file__)), *x)
 PROJECT_ROOT = here("..")
 root = lambda *x: join(abspath(PROJECT_ROOT), *x)
-
+sys.path.insert(0, root('cla_frontend/apps/..'))
+sys.path.insert(0, root('cla_frontend/apps'))
 APPS_ROOT = root('apps')
-
-sys.path.insert(0, PROJECT_ROOT)
-sys.path.insert(0, APPS_ROOT)
-
 
 # ENVIRON values
 
@@ -93,9 +88,10 @@ CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws:",
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 # Additional locations of static files
-STATICFILES_DIRS = (
-    root('assets'),
-)
+# STATICFILES_DIRS = (
+#     root('static'),
+# )
+# print STATICFILES_DIRS
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -152,8 +148,9 @@ WSGI_APPLICATION = 'cla_frontend.wsgi.application'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 TEMPLATE_DIRS = (
-    root('templates'),
+    root('cla_frontend/templates'),
 )
+
 
 INSTALLED_APPS = (
     'django.contrib.sessions',
