@@ -40,17 +40,4 @@ WORKDIR /home/app/django
 ENV APP_HOME /home/app/django
 USER app
 EXPOSE 8000
-
-
-
-
-
-
-# Collect static
-#RUN cd /home/app/django && python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
-
-# Install socket.io application
-#RUN cd /home/app/django/cla_socketserver && npm install
-
-# ln settings.docker -> settings.local
-#RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
+ENTRYPOINT ['uwsgi', '--ini', 'conf/uwsgi.ini']
