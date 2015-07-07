@@ -302,16 +302,7 @@ STATSD_HOST = os.environ.get('STATSD_HOST', 'localhost')
 STATSD_PORT = os.environ.get('STATSD_PORT', 8125)
 
 
-if 'RAVEN_CONFIG_DSN' in os.environ:
-    RAVEN_CONFIG = {
-        'dsn': os.environ.get('RAVEN_CONFIG_DSN'),
-        'site': os.environ.get('RAVEN_CONFIG_SITE')
-    }
-
-    INSTALLED_APPS += (
-        'raven.contrib.django.raven_compat',
-    )
-
-    MIDDLEWARE_CLASSES = (
-        'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
-    ) + MIDDLEWARE_CLASSES
+RAVEN_CONFIG = {
+    'dsn': os.environ.get('RAVEN_CONFIG_DSN'),
+    'site': os.environ.get('RAVEN_CONFIG_SITE')
+}
