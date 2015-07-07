@@ -33,6 +33,8 @@ RUN pip install -r /requirements.txt
 ADD . /home/app/django
 RUN  chown -R app: /home/app/django
 
+ADD ./docker/run.sh /run.sh
+RUN  chmod 755 /run.sh
 
 # Set correct environment variables.
 ENV HOME /home/app/django
@@ -40,4 +42,4 @@ WORKDIR /home/app/django
 ENV APP_HOME /home/app/django
 USER app
 EXPOSE 8000
-ENTRYPOINT ['/usr/local/bin/uwsgi', '--ini', 'conf/uwsgi.ini']
+ENTRYPOINT ['/run.sh']
