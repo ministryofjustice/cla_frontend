@@ -40,4 +40,4 @@ WORKDIR /home/app/django
 ENV APP_HOME /home/app/django
 USER app
 EXPOSE 8000
-ENTRYPOINT ['uwsgi', '--ini', 'conf/uwsgi.ini']
+ENTRYPOINT ['/usr/local/bin/uwsgi', '--ini', 'conf/uwsgi.ini']
