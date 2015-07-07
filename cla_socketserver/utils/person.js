@@ -7,18 +7,21 @@ function Person(username, userType) {
   this.connections = {};
 };
 
-Person.prototype.connect = function(socket, appVersion) {
+Person.prototype.connect = function(socket, appVersion, userType) {
 	if (typeof this.connections[socket.id] === 'undefined') {
 		this.connections[socket.id] = {
 			caseViewed: null,
-			appVersion: appVersion
+			appVersion: appVersion,
+      userType: userType
 		};
+    socket.join(userType);
 	}
 };
 
 Person.prototype.disconnect = function(socket) {
 	conn = this.connections[socket.id];
 	if (conn !== 'undefined') {
+    socket.leave(conn.userType);
 		delete this.connections[socket.id];
 	}
 };
