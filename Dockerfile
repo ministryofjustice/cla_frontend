@@ -30,7 +30,7 @@ ADD ./requirements/base.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Install SocketIO dependancies
-ADD ./cla_sockerserver /socketio
+ADD ./cla_socketserver /socketio
 RUN cd /socketio && npm install
 RUN  chown -R app: /socketio
 
