@@ -32,6 +32,7 @@ RUN pip install -r /requirements.txt
 # Install SocketIO dependancies
 ADD ./cla_socketserver /socketio
 RUN cd /socketio && npm install
+RUN  chmod 755 /socketio/run.sh
 RUN  chown -R app: /socketio
 
 # Add project directory to docker
