@@ -29,6 +29,11 @@ RUN /install_python.sh
 ADD ./requirements/base.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
+# Install SocketIO dependancies
+ADD ./cla_sockerserver /socketio
+RUN cd /socketio && npm install
+RUN  chown -R app: /socketio
+
 # Add project directory to docker
 ADD . /home/app/django
 RUN  chown -R app: /home/app/django
