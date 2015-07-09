@@ -16,7 +16,7 @@ RUN echo "Europe/London" > /etc/timezone  &&  dpkg-reconfigure -f noninteractive
 RUN DEBIAN_FRONTEND='noninteractive' \
   apt-get update && \
   apt-get -y --force-yes install bash apt-utils build-essential git software-properties-common libpq-dev \
-  g++ make libpcre3 libpcre3-dev libxslt-dev libxml2-dev wget libffi-dev
+  g++ make libpcre3 libpcre3-dev libxslt-dev libxml2-dev wget libffi-dev nodejs npm
 
 RUN apt-get clean
 
