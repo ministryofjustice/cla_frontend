@@ -54,7 +54,9 @@
           <timestamp ng-model="case.modified"></timestamp>
         </td>
         <td>
-          <span class="Label Label--secondary" ng-if="case.outcome_code">{{ ::case.outcome_code }}</span>
+          <abbr class="Label Label--secondary" ng-if="case.outcome_code" title="{{ ::case.outcome_description }}">
+            {{ ::case.outcome_code }}
+          </abbr>
           <span class="Label-helpText" ng-if="::isCallback(case)">{{ ::case.requires_action_at | date:"d/M/yy h:mma" }}</span>
         </td>
         <td ng-if="::user.is_manager" class="u-highlightRed">{{ ::case.flagged_with_eod ? 'YES' : '' }}</td>
