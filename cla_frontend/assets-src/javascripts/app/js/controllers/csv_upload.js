@@ -3,11 +3,15 @@
 
   angular.module('cla.controllers')
     .controller('CSVUploadCtrl',
-    ['$scope', '$state', 'csvuploads', 'CSVUpload', 'moment', 'flash', 'Papa', 'saveAs',
-      function($scope, $state, csvuploads, CSVUpload, Moment, flash, Papa, saveAs) {
+    ['$scope', '$state', '$stateParams', 'csvuploads', 'CSVUpload', 'moment', 'flash', 'Papa', 'saveAs',
+      function($scope, $state, $stateParams, csvuploads, CSVUpload, Moment, flash, Papa, saveAs) {
 
         function updatePage() {
-          $state.go($state.current, {}, {reload: true});
+          $state.go($state.current.name, {
+            page: $scope.currentPage
+          }, {
+            reload: true
+          });
         }
 
         function downloadCSV(csv) {
@@ -36,6 +40,14 @@
             $scope.errors = err.data;
           }
         }
+
+        $scope.currentPage = $stateParams.page || 1;
+
+        $scope.pageChanged = function(newPage) {
+          $scope.currentPage = newPage;
+          updatePage();
+        };
+
         $scope.uploads = csvuploads;
         var firstOfThisMonth = new Moment().local().startOf('month');
         var twelveMonthsAgo = firstOfThisMonth.clone().subtract(12, 'months');
