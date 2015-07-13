@@ -61,7 +61,7 @@
         var data = {
           activeTab: 'notifications'
         };
-        utils.sendToAllConnectedClients(nsp, 'notification', req.body.notifications);
+        utils.sendToAllClientsInChannel(nsp, req.body.usertype || 'operator', 'notification', req.body.notifications);
         data.success = true;
         res.send(data);
       }

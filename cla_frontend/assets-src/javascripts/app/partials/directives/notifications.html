@@ -1,4 +1,4 @@
-<div class="NotificationsContainer">
+<div class="NotificationsContainer" ng-if="notifications.length">
   <ul>
     <li class="Notification-notificationItem-{{ notification.type }}"
         ng-repeat="notification in notifications">

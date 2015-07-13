@@ -24,11 +24,11 @@
 
           reset();
 
-          scope.toggle = function(toggle) {
-            scope.isPopoverVisible = toggle;
-            elem.toggleClass('FeedbackButton--toggled', toggle);
+          scope.toggle = function() {
+            scope.isPopoverVisible = !scope.isPopoverVisible;
+            elem.toggleClass('FeedbackButton--toggled', scope.isPopoverVisible);
 
-            if(toggle) {
+            if(scope.isPopoverVisible) {
               $timeout(function() {
                 popover.find('textarea').first().focus();
               });
