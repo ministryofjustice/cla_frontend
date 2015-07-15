@@ -3,12 +3,13 @@
 
   angular.module('cla.controllers')
     .controller('CSVUploadCtrl',
-    ['$scope', '$state', '$stateParams', 'csvuploads', 'CSVUpload', 'moment', 'flash', 'Papa', 'saveAs',
-      function($scope, $state, $stateParams, csvuploads, CSVUpload, Moment, flash, Papa, saveAs) {
+    ['$scope', '$state', '$stateParams', 'providers', 'csvuploads', 'CSVUpload', 'moment', 'flash', 'Papa', 'saveAs',
+      function($scope, $state, $stateParams, providers, csvuploads, CSVUpload, Moment, flash, Papa, saveAs) {
 
         function updatePage() {
           $state.go($state.current.name, {
-            page: $scope.currentPage
+            page: $scope.currentPage,
+            provider: $scope.provider
           }, {
             reload: true
           });
@@ -64,6 +65,20 @@
             $scope.csvFile = null;
             updatePage();
           }, handleError);
+        };
+
+        $scope.provider = ($stateParams.provider && parseInt($stateParams.provider, 10)) || null;
+        var providerIDSet = [];
+        $scope.providers = providers.filter(function(provider) {
+          if(providerIDSet.indexOf(provider.id) === -1) {
+            providerIDSet.push(provider.id);
+            return true;
+          }
+          return false;
+        });
+
+        $scope.submitFilters = function() {
+          $scope.pageChanged(1);
         };
 
         $scope.download = function(csv) {

@@ -11,8 +11,11 @@
       parent: 'layout',
       templateUrl: 'csv_download_list.html',
       controller: 'CSVUploadCtrl',
-      url: AppSettings.BASE_URL + 'csvdownload/?page',
+      url: AppSettings.BASE_URL + 'csvdownload/?provider?page',
       resolve: {
+        providers: ['Provider', function(Provider) {
+          return Provider.query({}).$promise;
+        }],
         csvuploads: ['$stateParams', 'CSVUpload', 'user', '$q',
           function ($stateParams, CSVUpload, user, $q) {
             var deferred = $q.defer();
@@ -25,7 +28,8 @@
             }
 
             var params = {
-              page: $stateParams.page
+              page: $stateParams.page,
+              provider_id: $stateParams.provider
             };
             return CSVUpload.query(params).$promise;
           }]

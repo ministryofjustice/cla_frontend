@@ -13,6 +13,9 @@
       controller: 'CSVUploadCtrl',
       url: AppSettings.BASE_URL + 'csvupload/?page',
       resolve: {
+        providers: [function() {
+          return [];
+        }],
         csvuploads: ['$stateParams', 'CSVUpload',
           function ($stateParams, CSVUpload) {
             var params = {
