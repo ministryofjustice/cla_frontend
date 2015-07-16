@@ -11,11 +11,19 @@
       parent: 'layout',
       templateUrl: 'csv_upload_list.html',
       controller: 'CSVUploadCtrl',
-      url: AppSettings.BASE_URL + 'csvupload/',
+      url: AppSettings.BASE_URL + 'csvupload/?page',
       resolve: {
-        csvuploads: ['$stateParams', 'CSVUpload', function ($stateParams, CSVUpload) {
-          return CSVUpload.query().$promise;
-        }]
+        providers: [function() {
+          return [];
+        }],
+        csvuploads: ['$stateParams', 'CSVUpload',
+          function ($stateParams, CSVUpload) {
+            var params = {
+              page: $stateParams.page
+            };
+            return CSVUpload.query(params).$promise;
+          }
+        ]
       }
     };
 

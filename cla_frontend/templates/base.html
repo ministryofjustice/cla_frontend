@@ -40,7 +40,7 @@
   </head>
 
   <body class="{{ product_type }} {{ phase }}{% block body_classes %}{% endblock %}"{% block body_attrs %}{% endblock %}>
-
+    {% block notifications %}{% endblock %}
     {% block before_header %}{% endblock %}
 
     <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
@@ -62,11 +62,11 @@
         {% endif %}
 
         {% if zone %}
-          <button type="button" class="FeedbackButton Icon Icon--feedback" ng-click="toggle(!isPopoverVisible)" title="Send feedback">
+          <button type="button" class="FeedbackButton Icon Icon--feedback" ng-click="toggle()" title="Send feedback">
             <span class="visuallyhidden">Send feedback</span>
           </button>
 
-          <div class="UserMenu">
+          <div class="UserMenu" title="Sign out">
             <a href="#UserMenu-links" class="UserMenu-toggle Icon Icon--account"></a>
             <nav class="UserMenu-menu">
               <ul class="UserMenu-options" id="UserMenu-links">
@@ -95,6 +95,8 @@
     <![endif]-->
 
     <!--[if gt IE 9]><!-->
+
+
     {% block after_header %}{% endblock %}
 
     {% block before_content %}{% endblock %}

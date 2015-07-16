@@ -14,7 +14,7 @@ module.exports = {
     }
 
     // console.info('identified as '+username);
-    person.connect(socket, appVersion);
+    person.connect(socket, appVersion, userType);
 	},
 
 	disconnect: function(nsp, socket) {

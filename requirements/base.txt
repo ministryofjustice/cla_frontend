@@ -2,14 +2,14 @@
 # After the first "pip install -r", just run "pip freeze" and add the version
 # to each package in each requirements/*.txt.
 
-Django==1.7.4
+Django==1.7.9
 
 django-widget-tweaks==1.3
 
 slumber==0.6.2
 python-dateutil==2.4.0
 
-git+git://github.com/ministryofjustice/cla_common.git@0.2.3#egg=cla_common==0.2.3
+git+git://github.com/ministryofjustice/cla_common.git@0.2.5#egg=cla_common==0.2.5
 
 django-proxy==1.0.2
 django-csp==2.0.3

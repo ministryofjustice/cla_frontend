@@ -3,11 +3,16 @@
 
   angular.module('cla.controllers')
     .controller('CSVUploadCtrl',
-    ['$scope', '$state', 'csvuploads', 'CSVUpload', 'moment', 'flash', 'Papa', 'saveAs',
-      function($scope, $state, csvuploads, CSVUpload, Moment, flash, Papa, saveAs) {
+    ['$scope', '$state', '$stateParams', 'providers', 'csvuploads', 'CSVUpload', 'moment', 'flash', 'Papa', 'saveAs',
+      function($scope, $state, $stateParams, providers, csvuploads, CSVUpload, Moment, flash, Papa, saveAs) {
 
         function updatePage() {
-          $state.go($state.current, {}, {reload: true});
+          $state.go($state.current.name, {
+            page: $scope.currentPage,
+            provider: $scope.provider
+          }, {
+            reload: true
+          });
         }
 
         function downloadCSV(csv) {
@@ -36,6 +41,14 @@
             $scope.errors = err.data;
           }
         }
+
+        $scope.currentPage = $stateParams.page || 1;
+
+        $scope.pageChanged = function(newPage) {
+          $scope.currentPage = newPage;
+          updatePage();
+        };
+
         $scope.uploads = csvuploads;
         var firstOfThisMonth = new Moment().local().startOf('month');
         var twelveMonthsAgo = firstOfThisMonth.clone().subtract(12, 'months');
@@ -52,6 +65,20 @@
             $scope.csvFile = null;
             updatePage();
           }, handleError);
+        };
+
+        $scope.provider = ($stateParams.provider && parseInt($stateParams.provider, 10)) || null;
+        var providerIDSet = [];
+        $scope.providers = providers.filter(function(provider) {
+          if(providerIDSet.indexOf(provider.id) === -1) {
+            providerIDSet.push(provider.id);
+            return true;
+          }
+          return false;
+        });
+
+        $scope.submitFilters = function() {
+          $scope.pageChanged(1);
         };
 
         $scope.download = function(csv) {

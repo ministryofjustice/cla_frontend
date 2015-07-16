@@ -4,6 +4,11 @@
   margin-right: 5px;
   display: inline-block;
   font-size: 0;
+
+  .GroupPrefix {
+    @include core-14;
+    margin-right: 5px;
+  }
 }
 
 .Label {
@@ -28,6 +33,7 @@
   &:focus {
     background-color: $white;
     position: relative;
+    z-index: 1;
   }
 
   input + & {
@@ -38,10 +44,10 @@
     margin: 0 0 0 -1px;
     @include border-radius(0);
 
-    &:first-child {
+    &:first-of-type {
       @include border-radius(3px 0 0 3px);
     }
-    &:last-child {
+    &:last-of-type {
       @include border-radius(0 3px 3px 0);
     }
   }

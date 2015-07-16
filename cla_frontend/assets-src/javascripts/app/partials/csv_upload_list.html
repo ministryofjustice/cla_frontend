@@ -30,7 +30,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="csv in uploads">
+    <tr dir-paginate="csv in uploads.results | itemsPerPage: 20"
+        total-items="uploads.count" current-page="currentPage">
       <td>{{ ::csv.month | date:'MMM yyyy'}} Upload</td>
       <td>
         <timestamp ng-model="csv.modified"></timestamp>
@@ -46,4 +47,4 @@
   </tbody>
 </table>
 
-
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>

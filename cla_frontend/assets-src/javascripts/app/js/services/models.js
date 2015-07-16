@@ -539,14 +539,37 @@
 
 
   angular.module('cla.services')
-    .factory('CSVUpload', ['$resource', 'url_utils', function ($resource, url_utils) {
-      return $resource(url_utils.proxy('csvupload/:id/'), {
-        'id': '@id',
+    .factory('CSVUpload', ['$http', '$resource', 'url_utils', function ($http, $resource, url_utils) {
+      var resource = $resource(url_utils.proxy('csvupload/:id/'), {
+        'id': '@id'
       }, {
         'put': {method: 'PUT'},
-        'post': {method: 'POST', ignoreExceptions:[409]}
+        'post': {method: 'POST', ignoreExceptions:[409]},
+        'query':  {
+            method: 'GET',
+            isArray: false,
+            transformResponse: function(data, headers) {
+              if (!data) {
+                return data;
+              }
+              var _data = transformData(
+                    data, headers, $http.defaults.transformResponse
+                  ),
+                  results = [];
 
+              angular.forEach(_data.results, function (item) {
+                // jshint -W055
+                results.push(new resource(item));
+                // jshint +W055
+              });
+
+              _data.results = results;
+              return _data;
+            }
+          }
       });
+
+      return resource;
     }]);
 
   angular.module('cla.services.operator')
@@ -687,6 +710,17 @@
         }
       };
     });
+
+  angular.module('cla.services')
+    .factory('Notification', ['$resource', 'url_utils', function($resource, url_utils) {
+      return $resource(url_utils.proxy('notifications/notification/'), {}, {
+        get: {
+          method: 'GET',
+          isArray: true,
+          cache: false
+        }
+      });
+    }]);
 
   angular.module('cla.services')
     .config(['$httpProvider', function ($httpProvider) {
