@@ -10,7 +10,7 @@
       parent: 'case_detail',
       name: 'case_detail.suspend',
       url: 'suspend/',
-      onEnter: ['$stateParams', '$state', '$modal', 'case', 'personal_details', 'History', 'flash', 'postal', function($stateParams, $state, $modal, $case, personal_details, History, flash, postal) {
+      onEnter: ['$stateParams', '$state', '$modal', 'case', 'personal_details', 'History', 'flash', 'postal', 'user', function($stateParams, $state, $modal, $case, personal_details, History, flash, postal, user) {
         var previousState = History.previousState;
         var suspendOpts = {
           templateUrl: 'case_detail.outcome_modal.html',
@@ -26,7 +26,10 @@
             notes: function () { return null; },
             outcome_codes: ['Event', function (Event) {
               return new Event().list_by_event_key('suspend_case').then(function (response) {
-                return response.data;
+                //Exclude operator_manager specific codes for non-manager users
+                return _.reject(response.data, function(item) {
+                  return !user.is_manager && _.contains(['MRNB', 'MRCC'], item.code);
+                });
               });
             }]
           }
