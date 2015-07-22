@@ -150,6 +150,7 @@ WSGI_APPLICATION = 'cla_frontend.wsgi.application'
 # TODO change this ?
 #SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_SECURE = os.environ.get('CLA_ENV', '') in ['prod', 'staging']
 
 TEMPLATE_DIRS = (
     root('templates'),
