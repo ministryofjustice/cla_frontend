@@ -11,8 +11,11 @@
       parent: 'layout',
       templateUrl: 'csv_download_list.html',
       controller: 'CSVUploadCtrl',
-      url: AppSettings.BASE_URL + 'csvdownload/',
+      url: AppSettings.BASE_URL + 'csvdownload/?provider?page',
       resolve: {
+        providers: ['Provider', function(Provider) {
+          return Provider.query({}).$promise;
+        }],
         csvuploads: ['$stateParams', 'CSVUpload', 'user', '$q',
           function ($stateParams, CSVUpload, user, $q) {
             var deferred = $q.defer();
@@ -20,10 +23,15 @@
             if (!user.is_manager) {
               // reject promise and handle in $stateChangeError
               deferred.reject({
-                msg: 'The you must be a manager to edit users.'
+                msg: 'You must be a manager to download these files.'
               });
             }
-            return CSVUpload.query().$promise;
+
+            var params = {
+              page: $stateParams.page,
+              provider_id: $stateParams.provider
+            };
+            return CSVUpload.query(params).$promise;
           }]
       }
     };

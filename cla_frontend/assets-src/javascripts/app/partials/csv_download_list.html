@@ -2,6 +2,15 @@
   <h2>CSV Download</h2>
 </header>
 
+<form class="FormRow" name="csvDownloadFilters">
+  <label>
+    Filter by provider:
+    <select name="provider" ng-model="provider" ng-options="p.id as p.name for p in providers | orderBy:'name'" ng-change="submitFilters()">
+      <option value="">(All providers)</option>
+    </select>
+  </label>
+</form>
+
 <table class="ListTable" cellpadding="0" cellspacing="0" border="0" width="100%">
   <thead>
     <tr>
@@ -14,7 +23,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="csv in uploads">
+    <tr dir-paginate="csv in uploads.results | itemsPerPage: 20"
+        total-items="uploads.count" current-page="currentPage">
       <td>{{ ::csv.month | date:'MMM yyyy'}} Upload</td>
       <td>
         <timestamp ng-model="csv.modified"></timestamp>
@@ -27,4 +37,4 @@
   </tbody>
 </table>
 
-
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
