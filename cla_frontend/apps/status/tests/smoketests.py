@@ -36,7 +36,7 @@ class SmokeTests(unittest.TestCase):
 
         parts = urlparse(settings.SOCKETIO_SERVER_URL)
         host, _, port = parts.netloc.partition(':')
-        host = host or 'localhost'
+        host = host or settings.SITE_HOSTNAME
         port = port or '80'
         path = parts.path + '/1/'
         parts = list(parts)
