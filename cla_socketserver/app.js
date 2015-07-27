@@ -2,7 +2,6 @@ var app = require('express')()
   , _ = require('underscore')._
   , server = require('http').Server(app)
   , io = require('socket.io')(server)
-  , nsp = io.of('/socket.io')
   , bodyParser = require('body-parser')
   , peopleManager = require('./utils/peopleManager')
   , adminApp = require('./admin')
@@ -11,7 +10,11 @@ var app = require('express')()
       host: process.env.STATSD_HOST || 'localhost',
       post: process.env.STATSD_POST || 8125
     })
-  , versions = [];
+  , versions = []
+  , siteHostname = process.env.SITE_HOSTNAME || 'localhost:8001';
+
+io.set('origins', '*' + siteHostname);
+var nsp = io.of('/socket.io')
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')

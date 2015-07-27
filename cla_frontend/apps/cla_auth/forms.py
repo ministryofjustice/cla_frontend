@@ -5,12 +5,24 @@ from django.core.urlresolvers import reverse
 from . import authenticate
 from .utils import get_zone_profile, get_available_zone_names
 
+AUTOCOMPLETE_OFF_ATTRS = {
+    'autocomplete': 'off',
+    'readonly': True,
+    'class': 'js-remove-readonly-onfocus'
+}
 
 class AuthenticationForm(forms.Form):
     """
     """
-    username = forms.CharField(label=_("Username"), max_length=254)
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    username = forms.CharField(
+        label=_("Username"),
+        max_length=254,
+        widget=forms.TextInput(attrs=AUTOCOMPLETE_OFF_ATTRS)
+    )
+    password = forms.CharField(
+        label=_("Password"), 
+        widget=forms.PasswordInput(attrs=AUTOCOMPLETE_OFF_ATTRS)
+    )
 
     error_messages = {
         'invalid_login': _("Please enter a correct %(username)s and password. "
