@@ -58,7 +58,7 @@ class SmokeTests(unittest.TestCase):
                     'transport': 'polling',
                     'b64': '1'})
             ),
-            timeout=10, headers=headers
+            timeout=10, headers=headers, verify=False
         )
 
         session_id = json.loads(response.text[4:])['sid']
