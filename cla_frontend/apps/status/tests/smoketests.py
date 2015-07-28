@@ -41,20 +41,25 @@ class SmokeTests(unittest.TestCase):
         path = parts.path + '/1/'
         parts = list(parts)
         protocol = 'https' if settings.SESSION_COOKIE_SECURE else 'http'
+        origin = '{protocol}://{host}{port}'.format(
+            protocol=protocol,
+            host=host,
+            port=port
+        )
         headers = {
-            'Origin': 'http://localhost:8001',
+            'Origin': origin,
         }
 
-        response = requests.get('{protocol}://{host}{port}{path}?{params}'.format(
-                protocol=protocol,
-                host=host,
-                port=port,
+        response = requests.get('{origin}{path}?{params}'.format(
+                origin=origin,
                 path=path,
                 params=urllib.urlencode({
                     't': unix_timestamp(),
                     'transport': 'polling',
-                    'b64': '1'})),
-            timeout=10, headers=headers)
+                    'b64': '1'})
+            ),
+            timeout=10, headers=headers
+        )
 
         session_id = json.loads(response.text[4:])['sid']
 
