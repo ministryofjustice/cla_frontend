@@ -11,9 +11,9 @@ var app = require('express')()
       post: process.env.STATSD_POST || 8125
     })
   , versions = []
-  , siteHostname = process.env.SITE_HOSTNAME + ':8005' || 'localhost:8001';
+  , siteHostname = process.env.SITE_HOSTNAME || 'localhost';
 
-io.set('origins', '*' + siteHostname);
+io.set('origins', '*' + siteHostname + ':*');
 var nsp = io.of('/socket.io')
 
 app.set('views', __dirname + '/views')
