@@ -40,18 +40,18 @@ class SmokeTests(unittest.TestCase):
         port = ':%s' % port if port else ''
         path = parts.path + '/1/'
         parts = list(parts)
-        protocol = 'https' if settings.SESSION_COOKIE_SECURE else 'http'
-        origin = '{protocol}://{host}{port}'.format(
+        protocol = 'http'
+        origin = '{protocol}://{host}'.format(
             protocol=protocol,
-            host=host,
-            port=port
+            host=host
         )
         headers = {
             'Origin': origin,
         }
 
-        response = requests.get('{origin}{path}?{params}'.format(
+        response = requests.get('{origin}{port}{path}?{params}'.format(
                 origin=origin,
+                port=port,
                 path=path,
                 params=urllib.urlencode({
                     't': unix_timestamp(),
