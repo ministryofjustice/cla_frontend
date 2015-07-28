@@ -37,18 +37,25 @@ class SmokeTests(unittest.TestCase):
         parts = urlparse(settings.SOCKETIO_SERVER_URL)
         host, _, port = parts.netloc.partition(':')
         host = host or settings.SITE_HOSTNAME
-        port = port or '80'
+        port = ':%s' % port if port else ''
         path = parts.path + '/1/'
         parts = list(parts)
+        protocol = 'https' if settings.SESSION_COOKIE_SECURE else 'http'
+        headers = {
+            'Origin': 'http://localhost:8001',
+        }
 
-        response = requests.get('http://{host}:{port}{path}?{params}'.format(
-            host=host,
-            port=port,
-            path=path,
-            params=urllib.urlencode({
-                't': unix_timestamp(),
-                'transport': 'polling',
-                'b64': '1'})))
+        response = requests.get('{protocol}://{host}{port}{path}?{params}'.format(
+                protocol=protocol,
+                host=host,
+                port=port,
+                path=path,
+                params=urllib.urlencode({
+                    't': unix_timestamp(),
+                    'transport': 'polling',
+                    'b64': '1'})),
+            timeout=10, headers=headers)
+
         session_id = json.loads(response.text[4:])['sid']
 
         parts[0] = 'ws'
