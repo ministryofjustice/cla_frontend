@@ -51,6 +51,9 @@ ADD ./docker/uwsgi.service /etc/service/uwsgi/run
 # install service files for runit
 ADD ./docker/nodejs.service /etc/service/nodejs/run
 
+# Hosts file hack for smoketest
+ADD ./docker/hosts /tmp/hosts
+
 # Define mountable directories.
 VOLUME ["/data", "/var/log/nginx", "/var/log/wsgi"]
 

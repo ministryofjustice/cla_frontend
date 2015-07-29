@@ -1,0 +1,7 @@
+
+# Hack for smoke test
+127.0.0.1       frontend-demo.cla.dsd.io                # Demo
+127.0.0.1       cla-frontend.dsd.io                     # Dev
+127.0.0.1       cla-training.dsd.io                     # Training
+127.0.0.1       cases.civillegaladvice.service.gov.uk   # Prod
+127.0.0.1       cla-frontend.service.dsd.io             # Staging
