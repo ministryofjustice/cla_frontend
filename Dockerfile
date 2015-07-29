@@ -52,7 +52,8 @@ ADD ./docker/uwsgi.service /etc/service/uwsgi/run
 ADD ./docker/nodejs.service /etc/service/nodejs/run
 
 # Hosts file hack for smoketest
-RUN cat ./docker/hosts >> /etc/hosts
+ADD ./docker/hosts /tmp/hosts
+RUN cat /tmp/hosts >> /etc/hosts
 
 # Define mountable directories.
 VOLUME ["/data", "/var/log/nginx", "/var/log/wsgi"]
