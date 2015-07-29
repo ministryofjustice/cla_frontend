@@ -40,7 +40,7 @@ class SmokeTests(unittest.TestCase):
         port = ':%s' % port if port else ''
         path = parts.path + '/1/'
         parts = list(parts)
-        protocol = 'http'
+        protocol = 'https' if settings.SESSION_COOKIE_SECURE else 'http'
         origin = '{protocol}://{host}'.format(
             protocol=protocol,
             host=host
