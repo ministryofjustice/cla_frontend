@@ -53,7 +53,6 @@ ADD ./docker/nodejs.service /etc/service/nodejs/run
 
 # Hosts file hack for smoketest
 ADD ./docker/hosts /tmp/hosts
-RUN cat /tmp/hosts >> /etc/hosts
 
 # Define mountable directories.
 VOLUME ["/data", "/var/log/nginx", "/var/log/wsgi"]
