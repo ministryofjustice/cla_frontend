@@ -9,7 +9,7 @@ rm -rf cla_frontend/assets-src/vendor
 
 # Install dependencies
 $WORKSPACE/.env/bin/python manage.py builddata constants_json
-bundle install
+bundle install --path $WORKSPACE/vendor/bundle
 npm prune
 bower prune
 

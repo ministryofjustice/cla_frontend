@@ -62,6 +62,11 @@ EXPOSE 80
 
 EXPOSE 443
 
+# PIP INSTALL APPLICATION
+RUN mkdir -p /requirements
+ADD ./requirements/ /requirements
+RUN pip install -r /requirements/production.txt
+
 # APP_HOME
 ENV APP_HOME /home/app/django
 
@@ -72,9 +77,6 @@ ADD ./ /home/app/django
 #WORKDIR /home/app/django
 
 RUN cd /home/app/django && cat docker/version >> /etc/profile
-
-# PIP INSTALL APPLICATION
-RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 
 # Collect static
 RUN cd /home/app/django && python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
