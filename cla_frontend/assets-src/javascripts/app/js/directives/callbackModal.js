@@ -217,7 +217,8 @@
               var local = moment.tz(calendar.getDate(), 'Europe/London');
               return local.tz('UTC').format('DD/MM/YYYY HH:mm');
             })(),
-            'notes': scope.callbackNotes || ''
+            'notes': scope.callbackNotes || '',
+            'priority_callback': !!scope.priorityCallback
           }).then(function() {
             flash('success', 'Callback scheduled successfully.');
             $state.go('case_list');
