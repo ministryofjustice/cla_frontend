@@ -11,7 +11,7 @@
       <a href="" class="Label" ng-class="filterClass('')" ng-click="filterCases('')">All</a>
       <a href="" class="Label" ng-class="filterClass('phone')" ng-click="filterCases('phone')">Phone cases</a>
       <a href="" class="Label" ng-class="filterClass('web')" ng-click="filterCases('web')">Web cases</a>
-      <a href="" class="Label" ng-class="filterClass('eod')" ng-click="filterCases('eod')">EOD</a>
+      <a href="" class="Label" ng-class="filterClass('eod')" ng-click="filterCases('eod')" ng-if="::user.is_manager">EOD</a>
       <a href="" class="Label" ng-class="filterClass('my')" ng-click="filterCases('my')">My cases</a>
     </span>
   </span>
