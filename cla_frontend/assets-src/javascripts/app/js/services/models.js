@@ -133,6 +133,10 @@
         return this.created_by === 'web';
       };
 
+      resource.prototype.callStarted = function () {
+        return this.call_started;
+      };
+
       resource.prototype.getCallbackDatetime = function(){
         return this.requires_action_at;
       };
