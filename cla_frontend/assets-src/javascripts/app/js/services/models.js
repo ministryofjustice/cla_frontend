@@ -188,6 +188,11 @@
         });
       };
 
+      resource.prototype.$start_call = function() {
+        var url = url_utils.proxy('case/'+this.reference+'/start_call/');
+        return $http.post(url, {});
+      };
+
       // Provider only endpoints
       resource.prototype.$reject_case = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/reject/');
