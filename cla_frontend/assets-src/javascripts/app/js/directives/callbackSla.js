@@ -8,9 +8,22 @@
       restrict: 'A',
       link: function (scope, elem, attrs) {
         var callbackDate = attrs.callbackSla;
+        var caseSource = attrs.caseSource;
         var callbackTime = moment(callbackDate);
         var classes = ['is-warning', 'is-important'];
         var timer;
+        var slaTimeLimits = {
+          'WEB': {
+            'min': 1710,
+            'max': 7200
+          },
+          'DEFAULT': {
+            'min': 7110,
+            'max': 28800
+          }
+        };
+
+        var slaLimits = slaTimeLimits[caseSource] || slaTimeLimits.DEFAULT;
 
         function getDiff () {
           var now = moment();
@@ -22,11 +35,11 @@
           var diff = getDiff();
 
           // over 30 mins, under 2h
-          if (diff < -1710 && diff >= -7200) {
+          if (diff < -slaLimits.min && diff >= -slaLimits.max) {
             className = classes[0];
           }
           // over 2 hour SLA
-          else if (diff < -7200) {
+          else if (diff < -slaLimits.max) {
             className = classes[1];
             // cancel timer as no longer needed
             $interval.cancel(timer);

@@ -35,7 +35,8 @@
       <tr dir-paginate="case in cases.results | itemsPerPage: 20"
         total-items="cases.count" current-page="searchParams.page"
         ng-class="::rowClass(case)"
-        callback-sla="{{ case.requires_action_at }}">
+        callback-sla="{{ case.requires_action_at }}"
+        case-source="{{ ::case.source }}">
         <td>
           <abbr title="{{ ::case.source }} CASE" class="Icon {{ ::opCaseClass(case) }}" ng-if="::opCaseClass(case)"></abbr>
           <abbr title="Case status" class="Icon {{ ::provCaseClass(case) }}" ng-if="::provCaseClass(case)"></abbr>
