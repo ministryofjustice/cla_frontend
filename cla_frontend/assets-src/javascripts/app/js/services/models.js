@@ -133,6 +133,10 @@
         return this.created_by === 'web';
       };
 
+      resource.prototype.callStarted = function () {
+        return this.call_started;
+      };
+
       resource.prototype.getCallbackDatetime = function(){
         return this.requires_action_at;
       };
@@ -182,6 +186,11 @@
         return $http.post(url, {
           action: 'complete'
         });
+      };
+
+      resource.prototype.$start_call = function() {
+        var url = url_utils.proxy('case/'+this.reference+'/start_call/');
+        return $http.post(url, {});
       };
 
       // Provider only endpoints

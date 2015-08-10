@@ -37,6 +37,17 @@
           });
         };
 
+        scope.startCall = function() {
+          scope.case.$start_call().then(function() {
+            scope.case.call_started = true;
+            flash('success', 'Call started successfully.');
+            postal.publish({
+              channel : 'models',
+              topic   : 'Log.refresh'
+            });
+          });
+        };
+
         if (!scope.time) {
           elm.remove();
           return;

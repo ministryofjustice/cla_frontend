@@ -13,6 +13,12 @@
       <span class="Error-message" ng-if="errors.datetime">{{ errors.datetime }}</span>
       <div datetime-picker picker-Config="datePickerConf"></div>
 
+      <div class="CallbackModal-priority">
+        <label>
+          <input type="checkbox" ng-model="::priorityCallback"> Priority callback
+        </label>
+      </div>
+
       <div class="FormRow cf">
         <label>
           <span class="Error-message" ng-if="(callback_frm.callbackNotes.$error.required||errors.notes) && callback_frm.$dirty">{{ errors.notes }}</span>
