@@ -86,10 +86,12 @@
     </label>
   </div>
 
-  <label class="FormRow cf">
-    <input type="checkbox" name="is_spor" ng-model="is_spor" ng-disabled="!selected_provider.id || is_manual_ref">
-    Refer for second opinion (SPOR)
-  </label>
+  <div class="Notice">
+    <label>
+      <input type="checkbox" name="is_spor" ng-model="is_spor" ng-disabled="!selected_provider.id || is_manual_ref">
+      Refer for second opinion (SPOR)
+    </label>
+  </div>
 
   <div class="Error Error--basic" ng-if="errors.__all__">
     <p class="Error-message">{{ errors.__all__ }}</p>
