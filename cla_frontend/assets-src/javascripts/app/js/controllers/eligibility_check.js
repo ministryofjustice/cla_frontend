@@ -6,6 +6,7 @@
       ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout',
         function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout){
           $scope.category_list = Category.query();
+          $scope.formDidChange = false;
           // set nass benefits to FALSE by default
           $scope.eligibility_check.on_nass_benefits = $scope.eligibility_check.on_nass_benefits || false;
 
@@ -210,12 +211,18 @@
           };
 
           $scope.gotoSection = function (section) {
+            // auto-save eligibility check when switching tabs if form changed
+            if($scope.formDidChange) {
+              // can't use $dirty of form as it doesn't change at the right time
+              $scope.save();
+            }
             $state.go(section.state);
           };
 
           $scope.save = function () {
             $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
             $scope.eligibility_check.$update($scope.case.reference, function (data) {
+              $scope.formDidChange = false;
               $scope.case.eligibility_check = data.reference;
               $scope.case.$get();
               $scope.eligibility_check.validate($scope.case.reference).then(function (resp) {
