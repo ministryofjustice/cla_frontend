@@ -189,7 +189,7 @@
             },
             install: function() {
               if (!AppSettings.timerEnabled()) {
-                // we need to mock some events listners
+                // we need to mock some events listeners
                 $rootScope.$on('timer:start', function(__, options) {
                   options = options || {};
                   (options.success || angular.noop)();
