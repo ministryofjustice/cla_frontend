@@ -34,6 +34,8 @@
     <p class="VCard-row" ng-if="third_party.spoke_to === true || third_party.spoke_to === false">
       <span class="u-block">Adviser <strong>has <span ng-if="!third_party.spoke_to">not </span></strong> spoken with client<span ng-if="!third_party.spoke_to && third_party.reason"> <strong>because</strong> '{{ getDisplayLabel(third_party.reason, reasons) }}'</span></span>
     </p>
+
+    <p class="VCard-row" ng-if="third_party.personal_details.full_name">Third party <strong ng-if="third_party.personal_details.contact_for_research">can</strong><strong ng-if="!third_party.personal_details.contact_for_research">cannot</strong> be contacted for research</p>
   </div>
 
   <form novalidate autocomplete="off" method="post" name="third_party_frm" class="VCard VCard--dark VCard-edit" ng-class="{submitted: thirdparty_submitted}" onbeforesave="validate(third_party_frm.$valid)" onaftersave="saveThirdParty(third_party_frm)" ng-show="third_party_frm.$visible" editable-form>
@@ -113,6 +115,11 @@
       <span class="Icon--formRow">
         <span editable-filterselect="third_party.reason" e-name="reason" e-ng-options="s.value as s.text for s in reasons track by s.value" e-data-placeholder="Choose a reason for why not"></span>
       </span>
+    </div>
+
+    <div class="FormRow FormRow--narrow cf" ng-class="{Error: third_party_frm.contact_for_research.$invalid && thirdparty_submitted}">
+      <span class="Error-message" ng-if="third_party_frm.contact_for_research.$error.server">{{ errors.contact_for_research }}</span>
+      <span editable-checkbox="third_party.personal_details.contact_for_research" e-name="contact_for_research" e-title="Can contact third party for research"></span>
     </div>
 
     <div class="FormActions cf">
