@@ -5,6 +5,37 @@
   var CONSTANTS = require('../protractor.constants');
   var caseFilters = element(by.css('.Filters .LabelGroup'));
 
+  describe('caseListManager', function () {
+    beforeEach(function() {
+      utils.logout();
+      utils.setUpAsOperatorManager();
+    });
+
+    describe('An operator manager', function () {
+      it('should be able to get a case list', function () {
+        browser.get(CONSTANTS.callcentreBaseUrl);
+        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
+      });
+
+      it('should update URL for case filter selections', function() {
+        element(by.linkText('Phone cases')).click();
+        expect(browser.getCurrentUrl()).toContain('only=phone');
+        element(by.linkText('Web cases')).click();
+        expect(browser.getCurrentUrl()).toContain('only=web');
+        element(by.linkText('EOD')).click();
+        expect(browser.getCurrentUrl()).toContain('only=eod');
+        element(by.linkText('My cases')).click();
+        expect(browser.getCurrentUrl()).toContain('only=my');
+      });
+
+      it('should logout', function () {
+        this.after(function () {
+          utils.logout();
+        });
+      });
+    });
+  });
+
   describe('caseList', function () {
     beforeEach(utils.setUp);
 
@@ -63,8 +94,6 @@
         expect(browser.getCurrentUrl()).toContain('only=phone');
         element(by.linkText('Web cases')).click();
         expect(browser.getCurrentUrl()).toContain('only=web');
-        element(by.linkText('EOD')).click();
-        expect(browser.getCurrentUrl()).toContain('only=eod');
         element(by.linkText('My cases')).click();
         expect(browser.getCurrentUrl()).toContain('only=my');
         expect(caseFilters.isPresent()).toBe(true);
