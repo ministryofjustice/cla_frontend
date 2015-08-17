@@ -2,7 +2,7 @@
   <h2>Expressions of Dissatisfaction</h2>
 </header>
 
-<form novalidate ng-submit="submit(eod_frm)" name="eod_frm">
+<form novalidate ng-submit="submit(eod_frm, action)" name="eod_frm">
   <p class="Error-message" ng-if="errors.__all__">{{ errors.__all__ }}</p>
 
   <div class="FormBlock FormBlock--yellow">
@@ -34,8 +34,9 @@
   </div>
 
   <div class="FormActions" data-block="formActions">
-    <button class="Button" type="submit" ng-click="submitted=true">Save</button>
+    <button class="Button" type="submit" ng-click="action='save'">Save</button>
     <a href="" ng-click="cancel()">Cancel</a>
+    <button class="Button Button--warning" style="float:right" type="submit" ng-click="action='escalate'">Escalate to complaint</button>
   </div>
 
 </form>

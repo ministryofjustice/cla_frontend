@@ -1,0 +1,41 @@
+<header class="PageHeader cf">
+  <div ng-include="'call_centre/includes/case_tab_navigation.html'"></div>
+</header>
+
+<form>
+  <a href="" class="Label toggle-resolved" ng-class="{'is-selected': showingClosed}" ng-click="toggleShowClosed()">{{ showingClosed ? 'Hide' : 'Show' }} closed complaints</a>
+</form>
+
+<div class="Notice" ng-if="complaintsList.count === 0">
+  There are no complaints
+</div>
+<table class="ListTable" ng-if="complaintsList.count > 0" cellpadding="0" cellspacing="0" border="0" width="100%">
+  <thead>
+    <tr data-block="column-headers">
+      <th><a href="" ng-click="orderToggle('eod__case__personal_details__full_name')" ng-class="orderClass('eod__case__personal_details__full_name')">Complainant name</a></th>
+      <th><a href="" ng-click="orderToggle('eod__case__reference')" ng-class="orderClass('eod__case__reference')">Case reference</a></th>
+      <th><a href="" ng-click="orderToggle('category__name')" ng-class="orderClass('category__name')">Category</a></th>
+      <th><a href="" ng-click="orderToggle('level')" ng-class="orderClass('level')">Major/minor</a></th>
+      <th><a href="" ng-click="orderToggle('justified')" ng-class="orderClass('justified')">Justified</a></th>
+      <th><a href="" ng-click="orderToggle('created')" ng-class="orderClass('created')">Date received</a></th>
+      <th><a href="" ng-click="orderToggle('closed')" ng-class="orderClass('closed')">Date closed</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr dir-paginate="complaint in complaintsList.results | itemsPerPage: 20" total-items="complaintsList.count" current-page="currentPage">
+      <td><a href="" ng-click="goToComplaint(complaint)">{{ complaint.full_name }}</a></td>
+      <td><a href="" ng-click="goToComplaint(complaint)">{{ complaint.case_reference }}</a></td>
+      <td>{{ complaint.category_name }}</td>
+      <td>{{ displayMappedValue('levels', complaint.level) }}</td>
+      <td>{{ displayMappedValue('justified', complaint.justified) }}</td>
+      <td><timestamp ng-model="complaint.created"></timestamp></td>
+      <td>
+        <span ng-if="complaint.closed">
+          <timestamp ng-model="complaint.closed"></timestamp>, {{ displayMappedValue('resolved', complaint.resolved) }}
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>

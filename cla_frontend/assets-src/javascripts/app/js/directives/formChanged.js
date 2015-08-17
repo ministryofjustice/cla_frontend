@@ -8,7 +8,7 @@
       return {
         restrict: 'A',
         link: function(scope, element) {
-          element.on("change", function() {
+          element.on('change', function() {
             scope.formDidChange = true;
          });
        }

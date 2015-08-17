@@ -395,6 +395,134 @@
       return resource;
     }]);
 
+  angular.module('cla.services.operator')
+    .factory('ComplaintCategory', ['$resource', 'url_utils', function($resource, url_utils) {
+      return $resource(url_utils.proxy('complaints/category/'), null, {
+        query: {
+          method: 'GET',
+          cache: true,
+          isArray: true
+        }
+      });
+    }]);
+
+  angular.module('cla.services.operator')
+    .factory('ComplaintConstants', ['$http', '$resource', 'url_utils', function($http, $resource, url_utils) {
+      var resource = $resource(url_utils.proxy('complaints/constants/'), null, {
+        get: {
+          method: 'GET',
+          cache: true,
+          isArray: false,
+          transformResponse: function(data, headers) {
+            if(!data) {
+              return data;
+            }
+            var _data = transformData(
+                data, headers, $http.defaults.transformResponse
+              );
+            // jshint -W055
+            return new resource(_data);
+            // jshint +W055
+          }
+        }
+      });
+      return resource;
+    }]);
+
+  angular.module('cla.services.operator')
+    .factory('Complaint', ['$http', '$resource', 'postal', 'url_utils', function($http, $resource, postal, url_utils) {
+      var transformRequest = function(data, headers) {
+        // complaint needs transforming as there are read-only properties that the api doesn't accept
+        return transformData({
+          category: data.category,
+          eod: data.eod,
+          description: data.description,
+          source: data.source,
+          level: data.level,
+          justified: data.justified,
+          owner: data.owner
+        }, headers, $http.defaults.transformRequest);
+      };
+      var resource = $resource(url_utils.proxy('complaints/complaint/:complaint_id/'), {
+        complaint_id: '@id'
+      }, {
+        save: {
+          method: 'POST',
+          transformRequest: transformRequest
+        },
+        query: {
+          method: 'GET',
+          isArray: false,
+          params: {page_size: 20},
+          transformResponse: function(data, headers) {
+            if(!data) {
+              return data;
+            }
+            var _data = transformData(
+                data, headers, $http.defaults.transformResponse
+              ),
+              results = [];
+
+            angular.forEach(_data.results, function(item) {
+              // jshint -W055
+              results.push(new resource(item));
+              // jshint +W055
+            });
+
+            _data.results = results;
+            return _data;
+          }
+        },
+        patch: {
+          method: 'PATCH',
+          transformRequest: transformRequest
+        }
+      });
+      resource.prototype.$update = function(success, fail) {
+        if(this.id) {
+          return this.$patch({complaint_id: this.id}, success, fail);
+        } else {
+          return this.$save(success, fail);
+        }
+      };
+      resource.prototype.$getLogs = function() {
+        var ComplaintLogs = function(complaint_id) {
+            this.complaint_id = complaint_id;
+            this.logs = [];
+          };
+        ComplaintLogs.prototype.$refresh = function(success, fail) {
+          var internalSuccess = angular.bind(this, function(response) {
+            this.logs = response.data;
+            if(typeof success !== 'undefined') {
+              success(response);
+            }
+          });
+          //fail = fail || angular.bind(this, function(response) {});
+          $http.get(url_utils.proxy('complaints/complaint/' + this.complaint_id + '/logs/'))
+            .then(internalSuccess, fail);
+        };
+        var complaintLogs = new ComplaintLogs(this.id);
+        complaintLogs.$refresh();
+        return complaintLogs;
+        //var deferred = $q.defer();
+        //$http.get(url_utils.proxy('complaints/complaint/' + this.id + '/logs/')).then(
+        //  function(response) {
+        //    deferred.resolve(response.data);
+        //  },
+        //  function(response) {
+        //    deferred.reject(response);
+        //  }
+        //);
+        //return deferred.promise;
+      };
+      resource.prototype.$addEvent = function(formData, success, fail) {
+        $http.post(url_utils.proxy('complaints/complaint/' + this.id + '/add_event/'), formData).then(
+          success, fail
+        );
+      };
+      return resource;
+    }]);
+
   angular.module('cla.services')
     .factory('ThirdParty', ['$resource', 'url_utils', function($resource, url_utils) {
       var resource = $resource(url_utils.proxy('case/:case_reference/thirdparty_details/'), {case_reference:'@case_reference'}, {

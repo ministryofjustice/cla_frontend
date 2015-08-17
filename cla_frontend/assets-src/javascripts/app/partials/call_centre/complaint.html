@@ -1,0 +1,156 @@
+<header class="CaseBar Grid" sticky use-placeholder data-block="case-header">
+  <div class="Grid-row">
+    <div class="Grid-col Grid-col--1-5">
+      <h1 class="CaseBar-caseNum Icon Icon--folder">
+        <a href="" ng-click="goToComplaint(complaint)">
+          {{ ::complaint.case_reference }}
+        </a>
+      </h1>
+    </div>
+    <div class="Grid-col Grid-col--3-5">&nbsp;</div>
+    <div class="Grid-col Grid-col--1-5">
+      <p class="Icon Icon--alert Icon--orange u-pullLeft">
+        <strong>{{ complaintStatusNote }}</strong>
+      </p>
+    </div>
+  </div>
+</header>
+
+<div class="Grid">
+  <div class="Grid-row">
+
+    <div class="Grid-col Grid-col--1-5">
+      <nav class="SubNav">
+        <a ui-sref="complaints_list(complaintsListStateParams)" class="SubNav-link SubNav-link--back">Back to complaints</a>
+      </nav>
+      <section id="personal_details">
+
+        <div class="VCard">
+          <h2 ng-if="complaint.full_name" class="VCard-title Icon Icon--formRow Icon--user" title="Full name">
+            {{ ::complaint.full_name }}
+          </h2>
+          <a href="" ng-click="goToCase(complaint.case_reference)" class="VCard-row Icon Icon--row Icon--folder" title="Go to case">
+            {{ ::complaint.case_reference }}
+          </a>
+          <p ng-if="complaint.category_of_law" class="VCard-row Icon Icon--row" title="Category of law">
+            {{ ::complaint.category_of_law }}
+          </p>
+          <div ng-if="personal_details.postcode || personal_details.street" class="VCard-row Icon Icon--row Icon--location" title="Address">
+            <p class="u-compact" ng-if="personal_details.postcode">{{ ::personal_details.postcode }}</p>
+            <p class="u-compact" ng-bind-html="personal_details.street|escapeHtml|nl2br"></p>
+          </div>
+          <p ng-if="personal_details.mobile_phone" class="VCard-row Icon Icon--row Icon--call" ng-class="{'Icon--red Icon--dontcall': personal_details.safe_to_contact === 'DONT_CALL', 'Icon--red Icon--novoicemail': personal_details.safe_to_contact === 'NO_MESSAGE', 'Icon--green': personal_details.safe_to_contact === 'SAFE'}" title="Phone number">
+            <span ng-class="{'u-strike': personal_details.safe_to_contact !== 'SAFE'}">{{ ::personal_details.mobile_phone }}</span>
+          </p>
+          <p ng-if="personal_details.email" class="VCard-row Icon Icon--row Icon--email" title="Email address">
+            {{ ::personal_details.email }}
+          </p>
+        </div>
+
+        <form novalidate autocomplete="off" method="post" ng-submit="saveComplaintDetails(complaintDetailsFrm)" name="complaintDetailsFrm" class="VCard VCard-edit">
+          <div class="FormRow FormRow--narrow cf">
+            <label>
+              Complaint category<br/>
+              <select ng-model="complaint.category" ng-options="complaintCategory.id as complaintCategory.name for complaintCategory in complaintCategories"
+                style="width:100%"></select>
+            </label>
+          </div>
+          <div class="FormRow FormRow--narrow cf">
+            Created <strong><timestamp ng-model="complaint.created"></timestamp></strong>
+            by <strong>{{ ::getUserDisplayName(complaint.created_by) }}</strong>
+          </div>
+          <div class="FormRow FormRow--narrow cf">
+            <label>
+              Source<br/>
+              <select ng-model="complaint.source" ng-options="item.value as item.description for item in complaintConstants.sources"></select>
+            </label>
+          </div>
+          <div class="FormRow FormRow--narrow cf">
+            <label>
+              Major/minor<br/>
+              <select ng-model="complaint.level" ng-options="level.value as level.description for level in complaintConstants.levels"></select>
+            </label>
+          </div>
+          <div class="FormRow FormRow--narrow cf">
+            <label>
+              Owner<br/>
+              <select ng-model="complaint.owner" ng-options="manager.username as getUserDisplayName(manager) for manager in managers">
+                <option value="">(unspecified)</option>
+              </select>
+            </label>
+          </div>
+          <div class="FormRow FormRow--narrow cf">
+            <label>
+              Justified<br/>
+              <select ng-model="complaint.justified" ng-options="item.value as item.description for item in complaintConstants.justified">
+                <option value="" ng-if="complaint.justified === null">(unspecified)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="FormActions cf">
+            <button type="submit" class="Button">Save details</button>
+          </div>
+        </form>
+
+      </section>
+    </div>
+
+    <div class="Grid-col Grid-col--4-5 Guidance-buffer" ui-view full-height data-centre-col>
+      <header class="PageHeader cf ng-scope">
+        <h1 class="ng-binding">Complaint actions</h1>
+      </header>
+      <form method="post" ng-submit="saveAction(actionFrm)" name="actionFrm" ng-if="complaint.closed === null">
+        <div class="FormRow cf" ng-class="{'Error': actionFrm.event_code.$invalid}">
+          <ul class="ErrorSummary-list" ng-messages="actionFrm.event_code.$error">
+            <li class="ErrorSummary-listItem" ng-message="server">{{ errors.event_code }}</li>
+          </ul>
+
+          <select name="event_code" ng-model="currentAction.event_code" ng-options="item.value as item.description for item in complaintConstants.actions" server-error></select>
+        </div>
+
+        <div class="FormRow cf" ng-class="{'Error': actionFrm.resolved.$invalid}" ng-show="currentAction.event_code == 'COMPLAINT_CLOSED'">
+          <ul class="ErrorSummary-list" ng-messages="actionFrm.resolved.$error">
+            <li class="ErrorSummary-listItem" ng-message="server">{{ errors.resolved }}</li>
+          </ul>
+
+          <label>
+            Complaint is
+            <select name="resolved" ng-model="currentAction.resolved" ng-options="item.value as item.description for item in complaintConstants.resolved" server-error></select>
+          </label>
+        </div>
+
+        <div class="FormRow cf" ng-class="{'Error': actionFrm.notes.$invalid}">
+          <ul class="ErrorSummary-list" ng-messages="actionFrm.notes.$error">
+            <li class="ErrorSummary-listItem" ng-message="server">{{ errors.notes }}</li>
+            <li class="ErrorSummary-listItem" ng-message="maxlength">This field is limited to 10000 characters</li>
+          </ul>
+
+          <label class="cf">
+            <textarea class="FormRow-field--full" name="notes" ng-model="currentAction.notes" placeholder="{{ getLogMessages(currentAction.event_code, 'notesPlaceholder') }}" cols="20" rows="10" ng-maxlength="10000" server-error></textarea>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <button type="submit" class="Button" name="save-action">{{ getLogMessages(currentAction.event_code, 'button') }}</button>
+        </div>
+      </form>
+
+      <ul class="CaseHistory">
+        <li ng-repeat="log in complaintLogs.logs" class="CaseHistory-card ComplaintHistory-card">
+          <span>
+            <timestamp ng-model="log.created"></timestamp>
+            ({{ ::log.created_by }})
+          </span>
+          <ul class="CaseHistory-log">
+            <li class="CaseHistory-logItem cf">
+              <strong>{{ ::getLogMessages(log.code, 'logHeading') }}</strong>
+              <span class="CaseHistory-logItemNotes">{{ ::log.notes }}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
