@@ -177,7 +177,6 @@
           // checking the time after the template as been rendered
           $scope.$evalAsync(function() {
             $rootScope.$emit('timer:check');
-            $rootScope.$emit('timer:stop');
           });
 
         }
