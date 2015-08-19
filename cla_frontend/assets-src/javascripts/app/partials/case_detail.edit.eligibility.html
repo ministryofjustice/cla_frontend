@@ -1,4 +1,4 @@
-<form ng-submit="save()" novalidate name="form" class="u-relative">
+<form ng-submit="save()" novalidate name="form" class="u-relative" form-changed>
   <ul class="Pills">
     <li class="Pills-pill {{ tabWarningClass(section) }}" ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
       <a href="" ng-click="gotoSection(section)" class="Pills-pillLink">{{ ::section.title }}</a>
