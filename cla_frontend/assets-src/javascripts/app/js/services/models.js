@@ -520,6 +520,11 @@
           success, fail
         );
       };
+      resource.prototype.$reopen = function(success, fail) {
+        $http.post(url_utils.proxy('complaints/complaint/' + this.id + '/reopen/')).then(
+          success, fail
+        );
+      };
       return resource;
     }]);
 

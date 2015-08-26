@@ -105,6 +105,7 @@
           }
           $scope.saveAction = function(actionFrm) {
             complaint.$addEvent($scope.currentAction, function() {
+              $scope.complaint.$get();
               resetActionForm();
               postal.publish({
                 channel: 'models',
@@ -117,6 +118,20 @@
           };
           resetActionForm();
 
+          $scope.reopenComplaint = function() {
+            complaint.$reopen(function() {
+              $scope.complaint.$get();
+              resetActionForm();
+              postal.publish({
+                channel: 'models',
+                topic: 'Log.refresh'
+              });
+              flash('success', 'Complaint reopened');
+            }, function() {
+              flash('warning', 'Complaint could not be reopened');
+            });
+          };
+
           $scope.getLogMessages = function(action, key) {
             var messages = {
               COMPLAINT_CREATED: {
@@ -124,6 +139,9 @@
               },
               OWNER_SET: {
                 logHeading: 'Complaint owner set'
+              },
+              COMPLAINT_REOPENED: {
+                logHeading: 'Complaint reopened'
               },
               COMPLAINT_NOTE: {
                 logHeading: '',

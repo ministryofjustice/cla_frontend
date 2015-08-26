@@ -100,6 +100,11 @@
       <header class="PageHeader cf ng-scope">
         <h1 class="ng-binding">Complaint actions</h1>
       </header>
+
+      <form method="post" ng-submit="reopenComplaint()" ng-if="complaint.closed !== null">
+        <button type="submit" class="Button Button--warning">Reopen complaint</button>
+      </form>
+
       <form method="post" ng-submit="saveAction(actionFrm)" name="actionFrm" ng-if="complaint.closed === null">
         <div class="FormRow cf" ng-class="{'Error': actionFrm.event_code.$invalid}">
           <ul class="ErrorSummary-list" ng-messages="actionFrm.event_code.$error">
