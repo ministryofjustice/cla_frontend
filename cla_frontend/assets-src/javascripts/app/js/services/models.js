@@ -504,16 +504,6 @@
         var complaintLogs = new ComplaintLogs(this.id);
         complaintLogs.$refresh();
         return complaintLogs;
-        //var deferred = $q.defer();
-        //$http.get(url_utils.proxy('complaints/complaint/' + this.id + '/logs/')).then(
-        //  function(response) {
-        //    deferred.resolve(response.data);
-        //  },
-        //  function(response) {
-        //    deferred.reject(response);
-        //  }
-        //);
-        //return deferred.promise;
       };
       resource.prototype.$addEvent = function(formData, success, fail) {
         $http.post(url_utils.proxy('complaints/complaint/' + this.id + '/add_event/'), formData).then(

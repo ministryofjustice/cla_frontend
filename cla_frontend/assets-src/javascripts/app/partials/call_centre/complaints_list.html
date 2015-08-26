@@ -12,8 +12,8 @@
 <table class="ListTable" ng-if="complaintsList.count > 0" cellpadding="0" cellspacing="0" border="0" width="100%">
   <thead>
     <tr data-block="column-headers">
+      <th colspan="2"><a href="" ng-click="orderToggle('eod__case__reference')" ng-class="orderClass('eod__case__reference')">Case reference</a></th>
       <th><a href="" ng-click="orderToggle('eod__case__personal_details__full_name')" ng-class="orderClass('eod__case__personal_details__full_name')">Complainant name</a></th>
-      <th><a href="" ng-click="orderToggle('eod__case__reference')" ng-class="orderClass('eod__case__reference')">Case reference</a></th>
       <th><a href="" ng-click="orderToggle('category__name')" ng-class="orderClass('category__name')">Category</a></th>
       <th><a href="" ng-click="orderToggle('level')" ng-class="orderClass('level')">Major/minor</a></th>
       <th><a href="" ng-click="orderToggle('justified')" ng-class="orderClass('justified')">Justified</a></th>
@@ -22,16 +22,18 @@
     </tr>
   </thead>
   <tbody>
-    <tr dir-paginate="complaint in complaintsList.results | itemsPerPage: 20" total-items="complaintsList.count" current-page="currentPage">
-      <td><a href="" ng-click="goToComplaint(complaint)">{{ complaint.full_name }}</a></td>
+    <tr ng-class="statusClass(complaint)" dir-paginate="complaint in complaintsList.results | itemsPerPage: 20" total-items="complaintsList.count" current-page="currentPage">
+      <td><a href="" class="Icon Icon--alert Icon--red" ng-click="goToComplaint(complaint)" ng-if="complaint.out_of_sla" title="Out of SLA"></a></td>
       <td><a href="" ng-click="goToComplaint(complaint)">{{ complaint.case_reference }}</a></td>
+      <td><a href="" ng-click="goToComplaint(complaint)">{{ complaint.full_name }}</a></td>
       <td>{{ complaint.category_name }}</td>
       <td>{{ displayMappedValue('levels', complaint.level) }}</td>
       <td>{{ displayMappedValue('justified', complaint.justified) }}</td>
       <td><timestamp ng-model="complaint.created"></timestamp></td>
       <td>
         <span ng-if="complaint.closed">
-          <timestamp ng-model="complaint.closed"></timestamp>, {{ displayMappedValue('resolved', complaint.resolved) }}
+          {{ displayMappedValue('resolved', complaint.resolved) }}
+          <timestamp ng-model="complaint.closed"></timestamp>
         </span>
       </td>
     </tr>

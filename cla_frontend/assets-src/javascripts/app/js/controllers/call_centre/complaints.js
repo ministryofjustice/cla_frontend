@@ -8,7 +8,7 @@
           $scope.complaintsList = complaintsList;
 
           var maps = {};
-          ['justified', 'resolved', 'levels'].map(function(key) {
+          angular.forEach(['justified', 'resolved', 'levels'], function(key) {
             angular.forEach(complaintConstants[key], function(data) {
               maps[key] = maps[key] || {};
               maps[key][data.value] = data.description;
@@ -58,6 +58,20 @@
               reload: true
             });
           }
+
+          $scope.statusClass = function(complaint) {
+            switch(complaint.status_label) {
+              case 'resolved':
+              case 'unresolved':
+                return 'is-complete';
+              case 'pending':
+                return '';
+              case 'received':
+                return 'is-new';
+              default:
+                return '';
+            }
+          };
         }
       ])
     .controller('ComplaintCtrl',
@@ -81,7 +95,22 @@
           $scope.complaintLogs = complaintLogs;
           $scope.personal_details = personal_details;
 
-          $scope.complaintStatusNote = 'Complaint registered';  // TODO: bind this to complaint progress
+          $scope.displayStatus = function() {
+            return 'Complaint ' + $scope.complaint.status_label;
+          };
+          $scope.statusClass = function() {
+            switch($scope.complaint.status_label) {
+              case 'resolved':
+                return 'Icon--tick Icon--green';
+              case 'unresolved':
+                return 'Icon--tick Icon--red';
+              case 'pending':
+                return 'Icon--edit';
+              case 'received':
+              default:
+                return 'Icon--alert Icon--orange';
+            }
+          };
 
           $scope.saveComplaintDetails = function() {
             $scope.complaint.$update(function() {

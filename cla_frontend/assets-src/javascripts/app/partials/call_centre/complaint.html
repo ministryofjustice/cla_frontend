@@ -7,12 +7,7 @@
         </a>
       </h1>
     </div>
-    <div class="Grid-col Grid-col--3-5">&nbsp;</div>
-    <div class="Grid-col Grid-col--1-5">
-      <p class="Icon Icon--alert Icon--orange u-pullLeft">
-        <strong>{{ complaintStatusNote }}</strong>
-      </p>
-    </div>
+    <div class="Grid-col Grid-col--4-5">&nbsp;</div>
   </div>
 </header>
 
@@ -26,12 +21,25 @@
       <section id="personal_details">
 
         <div class="VCard">
-          <h2 ng-if="complaint.full_name" class="VCard-title Icon Icon--formRow Icon--user" title="Full name">
-            {{ ::complaint.full_name }}
+          <h2 class="VCard-title">
+            <a href="" ng-click="goToCase(complaint.case_reference)" class="Icon Icon--formRow Icon--folder" title="Go to case">
+              {{ ::complaint.case_reference }}
+            </a>
           </h2>
-          <a href="" ng-click="goToCase(complaint.case_reference)" class="VCard-row Icon Icon--row Icon--folder" title="Go to case">
-            {{ ::complaint.case_reference }}
-          </a>
+          <p class="VCard-row Icon Icon--row" ng-class="statusClass()">
+            <span ng-if="complaint.closed">
+              Closed
+              <timestamp ng-model="complaint.closed"></timestamp>
+              <br/>
+            </span>
+            {{ displayStatus() }}
+          </p>
+          <p class="VCard-row Icon Icon--row Icon--alert Icon--red" ng-if="complaint.out_of_sla">
+            Out of SLA
+          </p>
+          <p ng-if="complaint.full_name" class="VCard-row Icon Icon--row Icon--user" title="Full name">
+            {{ ::complaint.full_name }}
+          </p>
           <p ng-if="complaint.category_of_law" class="VCard-row Icon Icon--row" title="Category of law">
             {{ ::complaint.category_of_law }}
           </p>
@@ -98,7 +106,7 @@
 
     <div class="Grid-col Grid-col--4-5 Guidance-buffer" ui-view full-height data-centre-col>
       <header class="PageHeader cf ng-scope">
-        <h1 class="ng-binding">Complaint actions</h1>
+        <h1 class="ng-binding">Complaint details</h1>
       </header>
 
       <form method="post" ng-submit="reopenComplaint()" ng-if="complaint.closed !== null">
