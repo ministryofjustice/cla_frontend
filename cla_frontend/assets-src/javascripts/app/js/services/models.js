@@ -386,6 +386,11 @@
         }
       };
 
+      resource.prototype.isEODSet = function() {
+        // true if any categories selected or notes are set
+        return this.reference && this.categories && this.categories.length > 0 || this.notes && this.notes.length > 0;
+      };
+
       resource.prototype.$eodBadge = function() {
         // returns either the number of selected categories or ! if there are only notes
         var badge = this.categories && this.categories.length;

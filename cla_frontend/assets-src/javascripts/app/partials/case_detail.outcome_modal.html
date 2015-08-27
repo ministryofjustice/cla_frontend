@@ -18,6 +18,11 @@
         <label class="FormRow-label">
           <input type="radio" value="{{ ::code.code }}" ng-model="selected.outcome_code" name="code" ng-required="true" server-error>
           {{ ::code.code }} <span class="u-mute">- {{ ::code.description }}</span>
+          <p ng-if="code.code == 'IRCB'" ng-switch="ircb_escalates" class="Notice Notice--secondary" style="margin:0 0 0 35px">
+            <span ng-switch-when="escalated">Complaint already escalated</span>
+            <span ng-switch-when="will_escalate">EOD will be escalated to complaint</span>
+            <span ng-switch-default>EOD is not set, will not escalate to complaint</span>
+          </p>
         </label>
       </div>
     </fieldset>

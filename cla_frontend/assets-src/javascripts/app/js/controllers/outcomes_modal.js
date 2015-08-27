@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('OutcomesModalCtl',
-      ['$scope', 'case', 'event_key', 'outcome_codes', 'notes', 'tplVars', '$modalInstance', '$timeout', 'Feedback',
-        function($scope, _case, event_key, outcome_codes, notes, tplVars, $modalInstance, $timeout, Feedback) {
+      ['$scope', 'case', 'eod_details', 'event_key', 'outcome_codes', 'notes', 'tplVars', '$modalInstance', '$timeout', 'flash', 'postal', 'Feedback', 'Complaint',
+        function($scope, _case, eod_details, event_key, outcome_codes, notes, tplVars, $modalInstance, $timeout, flash, postal, Feedback, Complaint) {
           // template vars
           tplVars = angular.extend({
             'title': 'Outcome code'
@@ -15,6 +15,14 @@
           $scope.selected = {};
           $scope.selected.notes = notes || '';
           $scope.feedback_allowed = (event_key === 'reject_case');
+
+          if(_case.complaint_flag) {
+            $scope.ircb_escalates = 'escalated';
+          } else if(eod_details.isEODSet()) {
+            $scope.ircb_escalates = 'will_escalate';
+          } else {
+            $scope.ircb_escalates = 'cant_escalate';
+          }
 
           // focus on search field on open
           $modalInstance.opened.then(function () {
@@ -38,10 +46,34 @@
             });
           };
           var saveEvent = function () {
-            _case['$' + event_key]({
-              event_code: $scope.selected.outcome_code,
-              notes: $scope.selected.notes
-            }).then(onSuccess, onFail);
+            function doSave() {
+              _case['$' + event_key]({
+                event_code: $scope.selected.outcome_code,
+                notes: $scope.selected.notes
+              }).then(onSuccess, onFail);
+            }
+            if($scope.ircb_escalates === 'will_escalate' && $scope.selected.outcome_code === 'IRCB') {
+              var complaint = new Complaint({
+                eod: eod_details.reference,
+                notes: $scope.selected.notes ? 'IRCB notes: ' + $scope.selected.notes : ''
+              });
+              complaint.$update(function() {
+                _case.complaint_flag = true;  // could go _case.$get but that might wipe other changes
+
+                postal.publish({
+                  channel: 'Complaint',
+                  topic: 'save',
+                  data: complaint
+                });
+                flash('success', 'EOD escalated to complaint');
+                doSave();
+              }, function() {
+                flash('error', 'EOD not escalated to complaint');
+                doSave();
+              });
+            } else {
+              doSave();
+            }
           };
 
           $scope.submit = function(isValid) {

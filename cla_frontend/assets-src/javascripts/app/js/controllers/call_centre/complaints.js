@@ -107,6 +107,7 @@
               case 'pending':
                 return 'Icon--edit';
               case 'received':
+                /* falls through */
               default:
                 return 'Icon--alert Icon--orange';
             }
