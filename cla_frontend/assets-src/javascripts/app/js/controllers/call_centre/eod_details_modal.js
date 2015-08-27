@@ -94,6 +94,8 @@
                     eod: eod_details.reference
                   });
                   complaint.$update(function() {
+                    $case.complaint_flag = true;  // could go $case.$get but that might wipe other changes
+
                     postal.publish({
                       channel: 'Complaint',
                       topic: 'save',

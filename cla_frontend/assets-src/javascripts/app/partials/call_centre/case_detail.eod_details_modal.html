@@ -36,7 +36,11 @@
   <div class="FormActions" data-block="formActions">
     <button class="Button" type="submit" ng-click="action='save'">Save</button>
     <a href="" ng-click="cancel()">Cancel</a>
-    <button class="Button Button--warning" style="float:right" type="submit" ng-click="action='escalate'">Escalate to complaint</button>
+
+    <button class="Button" ng-class="{'Button--warning': !case.complaint_flag, 'Button--secondary': case.complaint_flag}" ng-disabled="case.complaint_flag" style="float:right" type="submit" ng-click="action='escalate'">
+      <span ng-if="case.complaint_flag">Complaint escalated</span>
+      <span ng-if="!case.complaint_flag">Escalate to complaint</span>
+    </button>
   </div>
 
 </form>
