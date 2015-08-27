@@ -32,6 +32,11 @@
               <timestamp ng-model="complaint.closed"></timestamp>
               <br/>
             </span>
+            <span ng-if="!complaint.closed">
+              Created <strong><timestamp ng-model="complaint.created"></timestamp></strong>
+              by <strong>{{ ::getUserDisplayName(complaint.created_by) }}</strong>
+              <br/>
+            </span>
             {{ displayStatus() }}
           </p>
           <p class="VCard-row Icon Icon--row Icon--alert Icon--red" ng-if="complaint.out_of_sla">
@@ -58,14 +63,16 @@
         <form novalidate autocomplete="off" method="post" ng-submit="saveComplaintDetails(complaintDetailsFrm)" name="complaintDetailsFrm" class="VCard VCard-edit">
           <div class="FormRow FormRow--narrow cf">
             <label>
+              Brief description<br/>
+              <textarea ng-model="complaint.description"></textarea>
+            </label>
+          </div>
+          <div class="FormRow FormRow--narrow cf">
+            <label>
               Complaint category<br/>
               <select ng-model="complaint.category" ng-options="complaintCategory.id as complaintCategory.name for complaintCategory in complaintCategories"
                 style="width:100%"></select>
             </label>
-          </div>
-          <div class="FormRow FormRow--narrow cf">
-            Created <strong><timestamp ng-model="complaint.created"></timestamp></strong>
-            by <strong>{{ ::getUserDisplayName(complaint.created_by) }}</strong>
           </div>
           <div class="FormRow FormRow--narrow cf">
             <label>

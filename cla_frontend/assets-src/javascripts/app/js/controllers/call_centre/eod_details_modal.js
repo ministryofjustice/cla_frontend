@@ -91,7 +91,9 @@
                 promises.push(complaintPromise);
                 eodPromise.promise.then(function() {
                   var complaint = new Complaint({
-                    eod: eod_details.reference
+                    eod: eod_details.reference,
+                    // copy EOD notes into complaint description
+                    description: eod_details.notes
                   });
                   complaint.$update(function() {
                     $case.complaint_flag = true;  // could go $case.$get but that might wipe other changes

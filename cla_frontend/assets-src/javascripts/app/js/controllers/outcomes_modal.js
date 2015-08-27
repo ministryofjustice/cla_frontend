@@ -55,7 +55,8 @@
             if($scope.ircb_escalates === 'will_escalate' && $scope.selected.outcome_code === 'IRCB') {
               var complaint = new Complaint({
                 eod: eod_details.reference,
-                notes: $scope.selected.notes ? 'IRCB notes: ' + $scope.selected.notes : ''
+                // copy IRCB notes into complaint description (EOD notes go into created log event)
+                description: $scope.selected.notes ? 'IRCB notes: ' + $scope.selected.notes : ''
               });
               complaint.$update(function() {
                 _case.complaint_flag = true;  // could go _case.$get but that might wipe other changes
