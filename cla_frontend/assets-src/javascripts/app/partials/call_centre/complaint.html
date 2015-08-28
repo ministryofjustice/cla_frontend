@@ -20,6 +20,7 @@
       </nav>
       <section id="personal_details">
 
+        <!-- read-only details -->
         <div class="VCard">
           <h2 class="VCard-title">
             <a href="" ng-click="goToCase(complaint.case_reference)" class="Icon Icon--formRow Icon--folder" title="Go to case">
@@ -60,51 +61,58 @@
           </p>
         </div>
 
-        <form novalidate autocomplete="off" method="post" ng-submit="saveComplaintDetails(complaintDetailsFrm)" name="complaintDetailsFrm" class="VCard VCard-edit">
-          <div class="FormRow FormRow--narrow cf">
-            <label>
-              Brief description<br/>
-              <textarea ng-model="complaint.description"></textarea>
-            </label>
-          </div>
-          <div class="FormRow FormRow--narrow cf">
-            <label>
-              Complaint category<br/>
-              <select ng-model="complaint.category" ng-options="complaintCategory.id as complaintCategory.name for complaintCategory in complaintCategories"
-                style="width:100%"></select>
-            </label>
-          </div>
-          <div class="FormRow FormRow--narrow cf">
-            <label>
-              Source<br/>
-              <select ng-model="complaint.source" ng-options="item.value as item.description for item in complaintConstants.sources"></select>
-            </label>
-          </div>
-          <div class="FormRow FormRow--narrow cf">
-            <label>
-              Major/minor<br/>
-              <select ng-model="complaint.level" ng-options="level.value as level.description for level in complaintConstants.levels"></select>
-            </label>
-          </div>
-          <div class="FormRow FormRow--narrow cf">
-            <label>
-              Owner<br/>
-              <select ng-model="complaint.owner" ng-options="manager.username as getUserDisplayName(manager) for manager in managers">
-                <option value="">(unspecified)</option>
-              </select>
-            </label>
-          </div>
-          <div class="FormRow FormRow--narrow cf">
-            <label>
-              Justified<br/>
-              <select ng-model="complaint.justified" ng-options="item.value as item.description for item in complaintConstants.justified">
-                <option value="" ng-if="complaint.justified === null">(unspecified)</option>
-              </select>
-            </label>
-          </div>
+        <!-- complaint details when not editing or frozen -->
+        <div ng-click="showDetailsForm(complaintDetailsFrm)" ng-show="!complaintDetailsFrm.$visible" class="VCard VCard-view">
+          <p class="VCard-row" ng-if="complaint.description">
+            {{ complaint.description }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.category">
+            <strong>Category:</strong> {{ displayMappedValue('categories', complaint.category) }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.source">
+            <strong>Source:</strong> {{ displayMappedValue('sources', complaint.source) }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.owner">
+            <strong>Owner:</strong> {{ getUserDisplayName(findManager(complaint.owner)) }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.level">
+            {{ displayMappedValue('levels', complaint.level) }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.justified !== null">
+            {{ displayMappedValue('justified', complaint.justified) }}
+          </p>
+        </div>
+
+        <!-- complaint details when editing -->
+        <form novalidate autocomplete="off" method="post" name="complaintDetailsFrm" onbeforesave="validateComplaintDetails(complaintDetailsFrm.$valid)" onaftersave="saveComplaintDetails(complaintDetailsFrm)" ng-show="complaintDetailsFrm.$visible" editable-form class="VCard VCard-edit">
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.description.$error.server">{{ errors.description }}</span>
+            <span editable-textarea="complaint.description" e-name="description" e-class="FormRow-field--full" e-placeholder="Brief description" e-server-error></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.category.$error.server">{{ errors.category }}</span>
+            <span editable-filterselect="complaint.category" e-name="category" e-ng-options="item.id as item.name for item in complaintCategories track by item.id" e-class="FormRow-field--full" e-data-placeholder="Choose a category"></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.source.$error.server">{{ errors.source }}</span>
+            <span editable-filterselect="complaint.source" e-name="source" e-ng-options="item.value as item.description for item in complaintConstants.sources track by item.value" e-class="FormRow-field--full" e-data-placeholder="Choose a source"></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.owner.$error.server">{{ errors.owner }}</span>
+            <span editable-filterselect="complaint.owner" e-name="owner" e-ng-options="item.username as getUserDisplayName(item) for item in managers track by item.username" e-class="FormRow-field--full" e-data-placeholder="Choose an owner"></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.level.$error.server">{{ errors.level }}</span>
+            <span editable-filterselect="complaint.level" e-name="level" e-ng-options="item.value as item.description for item in complaintConstants.levels track by item.value" e-class="FormRow-field--full" e-data-placeholder="Minor or major?"></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.justified.$error.server">{{ errors.justified }}</span>
+            <span editable-filterselect="complaint.justified" e-name="justified" e-ng-options="item.value + '' as item.description for item in complaintConstants.justified track by item.value + ''" e-class="FormRow-field--full" e-data-placeholder="Is the complaint justified?"></span>
+          </label>
 
           <div class="FormActions cf">
             <button type="submit" class="Button">Save details</button>
+            <button type="reset" class="Button Button--text" ng-click="cancelComplaintDetails(complaintDetailsFrm)">Cancel</button>
           </div>
         </form>
 

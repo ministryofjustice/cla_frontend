@@ -1,23 +1,33 @@
 (function() {
   'use strict';
 
+  var maps = {},
+    setupMappedValues = function(complaintConstants) {
+      angular.forEach(['justified', 'resolved', 'sources', 'levels'], function(key) {
+        maps[key] = maps[key] || {};
+        angular.forEach(complaintConstants[key], function(data) {
+          maps[key][data.value] = data.description;
+        });
+      });
+    },
+    addCategoriesToMappedValues = function(complaintCategories) {
+      maps.categories = {};
+      angular.forEach(complaintCategories, function(data) {
+        maps.categories[data.id] = data.name;
+      });
+    },
+    displayMappedValue = function(key, data) {
+      return maps[key][data] || '';
+    };
+
   angular.module('cla.controllers.operator')
     .controller('ComplaintsListCtrl',
       ['$scope', '$state', '$stateParams', 'complaintConstants', 'complaintsList', 'goToComplaint',
         function($scope, $state, $stateParams, complaintConstants, complaintsList, goToComplaint) {
+          setupMappedValues(complaintConstants);
+          $scope.displayMappedValue = displayMappedValue;
+
           $scope.complaintsList = complaintsList;
-
-          var maps = {};
-          angular.forEach(['justified', 'resolved', 'levels'], function(key) {
-            angular.forEach(complaintConstants[key], function(data) {
-              maps[key] = maps[key] || {};
-              maps[key][data.value] = data.description;
-            });
-          });
-          $scope.displayMappedValue = function(key, data) {
-            return maps[key][data] || '';
-          };
-
           $scope.goToComplaint = goToComplaint;
 
           $scope.currentPage = $stateParams.page || 1;
@@ -77,15 +87,29 @@
     .controller('ComplaintCtrl',
       ['$scope', '$state', '$stateParams', 'managers', 'complaintCategories', 'complaintConstants', 'complaint', 'complaintLogs', 'personal_details', 'goToComplaint', 'goToCase', 'form_utils', 'flash', 'postal', 'History',
         function($scope, $state, $stateParams, managers, complaintCategories, complaintConstants, complaint, complaintLogs, personal_details, goToComplaint, goToCase, form_utils, flash, postal, History) {
+          setupMappedValues(complaintConstants);
+          addCategoriesToMappedValues(complaintCategories);
+          $scope.displayMappedValue = displayMappedValue;
+
           $scope.complaintCategories = complaintCategories;
           $scope.complaintConstants = complaintConstants;
 
           $scope.managers = managers;
-          $scope.getUserDisplayName = function(user) {
-            if(user.first_name || user.last_name) {
-              return (user.first_name + ' ' + user.last_name).trim();
+          $scope.findManager = function(username) {
+            var userObject = null;
+            angular.forEach(managers, function(manager) {
+              if(manager.username === username) {
+                userObject = manager;
+                return false;
+              }
+            });
+            return userObject;
+          };
+          $scope.getUserDisplayName = function(userObject) {
+            if(userObject.first_name || userObject.last_name) {
+              return (userObject.first_name + ' ' + userObject.last_name).trim();
             }
-            return user.username;
+            return userObject.username || 'Unknown';
           };
 
           $scope.goToCase = goToCase;
@@ -113,7 +137,37 @@
             }
           };
 
-          $scope.saveComplaintDetails = function() {
+          $scope.showDetailsForm = function(complaintDetailsFrm) {
+            if(complaint.closed !== null) {
+              flash('error', 'Complaint is closed, reopen it to edit the details');
+              return;
+            }
+            if($scope.complaint.justified === null) {
+                $scope.complaint.justified = '';
+            } else {
+                $scope.complaint.justified = $scope.complaint.justified + '';
+            }
+            complaintDetailsFrm.$show();
+          };
+          $scope.cancelComplaintDetails = function(complaintDetailsFrm) {
+            complaintDetailsFrm.$cancel();
+          };
+
+          $scope.validateComplaintDetails = function(isValid) {
+            return isValid ? true : 'false';
+          };
+          $scope.saveComplaintDetails = function(complaintDetailsFrm) {
+            switch($scope.complaint.justified) {
+              case 'true':
+                $scope.complaint.justified = true;
+                break;
+              case 'false':
+                $scope.complaint.justified = false;
+                break;
+              default:
+                $scope.complaint.justified = null;
+            }
+
             $scope.complaint.$update(function() {
               postal.publish({
                 channel: 'Complaint',
@@ -121,7 +175,8 @@
                 data: $scope.complaint
               });
               flash('success', 'Complaint details saved');
-            }, function() {
+            }, function(response) {
+              form_utils.ctrlFormErrorCallback($scope, response, complaintDetailsFrm);
               flash('error', 'Complaint details not saved');
             });
           };
