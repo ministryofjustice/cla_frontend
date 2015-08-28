@@ -40,8 +40,13 @@
             </span>
             {{ displayStatus() }}
           </p>
-          <p class="VCard-row Icon Icon--row Icon--tick" ng-if="complaint.holding_letter !== null">
-            Holding letter sent <timestamp ng-model="complaint.holding_letter"></timestamp>
+          <p class="VCard-row Icon Icon--row" ng-class="{'Icon--tick': !complaint.holding_letter_out_of_sla, 'Icon--cross Icon--red': complaint.holding_letter_out_of_sla}" ng-if="complaint.holding_letter !== null || complaint.holding_letter_out_of_sla">
+            <span ng-if="complaint.holding_letter !== null">
+              Holding letter sent <timestamp ng-model="complaint.holding_letter"></timestamp>
+            </span>
+            <span ng-if="complaint.holding_letter === null && complaint.holding_letter_out_of_sla">
+              Holding letter not sent
+            </span>
           </p>
           <p class="VCard-row Icon Icon--row Icon--tick" ng-if="complaint.full_letter !== null">
             Full response sent <timestamp ng-model="complaint.full_letter"></timestamp>
