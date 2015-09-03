@@ -10,7 +10,7 @@
     states.ComplaintsList = {
       name: 'complaints_list',
       parent: 'layout',
-      url: AppSettings.BASE_URL + 'complaints/?page&ordering&show_closed',
+      url: AppSettings.BASE_URL + 'complaints/?page&ordering&show_closed&search',
       templateUrl: 'call_centre/complaints_list.html',
       controller: 'ComplaintsListCtrl',
       resolve: {
@@ -29,7 +29,8 @@
           var params = {
             dashboard: 'True',
             page: $stateParams.page,
-            ordering: $stateParams.ordering
+            ordering: $stateParams.ordering,
+            search: $stateParams.search
           };
           if($stateParams.show_closed === 'True') {
             params.show_closed = 'True';
