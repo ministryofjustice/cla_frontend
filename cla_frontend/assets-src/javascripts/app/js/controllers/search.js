@@ -10,7 +10,8 @@
           });
 
           $scope.submit = function() {
-            $state.go('case_list', {search: $scope.search}, {inherit: false});
+            var action = ($state.current.name.substring(0, 10) === 'complaints')? 'complaints_list' : 'case_list';
+            $state.go(action, {search: $scope.search}, {inherit: false});
           };
         }
       ]
