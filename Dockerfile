@@ -33,8 +33,8 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get -y --force-yes install nginx-full &
 ADD ./docker/htpassword /etc/nginx/conf.d/htpassword
 RUN rm -f /etc/nginx/sites-enabled/default && chown www-data:www-data /etc/nginx/conf.d/htpassword
 
-#Pip install Python packages
-
+# Pip install Python packages
+RUN pip install -U setuptools pip wheel
 RUN pip install GitPython uwsgi
 
 RUN mkdir -p /var/log/wsgi /var/log/nodejs && chown -R www-data:www-data /var/log/wsgi /var/log/nodejs && chmod -R g+s /var/log/wsgi /var/log/nodejs
