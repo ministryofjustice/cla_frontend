@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 set -e
 
@@ -20,4 +20,3 @@ gulp build
 # Run tests that don;t rely on CLA_BACKEND being available
 $WORKSPACE/.env/bin/python manage.py jenkins --coverage-rcfile=.coveragerc --settings=cla_frontend.settings.jenkins
 npm run test-single-run
-

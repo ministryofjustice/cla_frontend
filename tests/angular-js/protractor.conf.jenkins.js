@@ -10,7 +10,7 @@
       defaultTimeoutInterval: 120000
     },
 
-    baseUrl: 'http://172.31.42.35:'+process.env.FRONTEND_BASE_PORT+'/',
+    baseUrl: 'http://172.31.42.35:' + process.env.CLA_FRONTEND_PORT + '/',
     seleniumAddress: 'http://172.31.23.107:4444/wd/hub',
 
     multiCapabilities: [
