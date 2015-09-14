@@ -14,9 +14,9 @@
     //seleniumAddress: 'http://52.17.63.29:4444/wd/hub',
 
     multiCapabilities: [
-      {
-        browserName: 'chrome'
-      },
+      //{
+      //  browserName: 'chrome'
+      //},
       {
         browserName: 'firefox'
       }

@@ -22,8 +22,8 @@ def parse_args():
         description='Build project ready for testing by Jenkins.')
     parser.add_argument('envname', type=str,
                         help='e.g. integration, production, etc.')
-    parser.add_argument('--backend-hash', type=str, default='develop',
-                        help='cla_backend commit to run tests against; '
+    parser.add_argument('--backend-hash', type=str, default='',
+                        help='cla_backend *commit hash* to run tests against; '
                              'defaults to latest develop branch commit')
 
     args = parser.parse_args()
