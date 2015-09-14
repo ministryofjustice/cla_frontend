@@ -10,8 +10,8 @@
       defaultTimeoutInterval: 120000
     },
 
-    baseUrl: 'http://52.18.3.241:' + process.env.CLA_FRONTEND_PORT + '/',
-    seleniumAddress: 'http://52.19.63.95:4444/wd/hub',
+    baseUrl: 'http://' + process.env.CLA_FRONTEND_HOST + ':' + process.env.CLA_FRONTEND_PORT + '/',
+    seleniumAddress: 'http://' + process.env.SELENIUM_HOST + ':4444/wd/hub',
 
     multiCapabilities: [
       {
