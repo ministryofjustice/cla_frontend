@@ -10,13 +10,13 @@
       defaultTimeoutInterval: 120000
     },
 
-    //baseUrl: 'http://52.18.3.241:' + process.env.CLA_FRONTEND_PORT + '/',
-    //seleniumAddress: 'http://52.17.63.29:4444/wd/hub',
+    baseUrl: 'http://52.18.3.241:' + process.env.CLA_FRONTEND_PORT + '/',
+    seleniumAddress: 'http://52.19.63.95:4444/wd/hub',
 
     multiCapabilities: [
-      //{
-      //  browserName: 'chrome'
-      //},
+      {
+        browserName: 'chrome'
+      },
       {
         browserName: 'firefox'
       }
