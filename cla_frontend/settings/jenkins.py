@@ -22,7 +22,7 @@ DATABASES = {}
 
 # HOST_NAME = ""
 
-BACKEND_BASE_URI = 'http://127.0.0.1:%s' % os.environ.get('CLA_FRONTEND_PORT', 8000)
+BACKEND_BASE_URI = 'http://127.0.0.1:%s' % os.environ.get('CLA_BACKEND_PORT', 8000)
 
 ZONE_PROFILES['call_centre']['BASE_URI'] = '%s/call_centre/api/v1/' % BACKEND_BASE_URI
 ZONE_PROFILES['cla_provider']['BASE_URI'] = '%s/cla_provider/api/v1/' % BACKEND_BASE_URI
