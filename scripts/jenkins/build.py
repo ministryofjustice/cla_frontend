@@ -118,7 +118,7 @@ def _port(start_from=8100, up_to=8299):
 gen_port = _port()
 
 
-def run_server(env, backend_hash=''):
+def run_server(env, backend_hash, jenkins_build_path):
     venv = '/tmp/jenkins/envs/cla_backend-%s' % env
     project_dir = '/srv/jenkins/shared-backend/%s-%s' % (PROJECT_NAME, env)
     if not os.path.isdir(project_dir):
@@ -157,19 +157,25 @@ def run_server(env, backend_hash=''):
         # TODO: add complaints category fixtures once that branch is merged
     )
 
+    log_stdout = os.path.join(jenkins_build_path, 'cla_backend.stdout.log')
+    log_stderr = os.path.join(jenkins_build_path, 'cla_backend.stderr.log')
+
     run(('cd {project_dir} && '
          '{venv}/bin/python manage.py testserver {fixtures} '
          '--addrport {port} --noinput '
          '--settings=cla_backend.settings.jenkins '
-         '> {project_dir}/testserver.log~').format(
+         '1> {log_stdout} '
+         '2> {log_stderr}').format(
             project_dir=project_dir,
             venv=venv,
             fixtures=' '.join(fixtures),
-            port=backend_port),
+            port=backend_port,
+            log_stdout=log_stdout,
+            log_stderr=log_stderr),
         background=True)
 
 
-def run_tests(venv_path):
+def run_tests(venv_path, jenkins_build_path):
     wait_until_available('http://localhost:{port}/admin/'.format(
         port=os.environ.get('CLA_BACKEND_PORT'))
     )
@@ -177,13 +183,19 @@ def run_tests(venv_path):
     frontend_port = next(gen_port)
     os.environ['CLA_FRONTEND_PORT'] = str(frontend_port)
 
+    log_stdout = os.path.join(jenkins_build_path, 'cla_frontend.stdout.log')
+    log_stderr = os.path.join(jenkins_build_path, 'cla_frontend.stderr.log')
+
     run(
         '{venv_path}/bin/python manage.py runserver 0.0.0.0:{port} '
         '--settings=cla_frontend.settings.jenkins '
         '--nothreading --noreload '
-        '> /dev/null'.format(
+        '1> {log_stdout} '
+        '2> {log_stderr}'.format(
             venv_path=venv_path,
             port=frontend_port,
+            log_stdout=log_stdout,
+            log_stderr=log_stderr,
         ),
         background=True)
 
@@ -219,6 +231,12 @@ def kill_all_background_processes():
 
 def main():
     try:
+        jenkins_workspace_path = os.environ['WORKSPACE']
+        jenkins_build_path = os.path.join(jenkins_workspace_path,
+                                          '..', 'builds',
+                                          os.environ['BUILD_NUMBER'])
+        jenkins_build_path = os.path.abspath(jenkins_build_path)
+
         args = parse_args()
         env = args['envname']
         backend_hash = args['backend_hash']
@@ -228,9 +246,9 @@ def main():
         update_static_assets(venv_path)
         clean_pyc()
         python_tests = run_python_tests(venv_path)
-        run_server(env, backend_hash)
+        run_server(env, backend_hash, jenkins_build_path)
         python_tests.wait()
-        run_tests(venv_path)
+        run_tests(venv_path, jenkins_build_path)
     finally:
         kill_all_background_processes()
 
