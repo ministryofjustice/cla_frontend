@@ -20,7 +20,7 @@
           if (!user.is_manager) {
             // reject promise and handle in $stateChangeError
             deferred.reject({
-              msg: 'The you must be a manager to edit users.'
+              msg: 'You must be a manager to edit users.'
             });
             return deferred.promise;
           }

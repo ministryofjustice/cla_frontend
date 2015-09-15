@@ -59,3 +59,11 @@
   margin-bottom: 5px;
   background-color: $white;
 }
+
+.ComplaintHistory-card {
+  background: $grey-4;
+
+  .CaseHistory-logItemNotes {
+    white-space: pre-wrap;
+  }
+}

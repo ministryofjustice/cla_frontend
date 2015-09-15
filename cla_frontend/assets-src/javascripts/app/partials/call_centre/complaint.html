@@ -1,0 +1,195 @@
+<header class="CaseBar Grid" sticky use-placeholder data-block="case-header">
+  <div class="Grid-row">
+    <div class="Grid-col Grid-col--1-5">
+      <h1 class="CaseBar-caseNum Icon Icon--folder">
+        <a href="" ng-click="goToComplaint(complaint)">
+          {{ ::complaint.case_reference }}
+        </a>
+      </h1>
+    </div>
+    <div class="Grid-col Grid-col--4-5">&nbsp;</div>
+  </div>
+</header>
+
+<div class="Grid">
+  <div class="Grid-row">
+
+    <div class="Grid-col Grid-col--1-5">
+      <nav class="SubNav">
+        <a ui-sref="complaints_list(complaintsListStateParams)" class="SubNav-link SubNav-link--back">Back to complaints</a>
+      </nav>
+      <section id="personal_details">
+
+        <!-- read-only details -->
+        <div class="VCard">
+          <h2 class="VCard-title">
+            <a href="" ng-click="goToCase(complaint.case_reference)" class="Icon Icon--formRow Icon--folder" title="Go to case">
+              {{ ::complaint.case_reference }}
+            </a>
+          </h2>
+          <p class="VCard-row Icon Icon--row" ng-class="statusClass()">
+            <span ng-if="complaint.closed">
+              Closed
+              <timestamp ng-model="complaint.closed"></timestamp>
+              <br/>
+            </span>
+            <span ng-if="!complaint.closed">
+              Created <strong><timestamp ng-model="complaint.created"></timestamp></strong>
+              by <strong>{{ ::getUserDisplayName(complaint.created_by) }}</strong>
+              <br/>
+            </span>
+            {{ displayStatus() }}
+          </p>
+          <p class="VCard-row Icon Icon--row" ng-class="{'Icon--tick': !complaint.holding_letter_out_of_sla, 'Icon--cross Icon--red': complaint.holding_letter_out_of_sla}" ng-if="complaint.holding_letter !== null || complaint.holding_letter_out_of_sla">
+            <span ng-if="complaint.holding_letter !== null">
+              Holding letter sent <timestamp ng-model="complaint.holding_letter"></timestamp>
+            </span>
+            <span ng-if="complaint.holding_letter === null && complaint.holding_letter_out_of_sla">
+              Holding letter not sent
+            </span>
+          </p>
+          <p class="VCard-row Icon Icon--row Icon--tick" ng-if="complaint.full_letter !== null">
+            Full response sent <timestamp ng-model="complaint.full_letter"></timestamp>
+          </p>
+          <p class="VCard-row Icon Icon--row Icon--alert Icon--red" ng-if="complaint.out_of_sla">
+            Out of SLA
+          </p>
+          <p ng-if="complaint.full_name" class="VCard-row Icon Icon--row Icon--user" title="Full name">
+            {{ ::complaint.full_name }}
+          </p>
+          <p ng-if="complaint.category_of_law" class="VCard-row Icon Icon--row" title="Category of law">
+            {{ ::complaint.category_of_law }}
+          </p>
+          <div ng-if="personal_details.postcode || personal_details.street" class="VCard-row Icon Icon--row Icon--location" title="Address">
+            <p class="u-compact" ng-if="personal_details.postcode">{{ ::personal_details.postcode }}</p>
+            <p class="u-compact" ng-bind-html="personal_details.street|escapeHtml|nl2br"></p>
+          </div>
+          <p ng-if="personal_details.mobile_phone" class="VCard-row Icon Icon--row Icon--call" ng-class="{'Icon--red Icon--dontcall': personal_details.safe_to_contact === 'DONT_CALL', 'Icon--red Icon--novoicemail': personal_details.safe_to_contact === 'NO_MESSAGE', 'Icon--green': personal_details.safe_to_contact === 'SAFE'}" title="Phone number">
+            <span ng-class="{'u-strike': personal_details.safe_to_contact !== 'SAFE'}">{{ ::personal_details.mobile_phone }}</span>
+          </p>
+          <p ng-if="personal_details.email" class="VCard-row Icon Icon--row Icon--email" title="Email address">
+            {{ ::personal_details.email }}
+          </p>
+        </div>
+
+        <!-- complaint details when not editing or frozen -->
+        <div ng-click="showDetailsForm(complaintDetailsFrm)" ng-show="!complaintDetailsFrm.$visible" class="VCard VCard-view">
+          <p class="VCard-row" ng-if="complaint.description">
+            {{ complaint.description }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.category">
+            <strong>Category:</strong> {{ displayMappedValue('categories', complaint.category) }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.source">
+            <strong>Source:</strong> {{ displayMappedValue('sources', complaint.source) }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.owner">
+            <strong>Owner:</strong> {{ getUserDisplayName(findManager(complaint.owner)) }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.level">
+            {{ displayMappedValue('levels', complaint.level) }}
+          </p>
+          <p class="VCard-row" ng-if="complaint.justified !== null">
+            {{ displayMappedValue('justified', complaint.justified) }}
+          </p>
+        </div>
+
+        <!-- complaint details when editing -->
+        <form novalidate autocomplete="off" method="post" name="complaintDetailsFrm" onbeforesave="validateComplaintDetails(complaintDetailsFrm.$valid)" onaftersave="saveComplaintDetails(complaintDetailsFrm)" ng-show="complaintDetailsFrm.$visible" editable-form class="VCard VCard-edit">
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.description.$error.server">{{ errors.description }}</span>
+            <span editable-textarea="complaint.description" e-name="description" e-class="FormRow-field--full" e-placeholder="Brief description" e-server-error></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.category.$error.server">{{ errors.category }}</span>
+            <span editable-filterselect="complaint.category" e-name="category" e-ng-options="item.id as item.name for item in complaintCategories track by item.id" e-class="FormRow-field--full" e-data-placeholder="Choose a category"></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.source.$error.server">{{ errors.source }}</span>
+            <span editable-filterselect="complaint.source" e-name="source" e-ng-options="item.value as item.description for item in complaintConstants.sources track by item.value" e-class="FormRow-field--full" e-data-placeholder="Choose a source"></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.owner.$error.server">{{ errors.owner }}</span>
+            <span editable-filterselect="complaint.owner" e-name="owner" e-ng-options="item.username as getUserDisplayName(item) for item in managers track by item.username" e-class="FormRow-field--full" e-data-placeholder="Choose an owner"></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.level.$error.server">{{ errors.level }}</span>
+            <span editable-filterselect="complaint.level" e-name="level" e-ng-options="item.value as item.description for item in complaintConstants.levels track by item.value" e-class="FormRow-field--full" e-data-placeholder="Minor or major?"></span>
+          </label>
+          <label class="FormRow FormRow--narrow cf">
+            <span class="Error-message" ng-if="complaintDetailsFrm.justified.$error.server">{{ errors.justified }}</span>
+            <span editable-filterselect="complaint.justified" e-name="justified" e-ng-options="item.value + '' as item.description for item in complaintConstants.justified track by item.value + ''" e-class="FormRow-field--full" e-data-placeholder="Is the complaint justified?"></span>
+          </label>
+
+          <div class="FormActions cf">
+            <button type="submit" class="Button">Save details</button>
+            <button type="reset" class="Button Button--text" ng-click="cancelComplaintDetails(complaintDetailsFrm)">Cancel</button>
+          </div>
+        </form>
+
+      </section>
+    </div>
+
+    <div class="Grid-col Grid-col--4-5 Guidance-buffer" ui-view full-height data-centre-col>
+      <header class="PageHeader cf ng-scope">
+        <h1 class="ng-binding">Complaint details</h1>
+      </header>
+
+      <form method="post" ng-submit="reopenComplaint()" ng-if="complaint.closed !== null">
+        <button type="submit" class="Button Button--warning">Reopen complaint</button>
+      </form>
+
+      <form method="post" ng-submit="saveAction(actionFrm)" name="actionFrm" ng-if="complaint.closed === null">
+        <div class="FormRow cf" ng-class="{'Error': actionFrm.event_code.$invalid}">
+          <ul class="ErrorSummary-list" ng-messages="actionFrm.event_code.$error">
+            <li class="ErrorSummary-listItem" ng-message="server">{{ errors.event_code }}</li>
+          </ul>
+
+          <select name="event_code" ng-model="currentAction.event_code" ng-options="item.value as item.description for item in complaintConstants.actions" server-error></select>
+        </div>
+
+        <div class="FormRow cf" ng-class="{'Error': actionFrm.resolved.$invalid}" ng-show="currentAction.event_code == 'COMPLAINT_CLOSED'">
+          <ul class="ErrorSummary-list" ng-messages="actionFrm.resolved.$error">
+            <li class="ErrorSummary-listItem" ng-message="server">{{ errors.resolved }}</li>
+          </ul>
+
+          <label>
+            Complaint is
+            <select name="resolved" ng-model="currentAction.resolved" ng-options="item.value as item.description for item in complaintConstants.resolved" server-error></select>
+          </label>
+        </div>
+
+        <div class="FormRow cf" ng-class="{'Error': actionFrm.notes.$invalid}">
+          <ul class="ErrorSummary-list" ng-messages="actionFrm.notes.$error">
+            <li class="ErrorSummary-listItem" ng-message="server">{{ errors.notes }}</li>
+            <li class="ErrorSummary-listItem" ng-message="maxlength">This field is limited to 10000 characters</li>
+          </ul>
+
+          <label class="cf">
+            <textarea class="FormRow-field--full" name="notes" ng-model="currentAction.notes" placeholder="{{ getLogMessages(currentAction.event_code, 'notesPlaceholder') }}" cols="20" rows="10" ng-maxlength="10000" server-error></textarea>
+          </label>
+        </div>
+
+        <div class="FormRow cf">
+          <button type="submit" class="Button" name="save-action">{{ getLogMessages(currentAction.event_code, 'button') }}</button>
+        </div>
+      </form>
+
+      <ul class="CaseHistory">
+        <li ng-repeat="log in complaintLogs.logs" class="CaseHistory-card ComplaintHistory-card">
+          <span>
+            <timestamp ng-model="log.created"></timestamp>
+            ({{ ::log.created_by }})
+          </span>
+          <ul class="CaseHistory-log">
+            <li class="CaseHistory-logItem cf">
+              <!-- <strong>{{ ::getLogMessages(log.code, 'logHeading') }}</strong> -->
+              <span class="CaseHistory-logItemNotes">{{ ::log.notes }}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
