@@ -154,7 +154,7 @@ def run_server(env, backend_hash, jenkins_build_path):
         'test_casearchived.json',
         'test_providercases.json',
         'test_provider_allocations.json',
-        # TODO: add complaints category fixtures once that branch is merged
+        'initial_complaint_categories',
     )
 
     log_stdout = os.path.join(jenkins_build_path, 'cla_backend.stdout.log')
@@ -171,7 +171,8 @@ def run_server(env, backend_hash, jenkins_build_path):
             fixtures=' '.join(fixtures),
             port=backend_port,
             log_stdout=log_stdout,
-            log_stderr=log_stderr),
+            log_stderr=log_stderr,
+        ),
         background=True)
 
 
