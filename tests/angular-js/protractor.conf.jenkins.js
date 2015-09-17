@@ -14,9 +14,9 @@
     seleniumAddress: 'http://' + process.env.SELENIUM_HOST + ':4444/wd/hub',
 
     multiCapabilities: [
-      {
-        browserName: 'chrome'
-      },
+      //{
+      //  browserName: 'chrome'
+      //},
       {
         browserName: 'firefox'
       }
