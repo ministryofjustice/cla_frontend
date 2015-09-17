@@ -25,6 +25,8 @@
                   };
                 },
                 case: function() { return $scope.case; },
+                eod_details: function() {return null;},
+                Complaint: function() {return null;},
                 event_key: function() { return 'close_case_debt_referral'; },
                 notes: function() { return null; },
                 outcome_codes: function() { return null; }

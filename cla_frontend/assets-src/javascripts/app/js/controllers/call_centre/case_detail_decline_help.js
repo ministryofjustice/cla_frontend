@@ -17,6 +17,8 @@
                   };
                 },
                 case: function() { return $scope.case; },
+                eod_details: function() {return null;},
+                Complaint: function() {return null;},
                 event_key: function() { return 'decline_help'; },  //this is also the function name on Case model
                 notes: function() { return notes || ''; },
                 outcome_codes: ['Event', function (Event) {

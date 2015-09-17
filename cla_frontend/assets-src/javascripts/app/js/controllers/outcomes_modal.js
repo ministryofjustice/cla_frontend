@@ -16,12 +16,14 @@
           $scope.selected.notes = notes || '';
           $scope.feedback_allowed = (event_key === 'reject_case');
 
-          if(_case.complaint_flag) {
-            $scope.ircb_escalates = 'escalated';
-          } else if(eod_details.isEODSet()) {
-            $scope.ircb_escalates = 'will_escalate';
-          } else {
-            $scope.ircb_escalates = 'cant_escalate';
+          if(eod_details !== null) {
+            if(_case.complaint_flag) {
+              $scope.ircb_escalates = 'escalated';
+            } else if(eod_details.isEODSet()) {
+              $scope.ircb_escalates = 'will_escalate';
+            } else {
+              $scope.ircb_escalates = 'cant_escalate';
+            }
           }
 
           // focus on search field on open
@@ -52,7 +54,7 @@
                 notes: $scope.selected.notes
               }).then(onSuccess, onFail);
             }
-            if($scope.ircb_escalates === 'will_escalate' && $scope.selected.outcome_code === 'IRCB') {
+            if(eod_details !== null && $scope.ircb_escalates === 'will_escalate' && $scope.selected.outcome_code === 'IRCB') {
               var complaint = new Complaint({
                 eod: eod_details.reference,
                 // copy IRCB notes into complaint description (EOD notes go into created log event)
