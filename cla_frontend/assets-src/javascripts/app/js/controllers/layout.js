@@ -8,6 +8,8 @@
           var offStateChange = $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams){
             if (from.name === 'case_list') {
               History.caseListStateParams = fromParams;
+            } else if(from.name === 'complaints_list') {
+              History.complaintsListStateParams = fromParams;
             }
 
             if (to.parent !== 'case_detail.edit') {

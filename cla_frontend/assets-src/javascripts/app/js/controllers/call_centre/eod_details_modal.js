@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers.operator')
     .controller('EODDetailsModalCtrl',
-      ['$scope', 'case', 'eod_details', '$modalInstance', 'EXPRESSIONS_OF_DISSATISFACTION', 'EXPRESSIONS_OF_DISSATISFACTION_FLAGS', '$q', '$timeout', 'flash', 'postal',
-        function($scope, $case, eod_details, $modalInstance, EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, $q, $timeout, flash, postal) {
+      ['$scope', 'case', 'eod_details', 'Complaint', '$modalInstance', 'EXPRESSIONS_OF_DISSATISFACTION', 'EXPRESSIONS_OF_DISSATISFACTION_FLAGS', '$q', '$timeout', 'flash', 'postal',
+        function($scope, $case, eod_details, Complaint, $modalInstance, EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, $q, $timeout, flash, postal) {
           $scope.case = $case;
           $scope.EXPRESSIONS_OF_DISSATISFACTION = EXPRESSIONS_OF_DISSATISFACTION;
 
@@ -65,7 +65,7 @@
             $scope.eod_details_model.categories[category].is_major = !$scope.eod_details_model.categories[category].is_major;
           };
 
-          $scope.submit = function(theForm) {
+          $scope.submit = function(theForm, action) {
             if(theForm.$valid) {
               var eodPromise = $q.defer();
 
@@ -85,7 +85,34 @@
                 eodPromise.reject('fail');
               });
 
-              var response = $q.all([eodPromise.promise]);
+              var promises = [eodPromise.promise];
+              if(action === 'escalate') {
+                var complaintPromise = $q.defer();
+                promises.push(complaintPromise);
+                eodPromise.promise.then(function() {
+                  var complaint = new Complaint({
+                    eod: eod_details.reference,
+                    // copy EOD notes into complaint description
+                    description: eod_details.notes
+                  });
+                  complaint.$update(function() {
+                    $case.complaint_flag = true;  // could go $case.$get but that might wipe other changes
+
+                    postal.publish({
+                      channel: 'Complaint',
+                      topic: 'save',
+                      data: complaint
+                    });
+                    flash('success', 'EOD escalated to complaint');
+                    complaintPromise.resolve();
+                  }, function() {
+                    flash('error', 'EOD not escalated to complaint');
+                    complaintPromise.reject('fail');
+                  });
+                });
+              }
+
+              var response = $q.all(promises);
               $scope.$close(response);
             }
           };

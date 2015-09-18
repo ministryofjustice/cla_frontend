@@ -96,6 +96,20 @@
     }]);
 
   angular.module('cla.utils')
+    .factory('goToComplaint', ['$state', function($state) {
+      return function(complaint) {
+        var complaint_id = angular.isObject(complaint) ? complaint.id : complaint;
+
+        // TODO: does the timer need to start? does dealing with a complaint count as working on a case?
+        // c.f. goToCase
+
+        $state.go('complaint', {
+          complaint_id: complaint_id
+        });
+      };
+    }]);
+
+  angular.module('cla.utils')
     .factory('appUtils', ['AppSettings', function(AppSettings){
       var version;
 

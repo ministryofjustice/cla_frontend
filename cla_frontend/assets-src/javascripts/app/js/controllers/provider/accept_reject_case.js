@@ -34,6 +34,8 @@
               };
             },
             case: function() { return $scope.case; },
+            eod_details: function() {return null;},
+            Complaint: function() {return null;},
             event_key: function() { return 'reject_case'; },  //this is also the function name on Case model
             notes: function() { return null; },
             outcome_codes: ['Event', function (Event) {
@@ -66,6 +68,8 @@
               };
             },
             case: function() { return $scope.case; },
+            eod_details: function() {return null;},
+            Complaint: function() {return null;},
             event_key: function() { return 'reopen_case'; },
             notes: function() { return null; },
             outcome_codes: function() { return null; }
