@@ -20,17 +20,15 @@ background_processes = Queue()
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Build project ready for testing by Jenkins.')
-    parser.add_argument('envname', type=str,
-                        help='e.g. integration, production, etc.')
-    parser.add_argument('--backend-hash', type=str, default='',
+    parser.add_argument('envname', help='e.g. integration, production, etc.')
+    parser.add_argument('--backend-hash', default='',
                         help='cla_backend *commit hash* to run tests against; '
                              'defaults to latest develop branch commit')
+    parser.add_argument('--skip-tests', nargs='*',
+                        choices=('django', 'karma', 'protractor'),
+                        help='skip tests: django, karma, protractor')
 
-    args = parser.parse_args()
-    return {
-        'envname': args.envname,
-        'backend_hash': args.backend_hash,
-    }
+    return parser.parse_args()
 
 
 def run(command, background=False, **kwargs):
@@ -176,7 +174,10 @@ def run_server(env, backend_hash, jenkins_build_path):
         background=True)
 
 
-def run_tests(venv_path, jenkins_build_path):
+def run_integration_tests(venv_path, jenkins_build_path, skip_tests):
+    run_karma = 'karma' not in skip_tests
+    run_protractor = 'protractor' not in skip_tests
+
     wait_until_available('http://localhost:{port}/admin/'.format(
         port=os.environ.get('CLA_BACKEND_PORT'))
     )
@@ -187,26 +188,31 @@ def run_tests(venv_path, jenkins_build_path):
     log_stdout = os.path.join(jenkins_build_path, 'cla_frontend.stdout.log')
     log_stderr = os.path.join(jenkins_build_path, 'cla_frontend.stderr.log')
 
-    run(
-        '{venv_path}/bin/python manage.py runserver 0.0.0.0:{port} '
-        '--settings=cla_frontend.settings.jenkins '
-        '--nothreading --noreload '
-        '1> {log_stdout} '
-        '2> {log_stderr}'.format(
-            venv_path=venv_path,
-            port=frontend_port,
-            log_stdout=log_stdout,
-            log_stderr=log_stderr,
-        ),
-        background=True)
+    if run_protractor:
+        run(
+            '{venv_path}/bin/python manage.py runserver 0.0.0.0:{port} '
+            '--settings=cla_frontend.settings.jenkins '
+            '--nothreading --noreload '
+            '1> {log_stdout} '
+            '2> {log_stderr}'.format(
+                venv_path=venv_path,
+                port=frontend_port,
+                log_stdout=log_stdout,
+                log_stderr=log_stderr,
+            ),
+            background=True)
 
-    karma = run('npm run test-single-run', background=True)
+    karma = None
+    if run_karma:
+        karma = run('npm run test-single-run', background=True)
 
-    wait_until_available('http://localhost:{port}/'.format(port=frontend_port))
+    if run_protractor:
+        wait_until_available('http://localhost:{port}/'.format(port=frontend_port))
 
-    run('node_modules/protractor/bin/protractor tests/angular-js/protractor.conf.jenkins.js')
+        run('node_modules/protractor/bin/protractor tests/angular-js/protractor.conf.jenkins.js')
 
-    karma.wait()
+        if karma:
+            karma.wait()
 
 
 def kill_child_processes(pid, sig=signal.SIGTERM):
@@ -239,17 +245,24 @@ def main():
         jenkins_build_path = os.path.abspath(jenkins_build_path)
 
         args = parse_args()
-        env = args['envname']
-        backend_hash = args['backend_hash']
-        venv_path = make_virtualenv(env)
+        skip_tests = set(args.skip_tests)
+
+        venv_path = make_virtualenv(args.envname)
         install_dependencies(venv_path)
         remove_old_static_assets()
         update_static_assets(venv_path)
         clean_pyc()
-        python_tests = run_python_tests(venv_path)
-        run_server(env, backend_hash, jenkins_build_path)
-        python_tests.wait()
-        run_tests(venv_path, jenkins_build_path)
+
+        python_tests = None
+        if 'django' not in skip_tests:
+            python_tests = run_python_tests(venv_path)
+
+        if {'karma', 'protractor'} - skip_tests:
+            run_server(args.envname, args.backend_hash, jenkins_build_path)
+            if python_tests:
+                python_tests.wait()
+
+            run_integration_tests(venv_path, jenkins_build_path, skip_tests)
     finally:
         kill_all_background_processes()
 
