@@ -102,6 +102,30 @@
             return {'per_interval_value': amount, 'interval_period': 'per_month'};
           };
 
+          var setDetailsDefaults = function (ec) {
+            ec.has_partner = false;
+            ec.is_you_or_your_partner_over_60 = false;
+            ec.specific_benefits = {
+              universal_credit: false,
+              income_support: false,
+              job_seekers_allowance: false,
+              pension_credit: false,
+              employment_support: false
+            };
+          };
+
+          var setSavingsDefaults = function (ec) {
+            [ec.you, ec.partner].map(function (person) {
+              person.savings = {
+                bank_balance: 0,
+                investment_balance: 0,
+                childcare: 0,
+                asset_balance: 0,
+                credit_balance: 0
+              };
+            });
+          };
+
           var setIncomeDefaults = function (ec) {
             [ec.you.income, ec.partner.income].map(function (person) {
               person.earnings = monthly(0);
@@ -143,6 +167,14 @@
                 defaultsSetters[section.title](eligibility_check);
               }
             });
+          };
+
+          $scope.skipMeansTest = function () {
+            setDetailsDefaults($scope.eligibility_check);
+            setSavingsDefaults($scope.eligibility_check);
+            setIncomeDefaults($scope.eligibility_check);
+            setExpensesDefaults($scope.eligibility_check);
+            $scope.save();
           };
 
           $scope.hasSMOD = function () {

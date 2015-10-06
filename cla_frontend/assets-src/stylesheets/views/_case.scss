@@ -1,7 +1,21 @@
-.v-Case {
-  .v-SaveEligibilty {
-    position: absolute;
-    top: 5px;
-    right: 0;
+.v-Case .Form-eligibility {
+  .Toolbar {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $grey-2;
+
+    .Actions {
+      margin-top: 6px;
+    }
+
+    .Button {
+      margin-right: 5px;
+    }
+  }
+
+  .Pills {
+    padding: 0;
+    margin: 0;
+    border: 0;
   }
 }
