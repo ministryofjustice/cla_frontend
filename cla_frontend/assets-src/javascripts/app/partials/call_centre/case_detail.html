@@ -16,5 +16,11 @@
         {{ eod_details.$eodBadge() }}
       </span>
     </button>
+    <button class="Button Button--secondary" ui-sref="complaints_list({'search': case.reference})" ng-if="user.is_manager && case.complaint_count" title="See list of associated complaints">
+      List complaints
+      <span class="Badge Badge--warning">
+        {{ case.complaint_count }}
+      </span>
+    </button>
   </div>
 </div>

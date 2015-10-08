@@ -28,9 +28,13 @@
             $state.go(state, {caseref: $case.reference});
           };
 
-          var onDismiss = function() {
-            var state = previousState.name ? previousState.name : 'case_detail.edit.diagnosis';
-            $state.go(state, {caseref: $case.reference});
+          var onDismiss = function(nextState) {
+            if(nextState) {
+              $state.go(nextState.state, nextState.params);
+            } else {
+              var state = previousState.name ? previousState.name : 'case_detail.edit.diagnosis';
+              $state.go(state, {caseref: $case.reference});
+            }
           };
 
           $modal.open({

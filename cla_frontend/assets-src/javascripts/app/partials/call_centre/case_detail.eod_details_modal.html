@@ -37,10 +37,19 @@
     <button class="Button" type="submit" ng-click="action='save'">Save</button>
     <a href="" ng-click="cancel()">Cancel</a>
 
-    <button class="Button" ng-class="{'Button--warning': !case.complaint_flag, 'Button--secondary': case.complaint_flag}" ng-disabled="case.complaint_flag" style="float:right" type="submit" ng-click="action='escalate'">
-      <span ng-if="case.complaint_flag">Complaint escalated</span>
-      <span ng-if="!case.complaint_flag">Escalate to complaint</span>
-    </button>
+    <span style="float:right">
+      <span ng-if="case.complaint_flag" ng-switch="user.is_manager">
+        <span ng-switch-default>
+          Open complaints exist
+        </span>
+        <button class="Button Button--secondary" type="submit" ng-click="cancel('complaints_list', {'search': case.reference})" ng-switch-when="true" title="See list of associated complaints">
+          {{ case.complaint_count }} open complaint(s) exist
+        </button>
+      </span>
+      <button class="Button Button--warning" type="submit" ng-click="action='escalate'">
+        Escalate to new complaint
+      </button>
+    </span>
   </div>
 
 </form>

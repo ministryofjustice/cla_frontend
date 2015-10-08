@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers.operator')
     .controller('EODDetailsModalCtrl',
-      ['$scope', 'case', 'eod_details', 'Complaint', '$modalInstance', 'EXPRESSIONS_OF_DISSATISFACTION', 'EXPRESSIONS_OF_DISSATISFACTION_FLAGS', '$q', '$timeout', 'flash', 'postal',
-        function($scope, $case, eod_details, Complaint, $modalInstance, EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, $q, $timeout, flash, postal) {
+      ['$scope', '$state', 'case', 'eod_details', 'Complaint', '$modalInstance', 'EXPRESSIONS_OF_DISSATISFACTION', 'EXPRESSIONS_OF_DISSATISFACTION_FLAGS', '$q', '$timeout', 'flash', 'postal',
+        function($scope, $state, $case, eod_details, Complaint, $modalInstance, EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, $q, $timeout, flash, postal) {
           $scope.case = $case;
           $scope.EXPRESSIONS_OF_DISSATISFACTION = EXPRESSIONS_OF_DISSATISFACTION;
 
@@ -96,7 +96,9 @@
                     description: eod_details.notes
                   });
                   complaint.$update(function() {
-                    $case.complaint_flag = true;  // could go $case.$get but that might wipe other changes
+                    // could go $case.$get but that might wipe other changes
+                    $case.complaint_flag = true;
+                    $case.complaint_count = ($case.complaint_count || 0) + 1;
 
                     postal.publish({
                       channel: 'Complaint',
@@ -117,8 +119,14 @@
             }
           };
 
-          $scope.cancel = function() {
-            $scope.$dismiss('cancel');
+          $scope.cancel = function(nextState, stateParams) {
+            if(nextState) {
+              nextState = {
+                state: nextState,
+                params: stateParams
+              };
+            }
+            $scope.$dismiss(nextState);
           };
         }
       ]
