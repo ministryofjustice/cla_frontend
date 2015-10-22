@@ -62,6 +62,8 @@ EXPOSE 80
 
 EXPOSE 443
 
+EXPOSE 8005
+
 # APP_HOME
 ENV APP_HOME /home/app/django
 
