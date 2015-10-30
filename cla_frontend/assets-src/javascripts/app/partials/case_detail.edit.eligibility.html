@@ -1,9 +1,16 @@
-<form ng-submit="save()" novalidate name="form" class="u-relative" form-changed>
-  <ul class="Pills">
-    <li class="Pills-pill {{ tabWarningClass(section) }}" ng-repeat="section in sections" ng-class="{'is-active': currentState() === section.state}">
-      <a href="" ng-click="gotoSection(section)" class="Pills-pillLink">{{ ::section.title }}</a>
-    </li>
-  </ul>
+<form ng-submit="save()" novalidate name="form" class="Form-eligibility u-relative" form-changed>
+  <div class="Toolbar clearfix">
+    <ul class="Pills u-pullLeft">
+      <li class="Pills-pill {{ tabWarningClass(section) }}" ng-repeat="section in sections"
+          ng-class="{'is-active': currentState() === section.state}">
+        <a href="" ng-click="gotoSection(section)" class="Pills-pillLink">{{ ::section.title }}</a>
+      </li>
+    </ul>
+    <div class="Actions u-pullRight">
+      <button type="submit" class="Button" name="save-means-test">Save assessment</button>
+      <button class="Button--secondary" ng-click="skipMeansTest()" type="button">Skip</button>
+    </div>
+  </div>
 
   <div class="Notice warning" ng-if="hasIncomeWarnings()">
     <p>The system is showing me that:</p>
@@ -24,6 +31,4 @@
   </div>
 
   <div ng-repeat="section in sections" ng-include="section.template" ng-show="currentState() === section.state"></div>
-
-  <button type="submit" class="Button v-SaveEligibilty" name="save-means-test">Save assessment</button>
 </form>
