@@ -24,7 +24,7 @@
           {
             title: 'Disabilities',
             name: 'disability',
-            script: '<p>Do you consider yourself to be disabled?</p><p><em>If the client answers "<strong>No</strong>", please select the "<strong>Not Considered Disabled</strong>" option.</em></p><p><em>If the client answers "<strong>Yes</strong>", please ask the client "<strong>How would you describe your disability?</strong>" (If a client does not understand this question, please give them examples of some of the answers to direct the client. You do not need to read out the whole list but it may be appropriate to prompt the client by saying "<strong>For example, Visually impaired or Mobility impairment?</strong>" If the client does not wish to say, please select "Prefer not to say". If the client states a disability which is not on the list, please select "Other".)</em></p>',
+            script: '<p>Do you consider yourself to be disabled?</p><p><em>If the client answers "<strong>No</strong>", select "<strong>Not considered disabled</strong>".</em></p><p><em>If the client answers "<strong>Yes</strong>", ask: "<strong>How would you describe your disability?</strong>" (If a client has trouble answering this question, ask "<strong>Can you tell me which of these options best describes your disability?</strong>" and then read out all the options. If the client does not wish to say, select "<strong>Prefer not to say</strong>". If the client\'s disability is not on the list, select "<strong>Other</strong>".)</em></p>',
             options: DISABILITIES
           },
           {
