@@ -238,6 +238,11 @@
                 notesPlaceholder: 'Enter notes and copy of letter',
                 button: 'Save letter'
               },
+              TRANSFERRED_TO_SPECIALIST: {
+                logHeading: 'Transferred to specialist',
+                notesPlaceholder: 'Enter notes',
+                button: 'Save'
+              },
               FULL_RESPONSE_SENT: {
                 logHeading: 'Full response sent',
                 notesPlaceholder: 'Enter notes and copy of letter',
