@@ -37,7 +37,7 @@
     "karma-phantomjs-launcher": "0.1.4",
     "lodash": "2.4.1",
     "phantomjs": "^1.9.15",
-    "protractor": "1.5.0",
+    "protractor": "1.8.0",
     "protractor-screenshot-reporter": "0.0.5",
     "require-dir": "0.1.0",
     "run-sequence": "0.3.6",
