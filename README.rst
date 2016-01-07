@@ -249,6 +249,8 @@ and the provider part of the system with the username / password: test_staff/ te
 Selelium hub setup
 ~~~~~~~~~~~~~~~~~~
 
+At the moment protractor 1.8.0 works with selenium hub 2.47.1 . If protractor is updated the selenium hub may need to be updated as well. There is a script to do this in scripts/jenkins which will have to be run as sudo on the selenium-hub instance
+
 install docker and `docker-selenium <https://github.com/SeleniumHQ/docker-selenium>`__ on to an instance or vm
 
 ::
