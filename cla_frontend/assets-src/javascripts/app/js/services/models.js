@@ -123,9 +123,6 @@
       };
 
       resource.prototype.canBeCalledBack = function(){
-        if (this.created_by === 'web') {
-          return this.callback_attempt === 0;
-        }
         return this.callback_attempt < 3;
       };
 
