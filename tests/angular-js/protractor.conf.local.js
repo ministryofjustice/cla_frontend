@@ -6,18 +6,22 @@
   exports.config = extend(defaults.config, {
     // --- uncomment to use mac mini's ---
     // seleniumAddress: 'http://clas-mac-mini.local:4444/wd/hub',
-    // baseUrl: 'http://Marcos-MacBook-Pro-2.local:8001/',
+//    baseUrl: 'http://172.22.5.98:8001/',
+//    seleniumAddress: 'http://0.0.0.0:4444/wd/hub',
 
     multiCapabilities: [
-      {
-        browserName: 'chrome',
-        'chromeOptions': {
-          args: ['--test-type']
-        }
-      },
+//      {
+//        browserName: 'chrome',
+//        'chromeOptions': {
+//          args: ['--test-type']
+//        }
+//      }
       {
         browserName: 'firefox'
       }
+//      {
+//        browserName: 'phantomjs'
+//      }
     ]
   });
 })();

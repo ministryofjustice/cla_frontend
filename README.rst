@@ -245,3 +245,17 @@ heroku when you deploy this app.
 You should now be able to visit your deployed app and be able go log into
 the call centre part of the system with the username / password: test_operator / test_operator
 and the provider part of the system with the username / password: test_staff/ test_staff
+
+Selelium hub setup
+~~~~~~~~~~~~~~~~~~
+
+At the moment protractor 1.8.0 works with selenium hub 2.47.1 . If protractor is updated the selenium hub may need to be updated as well. There is a script to do this in scripts/jenkins which will have to be run as sudo on the selenium-hub instance
+
+install docker and `docker-selenium <https://github.com/SeleniumHQ/docker-selenium>`__ on to an instance or vm
+
+::
+
+    sudo docker run -d -p 4444:4444 -P --name selenium-hub selenium/hub:2.47.1
+    sudo docker run -d --name node-chrome --link selenium-hub:hub selenium/node-chrome:2.47.1
+    sudo docker run -d --name node-firefox --link selenium-hub:hub selenium/node-firefox:2.47.1
+

@@ -92,6 +92,8 @@ def update_static_assets(venv_path):
     bower_prune.wait()
     bower = run('bower install', background=True)
     npm.wait()
+    npm_update = run('npm update', background=True)
+    npm_update.wait()
     bower.wait()
     bundle.wait()
     gulp = run('gulp build', background=True)
