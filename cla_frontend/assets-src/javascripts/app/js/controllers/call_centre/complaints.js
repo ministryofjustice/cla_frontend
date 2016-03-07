@@ -73,6 +73,7 @@
             switch(complaint.status_label) {
               case 'resolved':
               case 'unresolved':
+              case 'voided':
                 return 'is-complete';
               case 'pending':
                 return '';
@@ -252,6 +253,11 @@
                 logHeading: 'Complaint closed',
                 notesPlaceholder: 'Enter notes',
                 button: 'Close complaint'
+              },
+              COMPLAINT_VOID: {
+                logHeading: 'Complaint voided',
+                notesPlaceholder: 'Enter reasons for voiding',
+                button: 'Void complaint'
               }
             }[action];
             messages = messages || {

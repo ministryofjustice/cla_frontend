@@ -32,7 +32,10 @@
       <td><timestamp ng-model="complaint.created"></timestamp></td>
       <td>
         <span ng-if="complaint.closed">
-          {{ displayMappedValue('resolved', complaint.resolved) }}
+          <span ng-switch="complaint.voided">
+            <span ng-switch-when="null">{{ displayMappedValue('resolved', complaint.resolved) }}</span>
+            <span ng-switch-default>Voided</span>
+          </span>
           <timestamp ng-model="complaint.closed"></timestamp>
         </span>
       </td>
