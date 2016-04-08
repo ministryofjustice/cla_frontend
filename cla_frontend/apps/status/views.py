@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -24,6 +25,15 @@ def status(request):
         'passed': passed,
         'last_updated': datetime.datetime.now(),
         'smoketests': results
+    })
+
+
+def ping(request):
+    return JSONResponse({
+        'version_number': os.environ.get('APPVERSION'),
+        'build_date': os.environ.get('APP_BUILD_DATE'),
+        'commit_id': os.environ.get('APP_GIT_COMMIT'),
+        'build_tag': os.environ.get('APP_BUILD_TAG')
     })
 
 

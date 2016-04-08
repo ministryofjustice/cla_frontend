@@ -7,4 +7,5 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.status, name='status'),
     url(r'^status.json$', views.smoketests_json),
+    url(r'^ping.json$', views.ping),
 )
