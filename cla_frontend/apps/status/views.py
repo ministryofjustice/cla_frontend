@@ -27,7 +27,7 @@ def status(request):
     })
 
 
-def smoketests(request):
+def smoketests_json(request):
     """
     Run smoke tests and return results as JSON datastructure
     """
