@@ -21,3 +21,6 @@ django-ipware==0.1.0
 pyjade==3.0.0
 websocket-client==0.23.0
 requests==2.6.0
+
+#Irat healthcheck and ping package
+git+https://github.com/ministryofjustice/django-moj-irat.git

@@ -4,9 +4,12 @@ import os
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.conf import settings
 
 from cla_common.smoketest import smoketest
 from .smoketests import basic, smoketests
+
+import requests
 
 
 class JSONResponse(HttpResponse):
@@ -45,3 +48,10 @@ def smoketests_json(request):
     from cla_frontend.apps.status.tests.smoketests import SmokeTests
 
     return JSONResponse(smoketest(SmokeTests))
+
+
+def healthcheck_json(request):
+
+    backend_healthcheck_uri = '%s/%s' % (settings.BACKEND_BASE_URI, 'status/healthcheck.json')
+    response = requests.get(backend_healthcheck_uri)
+    return JSONResponse(response.json())
