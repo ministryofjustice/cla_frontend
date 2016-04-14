@@ -14,7 +14,7 @@ sys.path.insert(0, PROJECT_ROOT)
 sys.path.insert(0, APPS_ROOT)
 
 HEALTHCHECKS = [
-    'moj_irat.healthchecks.database_healthcheck',
+    'status.healthchecks.backend_healthcheck',
 ]
 
 AUTODISCOVER_HEALTHCHECKS = True

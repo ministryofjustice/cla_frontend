@@ -1,15 +1,11 @@
 import datetime
 import json
-import os
 
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.conf import settings
 
 from cla_common.smoketest import smoketest
 from .smoketests import basic, smoketests
-
-import requests
 
 
 class JSONResponse(HttpResponse):
@@ -31,15 +27,6 @@ def status(request):
     })
 
 
-def ping(request):
-    return JSONResponse({
-        'version_number': os.environ.get('APPVERSION'),
-        'build_date': os.environ.get('APP_BUILD_DATE'),
-        'commit_id': os.environ.get('APP_GIT_COMMIT'),
-        'build_tag': os.environ.get('APP_BUILD_TAG')
-    })
-
-
 def smoketests_json(request):
     """
     Run smoke tests and return results as JSON datastructure
@@ -49,9 +36,3 @@ def smoketests_json(request):
 
     return JSONResponse(smoketest(SmokeTests))
 
-
-def healthcheck_json(request):
-
-    backend_healthcheck_uri = '%s/%s' % (settings.BACKEND_BASE_URI, 'status/healthcheck.json')
-    response = requests.get(backend_healthcheck_uri)
-    return JSONResponse(response.json())
