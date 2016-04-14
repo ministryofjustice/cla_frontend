@@ -13,6 +13,20 @@ APPS_ROOT = root('apps')
 sys.path.insert(0, PROJECT_ROOT)
 sys.path.insert(0, APPS_ROOT)
 
+HEALTHCHECKS = [
+    'status.healthchecks.backend_healthcheck',
+]
+
+AUTODISCOVER_HEALTHCHECKS = True
+
+PING_JSON_KEYS = {
+
+    'build_date_key': 'APP_BUILD_DATE',
+    'commit_id_key': 'APP_GIT_COMMIT',
+    'version_number_key': 'APPVERSION',
+    'build_tag_key': 'APP_BUILD_TAG',
+
+}
 
 # ENVIRON values
 
