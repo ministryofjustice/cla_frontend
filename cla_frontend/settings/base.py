@@ -13,6 +13,20 @@ APPS_ROOT = root('apps')
 sys.path.insert(0, PROJECT_ROOT)
 sys.path.insert(0, APPS_ROOT)
 
+HEALTHCHECKS = [
+    'status.healthchecks.backend_healthcheck',
+]
+
+AUTODISCOVER_HEALTHCHECKS = True
+
+PING_JSON_KEYS = {
+
+    'build_date_key': 'APP_BUILD_DATE',
+    'commit_id_key': 'APP_GIT_COMMIT',
+    'version_number_key': 'APPVERSION',
+    'build_tag_key': 'APP_BUILD_TAG',
+
+}
 
 # ENVIRON values
 
@@ -150,7 +164,7 @@ WSGI_APPLICATION = 'cla_frontend.wsgi.application'
 # TODO change this ?
 #SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
-SESSION_COOKIE_SECURE = os.environ.get('CLA_ENV', '') in ['prod', 'staging']
+SESSION_COOKIE_SECURE = bool(os.environ.get('CLA_ENV'))
 
 TEMPLATE_DIRS = (
     root('templates'),
