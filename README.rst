@@ -8,7 +8,7 @@ Dependencies
 
 -  `Virtualenv <http://www.virtualenv.org/en/latest/>`__
 -  `Python 2.7 <http://www.python.org/>`__ (Can be installed using ``brew``)
--  `nodejs.org <http://nodejs.org/>`__
+-  `nodejs.org <http://nodejs.org/>`__ (v0.10.33 - can be installed using nvm <https://github.com/creationix/nvm>)
 -  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.4)
 -  `gulp.js <http://gulpjs.com/>`__ (Installed globally using
    ``npm install -g gulp``)
