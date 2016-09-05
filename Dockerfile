@@ -96,8 +96,6 @@ RUN cd /home/app/django/cla_socketserver && npm install
 RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
 
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
-ADD ./docker/server.key /etc/ssl/private/server.key
-ADD ./docker/server.crt /etc/ssl/certs/server.crt
 
 # Cleanup
 RUN apt-get remove -y npm nodejs-legacy ruby-bundler && apt-get autoremove -y
