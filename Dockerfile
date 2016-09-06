@@ -23,7 +23,10 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
   apt-get -y --force-yes install bash apt-utils python-pip \
   python-dev build-essential git software-properties-common \
   python-software-properties libpq-dev libpcre3 libpcre3-dev \
-  nodejs npm nodejs-legacy ruby-bundler 
+  nodejs npm nodejs-legacy ruby-bundler
+
+RUN npm install -g n   # Install n globally
+RUN n 0.10.33          # Install and use v0.10.33
 
 # Install Nginx.
 RUN DEBIAN_FRONTEND='noninteractive' add-apt-repository ppa:nginx/stable && apt-get update
@@ -80,9 +83,8 @@ RUN cd /home/app/django && pip install -r requirements/production.txt && find . 
 
 # Compile assets
 RUN cd /home/app/django &&  \
-    npm install bower gulp && \
+    npm install -g bower gulp && \
     bundle install && \
-    npm prune && npm update && \ 
     $(npm bin)/bower --allow-root prune && $(npm bin)/bower --allow-root install && \
     $(npm bin)/gulp build
 
