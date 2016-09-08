@@ -23,7 +23,10 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
   apt-get -y --force-yes install bash apt-utils python-pip \
   python-dev build-essential git software-properties-common \
   python-software-properties libpq-dev libpcre3 libpcre3-dev \
-  nodejs npm
+  nodejs npm nodejs-legacy ruby-bundler
+
+RUN npm install -g n   # Install n globally
+RUN n 0.10.33          # Install and use v0.10.33
 
 # Install Nginx.
 RUN DEBIAN_FRONTEND='noninteractive' add-apt-repository ppa:nginx/stable && apt-get update
@@ -78,6 +81,13 @@ RUN cd /home/app/django && cat docker/version >> /etc/profile
 # PIP INSTALL APPLICATION
 RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 
+# Compile assets
+RUN cd /home/app/django &&  \
+    npm install -g bower gulp && \
+    bundle install && \
+    $(npm bin)/bower --allow-root prune && $(npm bin)/bower --allow-root install && \
+    $(npm bin)/gulp build
+
 # Collect static
 RUN cd /home/app/django && python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
 
@@ -88,5 +98,6 @@ RUN cd /home/app/django/cla_socketserver && npm install
 RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
 
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
-ADD ./docker/server.key /etc/ssl/private/server.key
-ADD ./docker/server.crt /etc/ssl/certs/server.crt
+
+# Cleanup
+RUN apt-get remove -y npm nodejs-legacy ruby-bundler && apt-get autoremove -y
