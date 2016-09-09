@@ -4,7 +4,7 @@
 # Pull base image.
 FROM phusion/baseimage:0.9.11
 
-MAINTAINER Peter Idah <peter.idah@digital.justice.gov.uk>
+MAINTAINER Platforms <platforms@digital.justice.gov.uk>
 
 # Set correct environment variables.
 ENV HOME /root
