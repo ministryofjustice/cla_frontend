@@ -83,10 +83,16 @@ RUN cd /home/app/django && pip install -r requirements/production.txt && find . 
 
 # Compile assets
 RUN cd /home/app/django &&  \
-    npm install -g bower gulp && \
-    bundle install && \
-    $(npm bin)/bower --allow-root prune && $(npm bin)/bower --allow-root install && \
-    $(npm bin)/gulp build
+		python manage.py builddata constants_json && \
+		bundle install && \
+		npm prune && \
+		npm install -g bower gulp && \
+		bower --allow-root  prune && \
+		npm install && \
+		bower --allow-root install && \
+		npm update && \
+    gulp build
+
 
 # Collect static
 RUN cd /home/app/django && python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
