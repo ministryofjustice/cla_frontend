@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
   apt-get -y --force-yes install bash apt-utils python-pip \
   python-dev build-essential git software-properties-common \
   python-software-properties libpq-dev libpcre3 libpcre3-dev \
-  nodejs npm nodejs-legacy ruby-bundler
+  nodejs npm ruby-bundler
 
 RUN npm install -g n   # Install n globally
 RUN n 0.10.33          # Install and use v0.10.33
@@ -106,4 +106,4 @@ RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
 
 # Cleanup
-RUN apt-get remove -y npm nodejs-legacy ruby-bundler && apt-get autoremove -y
+RUN apt-get remove -y npm ruby-bundler && apt-get autoremove -y
