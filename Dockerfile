@@ -4,7 +4,7 @@
 # Pull base image.
 FROM phusion/baseimage:0.9.11
 
-MAINTAINER Peter Idah <peter.idah@digital.justice.gov.uk>
+MAINTAINER Platforms <platforms@digital.justice.gov.uk>
 
 # Set correct environment variables.
 ENV HOME /root
@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
   apt-get -y --force-yes install bash apt-utils python-pip \
   python-dev build-essential git software-properties-common \
   python-software-properties libpq-dev libpcre3 libpcre3-dev \
-  nodejs npm nodejs-legacy ruby-bundler
+  nodejs npm ruby-bundler
 
 RUN npm install -g n   # Install n globally
 RUN n 0.10.33          # Install and use v0.10.33
@@ -83,10 +83,16 @@ RUN cd /home/app/django && pip install -r requirements/production.txt && find . 
 
 # Compile assets
 RUN cd /home/app/django &&  \
-    npm install -g bower gulp && \
-    bundle install && \
-    $(npm bin)/bower --allow-root prune && $(npm bin)/bower --allow-root install && \
-    $(npm bin)/gulp build
+		python manage.py builddata constants_json && \
+		bundle install && \
+		npm prune && \
+		npm install -g bower gulp && \
+		bower --allow-root  prune && \
+		npm install && \
+		bower --allow-root install && \
+		npm update && \
+		gulp build
+
 
 # Collect static
 RUN cd /home/app/django && python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
@@ -100,4 +106,4 @@ RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
 
 # Cleanup
-RUN apt-get remove -y npm nodejs-legacy ruby-bundler && apt-get autoremove -y
+RUN apt-get remove -y npm ruby-bundler && apt-get autoremove -y
