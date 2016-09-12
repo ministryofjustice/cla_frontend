@@ -8,6 +8,14 @@ MAINTAINER Platforms <platforms@digital.justice.gov.uk>
 
 # Set correct environment variables.
 ENV HOME /root
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+
+# Add default build variables
+ENV APP_VERSION ""
+ENV APP_GIT_COMMIT ""
+ENV APP_BUILD_DATE ""
+ENV APP_BUILD_TAG ""
 
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
