@@ -9,6 +9,12 @@ MAINTAINER Platforms <platforms@digital.justice.gov.uk>
 # Set correct environment variables.
 ENV HOME /root
 
+# Add default build variables
+ENV APP_VERSION ""
+ENV APP_GIT_COMMIT ""
+ENV APP_BUILD_DATE ""
+ENV APP_BUILD_TAG ""
+
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
 
