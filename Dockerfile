@@ -4,10 +4,18 @@
 # Pull base image.
 FROM phusion/baseimage:0.9.11
 
-MAINTAINER Peter Idah <peter.idah@digital.justice.gov.uk>
+MAINTAINER Platforms <platforms@digital.justice.gov.uk>
 
 # Set correct environment variables.
 ENV HOME /root
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+
+# Add default build variables
+ENV APP_VERSION ""
+ENV APP_GIT_COMMIT ""
+ENV APP_BUILD_DATE ""
+ENV APP_BUILD_TAG ""
 
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
@@ -23,7 +31,10 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
   apt-get -y --force-yes install bash apt-utils python-pip \
   python-dev build-essential git software-properties-common \
   python-software-properties libpq-dev libpcre3 libpcre3-dev \
-  nodejs npm
+  nodejs npm ruby-bundler
+
+RUN npm install -g n   # Install n globally
+RUN n 0.10.33          # Install and use v0.10.33
 
 # Install Nginx.
 RUN DEBIAN_FRONTEND='noninteractive' add-apt-repository ppa:nginx/stable && apt-get update
@@ -78,6 +89,19 @@ RUN cd /home/app/django && cat docker/version >> /etc/profile
 # PIP INSTALL APPLICATION
 RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 
+# Compile assets
+RUN cd /home/app/django &&  \
+		python manage.py builddata constants_json && \
+		bundle install && \
+		npm prune && \
+		npm install -g bower gulp && \
+		bower --allow-root  prune && \
+		npm install && \
+		bower --allow-root install && \
+		npm update && \
+		gulp build
+
+
 # Collect static
 RUN cd /home/app/django && python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
 
@@ -88,5 +112,6 @@ RUN cd /home/app/django/cla_socketserver && npm install
 RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_frontend/settings/local.py
 
 ADD ./docker/nginx.conf /etc/nginx/nginx.conf
-ADD ./docker/server.key /etc/ssl/private/server.key
-ADD ./docker/server.crt /etc/ssl/certs/server.crt
+
+# Cleanup
+RUN apt-get remove -y npm ruby-bundler && apt-get autoremove -y
