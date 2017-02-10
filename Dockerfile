@@ -89,17 +89,25 @@ RUN cd /home/app/django && cat docker/version >> /etc/profile
 # PIP INSTALL APPLICATION
 RUN cd /home/app/django && pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 
+# clear any npm cache
+RUN cd /home/app/django && npm cache clear && rm -rf /root/.npm
+
 # Compile assets
-RUN cd /home/app/django &&  \
-		python manage.py builddata constants_json && \
-		bundle install && \
-		npm prune && \
-		npm install -g bower gulp && \
-		bower --allow-root  prune && \
-		npm install && \
-		bower --allow-root install && \
-		npm update && \
-		gulp build
+RUN cd /home/app/django && python manage.py builddata constants_json
+
+RUN cd /home/app/django && bundle install
+
+RUN cd /home/app/django && npm prune && npm install -g bower gulp
+
+RUN cd /home/app/django && bower --allow-root  prune
+
+RUN cd /home/app/django && npm install
+
+RUN cd /home/app/django && bower --allow-root install
+
+#RUN cd /home/app/django && npm update
+
+RUN cd /home/app/django && gulp build
 
 
 # Collect static
