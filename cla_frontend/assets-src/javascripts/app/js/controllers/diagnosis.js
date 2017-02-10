@@ -5,11 +5,16 @@
     .controller('DiagnosisCtrl',
       ['$scope', 'Category', 'postal',
         function($scope, Category, postal) {
+          // used to track the state of the diagnosis during the first load
+          // so that we can show the back button at completion only the
+          // first time
+          $scope.is_ongoing = $scope.diagnosis.isInScopeUnknown();
+
           // updates the state of case.diagnosis_state after each save
-          function saveCallback(data) {
+          function saveCallback(data, forceLogRefresh) {
             $scope.case.diagnosis_state = data.state;
 
-            if (!$scope.diagnosis.isInScopeUnknown()) {
+            if (!$scope.diagnosis.isInScopeUnknown() || forceLogRefresh) {
               // refreshing the logs
               postal.publish({
                 channel : 'models',
@@ -37,14 +42,19 @@
           };
 
           $scope.moveUp = function() {
+            var wasComplete = !$scope.diagnosis.isInScopeUnknown();
+
             $scope.diagnosis.$move_up({
               'case_reference': $scope.case.reference
-            }, saveCallback);
+            }, function(data) {
+              saveCallback(data, wasComplete);
+            });
           };
           
           $scope.delete = function() {
             $scope.diagnosis.$delete({'case_reference': $scope.case.reference}, function() {
               $scope.case.diagnosis = null;
+              $scope.is_ongoing = true;
 
               // refreshing the logs
               postal.publish({
