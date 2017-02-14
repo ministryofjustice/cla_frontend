@@ -300,6 +300,9 @@ if 'RAVEN_CONFIG_DSN' in os.environ:
 
 # EMAILS
 
+POSTCODEINFO_API_URL = os.environ.get('POSTCODEINFO_API_URL')
+POSTCODEINFO_AUTH_TOKEN = os.environ.get('POSTCODEINFO_AUTH_TOKEN')
+
 # importing test settings file if necessary (TODO chould be done better)
 if len(sys.argv) > 1 and 'test' in sys.argv[1]:
     from .testing import *
