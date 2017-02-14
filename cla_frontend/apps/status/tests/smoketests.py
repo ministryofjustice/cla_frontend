@@ -9,7 +9,7 @@ from django.conf import settings
 import requests
 import websocket
 
-from cla_frontend.apps.legalaid import addressfinder
+import postcodeinfo
 
 
 def unix_timestamp():
@@ -22,14 +22,11 @@ class SmokeTests(unittest.TestCase):
         "access the backend"
         response = requests.get(settings.BACKEND_BASE_URI + '/status.json')
 
-    def test_can_access_addressfinder(self):
-        "lookup a postcode with AddressFinder"
-        response = addressfinder.lookup_postcode('sw1a1aa')
-        self.assertNotEqual(
-            401,
-            response.status_code,
-            "Invalid token")
-        self.assertEqual(200, response.status_code)
+    def test_can_access_geocoder(self):
+        "lookup a postcode with PostcodeInfo"
+        client = postcodeinfo.Client()
+        postcode = client.lookup_postcode('SW1A 1AA')
+        self.assertEqual(postcode.normalised, 'sw1a1aa')
 
     def test_can_access_socketserver(self):
         "connect to socket server"
