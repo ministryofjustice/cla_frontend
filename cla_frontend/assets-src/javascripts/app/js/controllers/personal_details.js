@@ -62,7 +62,7 @@
             $scope.contact_for_research = value;
           };
           // trigger on first load
-          $scope.researchChange($scope.case.contact_for_research);
+          $scope.researchChange($scope.personal_details.contact_for_research);
 
           var media_codes = mediacodes.map(function (mc) {
             var opt = {};
