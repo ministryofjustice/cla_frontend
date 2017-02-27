@@ -7,6 +7,7 @@
         $scope.is_manual = false;
         $scope.is_manual_ref = false;
         $scope.is_spor = false;
+        $scope.is_urgent = false;
         $scope.suggested_providers = [];
         $scope.matter1_types = _.where(MatterTypes, {level: 1});
         $scope.matter2_types = _.where(MatterTypes, {level: 2});
@@ -53,7 +54,8 @@
             provider_id: $scope.selected_provider.id,
             is_manual_ref: $scope.is_manual_ref,
             is_manual: $scope.is_manual,
-            is_spor: $scope.is_spor
+            is_spor: $scope.is_spor,
+            is_urgent: $scope.is_urgent
           };
 
           if ($scope.is_manual) {
