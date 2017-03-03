@@ -17,7 +17,8 @@ from cla_common.constants import ADAPTATION_LANGUAGES, ELIGIBILITY_STATES, \
     DIAGNOSIS_SCOPE, CONTACT_SAFETY, EXEMPT_USER_REASON, ECF_OPTIONS, \
     FEEDBACK_ISSUE, CASE_SOURCE, GENDERS, ETHNICITIES, RELIGIONS, \
     SEXUAL_ORIENTATIONS, DISABILITIES, ETHNICITIES_GROUPS, SPECIFIC_BENEFITS, \
-    EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS
+    EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, \
+    RESEARCH_CONTACT_VIA
 
 
 class Command(BaseCommand):
@@ -38,6 +39,7 @@ class Command(BaseCommand):
                                         ('EXEMPT_USER_REASON', EXEMPT_USER_REASON),
                                         ('FEEDBACK_ISSUE', FEEDBACK_ISSUE),
                                         ('CASE_SOURCE', CASE_SOURCE),
+                                        ('RESEARCH_CONTACT_VIA', RESEARCH_CONTACT_VIA),
                                         ('GENDERS', GENDERS),
                                         ('RELIGIONS', RELIGIONS),
                                         ('SEXUAL_ORIENTATIONS', SEXUAL_ORIENTATIONS),
