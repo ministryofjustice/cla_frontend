@@ -21,9 +21,9 @@
       }],
       resolve: {
         // check that the eligibility check can be accessed
-        CanAssign: ['AssignProviderValidation', '$q', 'diagnosis', 'eligibility_check', 'case', 'personal_details', 'History', function (AssignProviderValidation, $q, diagnosis, eligibility_check, $case, personal_details, History) {
+        CanAssign: ['AssignProviderValidation', '$q', 'diagnosis', 'eligibility_check', 'case', 'personal_details', 'adaptation_details', 'History', function (AssignProviderValidation, $q, diagnosis, eligibility_check, $case, personal_details, adaptation_details, History) {
           var deferred = $q.defer();
-          var valid = AssignProviderValidation.validate({case: $case, personal_details: personal_details});
+          var valid = AssignProviderValidation.validate({case: $case, personal_details: personal_details, adaptation_details: adaptation_details});
 
           if (!diagnosis.isInScopeTrue() || !eligibility_check.isEligibilityTrue()) {
             // reject promise and handle in $stateChangeError

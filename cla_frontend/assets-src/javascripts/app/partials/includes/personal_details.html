@@ -169,8 +169,20 @@
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.contact_for_research.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-if="personaldetails_frm.contact_for_research.$error.server">{{ errors.contact_for_research }}</span>
-      <span editable-checkbox="personal_details.contact_for_research" e-name="contact_for_research" e-title="Can contact user for research"></span>
+      <span editable-checkbox="personal_details.contact_for_research" e-name="contact_for_research" e-title="Can contact user for research" e-ng-change="researchChange($data)"></span>
     </div>
+
+    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.contact_for_research_via.$invalid && personaldetails_submitted}" ng-if="contact_for_research">
+      <span class="Icon Icon--formRow">
+        <span class="Error-message" ng-if="personaldetails_frm.contact_for_research_via.$error.server">{{ errors.contact_for_research_via }}</span>
+        <span editable-filterselect="personal_details.contact_for_research_via"
+              e-name="contact_for_research_via"
+              e-ng-options="s.value as s.text for s in contact_for_research_via_choices track by s.value"
+              e-class="FormRow-field--full"
+              e-data-placeholder="What method method would they like to be contacted via?"
+              e-server-error></span>
+      </span>
+    </label>
 
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.notes.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-if="personaldetails_frm.notes.$error.server">{{ errors.notes }}</span>

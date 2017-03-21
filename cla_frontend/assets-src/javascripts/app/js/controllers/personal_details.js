@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'adaptations_metadata', 'mediacodes', '$q', 'flash', 'postal',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, adaptations_metadata, mediacodes, $q, flash, postal){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'RESEARCH_CONTACT_VIA', 'adaptations_metadata', 'mediacodes', '$q', 'flash', 'postal',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, RESEARCH_CONTACT_VIA, adaptations_metadata, mediacodes, $q, flash, postal){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -13,6 +13,7 @@
           $scope.relationships = THIRDPARTY_RELATIONSHIP;
           $scope.sources = CASE_SOURCE;
           $scope.exempt_user_reason_choices = EXEMPT_USER_REASON;
+          $scope.contact_for_research_via_choices = RESEARCH_CONTACT_VIA;
 
           $scope.language = {};
           if ($scope.adaptations.language === 'WELSH') {
@@ -56,6 +57,12 @@
           };
           // trigger on first load
           $scope.exemptChange($scope.case.exempt_user);
+
+          $scope.researchChange = function (value) {
+            $scope.contact_for_research = value;
+          };
+          // trigger on first load
+          $scope.researchChange($scope.personal_details.contact_for_research);
 
           var media_codes = mediacodes.map(function (mc) {
             var opt = {};
