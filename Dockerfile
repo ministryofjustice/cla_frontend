@@ -2,7 +2,7 @@
 # CLA_FRONTEND Dockerfile
 #
 # Pull base image.
-FROM phusion/baseimage:0.9.11
+FROM phusion/baseimage:0.9.22
 
 MAINTAINER Platforms <platforms@digital.justice.gov.uk>
 
@@ -21,28 +21,33 @@ ENV APP_BUILD_TAG ""
 CMD ["/sbin/my_init"]
 
 # Set timezone
-RUN echo "Europe/London" > /etc/timezone  &&  dpkg-reconfigure -f noninteractive tzdata
+ENV TZ "Europe/London"
+RUN echo $TZ > /etc/timezone && \
+    apt-get update && apt-get install -y tzdata && \
+    rm /etc/localtime && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    apt-get clean
+
 
 # Remove SSHD
 RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 # Dependencies
-RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
+RUN DEBIAN_FRONTEND='noninteractive' && \
   apt-get -y --force-yes install bash apt-utils python-pip \
   python-dev build-essential git software-properties-common \
   python-software-properties libpq-dev libpcre3 libpcre3-dev \
-  nodejs npm ruby-bundler
+  nodejs npm ruby-bundler nginx-full
 
 RUN npm install -g n   # Install n globally
-RUN n 0.10.33          # Install and use v0.10.33
+RUN n 4.8.4          # Install and use latest v0.4.X
 
-# Install Nginx.
-RUN DEBIAN_FRONTEND='noninteractive' add-apt-repository ppa:nginx/stable && apt-get update
-RUN DEBIAN_FRONTEND='noninteractive' apt-get -y --force-yes install nginx-full && \
-  chown -R www-data:www-data /var/lib/nginx
-
+# Configure Nginx.
 ADD ./docker/htpassword /etc/nginx/conf.d/htpassword
-RUN rm -f /etc/nginx/sites-enabled/default && chown www-data:www-data /etc/nginx/conf.d/htpassword
+RUN chown -R www-data:www-data /var/lib/nginx && \
+  rm -f /etc/nginx/sites-enabled/default && \
+  chown www-data:www-data /etc/nginx/conf.d/htpassword
 
 # Pip install Python packages
 RUN pip install -U setuptools pip wheel
