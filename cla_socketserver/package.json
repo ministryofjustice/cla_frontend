@@ -1,6 +1,9 @@
 {
   "name": "cla-socketserver",
   "version": "0.1.0",
+  "engines": {
+    "node": ">=8.9.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ministryofjustice/cla_frontend"

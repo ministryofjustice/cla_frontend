@@ -25,7 +25,7 @@ db:
     POSTGRES_DB: cla_backend
 
 clabackend:
-  build: https://github.com/ministryofjustice/cla_backend.git
+  build: https://github.com/ministryofjustice/cla_backend.git#develop
   ports:
     - "8000:80"
   links:

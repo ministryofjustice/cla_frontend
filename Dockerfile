@@ -29,12 +29,7 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
   nodejs npm ruby-bundler nginx-full
 
 RUN npm install -g n   # Install n globally
-RUN n 0.10.33          # Install and use v0.10.33
-
-# Install Nginx.
-RUN DEBIAN_FRONTEND='noninteractive' add-apt-repository ppa:nginx/stable && apt-get update
-RUN DEBIAN_FRONTEND='noninteractive' apt-get -y --force-yes install nginx-full && \
-  chown -R www-data:www-data /var/lib/nginx
+RUN n 8.9.3            # Install and use v8.9.3
 
 # Configure Nginx
 ADD ./docker/htpassword /etc/nginx/conf.d/htpassword
