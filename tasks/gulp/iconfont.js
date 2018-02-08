@@ -19,7 +19,10 @@
         targetPath: '../stylesheets/_icons.scss',
         fontPath: '../fonts/'
       }))
-      .pipe(iconfont({ fontName: fontName }))
+      .pipe(iconfont({ fontName: fontName,
+                       normalize: true,
+                       fontHeight:1001,
+                       formats: ['ttf', 'eot', 'woff','svg']}))
       .on('codepoints', function(codepoints) {
         var options = {
           glyphs: codepoints,
