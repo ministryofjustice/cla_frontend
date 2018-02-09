@@ -8,7 +8,7 @@ except KeyError as e:
     SECRET_KEY = "CHANGE_ME"
     pass
 
-DEBUG = True if os.environ.get('DEBUG') == 'True' else False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
