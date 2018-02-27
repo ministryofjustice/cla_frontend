@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('cla.directives')
-    .directive('FeedbackButton', ['$state', '$compile', '$http', '$timeout', 'AppSettings', 'flash', 'url_utils', 'hotkeys',
+    .directive('feedbackButton', ['$state', '$compile', '$http', '$timeout', 'AppSettings', 'flash', 'url_utils', 'hotkeys',
       function($state, $compile, $http, $timeout, AppSettings, flash, url_utils, hotkeys) {
       return {
         restrict: 'C',
@@ -26,7 +26,7 @@
 
           scope.toggle = function() {
             scope.isPopoverVisible = !scope.isPopoverVisible;
-            elem.toggleClass('FeedbackButton--toggled', scope.isPopoverVisible);
+            elem.toggleClass('feedbackButton--toggled', scope.isPopoverVisible);
 
             if(scope.isPopoverVisible) {
               $timeout(function() {
