@@ -4,7 +4,7 @@
   var utils = require('./_utils'),
       CONSTANTS = require('../protractor.constants');
 
-  var feedbackButton = element(by.css('.FeedbackButton'));
+  var feedbackButton = element(by.css('.feedbackButton'));
   var FeedbackPopover = element(by.css('.FeedbackPopover'));
 
   describe('Send feedback', function () {
