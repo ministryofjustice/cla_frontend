@@ -101,8 +101,11 @@ STATIC_URL = '/static/'
 ANALYTICS_ID = os.environ.get('GA_ID', '')
 ANALYTICS_DOMAIN = os.environ.get('GA_DOMAIN', '')
 
-CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws:",
-    "wss:", "www.google-analytics.com")
+CSP_DEFAULT_SRC = (
+    "'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws:", "wss:",
+    "www.google-analytics.com"
+)
+CSP_DEFAULT_SRC = list(CSP_DEFAULT_SRC) + os.environ.get('CSP_EXTRA_SRC', '').split(',')
 
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
