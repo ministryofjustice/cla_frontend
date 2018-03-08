@@ -107,6 +107,8 @@ CSP_DEFAULT_SRC = (
 )
 CSP_DEFAULT_SRC = list(CSP_DEFAULT_SRC) + os.environ.get('CSP_EXTRA_SRC', '').split(',')
 
+CSP_FONT_SRC = ("'self'", "data:", )
+
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 # Additional locations of static files
