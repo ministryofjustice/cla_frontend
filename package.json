@@ -85,6 +85,12 @@
     "performance": "protractor tests/angular-js/protractor.conf.performance.js",
     "protractor-debug": "protractor debug tests/angular-js/protractor.conf.local.js",
     "protractor-phantom": "protractor tests/angular-js/protractor.conf.phantom.js",
-    "protractor-allocation": "protractor tests/angular-js/protractor.conf.allocation.js"
+    "protractor-allocation": "protractor tests/angular-js/protractor.conf.allocation.js",
+    "build": "gulp build",
+    "watch": "gulp watch",
+    "sass" : "gulp sass",
+    "js": "gulp js-app-compile && gulp js-lib-compile",
+    "images": "gulp images",
+    "bower": "bower install"
   }
 }

@@ -7,8 +7,9 @@ Dependencies
 ------------
 
 -  `Virtualenv <http://www.virtualenv.org/en/latest/>`__
+-  `docker`<https://www.docker.com/>
 -  `Python 2.7 <http://www.python.org/>`__ (Can be installed using ``brew``)
--  `nodejs.org <http://nodejs.org/>`__ (v0.10.33 - can be installed using nvm <https://github.com/creationix/nvm>)
+-  `nodejs.org <http://nodejs.org/>`__ (v8.9.3 - can be installed using nvm <https://github.com/creationix/nvm>)
 -  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.4)
 -  `gulp.js <http://gulpjs.com/>`__ (Installed globally using
    ``npm install -g gulp``)
@@ -51,17 +52,6 @@ Create a ``local.py`` settings file from the example file:
 
     cp cla_frontend/settings/.example.local.py cla_frontend/settings/local.py
 
-Install Frontend dependencies libraries:
-
-::
-
-    npm install -g bower gulp
-
-Install bower packages:
-
-::
-
-    bower install
 
 Install node packages:
 
@@ -69,11 +59,17 @@ Install node packages:
 
     npm install
 
+Install bower packages:
+
+::
+
+    npm run bower
+
 Compile assets:
 
 ::
 
-    gulp build
+    npm run build
 
 Install the socket server node packages. Open a new terminal, cd to cla_frontend and run:
 
@@ -91,6 +87,11 @@ In the main tab, start the runserver. Don't forget to keep the backend server ru
 
 Dev
 ---
+
+::
+    docker-compose -f docker-compose-local.yml up
+
+Setups the CLA Backend <https://github.com/ministryofjustice/cla_backend> for the service to consume.
 
 Each time you start a new terminal instance you will need to run the
 following commands to get the server running again:
@@ -141,7 +142,7 @@ the assets once, after a pull for example, run:
 
 ::
 
-    gulp build
+    npm run build
 
 Any problems with npm which could be resolved by installing all the
 modules again? Try deleting the 'node\_modules' directory and running
@@ -173,9 +174,9 @@ leave the following command running in a terminal:
 
 ::
 
-    gulp watch
+    npm run watch
 
-The gulp ``watch`` task allows you to use
+The ``watch`` task allows you to use
 `livereload <http://livereload.com/>`__ with this project. The easiest
 way to utilise livereload is to:
 
@@ -187,7 +188,7 @@ way to utilise livereload is to:
 
 ``if DEBUG:     CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'ajax.googleapis.com', 'data:', 'cdn.ravenjs.com', 'app.getsentry.com', 'ws://')``
 
--  Run ``gulp watch``
+-  Run ``npm run watch``
 -  Enable livereload by clicking the icon in Chrome
 
 Now any changes in the assets folder will automatically reload the site
@@ -205,7 +206,7 @@ in Sass using the ``scss`` syntax. To compile the stylesheets run:
 
 ::
 
-    gulp sass
+    npm run sass
 
 Javascripts
 ~~~~~~~~~~~
@@ -216,7 +217,7 @@ compile the javascript files run:
 
 ::
 
-    gulp js
+    npm run js
 
 Images
 ~~~~~~
@@ -228,23 +229,8 @@ assets run:
 
 ::
 
-    gulp images
+    npm run images
 
-Try it on Heroku
-----------------
-
-You can deploy directly to Heroku if you want to get started quickly,
-just click here: |Deploy|_.
-
-Keep a note of the URL you deployed the backend to, you'll need to provide to
-heroku when you deploy this app.
-
-.. |Deploy| image:: https://www.herokucdn.com/deploy/button.png
-.. _Deploy: https://heroku.com/deploy
-
-You should now be able to visit your deployed app and be able go log into
-the call centre part of the system with the username / password: test_operator / test_operator
-and the provider part of the system with the username / password: test_staff/ test_staff
 
 Selelium hub setup
 ~~~~~~~~~~~~~~~~~~
@@ -259,3 +245,16 @@ install docker and `docker-selenium <https://github.com/SeleniumHQ/docker-seleni
     sudo docker run -d --name node-chrome --link selenium-hub:hub selenium/node-chrome:2.47.1
     sudo docker run -d --name node-firefox --link selenium-hub:hub selenium/node-firefox:2.47.1
 
+
+To demo the service
+~~~~~~~~~~~~~~~~~~~
+
+::
+    docker-compose up
+
+This should start up the backend and frontend with compiled assets. All you need to
+do is go to `http://localhost:8001`
+
+Known Issues:
+`clabackend` and `db` containers might not be ready first time round so you might have
+to stop the docker-compose up and then run it again.
