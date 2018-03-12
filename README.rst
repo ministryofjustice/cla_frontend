@@ -7,14 +7,14 @@ Dependencies
 ------------
 
 -  `Virtualenv <http://www.virtualenv.org/en/latest/>`__
--  `docker`<https://www.docker.com/>
+-  `docker <https://www.docker.com/>`__
 -  `Python 2.7 <http://www.python.org/>`__ (Can be installed using ``brew``)
 -  `nodejs.org <http://nodejs.org/>`__ (v8.9.3 - can be installed using nvm <https://github.com/creationix/nvm>)
 -  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.4)
--  `gulp.js <http://gulpjs.com/>`__ (Installed globally using
-   ``npm install -g gulp``)
--  `Bower <http://bower.io/>`__ (Installed globally using
-   ``npm install -g bower``)
+-  `gulp.js <http://gulpjs.com/>`__ (Installed using
+   ``npm install`` and npm scripts tasks)
+-  `Bower <http://bower.io/>`__ (Installed using
+   ``npm install`` and npm scripts tasks)
 
 Installation
 ------------
@@ -89,6 +89,7 @@ Dev
 ---
 
 ::
+
     docker-compose -f docker-compose-local.yml up
 
 Setups the CLA Backend <https://github.com/ministryofjustice/cla_backend> for the service to consume.
@@ -250,6 +251,7 @@ To demo the service
 ~~~~~~~~~~~~~~~~~~~
 
 ::
+
     docker-compose up
 
 This should start up the backend and frontend with compiled assets. All you need to
