@@ -65,6 +65,9 @@
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
     "karma": "^2.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-jasmine": "^1.1.1",
     "karma-junit-reporter": "^1.2.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "phantomjs": "^1.9.15",
@@ -88,7 +91,7 @@
     "protractor-allocation": "protractor tests/angular-js/protractor.conf.allocation.js",
     "build": "gulp build",
     "watch": "gulp watch",
-    "sass" : "gulp sass",
+    "sass": "gulp sass",
     "js": "gulp js-app-compile && gulp js-lib-compile",
     "images": "gulp images",
     "bower": "bower install"
