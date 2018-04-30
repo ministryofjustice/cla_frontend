@@ -10,8 +10,8 @@
       parent: 'case_detail',
       name: 'case_detail.suspend',
       url: 'suspend/',
-      onEnter: ['$stateParams', '$state', '$modal', 'case', 'eod_details', 'personal_details', 'History', 'flash', 'postal', 'user',
-        function($stateParams, $state, $modal, $case, eod_details, personal_details, History, flash, postal, user) {
+      onEnter: ['$stateParams', '$state', '$uibModal', 'case', 'eod_details', 'personal_details', 'History', 'flash', 'postal', 'user',
+        function($stateParams, $state, $uibModal, $case, eod_details, personal_details, History, flash, postal, user) {
           var previousState = History.previousState;
           var suspendOpts = {
             templateUrl: 'case_detail.outcome_modal.html',
@@ -63,7 +63,7 @@
             }
           };
           var onConfirmSuccess = function () {
-            $modal.open(suspendOpts).result.then(onSuspendSuccess, onDismiss);
+            $uibModal.open(suspendOpts).result.then(onSuspendSuccess, onDismiss);
           };
 
           // check personal details before suspending
@@ -75,9 +75,9 @@
                 label: 'Suspend case data'
               }
             });
-            $modal.open(confirmOpts).result.then(onConfirmSuccess, onDismiss);
+            $uibModal.open(confirmOpts).result.then(onConfirmSuccess, onDismiss);
           } else {
-            $modal.open(suspendOpts).result.then(onSuspendSuccess, onDismiss);
+            $uibModal.open(suspendOpts).result.then(onSuspendSuccess, onDismiss);
           }
         }
       ]

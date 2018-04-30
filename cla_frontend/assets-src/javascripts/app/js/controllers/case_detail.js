@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', 'eod_details', '$modal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, eod_details, $modal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', 'eod_details', '$uibModal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, eod_details, $uibModal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.eod_details = eod_details;

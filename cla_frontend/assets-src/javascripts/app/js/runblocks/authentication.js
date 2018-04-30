@@ -13,14 +13,14 @@
     }]);
 
   angular.module('cla.services')
-    .run(['$rootScope', 'postal', 'Idle', '$modal', '$http', 'form_utils', 'url_utils', 'flash',
-      function($rootScope, postal, Idle, $modal, $http, form_utils, url_utils, flash) {
+    .run(['$rootScope', 'postal', 'Idle', '$uibModal', '$http', 'form_utils', 'url_utils', 'flash',
+      function($rootScope, postal, Idle, $uibModal, $http, form_utils, url_utils, flash) {
         var loginModal, warningModal;
 
         var openLoginModal = function () {
           closeModals();
 
-          loginModal = $modal.open({
+          loginModal = $uibModal.open({
             templateUrl: 'includes/login.html',
             backdrop: 'static',
             controller: function ($scope) {
@@ -51,7 +51,7 @@
         };
 
         var openWarningModal = function () {
-          warningModal = $modal.open({
+          warningModal = $uibModal.open({
             templateUrl: 'includes/session_expiring.html',
             backdrop: 'static',
             controller: function ($scope) {

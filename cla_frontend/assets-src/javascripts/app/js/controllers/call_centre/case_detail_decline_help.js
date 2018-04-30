@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers.operator')
     .controller('CaseDetailDeclineHelpCtrl',
-      ['$scope', '$modal', '$q', '$state', 'flash',
-        function($scope, $modal, $q, $state, flash){
+      ['$scope', '$uibModal', '$q', '$state', 'flash',
+        function($scope, $uibModal, $q, $state, flash){
           $scope.decline_help = function(notes) {
             var parentQ = $q.when(true);
             var modalOpts = {
@@ -42,7 +42,7 @@
             }
 
             parentQ.then(function () {
-              $modal.open(modalOpts).result.then(onSuccess);
+              $uibModal.open(modalOpts).result.then(onSuccess);
             });
           };
         }

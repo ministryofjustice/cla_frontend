@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('LogListCtrl',
-    ['$scope', '$modal',
-      function ($scope, $modal) {
+    ['$scope', '$uibModal',
+      function ($scope, $uibModal) {
         $scope.logSet = [];
 
         $scope.$watch('log_set.data', function(newVal) {
@@ -28,10 +28,10 @@
         });
 
         $scope.showDiagnosisSummary = function(log) {
-          $modal.open({
+          $uibModal.open({
             templateUrl: 'includes/diagnosis.summary.modal.html',
-            controller: ['$scope', '$modalInstance', 'log', 'Diagnosis',
-              function($scope, $modalInstance, log, Diagnosis) {
+            controller: ['$scope', '$uibModalInstance', 'log', 'Diagnosis',
+              function($scope, $uibModalInstance, log, Diagnosis) {
                 $scope.diagnosis = new Diagnosis(log.patch);
                 $scope.diagnosisTitle = function () {
                   if ($scope.diagnosis.isInScopeTrue()) {
@@ -56,7 +56,7 @@
                   return 'Icon Icon--lrg';
                 };
                 $scope.close = function () {
-                  $modalInstance.dismiss('cancel');
+                  $uibModalInstance.dismiss('cancel');
                 };
               }
             ],

@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('cla.directives')
-    .directive('notesHistory', ['$modal', 'postal', function($modal, postal) {
+    .directive('notesHistory', ['$uibModal', 'postal', function($uibModal, postal) {
       return {
         restrict: 'A',
         scope: {
@@ -25,7 +25,7 @@
               elem.focus();
             };
 
-            $modal.open({
+            $uibModal.open({
               templateUrl: 'notes.history.modal.html',
               scope: scope,
               controller: 'NotesHistoryModalCtl'
@@ -37,8 +37,8 @@
 
   angular.module('cla.controllers')
     .controller('NotesHistoryModalCtl',
-      ['$scope', '$modalInstance', 'NotesHistory', 'dmp', '$escapeHtml',
-        function($scope, $modalInstance, NotesHistory, dmp, $escapeHtml) {
+      ['$scope', '$uibModalInstance', 'NotesHistory', 'dmp', '$escapeHtml',
+        function($scope, $uibModalInstance, NotesHistory, dmp, $escapeHtml) {
 
           function getPages () {
             NotesHistory.query(
@@ -75,7 +75,7 @@
           };
 
           $scope.close = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
           };
 
           $scope.toggleSummary = function() {

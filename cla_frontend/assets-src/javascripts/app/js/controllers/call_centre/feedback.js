@@ -28,8 +28,9 @@
             feedbackItem.justified = value;
             return feedbackItem.$patch();
           };
-
+          var test =$scope;
           $scope.toggleResolved = function (feedbackItem) {
+            console.log($scope)
             feedbackItem.resolved = !feedbackItem.resolved;
             return feedbackItem.$patch();
           };

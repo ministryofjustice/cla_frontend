@@ -3,16 +3,16 @@
 
   angular.module('cla.controllers')
     .controller('ResetPasswordCtrl',
-    ['$scope', 'user', '$modalInstance', 'form_utils',
-      function ($scope, user_, $modalInstance, form_utils) {
+    ['$scope', 'user', '$uibModalInstance', 'form_utils',
+      function ($scope, user_, $uibModalInstance, form_utils) {
       $scope.user_ = user_;
-      $scope.$modalInstance = $modalInstance;
+      $scope.$uibModalInstance = $uibModalInstance;
 
       $scope.save = function(frm) {
 
         $scope.user_.$resetPassword(this.old_password, this.new_password)
           .then(function (data) {
-            $modalInstance.close(data);
+            $uibModalInstance.close(data);
           }, function (data) {
             form_utils.ctrlFormErrorCallback($scope, data, frm);
           });
@@ -20,8 +20,8 @@
 
     }])
     .controller('UserListCtrl',
-      ['$scope', 'users', 'User', 'form_utils', '$modal', 'flash',
-        function($scope, users, User, form_utils, $modal, flash) {
+      ['$scope', 'users', 'User', 'form_utils', '$uibModal', 'flash',
+        function($scope, users, User, form_utils, $uibModal, flash) {
           $scope.users = users;
           $scope.add_user = function(frm) {
             var user = new User(this.new_user),
@@ -38,7 +38,7 @@
           };
 
           $scope.reset_password = function (user) {
-            $modal.open({
+            $uibModal.open({
               templateUrl: 'includes/reset_password.html',
               controller: 'ResetPasswordCtrl',
               size: 'sm',

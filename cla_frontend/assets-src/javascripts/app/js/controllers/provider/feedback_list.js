@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers.provider')
     .controller('FeedbackListCtrl',
-    ['$scope', '$modal', 'feedbackList', 'FEEDBACK_ISSUE', '_', 'Feedback',
-      function ($scope, $modal, feedbackList, FEEDBACK_ISSUE, _, Feedback) {
+    ['$scope', '$uibModal', 'feedbackList', 'FEEDBACK_ISSUE', '_', 'Feedback',
+      function ($scope, $uibModal, feedbackList, FEEDBACK_ISSUE, _, Feedback) {
         $scope.feedbackList = feedbackList;
         $scope.FEEDBACK_ISSUE = FEEDBACK_ISSUE;
         $scope.getFormattedFeedback = function(val) {

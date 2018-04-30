@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('OutcomesModalCtl',
-      ['$scope', 'case', 'eod_details', 'event_key', 'outcome_codes', 'notes', 'tplVars', '$modalInstance', '$timeout', 'flash', 'postal', 'Feedback', 'Complaint',
-        function($scope, _case, eod_details, event_key, outcome_codes, notes, tplVars, $modalInstance, $timeout, flash, postal, Feedback, Complaint) {
+      ['$scope', 'case', 'eod_details', 'event_key', 'outcome_codes', 'notes', 'tplVars', '$uibModalInstance', '$timeout', 'flash', 'postal', 'Feedback', 'Complaint',
+        function($scope, _case, eod_details, event_key, outcome_codes, notes, tplVars, $uibModalInstance, $timeout, flash, postal, Feedback, Complaint) {
           // template vars
           tplVars = angular.extend({
             'title': 'Outcome code'
@@ -27,7 +27,7 @@
           }
 
           // focus on search field on open
-          $modalInstance.opened.then(function () {
+          $uibModalInstance.opened.then(function () {
             $timeout(function () {
               angular.element('[name="outcome-modal-code-search"]').focus();
             }, 50);
