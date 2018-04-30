@@ -32,7 +32,7 @@
   // ignore certain vendor scripts from the copy
   paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/');
   paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/**');
-  paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js');
+  paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-1.3.3.js');
   // scripts
   paths.scripts = {
     vendor: [
@@ -55,7 +55,7 @@
       paths.src + 'vendor/angular-moment/angular-moment.js',
       paths.src + 'vendor/angular-blocks/dist/angular-blocks.js',
       paths.src + 'vendor/rome/dist/rome.standalone.js', // datepicker
-      paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-0.10.0.js',
+      paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-1.3.3.js',
       paths.src + 'vendor/angular-xeditable/dist/js/xeditable.js',
       paths.src + 'vendor/conduitjs/lib/conduit.js',
       paths.src + 'vendor/postal.js/lib/postal.js',

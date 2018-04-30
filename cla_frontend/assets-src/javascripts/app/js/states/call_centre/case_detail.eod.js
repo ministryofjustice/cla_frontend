@@ -10,8 +10,8 @@
       parent: 'case_detail',
       name: 'case_detail.eod_details',
       url: 'eod-details/',
-      onEnter: ['$stateParams', '$state', '$modal', 'case', 'eod_details', 'History', 'flash',
-        function($stateParams, $state, $modal, $case, eod_details, History, flash) {
+      onEnter: ['$stateParams', '$state', '$uibModal', 'case', 'eod_details', 'History', 'flash',
+        function($stateParams, $state, $uibModal, $case, eod_details, History, flash) {
 
           var previousState = History.previousState;
 
@@ -37,7 +37,7 @@
             }
           };
 
-          $modal.open({
+          $uibModal.open({
             templateUrl: 'call_centre/case_detail.eod_details_modal.html',
             controller: 'EODDetailsModalCtrl',
             resolve: {

@@ -14,8 +14,8 @@
   var common_run;
   var common_config;
 
-  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$modal', 'AssignProviderValidation', 'postal',
-    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $modal, AssignProviderValidation, postal) {
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$uibModal', 'AssignProviderValidation', 'postal',
+    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $uibModal, AssignProviderValidation, postal) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
@@ -53,7 +53,7 @@
             $state.go(error.goto, {caseref: error.case});
           };
 
-          $modal.open(opts).result.then(onConfirmSuccess, onDismiss);
+          $uibModal.open(opts).result.then(onConfirmSuccess, onDismiss);
         } else if (error.goto) {
           $state.go(error.goto, {caseref: error.case});
         }

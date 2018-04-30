@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers.provider')
     .controller('CaseDetailCloseCtrl',
-      ['$scope', '$state', 'flash', '$modal', '$modal',
-        function($scope, $state, flash, $modal){
+      ['$scope', '$state', 'flash', '$uibModal', '$uibModal',
+        function($scope, $state, flash, $uibModal){
           var case_ref = $scope.case.reference;
 
           $scope.close = function() {
@@ -41,7 +41,7 @@
               }
             };
 
-            $modal.open(modalOpts).result.then(onSuccess);
+            $uibModal.open(modalOpts).result.then(onSuccess);
           };
         }
       ]

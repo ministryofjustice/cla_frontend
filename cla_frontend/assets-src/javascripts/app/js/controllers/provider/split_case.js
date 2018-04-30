@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('SplitCaseCtrl',
-    ['$scope', '$modalInstance', 'case', 'diagnosis', 'provider_category', 'MatterType', 'categories', '$state', 'flash', 'form_utils', 'postal',
-      function ($scope, $modalInstance, case_, diagnosis, provider_category, MatterType, categories, $state, flash, form_utils, postal) {
+    ['$scope', '$uibModalInstance', 'case', 'diagnosis', 'provider_category', 'MatterType', 'categories', '$state', 'flash', 'form_utils', 'postal',
+      function ($scope, $uibModalInstance, case_, diagnosis, provider_category, MatterType, categories, $state, flash, form_utils, postal) {
         $scope.case = case_;
         $scope.diagnosis = diagnosis;
         $scope.categories = categories;
@@ -22,7 +22,7 @@
         });
 
         $scope.cancel = function () {
-          $modalInstance.dismiss('cancel');
+          $uibModalInstance.dismiss('cancel');
         };
 
         $scope.doSplit = function(form) {
@@ -37,7 +37,7 @@
               internal: $scope.internal
             }).then(function() {
               flash('Case split successfully');
-              $modalInstance.dismiss();
+              $uibModalInstance.dismiss();
 
               postal.publish({
                 channel : 'models',

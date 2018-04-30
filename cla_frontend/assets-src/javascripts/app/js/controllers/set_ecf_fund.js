@@ -3,17 +3,17 @@
 
   angular.module('cla.controllers')
     .controller('SetECFundCtrl',
-    ['$scope', '$modalInstance', 'ECF_STATEMENT',
-      function ($scope, $modalInstance, ECF_STATEMENT) {
+    ['$scope', '$uibModalInstance', 'ECF_STATEMENT',
+      function ($scope, $uibModalInstance, ECF_STATEMENT) {
         $scope.ecf_statements = ECF_STATEMENT;
 
         $scope.cancel = function () {
-          $modalInstance.dismiss('cancel');
+          $uibModalInstance.dismiss('cancel');
         };
 
         $scope.save = function() {
           $scope.case.$patch().then(function () {
-            $modalInstance.close();
+            $uibModalInstance.close();
           });
 
         };

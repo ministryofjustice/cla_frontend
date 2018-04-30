@@ -3,13 +3,13 @@
 
   angular.module('cla.controllers.operator')
     .controller('EODDetailsModalCtrl',
-      ['$scope', '$state', 'case', 'eod_details', 'Complaint', '$modalInstance', 'EXPRESSIONS_OF_DISSATISFACTION', 'EXPRESSIONS_OF_DISSATISFACTION_FLAGS', '$q', '$timeout', 'flash', 'postal',
-        function($scope, $state, $case, eod_details, Complaint, $modalInstance, EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, $q, $timeout, flash, postal) {
+      ['$scope', '$state', 'case', 'eod_details', 'Complaint', '$uibModalInstance', 'EXPRESSIONS_OF_DISSATISFACTION', 'EXPRESSIONS_OF_DISSATISFACTION_FLAGS', '$q', '$timeout', 'flash', 'postal',
+        function($scope, $state, $case, eod_details, Complaint, $uibModalInstance, EXPRESSIONS_OF_DISSATISFACTION, EXPRESSIONS_OF_DISSATISFACTION_FLAGS, $q, $timeout, flash, postal) {
           $scope.case = $case;
           $scope.EXPRESSIONS_OF_DISSATISFACTION = EXPRESSIONS_OF_DISSATISFACTION;
 
           // focus on search field on open
-          $modalInstance.opened.then(function() {
+          $uibModalInstance.opened.then(function() {
             $timeout(function() {
               angular.element('#eod-modal-search').focus();
             }, 50);

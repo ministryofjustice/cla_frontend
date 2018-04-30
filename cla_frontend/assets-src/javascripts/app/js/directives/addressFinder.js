@@ -2,7 +2,7 @@
 (function(){
 
   angular.module('cla.directives')
-  .directive('addressFinder', ['AddressService', '$modal', '$q', '$timeout', 'postal', function (AddressService, $modal, $q, $timeout, postal) {
+  .directive('addressFinder', ['AddressService', '$uibModal', '$q', '$timeout', 'postal', function (AddressService, $uibModal, $q, $timeout, postal) {
     return  {
       restrict: 'A',
       link: function (scope, elem, attrs) {
@@ -90,7 +90,7 @@
             });
           };
 
-          var modal = $modal.open(modalOpts);
+          var modal = $uibModal.open(modalOpts);
           modal.opened.then(onOpen);
           modal.result.then(onConfirmSuccess, onDismiss);
         };

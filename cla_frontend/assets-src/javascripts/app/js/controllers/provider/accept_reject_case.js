@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('cla.controllers.provider').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$modal', 'flash', 'postal', '$state', function($scope, $modal, flash, postal, $state){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$uibModal', 'flash', 'postal', '$state', function($scope, $uibModal, flash, postal, $state){
       $scope.showDebtReferralButton = function() {
         if (!$scope.case.provider_accepted || $scope.case.provider_closed) {
           return false;
@@ -54,7 +54,7 @@
           $state.go('case_list');
         };
 
-        $modal.open(modalOpts).result.then(onSuccess);
+        $uibModal.open(modalOpts).result.then(onSuccess);
       };
 
       $scope.reopen = function() {
@@ -88,11 +88,11 @@
           }
         };
 
-        $modal.open(modalOpts).result.then(onSuccess);
+        $uibModal.open(modalOpts).result.then(onSuccess);
       };
 
       $scope.split = function() {
-        $modal.open({
+        $uibModal.open({
           templateUrl: 'provider/case_detail.split.html',
           controller: 'SplitCaseCtrl',
           resolve: {

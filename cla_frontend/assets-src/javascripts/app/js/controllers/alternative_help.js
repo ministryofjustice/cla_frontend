@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('AlternativeHelpCtrl',
-      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$modal', 'categories','$q', '$window', 'AppSettings',
-        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $modal, categories, $q, $window, AppSettings){
+      ['$scope', '_', '$stateParams', '$state', 'form_utils', 'kb_providers', 'kb_categories', 'AlternativeHelpService', '$uibModal', 'categories','$q', '$window', 'AppSettings',
+        function($scope, _, $stateParams, $state, form_utils, kb_providers, kb_categories, AlternativeHelpService, $uibModal, categories, $q, $window, AppSettings){
           $scope.category = $stateParams.category || null;
           $scope.selected_category = $scope.category;
           $scope.keyword = $stateParams.keyword;
@@ -43,7 +43,7 @@
           }
 
           function showECFModal() {
-            return $modal.open({
+            return $uibModal.open({
               templateUrl: 'case_detail.alternative_help.ecf.html',
               controller: 'SetECFundCtrl',
               scope: $scope
@@ -51,14 +51,14 @@
           }
 
           function showSurveyModal() {
-            return $modal.open({
+            return $uibModal.open({
               templateUrl: 'alternative_help_survey.modal.html',
-              controller: function ($scope, $modalInstance) {
+              controller: function ($scope, $uibModalInstance) {
                 $scope.cancel = function () {
-                  $modalInstance.dismiss('cancel');
+                  $uibModalInstance.dismiss('cancel');
                 };
                 $scope.continue = function() {
-                  $modalInstance.close();
+                  $uibModalInstance.close();
                 };
               }
             }).result;
