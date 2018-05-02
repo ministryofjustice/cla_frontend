@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "bower": "^1.8.2",
+    "browser-sync": "^2.24.1",
     "gulp": "^3.9.1",
     "gulp-angular-templates": "0.0.2",
     "gulp-clean-css": "^3.9.2",
@@ -94,6 +95,7 @@
     "sass": "gulp sass",
     "js": "gulp js-app-compile && gulp js-lib-compile",
     "images": "gulp images",
-    "bower": "bower install"
+    "bower": "bower install",
+    "bs": "gulp browser-sync"
   }
 }
