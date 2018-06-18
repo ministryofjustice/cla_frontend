@@ -81,7 +81,7 @@
         close_button.click();
 
         // check redirected
-        expect(browser.getLocationAbsUrl()).not.toContain(case_to_accept);
+        expect(browser.getCurrentUrl()).not.toContain(case_to_accept);
       });
 
       it('should be able to reopen a case', function () {
@@ -110,7 +110,7 @@
         expect(modalEl.isPresent()).toBe(false);
 
         // check redirected
-        expect(browser.getLocationAbsUrl()).not.toContain(case_to_accept);
+        expect(browser.getCurrentUrl()).not.toContain(case_to_accept);
       });
 
       it('should be able to view legal help form with specific benefits', function () {

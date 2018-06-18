@@ -28,7 +28,7 @@
         modelsRecipe.Case.createEmpty().then(function (case_ref) {
           goto_assign(case_ref);
 
-          expect(browser.getLocationAbsUrl()).not.toContain(case_ref + '/assign/');
+          expect(browser.getCurrentUrl()).not.toContain(case_ref + '/assign/');
         });
       });
 
@@ -150,7 +150,7 @@
 
   function checkAssign (case_ref, provider) {
     // has been redirected
-    expect(browser.getLocationAbsUrl()).not.toContain(case_ref);
+    expect(browser.getCurrentUrl()).not.toContain(case_ref);
 
     // cannot reassign
     browser.get(CONSTANTS.callcentreBaseUrl + case_ref + '/assign/');

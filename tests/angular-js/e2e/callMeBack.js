@@ -65,7 +65,7 @@
         expect(modal.isPresent()).toBe(false);
 
         // check that the case is not in the case list
-        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
+        expect(browser.getCurrentUrl()).toContain(CONSTANTS.callcentreBaseUrl);
         expect(element(by.cssContainingText('.ListTable td a', cbCaseRef)).isPresent()).toBe(false);
 
         // reload the case and check that the outcome code is there and that the Notice 'Callback scheduled for ...'
@@ -148,7 +148,7 @@
     expect(modal.isPresent()).toBe(false);
 
     // check that the case is not in the case list
-    expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
+    expect(browser.getCurrentUrl()).toContain(CONSTANTS.callcentreBaseUrl);
     expect(element(by.cssContainingText('.ListTable td a', caseref)).isPresent()).toBe(false);
 
     // reload the case and check that the outcome code is there and that the Notice 'Callback scheduled for ...'

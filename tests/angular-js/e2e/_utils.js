@@ -115,7 +115,7 @@
       var _this = this;
 
       browser.get(this.APP_BASE_URL);
-      browser.getLocationAbsUrl().then(function(url) {
+      browser.getCurrentUrl().then(function(url) {
         _this.expectUrl(url, _this.APP_BASE_URL);
       });
       element(by.css(".newCaseForm")).submit();

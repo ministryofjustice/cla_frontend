@@ -18,7 +18,7 @@
     describe("An operator manager", function() {
       it("should be able to get a case list", function() {
         browser.get(CONSTANTS.callcentreBaseUrl);
-        expect(browser.getLocationAbsUrl()).toContain(
+        expect(browser.getCurrentUrl()).toContain(
           CONSTANTS.callcentreBaseUrl
         );
       });
@@ -43,7 +43,7 @@
       it("should be able to get a case list", function() {
         browser.get(CONSTANTS.callcentreBaseUrl);
 
-        expect(browser.getLocationAbsUrl()).toContain(
+        expect(browser.getCurrentUrl()).toContain(
           CONSTANTS.callcentreBaseUrl
         );
       });
@@ -57,7 +57,7 @@
         element(by.name("case-search-submit")).submit();
 
         expect(query.getAttribute("value")).toBe("Foo123");
-        expect(browser.getLocationAbsUrl()).toContain("search=Foo123");
+        expect(browser.getCurrentUrl()).toContain("search=Foo123");
         expect(queryBinding.getText()).toContain("Foo123");
 
         // clearing the search
@@ -70,11 +70,11 @@
 
       it("should change the sort field", function() {
         element(by.cssContainingText(".ListTable th a", "Name")).click();
-        expect(browser.getLocationAbsUrl()).toContain(
+        expect(browser.getCurrentUrl()).toContain(
           "ordering=personal_details__full_name"
         );
         element(by.cssContainingText(".ListTable th a", "Name")).click();
-        expect(browser.getLocationAbsUrl()).toContain(
+        expect(browser.getCurrentUrl()).toContain(
           "ordering=-personal_details__full_name"
         );
       });
@@ -87,7 +87,7 @@
         element(by.buttonText("Create a case")).click();
 
         expect(caseRef.isPresent()).toBe(true);
-        expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
+        expect(browser.getCurrentUrl()).toContain(caseRef.getText());
 
         element(by.cssContainingText("a", "Back to cases")).click();
         expect(browser.getCurrentUrl()).toBe(

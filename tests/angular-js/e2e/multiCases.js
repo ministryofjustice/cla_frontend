@@ -37,7 +37,7 @@
         // assert that personal details is filled in properly
         var caseRef = element(by.binding('case.reference'));
         expect(caseRef.isPresent()).toBe(true);
-        expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
+        expect(browser.getCurrentUrl()).toContain(caseRef.getText());
         expect(element(by.css('#personal_details h2.Icon--user')).getText()).toBe(randomName);
       });
 
@@ -50,14 +50,14 @@
           expect(els.length).toBe(2);
         });
         expect(personBinding.getText()).toContain(randomName);
-        expect(browser.getLocationAbsUrl()).toContain('person_ref');
+        expect(browser.getCurrentUrl()).toContain('person_ref');
       });
 
       it('should allow going back to full case list', function () {
         // reset search => assert that it goes back to full case list
         personBinding.click();
 
-        expect(browser.getLocationAbsUrl()).not.toContain('person_ref');
+        expect(browser.getCurrentUrl()).not.toContain('person_ref');
       });
 
       it('should allow searching for a person when creating a new case', function () {
