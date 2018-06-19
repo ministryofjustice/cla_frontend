@@ -82,6 +82,8 @@
   "scripts": {
     "test": "karma start tests/angular-js/karma.conf.js",
     "test-single-run": "karma start tests/angular-js/karma.conf.js --single-run",
+    "update-webdriver": "webdriver-manager update",
+    "start-webdriver": "webdriver-manager start",
     "protractor": "protractor tests/angular-js/protractor.conf.local.js",
     "performance": "protractor tests/angular-js/protractor.conf.performance.js",
     "protractor-debug": "protractor debug tests/angular-js/protractor.conf.local.js",
