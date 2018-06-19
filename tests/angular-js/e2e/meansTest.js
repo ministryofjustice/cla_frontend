@@ -77,8 +77,8 @@
           expect(tab.getAttribute('class')).toContain('is-disabled');
           tab.element(by.css('a')).click();
           // check not finances page
-          expect(browser.getLocationAbsUrl()).not.toContain(caseRef + '/eligibility/');
-          expect(browser.getLocationAbsUrl()).toContain(caseRef + '/diagnosis/');
+          expect(browser.getCurrentUrl()).not.toContain(caseRef + '/eligibility/');
+          expect(browser.getCurrentUrl()).toContain(caseRef + '/diagnosis/');
         });
       });
 
@@ -91,7 +91,7 @@
           expect(tab.getAttribute('class')).not.toContain('is-disabled');
           tab.element(by.css('a')).click();
 
-          expect(browser.getLocationAbsUrl()).toContain(caseRef + '/eligibility/');
+          expect(browser.getCurrentUrl()).toContain(caseRef + '/eligibility/');
         });
       });
 

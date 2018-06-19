@@ -14,7 +14,7 @@
       it('should be able to see the feedback button', function () {
         browser.get(CONSTANTS.callcentreBaseUrl);
 
-        expect(browser.getLocationAbsUrl()).toContain(CONSTANTS.callcentreBaseUrl);
+        expect(browser.getCurrentUrl()).toContain(CONSTANTS.callcentreBaseUrl);
         expect(feedbackButton.isPresent()).toBe(true);
       });
 

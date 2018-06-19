@@ -24,7 +24,7 @@
 
         caseRef = element(by.binding('case.reference'));
         expect(caseRef.isPresent()).toBe(true);
-        expect(browser.getLocationAbsUrl()).toContain(caseRef.getText());
+        expect(browser.getCurrentUrl()).toContain(caseRef.getText());
       });
 
       it('should fill in case details', function () {

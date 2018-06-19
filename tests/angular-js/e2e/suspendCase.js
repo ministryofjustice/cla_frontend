@@ -31,7 +31,7 @@
       it('should not suspend after cancelling modal', function () {
         modalEl.element(by.name('modal-cancel')).click();
         expect(modalEl.isPresent()).toBe(false);
-        expect(browser.getLocationAbsUrl()).not.toContain('suspend');
+        expect(browser.getCurrentUrl()).not.toContain('suspend');
       });
 
       it('should be able to proceed to suspend after accepting modal', function () {
@@ -39,7 +39,7 @@
 
         modalEl.element(by.name('modal-confirm')).click();
         expect(modalEl.isPresent()).toBe(true);
-        expect(browser.getLocationAbsUrl()).toContain('suspend');
+        expect(browser.getCurrentUrl()).toContain('suspend');
         expect(modalHeader.getText()).toContain('Suspend case');
       });
 
@@ -56,7 +56,7 @@
           gotoSuspend();
 
           expect(modalEl.isPresent()).toBe(true);
-          expect(browser.getLocationAbsUrl()).toContain('suspend');
+          expect(browser.getCurrentUrl()).toContain('suspend');
           expect(modalHeader.getText()).toContain('Suspend case');
         });
       });
@@ -88,6 +88,6 @@
     modalEl.element(by.name('outcomeNotes')).sendKeys('This case was suspended.');
     modalEl.element(by.css('button[type="submit"]')).click();
     expect(modalEl.isPresent()).toBe(false);
-    expect(browser.getLocationAbsUrl()).not.toContain(reference);
+    expect(browser.getCurrentUrl()).not.toContain(reference);
   }
 })();
