@@ -4,29 +4,40 @@
 # Pull base image.
 FROM phusion/baseimage:0.9.22
 
-# Set correct environment variables.
+# Set environment variables.
 ENV HOME /root
+ENV DEBIAN_FRONTEND noninteractive
 
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
 
+# Install updates and dependencies
+RUN apt-get update -qq && apt-get install -y --force-yes -qq \
+    bash apt-utils \
+    build-essential \
+    git \
+    libpq-dev \
+    libpcre3 \
+    libpcre3-dev \
+    nginx-full \
+    nodejs \
+    npm \
+    python-dev \
+    python-pip \
+    python-software-properties \
+    ruby-bundler \
+    software-properties-common \
+    tzdata \
+    && apt-get clean
+
 # Set timezone
-RUN echo $TZ > /etc/timezone && \
-    apt-get update && apt-get install -y tzdata && \
-    rm /etc/localtime && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get clean
+RUN echo $TZ > /etc/timezone \
+    && rm /etc/localtime \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && dpkg-reconfigure -f noninteractive tzdata 
 
 # Remove SSHD
 RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
-
-# Dependencies
-RUN DEBIAN_FRONTEND='noninteractive' apt-get update && \
-  apt-get -y --force-yes install bash apt-utils python-pip \
-  python-dev build-essential git software-properties-common \
-  python-software-properties libpq-dev libpcre3 libpcre3-dev \
-  nodejs npm ruby-bundler nginx-full
 
 RUN npm install -g n   # Install n globally
 RUN n 8.9.3            # Install and use v8.9.3
