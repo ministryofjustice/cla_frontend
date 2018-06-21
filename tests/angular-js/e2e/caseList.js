@@ -24,13 +24,13 @@
       });
 
       it("should update URL for case filter selections", function() {
-        element(by.linkText("Phone cases")).click();
+        element(by.className('Filters')).element(by.linkText("Phone cases")).click();
         expect(browser.getCurrentUrl()).toContain("only=phone");
-        element(by.linkText("Web cases")).click();
+        element(by.className('Filters')).element(by.linkText("Web cases")).click();
         expect(browser.getCurrentUrl()).toContain("only=web");
-        element(by.linkText("EOD")).click();
+        element(by.className('Filters')).element(by.linkText("EOD")).click();
         expect(browser.getCurrentUrl()).toContain("only=eod");
-        element(by.linkText("My cases")).click();
+        element(by.className('Filters')).element(by.linkText("My cases")).click();
         expect(browser.getCurrentUrl()).toContain("only=my");
       });
     });
