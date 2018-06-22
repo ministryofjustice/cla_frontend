@@ -1,7 +1,7 @@
 # project
 Dockerfile
 docker-compose.yml
-cla_frontend/settings/local.py
+cla_frontend/settings/local.py*
 static/
 node_modules/
 cla_frontend/assets-src/vendor/

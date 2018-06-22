@@ -123,10 +123,6 @@ COPY docker/                ./docker/
 COPY scripts/               ./scripts/
 COPY tests/                 ./tests/
 
-# Not sure why this is copied - .dockerignore has it listed - so delete manually
-# An error is thrown in the compile assets step if local.py is present
-RUN rm ./cla_frontend/settings/local.*
-
 # Compile assets
 RUN python manage.py builddata constants_json
 
