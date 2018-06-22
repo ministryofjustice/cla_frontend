@@ -36,11 +36,11 @@ RUN echo $TZ > /etc/timezone \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata 
 
+# Install n globally and use v8.9.3
+RUN npm install -g n && n 8.9.3
+
 # Remove SSHD
 RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
-
-RUN npm install -g n   # Install n globally
-RUN n 8.9.3            # Install and use v8.9.3
 
 # Configure Nginx
 ADD ./docker/htpassword /etc/nginx/conf.d/htpassword
@@ -62,7 +62,7 @@ ADD ./docker/cla_frontend.ini /etc/wsgi/conf.d/cla_frontend.ini
 # install service files for runit
 ADD ./docker/nginx.service /etc/service/nginx/run
 
-# # install service files for runit
+# install service files for runit
 ADD ./docker/uwsgi.service /etc/service/uwsgi/run
 
 # install service files for runit
@@ -84,8 +84,13 @@ EXPOSE 80 443 8005
 ENV APP_HOME /home/app/django
 WORKDIR /home/app/django
 
+# Install python packages
+COPY requirements/ ./requirements
+COPY requirements.txt ./
+RUN pip install -r requirements/production.txt && find . -name '*.pyc' -delete
+
 # Install Ruby dependencies
-COPY Gemfile ./
+COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
 # Install node dependencies
@@ -107,13 +112,8 @@ COPY cla_socketserver ./cla_socketserver/
 WORKDIR cla_socketserver
 RUN npm install
 
-# Install python packages
-WORKDIR $APP_HOME
-COPY requirements/ ./requirements
-COPY requirements.txt ./
-RUN pip install -r requirements/production.txt && find . -name '*.pyc' -delete
-
 # Copy application files
+WORKDIR $APP_HOME
 COPY manage.py              ./
 COPY cla_frontend/apps      ./cla_frontend/apps/
 COPY cla_frontend/settings  ./cla_frontend/settings/
