@@ -6,3 +6,4 @@ static/
 node_modules/
 cla_frontend/assets-src/vendor/
 venv/
+reports/
