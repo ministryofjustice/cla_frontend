@@ -128,7 +128,7 @@
       createRecipe: function (caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields) {
         return browser.driver.executeAsyncScript(
           createCase, // function to call
-          browser.rootEl, caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields // params
+          'html', caseFields, personalDetailsFields, diagnosisNodes, eligibilityCheckFields // params
         );
       },
 
