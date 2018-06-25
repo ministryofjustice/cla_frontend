@@ -18,8 +18,12 @@ exports.config = {
   },
 
   specs: [
-    // "e2e/caseList.js"
-    "e2e/!(_*).js"
+    //"e2e/addressFinder.js" ,
+    "e2e/caseList.js",
+    "e2e/claAuth.js",
+    "e2e/scopeDiagnosis.js",
+    "e2e/suspendCase.js"
+    //"e2e/!(_*).js"
   ],
 
   framework: "jasmine",
