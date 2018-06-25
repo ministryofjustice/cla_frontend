@@ -25,7 +25,6 @@ RUN apt-get update -qq && apt-get install -y --force-yes -qq \
     python-dev \
     python-pip \
     python-software-properties \
-    ruby-bundler \
     software-properties-common \
     tzdata \
     && apt-get clean
@@ -89,10 +88,6 @@ COPY requirements/ ./requirements
 COPY requirements.txt ./
 RUN pip install -r requirements/production.txt && find . -name '*.pyc' -delete
 
-# Install Ruby dependencies
-COPY Gemfile Gemfile.lock ./
-RUN bundle install
-
 # Install node dependencies
 COPY package.json package-lock.json ./
 RUN npm install
@@ -138,4 +133,4 @@ COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 RUN cat docker/version >> /etc/profile
 
 # Cleanup
-RUN apt-get remove -y npm ruby-bundler && apt-get autoremove -y
+RUN apt-get remove -y npm && apt-get autoremove -y

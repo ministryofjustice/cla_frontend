@@ -59,6 +59,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-rimraf": "^0.2.2",
     "gulp-ruby-sass": "^3.0.0",
+    "gulp-sass": "^4.0.1",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "jasmine-reporters": "^2.3.0",
