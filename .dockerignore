@@ -2,6 +2,7 @@
 Dockerfile
 docker-compose.yml
 cla_frontend/settings/local.py*
+#.pyc
 static/
 node_modules/
 cla_frontend/assets-src/vendor/
