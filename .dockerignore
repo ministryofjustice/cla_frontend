@@ -1,11 +1,13 @@
 # project
 Dockerfile
 docker-compose.yml
+cla_frontend/assets/
+cla_frontend/assets-src/vendor/
 cla_frontend/settings/local.py*
 #.pyc
 static/
 node_modules/
-cla_frontend/assets-src/vendor/
+
 venv/
 reports/
 .git/

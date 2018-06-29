@@ -47,6 +47,7 @@ RUN pip install -r requirements/production.txt
 FROM dependencies AS build  
 WORKDIR /home/app/django
 COPY . .
+COPY --from=asset-builder /app/cla_frontend/assets ./cla_frontend/assets
 # Build / Compile if required
 RUN python manage.py builddata constants_json
 
