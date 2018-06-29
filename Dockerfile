@@ -1,9 +1,11 @@
 # ---------------------------------------------
 # Build frontend dependencies and socket.io app
 # ---------------------------------------------
-FROM node:8.11.3 as asset-builder
+FROM node:8.11.3 AS frontend
 
 WORKDIR /app
+
+RUN npm i npm@latest -g
 
 # Install node dependencies
 COPY package.json package-lock.json ./
@@ -47,18 +49,17 @@ RUN pip install -r requirements/production.txt
 FROM dependencies AS build  
 WORKDIR /home/app/django
 COPY . .
-COPY --from=asset-builder /app/cla_frontend/assets ./cla_frontend/assets
+COPY --from=frontend /app/cla_frontend/assets ./cla_frontend/assets
 # Build / Compile if required
 RUN python manage.py builddata constants_json
 
 # Collect static
 RUN python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
-RUN ls -la cla_frontend/static
 
 # --------------------------------------
 # Release with baseimage
 # --------------------------------------
-FROM phusion/baseimage:0.9.22
+FROM phusion/baseimage:0.9.22 AS release
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -138,7 +139,6 @@ COPY cla_frontend/templates ./cla_frontend/templates/
 COPY cla_frontend/*.py      ./cla_frontend/
 COPY docker/                ./docker/
 COPY scripts/               ./scripts/
-COPY tests/                 ./tests/
 
 # # Copy front-end assets
 COPY --from=build /home/app/django/cla_frontend/static ./cla_frontend/static
@@ -151,3 +151,24 @@ RUN ln -s /home/app/django/cla_frontend/settings/docker.py /home/app/django/cla_
 
 # Not sure what this is for
 RUN cat docker/version >> /etc/profile
+
+# --------------------------------------
+# Test the release
+# --------------------------------------
+FROM build AS test-python
+ENV BACKEND_BASE_URI localhost
+WORKDIR /home/app/django
+COPY --from=release /home/app/django ./
+RUN mkdir -p /var/log/wsgi && touch debug.log
+RUN pip install -r requirements/jenkins.txt
+RUN python manage.py test
+
+# --------------------------------------
+# Test the front-end unit tests
+# --------------------------------------
+FROM frontend AS test-frontend
+WORKDIR /app
+COPY tests/ ./tests/
+RUN npm run test-single-run
+
+FROM release
