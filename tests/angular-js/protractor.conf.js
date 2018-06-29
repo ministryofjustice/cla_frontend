@@ -1,4 +1,5 @@
 var HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter");
+var puppeteer = require("puppeteer");
 
 var reporter = new HtmlScreenshotReporter({
   dest: "reports/protractor-e2e/screenshots",
@@ -13,9 +14,14 @@ exports.config = {
   capabilities: {
     browserName: "chrome",
     chromeOptions: {
-      args: ["--headless", "--disable-gpu", "--window-size=1920,1200"]
+      args: process.env.HEADLESS
+        ? ["--headless", "--no-sandbox", "--disable-dev-shm-usage"]
+        : [],
+      binary: process.env.HEADLESS ? puppeteer.executablePath() : undefined
     }
   },
+
+  directConnect: true,
 
   specs: [
     // "e2e/caseList.js"
