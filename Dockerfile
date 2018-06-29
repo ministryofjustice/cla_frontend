@@ -53,6 +53,7 @@ RUN python manage.py builddata constants_json
 
 # Collect static
 RUN python manage.py collectstatic --noinput --settings=cla_frontend.settings.production
+RUN ls -la cla_frontend/static
 
 # --------------------------------------
 # Release with baseimage
@@ -140,7 +141,7 @@ COPY scripts/               ./scripts/
 COPY tests/                 ./tests/
 
 # # Copy front-end assets
-COPY --from=asset-builder /app/cla_frontend/assets ./cla_frontend/assets
+COPY --from=build /home/app/django/cla_frontend/static ./cla_frontend/static
 
 # # Install socket.io application
 COPY cla_socketserver ./cla_socketserver/
