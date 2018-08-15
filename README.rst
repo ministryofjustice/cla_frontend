@@ -149,16 +149,37 @@ Any problems with npm which could be resolved by installing all the
 modules again? Try deleting the 'node\_modules' directory and running
 'npm install' again.
 
-Testing
-~~~~~~~
-
-Unit tests-
+Unit Testing
+~~~~~~~~~~~~
 
 ::
 
     npm test
 
-Selenium front end testing-
+End to end browser tests
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The browser tests reside in https://github.com/ministryofjustice/laa-cla-e2e-tests. Follow the instructions to get these running on your local machine.
+
+TODO: Make these tests run automatically when a new build of the ``develop`` branch is pushed to Docker registry.
+
+If you want to run the tests whilst developing, you'll need to update ``docker-compose.yml`` from:
+
+::
+
+    cla_frontend:
+        image: [url_to_remote_image]
+
+to something like:
+
+::
+    
+    cla_frontend:
+        build:
+            context: ../cla_frontend
+
+where the context directory is set to the root of the cla_public directory.
+
 
 Development
 ~~~~~~~~~~~
