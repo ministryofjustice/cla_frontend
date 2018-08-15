@@ -29,7 +29,6 @@
     "browser": true,
     "element": true,
     "inject": true,
-    "protractor": true,
     "jasmine": true,
     "describe": true,
     "expect": true,

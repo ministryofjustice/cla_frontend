@@ -160,12 +160,6 @@ Unit tests-
 
 Selenium front end testing-
 
-::
-
-    npm run protractor
-
-This will launch chrome in which the tests are run.
-
 Development
 ~~~~~~~~~~~
 
@@ -231,20 +225,6 @@ assets run:
 ::
 
     npm run images
-
-
-Selelium hub setup
-~~~~~~~~~~~~~~~~~~
-
-At the moment protractor 1.8.0 works with selenium hub 2.47.1 . If protractor is updated the selenium hub may need to be updated as well. There is a script to do this in scripts/jenkins which will have to be run as sudo on the selenium-hub instance
-
-install docker and `docker-selenium <https://github.com/SeleniumHQ/docker-selenium>`__ on to an instance or vm
-
-::
-
-    sudo docker run -d -p 4444:4444 -P --name selenium-hub selenium/hub:2.47.1
-    sudo docker run -d --name node-chrome --link selenium-hub:hub selenium/node-chrome:2.47.1
-    sudo docker run -d --name node-firefox --link selenium-hub:hub selenium/node-firefox:2.47.1
 
 
 To demo the service
