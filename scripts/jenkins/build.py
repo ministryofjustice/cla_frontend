@@ -25,8 +25,8 @@ def parse_args():
                         help='cla_backend *commit hash* to run tests against; '
                              'defaults to latest develop branch commit')
     parser.add_argument('--skip-tests', nargs='*',
-                        choices=('django', 'karma', 'protractor'),
-                        help='skip tests: django, karma, protractor')
+                        choices=('django', 'karma'),
+                        help='skip tests: django, karma')
 
     return parser.parse_args()
 
@@ -178,7 +178,6 @@ def run_server(env, backend_hash, jenkins_build_path):
 
 def run_integration_tests(venv_path, jenkins_build_path, skip_tests):
     run_karma = 'karma' not in skip_tests
-    run_protractor = 'protractor' not in skip_tests
 
     wait_until_available('http://localhost:{port}/admin/'.format(
         port=os.environ.get('CLA_BACKEND_PORT'))
@@ -190,32 +189,9 @@ def run_integration_tests(venv_path, jenkins_build_path, skip_tests):
     log_stdout = os.path.join(jenkins_build_path, 'cla_frontend.stdout.log')
     log_stderr = os.path.join(jenkins_build_path, 'cla_frontend.stderr.log')
 
-    if run_protractor:
-        run(
-            '{venv_path}/bin/python manage.py runserver 0.0.0.0:{port} '
-            '--settings=cla_frontend.settings.jenkins '
-            '--nothreading --noreload '
-            '1> {log_stdout} '
-            '2> {log_stderr}'.format(
-                venv_path=venv_path,
-                port=frontend_port,
-                log_stdout=log_stdout,
-                log_stderr=log_stderr,
-            ),
-            background=True)
-
     karma = None
     if run_karma:
         karma = run('npm run test-single-run', background=True)
-
-    if run_protractor:
-        wait_until_available('http://localhost:{port}/'.format(port=frontend_port))
-
-        run('node_modules/protractor/bin/protractor tests/angular-js/protractor.conf.jenkins.js')
-
-        if karma:
-            karma.wait()
-
 
 def kill_child_processes(pid, sig=signal.SIGTERM):
     ps_cmd = subprocess.Popen(
@@ -259,7 +235,7 @@ def main():
         if 'django' not in skip_tests:
             python_tests = run_python_tests(venv_path)
 
-        if {'karma', 'protractor'} - skip_tests:
+        if {'karma'} - skip_tests:
             run_server(args.envname, args.backend_hash, jenkins_build_path)
             if python_tests:
                 python_tests.wait()
