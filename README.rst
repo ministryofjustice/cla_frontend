@@ -10,7 +10,7 @@ Dependencies
 -  `docker <https://www.docker.com/>`__
 -  `Python 2.7 <http://www.python.org/>`__ (Can be installed using ``brew``)
 -  `nodejs.org <http://nodejs.org/>`__ (v8.9.3 - can be installed using nvm <https://github.com/creationix/nvm>)
--  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.4)
+-  `Sass <http://sass-lang.com/>`
 -  `gulp.js <http://gulpjs.com/>`__ (Installed using
    ``npm install`` and npm scripts tasks)
 -  `Bower <http://bower.io/>`__ (Installed using
