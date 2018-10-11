@@ -10,7 +10,7 @@ Dependencies
 -  `docker <https://www.docker.com/>`__
 -  `Python 2.7 <http://www.python.org/>`__ (Can be installed using ``brew``)
 -  `nodejs.org <http://nodejs.org/>`__ (v8.9.3 - can be installed using nvm <https://github.com/creationix/nvm>)
--  `Sass <http://sass-lang.com/>`__ (Ruby version - minimum v3.4)
+-  `Sass <http://sass-lang.com/>`
 -  `gulp.js <http://gulpjs.com/>`__ (Installed using
    ``npm install`` and npm scripts tasks)
 -  `Bower <http://bower.io/>`__ (Installed using
@@ -149,22 +149,37 @@ Any problems with npm which could be resolved by installing all the
 modules again? Try deleting the 'node\_modules' directory and running
 'npm install' again.
 
-Testing
-~~~~~~~
-
-Unit tests-
+Unit Testing
+~~~~~~~~~~~~
 
 ::
 
     npm test
 
-Selenium front end testing-
+End to end browser tests
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The browser tests reside in https://github.com/ministryofjustice/laa-cla-e2e-tests. Follow the instructions to get these running on your local machine.
+
+TODO: Make these tests run automatically when a new build of the ``develop`` branch is pushed to Docker registry.
+
+If you want to run the tests whilst developing, you'll need to update ``docker-compose.yml`` from:
 
 ::
 
-    npm run protractor
+    cla_frontend:
+        image: [url_to_remote_image]
 
-This will launch chrome in which the tests are run.
+to something like:
+
+::
+    
+    cla_frontend:
+        build:
+            context: ../cla_frontend
+
+where the context directory is set to the root of the cla_public directory.
+
 
 Development
 ~~~~~~~~~~~
@@ -231,20 +246,6 @@ assets run:
 ::
 
     npm run images
-
-
-Selelium hub setup
-~~~~~~~~~~~~~~~~~~
-
-At the moment protractor 1.8.0 works with selenium hub 2.47.1 . If protractor is updated the selenium hub may need to be updated as well. There is a script to do this in scripts/jenkins which will have to be run as sudo on the selenium-hub instance
-
-install docker and `docker-selenium <https://github.com/SeleniumHQ/docker-selenium>`__ on to an instance or vm
-
-::
-
-    sudo docker run -d -p 4444:4444 -P --name selenium-hub selenium/hub:2.47.1
-    sudo docker run -d --name node-chrome --link selenium-hub:hub selenium/node-chrome:2.47.1
-    sudo docker run -d --name node-firefox --link selenium-hub:hub selenium/node-firefox:2.47.1
 
 
 To demo the service

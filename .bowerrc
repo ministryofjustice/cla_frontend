@@ -1,4 +1,5 @@
 {
   "directory": "cla_frontend/assets-src/vendor",
-  "interactive": false
+  "interactive": false,
+  "allow_root": true
 }
