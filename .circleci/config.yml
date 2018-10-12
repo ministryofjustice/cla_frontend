@@ -22,14 +22,14 @@ jobs:
             virtualenv env-ci
       - restore_cache:
           keys:
-            - pip-v2-{{ checksum "requirements/testing.txt" }}
+            - pip-v1-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/testing.txt" }}
       - run:
           name: Install dependencies
           command: |
             source env-ci/bin/activate
             pip install --requirement requirements/testing.txt
       - save_cache:
-          key: pip-v2-{{ checksum "requirements/testing.txt" }}
+          key: pip-v1-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/testing.txt" }}
           paths:
             - "~/.cache/pip"
       - run:
