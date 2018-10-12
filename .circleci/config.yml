@@ -8,11 +8,11 @@ jobs:
       - setup_remote_docker:
           version: 17.03.0-ce
           docker_layer_caching: true
-  test:
+  python_unit_test:
     docker:
       - image: circleci/python:2.7
         environment:
-          DJANGO_SETTINGS_MODULE: cla_frontend.settings.circle
+          DJANGO_SETTINGS_MODULE: cla_frontend.settings.testing
     steps:
       - checkout
       - run:
@@ -32,16 +32,45 @@ jobs:
           key: pip-v2-{{ checksum "requirements/testing.txt" }}
           paths:
             - "~/.cache/pip"
-
       - run:
           name: Run unit tests
           command: |
             source env-ci/bin/activate
             python manage.py test --verbosity=2
+  javascript_unit_test:
+    docker:
+      - image: circleci/node:8.9.3
+        environment:
+          DJANGO_SETTINGS_MODULE: cla_frontend.settings.test
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - node_modules-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Node JS dependencies
+          command: |
+            npm install
+      - save_cache:
+          key: node_modules-{{ checksum "package-lock.json" }}
+          paths:
+            - "~/.cache/node_modules"
+      - run:
+          name: Build JavaScript application dependencies
+          command: |
+            npm run bower && npm run js
+      - run:
+          name: Run Jasmine unit tests
+          command: |
+            npm run test-single-run
 
 workflows:
   version: 2
-  test:
+  test_and_build:
     jobs:
-      - test
-      - build
+      - python_unit_test
+      - javascript_unit_test
+      - build:
+          requires:
+            - python_unit_test
+            - javascript_unit_test
