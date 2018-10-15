@@ -209,3 +209,35 @@ do is go to http://localhost:8001.
 Known Issues:
 `clabackend` and `db` containers might not be ready first time round so you might have
 to stop the docker-compose up and then run it again.
+
+## Releasing
+
+### Releasing to non-production
+
+1. Wait for [the Docker build to complete on CircleCI](https://circleci.com/gh/ministryofjustice/cla_frontend) for the feature branch.
+1. Copy the `feature_branch.<sha>` reference from the `build` job's "Push Docker image" step. Eg:
+    ```
+    Pushing tag for rev [9a77ce2f0e8a] on {https://registry.service.dsd.io/v1/repositories/cla_frontend/tags/dual-docker-registries.902c45d}
+    ```
+1. [Deploy `feature_branch.<sha>`](https://ci.service.dsd.io/job/DEPLOY-cla_frontend/build?delay=0sec).
+    * `tag` is the branch that needs to be released plus a specific 7-character prefix of the Git SHA. (`dual-docker-registries.902c45d` for the above example).
+    * `environment` is the target environment, select depending on your needs, eg. "demo", "staging", etc.
+    * `branch` is the [deploy repo's](https://github.com/ministryofjustice/cla_frontend-deploy) default branch name, usually master.
+
+### Releasing to production
+
+>#### :warning: Release to production outside of business hours
+> __Business hours__: 09:00 to 20:00  
+>__Why?__ Any downtime on the frontend and backend between 09:00 and 20:00 can have serious consequences, leading to shut down of the court legal advice centres, possible press reports and maybe MP questions.  
+>__Is there downtime when a release occurs?__ Usually it's just a few seconds. However changes that involve Elastic IPs can take a bit longer.
+
+1. Please make sure you tested on a non-production environment before merging.
+1. Merge your feature branch pull request to `master`.
+1. Wait for [the Docker build to complete on CircleCI](https://circleci.com/gh/ministryofjustice/cla_frontend/tree/master) for the `master` branch.
+1. Copy the `master.<sha>` reference from the `build` job's "Push Docker image" step. Eg:
+    ```
+    Pushing tag for rev [d96e0157bdac] on {https://registry.service.dsd.io/v1/repositories/cla_frontend/tags/master.b24490d}
+    ```
+1. [Deploy `master.<sha>` to **prod**uction](https://ci.service.dsd.io/job/DEPLOY-cla_frontend/build?delay=0sec).
+
+:tada: :shipit:
