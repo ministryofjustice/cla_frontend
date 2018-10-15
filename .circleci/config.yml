@@ -16,7 +16,11 @@ jobs:
       - run:
           name: Login to the DSD Docker registry
           command: |
-            docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD --email "${DOCKER_USERNAME}@digital.justice.gov.uk" $DSD_DOCKER_REGISTRY
+            docker login \
+              --username $DOCKER_USERNAME \
+              --password $DOCKER_PASSWORD \
+              --email "${DOCKER_USERNAME}@digital.justice.gov.uk" \
+              $DSD_DOCKER_REGISTRY
       - run:
           name: Login to the ECR Docker registry
           command: |
@@ -79,8 +83,7 @@ jobs:
             - node-v1-{{ checksum "package-lock.json" }}
       - run:
           name: Install Node JS dependencies
-          command: |
-            npm install
+          command: npm install
       - save_cache:
           key: node-v1-{{ checksum "package-lock.json" }}
           paths:
@@ -90,20 +93,17 @@ jobs:
             - bower-v1-{{ checksum "bower.json" }}
       - run:
           name: Install Bower dependencies
-          command: |
-            npm run bower
+          command: npm run bower
       - save_cache:
           key: bower-v1-{{ checksum "bower.json" }}
           paths:
             - "./cla_frontend/assets-src/vendor"
       - run:
           name: Bundle JavaScript 
-          command: |
-            npm run js
+          command: npm run js
       - run:
           name: Run Jasmine unit tests
-          command: |
-            npm run test-single-run
+          command: npm run test-single-run
 
 workflows:
   version: 2
