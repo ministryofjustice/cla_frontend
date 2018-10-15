@@ -1,0 +1,117 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker:17.03-git
+    environment:
+      DSD_DOCKER_REGISTRY: "registry.service.dsd.io"
+      DSD_DOCKER_IMAGE: "cla_frontend"
+      ECR_DOCKER_REGISTRY: "926803513772.dkr.ecr.eu-west-1.amazonaws.com"
+      ECR_DOCKER_IMAGE: "laa-get-access/laa-cla-frontend"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.03.0-ce
+          docker_layer_caching: true
+      - run:
+          name: Login to the DSD Docker registry
+          command: |
+            docker login \
+              --username $DOCKER_USERNAME \
+              --password $DOCKER_PASSWORD \
+              --email "${DOCKER_USERNAME}@digital.justice.gov.uk" \
+              $DSD_DOCKER_REGISTRY
+      - run:
+          name: Login to the ECR Docker registry
+          command: |
+            apk add --no-cache --no-progress py2-pip
+            pip install awscli
+            ecr_login="$(aws ecr get-login --region eu-west-1 --no-include-email)"
+            ${ecr_login}
+      - run:
+          name: Build Docker image
+          command: |
+            docker build --tag application:$CIRCLE_SHA1 \
+              --label build.git.sha=$CIRCLE_SHA1 \
+              --label build.git.branch=$CIRCLE_BRANCH \
+              --label build.url=$CIRCLE_BUILD_URL \
+              .
+      - run:
+          name: Validate Python version
+          command: docker run --rm --tty --interactive application:$CIRCLE_SHA1 python --version | grep "2.7"
+      - run:
+          name: Tag and push Docker images
+          command: .circleci/tag_and_push_docker_image application:$CIRCLE_SHA1
+  python_unit_test:
+    docker:
+      - image: circleci/python:2.7
+        environment:
+          DJANGO_SETTINGS_MODULE: cla_frontend.settings.testing
+    steps:
+      - checkout
+      - run:
+          name: Setup Python environment
+          command: |
+            pip install virtualenv
+            virtualenv env-ci
+      - restore_cache:
+          keys:
+            - pip-v1-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/testing.txt" }}
+      - run:
+          name: Install dependencies
+          command: |
+            source env-ci/bin/activate
+            pip install --requirement requirements/testing.txt
+      - save_cache:
+          key: pip-v1-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/testing.txt" }}
+          paths:
+            - "~/.cache/pip"
+      - run:
+          name: Run unit tests
+          command: |
+            source env-ci/bin/activate
+            python manage.py test --verbosity=2
+  javascript_unit_test:
+    docker:
+      - image: circleci/node:8.9.3
+        environment:
+          DJANGO_SETTINGS_MODULE: cla_frontend.settings.test
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Node JS dependencies
+          command: npm install
+      - save_cache:
+          key: node-v1-{{ checksum "package-lock.json" }}
+          paths:
+            - "./node_modules"
+      - restore_cache:
+          keys:
+            - bower-v1-{{ checksum "bower.json" }}
+      - run:
+          name: Install Bower dependencies
+          command: npm run bower
+      - save_cache:
+          key: bower-v1-{{ checksum "bower.json" }}
+          paths:
+            - "./cla_frontend/assets-src/vendor"
+      - run:
+          name: Bundle JavaScript 
+          command: npm run js
+      - run:
+          name: Run Jasmine unit tests
+          command: npm run test-single-run
+
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - python_unit_test
+      - javascript_unit_test
+      - build:
+          requires:
+            - python_unit_test
+            - javascript_unit_test
