@@ -30,7 +30,35 @@
         expect(AlternativeHelpService.selected_providers).toEqual({});
         expect(AlternativeHelpService.notes).toEqual('');
       });
+    });
+  });
 
+
+ describe('saveAlternativeHelp', function() {
+
+    beforeEach(module('cla.controllers'));
+
+    var scope, saveAlternativeHelp, s;
+
+    beforeEach(inject(function (_$rootScope_, saveAlternativeHelp) {
+      scope = _$rootScope_.$new();
+      saveAlternativeHelp = saveAlternativeHelp;
+      s = saveAlternativeHelp()
+    }));
+
+    describe('service', function(){
+
+      console.log("saveAlternativeHelp", saveAlternativeHelp)
+      console.log("scope", scope)
+
+      // scope.personal_details = E174QB
+
+      it('Should take you to a link showing providers in your area if the correct post code is given', function() {
+        expect(scope.getF2fDeepLink).toEqual('https://find-legal-advice.justice.gov.uk/?postcode=E174QB');
+      });
     });
   });
 })();
+
+
+
