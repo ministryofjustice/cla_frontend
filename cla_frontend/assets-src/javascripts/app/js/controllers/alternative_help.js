@@ -85,7 +85,7 @@
           $scope.getF2fDeepLink = function () {
             if ($scope.personal_details && $scope.personal_details.postcode) {
               var postcode = $window.encodeURIComponent($scope.personal_details.postcode);
-              return 'http://find-legal-advice.justice.gov.uk/search.php?searchtype=location&searchtext='+ postcode +'&searchbtn=';
+              return 'https://find-legal-advice.justice.gov.uk/?postcode=' + postcode;
             }
             return 'http://find-legal-advice.justice.gov.uk/';
           };
