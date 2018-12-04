@@ -6,7 +6,6 @@
 
     beforeEach(module('cla.operatorApp'));
 
-
     var scope, AlternativeHelpService;
 
     beforeEach(inject(function (_$rootScope_, _AlternativeHelpService_) {
@@ -33,32 +32,27 @@
     });
   });
 
+  describe('Alternative Help controller tests', function() {
 
- describe('saveAlternativeHelp', function() {
+    beforeEach(module('cla.operatorApp'));
 
-    beforeEach(module('cla.controllers'));
+    var scope;
 
-    var scope, saveAlternativeHelp, s;
-
-    beforeEach(inject(function (_$rootScope_, saveAlternativeHelp) {
+    beforeEach(inject(function (_$rootScope_, $controller) {
       scope = _$rootScope_.$new();
-      saveAlternativeHelp = saveAlternativeHelp;
-      s = saveAlternativeHelp()
+      $controller('AlternativeHelpCtrl', {$scope: scope, kb_providers: 'unused', kb_categories: 'unused', categories: 'unused'});
     }));
 
     describe('service', function(){
+      it('Should take you to a link showing providers in your area', function() {
+        scope.personal_details = {postcode: 'E174QB'};
+        expect(scope.getF2fDeepLink()).toBe('https://find-legal-advice.justice.gov.uk/?postcode=E174QB');
+      });
 
-      console.log("saveAlternativeHelp", saveAlternativeHelp)
-      console.log("scope", scope)
-
-      // scope.personal_details = E174QB
-
-      it('Should take you to a link showing providers in your area if the correct post code is given', function() {
-        expect(scope.getF2fDeepLink).toEqual('https://find-legal-advice.justice.gov.uk/?postcode=E174QB');
+      it('Should URL escape the postcodes given', function() {
+        scope.personal_details = {postcode: 'E17 4QB'};
+        expect(scope.getF2fDeepLink()).toBe('https://find-legal-advice.justice.gov.uk/?postcode=E17%204QB');
       });
     });
   });
 })();
-
-
-
