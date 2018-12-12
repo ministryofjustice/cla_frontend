@@ -25,5 +25,3 @@ django-extended-choices==0.3.0
 
 #Irat healthcheck and ping package
 git+https://github.com/ministryofjustice/django-moj-irat.git@4d54b86b1cb574fe787ba0fb8a992cf352f8eba6
-
-postcodeinfo==0.2.2
