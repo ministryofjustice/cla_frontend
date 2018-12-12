@@ -12,3 +12,5 @@ root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 sys.path.insert(0, root('apps'))
 
 TEST_RUNNER = 'core.testing.runner.NoDbTestRunner'
+
+OS_PLACES_API_KEY = "DUMMY_KEY"

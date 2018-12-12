@@ -302,10 +302,8 @@ if 'RAVEN_CONFIG_DSN' in os.environ:
         #'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
     ) + MIDDLEWARE_CLASSES
 
-# EMAILS
 
-POSTCODEINFO_API_URL = os.environ.get('POSTCODEINFO_API_URL')
-POSTCODEINFO_AUTH_TOKEN = os.environ.get('POSTCODEINFO_AUTH_TOKEN')
+OS_PLACES_API_KEY = os.environ.get('OS_PLACES_API_KEY')
 
 # importing test settings file if necessary (TODO chould be done better)
 if len(sys.argv) > 1 and 'test' in sys.argv[1]:
