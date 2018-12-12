@@ -5,11 +5,10 @@ import unittest
 import urllib
 from urlparse import urlparse, urlunparse
 
-from django.conf import settings
 import requests
 import websocket
-
-import postcodeinfo
+from django.conf import settings
+from cla_common.address_lookup.ordnance_survey import AddressLookup
 
 
 def unix_timestamp():
@@ -22,11 +21,14 @@ class SmokeTests(unittest.TestCase):
         "access the backend"
         response = requests.get(settings.BACKEND_BASE_URI + '/status.json')
 
-    def test_can_access_geocoder(self):
-        "lookup a postcode with PostcodeInfo"
-        client = postcodeinfo.Client()
-        postcode = client.lookup_postcode('SW1A 1AA')
-        self.assertEqual(postcode.normalised, 'sw1a1aa')
+    def test_can_lookup_postcode(self):
+        """Lookup a postcode with OS Places"""
+        postcode_to_lookup = 'SW1A 1AA'
+        key = settings.OS_PLACES_API_KEY
+        addresses = AddressLookup(key=key).by_postcode(postcode_to_lookup)
+        self.assertGreater(len(addresses), 0)
+        result_postcode = addresses[0].get('DPA', {}).get('POSTCODE')
+        self.assertEqual(result_postcode, postcode_to_lookup)
 
     def test_can_access_socketserver(self):
         "connect to socket server"
