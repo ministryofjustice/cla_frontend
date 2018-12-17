@@ -285,9 +285,6 @@ SOCKETIO_SERVER_URL = os.environ.get('SOCKETIO_SERVER_URL',
     'http://localhost:8005/socket.io')
 SITE_HOSTNAME = os.environ.get('SITE_HOSTNAME', 'localhost')
 
-ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
-    'http://127.0.0.1:8003')
-ADDRESSFINDER_API_TOKEN = os.environ.get('ADDRESSFINDER_API_TOKEN', '')
 
 # Zendesk feedback settings
 ZENDESK_API_USERNAME = os.environ.get('ZENDESK_API_USERNAME', '')
