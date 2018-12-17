@@ -285,9 +285,6 @@ SOCKETIO_SERVER_URL = os.environ.get('SOCKETIO_SERVER_URL',
     'http://localhost:8005/socket.io')
 SITE_HOSTNAME = os.environ.get('SITE_HOSTNAME', 'localhost')
 
-ADDRESSFINDER_API_HOST = os.environ.get('ADDRESSFINDER_API_HOST',
-    'http://127.0.0.1:8003')
-ADDRESSFINDER_API_TOKEN = os.environ.get('ADDRESSFINDER_API_TOKEN', '')
 
 # Zendesk feedback settings
 ZENDESK_API_USERNAME = os.environ.get('ZENDESK_API_USERNAME', '')
@@ -302,10 +299,8 @@ if 'RAVEN_CONFIG_DSN' in os.environ:
         #'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
     ) + MIDDLEWARE_CLASSES
 
-# EMAILS
 
-POSTCODEINFO_API_URL = os.environ.get('POSTCODEINFO_API_URL')
-POSTCODEINFO_AUTH_TOKEN = os.environ.get('POSTCODEINFO_AUTH_TOKEN')
+OS_PLACES_API_KEY = os.environ.get('OS_PLACES_API_KEY')
 
 # importing test settings file if necessary (TODO chould be done better)
 if len(sys.argv) > 1 and 'test' in sys.argv[1]:
