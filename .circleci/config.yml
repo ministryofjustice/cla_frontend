@@ -67,6 +67,11 @@ jobs:
           paths:
             - "~/.cache/pip"
       - run:
+          name: Lint code
+          command: |
+            source env/bin/activate
+            flake8 --exit-zero cla_frontend
+      - run:
           name: Run unit tests
           command: |
             source env/bin/activate
