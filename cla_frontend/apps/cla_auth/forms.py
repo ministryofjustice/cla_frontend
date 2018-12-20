@@ -11,6 +11,7 @@ AUTOCOMPLETE_OFF_ATTRS = {
     'class': 'js-remove-readonly-onfocus'
 }
 
+
 class AuthenticationForm(forms.Form):
     """
     """
@@ -20,7 +21,7 @@ class AuthenticationForm(forms.Form):
         widget=forms.TextInput(attrs=AUTOCOMPLETE_OFF_ATTRS)
     )
     password = forms.CharField(
-        label=_("Password"), 
+        label=_("Password"),
         widget=forms.PasswordInput(attrs=AUTOCOMPLETE_OFF_ATTRS)
     )
 

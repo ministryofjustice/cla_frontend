@@ -23,7 +23,7 @@ class CLATFrontEndTestCase(SimpleTestCase):
         self.mocked_get_auth_connection = mocked_get_auth_connection
 
         token = '123456789'
-        ### Login
+        # Login
         auth_connection = mock.MagicMock()
         auth_connection.oauth2.access_token.post.return_value = {
             'access_token': token

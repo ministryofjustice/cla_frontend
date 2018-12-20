@@ -1,7 +1,7 @@
 """ One view method for AJAX requests by SessionSecurity objects. """
 import json
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from core.middleware import HttpResponseForbidden
 from core.session_security.utils import get_expires_in
 

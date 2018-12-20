@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from cla_common.smoketest import smoketest
-from .smoketests import basic, smoketests
+from .smoketests import smoketests
 
 
 class JSONResponse(HttpResponse):
@@ -35,4 +35,3 @@ def smoketests_json(request):
     from cla_frontend.apps.status.tests.smoketests import SmokeTests
 
     return JSONResponse(smoketest(SmokeTests))
-

@@ -1,8 +1,6 @@
 from django.shortcuts import redirect
 from django.conf import settings
 
-
-from postcode_lookup_views import postcode_lookup
 from cla_auth import get_zone
 
 

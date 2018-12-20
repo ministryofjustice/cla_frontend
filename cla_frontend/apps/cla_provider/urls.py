@@ -13,16 +13,14 @@ from . import views
 from django.conf import settings
 zone = settings.ZONE_PROFILES.get('cla_provider')
 
-urlpatterns = patterns('',
-    url(
-        r'^login/$',
+urlpatterns = patterns(
+    '',
+    url(r'^login/$',
         RedirectView.as_view(url=reverse_lazy('auth:login')),
-        name='login'
-    ),
+        name='login'),
     url(r'^case/(?P<case_reference>.+)/legal_help_form/$',
         provider_views.legal_help_form,
-        name='legal_help_form'
-    ),
+        name='legal_help_form'),
     url(r'^zendesk/$', cla_provider_zone_required(ZendeskView.as_view()), name='zendesk'),
     url(r'^proxy/caseExport/$', auth_views.backend_proxy_view,
         name="backend_proxy_provider_export",

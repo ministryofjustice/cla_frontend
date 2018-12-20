@@ -30,8 +30,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         if 'constants_json' in args:
-            l_count = 0
-            l = {}
+            count = 0
+            derived_dataset = {}
             for json_name, iterator in [('TITLES', TITLES.CHOICES),
                                         ('THIRDPARTY_REASON', THIRDPARTY_REASON),
                                         ('THIRDPARTY_RELATIONSHIP', THIRDPARTY_RELATIONSHIP),
@@ -47,10 +47,10 @@ class Command(BaseCommand):
                                         ('SPECIFIC_BENEFITS', SPECIFIC_BENEFITS),
                                         ('EXPRESSIONS_OF_DISSATISFACTION', EXPRESSIONS_OF_DISSATISFACTION),
                                         ]:
-                l[json_name] = []
+                derived_dataset[json_name] = []
                 for k, v in iterator:
-                    l[json_name].append({'value': k, 'text': v})
-                    l_count += 1
+                    derived_dataset[json_name].append({'value': k, 'text': v})
+                    count += 1
 
             for json_name, iterator in [('REQUIRES_ACTION_BY', REQUIRES_ACTION_BY.CHOICES_CONST_DICT),
                                         ('ELIGIBILITY_STATES', ELIGIBILITY_STATES.CHOICES_CONST_DICT),
@@ -58,35 +58,34 @@ class Command(BaseCommand):
                                         ('CONTACT_SAFETY', CONTACT_SAFETY.CHOICES_CONST_DICT),
                                         ('EXPRESSIONS_OF_DISSATISFACTION_FLAGS', EXPRESSIONS_OF_DISSATISFACTION_FLAGS),
                                         ]:
-                l[json_name] = iterator
-                l_count += 1
+                derived_dataset[json_name] = iterator
+                count += 1
 
             for json_name, iterator in [('ECF_STATEMENT', ECF_OPTIONS)]:
-                l[json_name] = iterator
-                l_count += 1
+                derived_dataset[json_name] = iterator
+                count += 1
 
             for json_name, iterator, groups in [('ETHNICITIES', ETHNICITIES, ETHNICITIES_GROUPS)]:
-                l[json_name] = []
+                derived_dataset[json_name] = []
                 for k, v in iterator:
                     group = None
                     for group_k, group_v in groups.items():
                         if k in group_v:
                             group = group_k
 
-                    l[json_name].append({
+                    derived_dataset[json_name].append({
                         'value': k,
                         'text': v,
                         'group': group
                     })
-                    l_count += 1
+                    count += 1
 
+            derived_dataset['STATIC_ROOT'] = static('.')
+            count += 1
 
-            l['STATIC_ROOT'] = static('.')
-            l_count += 1
-
-            as_json = json.dumps(l)
+            as_json = json.dumps(derived_dataset)
             f = open(self.constants_json_OUTPUT_FILE, "w")
             f.write(as_json)
             f.close()
 
-            self.stdout.write("Wrote %s records to '%s'" % (l_count, self.constants_json_OUTPUT_FILE))
+            self.stdout.write("Wrote %s records to '%s'" % (count, self.constants_json_OUTPUT_FILE))

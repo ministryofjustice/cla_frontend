@@ -38,7 +38,7 @@ def legal_help_form(request, case_reference):
         })
 
         property_set = ec.get('property_set', [])
-        property_equities = calculations.get('property_equities') or [0]*len(property_set)
+        property_equities = calculations.get('property_equities') or [0] * len(property_set)
         for prop, equity in zip(property_set, property_equities):
             if prop['main']:
                 ec['main_property'] = prop

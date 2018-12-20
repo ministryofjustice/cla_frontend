@@ -35,7 +35,8 @@ global_urls = patterns(
 )
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^test_zone/', include(zone_url, namespace=base.DEFAULT_ZONE_NAME)),
     url(r'^auth/', include(global_urls, namespace='auth')),
     url(r'session_security/', include('session_security.urls')),

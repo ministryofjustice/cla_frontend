@@ -9,7 +9,8 @@ from zendesk.views import ZendeskView
 from . import views
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(
         r'^login/$',
         RedirectView.as_view(url=reverse_lazy('auth:login')),
