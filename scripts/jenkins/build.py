@@ -166,13 +166,13 @@ def run_server(env, backend_hash, jenkins_build_path):
          '--settings=cla_backend.settings.jenkins '
          '1> {log_stdout} '
          '2> {log_stderr}').format(
-            project_dir=project_dir,
-            venv=venv,
-            fixtures=' '.join(fixtures),
-            port=backend_port,
-            log_stdout=log_stdout,
-            log_stderr=log_stderr,
-        ),
+        project_dir=project_dir,
+        venv=venv,
+        fixtures=' '.join(fixtures),
+        port=backend_port,
+        log_stdout=log_stdout,
+        log_stderr=log_stderr,
+    ),
         background=True)
 
 
@@ -186,12 +186,12 @@ def run_integration_tests(venv_path, jenkins_build_path, skip_tests):
     frontend_port = next(gen_port)
     os.environ['CLA_FRONTEND_PORT'] = str(frontend_port)
 
-    log_stdout = os.path.join(jenkins_build_path, 'cla_frontend.stdout.log')
-    log_stderr = os.path.join(jenkins_build_path, 'cla_frontend.stderr.log')
+    os.path.join(jenkins_build_path, 'cla_frontend.stdout.log')
+    os.path.join(jenkins_build_path, 'cla_frontend.stderr.log')
 
-    karma = None
     if run_karma:
-        karma = run('npm run test-single-run', background=True)
+        run('npm run test-single-run', background=True)
+
 
 def kill_child_processes(pid, sig=signal.SIGTERM):
     ps_cmd = subprocess.Popen(
