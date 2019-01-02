@@ -27,3 +27,13 @@ def smoketests_json(request):
     return JsonResponse(smoketest(SmokeTests))
 
 
+class PingJsonView(View):
+    """
+    Stub IRaT PingJsonView for compatibility with current and imminent infra changes
+    """
+    def get(self, request):
+        response_data = {"build_tag": None,
+                         "build_date": None,
+                         "version_number": None,
+                         "commit_id": None}
+        return JsonResponse(response_data)
