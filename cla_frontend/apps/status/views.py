@@ -29,7 +29,7 @@ def smoketests_json(request):
 
 class PingJsonView(View):
     """
-    Stub IRaT PingJsonView for compatibility with current and imminent infra changes
+    Stub IRaT PingJsonView for compatibility with current and imminent move to Kubernetes, obviating this view
     """
     def get(self, request):
         response_data = {"build_tag": None,
