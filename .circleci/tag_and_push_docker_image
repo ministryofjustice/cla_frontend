@@ -8,7 +8,10 @@ function tag_and_push() {
   echo
   echo "Tagging and pushing $tag..."
   docker tag $built_tag $tag
-  docker push $tag || docker push $tag
+  docker push $tag
+  while [ $? -ne 0 ]; do
+    docker push $tag
+  done
 }
 
 if [ "$CIRCLE_BRANCH" == "master" ]; then
