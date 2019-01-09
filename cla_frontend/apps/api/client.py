@@ -16,12 +16,7 @@ class FormSerializer(slumber.serialize.JsonSerializer):
 
 
 def get_auth_connection():
-    s = slumber.serialize.Serializer(
-        default="form",
-        serializers=[
-            FormSerializer(),
-        ]
-    )
+    s = slumber.serialize.Serializer(default="form", serializers=[FormSerializer()])
 
     return slumber.API(settings.BACKEND_BASE_URI, serializer=s)
 
@@ -31,13 +26,13 @@ def get_connection(request):
     zone = request.zone
 
     if not user:
-        raise PermissionDenied(u'no such user')
+        raise PermissionDenied(u"no such user")
 
     if not zone:
-        raise PermissionDenied(u'no such app')
+        raise PermissionDenied(u"no such app")
 
     return get_raw_connection(user.pk, zone)
 
 
 def get_raw_connection(token, zone):
-    return slumber.API(base_url=zone['BASE_URI'], auth=BearerTokenAuth(token))
+    return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(token))

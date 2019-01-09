@@ -28,15 +28,19 @@ logger = logging.getLogger(__name__)
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
-def login(request, template_name='accounts/login.html',
-          redirect_field_name=REDIRECT_FIELD_NAME,
-          authentication_form=AuthenticationForm,
-          current_app=None, extra_context=None):
+def login(
+    request,
+    template_name="accounts/login.html",
+    redirect_field_name=REDIRECT_FIELD_NAME,
+    authentication_form=AuthenticationForm,
+    current_app=None,
+    extra_context=None,
+):
     """
     Displays the login form and handles the login action.
     """
-    is_json = 'application/json' in request.META.get('HTTP_ACCEPT', '')
-    redirect_to = request.REQUEST.get(redirect_field_name, '')
+    is_json = "application/json" in request.META.get("HTTP_ACCEPT", "")
+    redirect_to = request.REQUEST.get(redirect_field_name, "")
 
     if request.method == "POST":
         form = authentication_form(request, data=request.POST)
@@ -48,45 +52,42 @@ def login(request, template_name='accounts/login.html',
             # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
 
-            statsd.incr('login.success')
+            statsd.incr("login.success")
 
-            logger.info('login succeeded', extra={
-                'IP': get_ip(request),
-                'USERNAME': request.POST.get('username'),
-                'HTTP_REFERER': request.META.get('HTTP_REFERER'),
-                'HTTP_USER_AGENT': request.META.get('HTTP_USER_AGENT')
-            })
+            logger.info(
+                "login succeeded",
+                extra={
+                    "IP": get_ip(request),
+                    "USERNAME": request.POST.get("username"),
+                    "HTTP_REFERER": request.META.get("HTTP_REFERER"),
+                    "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
+                },
+            )
 
             if is_json:
                 return HttpResponse(status=204)
             return HttpResponseRedirect(redirect_to)
         else:
-            statsd.incr('login.failed')
+            statsd.incr("login.failed")
 
-            logger.info('login failed', extra={
-                'IP': get_ip(request),
-                'USERNAME': request.POST.get('username'),
-                'HTTP_REFERER': request.META.get('HTTP_REFERER'),
-                'HTTP_USER_AGENT': request.META.get('HTTP_USER_AGENT')
-            })
+            logger.info(
+                "login failed",
+                extra={
+                    "IP": get_ip(request),
+                    "USERNAME": request.POST.get("username"),
+                    "HTTP_REFERER": request.META.get("HTTP_REFERER"),
+                    "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
+                },
+            )
 
             if is_json:
-                return HttpResponse(
-                    json.dumps(form.errors),
-                    status=400,
-                    content_type='application/json'
-                )
+                return HttpResponse(json.dumps(form.errors), status=400, content_type="application/json")
     else:
         form = authentication_form(request)
 
     current_site = get_current_site(request)
 
-    context = {
-        'form': form,
-        redirect_field_name: redirect_to,
-        'site': current_site,
-        'site_name': current_site.name,
-    }
+    context = {"form": form, redirect_field_name: redirect_to, "site": current_site, "site_name": current_site.name}
     if extra_context is not None:
         context.update(extra_context)
 
@@ -109,10 +110,10 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
     if use_auth_header:
         client = get_connection(request)
         extra_requests_args = {
-            'headers': {k.upper(): v for k, v in dict([client._store['session'].auth.get_header()]).items()}
+            "headers": {k.upper(): v for k, v in dict([client._store["session"].auth.get_header()]).items()}
         }
         if not base_remote_url:
-            base_remote_url = client._store['base_url']
+            base_remote_url = client._store["base_url"]
     else:
         extra_requests_args = {}
     remoteurl = u"%s%s" % (base_remote_url, path)

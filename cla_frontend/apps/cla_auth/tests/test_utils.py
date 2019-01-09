@@ -6,7 +6,7 @@ from ..utils import get_zone_profile
 
 class GetZoneProfileTestCase(SimpleTestCase):
     def test_invalid_zone_name(self):
-        zone_profile = get_zone_profile('invalid_zone')
+        zone_profile = get_zone_profile("invalid_zone")
         self.assertEqual(zone_profile, None)
 
     def test_valid_zone_name(self):

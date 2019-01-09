@@ -13,4 +13,4 @@ def home(request):
         return redirect(settings.LOGIN_URL)
 
     zone = get_zone(request)
-    return redirect(zone['LOGIN_REDIRECT_URL'])
+    return redirect(zone["LOGIN_REDIRECT_URL"])

@@ -9,8 +9,8 @@ here = lambda *x: join(abspath(dirname(__file__)), *x)
 PROJECT_ROOT = here("..")
 root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 
-sys.path.insert(0, root('apps'))
+sys.path.insert(0, root("apps"))
 
-TEST_RUNNER = 'core.testing.runner.NoDbTestRunner'
+TEST_RUNNER = "core.testing.runner.NoDbTestRunner"
 
 OS_PLACES_API_KEY = "DUMMY_KEY"

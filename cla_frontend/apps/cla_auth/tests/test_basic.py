@@ -9,17 +9,14 @@ from .. import authenticate, get_zone
 
 
 class AuthenticateTestCase(SimpleTestCase):
-    @mock.patch('cla_auth.user_login_failed')
-    @mock.patch('cla_auth.get_backend')
+    @mock.patch("cla_auth.user_login_failed")
+    @mock.patch("cla_auth.get_backend")
     def __call__(self, result, mocked_get_backend, mocked_user_login_failed, *args, **kwargs):
         self.mocked_get_backend = mocked_get_backend
         self.mocked_user_login_failed = mocked_user_login_failed
 
-        self.zone_name = 'test_zone'
-        self.credentials = {
-            'username': 'my-username',
-            'password': 'my-password'
-        }
+        self.zone_name = "test_zone"
+        self.credentials = {"username": "my-username", "password": "my-password"}
         super(AuthenticateTestCase, self).__call__(result, *args, **kwargs)
 
     def invalid_backend(self):
@@ -31,9 +28,7 @@ class AuthenticateTestCase(SimpleTestCase):
         # asserts
         self.assertEqual(user, None)
         self.mocked_get_backend.assert_called_with(self.zone_name)
-        self.assertEqual(
-            self.mocked_user_login_failed.called, False
-        )
+        self.assertEqual(self.mocked_user_login_failed.called, False)
 
     def test_permission_denied(self):
         # mocked backend - authenticate => PermissionDenied
@@ -88,7 +83,7 @@ class AuthenticateTestCase(SimpleTestCase):
         mock_backend.authenticate.assert_called_with(**self.credentials)
 
         self.assertEqual(self.mocked_user_login_failed.send.called, False)
-        self.assertEqual(user.backend, 'mock.MagicMock')
+        self.assertEqual(user.backend, "mock.MagicMock")
 
     def test_invalid_credentials(self):
         # mocked backend - authenticate => None
@@ -109,16 +104,14 @@ class AuthenticateTestCase(SimpleTestCase):
 
 
 class GetZoneTestCase(SimpleTestCase):
-    @mock.patch('cla_auth.load_backend')
+    @mock.patch("cla_auth.load_backend")
     def __call__(self, result, mocked_load_backend, *args, **kwargs):
         self.mocked_load_backend = mocked_load_backend
 
         super(GetZoneTestCase, self).__call__(result, *args, **kwargs)
 
     def test_backend_not_in_available_ones(self):
-        request = mock.MagicMock(session={
-            BACKEND_SESSION_KEY: 'invalid.backend'
-        })
+        request = mock.MagicMock(session={BACKEND_SESSION_KEY: "invalid.backend"})
         self.assertEqual(get_zone(request), None)
         self.assertEqual(self.mocked_load_backend.called, False)
 
@@ -131,12 +124,11 @@ class GetZoneTestCase(SimpleTestCase):
         # using real load_backend, could have used mocks but better here to
         # use the real one, just in case
         from django.contrib.auth import load_backend
+
         self.mocked_load_backend.side_effect = load_backend
 
         zone_profile = settings.ZONE_PROFILES.values()[0]
-        zone_profile['name'] = settings.ZONE_PROFILES.keys()[0]
-        request = mock.MagicMock(session={
-            BACKEND_SESSION_KEY: zone_profile['AUTHENTICATION_BACKEND']
-        })
+        zone_profile["name"] = settings.ZONE_PROFILES.keys()[0]
+        request = mock.MagicMock(session={BACKEND_SESSION_KEY: zone_profile["AUTHENTICATION_BACKEND"]})
         self.assertEqual(get_zone(request), zone_profile)
         self.assertEqual(self.mocked_load_backend.called, True)

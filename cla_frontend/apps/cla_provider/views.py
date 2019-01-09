@@ -11,7 +11,7 @@ from cla_common.constants import SPECIFIC_BENEFITS
 
 @cla_provider_zone_required
 def dashboard(request):
-    return render(request, 'cla_provider/angular_app.html', {})
+    return render(request, "cla_provider/angular_app.html", {})
 
 
 @cla_provider_zone_required
@@ -21,39 +21,39 @@ def legal_help_form(request, case_reference):
     try:
         extract = client.case(case_reference).legal_help_form_extract.get()
 
-        ec = extract['eligibility_check']
-        calculations = ec.get('calculations') or {}
+        ec = extract["eligibility_check"]
+        calculations = ec.get("calculations") or {}
 
         # any specific benefits === True ?!
         has_any_specific_benefits = False
-        if ec['on_passported_benefits'] and ec['specific_benefits']:
-            has_any_specific_benefits = any(ec['specific_benefits'].values())
+        if ec["on_passported_benefits"] and ec["specific_benefits"]:
+            has_any_specific_benefits = any(ec["specific_benefits"].values())
 
-        ec.update({
-            'main_property': None,
-            'additional_SMOD_property': None,
-            'additional_non_SMOD_property': None,
-            'has_any_specific_benefits': has_any_specific_benefits,
-            'all_benefits': SPECIFIC_BENEFITS
-        })
+        ec.update(
+            {
+                "main_property": None,
+                "additional_SMOD_property": None,
+                "additional_non_SMOD_property": None,
+                "has_any_specific_benefits": has_any_specific_benefits,
+                "all_benefits": SPECIFIC_BENEFITS,
+            }
+        )
 
-        property_set = ec.get('property_set', [])
-        property_equities = calculations.get('property_equities') or [0] * len(property_set)
+        property_set = ec.get("property_set", [])
+        property_equities = calculations.get("property_equities") or [0] * len(property_set)
         for prop, equity in zip(property_set, property_equities):
-            if prop['main']:
-                ec['main_property'] = prop
-                ec['main_property']['equity'] = equity
+            if prop["main"]:
+                ec["main_property"] = prop
+                ec["main_property"]["equity"] = equity
             else:
-                if prop['disputed']:
-                    ec['additional_SMOD_property'] = prop
-                    ec['additional_SMOD_property']['equity'] = equity
+                if prop["disputed"]:
+                    ec["additional_SMOD_property"] = prop
+                    ec["additional_SMOD_property"]["equity"] = equity
                 else:
-                    ec['additional_non_SMOD_property'] = prop
-                    ec['additional_non_SMOD_property']['equity'] = equity
+                    ec["additional_non_SMOD_property"] = prop
+                    ec["additional_non_SMOD_property"]["equity"] = equity
 
-        return render(request, 'cla_provider/legal_help_form.jade', extract)
+        return render(request, "cla_provider/legal_help_form.jade", extract)
 
     except HttpClientError as e:
-        return HttpResponse(
-            status=e.response.status_code, content=e.response.reason
-        )
+        return HttpResponse(status=e.response.status_code, content=e.response.reason)

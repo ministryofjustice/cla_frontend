@@ -19,16 +19,18 @@ class JsonPingView(PingView):
     """
 
     def get(self, request, *args, **kwargs):
-        if '_session_security' not in request.session:
+        if "_session_security" not in request.session:
             # It probably has expired already
-            return HttpResponseForbidden(json.dumps({'logout': True}), content_type='application/json', status=403)
+            return HttpResponseForbidden(json.dumps({"logout": True}), content_type="application/json", status=403)
 
         last_activity = get_last_activity(request.session)
         inactive_for = (datetime.now() - last_activity).total_seconds()
         expires_in = get_expires_in(request.session).total_seconds()
 
-        return http.HttpResponse(json.dumps({
-            'inactive_for': inactive_for,
-            'last_activity': last_activity,
-            'expires_in': expires_in
-        }, cls=DjangoJSONEncoder), content_type='application/json')
+        return http.HttpResponse(
+            json.dumps(
+                {"inactive_for": inactive_for, "last_activity": last_activity, "expires_in": expires_in},
+                cls=DjangoJSONEncoder,
+            ),
+            content_type="application/json",
+        )
