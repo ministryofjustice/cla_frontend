@@ -1,19 +1,11 @@
 import datetime
-import json
 
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
-
+from django.views.generic import View
 from cla_common.smoketest import smoketest
+
 from .smoketests import smoketests
-
-
-class JSONResponse(HttpResponse):
-
-    def __init__(self, data, **kwargs):
-        content = json.dumps(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
 
 
 def status(request):
@@ -31,7 +23,17 @@ def smoketests_json(request):
     """
     Run smoke tests and return results as JSON datastructure
     """
-
     from cla_frontend.apps.status.tests.smoketests import SmokeTests
+    return JsonResponse(smoketest(SmokeTests))
 
-    return JSONResponse(smoketest(SmokeTests))
+
+class PingJsonView(View):
+    """
+    Stub IRaT PingJsonView for compatibility with current and imminent move to Kubernetes, obviating this view
+    """
+    def get(self, request):
+        response_data = {"build_tag": None,
+                         "build_date": None,
+                         "version_number": None,
+                         "commit_id": None}
+        return JsonResponse(response_data)

@@ -19,15 +19,6 @@ HEALTHCHECKS = [
 
 AUTODISCOVER_HEALTHCHECKS = True
 
-PING_JSON_KEYS = {
-
-    'build_date_key': 'APP_BUILD_DATE',
-    'commit_id_key': 'APP_GIT_COMMIT',
-    'version_number_key': 'APP_VERSION',
-    'build_tag_key': 'APP_BUILD_TAG',
-
-}
-
 # ENVIRON values
 
 from django.core.exceptions import ImproperlyConfigured
