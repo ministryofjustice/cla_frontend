@@ -1,5 +1,4 @@
 from cla_auth.backend import ClaBackend
-from cla_auth.models import ClaUser
 
 
 class ClaProviderBackend(ClaBackend):

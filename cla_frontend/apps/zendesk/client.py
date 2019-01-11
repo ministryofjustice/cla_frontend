@@ -1,4 +1,5 @@
 import json
+
 import requests
 from requests.exceptions import RequestException
 from django.conf import settings
@@ -20,9 +21,9 @@ class ZendeskClient(object):
         tags = ['feedback', feedback_type]
 
         tags.append(feedback_data['app_name'])
-        custom_fields.append({ 'id': ZENDESK_CUSTOM_FIELD_URL, 'value': feedback_data['url'] })
-        custom_fields.append({ 'id': ZENDESK_CUSTOM_FIELD_USERAGENT, 'value': feedback_data['user_agent'] })
-        custom_fields.append({ 'id': ZENDESK_CUSTOM_FIELD_SERVICE, 'value': 'civil_legal_advice' })
+        custom_fields.append({'id': ZENDESK_CUSTOM_FIELD_URL, 'value': feedback_data['url']})
+        custom_fields.append({'id': ZENDESK_CUSTOM_FIELD_USERAGENT, 'value': feedback_data['user_agent']})
+        custom_fields.append({'id': ZENDESK_CUSTOM_FIELD_SERVICE, 'value': 'civil_legal_advice'})
 
         return {
             'ticket': {

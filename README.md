@@ -34,9 +34,9 @@ Update pip to the latest version:
 pip install -U pip
 ```
 
-Install python dependencies:
+Install dev Python dependencies:
 ```
-pip install -r requirements/local.txt
+pip install -r requirements/dev.txt
 ```
 
 Create a `local.py` settings file from the example file:

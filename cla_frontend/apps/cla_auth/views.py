@@ -1,7 +1,7 @@
 import json
 import logging
 
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache

@@ -4,6 +4,7 @@ from django.conf import settings
 
 EXPIRE_AFTER = getattr(settings, 'SESSION_SECURITY_EXPIRE_AFTER', 600)
 
+
 def get_expires_in(session):
     last_activity = get_last_activity(session)
     return (last_activity + timedelta(seconds=EXPIRE_AFTER)) - datetime.now()

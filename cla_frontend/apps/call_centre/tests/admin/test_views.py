@@ -4,7 +4,6 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 
 from core.testing.test_base import CLATFrontEndTestCase
-from cla_auth.models import ClaUser
 
 
 class RotaTests(CLATFrontEndTestCase):
@@ -17,7 +16,7 @@ class RotaTests(CLATFrontEndTestCase):
 
         self.connection = mock.MagicMock()
 
-        ### Mock get_raw_connection API
+        # Mock get_raw_connection API
         self.connection.user.me.get.return_value = {
             "username": "test_operator",
             "first_name": "",

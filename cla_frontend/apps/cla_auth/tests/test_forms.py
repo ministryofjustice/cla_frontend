@@ -1,5 +1,4 @@
 import mock
-
 from django.test.testcases import SimpleTestCase
 from django.utils.encoding import force_text
 from django.conf import settings
@@ -30,9 +29,9 @@ class AuthenticationFormTest(SimpleTestCase):
 
         self.assertFalse(form.is_valid())
         self.assertEqual(form.non_field_errors(),
-                [force_text(form.error_messages['invalid_login'] % {
-                   'username': u'username'
-                })])
+                         [force_text(form.error_messages['invalid_login'] % {
+                             'username': u'username'
+                         })])
 
         self.mocked_authenticate.assert_called_with(self.zone_name, **data)
 

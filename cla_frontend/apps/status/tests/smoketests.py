@@ -19,7 +19,7 @@ class SmokeTests(unittest.TestCase):
 
     def test_can_access_backend(self):
         "access the backend"
-        response = requests.get(settings.BACKEND_BASE_URI + '/status.json')
+        requests.get(settings.BACKEND_BASE_URI + '/status.json')
 
     def test_can_lookup_postcode(self):
         """Lookup a postcode with OS Places"""
@@ -49,14 +49,13 @@ class SmokeTests(unittest.TestCase):
         }
 
         response = requests.get('{origin}{port}{path}?{params}'.format(
-                origin=origin,
-                port=port,
-                path=path,
-                params=urllib.urlencode({
-                    't': unix_timestamp(),
-                    'transport': 'polling',
-                    'b64': '1'})
-            ),
+            origin=origin,
+            port=port,
+            path=path,
+            params=urllib.urlencode({
+                't': unix_timestamp(),
+                'transport': 'polling',
+                'b64': '1'})),
             timeout=10, headers=headers, verify=False
         )
 

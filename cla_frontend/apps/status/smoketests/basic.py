@@ -69,7 +69,7 @@ def socket_io():
     try:
         ws = websocket.create_connection(ws_url)
         socketio_disconnect(ws)
-    except WebSocketException as e:
+    except websocket.WebSocketException as e:
         raise SmokeTestFail('Failed creating websocket: {0}'.format(str(e)))
 
 
@@ -111,7 +111,7 @@ def get(url):
     except URLError as e:
         raise SmokeTestFail('GET {url} failed: {reason}'.format(
             url=url, reason=e.reason))
-    except socket.timeout as t:
+    except socket.timeout:
         raise SmokeTestFail('GET {url} timed out'.format(
             url=url))
     return response
