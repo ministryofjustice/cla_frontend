@@ -8,3 +8,4 @@ repos:
     rev: v2.1.0
     hooks:
     - id: flake8
+      args: ['--config=setup.cfg',  '--exclude=./cla_frontend/settings/*']
