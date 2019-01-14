@@ -7,10 +7,10 @@ register = template.Library()
 
 @register.simple_tag
 def staticmin(name):
-    parts = name.split('.')
+    parts = name.split(".")
     if not settings.DEBUG:
-        parts.insert(-1, 'min')
-    return static('.'.join(parts))
+        parts.insert(-1, "min")
+    return static(".".join(parts))
 
 
 @register.filter

@@ -6,7 +6,7 @@ from api.client import get_raw_connection
 
 
 class ClaUser(object):
-    USERNAME_FIELD = 'token'
+    USERNAME_FIELD = "token"
 
     def __init__(self, token, zone_name):
         self.pk = token
@@ -23,7 +23,7 @@ class ClaUser(object):
 
     @property
     def _data(self):
-        if not hasattr(self, '_me_data'):
+        if not hasattr(self, "_me_data"):
             try:
                 zone_profile = get_zone_profile(self.zone_name)
                 client = get_raw_connection(self.pk, zone_profile)
@@ -35,8 +35,8 @@ class ClaUser(object):
 
     @property
     def is_manager(self):
-        return self._data.get('is_manager')
+        return self._data.get("is_manager")
 
     @property
     def username(self):
-        return self._data.get('username')
+        return self._data.get("username")
