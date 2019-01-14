@@ -170,6 +170,21 @@ if DEBUG:
 
 Now any changes in the assets folder will automatically reload the site in Chrome.
 
+## Lint and pre-commit hooks
+
+To lint with Black and flake8, install pre-commit hooks:
+```
+. env/bin/activate
+pip install -r requirements/dev.txt
+pre-commit install
+```
+
+To run them manually:
+```
+pre-commit run --all-files
+```
+
+
 ## To Build Individual Parts
 
 ### Stylesheets
