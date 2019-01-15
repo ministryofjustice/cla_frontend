@@ -20,7 +20,7 @@ logstash-formatter==0.5.9
 django-ipware==0.1.0
 pyjade==3.0.0
 websocket-client==0.23.0
-requests==2.19.1
+requests==2.21.0
 django-extended-choices==0.3.0
 
 #Irat healthcheck and ping package
