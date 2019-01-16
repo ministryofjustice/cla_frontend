@@ -15,7 +15,7 @@ django-proxy==1.0.2
 django-csp==2.0.3
 raven==5.1.1
 django-session-security==2.2.3
-django-statsd-mozilla==0.3.14
+django-statsd-mozilla==0.4.0
 logstash-formatter==0.5.9
 django-ipware==0.1.0
 pyjade==3.0.0
