@@ -14,7 +14,9 @@ class SmokeTestRegistry(object):
         return decorator
 
     def __iter__(self):
-        seq = lambda key: self.tests[key]["sequence"]  # noqa: E731
+        def seq(key):
+            return self.tests[key]["sequence"]
+
         for name in sorted(self.tests, key=seq):
             yield name, self.tests[name]["test"]
 
