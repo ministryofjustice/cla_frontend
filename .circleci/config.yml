@@ -86,6 +86,8 @@ jobs:
           command: |
             pip install virtualenv
             virtualenv env
+            source env/bin/activate
+            pip install pip==18.1
       - restore_cache:
           keys:
             - pip-v1-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/testing.txt" }}

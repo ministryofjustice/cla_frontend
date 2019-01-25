@@ -48,7 +48,7 @@ RUN chown -R www-data:www-data /var/lib/nginx && \
     chown www-data:www-data /etc/nginx/conf.d/htpassword
 
 # Pip install Python packages
-RUN pip install -U setuptools pip wheel
+RUN pip install -U setuptools pip==18.1 wheel
 RUN pip install GitPython uwsgi
 
 RUN mkdir -p /var/log/wsgi /var/log/nodejs && \
