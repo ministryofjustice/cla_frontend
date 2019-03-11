@@ -1,4 +1,4 @@
 -r testing.txt
 
 django-jenkins==0.15.0
-coverage==3.7.1
+coverage==4.5.3
