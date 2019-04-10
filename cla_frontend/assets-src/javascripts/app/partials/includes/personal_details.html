@@ -59,7 +59,7 @@
 
     <p class="VCard-row" ng-if="case.exempt_user">User is exempt because: {{ getExemptReasonByCode(case.exempt_user_reason).text }}</p>
 
-    <p class="VCard-row" ng-if="personal_details.full_name">User <strong ng-if="personal_details.contact_for_research">can</strong><strong ng-if="!personal_details.contact_for_research">cannot</strong> be contacted for research</p>
+    <p class="VCard-row" ng-if="personal_details.full_name">User <strong ng-if="personal_details.contact_for_research">can</strong><strong ng-if="!personal_details.contact_for_research">cannot</strong> be contacted for research<span ng-if="personal_details.contact_for_research && personal_details.contact_for_research_via"> via {{ getDisplayLabel(personal_details.contact_for_research_via, contact_for_research_via_choices) | lowercase }}</span></p>
 
     <p class="VCard-row" ng-if="adaptations.notes">
       {{ adaptations.notes }}
