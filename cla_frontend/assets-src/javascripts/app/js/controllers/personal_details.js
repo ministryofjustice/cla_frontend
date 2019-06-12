@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('PersonalDetailsCtrl',
-      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'RESEARCH_CONTACT_VIA', 'adaptations_metadata', 'mediacodes', '$q', 'flash', 'postal','researchmethods',
-        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, RESEARCH_CONTACT_VIA, adaptations_metadata, mediacodes, $q, flash, postal, researchmethods){
+      ['$scope', '_', 'personal_details', 'adaptation_details', 'thirdparty_details', 'form_utils', 'ADAPTATION_LANGUAGES', 'THIRDPARTY_REASON', 'THIRDPARTY_RELATIONSHIP', 'EXEMPT_USER_REASON', 'CASE_SOURCE', 'RESEARCH_CONTACT_VIA', 'adaptations_metadata', 'mediacodes', '$q', 'flash', 'postal','researchmethod_choices',
+        function($scope, _, personal_details, adaptation_details, thirdparty_details, form_utils, ADAPTATION_LANGUAGES, THIRDPARTY_REASON, THIRDPARTY_RELATIONSHIP, EXEMPT_USER_REASON, CASE_SOURCE, RESEARCH_CONTACT_VIA, adaptations_metadata, mediacodes, $q, flash, postal, researchmethod_choices){
           $scope.personal_details = personal_details;
           $scope.adaptations = adaptation_details;
           $scope.third_party = thirdparty_details;
@@ -14,14 +14,13 @@
           $scope.sources = CASE_SOURCE;
           $scope.exempt_user_reason_choices = EXEMPT_USER_REASON;
           $scope.contact_for_research_via_choices = RESEARCH_CONTACT_VIA;
-
-           console.log(personal_details);
           $scope.language = {};
           if ($scope.adaptations.language === 'WELSH') {
             $scope.language.welsh_override = true;
             $scope.language.disable = true;
           }
 
+          $scope.researchmethods = {};
           $scope.selected_adaptations = [];
           $scope.adaptation_flags = {};
           angular.forEach(adaptations_metadata.actions.POST, function (item, i) {
@@ -62,15 +61,17 @@
           $scope.researchChange = function (value) {
             $scope.contact_for_research = value;
           };
-          // trigger on first load
-          $scope.researchChange($scope.personal_details.contact_for_research);
-          $scope.researchmethods = researchmethods.map(function(rm){
-            var opt = {};
-            opt.text = rm.method;
-            opt.value = rm.id;
 
+          // Research methods
+          $scope.researchmethod_choices = researchmethod_choices.map(function(choice){
+            var opt = {};
+            opt.text = choice.method;
+            opt.value = choice.id;
             return opt;
           });
+
+          // trigger on first load
+          $scope.researchChange($scope.personal_details.contact_for_research);
 
           var media_codes = mediacodes.map(function (mc) {
             var opt = {};
