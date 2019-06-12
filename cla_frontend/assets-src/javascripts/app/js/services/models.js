@@ -634,8 +634,8 @@
     }]);
 
   angular.module('cla.services')
-    .factory('ResearchMethods', ['$resource', 'url_utils', function ($resource, url_utils) {
-      return $resource(url_utils.proxy('researchmethods/'), {}, {
+    .factory('ContactResearchMethod', ['$resource', 'url_utils', function ($resource, url_utils) {
+      return $resource(url_utils.proxy('contact_research_methods/'), {}, {
         get: {
           method: 'GET',
           isArray: true,

@@ -64,7 +64,7 @@
         mediacodes: ['MediaCode', function(MediaCode) {
           return MediaCode.get().$promise;
         }],
-        researchmethod_choices: ['ResearchMethods', function(ResearchMethods) {
+        contact_research_method_choices: ['ContactResearchMethod', function(ResearchMethods) {
           return ResearchMethods.get().$promise;
         }],
         log_set: function() {

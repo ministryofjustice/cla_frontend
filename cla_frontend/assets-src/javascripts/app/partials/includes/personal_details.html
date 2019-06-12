@@ -175,7 +175,7 @@
     <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.contact_for_research_via.$invalid && personaldetails_submitted}" ng-if="contact_for_research">
       <span class="Icon Icon--formRow">
         <span class="Error-message" ng-if="personaldetails_frm.contact_for_research_via.$error.server">{{ errors.contact_for_research_via }}</span>
-        <span editable-filterselect="personal_details.researchmethods" e-multiple e-ng-options="s.value as s.text for s in researchmethod_choices" e-name="researchmethods" e-data-placeholder="What method method would they like to be contacted via" e-server-error></span>
+        <span editable-filterselect="personal_details.contact_for_research_methods" e-multiple e-ng-options="s.value as s.text for s in contact_research_method_choices" e-name="contact_for_research_methods" e-data-placeholder="What method method would they like to be contacted via" e-server-error></span>
       </span>
     </label>
 
