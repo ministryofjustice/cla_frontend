@@ -14,6 +14,7 @@
           $scope.sources = CASE_SOURCE;
           $scope.exempt_user_reason_choices = EXEMPT_USER_REASON;
           $scope.contact_for_research_via_choices = RESEARCH_CONTACT_VIA;
+
           $scope.language = {};
           if ($scope.adaptations.language === 'WELSH') {
             $scope.language.welsh_override = true;
@@ -247,7 +248,6 @@
             if ($scope.language.welsh_override) {
               $scope.adaptations.language = 'WELSH';
             }
-            console.log($scope.personal_details);
 
             // save personal details
             $scope.personal_details.$update($scope.case.reference, function (data) {
