@@ -634,6 +634,17 @@
     }]);
 
   angular.module('cla.services')
+    .factory('ContactResearchMethod', ['$resource', 'url_utils', function ($resource, url_utils) {
+      return $resource(url_utils.proxy('contact_research_methods/'), {}, {
+        get: {
+          method: 'GET',
+          isArray: true,
+          cache: true
+        }
+      });
+    }]);
+
+  angular.module('cla.services')
     .factory('User', ['$resource', 'url_utils', '$http', function ($resource, url_utils, $http) {
       var resource = $resource(url_utils.proxy('user/'), {}, {
         get: {
