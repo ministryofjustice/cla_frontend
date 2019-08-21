@@ -30,6 +30,7 @@
         <th width="8%"><span data-block="outcome-column"><a href="" ng-click="sortToggle('priority')" ng-class="sortClass('priority')">Priority</a></span></th>
         <th width=4%"></th>
         <th width="6%" ng-if="::user.is_manager"><a href="" ng-click="sortToggle('flagged_with_eod')" ng-class="sortClass('flagged_with_eod')" title="Expressions of Dissatisfaction">EOD</a></th>
+        <th width="6%" title="Organisation"><a href="" ng-click="sortToggle('organisation__name')" ng-class="sortClass('organisation__name')">Organisation</a></th>
       </tr>
     </thead>
     <tbody>
@@ -63,6 +64,7 @@
         </td>
         <td class="u-highlightRed">{{ ::case.is_urgent ? 'URGENT' : '' }}</td>
         <td ng-if="::user.is_manager" class="u-highlightRed">{{ ::case.flagged_with_eod ? 'YES' : '' }}</td>
+        <td>{{case.organisation_name}}</td>
       </tr>
     </tbody>
   </table>
