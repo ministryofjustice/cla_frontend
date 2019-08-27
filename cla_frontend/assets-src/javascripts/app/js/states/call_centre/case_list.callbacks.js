@@ -9,10 +9,10 @@
     states.Callbacks = {
       name: 'case_list.callbacks',
       parent: 'case_list',
-      url: 'callbacks/',
+      url: 'callbacks/?category',
       resolve: {
         cases: ['$stateParams', 'Case', function ($stateParams, Case){
-          return Case.query_future_callbacks().$promise;
+          return Case.query_future_callbacks($stateParams).$promise;
         }]
       },
       views: {

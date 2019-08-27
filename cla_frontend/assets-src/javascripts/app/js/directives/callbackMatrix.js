@@ -26,7 +26,7 @@
     return days;
   };
 
-  mod.directive('callbackMatrix', ['goToCase', '_', function (goToCase, _) {
+  mod.directive('callbackMatrix', ['goToCase', 'Category', '$state', '$stateParams', '_', function (goToCase, Category, $state, $stateParams, _) {
     return {
       restrict: 'E',
       replace: true,
@@ -36,6 +36,10 @@
       },
       templateUrl: 'directives/callbackMatrix.html',
       link: function (scope, ele, attrs) {
+        scope.categories = Category.query(function(results){
+          scope.selected_category = _.findWhere(results, {code: $stateParams.category})
+        });
+
         // customisable options
         var startDay = parseInt(attrs.startDay) || new Date().getDay();
 
@@ -98,6 +102,13 @@
           ele.find('.CallbackMatrix-slot.is-active').removeClass('is-active');
           ele.find(event.target).addClass('is-active');
           scope.slotsCases = _.sortBy(cases, 'requires_action_at');
+        };
+
+        scope.filterByCategory = function() {
+          var category =  scope.selected_category ? scope.selected_category.code : ""
+          var params = {"category": category}
+          $state.go($state.current, params);
+
         };
       }
     };

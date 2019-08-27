@@ -47,7 +47,7 @@
           },
           'query_future_callbacks': {
             method: 'GET',
-            url: url_utils.proxy('case/future_callbacks/'),
+            url: url_utils.proxy('case/future_callbacks/?category=:category'),
             isArray: true
           },
           'save': {

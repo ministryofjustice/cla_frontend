@@ -1,6 +1,13 @@
 <div class="Grid">
   <div class="Grid-row">
     <div class="Grid-col Grid-col--1-2">
+      <select name="selected_category" ng-options="category.name for category in categories | filter: {name: '!none'}" ng-model="selected_category" ng-change="filterByCategory()">
+        <option value="">All</option>
+      </select>
+    </div>
+  </div>
+  <div class="Grid-row">
+    <div class="Grid-col Grid-col--1-2">
       <table cellpadding="0" cellspacing="4" border="0" width="100%" class="CallbackMatrix">
         <thead>
           <th width="10%"></th>
@@ -43,8 +50,9 @@
         <thead>
           <tr>
             <th width="5%"></th>
-            <th width="35%">Case</th>
-            <th width="35%">Name</th>
+            <th width="20%">Case</th>
+            <th width="25%">Category</th>
+            <th width="25%">Name</th>
             <th width="15%">Time</th>
             <th width="10%"></th>
           </tr>
@@ -57,6 +65,9 @@
             <td>
               <a href="" ng-click="$parent.goToCase(case.reference)">{{ ::case.reference }}</a>
               <span ng-if="case.isInScopeAndEligible()"> / {{ ::case.laa_reference }}</span>
+            </td>
+            <td>
+              <span data-block="pd-column">{{ ::case.category }}</span>
             </td>
             <td>
               <span data-block="pd-column">{{ ::case.full_name }}</span>
