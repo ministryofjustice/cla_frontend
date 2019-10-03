@@ -60,7 +60,7 @@
           <abbr class="Label Label--secondary" ng-if="case.outcome_code" title="{{ ::case.outcome_description }}">
             {{ ::case.outcome_code }}
           </abbr>
-          <span class="Label-helpText" ng-if="::isCallback(case)">{{ ::case.requires_action_at | date:"d/M/yy h:mma" }}</span>
+          <span class="Label-helpText" ng-if="::isCallback(case)">{{ ::case.callback_time_string_short }}</span>
         </td>
         <td class="u-highlightRed">{{ ::case.is_urgent ? 'URGENT' : '' }}</td>
         <td ng-if="::user.is_manager" class="u-highlightRed">{{ ::case.flagged_with_eod ? 'YES' : '' }}</td>
