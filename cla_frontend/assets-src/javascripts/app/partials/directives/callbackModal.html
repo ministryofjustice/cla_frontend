@@ -13,6 +13,10 @@
       <span class="Error-message" ng-if="errors.datetime">{{ errors.datetime }}</span>
       <div datetime-picker picker-Config="datePickerConf"></div>
 
+      <div class="CallbackModal-end">
+          <span>– {{endTimeValue}}</span>
+      </div>
+
       <div class="CallbackModal-priority">
         <label>
           <input type="checkbox" ng-model="::priorityCallback"> Priority callback

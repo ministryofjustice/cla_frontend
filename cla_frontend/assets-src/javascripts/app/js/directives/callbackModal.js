@@ -22,7 +22,9 @@
         var minStart = moment().add(startBuffer, 'minutes');
         var start = moment(Math.ceil((+minStart) / timeRounding) * timeRounding);
         $scope.setCurrentDateTime = function(dt) {
-          $scope.currentDateTime = moment(dt);
+          var mdt = moment(dt);
+          $scope.currentDateTime = mdt;
+          $scope.endTimeValue = mdt.add(30, 'minutes').format('HH:mm');
         };
 
         $scope.setCurrentDateTime(start);
