@@ -61,7 +61,7 @@
             <td>
               <span data-block="pd-column">{{ ::case.full_name }}</span>
             </td>
-            <td>{{ ::case.requires_action_at | date:"h:mma" }}</td>
+            <td>{{ ::case.callback_time_string }}</td>
             <td>
               <span class="Label Label--secondary" ng-if="case.outcome_code">{{ ::case.outcome_code }}</span>
             </td>

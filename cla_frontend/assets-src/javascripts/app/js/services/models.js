@@ -138,6 +138,10 @@
         return this.requires_action_at;
       };
 
+      resource.prototype.getCallbackTimeString = function(){
+        return this.callback_time_string;
+      };
+
       resource.prototype.isFinalCallback = function(){
         return this.callback_attempt === 2;
       };

@@ -30,10 +30,7 @@ RUN apt-get update -qq && apt-get install -y --force-yes -qq \
     && apt-get clean
 
 # Set timezone
-RUN echo $TZ > /etc/timezone \
-    && rm /etc/localtime \
-    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
-    && dpkg-reconfigure -f noninteractive tzdata 
+RUN ln -fs /usr/share/zoneinfo/Europe/London /etc/localtime
 
 # Install n globally and use v8.9.3
 RUN npm install -g n && n 8.9.3

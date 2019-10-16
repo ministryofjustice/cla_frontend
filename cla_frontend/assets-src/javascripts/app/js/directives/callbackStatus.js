@@ -19,8 +19,7 @@
         }
 
         var builtInDateFilter = filter('date');
-
-        scope.time = builtInDateFilter(scope.case.getCallbackDatetime(), 'HH:mm \'on\' d MMM yy');
+        scope.time = scope.case.getCallbackTimeString() + builtInDateFilter(scope.case.getCallbackDatetime(), ' \'on\' d MMM yy');
 
         scope.completeCallback = function() {
           scope.case.$complete_call_me_back().then(function() {
