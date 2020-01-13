@@ -12,8 +12,7 @@
 
           var lookup = {
             'Safe to contact': CONTACT_SAFETY.SAFE,
-            'Not safe to call': CONTACT_SAFETY.DONT_CALL,
-            'Not safe to leave a message': CONTACT_SAFETY.NO_MESSAGE
+            'Not safe to call': CONTACT_SAFETY.DONT_CALL
           };
 
           scope.setSafe = function(name) {
@@ -35,8 +34,6 @@
                 return 'Icon--call Icon--green';
               case CONTACT_SAFETY.DONT_CALL:
                 return 'Icon--dontcall Icon--red';
-              case CONTACT_SAFETY.NO_MESSAGE:
-                return 'Icon--novoicemail Icon--red';
               default:
                 return 'Icon--call';
             }
@@ -44,8 +41,7 @@
 
           scope.options = [
             {'name': 'Safe to contact', 'value': CONTACT_SAFETY.SAFE},
-            {'name': 'Not safe to call', 'value': CONTACT_SAFETY.DONT_CALL},
-            {'name': 'Not safe to leave a message', 'value': CONTACT_SAFETY.NO_MESSAGE}
+            {'name': 'Not safe to call', 'value': CONTACT_SAFETY.DONT_CALL}
           ];
         }
       };

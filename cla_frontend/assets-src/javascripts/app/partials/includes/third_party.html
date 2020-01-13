@@ -15,7 +15,7 @@
       <span ng-bind-html="third_party.personal_details.street|escapeHtml|nl2br"></span>
     </p>
 
-    <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': third_party.personal_details.safe_to_contact === 'DONT_CALL', 'Icon--red Icon--novoicemail': third_party.personal_details.safe_to_contact === 'NO_MESSAGE', 'Icon--green': third_party.personal_details.safe_to_contact === 'SAFE'}" title="Phone number">
+    <p class="VCard-row Icon Icon--row Icon--call" ng-if="third_party.personal_details.home_phone || third_party.personal_details.mobile_phone" ng-class="{'Icon--red Icon--dontcall': third_party.personal_details.safe_to_contact === 'DONT_CALL', 'Icon--green': third_party.personal_details.safe_to_contact === 'SAFE'}" title="Phone number">
       <span ng-class="{'u-strike': third_party.personal_details.safe_to_contact !== 'SAFE'}">{{ third_party.personal_details.mobile_phone }}</span>
     </p>
 
