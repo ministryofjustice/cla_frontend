@@ -7,7 +7,7 @@
 
     <ul class="CaseHistory-log">
       <li class="CaseHistory-logItem cf" ng-repeat="log in logList">
-        <span class="CaseHistory-label" ng-if="log.type == 'outcome'">{{ ::log.code }}</span>
+        <abbr class="CaseHistory-label" ng-if="log.type == 'outcome'" title="{{ log.description }}">{{ ::log.code }}</abbr>
 
         <details ng-if="log.code === 'MT_CHANGED' || log.code === 'MT_CREATED'">
           <summary role="button">Means test {{ ::log.code === 'MT_CREATED' ? 'created' : 'changed' }}</summary>
