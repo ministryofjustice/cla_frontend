@@ -5,14 +5,15 @@
   </div>
 
   <section class="SummaryBlock SummaryBlock--compact" ng-if="diagnosis.nodes">
-    <div class="SummaryBlock-content" ng-repeat="statement in diagnosis.nodes" ng-bind-html="::statement.label"></div>
+    <div class="SummaryBlock-content" ng-class="'SummaryBlock-node-' + statement.id" ng-repeat="statement in diagnosis.nodes" ng-bind-html="::(statement.description || statement.label)"></div>
     <div class="SummaryBlock-content" ng-if="category">
       <p><strong>Category of law</strong>: {{ ::category.name }}</p>
     </div>
   </section>
 
-  <p ng-if="!!diagnosis.nodes[diagnosis.nodes.length-1].heading">
+  <p class="caseDiagnosisHeading" ng-class="'node-' + diagnosis.nodes[diagnosis.nodes.length-1].id" ng-if="!!diagnosis.nodes[diagnosis.nodes.length-1].heading">
     <strong>{{ diagnosis.nodes[diagnosis.nodes.length-1].heading }}</strong>
+    <span ng-if="diagnosis.nodes[diagnosis.nodes.length-1].context.subheading">{{ diagnosis.nodes[diagnosis.nodes.length-1].context.subheading }}</span>
   </p>
 
   <div class="FormRow FormRow--group FormRow--groupNarrow FormRow--details" ng-repeat="choice in diagnosis.choices" ng-if="diagnosis.isInScopeUnknown()">
@@ -34,7 +35,8 @@
     <button type="submit" name="diagnosis-next" class="Button" ng-if="!diagnosis.version_in_conflict && diagnosis.isInScopeUnknown() && diagnosis.reference">Next</button>
     <button type="button" name="diagnosis-back" class="Button Button--text" ng-if="!diagnosis.version_in_conflict && diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
 
-    <a ui-sref="case_detail.edit.eligibility" class="Button" ng-if="diagnosis.isInScopeTrue()">Create financial assessment</a>
+    <a class="Button" ng-click="skipFinancialChecks()" ng-if="diagnosis.isInScopeTrue() && diagnosis.hasLetterOfProceedings()">Skip financial assessment</a>
+    <a ui-sref="case_detail.edit.eligibility" class="Button" ng-if="diagnosis.isInScopeTrue() && !diagnosis.hasLetterOfProceedings()">Create financial assessment</a>
     <button type="button" name="diagnosis-delete" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-if="diagnosis.version_in_conflict || diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
   </div>
 </form>

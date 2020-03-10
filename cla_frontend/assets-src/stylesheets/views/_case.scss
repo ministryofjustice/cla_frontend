@@ -19,3 +19,31 @@
     border: 0;
   }
 }
+
+.caseDiagnosisHeading {
+    &.node-n97 {
+      border: 10px solid blue;
+      padding: 8px;
+    }
+    span {
+      display: block;
+      padding-top: 5px;
+    }
+}
+
+.SummaryBlock-content {
+  &.SummaryBlock-node-n403,
+  &.SummaryBlock-node-n404,
+  &.SummaryBlock-node-n405 {
+    border: 10px solid green !important;
+  }
+  &.SummaryBlock-node-n402,
+  &.SummaryBlock-node-n406 {
+    border: 10px solid red !important;
+  }
+}
+
+.letterOfProceedingsPassported-content {
+    border: 10px solid blue;
+    padding: 8px;
+}
