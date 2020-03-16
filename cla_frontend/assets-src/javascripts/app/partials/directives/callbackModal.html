@@ -8,6 +8,7 @@
       <nav class="CallbackModal-daySelect">
         <button name="set-today" class="Button Button--secondary" type="button" ng-click="setToday($event)">Today</button>
         <button name="set-tomorrow" class="Button Button--secondary" type="button" ng-click="setTomorrow($event)">Tomorrow</button>
+        <a class="Button Button--secondary" ui-sref="case_list.callbacks" target="_blank" class="BtnGroup-button BtnGroup-button--light"><span class="Icon Icon--compact Icon--date"></span></a>
       </nav>
 
       <span class="Error-message" ng-if="errors.datetime">{{ errors.datetime }}</span>
