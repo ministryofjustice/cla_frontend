@@ -19,3 +19,33 @@
     border: 0;
   }
 }
+
+.caseDiagnosisHeading {
+    &.node-n97 {
+      border: 10px solid #1D70B8;
+      padding: 8px;
+    }
+    span {
+      display: block;
+      padding-top: 5px;
+    }
+}
+
+.SummaryBlock-content {
+  &.SummaryBlock-node-n403,
+  &.SummaryBlock-node-n404,
+  &.SummaryBlock-node-n405 {
+    border: 10px solid #00703C !important;
+    background-color: #FFF;
+  }
+  &.SummaryBlock-node-n402,
+  &.SummaryBlock-node-n406 {
+    border: 10px solid #D4351C !important;
+    background-color: #FFF;
+  }
+}
+
+.letterOfProceedingsPassported-content {
+    border: 10px solid #1D70B8;
+    padding: 8px;
+}

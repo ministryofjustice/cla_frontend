@@ -1,4 +1,9 @@
-<form ng-submit="save()" novalidate name="form" class="Form-eligibility u-relative" form-changed>
+<div class="letterOfProceedingsPassported-content" ng-if="eligibility_check.has_passported_proceedings_letter">
+  <p><b>The client said they have received a letter of proceedings, letter of issue or
+    have a court date.</b></p>
+  <p ng-if="appName == 'provider'">Please accept the case to continue or reject it if this information is not correct.</p>
+</div>
+<form ng-submit="save()" ng-if="!eligibility_check.has_passported_proceedings_letter" novalidate name="form" class="Form-eligibility u-relative" form-changed>
   <div class="Toolbar clearfix">
     <ul class="Pills u-pullLeft">
       <li class="Pills-pill {{ tabWarningClass(section) }}" ng-repeat="section in sections"
