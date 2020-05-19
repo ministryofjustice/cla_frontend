@@ -14,7 +14,7 @@
 
           $scope.submit = function() {
             var action = ($state.current.name.indexOf('complaint') !== -1)? 'complaints_list' : 'case_list';
-            $state.go(action, {search: $scope.search}, {inherit: false, location: false});
+            $state.go(action, {search: $scope.search}, {inherit: false});
 
           };
         }
