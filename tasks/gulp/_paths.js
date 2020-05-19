@@ -63,7 +63,7 @@
       paths.src + 'vendor/socket.io-client/dist/socket.io.js',
       paths.src + 'vendor/angular-socket-io/socket.js',
       paths.src + 'vendor/angulartics/src/angulartics.js',
-      paths.src + 'vendor/angulartics/src/angulartics-ga.js',
+      paths.src + 'vendor/angulartics-google-analytics/lib/angulartics-ga.js',
       paths.src + 'vendor/angular-hotkeys/build/hotkeys.js',
       paths.src + 'vendor/ng-text-truncate/ng-text-truncate.js',
       paths.src + 'vendor/angular-local-storage/dist/angular-local-storage.js',
