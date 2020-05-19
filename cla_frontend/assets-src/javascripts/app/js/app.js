@@ -81,11 +81,12 @@
       });
     }];
 
-  common_config = ['$resourceProvider', 'cfpLoadingBarProvider',
-    function($resourceProvider, cfpLoadingBarProvider) {
+  common_config = ['$resourceProvider', 'cfpLoadingBarProvider', '$analyticsProvider',
+    function($resourceProvider, cfpLoadingBarProvider, $analyticsProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
     cfpLoadingBarProvider.includeBar = false;
-  }];
+    $analyticsProvider.queryKeysBlacklist(['search']);
+    }];
 
 
   //
