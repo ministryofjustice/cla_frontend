@@ -52,12 +52,6 @@
             }
           };
 
-          $scope.exemptChange = function (value) {
-            $scope.is_exempt = value;
-          };
-          // trigger on first load
-          $scope.exemptChange($scope.case.exempt_user);
-
           $scope.researchChange = function (value) {
             $scope.contact_for_research = value;
           };
