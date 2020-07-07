@@ -60,6 +60,14 @@
       });
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         // log the previous state in the History
+        ga(function(tracker) {
+          const location = tracker.get('location');
+          if(location.includes('search')) {
+            const urlSegments = location.split('?search');
+            const newURL = urlSegments[0];
+            ga('set', 'location', newURL);
+          }
+        });
         History.previousState = fromState;
         History.previousState.params = fromParams;
       });
@@ -83,10 +91,10 @@
 
   common_config = ['$resourceProvider', 'cfpLoadingBarProvider', '$analyticsProvider',
     function($resourceProvider, cfpLoadingBarProvider, $analyticsProvider) {
-    $resourceProvider.defaults.stripTrailingSlashes = false;
-    cfpLoadingBarProvider.includeBar = false;
-    $analyticsProvider.queryKeysBlacklist(['search']);
-    }];
+      $resourceProvider.defaults.stripTrailingSlashes = false;
+      cfpLoadingBarProvider.includeBar = false;
+      $analyticsProvider.queryKeysBlacklist(['search']);
+  }];
 
 
   //
