@@ -60,6 +60,13 @@
       });
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         // log the previous state in the History
+        ga(function(tracker) {
+          var location = tracker.get('location');
+          if(location.includes('search')) {
+            var newURL = location.replace(/search=[^&]+/gi, 'search=redacted');
+            ga('set', 'location', newURL);
+          }
+        });
         History.previousState = fromState;
         History.previousState.params = fromParams;
       });
