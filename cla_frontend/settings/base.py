@@ -118,6 +118,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    "core.middleware.MaintenanceModeMiddleWare",
     "django_statsd.middleware.GraphiteRequestTimingMiddleware",
     "django_statsd.middleware.GraphiteMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
