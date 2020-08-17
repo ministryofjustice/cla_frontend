@@ -15,7 +15,7 @@ class Cla401Middleware(object):
         return None
 
 
-class MaintenanceModeMiddleWare(object):
+class MaintenanceModeMiddleware(object):
     MAINTENANCE_PATH = "/maintenance"
     EXEMPT_PATHS = ["/status/ping.json", MAINTENANCE_PATH]
 
