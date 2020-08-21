@@ -14,4 +14,5 @@ urlpatterns = patterns(
     url(r"^services/timing/", include("django_statsd.urls")),
     url(r"^status/", include("status.urls")),
     url(r"^", include("legalaid.urls", namespace="legalaid")),
+    url(r"^", include("core.urls", namespace="cla_backend_core")),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
