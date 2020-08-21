@@ -150,23 +150,6 @@
       <span editable-checkbox="personal_details.vulnerable_user" e-name="vulnerable_user" e-title="User is deemed vulnerable"></span>
     </div>
 
-    <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user.$invalid && personaldetails_submitted}">
-      <span class="Error-message" ng-if="personaldetails_frm.exempt_user.$error.server">{{ errors.exempt_user }}</span>
-      <span editable-checkbox="case.exempt_user" e-name="exempt_user" e-title="User is exempt (Debt, Edu, Discrim only)" e-ng-change="exemptChange($data)"></span>
-    </div>
-
-    <label class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.exempt_user_reason.$invalid && personaldetails_submitted}" ng-if="is_exempt">
-      <span class="Icon Icon--formRow">
-        <span class="Error-message" ng-if="personaldetails_frm.exempt_user_reason.$error.server">{{ errors.exempt_user_reason }}</span>
-        <span editable-filterselect="case.exempt_user_reason"
-              e-name="exempt_user_reason"
-              e-ng-options="s.value as s.text for s in exempt_user_reason_choices track by s.value"
-              e-class="FormRow-field--full"
-              e-data-placeholder="Why is client exempt?"
-              e-server-error></span>
-      </span>
-    </label>
-
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.contact_for_research.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-if="personaldetails_frm.contact_for_research.$error.server">{{ errors.contact_for_research }}</span>
       <span editable-checkbox="personal_details.contact_for_research" e-name="contact_for_research" e-title="Can contact user for research" e-ng-change="researchChange($data)"></span>
