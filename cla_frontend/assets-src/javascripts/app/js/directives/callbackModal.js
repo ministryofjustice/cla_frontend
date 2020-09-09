@@ -7,7 +7,7 @@
 
   mod.directive('callbackModal', ['AppSettings', 'moment', 'postal', '$timeout', 'ClaPostalService', 'hotkeys', 'flash', 'form_utils', '$state', function (AppSettings, moment, postal, $timeout, ClaPostalService, hotkeys, flash, form_utils, $state) {
     var timeRounding = 30 * 60 * 1000; // to nearest 30 mins
-    var startBuffer = 120; // in mins
+    var startBuffer = 30; // in mins
 
     return {
       restrict: 'E',
