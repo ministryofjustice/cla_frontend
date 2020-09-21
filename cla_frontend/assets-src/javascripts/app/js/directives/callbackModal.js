@@ -7,7 +7,8 @@
 
   mod.directive('callbackModal', ['AppSettings', 'moment', 'postal', '$timeout', 'ClaPostalService', 'hotkeys', 'flash', 'form_utils', '$state', function (AppSettings, moment, postal, $timeout, ClaPostalService, hotkeys, flash, form_utils, $state) {
     var timeRounding = 30 * 60 * 1000; // to nearest 30 mins
-    var startBuffer = 30; // in mins
+    var earliestStartBuffer = -30; // in mins
+    var initialStartBuffer = 0; // in mins
 
     return {
       restrict: 'E',
@@ -19,8 +20,10 @@
           $element.remove();
         }
 
-        var minStart = moment().add(startBuffer, 'minutes');
-        var start = moment(Math.ceil((+minStart) / timeRounding) * timeRounding);
+        var preliminaryMinStart = moment().add(earliestStartBuffer, 'minutes');
+        var minStart = moment(Math.ceil((+preliminaryMinStart) / timeRounding) * timeRounding);
+        var preliminaryStart = moment().add(initialStartBuffer, 'minutes');
+        var start = moment(Math.ceil((+preliminaryStart) / timeRounding) * timeRounding);
         $scope.setCurrentDateTime = function(dt) {
           var mdt = moment(dt);
           $scope.currentDateTime = mdt;
@@ -194,7 +197,7 @@
         };
 
         scope.setToday = function () {
-          var minTime = moment().add(startBuffer, 'minutes');
+          var minTime = moment().add(initialStartBuffer, 'minutes');
           var today = moment(Math.ceil((+minTime) / timeRounding) * timeRounding);
           calendar.setValue(today);
           postal.publish({ channel: 'CallBack', topic: 'set.today' });
