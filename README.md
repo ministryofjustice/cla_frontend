@@ -19,14 +19,25 @@ Clone the repository:
 ```
 git clone git@github.com:ministryofjustice/cla_frontend.git
 ```
+or
+```
+git clone https://github.com/ministryofjustice/cla_frontend.git
+```
+
 
 Next, create the environment and start it up:
 
 ```
 cd cla_frontend
 virtualenv env --prompt=\(cla_fe\)
-
+```
+and on Linux
+```
 source env/bin/activate
+```
+and on Windows
+```
+env\scripts\activate
 ```
 
 Update pip to the latest version:
@@ -40,8 +51,14 @@ pip install -r requirements/dev.txt
 ```
 
 Create a `local.py` settings file from the example file:
+
+on Linux
 ```
 cp cla_frontend/settings/.example.local.py cla_frontend/settings/local.py
+```
+on Windows
+```
+copy cla_frontend\settings\.example.local.py cla_frontend\settings\local.py
 ```
 
 Install node packages:
@@ -60,15 +77,29 @@ npm run build
 ```
 
 Install the socket server node packages. Open a new terminal, `cd` to `cla_frontend` and run:
+
+on Linux
 ```
 cd cla_frontend/cla_socketserver/
+```
+on Windows
+```
+cd cla_socketserver
+```
+then
+```
 npm install
 node app.js
 ```
+Leave this running and return to the previous window/tabtab, start the runserver. Don't forget to keep the backend server running on port 8000:
 
-In the main tab, start the runserver. Don't forget to keep the backend server running on port 8000:
+on Linux
 ```
 ./manage.py runserver 8001
+```
+on Windows 
+```
+python ./manage.py runserver 8001
 ```
 
 #### Dev
