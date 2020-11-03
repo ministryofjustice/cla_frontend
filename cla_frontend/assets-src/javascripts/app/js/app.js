@@ -205,3 +205,82 @@
     .config(common_config)
     .run(common_run);
 })();
+
+var testAppearTmr = setInterval(function() {
+    if ($('#pills-section-list').length) {
+      clearInterval(testAppearTmr);
+      console.log("Periodic checks");
+      console.log("Length: " + $(".Pills-pillLink").length);
+    } else {
+      console.log("Periodic checks - nothing found");
+    }
+}, 250);
+$('#pills-section-list').on("load",function(){
+  console.log("jQuery on load");
+  console.log("Length: " + $(".Pills-pillLink").length);
+});
+document.addEventListener('load', function(){
+  console.log('JS event listener load');
+  console.log("Length: " + $(".Pills-pillLink").length);
+});
+/*
+// The node to be monitored
+var target = $("#wrapper>div[ui-view]")[0];
+
+// Create an observer instance
+var observer = new MutationObserver(function(mutations, observer) {
+    // look through all mutations that just occured
+    for(var i=0; i<mutations.length; ++i) {
+        // look through all added nodes of this mutation
+        for(var j=0; j<mutations[i].addedNodes.length; ++j) {
+            // was a child added with class of 'Pills-pillLink'?
+            if(mutations[i].addedNodes[j].className == "Pills-pillLink") {
+              console.log('Mutation detect (method ii)');
+              console.log("Length: " + $(".Pills-pillLink").length);
+            } else {
+              console.log('Mutation detect (method ii) - nothing');
+            }
+        }
+    }
+});
+
+// Configuration of the observer:
+var config = {
+  subtree:true,
+  attributes: false,
+  childList: true,
+  characterData: true
+};
+
+// Pass in the target node, as well as the observer options
+observer.observe(target, config);
+*/
+const callback = function(mutationsList, observer) {
+    // Use traditional 'for loops' for IE 11
+    for(const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+           console.log('Mutation detect (method ii)');
+           console.log(mutation.addedNodes[0])
+           console.log(mutation.target);
+        }
+    }
+};
+// Create an observer instance linked to the callback function
+const observer = new MutationObserver(callback);
+// Start observing the target node for configured mutations
+observer.observe(targetNode, config);
+
+
+/*
+var testAppearTmr = setInterval(function() {
+    if ($('#pills-section-list').length) {
+      clearInterval(testAppearTmr);
+      $(".Pills-pillLink").click(function(){
+        var heightHeaderAndCaseBar = $(".CaseBar").height()*2*!$(".CaseBar.is-sticky").length + $('header').height();
+        $([document.documentElement, document.body]).animate({
+          scrollTop: ($("#pills-section-list").offset().top - heightHeaderAndCaseBar)
+        }, 0);
+      });
+    }
+}, 250);
+*/

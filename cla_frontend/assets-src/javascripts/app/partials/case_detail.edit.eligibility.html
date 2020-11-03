@@ -5,7 +5,7 @@
 </div>
 <form ng-submit="save()" ng-if="!eligibility_check.has_passported_proceedings_letter" novalidate name="form" class="Form-eligibility u-relative" form-changed>
   <div class="Toolbar clearfix">
-    <ul class="Pills u-pullLeft">
+    <ul id="pills-section-list" class="Pills u-pullLeft">
       <li class="Pills-pill {{ tabWarningClass(section) }}" ng-repeat="section in sections"
           ng-class="{'is-active': currentState() === section.state}">
         <a href="" ng-click="gotoSection(section)" class="Pills-pillLink">{{ ::section.title }}</a>
