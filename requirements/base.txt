@@ -13,7 +13,6 @@ git+git://github.com/ministryofjustice/cla_common.git@0.3.10#egg=cla_common
 
 django-proxy==1.0.2
 django-csp==2.0.3
-raven==5.1.1
 django-session-security==2.2.3
 django-statsd-mozilla==0.3.14
 logstash-formatter==0.5.9
@@ -22,6 +21,7 @@ pyjade==3.0.0
 websocket-client==0.23.0
 requests==2.19.1
 django-extended-choices==0.3.0
+sentry-sdk==0.19.2
 
 #Irat healthcheck and ping package
 git+https://github.com/ministryofjustice/django-moj-irat.git@4d54b86b1cb574fe787ba0fb8a992cf352f8eba6

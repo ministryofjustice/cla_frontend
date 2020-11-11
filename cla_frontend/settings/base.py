@@ -2,6 +2,9 @@ import sys
 import os
 from os.path import join, abspath, dirname
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # PATH vars
 
 here = lambda *x: join(abspath(dirname(__file__)), *x)
@@ -165,7 +168,6 @@ INSTALLED_APPS = (
     "django_statsd",
     "widget_tweaks",
     "session_security",
-    "raven.contrib.django.raven_compat",
 )
 
 PROJECT_APPS = ("cla_auth", "cla_common", "core", "legalaid", "call_centre", "cla_provider", "status")
@@ -234,7 +236,13 @@ SESSION_SECURITY_PASSIVE_URLS = []
 SESSION_SECURITY_PASSIVE_HEADER = "HTTP__PASSIVE"
 SESSION_SECURITY_PASSIVE_QUERYSTRING = "_passive"
 
-RAVEN_CONFIG = {"dsn": os.environ.get("RAVEN_CONFIG_DSN", ""), "site": os.environ.get("RAVEN_CONFIG_SITE", "")}
+if "SENTRY_DSN" in os.environ:
+    sentry_sdk.init(
+        dsn=os.environ.get("SENTRY_DSN"),
+        integrations=[DjangoIntegrations()],
+        traces_sample_rate=1.0,
+        environment=os.environ.get("CLA_ENV", "unknown")
+    )
 
 SOCKETIO_SERVER_URL = os.environ.get("SOCKETIO_SERVER_URL", "http://localhost:8005/socket.io")
 SITE_HOSTNAME = os.environ.get("SITE_HOSTNAME", "localhost")
@@ -246,12 +254,6 @@ ZENDESK_API_TOKEN = os.environ.get("ZENDESK_API_TOKEN", "")
 ZENDESK_REQUESTER_ID = os.environ.get("ZENDESK_REQUESTER_ID", 762871298)  # Defaults to 'Civil Legal Advice' user
 ZENDESK_GROUP_ID = os.environ.get("ZENDESK_GROUP_ID", 24287107)  # Defaults to 'CLA Operator/Provider' group
 ZENDESK_API_ENDPOINT = "https://ministryofjustice.zendesk.com/api/v2/"
-
-if "RAVEN_CONFIG_DSN" in os.environ:
-    MIDDLEWARE_CLASSES = (
-        "raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware",
-        #'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-    ) + MIDDLEWARE_CLASSES
 
 
 OS_PLACES_API_KEY = os.environ.get("OS_PLACES_API_KEY")
