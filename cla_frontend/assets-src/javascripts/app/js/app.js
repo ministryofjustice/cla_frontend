@@ -206,7 +206,7 @@
     .run(common_run);
 })();
 
-if($("#wrapper"))
+if($("#wrapper")[0])
 {
   var target = $("#wrapper")[0];
 
