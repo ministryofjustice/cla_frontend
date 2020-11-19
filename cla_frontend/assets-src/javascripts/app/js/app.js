@@ -214,22 +214,23 @@ if($("#wrapper"))
     childList: true
   };
 
-  function callback(mutationsList, observer) {
-    var pillsSectionLismt = document.getElementById('pills-section-list');
+  var callback = function(mutationsList, observer) {
+    var pillsSectionList = document.getElementById("pills-section-list");
     if (pillsSectionList) {
       observer.disconnect();
       $(".Pills-pillLink").click(function(){
-        var heightHeaderAndCaseBar = $(".CaseBar").height()*2*!$(".CaseBar.is-sticky").length + $('header').height();
+        var heightHeaderAndCaseBar = $(".CaseBar").height()*2*!$(".CaseBar.is-sticky").length + $("header").height();
         $([document.documentElement, document.body]).animate({
           scrollTop: ($("#pills-section-list").offset().top - heightHeaderAndCaseBar)
         }, 0);
       });
     }
-  };
+  }
 
   var observer = new MutationObserver(callback);
 
   observer.observe(target, config);
 }
+
 
 
