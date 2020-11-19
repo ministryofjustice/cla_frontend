@@ -206,8 +206,7 @@
     .run(common_run);
 })();
 
-if($("#wrapper")[0])
-{
+if($("#wrapper")[0]) {
   var target = $("#wrapper")[0];
 
   var config = {
