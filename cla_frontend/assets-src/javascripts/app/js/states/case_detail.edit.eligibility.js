@@ -14,6 +14,31 @@
       onEnter: ['eligibility_check', 'diagnosis', 'EligibilityCheckService',
         function(eligibility_check, diagnosis, EligibilityCheckService){
           EligibilityCheckService.onEnter(eligibility_check, diagnosis);
+
+          var target = $("#wrapper")[0];
+
+          var config = {
+            childList: true,
+            subtree: true
+          };
+
+          var callback = function(mutationsList, observer) {
+            var pillsSectionList = document.getElementById("pills-section-list");
+            if (pillsSectionList) {
+              observer.disconnect()
+              $(".Pills-pillLink").click(function(){
+                var heightHeaderAndCaseBar = $(".CaseBar").height()*2*!$(".CaseBar.is-sticky").length + $("header").height();
+                $([document.documentElement, document.body]).animate({
+                  scrollTop: ($("#pills-section-list").offset().top - heightHeaderAndCaseBar)
+                }, 0);
+              });
+            }
+          }
+
+          var observer = new MutationObserver(callback);
+
+          observer.observe(target, config);
+
         }],
       views: {
         '@case_detail.edit': {
