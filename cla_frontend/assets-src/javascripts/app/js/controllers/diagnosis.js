@@ -34,6 +34,25 @@
             $scope.diagnosis.$move_down({
               'case_reference': $scope.case.reference
             }, saveCallback);
+
+            // Mutation observer used to detect when form element has been changed
+            // Due to new question (elements) being added and old question (elements) being removed
+            var form = document.querySelector('form[name="diagnosis-form"]');
+
+            var config = {
+              childList: true
+            };
+
+            var callback = function(mutationsList, observer) {
+              observer.disconnect()
+              // Only scroll after form questions have been added to the form or removed
+              form.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+              return;
+            };
+
+            var observer = new MutationObserver(callback);
+
+            observer.observe(form, config);
           };
 
           $scope.moveUp = function() {
