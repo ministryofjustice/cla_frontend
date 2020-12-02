@@ -76,6 +76,9 @@
                 topic   : 'Log.refresh'
               });
             });
+
+            // Scroll to the top of the screen in case button is hidden from previous scrolling
+            scrollTo(0,0);
           };
 
           // if choices.length === 1 => check it by default
