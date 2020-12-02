@@ -39,4 +39,6 @@
     <a ui-sref="case_detail.edit.eligibility" class="Button" ng-if="diagnosis.isInScopeTrue() && !diagnosis.hasLetterOfProceedings()">Create financial assessment</a>
     <button type="button" name="diagnosis-delete" class="Button Button--secondary" ng-really-message="Are you sure you want to delete the diagnosis?" ng-really-click="delete()" ng-if="diagnosis.version_in_conflict || diagnosis.isInScopeTrue() || diagnosis.isInScopeFalse()">Delete scope diagnosis</button>
   </div>
+
+  <div id="anchor-scroll"></div>
 </form>
