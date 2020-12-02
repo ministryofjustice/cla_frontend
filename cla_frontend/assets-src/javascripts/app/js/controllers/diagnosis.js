@@ -37,16 +37,19 @@
 
             // Mutation observer used to detect when form element has been changed
             // Due to new question (elements) being added and old question (elements) being removed
-            var form = document.querySelector('form[name="diagnosis-form"]');
+            var form = document.querySelector('form[name="diagnosis-form"]')
+
+            // Element is placed 100px under the form buttons using CSS
+            // To ensure user doesn't have to scroll to find the button
+            var anchorScroll = document.getElementById('anchor-scroll');
 
             var config = {
               childList: true
             };
 
             var callback = function(mutationsList, observer) {
-              observer.disconnect()
-              // Only scroll after form questions have been added to the form or removed
-              form.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+              observer.disconnect();
+              anchorScroll.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
               return;
             };
 
