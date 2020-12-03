@@ -39,7 +39,7 @@
             // Due to new question (elements) being added and old question (elements) being removed
             var form = document.querySelector('form[name="diagnosis-form"]')
 
-            // Element is placed 100px under the form buttons using CSS
+            // Element is placed 100px under the form buttons using CSS in _case.scss
             // To ensure user doesn't have to scroll to find the button
             var anchorScroll = document.getElementById('anchor-scroll');
 
