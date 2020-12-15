@@ -238,6 +238,7 @@ RAVEN_CONFIG = {"dsn": os.environ.get("RAVEN_CONFIG_DSN", ""), "site": os.enviro
 
 SOCKETIO_SERVER_URL = os.environ.get("SOCKETIO_SERVER_URL", "http://localhost:8005/socket.io")
 SITE_HOSTNAME = os.environ.get("SITE_HOSTNAME", "localhost")
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Zendesk feedback settings
