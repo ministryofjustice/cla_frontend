@@ -240,7 +240,6 @@ SOCKETIO_SERVER_URL = os.environ.get("SOCKETIO_SERVER_URL", "http://localhost:80
 SITE_HOSTNAME = os.environ.get("SITE_HOSTNAME", "localhost")
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-
 # Zendesk feedback settings
 ZENDESK_API_USERNAME = os.environ.get("ZENDESK_API_USERNAME", "")
 ZENDESK_API_TOKEN = os.environ.get("ZENDESK_API_TOKEN", "")
