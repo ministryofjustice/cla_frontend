@@ -31,7 +31,7 @@ Next, create the environment and start it up:
 cd cla_frontend
 virtualenv env --prompt=\(cla_fe\)
 ```
-and on Linux
+and on Linux and Mac
 ```
 source env/bin/activate
 ```
@@ -52,7 +52,7 @@ pip install -r requirements/dev.txt
 
 Create a `local.py` settings file from the example file:
 
-on Linux
+on Linux and Mac
 ```
 cp cla_frontend/settings/.example.local.py cla_frontend/settings/local.py
 ```
@@ -78,13 +78,8 @@ npm run build
 
 Install the socket server node packages. Open a new terminal, `cd` to `cla_frontend` and run:
 
-on Linux
 ```
 cd cla_frontend/cla_socketserver/
-```
-on Windows
-```
-cd cla_socketserver
 ```
 then
 ```
@@ -93,11 +88,6 @@ node app.js
 ```
 Leave this running and return to the previous window/tabtab, start the runserver. Don't forget to keep the backend server running on port 8000:
 
-on Linux
-```
-./manage.py runserver 8001
-```
-on Windows 
 ```
 python ./manage.py runserver 8001
 ```
