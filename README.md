@@ -76,7 +76,7 @@ Compile assets:
 npm run build
 ```
 
-Install the socket server node packages. Open a new terminal, `cd` to `cla_frontend` and run:
+Install the socket server node packages. Open a new terminal and run:
 
 ```
 cd cla_frontend/cla_socketserver/
