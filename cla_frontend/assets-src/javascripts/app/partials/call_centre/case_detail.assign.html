@@ -105,7 +105,7 @@
   </div>
 
   <div class="FormActions" ng-if="::canAssign()">
-    <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id || form_is_submitting">Assign provider</button>
+    <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id || assigning_provider_in_progress">Assign provider</button>
 
     <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
 

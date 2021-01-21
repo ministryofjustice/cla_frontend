@@ -11,7 +11,7 @@
         $scope.suggested_providers = [];
         $scope.matter1_types = _.where(MatterTypes, {level: 1});
         $scope.matter2_types = _.where(MatterTypes, {level: 2});
-        $scope.form_is_submitting = false;
+        $scope.assigning_provider_in_progress = false;
 
         // if provider has already been assigned
         if ($scope.case.provider) {
@@ -65,14 +65,14 @@
 
           $scope.case.$set_matter_types().then(
             function () {
-              $scope.form_is_submitting = true;
+              $scope.assigning_provider_in_progress = true;
               $scope.case.$assign(data).then(
                 function(response) {
                   $state.go('case_list');
                   flash('success', 'Case ' + $scope.case.reference + ' assigned to ' + response.data.name);
                 },
                 function(data) {
-                  $scope.form_is_submitting = false
+                  $scope.assigning_provider_in_progress = false
                   form_utils.ctrlFormErrorCallback($scope, data, form);
                 }
               );
