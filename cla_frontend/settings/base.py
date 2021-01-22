@@ -241,7 +241,7 @@ if "SENTRY_DSN" in os.environ:
         dsn=os.environ.get("SENTRY_DSN"),
         integrations=[DjangoIntegrations()],
         traces_sample_rate=1.0,
-        environment=os.environ.get("CLA_ENV", "unknown")
+        environment=os.environ.get("CLA_ENV", "unknown"),
     )
 
 SOCKETIO_SERVER_URL = os.environ.get("SOCKETIO_SERVER_URL", "http://localhost:8005/socket.io")
