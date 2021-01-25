@@ -239,7 +239,7 @@ SESSION_SECURITY_PASSIVE_QUERYSTRING = "_passive"
 if "SENTRY_DSN" in os.environ:
     sentry_sdk.init(
         dsn=os.environ.get("SENTRY_DSN"),
-        integrations=[DjangoIntegrations()],
+        integrations=[DjangoIntegration()],
         traces_sample_rate=1.0,
         environment=os.environ.get("CLA_ENV", "unknown"),
     )
