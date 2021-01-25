@@ -9,8 +9,6 @@ from .smoketests import smoketests
 
 
 def status(request):
-    if "error" in request.GET.keys():
-        raise Exception("ISSUE: %s" % datetime.datetime.now())
     results = list(smoketests.execute())
     passed = reduce(lambda acc, curr: acc and curr["status"], results, True)
 
@@ -36,7 +34,5 @@ class PingJsonView(View):
     """
 
     def get(self, request):
-        if "error" in request.GET.keys():
-            raise Exception("ISSUE: %s" % datetime.datetime.now())
         response_data = {"build_tag": None, "build_date": None, "version_number": None, "commit_id": None}
         return JsonResponse(response_data)
