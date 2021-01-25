@@ -37,7 +37,6 @@
     "ng-text-truncate": "^1.0.0",
     "papaparse": "^4.3.6",
     "postal": "^2.0.5",
-    "raven-js": "^3.22.1",
     "rome": "^2.1.22",
     "socket.io-client": "^2.0.4"
   },

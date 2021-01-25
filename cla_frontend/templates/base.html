@@ -1,12 +1,10 @@
-{% load staticfiles core_tags raven %}
+{% load staticfiles core_tags %}
 <!DOCTYPE html>
 <html lang="en" {% block html_attrs %}ng-csp{% endblock %}
   data-analytics-id="{{ analytics_id }}"
   data-analytics-domain="{{ analytics_domain }}">
 
-  <head data-sentry-dsn="{% sentry_public_dsn %}"
-    data-sentry-site="{{ raven_config_site }}"
-    data-socketio-server="{{ socketio_server_url }}">
+  <head data-socketio-server="{{ socketio_server_url }}">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,9 +21,6 @@
     <link href="{% staticmin 'stylesheets/cla.main.css' %}" media="screen" rel="stylesheet">
     <!-- print styles -->
     <link href="{% staticmin 'stylesheets/cla.print.css' %}" media="print" rel="stylesheet" type="text/css" />
-
-    <script src="{% static 'javascripts/vendor/raven.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'javascripts/vendor/raven.config.js' %}"></script>
 
     {% if not debug %}
     <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/boomerang.js' %}"></script>
