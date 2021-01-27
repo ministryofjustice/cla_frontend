@@ -45,7 +45,7 @@ RUN chown -R www-data:www-data /var/lib/nginx && \
     chown www-data:www-data /etc/nginx/conf.d/htpassword
 
 # Pip install Python packages
-RUN pip install -U pip
+RUN pip install -U pip==18.1
 RUN pip install -U setuptools wheel
 RUN pip install GitPython uwsgi
 
@@ -92,7 +92,7 @@ RUN npm install
 
 # Install front-end dependencies
 COPY .bowerrc bower.json ./
-RUN npm run bower 
+RUN npm run bower
 
 # Build front-end assets
 COPY tasks/ ./tasks
