@@ -4,7 +4,7 @@
   data-analytics-id="{{ analytics_id }}"
   data-analytics-domain="{{ analytics_domain }}">
 
-  <head data-socketio-server="{{ socketio_server_url }}">
+  <head data-sentry-dsn="{{ sentry_public_dsn }}" data-socketio-server="{{ socketio_server_url }}">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -132,6 +132,8 @@
     <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
     <script src="{% staticmin 'javascripts/cla.main.js' %}"></script>
     <script src="{% static 'javascripts/vendor/analytics.js' %}"></script>
+    <script src="{% static 'javascripts/vendor/raven.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/vendor/raven.config.js' %}"></script>
     {% if debug %}
     <script src="{% static 'javascripts/vendor/postal.diagnostics.js' %}"></script>
     {% endif %}

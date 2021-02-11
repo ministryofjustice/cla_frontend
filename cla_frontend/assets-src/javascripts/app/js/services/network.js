@@ -45,8 +45,8 @@
       };
     }])
 
-    .factory('cla.httpInterceptor', ['$q', 'flash', '$injector', '$sce', 'form_utils', 'url_utils', 'postal',
-      function($q, flash, $injector, $sce, form_utils, url_utils, postal) {
+    .factory('cla.httpInterceptor', ['$q', 'flash', '$injector', '$sce', 'form_utils', 'url_utils', 'postal', 'Raven',
+      function($q, flash, $injector, $sce, form_utils, url_utils, postal, Raven) {
         return {
           // optional method
           responseError: function(rejection) {
@@ -80,6 +80,7 @@
               }
 
               if (msg) {
+                Raven.captureException(new Error(msg));
                 flash('error', msg);
               }
             }

@@ -145,7 +145,8 @@
       'diff-match-patch',
       'angularUtils.directives.dirPagination',
       'ngTextTruncate',
-      'ngIdle'
+      'ngIdle',
+      "ngRaven"
     ])
     .config(common_config)
     .run(common_run);
