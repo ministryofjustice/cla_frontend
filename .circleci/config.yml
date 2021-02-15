@@ -17,8 +17,7 @@ jobs:
             docker login \
               --username $DOCKER_HUB_USERNAME \
               --password $DOCKER_HUB_PASSWORD \
-              --email "$DOCKER_HUB_EMAIL" \
-              $DOCKER_HUB_REGISTRY
+              --email "$DOCKER_HUB_EMAIL"
       - run:
           name: Login to the ECR Docker registry
           command: |
