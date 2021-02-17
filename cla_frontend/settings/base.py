@@ -236,9 +236,9 @@ SESSION_SECURITY_PASSIVE_URLS = []
 SESSION_SECURITY_PASSIVE_HEADER = "HTTP__PASSIVE"
 SESSION_SECURITY_PASSIVE_QUERYSTRING = "_passive"
 
-if "SENTRY_DSN" in os.environ:
+if "SENTRY_PUBLIC_DSN" in os.environ:
     sentry_sdk.init(
-        dsn=os.environ.get("SENTRY_DSN"),
+        dsn=os.environ.get("SENTRY_PUBLIC_DSN"),
         integrations=[DjangoIntegration()],
         traces_sample_rate=1.0,
         environment=os.environ.get("CLA_ENV", "unknown"),
