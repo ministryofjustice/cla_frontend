@@ -5,6 +5,7 @@
   describe('AlternativeHelpService', function() {
 
     beforeEach(module('cla.operatorApp'));
+    angular.module('ngRaven', [])
 
     var scope, AlternativeHelpService;
 

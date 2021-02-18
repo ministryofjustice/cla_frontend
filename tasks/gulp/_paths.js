@@ -28,7 +28,7 @@
   // vendor scripts
   paths.vendor_static.push(paths.src + 'javascripts/vendor/**/*');
   paths.vendor_static.push(paths.src + 'vendor/fullcalendar/fullcalendar.min.js');
-  paths.vendor_static.push(paths.src + 'vendor/raven-js/dist/raven.min.js');
+  paths.vendor_static.push(paths.src + 'vendor/raven-js/dist/angular/raven.js');
   // ignore certain vendor scripts from the copy
   paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/');
   paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/**');

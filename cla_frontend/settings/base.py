@@ -93,7 +93,7 @@ STATIC_URL = "/static/"
 ANALYTICS_ID = os.environ.get("GA_ID", "")
 ANALYTICS_DOMAIN = os.environ.get("GA_DOMAIN", "")
 
-CSP_DEFAULT_SRC = ("'self'", "cdn.ravenjs.com", "app.getsentry.com", "ws:", "wss:", "www.google-analytics.com")
+CSP_DEFAULT_SRC = ("'self'", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com")
 
 CSP_FONT_SRC = ("'self'", "data:")
 
@@ -236,14 +236,14 @@ SESSION_SECURITY_PASSIVE_URLS = []
 SESSION_SECURITY_PASSIVE_HEADER = "HTTP__PASSIVE"
 SESSION_SECURITY_PASSIVE_QUERYSTRING = "_passive"
 
-if "SENTRY_DSN" in os.environ:
+if "SENTRY_PUBLIC_DSN" in os.environ:
     sentry_sdk.init(
-        dsn=os.environ.get("SENTRY_DSN"),
+        dsn=os.environ.get("SENTRY_PUBLIC_DSN"),
         integrations=[DjangoIntegration()],
         traces_sample_rate=1.0,
         environment=os.environ.get("CLA_ENV", "unknown"),
     )
-
+SENTRY_PUBLIC_DSN = os.environ.get("SENTRY_PUBLIC_DSN", "")
 SOCKETIO_SERVER_URL = os.environ.get("SOCKETIO_SERVER_URL", "http://localhost:8005/socket.io")
 SITE_HOSTNAME = os.environ.get("SITE_HOSTNAME", "localhost")
 
