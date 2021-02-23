@@ -114,7 +114,7 @@
     tabWarningEnabled: false
   });
 
-  angular.module('cla.operatorApp',
+  var operatorApp = angular.module('cla.operatorApp',
     [
       'cla.settings.operator',
       'cla.states.operator',
@@ -145,12 +145,13 @@
       'diff-match-patch',
       'angularUtils.directives.dirPagination',
       'ngTextTruncate',
-      'ngIdle',
-      'ngRaven'
+      'ngIdle'
     ])
     .config(common_config)
     .run(common_run);
-
+    if (typeof Raven != "undefined" && Raven.isSetup()) {
+      operatorApp.requires.push("ngRaven");
+    }
 
   //
   // Provider App
@@ -170,7 +171,7 @@
     tabWarningEnabled: false
   });
 
-  angular.module('cla.providerApp',
+  var providerApp = angular.module('cla.providerApp',
     [
       'cla.settings.provider',
       'cla.states.provider',
@@ -201,9 +202,11 @@
       'diff-match-patch',
       'angularUtils.directives.dirPagination',
       'ngTextTruncate',
-      'ngIdle',
-      'ngRaven'
+      'ngIdle'
     ])
     .config(common_config)
     .run(common_run);
+    if (typeof Raven != "undefined" && Raven.isSetup()) {
+      providerApp.requires.push("ngRaven");
+    }
 })();
