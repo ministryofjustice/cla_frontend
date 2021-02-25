@@ -1,5 +1,7 @@
-#Socket messages
-## Sent by user on the CHS frontend app
+The nodejs application has a express server which contains two components, a socket server and admin web app.
+
+#Socket server
+## Sent by client (User browser)
 ### identify
 This message is sent by the user as soon as they land/refresh a page.
 
@@ -14,7 +16,7 @@ This message is sent by the user as soon as a they starts viewing a case. It wil
 ### stopViewingCase
 This message is sent by the user when they stop viewing a case. It will contain the case reference number.
 
-## Broadcast to users
+## Sent by server (broadcast to users)
 ### peopleViewing
 Upon receiving  the `startViewingCase` message,  a `peopleViewing` message is broadcast to all users viewing the case (including the
 message sender). The broadcast message is a list of usernames currently viewing the case.
@@ -44,15 +46,13 @@ Returns a JSON of all the connected users.
 Given a message, a broadcast is sent to all connected connected users of a given type(operator or provider).
 
 # Access
-The nodejs socket server app contains both socket server and also an admin web app.
-
 The admin web app should not be accessible to the public.
 
 At the moment there is no authentication required to send / receive messages to the socket server. 
 
 ## AWS
-The EC2 instances that host the nodejs socket server have a security group that limits access to port 8005 to the IP addresses
-of the cla_backend server IP addresses
+The EC2 instances that host the socket server have a security group that limits access to port 8005 to the IP addresses
+of the cla_backend server.
 
 ## Nginx
 The CHS users browser still needs to access socket server to send and receive messages.
