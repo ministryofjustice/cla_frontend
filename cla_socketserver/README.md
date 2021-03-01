@@ -1,4 +1,4 @@
-The nodejs application has a express server which contains two components, a socket server and admin web app.
+The nodejs application has an express server which contains two components: a socket server and admin web app.
 
 #Socket server
 ## Sent by client (User browser)
@@ -11,7 +11,7 @@ The message will contain the following fields:
 - appVersion
 
 ### startViewingCase
-This message is sent by the user as soon as a they starts viewing a case. It will contain the case reference number.
+This message is sent by the user as soon as they start viewing a case. It will contain the case reference number.
 
 ### stopViewingCase
 This message is sent by the user when they stop viewing a case. It will contain the case reference number.
@@ -43,7 +43,7 @@ all the connected users.
 Returns a JSON of all the connected users.
 
 ## /admin/notifications
-Given a message, a broadcast is sent to all connected connected users of a given type(operator or provider).
+Given a message, a broadcast is sent to all connected connected users of a given type (operator or provider).
 
 # Access
 The admin web app should not be accessible to the public.
@@ -55,6 +55,6 @@ The EC2 instances that host the socket server have a security group that limits 
 of the cla_backend server.
 
 ## Nginx
-The CHS users browser still needs to access socket server to send and receive messages.
+The CHS user's browser still needs to access socket server to send and receive messages.
 There is an nginx `location /socket.io ` rule to proxy all requests with a path that starts with `/socket.io` to the
 nodejs socket server app.
