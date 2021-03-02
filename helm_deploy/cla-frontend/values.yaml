@@ -59,27 +59,28 @@ ingress:
     # CHS
     - 52.210.114.89/32
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+envVars:
+  STATIC_FILES_BACKEND:
+    value: s3
+  AWS_STATIC_FILES_STORAGE_BUCKET_NAME:
+    secret:
+      name: s3
+      key: static_files_bucket_name
+  AWS_ACCESS_KEY_ID:
+    secret:
+      name: s3
+      key: access_key_id
+  AWS_SECRET_ACCESS_KEY:
+    secret:
+      name: s3
+      key: secret_access_key
+  AWS_S3_REGION_NAME:
+    value: "eu-west-2"
+  AWS_S3_HOST:
+    value: "s3.eu-west-2.amazonaws.com"
+  S3_USE_SIGV4:
+    value: "True"
+  SECRET_KEY:
+    secret:
+      name: secret
+      key: value
