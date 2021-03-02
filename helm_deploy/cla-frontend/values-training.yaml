@@ -1,0 +1,8 @@
+# Default values for cla-frontend in a training environment.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+environment: "training"
+
+envVars:
+  BACKEND_BASE_URI:
+    value: "https://training.fox.civillegaladvice.service.gov.uk"
