@@ -84,3 +84,5 @@ envVars:
     secret:
       name: secret
       key: value
+  DEBUG:
+    value: "False"
