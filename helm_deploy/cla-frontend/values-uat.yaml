@@ -1,0 +1,9 @@
+# Default values for cla-frontend in a uat environment.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+environment: "uat"
+
+envVars:
+  BACKEND_BASE_URI:
+    value: "https://laa-cla-backend-uat.apps.live-1.cloud-platform.service.justice.gov.uk"
