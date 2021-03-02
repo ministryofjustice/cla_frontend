@@ -5,6 +5,10 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{- define "cla-frontend.whitelist" -}}
+{{ join "," .Values.ingress.whitelist }}
+{{- end -}}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
@@ -50,13 +54,26 @@ app.kubernetes.io/name: {{ include "cla-frontend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "cla-frontend.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "cla-frontend.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
+{{- define "cla-frontend.app.vars" -}}
+{{- $environment := .Values.environment -}}
+- name: ALLOWED_HOSTS
+  value: "{{ .Values.host }}"
+- name:  CLA_ENV
+  value: "{{ $environment }}"
+{{ range $name, $data := .Values.envVars }}
+- name: {{ $name }}
+{{- if $data.value }}
+  value: "{{ $data.value }}"
+{{- else if $data.secret }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ $data.secret.name }}
+      key: {{ $data.secret.key }}
+      {{- if eq $environment "development" }}
+      optional: true
+      {{- else }}
+      optional: {{ $data.secret.optional | default false }}
+      {{- end }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
