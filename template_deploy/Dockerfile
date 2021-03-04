@@ -54,7 +54,7 @@ RUN mkdir -p /var/log/wsgi /var/log/nodejs && \
     chmod -R g+s /var/log/wsgi /var/log/nodejs
 
 RUN  mkdir -p /var/log/nginx/cla_frontend
-ADD ./docker/cla_frontend.ini /etc/wsgi/conf.d/cla_frontend.ini
+ADD ./template_deploy/cla_frontend.ini /etc/wsgi/conf.d/cla_frontend.ini
 
 # install service files for runit
 ADD ./docker/nginx.service /etc/service/nginx/run
