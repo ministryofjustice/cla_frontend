@@ -22,6 +22,7 @@ websocket-client==0.23.0
 requests==2.19.1
 django-extended-choices==0.3.0
 sentry-sdk==0.19.2
+uwsgi==2.0.19.1
 
 #Irat healthcheck and ping package
 git+https://github.com/ministryofjustice/django-moj-irat.git@4d54b86b1cb574fe787ba0fb8a992cf352f8eba6

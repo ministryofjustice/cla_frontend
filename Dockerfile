@@ -1,4 +1,4 @@
-FROM alpine:3.12.4
+FROM alpine:3.11
 
 RUN apk add --no-cache \
       bash \
@@ -11,10 +11,14 @@ RUN adduser -D app && \
 
 # To install pip dependencies
 RUN apk add --no-cache \
+      build-base \
       curl \
       git \
+      libxml2-dev \
+      libxslt-dev \
+      linux-headers \
       python2-dev && \
-    pip install -U setuptools pip==18.1 wheel GitPython uwsgi
+    pip install -U setuptools pip==18.1 wheel GitPython
 
 WORKDIR /home/app
 
