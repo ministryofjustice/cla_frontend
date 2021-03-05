@@ -1,3 +1,4 @@
+import os
 from django.conf import settings
 
 
@@ -12,6 +13,7 @@ def globals(request):
         "socketio_server_url": settings.SOCKETIO_SERVER_URL,
         "analytics_id": settings.ANALYTICS_ID,
         "analytics_domain": settings.ANALYTICS_DOMAIN,
+        "cla_environment": os.environ.get("CLA_ENV", "unknown"),
     }
 
     if hasattr(request, "zone") and request.zone:
