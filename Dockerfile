@@ -18,12 +18,28 @@ RUN apk add --no-cache \
       libxslt-dev \
       linux-headers \
       python2-dev && \
-    pip install -U setuptools pip==18.1 wheel GitPython
+    pip install -U setuptools pip==18.1 wheel GitPython \
+    && apk add --repository=http://dl-cdn.alpinelinux.org/alpine/v3.7/main nodejs=8.9.3-r1 
+
+# Install node dependencies
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Install front-end dependencies
+COPY .bowerrc bower.json ./
+RUN npm run bower
+
+# Build front-end assets
+COPY tasks/ ./tasks
+COPY cla_frontend/assets-src ./cla_frontend/assets-src/
+COPY gulpfile.js ./
+RUN npm run build
 
 WORKDIR /home/app
 
 COPY ./requirements ./requirements
 RUN pip install -r ./requirements/production.txt
+
 
 COPY . .
 
