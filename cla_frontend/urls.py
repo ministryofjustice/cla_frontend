@@ -15,4 +15,5 @@ urlpatterns = patterns(
     url(r"^status/", include("status.urls")),
     url(r"^", include("legalaid.urls", namespace="legalaid")),
     url(r"^", include("core.urls", namespace="cla_backend_core")),
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

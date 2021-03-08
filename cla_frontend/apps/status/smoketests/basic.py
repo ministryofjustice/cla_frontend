@@ -87,9 +87,7 @@ def socketio_session_id(host, port, path):
 
 
 def fe(url):
-    host = "http://localhost:8001"
-    if hasattr(settings, "HOST_NAME"):
-        host = "http://localhost"
+    host = "http://localhost:8000"
     return "{host}{url}".format(host=host, url=url)
 
 
