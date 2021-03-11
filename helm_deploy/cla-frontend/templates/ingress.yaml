@@ -1,0 +1,30 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "cla-frontend.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "cla-frontend.labels" . | nindent 4 }}
+  {{- if .Values.ingress.whitelist }}
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: "{{ include "cla-backend.whitelist" . }}"
+  {{- end }}
+spec:
+  tls:
+    - hosts:
+       - "{{ .Values.host }}"
+      {{- if .Values.secretName }}
+      secretName: {{ .Values.secretName }}
+      {{- end }}
+  rules:
+    - host: "{{ .Values.host }}"
+      http:
+        paths:
+          - path: "/"
+            backend:
+              serviceName: {{ $fullName }}-app
+              servicePort: {{ $svcPort }}
+{{- end }}
