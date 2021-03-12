@@ -19,7 +19,7 @@ RUN apk add --no-cache \
       linux-headers \
       python2-dev && \
     pip install -U setuptools pip==18.1 wheel GitPython \
-    && apk add --repository=http://dl-cdn.alpinelinux.org/alpine/v3.7/main nodejs=8.9.3-r1 
+    && apk add --repository=http://dl-cdn.alpinelinux.org/alpine/v3.7/main nodejs=8.9.3-r1
 
 # Install node dependencies
 COPY package.json package-lock.json ./

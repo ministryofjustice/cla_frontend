@@ -17,6 +17,8 @@ ingress:
   enabled: false
 
 envVars:
+  STATIC_FILES_BACKEND:
+    value: local
   DEBUG:
     value: "True"
   BACKEND_BASE_URI:
