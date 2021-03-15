@@ -156,7 +156,7 @@ WSGI_APPLICATION = "cla_frontend.wsgi.application"
 # TODO change this ?
 # SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
-SESSION_COOKIE_SECURE = bool(os.environ.get("CLA_ENV"))
+SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "True") == "True"
 
 TEMPLATE_DIRS = (root("templates"),)
 

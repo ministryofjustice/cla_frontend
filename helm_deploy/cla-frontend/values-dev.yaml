@@ -23,3 +23,5 @@ envVars:
     value: "True"
   BACKEND_BASE_URI:
     value: "https://laa-cla-backend-uat.apps.live-1.cloud-platform.service.justice.gov.uk"
+  SESSION_COOKIE_SECURE:
+    value: "False"
