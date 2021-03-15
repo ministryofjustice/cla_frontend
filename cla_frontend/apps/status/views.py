@@ -5,11 +5,11 @@ from django.shortcuts import render
 from django.views.generic import View
 from cla_common.smoketest import smoketest
 
-from .smoketests import smoketests, basic  # noqa F401
+from .smoketests import ready_smoketests, live_smoketests, basic  # noqa F401
 
 
 def status(request):
-    results = list(smoketests.execute())
+    results = list(ready_smoketests.execute())
     passed = reduce(lambda acc, curr: acc and curr["status"], results, True)
     # status_code = 200 if passed else 503
     return render(

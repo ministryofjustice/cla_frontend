@@ -11,28 +11,28 @@ from django.conf import settings
 
 import websocket
 
-from status.smoketests import SmokeTestFail, smoketests
+from status.smoketests import SmokeTestFail, ready_smoketests
 
 
-@smoketests.register(1, "Public site is up")
+@ready_smoketests.register(1, "Public site is up")
 def things_exist():
     response = get(fe("/"))
     assert_status(response, 200)
 
 
-@smoketests.register(2, "Angular is loaded")
+@ready_smoketests.register(2, "Angular is loaded")
 def angular_loaded():
     response = get(fe("/static/javascripts/cla.main.js"))
     assert_status(response, 200)
 
 
-@smoketests.register(3, "Backend responding")
+@ready_smoketests.register(3, "Backend responding")
 def backend_exists():
     response = get(be("/admin/"))
     assert_status(response, 200)
 
 
-@smoketests.register(4, "Database accessible")
+@ready_smoketests.register(4, "Database accessible")
 def db_alive():
     response = get(be("/status"))
     assert_status(response, 200)
