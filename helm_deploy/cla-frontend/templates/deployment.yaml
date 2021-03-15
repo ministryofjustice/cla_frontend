@@ -24,14 +24,14 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /status/
+              path: /status/live/
               port: http
               httpHeaders:
                 - name: Host
                   value: "{{ .Values.host }}"
           readinessProbe:
             httpGet:
-              path: /status/
+              path: /status/ready/
               port: http
               httpHeaders:
                 - name: Host
