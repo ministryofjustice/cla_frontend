@@ -15,11 +15,12 @@ def status(request, probe_type):
         smoketests = live_smoketests
     results = list(smoketests.execute())
     passed = reduce(lambda acc, curr: acc and curr["status"], results, True)
-    # status_code = 200 if passed else 503
+    status_code = 200 if passed else 503
     return render(
         request,
         "status/status_page.html",
         {"passed": passed, "last_updated": datetime.datetime.now(), "smoketests": results},
+        status=status_code,
     )
 
 
