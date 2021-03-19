@@ -58,8 +58,13 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- $environment := .Values.environment -}}
 - name: ALLOWED_HOSTS
   value: "{{ .Values.host }}"
-- name:  CLA_ENV
+- name: CLA_ENV
   value: "{{ $environment }}"
+- name: SITE_HOSTNAME
+  value: "{{ .Values.host }}"
+{{/* TODO Might be removable */}}
+- name: HOST_NAME
+  value: "{{ .Values.host }}"
 {{ range $name, $data := .Values.envVars }}
 - name: {{ $name }}
 {{- if $data.value }}
