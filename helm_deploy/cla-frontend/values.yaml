@@ -87,6 +87,6 @@ envVars:
   DEBUG:
     value: "False"
   EMERGENCY_MESSAGE_ON:
-    configMapKeyRef:
+    configmap:
       name: emergency-message
       key: message-on
