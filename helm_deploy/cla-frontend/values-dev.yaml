@@ -17,7 +17,11 @@ ingress:
   enabled: false
 
 envVars:
+  STATIC_FILES_BACKEND:
+    value: local
   DEBUG:
     value: "True"
   BACKEND_BASE_URI:
-    value: "http://127.0.0.1:8000"
+    value: "https://laa-cla-backend-uat.apps.live-1.cloud-platform.service.justice.gov.uk"
+  SESSION_COOKIE_SECURE:
+    value: "False"

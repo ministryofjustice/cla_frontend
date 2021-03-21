@@ -32,4 +32,5 @@ class SmokeTestRegistry(object):
             yield {"name": name, "status": status, "message": message}
 
 
-smoketests = SmokeTestRegistry()
+live_smoketests = SmokeTestRegistry()
+ready_smoketests = SmokeTestRegistry()
