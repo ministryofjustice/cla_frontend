@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_for_template_deploy:
     docker:
       - image: docker:17.03-git
     environment:
@@ -40,6 +40,36 @@ jobs:
       - run:
           name: Validate that image runs on Europe/London timezone
           command: docker run --rm --tty --interactive application:$CIRCLE_SHA1 date '+%Z' | egrep "(GMT|BST)"
+      - run:
+          name: Tag and push Docker images
+          command: .circleci/tag_and_push_docker_image application:$CIRCLE_SHA1
+  build:
+    docker:
+      - image: docker:17.03-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: "18.09.3"
+          docker_layer_caching: true
+      - run:
+          name: Login to the ECR Docker registry
+          command: |
+            apk add --no-cache --no-progress py2-pip
+            pip install awscli
+            ecr_login="$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)"
+            ${ecr_login}
+      - run:
+          name: Build Docker image
+          command: |
+            docker build --tag application:$CIRCLE_SHA1 \
+              --label build.git.sha=$CIRCLE_SHA1 \
+              --label build.git.branch=$CIRCLE_BRANCH \
+              --label build.url=$CIRCLE_BUILD_URL \
+              .
+      - run:
+          name: Validate Python version
+          command: |
+            docker run --rm --tty --interactive application:$CIRCLE_SHA1 python --version | grep "2.7"
       - run:
           name: Tag and push Docker images
           command: .circleci/tag_and_push_docker_image application:$CIRCLE_SHA1
@@ -183,13 +213,21 @@ workflows:
       - python_lint
       - python_unit_test
       - javascript_unit_test
+      - build_for_template_deploy:
+          requires:
+            - python_lint
+            - python_unit_test
+            - javascript_unit_test
       - build:
           requires:
             - python_lint
             - python_unit_test
             - javascript_unit_test
+          context: laa-cla-frontend
       - deploy:
           name: staging_deploy
           namespace: staging
           dynamic_hostname: false
+          requires:
+            - build
           context: laa-cla-frontend
