@@ -139,6 +139,42 @@ jobs:
       - run:
           name: Run Jasmine unit tests
           command: npm run test-single-run
+  deploy:
+    parameters:
+      namespace:
+        type: string
+      dynamic_hostname:
+        type: boolean
+    docker:
+      - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
+    shell: /bin/sh -leo pipefail
+    environment:
+      BASH_ENV: /etc/profile
+    steps:
+      - checkout
+      - run:
+          name: Install helm v3
+          command: |
+            wget https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz
+            tar -zxvf helm-v3.1.2-linux-amd64.tar.gz
+            mv linux-amd64/helm /usr/local/bin/helm
+      - run:
+          name: Initialise Kubernetes << parameters.namespace >> context
+          command: |
+            setup-kube-auth
+            kubectl config use-context << parameters.namespace >>
+      - deploy:
+          name: Deploy to << parameters.namespace >>
+          command: |
+            source .circleci/define_build_environment_variables << parameters.namespace >> << parameters.dynamic_hostname >>
+            pip3 install requests
+            export PINGDOM_IPS=`python3 bin/pingdom_ips.py`
+            ./bin/<< parameters.namespace >>_deploy.sh << parameters.dynamic_hostname >>
+            echo "export RELEASE_HOST=$RELEASE_HOST" >> $BASH_ENV
+      - slack/notify:
+          message: ':tada: (<< parameters.namespace >>) Deployed branch $CIRCLE_BRANCH'
+          title: '$RELEASE_HOST'
+          title_link: 'https://$RELEASE_HOST/admin/'
 
 workflows:
   version: 2
@@ -152,3 +188,8 @@ workflows:
             - python_lint
             - python_unit_test
             - javascript_unit_test
+      - deploy:
+          name: staging_deploy
+          namespace: staging
+          dynamic_hostname: false
+          context: laa-cla-frontend
