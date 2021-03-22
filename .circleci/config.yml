@@ -224,3 +224,10 @@ workflows:
             - python_unit_test
             - javascript_unit_test
           context: laa-cla-frontend
+      - deploy:
+          name: staging_deploy
+          namespace: staging
+          dynamic_hostname: false
+          requires:
+            - build
+          context: laa-cla-frontend
