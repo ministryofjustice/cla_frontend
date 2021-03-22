@@ -44,7 +44,7 @@ jobs:
           command: docker run --rm --tty --interactive application:$CIRCLE_SHA1 date '+%Z' | egrep "(GMT|BST)"
       - run:
           name: Tag and push Docker images
-          command: .circleci/tag_and_push_docker_image application:$CIRCLE_SHA1
+          command: template_deploy/tag_and_push_docker_image application:$CIRCLE_SHA1
   build:
     docker:
       - image: docker:17.03-git
