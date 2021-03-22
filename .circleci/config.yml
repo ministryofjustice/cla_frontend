@@ -226,10 +226,14 @@ workflows:
             - python_unit_test
             - javascript_unit_test
           context: laa-cla-frontend
+      - staging_deploy_approval:
+          type: approval
+          requires:
+            - build
       - deploy:
           name: staging_deploy
           namespace: staging
           dynamic_hostname: false
           requires:
-            - build
+            - staging_deploy_approval
           context: laa-cla-frontend
