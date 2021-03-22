@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-source $(dirname "$0")/define_build_environment_variables
+source .circleci/define_build_environment_variables
 built_tag="$1"
 
 function tag_and_push() {
