@@ -91,23 +91,23 @@ envVars:
   CALL_CENTRE_CLIENT_ID:
     secret:
       name: call-centre
-      key: client-id
+      key: client_id
   CALL_CENTRE_SECRET_ID:
     secret:
       name: call-centre
-      key: secret-id
+      key: secret_id
   CLA_PROVIDER_CLIENT_ID:
     secret:
       name: cla-provider
-      key: client-id
+      key: client_id
   CLA_PROVIDER_SECRET_ID:  # This is a key change from TD, so make sure settings/base.py uses the right name
     secret:
       name: cla-provider
-      key: secret-id
+      key: secret_id
   OS_PLACES_API_KEY:
     secret:
       name: os-places
-      key: api-key
+      key: api_key
   SENTRY_PUBLIC_DSN:
     secret:
       name: sentry
