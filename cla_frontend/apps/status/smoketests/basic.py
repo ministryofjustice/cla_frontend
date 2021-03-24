@@ -21,8 +21,9 @@ def things_exist():
     assert_status(response, 200)
 
 
-@live_smoketests.register(2, "Angular is loaded")
-@ready_smoketests.register(2, "Angular is loaded")
+# Skipping until LGA-1612 (s3 static storage)
+# @live_smoketests.register(2, "Angular is loaded")
+# @ready_smoketests.register(2, "Angular is loaded")
 def angular_loaded():
     response = get(fe("/static/javascripts/cla.main.js"))
     assert_status(response, 200)
