@@ -92,7 +92,7 @@ def socketio_session_id(host, port, path):
 
 
 def fe(url):
-    return "https://{host}{url}".format(host=getattr(settings, "SITE_HOSTNAME", "localhost:8000"), url=url)
+    return "{host}{url}".format(host=settings.LOCAL_HOST), url=url)
 
 
 def be(url):
