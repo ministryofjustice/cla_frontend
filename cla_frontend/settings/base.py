@@ -90,7 +90,7 @@ STATIC_ROOT = root("static")
 STATIC_URL = "/static/"
 
 # Hostname and port to access the site locally (from the same container)
-LOCAL_HOST = "localhost:8000"
+LOCAL_HOST = "http://localhost:8000"
 
 # Currently GA
 ANALYTICS_ID = os.environ.get("GA_ID", "")
