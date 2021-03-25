@@ -117,12 +117,15 @@ ANALYTICS_DOMAIN = os.environ.get("GA_DOMAIN", "")
 
 CSP_DEFAULT_SRC = ["'self'", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com"]
 
+CSP_FONT_SRC = ["'self'", "data:"]
+
+CSP_STYLE_SRC = ["'self'", "'unsafe-inline'"]
+
 if AWS_STORAGE_BUCKET_NAME:
-    CSP_DEFAULT_SRC.append(AWS_STORAGE_BUCKET_NAME + ".s3.amazonaws.com")
-
-CSP_FONT_SRC = ("'self'", "data:")
-
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+    AWS_STORAGE_BUCKET_HOSTNAME = AWS_STORAGE_BUCKET_NAME + ".s3.amazonaws.com"
+    CSP_DEFAULT_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
+    CSP_FONT_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
+    CSP_STYLE_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
 
 # Additional locations of static files
 STATICFILES_DIRS = (root("assets"),)
