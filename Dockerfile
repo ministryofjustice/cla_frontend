@@ -21,6 +21,8 @@ RUN apk add --no-cache \
     pip install -U setuptools pip==18.1 wheel GitPython \
     && apk add --repository=http://dl-cdn.alpinelinux.org/alpine/v3.7/main nodejs=8.9.3-r1
 
+WORKDIR /home/app
+
 # Install node dependencies
 COPY package.json package-lock.json ./
 RUN npm install
@@ -35,14 +37,10 @@ COPY cla_frontend/assets-src ./cla_frontend/assets-src/
 COPY gulpfile.js ./
 RUN npm run build
 
-WORKDIR /home/app
-
 COPY ./requirements ./requirements
 RUN pip install -r ./requirements/production.txt
 
-
 COPY . .
-
 
 # Make sure static assets directory has correct permissions
 RUN chown -R app:app /home/app && \
