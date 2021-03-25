@@ -4,7 +4,7 @@ import json
 import socket
 import time
 from urllib import urlencode
-from urllib2 import URLError, urlopen
+from urllib2 import Request, URLError, urlopen
 from urlparse import urlparse, urlunparse
 
 from django.conf import settings
@@ -17,7 +17,7 @@ from status.smoketests import SmokeTestFail, ready_smoketests, live_smoketests
 @live_smoketests.register(1, "Public site is up")
 @ready_smoketests.register(1, "Public site is up")
 def things_exist():
-    response = get(fe("/"))
+    response = get_fe("/")
     assert_status(response, 200)
 
 
@@ -25,19 +25,19 @@ def things_exist():
 # @live_smoketests.register(2, "Angular is loaded")
 # @ready_smoketests.register(2, "Angular is loaded")
 def angular_loaded():
-    response = get(fe("/static/javascripts/cla.main.js"))
+    response = get_fe("/static/javascripts/cla.main.js")
     assert_status(response, 200)
 
 
 @ready_smoketests.register(3, "Backend responding")
 def backend_exists():
-    response = get(be("/admin/"))
+    response = get_be("/admin/")
     assert_status(response, 200)
 
 
 @ready_smoketests.register(4, "Database accessible")
 def db_alive():
-    response = get(be("/status"))
+    response = get_be("/status")
     assert_status(response, 200)
     data = response.read()
     backend = json.loads(data)
@@ -91,17 +91,22 @@ def socketio_session_id(host, port, path):
     return json.loads(response[4:])["sid"]
 
 
-def fe(url):
-    return "{host}{url}".format(host=settings.LOCAL_HOST), url=url)
+def get_fe(url):
+    full_url = "{host}{url}".format(host=settings.LOCAL_HOST, url=url)
+    return get(full_url, hostname_header=settings.SITE_HOSTNAME)
 
 
-def be(url):
-    return "{host}{url}".format(host=getattr(settings, "BACKEND_BASE_URI", "http://localhost:8000"), url=url)
+def get_be(url):
+    full_url = "{host}{url}".format(host=getattr(settings, "BACKEND_BASE_URI", "http://localhost:8000"), url=url)
+    return get(full_url)
 
 
-def get(url):
+def get(url, hostname_header=None):
+    request = Request(url)
+    if hostname_header:
+        request.add_header("Host", hostname_header)
     try:
-        response = urlopen(url, timeout=5)
+        response = urlopen(request, timeout=5)
     except URLError as e:
         raise SmokeTestFail("GET {url} failed: {reason}".format(url=url, reason=e.reason))
     except socket.timeout:
