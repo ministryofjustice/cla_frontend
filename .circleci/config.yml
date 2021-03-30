@@ -1,6 +1,8 @@
-version: 2
+version: 2.1
+orbs:
+  slack: circleci/slack@3.4.2
 jobs:
-  build:
+  build_for_template_deploy:
     docker:
       - image: docker:17.03-git
     environment:
@@ -40,6 +42,36 @@ jobs:
       - run:
           name: Validate that image runs on Europe/London timezone
           command: docker run --rm --tty --interactive application:$CIRCLE_SHA1 date '+%Z' | egrep "(GMT|BST)"
+      - run:
+          name: Tag and push Docker images
+          command: template_deploy/tag_and_push_docker_image application:$CIRCLE_SHA1
+  build:
+    docker:
+      - image: docker:17.03-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: "18.09.3"
+          docker_layer_caching: true
+      - run:
+          name: Login to the ECR Docker registry
+          command: |
+            apk add --no-cache --no-progress py2-pip
+            pip install awscli
+            ecr_login="$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)"
+            ${ecr_login}
+      - run:
+          name: Build Docker image
+          command: |
+            docker build --tag application:$CIRCLE_SHA1 \
+              --label build.git.sha=$CIRCLE_SHA1 \
+              --label build.git.branch=$CIRCLE_BRANCH \
+              --label build.url=$CIRCLE_BUILD_URL \
+              .
+      - run:
+          name: Validate Python version
+          command: |
+            docker run --rm --tty --interactive application:$CIRCLE_SHA1 python --version | grep "2.7"
       - run:
           name: Tag and push Docker images
           command: .circleci/tag_and_push_docker_image application:$CIRCLE_SHA1
@@ -139,6 +171,42 @@ jobs:
       - run:
           name: Run Jasmine unit tests
           command: npm run test-single-run
+  deploy:
+    parameters:
+      namespace:
+        type: string
+      dynamic_hostname:
+        type: boolean
+    docker:
+      - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
+    shell: /bin/sh -leo pipefail
+    environment:
+      BASH_ENV: /etc/profile
+    steps:
+      - checkout
+      - run:
+          name: Install helm v3
+          command: |
+            wget https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz
+            tar -zxvf helm-v3.1.2-linux-amd64.tar.gz
+            mv linux-amd64/helm /usr/local/bin/helm
+      - run:
+          name: Initialise Kubernetes << parameters.namespace >> context
+          command: |
+            setup-kube-auth
+            kubectl config use-context << parameters.namespace >>
+      - deploy:
+          name: Deploy to << parameters.namespace >>
+          command: |
+            source .circleci/define_build_environment_variables << parameters.namespace >> << parameters.dynamic_hostname >>
+            pip3 install requests
+            export PINGDOM_IPS=`python3 bin/pingdom_ips.py`
+            ./bin/<< parameters.namespace >>_deploy.sh << parameters.dynamic_hostname >>
+            echo "export RELEASE_HOST=$RELEASE_HOST" >> $BASH_ENV
+      - slack/notify:
+          message: ':tada: (<< parameters.namespace >>) Deployed branch $CIRCLE_BRANCH'
+          title: '$RELEASE_HOST'
+          title_link: 'https://$RELEASE_HOST/admin/'
 
 workflows:
   version: 2
@@ -147,8 +215,25 @@ workflows:
       - python_lint
       - python_unit_test
       - javascript_unit_test
+      - build_for_template_deploy:
+          requires:
+            - python_lint
+            - python_unit_test
+            - javascript_unit_test
       - build:
           requires:
             - python_lint
             - python_unit_test
             - javascript_unit_test
+          context: laa-cla-frontend
+      - staging_deploy_approval:
+          type: approval
+          requires:
+            - build
+      - deploy:
+          name: staging_deploy
+          namespace: staging
+          dynamic_hostname: false
+          requires:
+            - staging_deploy_approval
+          context: laa-cla-frontend

@@ -10,7 +10,7 @@ metadata:
     {{- include "cla-frontend.labels" . | nindent 4 }}
   {{- if .Values.ingress.whitelist }}
   annotations:
-    nginx.ingress.kubernetes.io/whitelist-source-range: "{{ include "cla-backend.whitelist" . }}"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "{{ include "cla-frontend.whitelist" . }}"
   {{- end }}
 spec:
   tls:
