@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout',
-        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout', 'diagnosis',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout, diagnosis){
           $scope.category_list = Category.query();
           $scope.formDidChange = false;
           // set nass benefits to FALSE by default
@@ -18,6 +18,18 @@
               $scope.incomeWarnings = data.warnings;
             }
           });
+
+          $scope.getCategoryForScriptNotes = function() {
+            if($scope.inJudicialReview()) {
+              return 'Judicial review';
+            } else {
+              return diagnosis.category;
+            }
+          }
+
+          $scope.inJudicialReview = function() {
+            return diagnosis.nodes[diagnosis.nodes.length - 2].id === 'n156';
+          }
 
           IncomeWarningsService.setEligibilityCheck($scope.eligibility_check);
           $scope.incomeWarnings = IncomeWarningsService.warnings;
