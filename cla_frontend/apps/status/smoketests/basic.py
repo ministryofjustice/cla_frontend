@@ -8,6 +8,7 @@ from urllib2 import Request, URLError, urlopen
 from urlparse import urlparse, urlunparse
 
 from django.conf import settings
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 import websocket
 
@@ -24,7 +25,7 @@ def things_exist():
 @live_smoketests.register(2, "Angular is loaded")
 @ready_smoketests.register(2, "Angular is loaded")
 def angular_loaded():
-    response = get_fe("/static/javascripts/cla.main.js")
+    response = get(static("javascripts/cla.main.js"))
     assert_status(response, 200)
 
 
