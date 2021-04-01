@@ -3,6 +3,7 @@ import os
 from os.path import join, abspath, dirname
 
 import sentry_sdk
+from boto.s3.connection import NoHostProvided
 from sentry_sdk.integrations.django import DjangoIntegration
 
 # PATH vars
@@ -92,15 +93,39 @@ STATIC_URL = "/static/"
 # Hostname and port to access the site locally (from the same container)
 LOCAL_HOST = "http://localhost:8000"
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+if os.environ.get("STATIC_FILES_BACKEND") == "s3":
+    STATICFILES_STORAGE = "core.s3.StaticS3Storage"
+
+AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "eu-west-1")
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+
+# Annoyingly the host parameter boto.s3.connection.S3Connection needs to be host string if it's not the default
+# value of boto.s3.connection.NoHostProvided class reference and not None
+AWS_S3_HOST = os.environ.get("AWS_S3_HOST", NoHostProvided)
+
+# This bucket needs to a public bucket as it will serve public assets such as css,images and js
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STATIC_FILES_STORAGE_BUCKET_NAME")
+
 # Currently GA
 ANALYTICS_ID = os.environ.get("GA_ID", "")
 ANALYTICS_DOMAIN = os.environ.get("GA_DOMAIN", "")
 
-CSP_DEFAULT_SRC = ("'self'", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com")
+CSP_DEFAULT_SRC = ["'self'", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com"]
 
-CSP_FONT_SRC = ("'self'", "data:")
+CSP_FONT_SRC = ["'self'", "data:"]
 
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+CSP_STYLE_SRC = ["'self'", "'unsafe-inline'"]
+
+if AWS_STORAGE_BUCKET_NAME:
+    AWS_STORAGE_BUCKET_HOSTNAME = AWS_STORAGE_BUCKET_NAME + ".s3.amazonaws.com"
+    CSP_DEFAULT_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
+    CSP_FONT_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
+    CSP_STYLE_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
 
 # Additional locations of static files
 STATICFILES_DIRS = (root("assets"),)
