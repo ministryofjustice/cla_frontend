@@ -18,9 +18,6 @@
     }
 
     return {
-      peopleMap: function (req, res) {
-        res.send(peopleManager.people);
-      },
       notifications: function (req, res) {
         var data = {
           activeTab: 'notifications'
