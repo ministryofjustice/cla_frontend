@@ -18,45 +18,6 @@
     }
 
     return {
-      peopleMap: function (req, res) {
-        res.send(peopleManager.people);
-      },
-
-      admin: function (req, res) {
-        res.redirect('/admin/broadcast/');
-      },
-
-      broadcast: function (req, res) {
-        var data = {
-          activeTab: 'broadcast',
-          people: peopleManager.people,
-          msgOptions: MSG_OPTIONS
-        };
-
-        if (req.body.selectedClients === 'true') {
-          validateMsg(req.body.msg);
-
-          var socketIDs = req.body.socketID;
-
-          if (!_.isArray(socketIDs)) {
-            socketIDs = [socketIDs];
-          }
-
-          _.each(socketIDs, function(socketID) {
-            utils.sendToClient(nsp, socketID, 'systemMessage', req.body.msg);
-          });
-
-          data.success = true;
-        } else if (req.body.allClients === 'true') {
-          validateMsg(req.body.msg);
-          utils.sendToAllConnectedClients(nsp, 'systemMessage', req.body.msg);
-
-          data.success = true;
-        }
-
-        res.render('broadcast', data);
-      },
-
       notifications: function (req, res) {
         var data = {
           activeTab: 'notifications'
@@ -71,10 +32,6 @@
   module.exports = {
     install: function(app, nsp) {
       var views = getViews(nsp);
-
-      app.get('/admin/', views.admin);
-      app.all('/admin/broadcast/', views.broadcast);
-      app.get('/admin/peopleMap/', views.peopleMap);
       app.all('/admin/notifications/', views.notifications);
     }
   }

@@ -1,0 +1,18 @@
+FROM node:8.9.3-alpine
+
+RUN apk add --no-cache \
+      tzdata
+
+RUN adduser -D app && \
+    cp /usr/share/zoneinfo/Europe/London /etc/localtime
+
+WORKDIR /home/app
+
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+
+USER 1000
+EXPOSE 8005
+
+CMD ["/usr/local/bin/node", "/home/app/app.js"]
