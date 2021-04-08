@@ -45,6 +45,17 @@ ZONE_PROFILES = {
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.CachedStaticFilesStorage"
 
 # LOGGING CONFIG FOR DOCKER ENV
+LOGGING["filters"] = {
+    "require_debug_false": {"()": "django.utils.log.RequireDebugFalse"},
+    "require_debug_true": {"()": "django.utils.log.RequireDebugTrue"},
+}
+
+LOGGING["handlers"]["mail_admins"] = {
+    "level": "ERROR",
+    "class": "django.utils.log.AdminEmailHandler",
+    "filters": ["require_debug_false"],
+}
+
 LOGGING["handlers"]["production_file"] = {
     "level": "INFO",
     "class": "logging.handlers.RotatingFileHandler",
@@ -66,3 +77,4 @@ LOGGING["handlers"]["debug_file"] = {
 }
 
 LOGGING["loggers"][""] = {"handlers": ["production_file", "debug_file"], "level": "DEBUG"}
+LOGGING["loggers"]["django.request"] = {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True}
