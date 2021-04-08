@@ -77,3 +77,4 @@ LOGGING["handlers"]["debug_file"] = {
 }
 
 LOGGING["loggers"][""] = {"handlers": ["production_file", "debug_file"], "level": "DEBUG"}
+LOGGING["loggers"]["django.request"] = {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True}
