@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cla-frontend.fullname" . }}-socket-server
+  labels:
+    {{- include "cla-frontend.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "cla-socket-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "cla-socket-server.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-socket-server
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /status/live/
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "{{ .Values.host }}"
+          readinessProbe:
+            httpGet:
+              path: /status/ready/
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "{{ .Values.host }}"
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sleep","30"]
+          env:
+            {{ include "cla-frontend.app.vars" . | nindent 12 }}
