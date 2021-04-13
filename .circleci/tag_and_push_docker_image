@@ -8,7 +8,7 @@ case $repository in
   app)
       docker_repository="${APP_DOCKER_REPOSITORY}"
       ;;
-  socket_server)
+  socket-server)
       docker_repository="${SOCKET_SERVER_DOCKER_REPOSITORY}"
       ;;
 esac
