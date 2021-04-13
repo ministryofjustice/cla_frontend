@@ -4,11 +4,11 @@ DYNAMIC_HOSTNAME=$2
 
 # These variables are required in multiple places such as
 # tag_and_push_docker_image as well as the bin/<NAMESPACE>_deploy.sh scripts
-export DOCKER_REPOSITORY="$ECR_DOCKER_REPOSITORY"
+export APP_DOCKER_REPOSITORY="$ECR_ENDPOINT/$APP_IMAGE_NAME"
+export SOCKET_SERVER_DOCKER_REPOSITORY="$ECR_ENDPOINT/$SOCKET_SERVER_IMAGE_NAME"
 export safe_git_branch=${CIRCLE_BRANCH//\//-}
 export short_sha="$(git rev-parse --short=7 $CIRCLE_SHA1)"
 export IMAGE_TAG="$safe_git_branch.$short_sha"
-export ECR_DEPLOY_IMAGE="$DOCKER_REPOSITORY/$IMAGE_TAG"
 
 case $NAMESPACE in
   production)
