@@ -12,6 +12,6 @@ helm upgrade $RELEASE_NAME \
   --set fullnameOverride=$RELEASE_NAME \
   --set environment=$RELEASE_NAME \
   --set host=$RELEASE_HOST \
-  --set image.repository=$DOCKER_REPOSITORY \
+  --set image.repository=$APP_DOCKER_REPOSITORY \
   --set image.tag=$IMAGE_TAG \
   --install
