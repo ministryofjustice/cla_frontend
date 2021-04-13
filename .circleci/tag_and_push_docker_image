@@ -2,8 +2,18 @@
 
 source $(dirname "$0")/define_build_environment_variables
 built_tag="$1"
-docker_repository="$2"
+repository="$2"
 
+case $repository in
+  app)
+      docker_repository="${APP_DOCKER_REPOSITORY}"
+      ;;
+  socket_server)
+      docker_repository="${SOCKET_SERVER_DOCKER_REPOSITORY}"
+      ;;
+esac
+
+export CLEANED_BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed 's/^feature[-/]//' | sed 's:^\w*\/::' | tr -s ' _/[]().' '-' | tr '[:upper:]' '[:lower:]' | cut -c1-28 | sed 's/-$//')
 function tag_and_push() {
   tag="$1"
   echo
