@@ -193,7 +193,7 @@ jobs:
       dynamic_hostname:
         type: boolean
     docker:
-      - image: ${ECR_ENDPOINT}/cloud-platform/tools:1.31
+      - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
     shell: /bin/sh -leo pipefail
     environment:
       BASH_ENV: /etc/profile
