@@ -266,4 +266,6 @@ workflows:
           dynamic_hostname: false
           requires:
             - staging_deploy_approval
-          context: laa-cla-frontend
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-app-ecr
