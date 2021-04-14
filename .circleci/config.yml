@@ -63,7 +63,7 @@ jobs:
             - run:
                 name: Build app Docker image
                 command: |
-                  docker build --tag application:$CIRCLE_SHA1 \
+                  docker build --tag << parameters.image >>:$CIRCLE_SHA1 \
                     --label build.git.sha=$CIRCLE_SHA1 \
                     --label build.git.branch=$CIRCLE_BRANCH \
                     --label build.url=$CIRCLE_BUILD_URL \
@@ -72,7 +72,7 @@ jobs:
             - run:
                 name: Validate Python version
                 command: |
-                  docker run --rm --tty --interactive application:$CIRCLE_SHA1 python --version | grep "2.7"
+                  docker run --rm --tty --interactive << parameters.image >>:$CIRCLE_SHA1 python --version | grep "2.7"
       - when:
           condition:
             equal: ["socket-server", << parameters.image >>]
@@ -80,7 +80,7 @@ jobs:
             - run:
                 name: Build socket server Docker image
                 command: |
-                  docker build --tag socket-server:$CIRCLE_SHA1 \
+                  docker build --tag << parameters.image >>:$CIRCLE_SHA1 \
                     --label build.git.sha=$CIRCLE_SHA1 \
                     --label build.git.branch=$CIRCLE_BRANCH \
                     --label build.url=$CIRCLE_BUILD_URL \
@@ -89,7 +89,7 @@ jobs:
       - run:
           name: Tag and push Docker image
           command: |
-            .circleci/tag_and_push_docker_image application:$CIRCLE_SHA1 << parameters.image >>
+            .circleci/tag_and_push_docker_image << parameters.image >>:$CIRCLE_SHA1 << parameters.image >>
   python_lint:
     docker:
       - image: circleci/python:3.7
@@ -242,7 +242,9 @@ workflows:
             - python_lint
             - python_unit_test
             - javascript_unit_test
-          context: laa-cla-frontend
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-app-ecr
       - build:
           name: build_socket_server
           image: socket-server
@@ -250,7 +252,9 @@ workflows:
             - python_lint
             - python_unit_test
             - javascript_unit_test
-          context: laa-cla-frontend
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-socket-server-ecr
       - staging_deploy_approval:
           type: approval
           requires:
