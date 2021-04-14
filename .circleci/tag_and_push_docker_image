@@ -6,10 +6,10 @@ repository="$2"
 
 case $repository in
   app)
-      docker_repository="${APP_DOCKER_REPOSITORY}"
+      docker_repository="${ECR_URL_APP}"
       ;;
   socket-server)
-      docker_repository="${SOCKET_SERVER_DOCKER_REPOSITORY}"
+      docker_repository="${ECR_URL_SOCKET_SERVER}"
       ;;
 esac
 
