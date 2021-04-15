@@ -1,5 +1,6 @@
 from .base import *
 
+
 DEV_APPS = (
     "django_pdb",
 )
