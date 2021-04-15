@@ -1,8 +1,6 @@
 from .base import *
 
 DEV_APPS = (
-    # 'django_extensions',
-    # 'debug_toolbar',
     "django_pdb",
 )
 
@@ -23,6 +21,3 @@ LOGGING = {
     },
     "loggers": {"django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True}},
 }
-
-ZENDESK_API_USERNAME = os.environ.get("ZENDESK_API_USERNAME", "<Zendesk user email>")
-ZENDESK_API_TOKEN = os.environ.get("ZENDESK_API_TOKEN", "<Zendesk API token>")
