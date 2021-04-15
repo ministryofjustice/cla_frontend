@@ -25,7 +25,10 @@ def things_exist():
 @live_smoketests.register(2, "Angular is loaded")
 @ready_smoketests.register(2, "Angular is loaded")
 def angular_loaded():
-    response = get(static("javascripts/cla.main.js"))
+    url = static("javascripts/cla.main.js")
+    if not "://" in url and settings.SITE_HOSTNAME == "localhost":
+        url = "{host}{url}".format(host=settings.LOCAL_HOST, url=url)
+    response = get(url)
     assert_status(response, 200)
 
 
