@@ -20,26 +20,16 @@ spec:
           imagePullPolicy: {{ .Values.socketServer.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 8000
+              containerPort: 8005
               protocol: TCP
-          # livenessProbe:
-            # httpGet:
-              # path: /status/live/
-              # port: http
-              # httpHeaders:
-                # - name: Host
-                  # value: "{{ .Values.host }}"
-          # readinessProbe:
-            # httpGet:
-              # path: /status/ready/
-              # port: http
-              # httpHeaders:
-                # - name: Host
-                  # value: "{{ .Values.host }}"
-          lifecycle:
-            preStop:
-              exec:
-                command: ["/bin/sleep","30"]
+          livenessProbe:
+            httpGet:
+              path: /admin/notifications/
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /admin/notifications/
+              port: http
           env:
             - name: SITE_HOSTNAME
               value: "{{ .Values.host }}"
