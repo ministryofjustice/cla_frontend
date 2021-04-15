@@ -15,4 +15,4 @@ COPY . .
 USER 1000
 EXPOSE 8005
 
-CMD ["/usr/local/bin/node", "/home/app/app.js"]
+CMD ["/usr/local/bin/node", "/home/app/cla_socketserver/app.js"]
