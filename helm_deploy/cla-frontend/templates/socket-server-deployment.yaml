@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}-socket-server
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.socketServer.image.repository }}:{{ .Values.socketServer.image.tag }}"
+          imagePullPolicy: {{ .Values.socketServer.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 8000
