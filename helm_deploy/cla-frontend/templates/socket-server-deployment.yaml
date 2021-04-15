@@ -22,20 +22,20 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /status/live/
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: "{{ .Values.host }}"
-          readinessProbe:
-            httpGet:
-              path: /status/ready/
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: "{{ .Values.host }}"
+          # livenessProbe:
+            # httpGet:
+              # path: /status/live/
+              # port: http
+              # httpHeaders:
+                # - name: Host
+                  # value: "{{ .Values.host }}"
+          # readinessProbe:
+            # httpGet:
+              # path: /status/ready/
+              # port: http
+              # httpHeaders:
+                # - name: Host
+                  # value: "{{ .Values.host }}"
           lifecycle:
             preStop:
               exec:
