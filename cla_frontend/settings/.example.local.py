@@ -1,8 +1,7 @@
 from .base import *
 
-DEV_APPS = (
-    "django_pdb",
-)
+
+DEV_APPS = ("django_pdb",)
 
 INSTALLED_APPS += DEV_APPS
 
