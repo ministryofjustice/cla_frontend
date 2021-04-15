@@ -113,7 +113,6 @@ COPY cla_frontend/settings  ./cla_frontend/settings/
 COPY cla_frontend/templates ./cla_frontend/templates/
 COPY cla_frontend/*.py      ./cla_frontend/
 COPY docker/                ./docker/
-COPY scripts/               ./scripts/
 COPY tests/                 ./tests/
 
 # Compile assets
