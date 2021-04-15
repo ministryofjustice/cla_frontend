@@ -41,4 +41,5 @@ spec:
               exec:
                 command: ["/bin/sleep","30"]
           env:
-            {{ include "cla-frontend.app.vars" . | nindent 12 }}
+            - name: SITE_HOSTNAME
+              value: "{{ .Values.host }}"
