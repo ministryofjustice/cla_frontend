@@ -9,15 +9,18 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+service:
+  type: NodePort
+  port: 80
+
 socketServer:
   image:
     repository: cla_frontend_socket_server_local
     tag: latest
     pullPolicy: IfNotPresent
-
-service:
-  type: NodePort
-  port: 80
+  service:
+    type: NodePort
+    port: 80
 
 ingress:
   enabled: false

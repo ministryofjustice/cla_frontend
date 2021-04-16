@@ -4,24 +4,27 @@
 
 replicaCount: 1
 
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
 image:
   repository: cla_frontend
   tag: latest
   pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
 
 socketServer:
   image:
     repository: cla_frontend_socket_server
     tag: latest
     pullPolicy: IfNotPresent
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-service:
-  type: ClusterIP
-  port: 80
+  service:
+    type: ClusterIP
+    port: 80
 
 host: 'localhost'
 
