@@ -96,7 +96,7 @@ envVars:
   DEBUG:
     value: "False"
   SOCKETIO_SERVER_URL:
-    value: "/socket.io"
+    value: "cla-frontend-socket-server"
   CALL_CENTRE_CLIENT_ID:
     secret:
       name: call-centre
