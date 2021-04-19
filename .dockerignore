@@ -5,7 +5,6 @@ cla_frontend/settings/local.py*
 static/
 node_modules/
 cla_frontend/assets-src/vendor/
-cla_socketserver
 venv/
 reports/
 .git/
