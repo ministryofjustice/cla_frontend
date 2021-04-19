@@ -43,7 +43,7 @@ jobs:
       image:
         type: string
     docker:
-      - image: docker:17.03-git
+      - image: docker:19.03-git
     steps:
       - checkout
       - setup_remote_docker:
@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Login to the ECR Docker registry
           command: |
-            apk add --no-cache --no-progress py2-pip
+            apk add --no-cache --no-progress py3-pip
             pip install awscli
             ecr_login="$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)"
             ${ecr_login}
