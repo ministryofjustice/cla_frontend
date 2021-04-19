@@ -7,7 +7,7 @@ HELM_DIR="helm_deploy/cla-frontend/"
 
 kubectl config use-context docker-desktop
 docker build -t cla_frontend_local .
-docker build -t cla_frontend_socket_server_local . -f Dockerfile.socket-server
+docker build -t cla_frontend_socket_server_local cla_socketserver -f cla_socketserver/Dockerfile
 
 helm upgrade cla-frontend \
   $HELM_DIR \

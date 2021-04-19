@@ -84,8 +84,8 @@ jobs:
                     --label build.git.sha=$CIRCLE_SHA1 \
                     --label build.git.branch=$CIRCLE_BRANCH \
                     --label build.url=$CIRCLE_BUILD_URL \
-                    --file Dockerfile.socket-server \
-                    .
+                    --file cla_socketserver/Dockerfile \
+                    cla_socketserver
       - run:
           name: Tag and push Docker image
           command: |
