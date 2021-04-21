@@ -105,6 +105,7 @@ jobs:
       - image: circleci/python:2.7
         environment:
           DJANGO_SETTINGS_MODULE: cla_frontend.settings.testing
+          SECRET_KEY: testing_key
     steps:
       - checkout
       - run:
