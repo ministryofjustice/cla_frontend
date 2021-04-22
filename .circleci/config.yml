@@ -206,28 +206,28 @@ workflows:
   version: 2
   test_and_build:
     jobs:
-      # - python_lint
-      # - python_unit_test
-      # - javascript_unit_test
+      - python_lint
+      - python_unit_test
+      - javascript_unit_test
       - build_for_template_deploy:
-          # requires:
-            # - python_lint
-            # - python_unit_test
-            # - javascript_unit_test
-      # - build:
-      #     requires:
-      #       - python_lint
-      #       - python_unit_test
-      #       - javascript_unit_test
-      #     context: laa-cla-frontend
-      # - staging_deploy_approval:
-      #     type: approval
-      #     requires:
-      #       - build
-      # - deploy:
-      #     name: staging_deploy
-      #     namespace: staging
-      #     dynamic_hostname: false
-      #     requires:
-      #       - staging_deploy_approval
-      #     context: laa-cla-frontend
+          requires:
+            - python_lint
+            - python_unit_test
+            - javascript_unit_test
+      - build:
+          requires:
+            - python_lint
+            - python_unit_test
+            - javascript_unit_test
+          context: laa-cla-frontend
+      - staging_deploy_approval:
+          type: approval
+          requires:
+            - build
+      - deploy:
+          name: staging_deploy
+          namespace: staging
+          dynamic_hostname: false
+          requires:
+            - staging_deploy_approval
+          context: laa-cla-frontend
