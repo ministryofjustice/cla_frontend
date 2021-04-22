@@ -115,7 +115,7 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STATIC_FILES_STORAGE_BUCKET_NAME")
 ANALYTICS_ID = os.environ.get("GA_ID", "")
 ANALYTICS_DOMAIN = os.environ.get("GA_DOMAIN", "")
 
-CSP_DEFAULT_SRC = ["'self'", "localhost", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com"]
+CSP_DEFAULT_SRC = ["'self'", "localhost:*", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com"]
 
 CSP_FONT_SRC = ["'self'", "data:"]
 
