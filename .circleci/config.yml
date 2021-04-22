@@ -8,6 +8,7 @@ jobs:
     environment:
       DOCKER_HUB_REGISTRY: "index.docker.io"
       DOCKER_HUB_IMAGE: "ministryofjustice/cla_frontend"
+      SECRET_KEY: build_key
     steps:
       - checkout
       - setup_remote_docker:
