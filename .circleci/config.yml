@@ -4,9 +4,7 @@ orbs:
 jobs:
   build_for_template_deploy:
     docker:
-      - image: docker:17.03-git
-        environment:
-          SECRET_KEY: build_key
+      - image: docker:17.03-git    
     environment:
       DOCKER_HUB_REGISTRY: "index.docker.io"
       DOCKER_HUB_IMAGE: "ministryofjustice/cla_frontend"
@@ -24,6 +22,8 @@ jobs:
               --email "$DOCKER_HUB_EMAIL"
       - run:
           name: Build Docker image
+          environment:
+            SECRET_KEY: build_key
           command: |
             docker build --tag application:$CIRCLE_SHA1 \
               --label build.git.sha=$CIRCLE_SHA1 \
