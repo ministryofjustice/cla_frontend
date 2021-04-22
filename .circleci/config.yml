@@ -28,7 +28,6 @@ jobs:
               --label build.git.branch=$CIRCLE_BRANCH \
               --label build.url=$CIRCLE_BUILD_URL \
               --file template_deploy/Dockerfile \
-              --build-arg ARG_SECRET_KEY=build_key \ 
               .
       - run:
           name: Validate Python version
@@ -207,14 +206,14 @@ workflows:
   version: 2
   test_and_build:
     jobs:
-      - python_lint
-      - python_unit_test
-      - javascript_unit_test
+      # - python_lint
+      # - python_unit_test
+      # - javascript_unit_test
       - build_for_template_deploy:
-          requires:
-            - python_lint
-            - python_unit_test
-            - javascript_unit_test
+          # requires:
+            # - python_lint
+            # - python_unit_test
+            # - javascript_unit_test
       - build:
           requires:
             - python_lint
