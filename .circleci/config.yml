@@ -28,6 +28,7 @@ jobs:
               --label build.git.branch=$CIRCLE_BRANCH \
               --label build.url=$CIRCLE_BUILD_URL \
               --file template_deploy/Dockerfile \
+              --build-arg ARG_SECRET_KEY=build_key \ 
               .
           environment:
             SECRET_KEY: build_key
