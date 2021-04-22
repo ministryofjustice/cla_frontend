@@ -23,7 +23,8 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build --tag application:$CIRCLE_SHA1 \
+            docker build --build-arg ARG_SECRET_KEY=build_key \
+              --tag application:$CIRCLE_SHA1 \
               --label build.git.sha=$CIRCLE_SHA1 \
               --label build.git.branch=$CIRCLE_BRANCH \
               --label build.url=$CIRCLE_BUILD_URL \
