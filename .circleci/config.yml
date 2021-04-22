@@ -22,8 +22,6 @@ jobs:
               --email "$DOCKER_HUB_EMAIL"
       - run:
           name: Build Docker image
-          environment:
-            SECRET_KEY: build_key
           command: |
             docker build --tag application:$CIRCLE_SHA1 \
               --label build.git.sha=$CIRCLE_SHA1 \
@@ -31,6 +29,8 @@ jobs:
               --label build.url=$CIRCLE_BUILD_URL \
               --file template_deploy/Dockerfile \
               .
+          environment:
+            SECRET_KEY: build_key
       - run:
           name: Validate Python version
           command: docker run --rm --tty --interactive application:$CIRCLE_SHA1 python --version | grep "2.7"
