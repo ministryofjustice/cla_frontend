@@ -5,10 +5,11 @@ jobs:
   build_for_template_deploy:
     docker:
       - image: docker:17.03-git
+        environment:
+          SECRET_KEY: build_key
     environment:
       DOCKER_HUB_REGISTRY: "index.docker.io"
       DOCKER_HUB_IMAGE: "ministryofjustice/cla_frontend"
-      SECRET_KEY: build_key
     steps:
       - checkout
       - setup_remote_docker:
