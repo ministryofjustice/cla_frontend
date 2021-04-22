@@ -26,5 +26,9 @@ spec:
           - path: "/"
             backend:
               serviceName: {{ $fullName }}-app
-              servicePort: {{ $svcPort }}
+              servicePort: {{ .Values.service.port }}
+          - path: "/socket.io/"
+            backend:
+              serviceName: {{ $fullName }}-socket-server
+              servicePort: {{ .Values.socketServer.service.port }}
 {{- end }}
