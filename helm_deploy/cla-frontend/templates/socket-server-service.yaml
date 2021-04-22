@@ -8,6 +8,7 @@ spec:
   type: {{ .Values.socketServer.service.type }}
   ports:
     - port: {{ .Values.socketServer.service.port }}
+      nodePort: 30312
       targetPort: http
       protocol: TCP
       name: http
