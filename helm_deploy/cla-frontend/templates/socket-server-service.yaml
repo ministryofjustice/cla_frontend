@@ -8,9 +8,11 @@ spec:
   type: {{ .Values.socketServer.service.type }}
   ports:
     - port: {{ .Values.socketServer.service.port }}
-      nodePort: 30312
       targetPort: http
       protocol: TCP
       name: http
+      {{- if eq .Values.socketServer.service.type "NodePort" }}
+      nodePort: 30312
+      {{- end }}
   selector:
     {{- include "cla-socket-server.selectorLabels" . | nindent 4 }}
