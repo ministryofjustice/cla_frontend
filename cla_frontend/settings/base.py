@@ -115,13 +115,11 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STATIC_FILES_STORAGE_BUCKET_NAME")
 ANALYTICS_ID = os.environ.get("GA_ID", "")
 ANALYTICS_DOMAIN = os.environ.get("GA_DOMAIN", "")
 
-CSP_DEFAULT_SRC = ["'self'", "localhost:*", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com"]
+CSP_DEFAULT_SRC = ["'self'", "localhost:*", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com", "stats.g.doubleclick.net"]
 
 CSP_FONT_SRC = ["'self'", "data:"]
 
 CSP_STYLE_SRC = ["'self'", "'unsafe-inline'"]
-
-CSP_CONNECT_SRC = ["'self'", "stats.g.doubleclick.net"]
 
 if AWS_STORAGE_BUCKET_NAME:
     AWS_STORAGE_BUCKET_HOSTNAME = AWS_STORAGE_BUCKET_NAME + ".s3.amazonaws.com"
