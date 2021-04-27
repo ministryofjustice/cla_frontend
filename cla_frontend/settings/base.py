@@ -121,6 +121,8 @@ CSP_FONT_SRC = ["'self'", "data:"]
 
 CSP_STYLE_SRC = ["'self'", "'unsafe-inline'"]
 
+CSP_CONNECT_SRC = ["'self'", "stats.g.doubleclick.net"]
+
 if AWS_STORAGE_BUCKET_NAME:
     AWS_STORAGE_BUCKET_HOSTNAME = AWS_STORAGE_BUCKET_NAME + ".s3.amazonaws.com"
     CSP_DEFAULT_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
