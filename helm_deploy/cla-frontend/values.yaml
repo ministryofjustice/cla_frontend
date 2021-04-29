@@ -97,8 +97,8 @@ envVars:
     value: "False"
   SOCKETIO_SERVER_URL:
     value: "/socket.io"
-  SOCKETIO_SERVICE:
-    value: "cla-frontend-socket-server"
+  SOCKETIO_SERVICE_URL:
+    value: "cla-frontend-socket-server/socket.io/"
   CALL_CENTRE_CLIENT_ID:
     secret:
       name: call-centre

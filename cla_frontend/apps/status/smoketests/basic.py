@@ -7,6 +7,7 @@ from urllib import urlencode
 from urllib2 import Request, URLError, urlopen
 from urlparse import urlparse, urlunparse
 
+import requests
 from django.conf import settings
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
@@ -51,48 +52,24 @@ def db_alive():
         )
 
 
-# Skipping this now as fixing it to pass involves more work to pass the Origin header
-# as the socket server only accepts requests with a fixed Origin header
-# @smoketests.register(5, "Socket.IO server running")
+@ready_smoketests.register(5, "Socket.IO server connecting")
 def socket_io():
-    parts = urlparse(settings.SOCKETIO_SERVER_URL)
-    host, _, port = parts.netloc.partition(":")
-    host = host or "localhost"
-    port = port or "80"
-    path = parts.path + "/1/"
-    parts = list(parts)
+    url = settings.SOCKETIO_SERVICE_URL
 
+    sid_request_params = {"eio": 3, "transport": "polling"}
+    headers = {"Origin": "localhost:"}
     try:
-        sid = socketio_session_id(host, port, path)
+        response = requests.get("http://{url}".format(url=url), params=sid_request_params, headers=headers)
+        sid = json.loads(response.content[5:])["sid"]
     except Exception as e:
         raise SmokeTestFail("Server not responding: {0}".format(str(e)))
 
-    parts[0] = "ws"
-    parts[1] = parts[1] or host
-    parts[2] = path + "websocket/"
-    parts[4] = urlencode({"sid": sid, "transport": "polling", "timestamp": unix_timestamp()})
-    ws_url = urlunparse(parts)
-
+    ws_url = "ws://{url}?eio=3&transport=websocket&sid={sid}"
     try:
-        ws = websocket.create_connection(ws_url)
-        socketio_disconnect(ws)
+        ws = websocket.create_connection(ws_url.format(url=url, sid=sid))
+        ws.send("0:::")
     except websocket.WebSocketException as e:
         raise SmokeTestFail("Failed creating websocket: {0}".format(str(e)))
-
-
-def unix_timestamp():
-    return calendar.timegm(time.gmtime())
-
-
-def socketio_disconnect(ws):
-    ws.send("0:::")
-
-
-def socketio_session_id(host, port, path):
-    conn = httplib.HTTPConnection(host, port)
-    conn.request("GET", "{path}?t={timestamp}&transport=polling&b64=1".format(path=path, timestamp=unix_timestamp()))
-    response = conn.getresponse().read()
-    return json.loads(response[4:])["sid"]
 
 
 def get_fe(url):
