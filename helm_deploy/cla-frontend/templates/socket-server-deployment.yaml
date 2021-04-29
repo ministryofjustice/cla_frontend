@@ -24,12 +24,18 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /admin/notifications/
+              path: /socket.io/?eio=3&transport=polling
               port: http
+              httpHeaders:
+                - name: Origin
+                  value: "localhost:"
           readinessProbe:
             httpGet:
-              path: /admin/notifications/
+              path: /socket.io/?eio=3&transport=polling
               port: http
+              httpHeaders:
+                - name: Origin
+                  value: "localhost:"
           env:
             - name: SITE_HOSTNAME
               value: "{{ .Values.host }}"
