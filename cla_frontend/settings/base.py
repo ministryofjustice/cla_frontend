@@ -117,13 +117,14 @@ ANALYTICS_DOMAIN = os.environ.get("GA_DOMAIN", "")
 
 CSP_DEFAULT_SRC = [
     "'self'",
-    "localhost:*",
     "o345774.ingest.sentry.io",
     "ws:",
     "wss:",
     "www.google-analytics.com",
     "stats.g.doubleclick.net",
 ]
+if "localhost" in ALLOWED_HOSTS:
+    CSP_DEFAULT_SRC += "localhost:*"
 
 CSP_FONT_SRC = ["'self'", "data:"]
 
