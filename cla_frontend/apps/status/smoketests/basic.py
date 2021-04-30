@@ -1,11 +1,6 @@
-import calendar
-import httplib
 import json
 import socket
-import time
-from urllib import urlencode
 from urllib2 import Request, URLError, urlopen
-from urlparse import urlparse, urlunparse
 
 import requests
 from django.conf import settings
