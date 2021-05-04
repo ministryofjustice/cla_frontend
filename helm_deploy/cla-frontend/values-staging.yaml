@@ -9,4 +9,4 @@ envVars:
   GA_ID:
     value: UA-37377084-24
   GA_DOMAIN:
-    value: dsd.io  # TODO
+    value: cloud-platform.service.justice.gov.uk
