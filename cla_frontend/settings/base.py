@@ -137,8 +137,7 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = "(W)*6GwxNiYn<B*ug<U9jdYNDY(#vu(:Y&NthqqPk?^CM=ee?z"
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -228,15 +227,15 @@ BACKEND_BASE_URI = os.environ.get("BACKEND_BASE_URI", "http://127.0.0.1:8000")
 
 ZONE_PROFILES = {
     "call_centre": {
-        "CLIENT_ID": "b4b9220ffcb11ebfdab1",
-        "CLIENT_SECRET": "2df71313bdd38a2e1b815015e1b14387e7681d41",
+        "CLIENT_ID": os.environ.get("CALL_CENTRE_CLIENT_ID", "b4b9220ffcb11ebfdab1"),
+        "CLIENT_SECRET": os.environ.get("CALL_CENTRE_SECRET_ID", "2df71313bdd38a2e1b815015e1b14387e7681d41"),
         "LOGIN_REDIRECT_URL": "call_centre:dashboard",
         "BASE_URI": "%s/call_centre/api/v1/" % BACKEND_BASE_URI,
         "AUTHENTICATION_BACKEND": "call_centre.backend.CallCentreBackend",
     },
     "cla_provider": {
-        "CLIENT_ID": "59657ed22d980251cdd3",
-        "CLIENT_SECRET": "0494287c65bdf61d29f0eeed467ec8e090f0d80f",
+        "CLIENT_ID": os.environ.get("CLA_PROVIDER_CLIENT_ID", "59657ed22d980251cdd3"),
+        "CLIENT_SECRET": os.environ.get("CALL_PROVIDER_SECRET_ID", "0494287c65bdf61d29f0eeed467ec8e090f0d80f"),
         "LOGIN_REDIRECT_URL": "cla_provider:dashboard",
         "BASE_URI": "%s/cla_provider/api/v1/" % BACKEND_BASE_URI,
         "AUTHENTICATION_BACKEND": "cla_provider.backend.ClaProviderBackend",

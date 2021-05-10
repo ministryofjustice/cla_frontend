@@ -8,6 +8,9 @@ FROM phusion/baseimage:0.9.22
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
+ARG ARG_SECRET_KEY
+ENV SECRET_KEY=$ARG_SECRET_KEY
+
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
 
@@ -113,7 +116,6 @@ COPY cla_frontend/settings  ./cla_frontend/settings/
 COPY cla_frontend/templates ./cla_frontend/templates/
 COPY cla_frontend/*.py      ./cla_frontend/
 COPY docker/                ./docker/
-COPY scripts/               ./scripts/
 COPY tests/                 ./tests/
 
 # Compile assets
