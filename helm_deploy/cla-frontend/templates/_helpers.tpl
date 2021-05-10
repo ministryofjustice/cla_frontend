@@ -53,6 +53,10 @@ Selector labels
 app.kubernetes.io/name: {{ include "cla-frontend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+{{- define "cla-socket-server.selectorLabels" -}}
+app.kubernetes.io/name: cla-socket-server
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
 
 {{- define "cla-frontend.app.vars" -}}
 {{- $environment := .Values.environment -}}

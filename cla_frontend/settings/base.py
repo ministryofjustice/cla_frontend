@@ -115,7 +115,16 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STATIC_FILES_STORAGE_BUCKET_NAME")
 ANALYTICS_ID = os.environ.get("GA_ID", "")
 ANALYTICS_DOMAIN = os.environ.get("GA_DOMAIN", "")
 
-CSP_DEFAULT_SRC = ["'self'", "o345774.ingest.sentry.io", "ws:", "wss:", "www.google-analytics.com"]
+CSP_DEFAULT_SRC = [
+    "'self'",
+    "o345774.ingest.sentry.io",
+    "ws:",
+    "wss:",
+    "www.google-analytics.com",
+    "stats.g.doubleclick.net",
+]
+if "localhost" in ALLOWED_HOSTS:
+    CSP_DEFAULT_SRC += "localhost:*"
 
 CSP_FONT_SRC = ["'self'", "data:"]
 
@@ -266,8 +275,11 @@ if "SENTRY_PUBLIC_DSN" in os.environ:
         environment=os.environ.get("CLA_ENV", "unknown"),
     )
 SENTRY_PUBLIC_DSN = os.environ.get("SENTRY_PUBLIC_DSN", "")
-SOCKETIO_SERVER_URL = os.environ.get("SOCKETIO_SERVER_URL", "http://localhost:8005/socket.io")
 SITE_HOSTNAME = os.environ.get("SITE_HOSTNAME", "localhost")
+# socket.io accessible over the internet, ie for browsers
+SOCKETIO_SERVER_URL = os.environ.get("SOCKETIO_SERVER_URL", "http://localhost:8005/socket.io")
+# socket.io accessible within the cluster, for health checks
+SOCKETIO_SERVICE_URL = os.environ.get("SOCKETIO_SERVICE_URL", "localhost:8005/socket.io/")
 
 
 # Zendesk feedback settings

@@ -8,10 +8,15 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "cla-frontend.labels" . | nindent 4 }}
-  {{- if .Values.ingress.whitelist }}
   annotations:
     nginx.ingress.kubernetes.io/whitelist-source-range: "{{ include "cla-frontend.whitelist" . }}"
-  {{- end }}
+    nginx.ingress.kubernetes.io/server-snippets: |
+      location /socket.io {
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+      }
 spec:
   tls:
     - hosts:
@@ -26,5 +31,9 @@ spec:
           - path: "/"
             backend:
               serviceName: {{ $fullName }}-app
-              servicePort: {{ $svcPort }}
+              servicePort: {{ .Values.service.port }}
+          - path: "/socket.io/"
+            backend:
+              serviceName: {{ $fullName }}-socket-server
+              servicePort: {{ .Values.socketServer.service.port }}
 {{- end }}

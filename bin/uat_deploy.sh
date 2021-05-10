@@ -12,6 +12,8 @@ helm upgrade $RELEASE_NAME \
   --set fullnameOverride=$RELEASE_NAME \
   --set environment=$RELEASE_NAME \
   --set host=$RELEASE_HOST \
-  --set image.repository=$DOCKER_REPOSITORY \
+  --set image.repository=$ECR_URL_APP \
   --set image.tag=$IMAGE_TAG \
+  --set socketServer.image.repository=$ECR_URL_SOCKET_SERVER \
+  --set socketServer.image.tag=$IMAGE_TAG \
   --install

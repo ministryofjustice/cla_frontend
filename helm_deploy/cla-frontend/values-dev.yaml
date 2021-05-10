@@ -13,6 +13,15 @@ service:
   type: NodePort
   port: 80
 
+socketServer:
+  image:
+    repository: cla_frontend_socket_server_local
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 80
+
 ingress:
   enabled: false
 
@@ -25,3 +34,5 @@ envVars:
     value: "https://laa-cla-backend-uat.apps.live-1.cloud-platform.service.justice.gov.uk"
   SESSION_COOKIE_SECURE:
     value: "False"
+  SOCKETIO_SERVER_URL:
+    value: "localhost:30312/socket.io"

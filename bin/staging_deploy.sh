@@ -10,7 +10,9 @@ helm upgrade $RELEASE_NAME \
   --values ${HELM_DIR}/values-staging.yaml \
   --set host=$RELEASE_HOST \
   --set secretName=tls-certificate \
-  --set image.repository=$DOCKER_REPOSITORY \
+  --set image.repository=$ECR_URL_APP \
   --set image.tag=$IMAGE_TAG \
+  --set socketServer.image.repository=$ECR_URL_SOCKET_SERVER \
+  --set socketServer.image.tag=$IMAGE_TAG \
   --set-string pingdomIPs=$PINGDOM_IPS \
   --install

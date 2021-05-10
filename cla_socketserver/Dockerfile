@@ -1,6 +1,7 @@
 FROM node:8.9.3-alpine
 
 RUN apk add --no-cache \
+      curl \
       tzdata
 
 RUN adduser -D app && \
@@ -15,4 +16,4 @@ COPY . .
 USER 1000
 EXPOSE 8005
 
-CMD ["/usr/local/bin/node", "/home/app/app.js"]
+CMD ["node", "/home/app/app.js"]

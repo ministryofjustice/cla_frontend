@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "cla-frontend.fullname" . }}-socket-server
+  labels:
+    {{- include "cla-frontend.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.socketServer.service.type }}
+  ports:
+    - port: {{ .Values.socketServer.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+      {{- if eq .Values.socketServer.service.type "NodePort" }}
+      nodePort: 30312
+      {{- end }}
+  selector:
+    {{- include "cla-socket-server.selectorLabels" . | nindent 4 }}
