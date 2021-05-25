@@ -223,7 +223,7 @@ jobs:
       - slack/notify:
           message: ':tada: (<< parameters.namespace >>) Deployed branch $CIRCLE_BRANCH'
           title: '$RELEASE_HOST'
-          title_link: 'https://$RELEASE_HOST/admin/'
+          title_link: 'https://$RELEASE_HOST'
 
 workflows:
   version: 2
