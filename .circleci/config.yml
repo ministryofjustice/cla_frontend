@@ -257,6 +257,7 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-socket-server-ecr
+
       - deploy:
           name: uat_deploy
           namespace: uat
@@ -267,11 +268,13 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-app-ecr
+
       - static_uat_deploy_approval:
           type: approval
           requires:
             - build_app
             - build_socket_server
+
       - deploy:
           name: static_uat_deploy
           namespace: uat
@@ -281,6 +284,7 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-app-ecr
+
       - staging_deploy_approval:
           type: approval
           requires:
@@ -290,6 +294,7 @@ workflows:
             branches:
               only:
                 - master
+
       - deploy:
           name: staging_deploy
           namespace: staging
@@ -299,6 +304,7 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-app-ecr
+
       - production_deploy_approval:
           requires:
             - staging_deploy
@@ -307,9 +313,20 @@ workflows:
             branches:
               only:
                 - master
+
       - deploy:
           name: training_deploy
           namespace: training
+          dynamic_hostname: false
+          requires:
+            - production_deploy_approval
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-app-ecr
+
+      - deploy:
+          name: production_deploy
+          namespace: production
           dynamic_hostname: false
           requires:
             - production_deploy_approval
