@@ -59,7 +59,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{- define "cla-socket-server.service-url" -}}
-{{ include "cla-frontend.fullname" . }}-socket-server/socket.io/test
+{{ include "cla-frontend.fullname" . }}-socket-server/socket.io/
 {{- end }}
 
 {{- define "cla-frontend.app.vars" -}}
@@ -70,11 +70,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
   value: "{{ $environment }}"
 - name: SITE_HOSTNAME
   value: "{{ .Values.host }}"
+- name: SOCKETIO_SERVICE_URL
+  value: "{{ include "cla-socket-server.service-url" . }}"
 {{/* TODO Might be removable */}}
 - name: HOST_NAME
   value: "{{ .Values.host }}"
-- name: SOCKETIO_SERVICE_URL
-  value: "{{ include "cla-socket-server.service-url" . }}"
 {{ range $name, $data := .Values.envVars }}
 - name: {{ $name }}
 {{- if $data.value }}

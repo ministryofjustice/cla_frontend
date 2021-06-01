@@ -225,6 +225,27 @@ jobs:
           title: '$RELEASE_HOST'
           title_link: 'https://$RELEASE_HOST'
 
+  cleanup_merged:
+    docker:
+      - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
+    steps:
+      - checkout
+      - run:
+          name: Install helm v3
+          command: |
+            wget https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz
+            tar -zxvf helm-v3.1.2-linux-amd64.tar.gz
+            mv linux-amd64/helm /usr/local/bin/helm
+      - run:
+          name: Initialise Kubernetes uat context
+          command: |
+            setup-kube-auth
+            kubectl config use-context uat
+      - run:
+          name: Delete uat release
+          command: |
+            ./bin/delete_uat_release.sh
+
 workflows:
   version: 2
   test_and_build:
@@ -232,6 +253,8 @@ workflows:
       - python_lint
       - python_unit_test
       - javascript_unit_test
+      - cleanup_merged:
+          context: laa-cla-frontend
       - build_for_template_deploy:
           requires:
             - python_lint
