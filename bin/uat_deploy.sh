@@ -16,5 +16,4 @@ helm upgrade $RELEASE_NAME \
   --set image.tag=$IMAGE_TAG \
   --set socketServer.image.repository=$ECR_URL_SOCKET_SERVER \
   --set socketServer.image.tag=$IMAGE_TAG \
-  --set envVars.SOCKETIO_SERVICE_URL.value=${RELEASE_NAME}-socket-server/socket.io/ \
   --install
