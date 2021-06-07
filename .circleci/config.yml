@@ -223,7 +223,28 @@ jobs:
       - slack/notify:
           message: ':tada: (<< parameters.namespace >>) Deployed branch $CIRCLE_BRANCH'
           title: '$RELEASE_HOST'
-          title_link: 'https://$RELEASE_HOST/admin/'
+          title_link: 'https://$RELEASE_HOST'
+
+  cleanup_merged:
+    docker:
+      - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
+    steps:
+      - checkout
+      - run:
+          name: Install helm v3
+          command: |
+            wget https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz
+            tar -zxvf helm-v3.1.2-linux-amd64.tar.gz
+            mv linux-amd64/helm /usr/local/bin/helm
+      - run:
+          name: Initialise Kubernetes uat context
+          command: |
+            setup-kube-auth
+            kubectl config use-context uat
+      - run:
+          name: Delete uat release
+          command: |
+            ./bin/delete_uat_release.sh
 
 workflows:
   version: 2
@@ -232,6 +253,8 @@ workflows:
       - python_lint
       - python_unit_test
       - javascript_unit_test
+      - cleanup_merged:
+          context: laa-cla-frontend
       - build_for_template_deploy:
           requires:
             - python_lint
@@ -257,17 +280,79 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-socket-server-ecr
+
+      - deploy:
+          name: uat_deploy
+          namespace: uat
+          dynamic_hostname: true
+          requires:
+            - build_app
+            - build_socket_server
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-app-ecr
+
+      - static_uat_deploy_approval:
+          type: approval
+          requires:
+            - build_app
+            - build_socket_server
+
+      - deploy:
+          name: static_uat_deploy
+          namespace: uat
+          dynamic_hostname: false
+          requires:
+            - static_uat_deploy_approval
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-app-ecr
+
       - staging_deploy_approval:
           type: approval
           requires:
             - build_app
             - build_socket_server
+          filters:
+            branches:
+              only:
+                - master
+
       - deploy:
           name: staging_deploy
           namespace: staging
           dynamic_hostname: false
           requires:
             - staging_deploy_approval
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-app-ecr
+
+      - production_deploy_approval:
+          requires:
+            - staging_deploy
+          type: approval
+          filters:
+            branches:
+              only:
+                - master
+
+      - deploy:
+          name: training_deploy
+          namespace: training
+          dynamic_hostname: false
+          requires:
+            - production_deploy_approval
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-app-ecr
+
+      - deploy:
+          name: production_deploy
+          namespace: production
+          dynamic_hostname: false
+          requires:
+            - production_deploy_approval
           context:
             - laa-cla-frontend
             - laa-cla-frontend-app-ecr
