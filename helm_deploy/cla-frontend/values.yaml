@@ -28,6 +28,7 @@ socketServer:
 
 host: 'localhost'
 
+secretName: tls-certificate
 ingress:
   enabled: true
   annotations: {}
