@@ -2,8 +2,9 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal',
-      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal', 'diagnosis',
+      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal, diagnosis) {
+        $scope.category = diagnosis.category;
         $scope.is_manual = false;
         $scope.is_manual_ref = false;
         $scope.is_spor = false;
