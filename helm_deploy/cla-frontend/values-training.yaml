@@ -3,6 +3,9 @@
 # Declare variables to be passed into your templates.
 environment: "training"
 
+ingress:
+  whitelist: []
+
 envVars:
   BACKEND_BASE_URI:
     value: "https://training.fox.civillegaladvice.service.gov.uk"

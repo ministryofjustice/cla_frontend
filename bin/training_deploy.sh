@@ -9,7 +9,6 @@ helm upgrade $RELEASE_NAME \
   --namespace=${KUBE_ENV_TRAINING_NAMESPACE} \
   --values ${HELM_DIR}/values-training.yaml \
   --set host=$RELEASE_HOST \
-  --set secretName=tls-certificate \
   --set image.repository=$ECR_URL_APP \
   --set image.tag=$IMAGE_TAG \
   --set socketServer.image.repository=$ECR_URL_SOCKET_SERVER \
