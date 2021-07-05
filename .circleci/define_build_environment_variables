@@ -10,7 +10,7 @@ export IMAGE_TAG="$safe_git_branch.$short_sha"
 
 case $NAMESPACE in
   production)
-      export NAMESPACE_HOST="${CLOUD_PLATFORM_PRODUCTION_HOST}"
+      export NAMESPACE_HOST="${PRODUCTION_HOST}"
       ;;
   uat)
       export NAMESPACE_HOST="${UAT_HOST}"
