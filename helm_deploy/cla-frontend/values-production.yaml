@@ -7,9 +7,9 @@ environment: "prod"
 
 secretName: ~ # TODO: Remove this line as part of live switch-over as we are not using a custom production domain yet
 
-# TODO: Uncomment the following when app is ready for production
-#ingress:
-#  whitelist: []
+# Disable whitelist for production
+ingress:
+  whitelist: []
 
 envVars:
   BACKEND_BASE_URI:
