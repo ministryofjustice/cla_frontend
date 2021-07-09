@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
 from django.utils.http import is_safe_url
 from django.shortcuts import resolve_url
 from django.contrib.sites.models import get_current_site
@@ -26,7 +25,6 @@ logger = logging.getLogger(__name__)
 
 
 @sensitive_post_parameters()
-@csrf_protect
 @never_cache
 def login(
     request,
