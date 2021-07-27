@@ -233,6 +233,11 @@ LOGGING = {
 }
 
 BACKEND_BASE_URI = os.environ.get("BACKEND_BASE_URI", "http://127.0.0.1:8000")
+if "CLA_PROVIDER_SECRET_ID" in os.environ:
+    provider_client_secret = os.environ.get("CLA_PROVIDER_SECRET_ID")
+else:
+    # Remove after deployment is migrated to kubernetes
+    provider_client_secret = os.environ.get("CALL_PROVIDER_SECRET_ID", "0494287c65bdf61d29f0eeed467ec8e090f0d80f")
 
 ZONE_PROFILES = {
     "call_centre": {
@@ -244,7 +249,7 @@ ZONE_PROFILES = {
     },
     "cla_provider": {
         "CLIENT_ID": os.environ.get("CLA_PROVIDER_CLIENT_ID", "59657ed22d980251cdd3"),
-        "CLIENT_SECRET": os.environ.get("CALL_PROVIDER_SECRET_ID", "0494287c65bdf61d29f0eeed467ec8e090f0d80f"),
+        "CLIENT_SECRET": provider_client_secret,
         "LOGIN_REDIRECT_URL": "cla_provider:dashboard",
         "BASE_URI": "%s/cla_provider/api/v1/" % BACKEND_BASE_URI,
         "AUTHENTICATION_BACKEND": "cla_provider.backend.ClaProviderBackend",
