@@ -5,7 +5,6 @@
 replicaCount: 2
 environment: "prod"
 
-secretName: ~ # TODO: Remove this line as part of live switch-over as we are not using a custom production domain yet
 
 # Disable whitelist for production
 ingress:
