@@ -19,6 +19,8 @@
             }
           });
 
+          $scope.family_issue_flag = window.family_issue_flag;
+
           $scope.getCategoryForScriptNotes = function() {
             if($scope.inJudicialReview()) {
               return 'Judicial review';
