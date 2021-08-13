@@ -149,6 +149,9 @@ STATICFILES_FINDERS = (
 
 SECRET_KEY = os.environ["SECRET_KEY"]
 
+# Sets whether the updated family issue text displays on in scope family cases or not
+FAMILY_ISSUE_FEATURE_FLAG = os.environ.get("FAMILY_ISSUE_FEATURE_FLAG", "False") == "True"
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     (
@@ -323,6 +326,3 @@ STATSD_HOST = os.environ.get("STATSD_HOST", "localhost")
 STATSD_PORT = os.environ.get("STATSD_PORT", 8125)
 
 MAINTENANCE_MODE = os.environ.get("MAINTENANCE_MODE", "False") == "True"
-
-# Sets whether the updated family issue text displays on in scope family cases or not
-FAMILY_ISSUE_FEATURE_FLAG = os.environ.get("FAMILY_ISSUE_FEATURE_FLAG", "False") == "True"
