@@ -317,7 +317,7 @@
         return (this.state === undefined || this.state === DIAGNOSIS_SCOPE.UNKNOWN);
       };
       resource.prototype.nonCLACategory = function(){
-        return this.category === 'family';
+        return this.category === 'family' && window.family_issue_flag;
       };
       resource.prototype.hasLetterOfProceedings = function() {
         if (this.nodes && this.nodes.length > 1) {
