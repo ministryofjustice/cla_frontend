@@ -122,10 +122,9 @@ CSP_DEFAULT_SRC = [
     "wss:",
     "www.google-analytics.com",
     "stats.g.doubleclick.net",
-    "'unsafe-inline'",
 ]
 if "localhost" in ALLOWED_HOSTS:
-    CSP_DEFAULT_SRC += "localhost:*"
+    CSP_DEFAULT_SRC += ["localhost:*", "'unsafe-inline'"]
 
 CSP_FONT_SRC = ["'self'", "data:"]
 
