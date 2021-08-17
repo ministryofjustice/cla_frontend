@@ -89,6 +89,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
       {{- else }}
       optional: {{ $data.secret.optional | default false }}
       {{- end }}
+{{- else if $data.configmap }}
+  valueFrom:
+    configMapKeyRef:
+      name: {{ $data.configmap.name }}
+      key: {{ $data.configmap.key }}
+      {{- if eq $environment "development" }}
+      optional: true
+      {{- else }}
+      optional: {{ $data.configmap.optional | default false }}
+      {{- end }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
