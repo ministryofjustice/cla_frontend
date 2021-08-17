@@ -26,9 +26,9 @@
           var valid = AssignProviderValidation.validate({case: $case, personal_details: personal_details, adaptation_details: adaptation_details});
 
           if(diagnosis.nonCLACategory()) {
-            var capitalisedCategory = diagnosis.category.substr(0, 1).toUpperCase() + diagnosis.category.substr(1);
+            var capitalisedCategory = diagnosis.category.charAt(0).toUpperCase() + diagnosis.category.substring(1);
             deferred.reject({
-              msg: `${capitalisedCategory} is no longer a CLA category. Please assign a F2F provider`,
+              msg: capitalisedCategory + 'is no longer a CLA category. Please assign a F2F provider',
               case: $case.reference
             });
           } else if (!diagnosis.isInScopeTrue() || !eligibility_check.isEligibilityTrue()) {
