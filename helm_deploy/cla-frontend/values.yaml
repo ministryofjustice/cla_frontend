@@ -130,3 +130,7 @@ envVars:
     secret:
       name: zendesk-api
       key: username
+  FAMILY_ISSUE_FEATURE_FLAG:
+    configmap:
+      name: family-issue
+      key: family-issue-on

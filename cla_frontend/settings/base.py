@@ -122,6 +122,7 @@ CSP_DEFAULT_SRC = [
     "wss:",
     "www.google-analytics.com",
     "stats.g.doubleclick.net",
+    "'sha256-tgslfQLBHee8rLF3s2GT3qq2cz4Iz+6xPlz9YKO2mHU='",
 ]
 if "localhost" in ALLOWED_HOSTS:
     CSP_DEFAULT_SRC += "localhost:*"
@@ -147,6 +148,9 @@ STATICFILES_FINDERS = (
 )
 
 SECRET_KEY = os.environ["SECRET_KEY"]
+
+# Sets whether the updated family issue text displays on in scope family cases or not
+FAMILY_ISSUE_FEATURE_FLAG = os.environ.get("FAMILY_ISSUE_FEATURE_FLAG", "False")
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
