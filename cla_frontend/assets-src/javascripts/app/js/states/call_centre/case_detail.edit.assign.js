@@ -24,8 +24,7 @@
         CanAssign: ['AssignProviderValidation', '$q', 'diagnosis', 'eligibility_check', 'case', 'personal_details', 'adaptation_details', 'History', function (AssignProviderValidation, $q, diagnosis, eligibility_check, $case, personal_details, adaptation_details, History) {
           var deferred = $q.defer();
           var valid = AssignProviderValidation.validate({case: $case, personal_details: personal_details, adaptation_details: adaptation_details});
-
-          if(diagnosis.nonCLACategory()) {
+          if(diagnosis.isNonCLACategory()) {
             var capitalisedCategory = diagnosis.category.charAt(0).toUpperCase() + diagnosis.category.substring(1);
             deferred.reject({
               msg: capitalisedCategory + ' is no longer a CLA category. Please assign a F2F provider',
