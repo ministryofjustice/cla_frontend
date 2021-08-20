@@ -316,6 +316,9 @@
       resource.prototype.isInScopeUnknown = function() {
         return (this.state === undefined || this.state === DIAGNOSIS_SCOPE.UNKNOWN);
       };
+      resource.prototype.isNonCLACategory = function(){
+        return this.category === 'family' && window.family_issue_flag;
+      };
       resource.prototype.hasLetterOfProceedings = function() {
         if (this.nodes && this.nodes.length > 1) {
           var last_node = this.nodes[this.nodes.length - 2]
