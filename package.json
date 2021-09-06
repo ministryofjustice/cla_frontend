@@ -9,7 +9,7 @@
     "url": "https://github.com/ministryofjustice/cla_frontend"
   },
   "dependencies": {
-    "@uirouter/angularjs": "^1.0.13",
+    "@uirouter/angularjs": "0.2.10",
     "angular": "1.4.3",
     "angular-animate": "1.4.x",
     "angular-blocks": "^0.1.15",
