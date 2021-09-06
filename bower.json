@@ -5,7 +5,6 @@
     "lodash": "2.4.1",
     "angular-mocks": "1.4.x",
     "angular-resource": "1.4.x",
-    "angular-animate": "1.4.x",
     "angular-i18n": "1.2.16",
     "angular-ui-router": "0.2.10",
     "angular-sanitize": "1.2.17",
