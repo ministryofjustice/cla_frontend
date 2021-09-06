@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "dependencies": {
     "lodash": "2.4.1",
-    "angular": "1.4.13",
     "angular-mocks": "1.4.x",
     "angular-resource": "1.4.x",
     "angular-animate": "1.4.x",
