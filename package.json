@@ -20,7 +20,7 @@
     "angular-messages": "^1.6.8",
     "angular-mocks": "1.4.x",
     "angular-moment": "^1.2.0",
-    "angular-resource": "^1.6.8",
+    "angular-resource": "1.4.x",
     "angular-sanitize": "^1.6.8",
     "angular-socket-io": "^0.7.0",
     "angular-ui-select2": "0.0.5",
