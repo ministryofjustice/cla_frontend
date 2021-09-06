@@ -14,7 +14,7 @@
     "angular-animate": "1.4.x",
     "angular-blocks": "^0.1.15",
     "angular-hotkeys": "^1.7.0",
-    "angular-i18n": "^1.6.8",
+    "angular-i18n": "1.2.16",
     "angular-loading-bar": "^0.9.0",
     "angular-local-storage": "^0.7.1",
     "angular-messages": "^1.6.8",
