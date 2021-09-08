@@ -22,7 +22,6 @@
     "ng-idle": "HackedByChinese/ng-idle#b5c95763419498d6daaf953c79eeaf55066f4be3",
     "moment-timezone": "~0.3.1",
     "angular-sticky": "angular-sticky-plugin#^0.4.2",
-    "angulartics-google-analytics": "0.5.0",
     "raven-js": "3.27.2"
   },
   "resolutions": {
