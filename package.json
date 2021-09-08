@@ -25,7 +25,7 @@
     "angular-socket-io": "0.6.0",
     "angular-ui-select2": "0.0.5",
     "angular-xeditable": "^0.8.1",
-    "angulartics": "^1.5.0",
+    "angulartics": "1.6.0",
     "angulartics-google-analytics": "0.5.0",
     "conduitjs": "^0.3.3",
     "extend": "^3.0.1",
