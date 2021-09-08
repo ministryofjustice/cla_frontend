@@ -12,7 +12,7 @@
     "@uirouter/angularjs": "0.2.10",
     "angular": "1.4.13",
     "angular-animate": "1.4.x",
-    "angular-blocks": "^0.1.15",
+    "angular-blocks": "0.1.x",
     "angular-hotkeys": "^1.7.0",
     "angular-i18n": "1.4.x",
     "angular-loading-bar": "^0.9.0",
