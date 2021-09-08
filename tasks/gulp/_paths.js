@@ -42,7 +42,7 @@
       paths.src + 'vendor/select2/select2.js',
       // angular specific
       libPath + 'angular/angular.js',
-      paths.src + 'vendor/angular-sanitize/angular-sanitize.js',
+      libPath + 'angular-sanitize/angular-sanitize.js',
       paths.src + 'vendor/angular-messages/angular-messages.js',
       libPath + 'angular-animate/angular-animate.js',
       paths.src + 'vendor/angular-sticky/dist/angular-sticky.js',
