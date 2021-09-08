@@ -7,7 +7,6 @@
     "angular-ui-select2": "0.0.5",
     "postal.js": "0.10.3",
     "conduitjs": "0.3.3",
-    "angular-socket-io": "0.6.0",
     "socket.io-client": "1.7.4",
     "rome": "1.2.1",
     "angulartics": "1.6.0",
