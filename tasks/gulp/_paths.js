@@ -43,7 +43,7 @@
       // angular specific
       libPath + 'angular/angular.js',
       libPath + 'angular-sanitize/angular-sanitize.js',
-      paths.src + 'vendor/angular-messages/angular-messages.js',
+      libPath + 'angular-messages/angular-messages.js',
       libPath + 'angular-animate/angular-animate.js',
       paths.src + 'vendor/angular-sticky/dist/angular-sticky.js',
       libPath + 'angular-resource/angular-resource.js',
