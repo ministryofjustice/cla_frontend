@@ -63,7 +63,7 @@
       libPath + 'angular-loading-bar/build/loading-bar.js',
       paths.src + 'vendor/socket.io-client/dist/socket.io.js',
       libPath + 'angular-socket-io/socket.js',
-      paths.src + 'vendor/angulartics/src/angulartics.js',
+      libPath + 'angulartics/src/angulartics.js',
       libPath + 'angulartics-google-analytics/lib/angulartics-ga.js',
       paths.src + 'vendor/angular-hotkeys/build/hotkeys.js',
       paths.src + 'vendor/ng-text-truncate/ng-text-truncate.js',
