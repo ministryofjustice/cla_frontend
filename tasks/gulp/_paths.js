@@ -61,7 +61,7 @@
       libPath + 'conduitjs/lib/conduit.js',
       libPath + 'postal/lib/postal.js',
       libPath + 'angular-loading-bar/build/loading-bar.js',
-      paths.src + 'vendor/socket.io-client/dist/socket.io.js',
+      libPath + 'socket.io-client/dist/socket.io.js',
       libPath + 'angular-socket-io/socket.js',
       libPath + 'angulartics/src/angulartics.js',
       libPath + 'angulartics-google-analytics/lib/angulartics-ga.js',
