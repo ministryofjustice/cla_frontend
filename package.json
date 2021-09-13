@@ -38,7 +38,7 @@
     "ng-text-truncate": "^1.0.0",
     "papaparse": "^4.3.6",
     "postal": "0.10.3",
-    "rome": "^2.1.22",
+    "rome": "1.2.1",
     "socket.io-client": "1.7.4"
   },
   "devDependencies": {
