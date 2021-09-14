@@ -72,7 +72,7 @@
       paths.src + 'vendor/ng-idle/angular-idle.js',
       paths.src + 'javascripts/vendor/diff-match-patch/angular-diff-match-patch.js',
       paths.src + 'javascripts/vendor/diff-match-patch/google-diff-match-patch.js',
-      paths.src + 'vendor/papaparse/papaparse.js', // csv upload
+      libPath + 'papaparse/papaparse.js', // csv upload
       paths.src + 'vendor/FileSaver/FileSaver.js' // csv upload
     ],
     app: [
