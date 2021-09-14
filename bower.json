@@ -2,7 +2,6 @@
   "name": "cla-frontend",
   "version": "0.1.0",
   "dependencies": {
-    "ng-idle": "HackedByChinese/ng-idle#b5c95763419498d6daaf953c79eeaf55066f4be3",
     "angular-sticky": "angular-sticky-plugin#^0.4.2",
     "raven-js": "3.27.2"
   },

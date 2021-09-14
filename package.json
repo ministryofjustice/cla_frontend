@@ -36,7 +36,7 @@
     "jquery": "2.1.1",
     "lodash": "2.4.1",
     "moment-timezone": "0.4.1",
-    "ng-idle": "^1.3.2",
+    "ng-idle": "HackedByChinese/ng-idle#b5c95763419498d6daaf953c79eeaf55066f4be3",
     "ng-text-truncate": "^1.0.0",
     "papaparse": "4.0.0",
     "postal": "0.10.3",

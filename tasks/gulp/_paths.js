@@ -69,7 +69,7 @@
       libPath + 'ng-text-truncate/ng-text-truncate.js',
       libPath + 'angular-local-storage/dist/angular-local-storage.js',
       libPath + 'angular-utils-pagination/dirPagination.js',
-      paths.src + 'vendor/ng-idle/angular-idle.js',
+      libPath + 'ng-idle/angular-idle.js',
       paths.src + 'javascripts/vendor/diff-match-patch/angular-diff-match-patch.js',
       paths.src + 'javascripts/vendor/diff-match-patch/google-diff-match-patch.js',
       libPath + 'papaparse/papaparse.js', // csv upload
