@@ -57,7 +57,7 @@
       libPath + 'angular-blocks/dist/angular-blocks.js',
       libPath + 'rome/dist/rome.standalone.js', // datepicker
       paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-1.3.3.js',
-      paths.src + 'vendor/angular-xeditable/dist/js/xeditable.js',
+      libPath + 'angular-xeditable/dist/js/xeditable.js',
       libPath + 'conduitjs/lib/conduit.js',
       libPath + 'postal/lib/postal.js',
       libPath + 'angular-loading-bar/build/loading-bar.js',

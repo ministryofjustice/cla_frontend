@@ -4,7 +4,6 @@
   "dependencies": {
     "papaparse": "3.1.4",
     "FileSaver": "eligrey/FileSaver.js#899ed116a946921223f25eaa2f54862b737c6e73",
-    "angular-xeditable": "teneightfive/angular-xeditable#0.2.0",
     "fullcalendar": "1.6.4",
     "ng-idle": "HackedByChinese/ng-idle#b5c95763419498d6daaf953c79eeaf55066f4be3",
     "angular-sticky": "angular-sticky-plugin#^0.4.2",
