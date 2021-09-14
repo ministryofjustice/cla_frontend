@@ -73,7 +73,7 @@
       paths.src + 'javascripts/vendor/diff-match-patch/angular-diff-match-patch.js',
       paths.src + 'javascripts/vendor/diff-match-patch/google-diff-match-patch.js',
       libPath + 'papaparse/papaparse.js', // csv upload
-      paths.src + 'vendor/FileSaver/FileSaver.js' // csv upload
+      libPath + 'file-saver/FileSaver.js' // csv upload
     ],
     app: [
       paths.src + 'javascripts/app/js/app.js',
