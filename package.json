@@ -31,7 +31,7 @@
     "conduitjs": "0.3.3",
     "extend": "^3.0.1",
     "file-saver": "1.2.0",
-    "fullcalendar": "^3.8.1",
+    "fullcalendar": "2.3.1",
     "govuk_frontend_toolkit": "1.4.0",
     "jquery": "2.1.1",
     "lodash": "2.4.1",
