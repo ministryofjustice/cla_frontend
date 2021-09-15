@@ -48,7 +48,6 @@
       libPath + 'angular-sticky-plugin/dist/angular-sticky.js',
       libPath + 'angular-resource/angular-resource.js',
       libPath + '@uirouter/angularjs/release/angular-ui-router.js',
-      paths.src + 'vendor/ui-router-extras/release/ct-ui-router-extras.js',
       libPath + 'angular-ui-select2/src/select2.js',
       paths.src + 'vendor/angular-i18n/angular-locale_en-gb.js',
       paths.src + 'vendor/moment/moment.js',
