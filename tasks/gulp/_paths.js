@@ -39,7 +39,7 @@
     vendor: [
       libPath + 'lodash/dist/lodash.js',
       libPath + 'jquery/dist/jquery.js',
-      paths.src + 'vendor/select2/select2.js',
+      libPath + 'select2/select2.js',
       // angular specific
       libPath + 'angular/angular.js',
       paths.src + 'vendor/angular-sanitize/angular-sanitize.js',
