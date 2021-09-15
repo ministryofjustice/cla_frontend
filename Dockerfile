@@ -23,13 +23,10 @@ RUN apk add --no-cache \
 
 WORKDIR /home/app
 
-# Install node dependencies
+# Install node and front-end dependencies
+# NPM has now replaced bower for installing front-end dependencies
 COPY package.json package-lock.json ./
 RUN npm install
-
-# Install front-end dependencies
-COPY .bowerrc bower.json ./
-RUN npm run bower
 
 # Build front-end assets
 COPY tasks/ ./tasks
