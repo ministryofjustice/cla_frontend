@@ -45,7 +45,7 @@
       libPath + 'angular-sanitize/angular-sanitize.js',
       libPath + 'angular-messages/angular-messages.js',
       libPath + 'angular-animate/angular-animate.js',
-      paths.src + 'vendor/angular-sticky/dist/angular-sticky.js',
+      libPath + 'angular-sticky-plugin/dist/angular-sticky.js',
       libPath + 'angular-resource/angular-resource.js',
       libPath + '@uirouter/angularjs/release/angular-ui-router.js',
       paths.src + 'vendor/ui-router-extras/release/ct-ui-router-extras.js',

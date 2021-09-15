@@ -2,7 +2,6 @@
   "name": "cla-frontend",
   "version": "0.1.0",
   "dependencies": {
-    "angular-sticky": "angular-sticky-plugin#^0.4.2",
     "raven-js": "3.27.2"
   },
   "resolutions": {

@@ -23,6 +23,7 @@
     "angular-resource": "1.4.x",
     "angular-sanitize": "1.2.x",
     "angular-socket-io": "0.6.0",
+    "angular-sticky-plugin": "0.4.2",
     "angular-ui-select2": "0.0.5",
     "angular-utils-pagination": "0.8.0",
     "angular-xeditable": "teneightfive/angular-xeditable#0.2.0",
