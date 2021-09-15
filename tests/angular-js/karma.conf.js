@@ -7,7 +7,7 @@
       basePath : '../../',
 
       files : [
-        'cla_frontend/assets-src/vendor/raven-js/dist/angular/raven.js',
+        'node_modules/raven-js/dist/angular/raven.js',
         'cla_frontend/assets/javascripts/lib.min.js',
         'cla_frontend/assets/javascripts/cla.main.min.js',
         'node_modules/angular-mocks/angular-mocks.js',
