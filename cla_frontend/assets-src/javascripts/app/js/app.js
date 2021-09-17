@@ -88,8 +88,9 @@
       });
     }];
 
-  common_config = ['$resourceProvider', 'cfpLoadingBarProvider', '$analyticsProvider',
-    function($resourceProvider, cfpLoadingBarProvider, $analyticsProvider) {
+  common_config = ['$resourceProvider', 'cfpLoadingBarProvider', '$analyticsProvider', 'paginationTemplateProvider',
+    function($resourceProvider, cfpLoadingBarProvider, $analyticsProvider, paginationTemplateProvider) {
+      paginationTemplateProvider.setPath('directives/pagination/dirPagination.tpl.html');
       $resourceProvider.defaults.stripTrailingSlashes = false;
       cfpLoadingBarProvider.includeBar = false;
       $analyticsProvider.queryKeysBlacklist(['search']);
