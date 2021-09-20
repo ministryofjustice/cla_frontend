@@ -11,6 +11,7 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', analytics_id, analytics_domain);
+    ga('set', 'displayFeaturesTask', null);
     // non ng tracking
     if (!ngApp) {
       ga('send', 'pageview');
