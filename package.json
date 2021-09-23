@@ -38,7 +38,7 @@
     "lodash": "2.4.1",
     "moment-timezone": "0.4.1",
     "ng-idle": "1.0.4",
-    "ng-text-truncate": "^1.0.0",
+    "ng-text-truncate": "1.0.0",
     "papaparse": "4.0.0",
     "postal": "0.10.3",
     "raven-js": "3.27.2",
