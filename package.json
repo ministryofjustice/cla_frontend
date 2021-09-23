@@ -25,7 +25,7 @@
     "angular-socket-io": "0.6.0",
     "angular-sticky-plugin": "0.4.2",
     "angular-ui-select2": "0.0.5",
-    "angular-utils-pagination": "^0.11.1",
+    "angular-utils-pagination": "0.11.1",
     "angular-xeditable": "teneightfive/angular-xeditable#0.2.0",
     "angulartics": "1.6.0",
     "angulartics-google-analytics": "0.5.0",
