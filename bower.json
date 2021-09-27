@@ -12,7 +12,6 @@
     "fullcalendar": "1.6.4",
     "ng-idle": "HackedByChinese/ng-idle#b5c95763419498d6daaf953c79eeaf55066f4be3",
     "moment-timezone": "~0.3.1",
-    "raven-js": "3.27.2"
   },
   "resolutions": {
     "angular": "1.4.13",
