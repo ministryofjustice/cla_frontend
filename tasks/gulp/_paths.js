@@ -58,7 +58,7 @@
       paths.src + 'vendor/rome/dist/rome.standalone.js', // datepicker
       paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-1.3.3.js',
       paths.src + 'vendor/angular-xeditable/dist/js/xeditable.js',
-      paths.src + 'vendor/conduitjs/lib/conduit.js',
+      libPath + 'conduitjs/lib/conduit.js',
       libPath + 'postal/lib/postal.js',
       libPath + 'angular-loading-bar/build/loading-bar.js',
       paths.src + 'vendor/socket.io-client/dist/socket.io.js',
