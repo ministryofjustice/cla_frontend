@@ -19,7 +19,7 @@
     "angular-local-storage": "^0.7.1",
     "angular-messages": "^1.6.8",
     "angular-mocks": "1.4.x",
-    "angular-moment": "^1.2.0",
+    "angular-moment": "0.7.1",
     "angular-resource": "1.4.x",
     "angular-sanitize": "^1.6.8",
     "angular-socket-io": "^0.7.0",
