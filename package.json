@@ -39,7 +39,7 @@
     "papaparse": "^4.3.6",
     "postal": "0.10.3",
     "rome": "^2.1.22",
-    "socket.io-client": "^2.0.4"
+    "socket.io-client": "1.7.4"
   },
   "devDependencies": {
     "bower": "^1.8.2",
