@@ -60,7 +60,7 @@
       paths.src + 'vendor/angular-xeditable/dist/js/xeditable.js',
       paths.src + 'vendor/conduitjs/lib/conduit.js',
       paths.src + 'vendor/postal.js/lib/postal.js',
-      paths.src + 'vendor/angular-loading-bar/build/loading-bar.js',
+      libPath + 'angular-loading-bar/build/loading-bar.js',
       paths.src + 'vendor/socket.io-client/dist/socket.io.js',
       paths.src + 'vendor/angular-socket-io/socket.js',
       paths.src + 'vendor/angulartics/src/angulartics.js',
