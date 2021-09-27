@@ -4,7 +4,6 @@
   "dependencies": {
     "angular-i18n": "1.2.16",
     "angular-sanitize": "1.2.17",
-    "jquery": "2.1.1",
     "angular-blocks": "0.1.9",
     "postal.js": "0.10.3",
     "conduitjs": "0.3.3",
