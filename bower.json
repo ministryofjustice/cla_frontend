@@ -11,7 +11,7 @@
     "angularUtils": "michaelbromley/angularUtils#c6275a699ba580b66a02e7a922fe169ef9b6c61c",
     "fullcalendar": "1.6.4",
     "ng-idle": "HackedByChinese/ng-idle#b5c95763419498d6daaf953c79eeaf55066f4be3",
-    "moment-timezone": "~0.3.1",
+    "moment-timezone": "~0.3.1"
   },
   "resolutions": {
     "angular": "1.4.13",
