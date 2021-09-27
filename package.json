@@ -13,7 +13,7 @@
     "angular": "1.4.13",
     "angular-animate": "1.4.x",
     "angular-blocks": "^0.1.15",
-    "angular-hotkeys": "^1.7.0",
+    "angular-hotkeys": "1.4.5",
     "angular-i18n": "^1.6.8",
     "angular-loading-bar": "0.5.1",
     "angular-local-storage": "0.1.3",
