@@ -5,7 +5,6 @@
     "angular-i18n": "1.2.16",
     "angular-sanitize": "1.2.17",
     "angular-blocks": "0.1.9",
-    "postal.js": "0.10.3",
     "conduitjs": "0.3.3",
     "socket.io-client": "1.7.4",
     "rome": "1.2.1",
