@@ -55,7 +55,7 @@
       paths.src + 'vendor/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
       libPath + 'angular-moment/angular-moment.js',
       paths.src + 'vendor/angular-blocks/dist/angular-blocks.js',
-      paths.src + 'vendor/rome/dist/rome.standalone.js', // datepicker
+      libPath + 'rome/dist/rome.standalone.js', // datepicker
       paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-1.3.3.js',
       paths.src + 'vendor/angular-xeditable/dist/js/xeditable.js',
       libPath + 'conduitjs/lib/conduit.js',
