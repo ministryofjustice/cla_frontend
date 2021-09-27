@@ -41,7 +41,7 @@
       libPath + 'jquery/dist/jquery.js',
       libPath + 'select2/select2.js',
       // angular specific
-      libPath + 'angular/angular.js',
+      paths.src + 'vendor/angular/angular.js',
       paths.src + 'vendor/angular-sanitize/angular-sanitize.js',
       libPath + 'angular-messages/angular-messages.js',
       libPath + 'angular-animate/angular-animate.js',

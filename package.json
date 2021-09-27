@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@uirouter/angularjs": "0.2.10",
-    "angular": "1.4.13",
+    "angular": "^1.6.8",
     "angular-animate": "1.4.x",
     "angular-blocks": "^0.1.15",
     "angular-hotkeys": "1.4.5",
