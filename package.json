@@ -24,7 +24,7 @@
     "angular-sanitize": "^1.6.8",
     "angular-socket-io": "0.6.0",
     "angular-ui-select2": "0.0.5",
-    "angular-xeditable": "^0.8.1",
+    "angular-xeditable": "teneightfive/angular-xeditable#0.2.0",
     "angulartics": "1.6.0",
     "angulartics-google-analytics": "0.5.0",
     "conduitjs": "0.3.3",
