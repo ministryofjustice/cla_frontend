@@ -1,6 +1,7 @@
 (function(){
   'use strict';
 
+  var libPath = 'node_modules/';
   var paths = {
     tmp: '.gulptmp/',
     dest: 'cla_frontend/assets/',
@@ -28,7 +29,7 @@
   // vendor scripts
   paths.vendor_static.push(paths.src + 'javascripts/vendor/**/*');
   paths.vendor_static.push(paths.src + 'vendor/fullcalendar/fullcalendar.min.js');
-  paths.vendor_static.push(paths.src + 'vendor/raven-js/dist/angular/raven.js');
+  paths.vendor_static.push(libPath + 'raven-js/dist/angular/raven.js');
   // ignore certain vendor scripts from the copy
   paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/');
   paths.vendor_static.push('!' + paths.src + 'javascripts/vendor/diff-match-patch/**');
@@ -36,37 +37,36 @@
   // scripts
   paths.scripts = {
     vendor: [
-      paths.src + 'vendor/lodash/dist/lodash.js',
-      paths.src + 'vendor/jquery/jquery.js',
-      paths.src + 'vendor/select2/select2.js',
+      libPath + 'lodash/dist/lodash.js',
+      libPath + 'jquery/dist/jquery.js',
+      libPath + 'select2/select2.js',
       // angular specific
       paths.src + 'vendor/angular/angular.js',
       paths.src + 'vendor/angular-sanitize/angular-sanitize.js',
-      paths.src + 'vendor/angular-messages/angular-messages.js',
-      paths.src + 'vendor/angular-animate/angular-animate.js',
-      paths.src + 'vendor/angular-sticky/dist/angular-sticky.js',
-      paths.src + 'vendor/angular-resource/angular-resource.js',
-      paths.src + 'vendor/angular-ui-router/release/angular-ui-router.js',
-      paths.src + 'vendor/ui-router-extras/release/ct-ui-router-extras.js',
-      paths.src + 'vendor/angular-ui-select2/src/select2.js',
+      libPath + 'angular-messages/angular-messages.js',
+      libPath + 'angular-animate/angular-animate.js',
+      libPath + 'angular-sticky-plugin/dist/angular-sticky.js',
+      libPath + 'angular-resource/angular-resource.js',
+      libPath + '@uirouter/angularjs/release/angular-ui-router.js',
+      libPath + 'angular-ui-select2/src/select2.js',
       paths.src + 'vendor/angular-i18n/angular-locale_en-gb.js',
       paths.src + 'vendor/moment/moment.js',
       paths.src + 'vendor/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
-      paths.src + 'vendor/angular-moment/angular-moment.js',
+      libPath + 'angular-moment/angular-moment.js',
       paths.src + 'vendor/angular-blocks/dist/angular-blocks.js',
-      paths.src + 'vendor/rome/dist/rome.standalone.js', // datepicker
+      libPath + 'rome/dist/rome.standalone.js', // datepicker
       paths.src + 'javascripts/vendor/ui-bootstrap-custom-tpls-1.3.3.js',
-      paths.src + 'vendor/angular-xeditable/dist/js/xeditable.js',
-      paths.src + 'vendor/conduitjs/lib/conduit.js',
-      paths.src + 'vendor/postal.js/lib/postal.js',
-      paths.src + 'vendor/angular-loading-bar/build/loading-bar.js',
-      paths.src + 'vendor/socket.io-client/dist/socket.io.js',
-      paths.src + 'vendor/angular-socket-io/socket.js',
-      paths.src + 'vendor/angulartics/src/angulartics.js',
-      paths.src + 'vendor/angulartics-google-analytics/lib/angulartics-ga.js',
-      paths.src + 'vendor/angular-hotkeys/build/hotkeys.js',
+      libPath + 'angular-xeditable/dist/js/xeditable.js',
+      libPath + 'conduitjs/lib/conduit.js',
+      libPath + 'postal/lib/postal.js',
+      libPath + 'angular-loading-bar/build/loading-bar.js',
+      libPath + 'socket.io-client/dist/socket.io.js',
+      libPath + 'angular-socket-io/socket.js',
+      libPath + 'angulartics/src/angulartics.js',
+      libPath + 'angulartics-google-analytics/lib/angulartics-ga.js',
+      libPath + 'angular-hotkeys/build/hotkeys.js',
       paths.src + 'vendor/ng-text-truncate/ng-text-truncate.js',
-      paths.src + 'vendor/angular-local-storage/dist/angular-local-storage.js',
+      libPath + 'angular-local-storage/dist/angular-local-storage.js',
       paths.src + 'vendor/angularUtils/src/directives/pagination/dirPagination.js',
       paths.src + 'vendor/ng-idle/angular-idle.js',
       paths.src + 'javascripts/vendor/diff-match-patch/angular-diff-match-patch.js',
