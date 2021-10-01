@@ -54,7 +54,7 @@
     "gulp-iconfont": "^9.1.0",
     "gulp-iconfont-css": "^2.1.0",
     "gulp-ignore": "^2.0.2",
-    "gulp-imagemin": "^4.1.0",
+    "gulp-imagemin": "^8.0.0",
     "gulp-jshint": "^2.1.0",
     "gulp-ng-annotate": "^2.1.0",
     "gulp-ng-constant": "^1.2.0",
