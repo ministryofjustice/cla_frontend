@@ -21,6 +21,19 @@ HEALTHCHECKS = ["status.healthchecks.backend_healthcheck"]
 
 AUTODISCOVER_HEALTHCHECKS = True
 
+LOW_SAMPLE_RATE_TRANSACTIONS = [
+    "/",
+    "/status/ready",
+    "/status/ready/",
+    "/status/live",
+    "/status/live/",
+    "/auth/login",
+    "/auth/login/",
+    "/status/ping.json",
+    "/status/status.json",
+    "/status/healthcheck.json",
+]
+
 # ENVIRON values
 
 from django.core.exceptions import ImproperlyConfigured
@@ -39,6 +52,17 @@ def get_env_value(var_name):
         return getattr(env_values, var_name)
     except AttributeError:
         raise ImproperlyConfigured("Environment value %s not found" % var_name)
+
+
+def sentry_traces_sampler(sampling_context):
+    try:
+        name = sampling_context["wsgi_environ"].get("PATH_INFO")
+    except Exception:
+        pass
+    else:
+        if name in LOW_SAMPLE_RATE_TRANSACTIONS:
+            return 0.0001
+    return 0.1
 
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
@@ -280,7 +304,7 @@ if "SENTRY_PUBLIC_DSN" in os.environ:
     sentry_sdk.init(
         dsn=os.environ.get("SENTRY_PUBLIC_DSN"),
         integrations=[DjangoIntegration()],
-        traces_sample_rate=1.0,
+        traces_sampler=sentry_traces_sampler,
         environment=os.environ.get("CLA_ENV", "unknown"),
     )
 SENTRY_PUBLIC_DSN = os.environ.get("SENTRY_PUBLIC_DSN", "")
