@@ -208,10 +208,14 @@ jobs:
             tar -zxvf helm-v3.1.2-linux-amd64.tar.gz
             mv linux-amd64/helm /usr/local/bin/helm
       - run:
-          name: Initialise Kubernetes << parameters.namespace >> context
+          name: Authenticate with cluster
           command: |
-            setup-kube-auth
-            kubectl config use-context << parameters.namespace >>
+            echo -n ${K8S_CLUSTER_CERT} | base64 -d > ./ca.crt
+            kubectl config set-cluster ${K8S_CLUSTER_NAME} --certificate-authority=./ca.crt --server=${K8S_SERVER_ADDRESS}
+            kubectl config set-credentials circleci --token=${K8S_TOKEN}
+            kubectl config set-context ${K8S_CLUSTER_NAME} --cluster=${K8S_CLUSTER_NAME} --user=circleci --namespace=${K8S_NAMESPACE}
+            kubectl config use-context ${K8S_CLUSTER_NAME}
+            kubectl --namespace=${K8S_NAMESPACE} get pods
       - deploy:
           name: Deploy to << parameters.namespace >>
           command: |
@@ -284,7 +288,7 @@ workflows:
             - laa-cla-frontend-socket-server-ecr
 
       - deploy:
-          name: uat_deploy
+          name: uat_deploy_live_1
           namespace: uat
           dynamic_hostname: true
           requires:
@@ -292,6 +296,7 @@ workflows:
             - build_socket_server
           context:
             - laa-cla-frontend
+            - laa-cla-frontend-live1-uat
             - laa-cla-frontend-app-ecr
 
       - static_uat_deploy_approval:
@@ -301,13 +306,14 @@ workflows:
             - build_socket_server
 
       - deploy:
-          name: static_uat_deploy
+          name: static_uat_deploy_live_1
           namespace: uat
           dynamic_hostname: false
           requires:
             - static_uat_deploy_approval
           context:
             - laa-cla-frontend
+            - laa-cla-frontend-live1-uat
             - laa-cla-frontend-app-ecr
 
       - staging_deploy_approval:
@@ -321,18 +327,19 @@ workflows:
                 - master
 
       - deploy:
-          name: staging_deploy
+          name: staging_deploy_live_1
           namespace: staging
           dynamic_hostname: false
           requires:
             - staging_deploy_approval
           context:
             - laa-cla-frontend
+            - laa-cla-frontend-live1-staging
             - laa-cla-frontend-app-ecr
 
       - production_deploy_approval:
           requires:
-            - staging_deploy
+            - staging_deploy_live_1
           type: approval
           filters:
             branches:
@@ -340,21 +347,23 @@ workflows:
                 - master
 
       - deploy:
-          name: training_deploy
+          name: training_deploy_live_1
           namespace: training
           dynamic_hostname: false
           requires:
             - production_deploy_approval
           context:
             - laa-cla-frontend
+            - laa-cla-frontend-live1-training
             - laa-cla-frontend-app-ecr
 
       - deploy:
-          name: production_deploy
+          name: production_deploy_live_1
           namespace: production
           dynamic_hostname: false
           requires:
             - production_deploy_approval
           context:
             - laa-cla-frontend
+            - laa-cla-frontend-live1-production
             - laa-cla-frontend-app-ecr
