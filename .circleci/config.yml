@@ -369,6 +369,17 @@ workflows:
             - laa-cla-frontend-app-ecr
 
       - deploy:
+          name: training_deploy_live
+          namespace: training
+          dynamic_hostname: false
+          requires:
+            - production_deploy_approval
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-live-training
+            - laa-cla-frontend-app-ecr
+
+      - deploy:
           name: production_deploy_live_1
           namespace: production
           dynamic_hostname: false
