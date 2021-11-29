@@ -299,6 +299,18 @@ workflows:
             - laa-cla-frontend-live1-uat
             - laa-cla-frontend-app-ecr
 
+      - deploy:
+          name: uat_deploy_live
+          namespace: uat
+          dynamic_hostname: true
+          requires:
+            - build_app
+            - build_socket_server
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-live-uat
+            - laa-cla-frontend-app-ecr
+
       - static_uat_deploy_approval:
           type: approval
           requires:
@@ -314,6 +326,17 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live1-uat
+            - laa-cla-frontend-app-ecr
+
+      - deploy:
+          name: static_uat_deploy_live
+          namespace: uat
+          dynamic_hostname: false
+          requires:
+            - static_uat_deploy_approval
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-live-uat
             - laa-cla-frontend-app-ecr
 
       - staging_deploy_approval:
