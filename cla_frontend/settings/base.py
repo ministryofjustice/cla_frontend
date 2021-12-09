@@ -174,7 +174,7 @@ STATICFILES_FINDERS = (
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # sets whether the disregards questions show, should be removed when they can perma stay
-SHOW_DISREGARDS_QUESTIONS = os.environ.get("SHOW_DISREGARDS_QUESTIONS", "False").lower() == "true"
+SHOW_DISREGARDS_FEATURE_FLAG = os.environ.get("SHOW_DISREGARDS_QUESTIONS", "False").lower() == "true"
 
 # Sets whether the updated family issue text displays on in scope family cases or not
 FAMILY_ISSUE_FEATURE_FLAG = os.environ.get("FAMILY_ISSUE_FEATURE_FLAG", "False")
