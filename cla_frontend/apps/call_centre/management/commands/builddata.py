@@ -32,6 +32,7 @@ from cla_common.constants import (
     DISABILITIES,
     ETHNICITIES_GROUPS,
     SPECIFIC_BENEFITS,
+    DISREGARDS,
     EXPRESSIONS_OF_DISSATISFACTION,
     EXPRESSIONS_OF_DISSATISFACTION_FLAGS,
     RESEARCH_CONTACT_VIA,
@@ -63,6 +64,7 @@ class Command(BaseCommand):
                 ("SEXUAL_ORIENTATIONS", SEXUAL_ORIENTATIONS),
                 ("DISABILITIES", DISABILITIES),
                 ("SPECIFIC_BENEFITS", SPECIFIC_BENEFITS),
+                ("DISREGARDS", DISREGARDS),
                 ("EXPRESSIONS_OF_DISSATISFACTION", EXPRESSIONS_OF_DISSATISFACTION),
             ]:
                 derived_dataset[json_name] = []

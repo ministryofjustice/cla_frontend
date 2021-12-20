@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout', 'diagnosis',
-        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout, diagnosis){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout', 'diagnosis', 'DISREGARDS',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout, diagnosis, DISREGARDS ){
           $scope.category_list = Category.query();
           $scope.formDidChange = false;
           // set nass benefits to FALSE by default
@@ -61,6 +61,7 @@
           ];
 
           $scope.specificBenefitsOptions = SPECIFIC_BENEFITS;
+          $scope.disregardOptions = DISREGARDS;
 
           var passported = function() {
             var _radio = $('#id_your_details-passported_benefits_0').get(0);
@@ -89,6 +90,10 @@
 
           $scope.hasSpecificBenefits = function () {
             return $scope.eligibility_check.specific_benefits !== undefined && $scope.eligibility_check.specific_benefits !== null && typeof $scope.eligibility_check.specific_benefits === 'object';
+          };
+
+          $scope.hasDisregards = function () {
+            return $scope.eligibility_check.disregards !== undefined && $scope.eligibility_check.disregards !== null && typeof $scope.eligibility_check.disregards === 'object';
           };
 
           $scope.benefitChange = function () {
@@ -126,6 +131,15 @@
               pension_credit: false,
               employment_support: false
             };
+            ec.disregards = {
+              infected_blood: false,
+              vaccine_damage: false,
+              vcjd_trust: false,
+              criminal_injuries: false,
+              national_emergencies: false,
+              london_emergencies: false,
+              love_manchester: false
+            }
           };
 
           var setSavingsDefaults = function (ec) {
