@@ -5,7 +5,7 @@ from django.conf import settings
 
 from slumber.exceptions import HttpClientError
 
-from cla_common.constants import SPECIFIC_BENEFITS
+from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
 from core.testing.test_base import CLATFrontEndTestCase
 
@@ -50,7 +50,12 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
         self.login()
 
         self.mocked_extract.get.return_value = {
-            "eligibility_check": {"calculations": {}, "on_passported_benefits": False, "specific_benefits": None},
+            "eligibility_check": {
+                "calculations": {},
+                "on_passported_benefits": False,
+                "specific_benefits": None,
+                "disregards": None,
+            },
             "personal_details": {},
         }
 
@@ -63,14 +68,18 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                 "calculations": {},
                 "additional_non_SMOD_property": None,
                 "specific_benefits": None,
+                "disregards": None,
                 "on_passported_benefits": False,
                 "has_any_specific_benefits": False,
+                "has_any_disregards": False,
                 "all_benefits": SPECIFIC_BENEFITS,
+                "all_disregards": DISREGARDS,
             },
             {},
         )
 
     def test_with_properties(self):
+        self.maxDiff = None
         self.login()
 
         data = {
@@ -109,6 +118,7 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                 },
                 "on_passported_benefits": False,
                 "specific_benefits": None,
+                "disregards": None,
             },
             "personal_details": {},
         }
@@ -133,9 +143,12 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                 "property_set": data["eligibility_check"]["property_set"],
                 "calculations": data["eligibility_check"]["calculations"],
                 "specific_benefits": None,
+                "disregards": None,
                 "on_passported_benefits": False,
                 "has_any_specific_benefits": False,
+                "has_any_disregards": False,
                 "all_benefits": SPECIFIC_BENEFITS,
+                "all_disregards": DISREGARDS,
             },
             {},
         )
@@ -179,6 +192,7 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                 },
                 "on_passported_benefits": False,
                 "specific_benefits": None,
+                "disregards": None,
             },
             "personal_details": {},
         }
@@ -203,9 +217,12 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
                 "property_set": data["eligibility_check"]["property_set"],
                 "calculations": data["eligibility_check"]["calculations"],
                 "specific_benefits": None,
+                "disregards": None,
                 "on_passported_benefits": False,
                 "has_any_specific_benefits": False,
+                "has_any_disregards": False,
                 "all_benefits": SPECIFIC_BENEFITS,
+                "all_disregards": DISREGARDS,
             },
             {},
         )
