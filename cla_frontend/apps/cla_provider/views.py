@@ -6,7 +6,7 @@ from api.client import get_connection
 from slumber.exceptions import HttpClientError
 from cla_auth.utils import cla_provider_zone_required
 
-from cla_common.constants import SPECIFIC_BENEFITS
+from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
 
 @cla_provider_zone_required
@@ -29,6 +29,10 @@ def legal_help_form(request, case_reference):
         if ec["on_passported_benefits"] and ec["specific_benefits"]:
             has_any_specific_benefits = any(ec["specific_benefits"].values())
 
+        has_any_disregards = False
+        if ec["disregards"]:
+            has_any_disregards = any(ec["disregards"].values())
+
         ec.update(
             {
                 "main_property": None,
@@ -36,6 +40,8 @@ def legal_help_form(request, case_reference):
                 "additional_non_SMOD_property": None,
                 "has_any_specific_benefits": has_any_specific_benefits,
                 "all_benefits": SPECIFIC_BENEFITS,
+                "has_any_disregards": has_any_disregards,
+                "all_disregards": DISREGARDS,
             }
         )
 

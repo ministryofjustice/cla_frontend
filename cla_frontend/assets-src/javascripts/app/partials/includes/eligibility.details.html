@@ -128,3 +128,24 @@
     </div>
   </div>
 </section>
+
+<div ng-if="show_disregards_feature_flag">
+  <h2 class="FormBlock-label">Disregards</h2>
+  <call-script>
+    <p>I am now going to read through a list of support schemes. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> received any of these.</p>
+  </call-script>
+  <section class="FormBlock FormBlock--grey">
+    <div class="FormRow cf" ng-repeat="opt in ::disregardOptions">
+      <p class="FormRow-label">{{ ::opt.text }}</p>
+
+      <label class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="your_details-disregards-{{::opt.value}}" ng-value="true" ng-model="::eligibility_check.disregards[opt.value]" ng-change="benefitChange()">Yes
+      </label>
+
+      <label class="FormRow-option FormRow-option--inline">
+        <input type="radio" name="your_details-disregards-{{::opt.value}}" ng-value="false" ng-model="::eligibility_check.disregards[opt.value]" ng-change="benefitChange()">No
+      </label>
+    </div>
+  </section>
+</div>
+
