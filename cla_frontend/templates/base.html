@@ -131,6 +131,7 @@
     {% block base_javascript %}
     <script type="text/javascript">
       window.family_issue_flag = "{{ family_issue_flag }}" === "True";
+      window.show_disregards_feature_flag = "{{ show_disregards_feature_flag }}" === "True";
     </script>
     <script src="{% static 'javascripts/lib.min.js' %}"></script>
     <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
