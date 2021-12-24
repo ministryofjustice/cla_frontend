@@ -146,7 +146,7 @@ CSP_DEFAULT_SRC = [
     "wss:",
     "www.google-analytics.com",
     "stats.g.doubleclick.net",
-    "'sha256-sojeUjZY9Zvp3g0fCy0CKt8CUYK3HeSxnRtvOrLn1Nw='",
+    "'sha256-I2LOM6esOcAN2kEMLd3BbCCa/vshtQ3D4lkR5YJYKss='",
 ]
 if "localhost" in ALLOWED_HOSTS:
     CSP_DEFAULT_SRC += "localhost:*"
