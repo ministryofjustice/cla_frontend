@@ -284,7 +284,7 @@
     }]);
 
   angular.module('cla.services')
-    .factory('Diagnosis', ['$http', '$claResource', 'DIAGNOSIS_SCOPE', 'url_utils', function($http, $claResource, DIAGNOSIS_SCOPE, url_utils) {
+    .factory('Diagnosis', ['$http', '$claResource', 'DIAGNOSIS_SCOPE', 'url_utils', 'ClaFeatures', function($http, $claResource, DIAGNOSIS_SCOPE, url_utils, ClaFeatures) {
       var resource;
 
       this.BASE_URL = url_utils.proxy('case/:case_reference/diagnosis/');
@@ -317,7 +317,7 @@
         return (this.state === undefined || this.state === DIAGNOSIS_SCOPE.UNKNOWN);
       };
       resource.prototype.isNonCLACategory = function(){
-        return this.category === 'family' && window.family_issue_flag;
+        return this.category === 'family' && ClaFeatures.is_feature_enabled("family_issue_flag");
       };
       resource.prototype.hasLetterOfProceedings = function() {
         if (this.nodes && this.nodes.length > 1) {

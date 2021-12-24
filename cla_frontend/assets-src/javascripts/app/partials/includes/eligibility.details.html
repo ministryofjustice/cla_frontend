@@ -30,11 +30,11 @@
   </div>
 
   <div ng-switch-when="family">
-    <div ng-if="family_issue_flag">
+    <div ng-if="is_cla_feature_enabled('family_issue_flag')">
       <p>From the information you have given me today, you may be able to get free advice from a legal adviser in your area. Please enquire with the provider as there may be a charge for this service.</p>
       <p>Before I can provide you with the contact details for providers that are local to you, we need to complete a short financial assessment to see if you can get Legal Aid.</p>
     </div>
-    <div ng-if="!family_issue_flag">
+    <div ng-if="!is_cla_feature_enabled('family_issue_flag')">
       <p>From the information you have given today we may be able to put you through to a specialist provider who could help you with this area of law.</p>
       <p>Before I can transfer you we need to complete a short financial assessment to see if you can get Legal Aid. Do you have financial information to hand?</p>
       <p>You may need details of:</p>
@@ -129,7 +129,7 @@
   </div>
 </section>
 
-<div ng-if="show_disregards_feature_flag">
+<div ng-if="is_cla_feature_enabled('show_disregards_feature_flag')">
   <h2 class="FormBlock-label">Disregards <guidance-link doc="disregards"></guidance-link></h2>
   <call-script>
     <p>I am now going to read through a list of support schemes. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> received any of these.</p>

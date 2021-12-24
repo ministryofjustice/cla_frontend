@@ -18,10 +18,6 @@
               $scope.incomeWarnings = data.warnings;
             }
           });
-
-          $scope.family_issue_flag = window.family_issue_flag;
-          $scope.show_disregards_feature_flag = window.show_disregards_feature_flag;
-
           $scope.getCategoryForScriptNotes = function() {
             if($scope.inJudicialReview()) {
               return 'Judicial review';
