@@ -3,7 +3,7 @@
 <html lang="en" {% block html_attrs %}ng-csp{% endblock %}
   data-analytics-id="{{ analytics_id }}"
   data-analytics-domain="{{ analytics_domain }}"
-  cla-features="{{ cla_features|join:' ' }}">
+  data-cla-features="{{ cla_features|join:' ' }}">
 
   <head data-sentry-dsn="{{ sentry_public_dsn }}" data-sentry-environment="{{ cla_environment }}"
         data-socketio-server="{{ socketio_server_url }}">

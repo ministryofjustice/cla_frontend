@@ -4,7 +4,7 @@
   angular.module('cla.services')
     .service('ClaFeatures', [function() {
       try{
-        this.features = document.documentElement.getAttribute("cla-features").split(" ");
+        this.features = document.documentElement.getAttribute("data-cla-features").split(" ");
       }
       catch(error) {
         this.features = [];
