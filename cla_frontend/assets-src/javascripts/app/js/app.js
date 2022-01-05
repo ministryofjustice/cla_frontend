@@ -14,8 +14,8 @@
   var common_run;
   var common_config;
 
-  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$uibModal', 'AssignProviderValidation', 'postal',
-    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $uibModal, AssignProviderValidation, postal) {
+  common_run = ['$rootScope', '$state', '$stateParams', 'Timer', 'flash', 'cla.bus', 'History', '$uibModal', 'AssignProviderValidation', 'postal', 'ClaFeatures',
+    function ($rootScope, $state, $stateParams, Timer, flash, bus, History, $uibModal, AssignProviderValidation, postal, ClaFeatures) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
 
@@ -86,6 +86,10 @@
           }
         }
       });
+
+      $rootScope.is_cla_feature_enabled = function(name) {
+        return ClaFeatures.is_feature_enabled(name);
+      }
     }];
 
   common_config = ['$resourceProvider', 'cfpLoadingBarProvider', '$analyticsProvider',
