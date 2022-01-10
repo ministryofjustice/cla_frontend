@@ -350,6 +350,7 @@ workflows:
             branches:
               only:
                 - master
+                - feature/k8s-migration-production
 
       - deploy:
           name: staging_deploy_live_1
