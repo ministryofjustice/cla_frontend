@@ -167,7 +167,10 @@ jobs:
             - node-v1-{{ checksum "package-lock.json" }}
       - run:
           name: Install Node JS dependencies
-          command: npm install
+          command: |
+            git config --global url."https://github.com/".insteadOf git@github.com:
+            git config --global url."https://".insteadOf git://
+            npm install
       - save_cache:
           key: node-v1-{{ checksum "package-lock.json" }}
           paths:
