@@ -2,43 +2,6 @@ version: 2.1
 orbs:
   slack: circleci/slack@3.4.2
 jobs:
-  build_for_template_deploy:
-    docker:
-      - image: docker:17.03-git
-    environment:
-      DOCKER_HUB_REGISTRY: "index.docker.io"
-      DOCKER_HUB_IMAGE: "ministryofjustice/cla_frontend"
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 17.03.0-ce
-          docker_layer_caching: true
-      - run:
-          name: Login to the Dockerhub registry
-          command: |
-            docker login \
-              --username $DOCKER_HUB_USERNAME \
-              --password $DOCKER_HUB_PASSWORD \
-              --email "$DOCKER_HUB_EMAIL"
-      - run:
-          name: Build Docker image
-          command: |
-            docker build --build-arg ARG_SECRET_KEY=build_key \
-              --tag application:$CIRCLE_SHA1 \
-              --label build.git.sha=$CIRCLE_SHA1 \
-              --label build.git.branch=$CIRCLE_BRANCH \
-              --label build.url=$CIRCLE_BUILD_URL \
-              --file template_deploy/Dockerfile \
-              .
-      - run:
-          name: Validate Python version
-          command: docker run --rm --tty --interactive application:$CIRCLE_SHA1 python --version | grep "2.7"
-      - run:
-          name: Validate that image runs on Europe/London timezone
-          command: docker run --rm --tty --interactive application:$CIRCLE_SHA1 date '+%Z' | egrep "(GMT|BST)"
-      - run:
-          name: Tag and push Docker images
-          command: template_deploy/tag_and_push_docker_image application:$CIRCLE_SHA1
   build:
     parameters:
       image:
@@ -266,11 +229,6 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live-uat
-      - build_for_template_deploy:
-          requires:
-            - python_lint
-            - python_unit_test
-            - javascript_unit_test
       - build:
           name: build_app
           image: app
