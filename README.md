@@ -62,6 +62,11 @@ copy cla_frontend\settings\.example.local.py cla_frontend\settings\local.py
 ```
 
 Install node packages:
+Currently due to using an older node for installing modules we have a script that sets and unsets some git settings around the npm install command.  This will no longer be needed when we update our node and module versions.
+```
+./npm_git_wrapper.sh
+```
+Do not, for now, use the plain npm install command.
 ```
 npm install
 ```
