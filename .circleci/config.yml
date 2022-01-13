@@ -350,7 +350,6 @@ workflows:
             branches:
               only:
                 - master
-                - feature/k8s-migration-production
 
       - deploy:
           name: staging_deploy_live_1
@@ -406,16 +405,16 @@ workflows:
             - laa-cla-frontend-live-training
             - laa-cla-frontend-app-ecr
 
-      # - deploy:
-      #     name: production_deploy_live_1
-      #     namespace: production
-      #     dynamic_hostname: false
-      #     requires:
-      #       - production_deploy_approval
-      #     context:
-      #       - laa-cla-frontend
-      #       - laa-cla-frontend-live1-production
-      #       - laa-cla-frontend-app-ecr
+      - deploy:
+          name: production_deploy_live_1
+          namespace: production
+          dynamic_hostname: false
+          requires:
+            - production_deploy_approval
+          context:
+            - laa-cla-frontend
+            - laa-cla-frontend-live1-production
+            - laa-cla-frontend-app-ecr
 
       - deploy:
           name: production_deploy_live
