@@ -244,6 +244,8 @@ npm run images
 ## Troubleshooting
 If the application does not run because SECRET_KEY is not defined, then add SECRET_KEY as an environment variable.
 
+If the application runs but you get a 400 error (Bad request) when using 127.0.0.1:8001 then you will need to update the ALLOWED_HOSTS environment variable.
+
 If the application runs locally but there are no images then this means that DEBUG is set to False. Add the following line to local.py to change it to True.
 
 ```
