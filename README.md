@@ -12,6 +12,8 @@ Frontend application for the Civil Legal Aid Tool.
 - [gulp.js](http://gulpjs.com/) (Installed using `npm install` and npm scripts tasks)
 - [Bower](http://bower.io/) (Installed using `npm install` and npm scripts tasks)
 
+Note that you only need to install the gulp command line utility as the local version will be installed later on as part of the application.
+
 ## Installation
 
 Clone the repository:
@@ -237,6 +239,21 @@ folder using gulp. Source images should be stored in
 `cla_frontend/assets-src/images`. To optimise and copy images into assets run:
 ```
 npm run images
+```
+
+## Troubleshooting
+If the application does not run because SECRET_KEY is not defined, then add SECRET_KEY as an environment variable.
+
+If the application runs locally but there are no images then this means that DEBUG is set to False. Add the following line to local.py to change it to True.
+
+```
+DEBUG = True
+```
+
+If you wish to view the Disregards questions in the eligibility templates then set the following flag in local.py
+
+```
+SHOW_DISREGARDS_FEATURE_FLAG = True
 ```
 
 ## To demo the service

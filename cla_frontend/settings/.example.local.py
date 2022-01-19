@@ -1,6 +1,6 @@
 from .base import *
 
-
+DEBUG = True
 DEV_APPS = ("django_pdb",)
 
 INSTALLED_APPS += DEV_APPS
