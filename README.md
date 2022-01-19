@@ -29,7 +29,7 @@ Next, create the environment and start it up:
 
 ```
 cd cla_frontend
-virtualenv env --prompt=\(cla_fe\)
+virtualenv -p python2.7 env --prompt=\(cla_fe\)
 ```
 and on Linux and Mac
 ```
