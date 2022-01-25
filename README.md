@@ -12,6 +12,8 @@ Frontend application for the Civil Legal Aid Tool.
 - [gulp.js](http://gulpjs.com/) (Installed using `npm install` and npm scripts tasks)
 - [Bower](http://bower.io/) (Installed using `npm install` and npm scripts tasks)
 
+Note that you only need to install the gulp command line utility as the local version will be installed later on as part of the application.
+
 ## Installation
 
 Clone the repository:
@@ -29,7 +31,7 @@ Next, create the environment and start it up:
 
 ```
 cd cla_frontend
-virtualenv env --prompt=\(cla_fe\)
+virtualenv -p python2.7 env --prompt=\(cla_fe\)
 ```
 and on Linux and Mac
 ```
@@ -238,6 +240,27 @@ folder using gulp. Source images should be stored in
 ```
 npm run images
 ```
+
+## Troubleshooting
+If the application does not run because SECRET_KEY is not defined, then add SECRET_KEY as an environment variable.
+
+If the application runs but you get a 400 error (Bad request) when using 127.0.0.1:8001 then you will need to update the ALLOWED_HOSTS environment variable.
+
+If the application runs locally but there are no images then this means that DEBUG is set to False. Add the following line to local.py to change it to True.
+
+```
+DEBUG = True
+```
+
+If you wish to view the Disregards questions in the eligibility templates then set the following flag in local.py
+
+```
+SHOW_DISREGARDS_FEATURE_FLAG = True
+```
+
+Without Google Analytics set up, the application will fail silently when a user clicks on the Assign button.
+
+As a temporary fix, devs should create environment variables GA_ID (any value) and GA_DOMAIN (localhost). Long term another ticket to be created to update js code so that if no Google Analytics available then an error is raised but the application will still run.
 
 ## To demo the service
 ```
