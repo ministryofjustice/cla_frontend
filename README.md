@@ -278,41 +278,14 @@ to stop the docker-compose up and then run it again.
 
 ### Releasing to non-production
 
-1. Wait for [the Docker build to complete on CircleCI](https://circleci.com/gh/ministryofjustice/cla_frontend) for the feature branch.
-1. Copy the `feature_branch.<sha>` reference from the `build` job's "Push Docker image" step. Eg:
-    ```
-    Pushing tag for rev [9a77ce2f0e8a] on {https://registry.service.dsd.io/v1/repositories/cla_frontend/tags/dual-docker-registries.902c45d}
-    ```
-1. [Deploy `feature_branch.<sha>`](https://ci.service.dsd.io/job/DEPLOY-cla_frontend/build?delay=0sec).
-    * `tag` is the branch that needs to be released plus a specific 7-character prefix of the Git SHA. (`dual-docker-registries.902c45d` for the above example).
-    * `environment` is the target environment, select depending on your needs, eg. "demo", "staging", etc.
-    * `branch` is the [deploy repo's](https://github.com/ministryofjustice/cla_frontend-deploy) default branch name, usually master.
+Please make sure you tested on a non-production environment before merging.
 
-### Releasing to training
+This process now runs entirely through CircleCI. There are manual approvals required but the process can be run at any time of the day and through working hours.
 
-1. Please make sure you tested on a non-production environment before merging.
-1. Merge your feature branch pull request to `master`.
-1. Wait for [the Docker build to complete on CircleCI](https://circleci.com/gh/ministryofjustice/cla_frontend/tree/master) for the `master` branch.
-1. Copy the `master.<sha>` reference from the `build` job's "Push Docker image" step. Eg:
-    ```
-    Pushing tag for rev [d96e0157bdac] on {https://registry.service.dsd.io/v1/repositories/cla_frontend/tags/master.b24490d}
-    ```
-1. [Deploy `master.<sha>` to **training**](https://ci.service.dsd.io/job/DEPLOY-cla_frontend/build?delay=0sec).
-
-### Releasing to production
-
->#### :warning: Release to production outside of business hours
-> __Business hours__: 09:00 to 20:00  
->__Why?__ Any downtime on the frontend and backend between 09:00 and 20:00 can have serious consequences, leading to shut down of the court legal advice centres, possible press reports and maybe MP questions.  
->__Is there downtime when a release occurs?__ Usually it's just a few seconds. However changes that involve Elastic IPs can take a bit longer.
-
-1. Please make sure you tested on a non-production environment before merging.
-1. Merge your feature branch pull request to `master`.
-1. Wait for [the Docker build to complete on CircleCI](https://circleci.com/gh/ministryofjustice/cla_frontend/tree/master) for the `master` branch.
-1. Copy the `master.<sha>` reference from the `build` job's "Push Docker image" step. Eg:
-    ```
-    Pushing tag for rev [d96e0157bdac] on {https://registry.service.dsd.io/v1/repositories/cla_frontend/tags/master.b24490d}
-    ```
-1. [Deploy `master.<sha>` to **prod**uction](https://ci.service.dsd.io/job/DEPLOY-cla_frontend/build?delay=0sec).
-
-:tada: :shipit:
+1. Wait for [the Docker build to complete on CircleCI](https://circleci.com/gh/ministryofjustice/cla_frontend) for the feature branch associated with the pull request. 
+1. If the branch passes CircleCI then ask for the pull request to be approved then merge the pull request into the main github branch.
+1. Once the merge is complete then go to CircleCI to check jobs are progressing on the main branch. Note that there is a job called static_uat_deploy_approval - this does not need to be approved unless your change requires this.
+1. CircleCI will stop and wait for manual approval at 'staging_deploy_approval'. Proceed with approval (click on the thumb icon) if all  prior jobs have successfully completed.
+1. Once the staging jobs have finished then check that the staging server is running correctly. The url will be in the slack message associated with the most recent job in cla-notifications.
+1. if staging is not working then any changes should be rolled back and the feature checked. If staging is working correctly then manually approve production_deploy_approval.
+1. Everything should pass and complete. If you haven't approved static_uat_deploy_approval then the pipeline will show on hold - this is ok.
