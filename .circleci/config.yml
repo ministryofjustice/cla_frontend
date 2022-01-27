@@ -311,17 +311,6 @@ workflows:
                 - master
 
       - deploy:
-          name: staging_deploy_live_1
-          namespace: staging
-          dynamic_hostname: false
-          requires:
-            - staging_deploy_approval
-          context:
-            - laa-cla-frontend
-            - laa-cla-frontend-live1-staging
-            - laa-cla-frontend-app-ecr
-
-      - deploy:
           name: staging_deploy_live
           namespace: staging
           dynamic_hostname: false
@@ -334,7 +323,7 @@ workflows:
 
       - production_deploy_approval:
           requires:
-            - staging_deploy_live_1
+            - staging_deploy_live
           type: approval
           filters:
             branches:
