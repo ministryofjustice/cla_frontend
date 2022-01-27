@@ -218,11 +218,6 @@ workflows:
       - python_unit_test
       - javascript_unit_test
       - cleanup_merged:
-          name: cleanup_merged_live1
-          context:
-            - laa-cla-frontend
-            - laa-cla-frontend-live1-uat
-      - cleanup_merged:
           name: cleanup_merged_live
           context:
             - laa-cla-frontend
@@ -249,18 +244,6 @@ workflows:
             - laa-cla-frontend-socket-server-ecr
 
       - deploy:
-          name: uat_deploy_live_1
-          namespace: uat
-          dynamic_hostname: true
-          requires:
-            - build_app
-            - build_socket_server
-          context:
-            - laa-cla-frontend
-            - laa-cla-frontend-live1-uat
-            - laa-cla-frontend-app-ecr
-
-      - deploy:
           name: uat_deploy_live
           namespace: uat
           dynamic_hostname: true
@@ -277,17 +260,6 @@ workflows:
           requires:
             - build_app
             - build_socket_server
-
-      - deploy:
-          name: static_uat_deploy_live_1
-          namespace: uat
-          dynamic_hostname: false
-          requires:
-            - static_uat_deploy_approval
-          context:
-            - laa-cla-frontend
-            - laa-cla-frontend-live1-uat
-            - laa-cla-frontend-app-ecr
 
       - deploy:
           name: static_uat_deploy_live
