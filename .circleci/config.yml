@@ -186,9 +186,9 @@ jobs:
             ./bin/<< parameters.namespace >>_deploy.sh << parameters.dynamic_hostname >>
             echo "export RELEASE_HOST=$RELEASE_HOST" >> $BASH_ENV
       - slack/notify:
-          message: ':tada: (<< parameters.namespace >>) Deployed branch $CIRCLE_BRANCH'
-          title: '$RELEASE_HOST'
-          title_link: 'https://$RELEASE_HOST'
+          message: ":tada: (<< parameters.namespace >>) Deployed branch $CIRCLE_BRANCH"
+          title: "$RELEASE_HOST"
+          title_link: "https://$RELEASE_HOST"
 
   cleanup_merged:
     docker:
@@ -301,17 +301,6 @@ workflows:
             branches:
               only:
                 - master
-
-      - deploy:
-          name: training_deploy_live_1
-          namespace: training
-          dynamic_hostname: false
-          requires:
-            - production_deploy_approval
-          context:
-            - laa-cla-frontend
-            - laa-cla-frontend-live1-training
-            - laa-cla-frontend-app-ecr
 
       - deploy:
           name: training_deploy_live
