@@ -34,14 +34,14 @@ spec:
       http:
         paths:
           - path: "/"
-          pathType: ImplementationSpecific
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: {{ $fullName }}-app
                 port:
                   number: {{ .Values.service.port }}
           - path: "/socket.io/"
-          pathType: ImplementationSpecific
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: {{ $fullName }}-socket-server
