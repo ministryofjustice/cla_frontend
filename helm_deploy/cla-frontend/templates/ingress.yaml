@@ -1,6 +1,5 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "cla-frontend.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
 
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -40,7 +39,7 @@ spec:
               service:
                 name: {{ $fullName }}-app
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ .Values.service.port }}
           - path: "/socket.io/"
           pathType: ImplementationSpecific
             backend:
