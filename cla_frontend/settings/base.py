@@ -257,7 +257,7 @@ LOGGING = {
         "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "simple", "stream": sys.stdout}
     },
     "loggers": {
-        "": {"handlers": ["console"], "level": "ERROR", "propagate": False},
+        "": {"handlers": ["console"], "level": "INFO", "propagate": True},
         "django.request": {"handlers": ["console"], "level": "ERROR", "propagate": False},
     },
 }
