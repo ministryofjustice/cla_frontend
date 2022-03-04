@@ -23,6 +23,7 @@ spec:
               containerPort: 8000
               protocol: TCP
           livenessProbe:
+            timeoutSeconds: 5
             httpGet:
               path: /status/live/
               port: http
@@ -30,6 +31,8 @@ spec:
                 - name: Host
                   value: "{{ .Values.host }}"
           readinessProbe:
+            timeoutSeconds: 5
+            initialDelaySeconds: 20
             httpGet:
               path: /status/ready/
               port: http
