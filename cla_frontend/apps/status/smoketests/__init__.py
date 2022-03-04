@@ -1,3 +1,8 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 class SmokeTestFail(Exception):
     pass
 
@@ -29,6 +34,7 @@ class SmokeTestRegistry(object):
             except SmokeTestFail as fail:
                 status = False
                 message = str(fail)
+                logger.info("SMOKETEST FAILURE - {}: {}".format(name, message))
             yield {"name": name, "status": status, "message": message}
 
 
