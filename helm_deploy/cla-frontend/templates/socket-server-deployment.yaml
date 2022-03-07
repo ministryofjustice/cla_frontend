@@ -30,6 +30,8 @@ spec:
                 - name: Origin
                   value: "localhost:"
           readinessProbe:
+            timeoutSeconds: 5
+            initialDelaySeconds: 10
             httpGet:
               path: /socket.io/?eio=3&transport=polling
               port: http

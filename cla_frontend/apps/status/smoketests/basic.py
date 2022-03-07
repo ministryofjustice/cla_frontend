@@ -12,14 +12,12 @@ from status.smoketests import SmokeTestFail, ready_smoketests, live_smoketests
 
 
 @live_smoketests.register(1, "Public site is up")
-@ready_smoketests.register(1, "Public site is up")
 def things_exist():
     response = get_fe("/auth/login/")
     assert_status(response, 200)
 
 
 @live_smoketests.register(2, "Angular is loaded")
-@ready_smoketests.register(2, "Angular is loaded")
 def angular_loaded():
     url = static("javascripts/cla.main.js")
     if "://" in url:
