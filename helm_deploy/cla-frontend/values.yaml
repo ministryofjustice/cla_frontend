@@ -142,4 +142,9 @@ envVars:
       name: show-disregards-questions
       key: showing
       optional: true
+  MAINTENANCE_MODE:
+    configmap:
+      name: maintenance-mode
+      key: "value"
+      optional: true
 
