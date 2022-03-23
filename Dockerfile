@@ -26,11 +26,9 @@ WORKDIR /home/app
 # Install node dependencies
 COPY package.json package-lock.json ./
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
-RUN git config --global url."https://github.com/".insteadOf git@github.com/
 RUN git config --global url."https://".insteadOf git://
 RUN npm install
 RUN git config --global --unset url."https://github.com/".insteadOf git@github.com:
-RUN git config --global --unset url."https://github.com/".insteadOf git@github.com/
 RUN git config --global --unset url."https://".insteadOf git://
 
 # Install front-end dependencies
