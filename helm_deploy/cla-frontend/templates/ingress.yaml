@@ -24,6 +24,9 @@ metadata:
         proxy_set_header Host $host;
       }
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    # Add annotation to exclude 503 error pages from the list the cloud-platform error pages
+    # and use our error pages for 503 errors
+    nginx.ingress.kubernetes.io/custom-http-errors: "413,502,504"
 spec:
   tls:
     - hosts:
