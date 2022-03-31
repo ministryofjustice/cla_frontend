@@ -81,11 +81,11 @@ jobs:
           command: |
             source lint-env/bin/activate
             flake8 --exit-zero cla_frontend
-      - run:
-          name: Check formatting with Black
-          command: |
-            source lint-env/bin/activate
-            black --check cla_frontend
+#      - run:
+#          name: Check formatting with Black
+#          command: |
+#            source lint-env/bin/activate
+#            black --check cla_frontend
   python_unit_test:
     docker:
       - image: circleci/python:2.7
