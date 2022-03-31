@@ -13,3 +13,5 @@ envVars:
     value: UA-37377084-20
   GA_DOMAIN:
     value: cloud-platform.service.justice.gov.uk
+  BACKEND_SERVICE_URL:
+    value: "http://cla-backend-app.laa-cla-backend-training.svc.cluster.local"

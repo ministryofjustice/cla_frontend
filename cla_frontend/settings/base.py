@@ -263,6 +263,9 @@ LOGGING = {
 }
 
 BACKEND_BASE_URI = os.environ.get("BACKEND_BASE_URI", "http://127.0.0.1:8000")
+# Used by Smoke tests to skip going by ingress when checking backend
+BACKEND_SERVICE_URL = os.environ.get("BACKEND_SERVICE_URL", BACKEND_BASE_URI)
+
 if "CLA_PROVIDER_SECRET_ID" in os.environ:
     provider_client_secret = os.environ.get("CLA_PROVIDER_SECRET_ID")
 else:

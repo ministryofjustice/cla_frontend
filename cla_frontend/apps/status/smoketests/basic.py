@@ -71,8 +71,8 @@ def get_fe(url):
 
 
 def get_be(url):
-    full_url = "{host}{url}".format(host=getattr(settings, "BACKEND_BASE_URI", "http://localhost:8000"), url=url)
-    return get(full_url)
+    full_url = "{host}{url}".format(host=settings.BACKEND_SERVICE_URL, url=url)
+    return get(full_url, hostname_header=settings.BACKEND_BASE_URI)
 
 
 def get(url, hostname_header=None):
