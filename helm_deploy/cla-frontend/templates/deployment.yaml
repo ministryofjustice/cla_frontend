@@ -22,23 +22,6 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
-          livenessProbe:
-            timeoutSeconds: 5
-            httpGet:
-              path: /status/live/
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: "{{ .Values.host }}"
-          readinessProbe:
-            timeoutSeconds: 5
-            initialDelaySeconds: 20
-            httpGet:
-              path: /status/ready/
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: "{{ .Values.host }}"
           lifecycle:
             preStop:
               exec:
