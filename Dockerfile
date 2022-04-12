@@ -52,7 +52,7 @@ RUN chown -R app:app /home/app && \
 
 # Add file for liveness probe
 RUN touch /tmp/listen_queue_healthy && \
-    chown www-data:www-data /tmp/listen_queue_healthy
+    chown app:app /tmp/listen_queue_healthy
 
 USER 1000
 EXPOSE 8000
