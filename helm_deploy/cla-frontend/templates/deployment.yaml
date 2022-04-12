@@ -22,6 +22,12 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - test 
+                - -f 
+                - /tmp/listen_queue_healthy
           lifecycle:
             preStop:
               exec:
