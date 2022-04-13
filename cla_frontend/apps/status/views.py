@@ -41,3 +41,10 @@ class PingJsonView(View):
     def get(self, request):
         response_data = {"build_tag": None, "build_date": None, "version_number": None, "commit_id": None}
         return JsonResponse(response_data)
+
+
+def test_endpoint(request):
+    import time
+
+    time.sleep(2)
+    return JsonResponse([], safe=False, status=200)

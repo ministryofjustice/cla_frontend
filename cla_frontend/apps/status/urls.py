@@ -10,4 +10,5 @@ urlpatterns = patterns(
     url(r"^status.json$", views.smoketests_json),
     url(r"^ping.json$", views.PingJsonView.as_view(), name="ping_json"),
     url(r"^healthcheck.json$", HealthcheckView.as_view(), name="healthcheck_json"),
+    url(r"^test/$", views.test_endpoint, name="status_test"),
 )

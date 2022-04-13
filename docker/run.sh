@@ -8,4 +8,4 @@ then
 fi
 
 # Run server
-uwsgi --ini /home/app/docker/cla_frontend.ini
+uwsgi --ini /home/app/docker/cla_frontend.ini --stats /tmp/stats.socket
