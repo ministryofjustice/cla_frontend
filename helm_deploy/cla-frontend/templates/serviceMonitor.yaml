@@ -1,0 +1,11 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+ name: {{ include "cla-frontend.fullname" . }}-service
+spec:
+ selector:
+   matchLabels:
+     app: {{ include "cla-frontend.fullname" . }}
+ endpoints:
+ - port: http
+   interval: 15s
