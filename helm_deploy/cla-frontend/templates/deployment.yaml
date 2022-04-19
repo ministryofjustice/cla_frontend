@@ -44,3 +44,4 @@ spec:
             - name: metrics
               containerPort: 1717
               protocol: TCP
+          args: ["--stats.uri", "http://localhost:1717"]
