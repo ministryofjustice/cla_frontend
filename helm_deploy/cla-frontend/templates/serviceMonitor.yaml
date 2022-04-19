@@ -5,7 +5,7 @@ metadata:
 spec:
  selector:
    matchLabels:
-     app: {{ include "cla-frontend.fullname" . }}
+     app.kubernetes.io/instance: {{ .Release.Name }}
  endpoints:
  - port: metrics
    interval: 15s

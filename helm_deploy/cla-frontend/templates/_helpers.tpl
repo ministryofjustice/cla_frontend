@@ -50,7 +50,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "cla-frontend.selectorLabels" -}}
-app: cla-frontend-app
 app.kubernetes.io/name: {{ include "cla-frontend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
