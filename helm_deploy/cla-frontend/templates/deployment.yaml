@@ -22,11 +22,14 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
+            - name: metrics
+              containerPort: 1717
+              protocol: TCP
           livenessProbe:
             exec:
               command:
-                - test 
-                - -f 
+                - test
+                - -f
                 - /tmp/listen_queue_healthy
           lifecycle:
             preStop:

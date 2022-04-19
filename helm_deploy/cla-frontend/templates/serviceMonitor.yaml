@@ -7,5 +7,5 @@ spec:
    matchLabels:
      app: {{ include "cla-frontend.fullname" . }}
  endpoints:
- - port: http
+ - port: metrics
    interval: 15s
