@@ -7,9 +7,11 @@ repository="$2"
 case $repository in
   app)
       docker_repository="${ECR_URL_APP}"
+      push_metrics="yes"
       ;;
   socket-server)
       docker_repository="${ECR_URL_SOCKET_SERVER}"
+      push_metrics="no"
       ;;
 esac
 
@@ -27,4 +29,7 @@ tag_and_push "$docker_repository:$safe_git_branch"
 
 if [ "$CIRCLE_BRANCH" == "master" ]; then
   tag_and_push "$docker_repository:latest"
+fi
+if [ "push_metrics" == "yes" ]; then
+  tag_and_push "$METRICS_IMAGE_TAG"
 fi

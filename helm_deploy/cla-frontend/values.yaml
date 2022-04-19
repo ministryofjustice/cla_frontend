@@ -17,6 +17,15 @@ service:
   type: ClusterIP
   port: 80
 
+metrics:
+  image:
+    repository: cla_frontend
+    tag: metrics
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+
 socketServer:
   image:
     repository: cla_frontend_socket_server

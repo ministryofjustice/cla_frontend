@@ -34,6 +34,15 @@ jobs:
                     --file Dockerfile \
                     .
             - run:
+                name: Build metrics Docker image
+                command: |
+                  docker build --tag << parameters.image >>:metrics.$CIRCLE_SHA1 \
+                    --label build.git.sha=$CIRCLE_SHA1 \
+                    --label build.git.branch=$CIRCLE_BRANCH \
+                    --label build.url=$CIRCLE_BUILD_URL \
+                    --file Dockerfile.metrics \
+                    bin
+            - run:
                 name: Validate Python version
                 command: |
                   docker run --rm --tty --interactive << parameters.image >>:$CIRCLE_SHA1 python --version | grep "2.7"

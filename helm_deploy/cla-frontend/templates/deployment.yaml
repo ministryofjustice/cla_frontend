@@ -38,7 +38,7 @@ spec:
           env:
             {{ include "cla-frontend.app.vars" . | nindent 12 }}
         - name: {{ .Chart.Name }}-metrics
-          image: "timonwong/uwsgi-exporter"
+          image: "{{ .Values.metrics.repository }}:{{ .Values.metrics.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: metrics

@@ -1,0 +1,7 @@
+FROM alpine:latest
+RUN adduser -D app
+COPY uwsgi_exporter /bin/uwsgi_exporter
+
+USER 1000
+EXPOSE 9117
+ENTRYPOINT  [ "/bin/uwsgi_exporter" ]
