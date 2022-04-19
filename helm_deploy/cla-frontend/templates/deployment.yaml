@@ -44,4 +44,5 @@ spec:
             - name: metrics
               containerPort: 1717
               protocol: TCP
+          command: ["/bin/uwsgi_exporter"]
           args: ["--stats.uri", "http://localhost:1717"]

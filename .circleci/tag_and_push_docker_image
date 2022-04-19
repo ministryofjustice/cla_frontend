@@ -30,6 +30,10 @@ tag_and_push "$docker_repository:$safe_git_branch"
 if [ "$CIRCLE_BRANCH" == "master" ]; then
   tag_and_push "$docker_repository:latest"
 fi
-if [ "push_metrics" == "yes" ]; then
-  tag_and_push "$METRICS_IMAGE_TAG"
+if [ "$push_metrics" == "yes" ]; then
+  metric_built_tag="$repository:metrics.$CIRCLE_SHA1"
+  metric_push_tag="$docker_repository:$METRICS_IMAGE_TAG"
+  echo "Tagging and pushing $metric_built_tag."
+  docker tag $metric_built_tag $metric_push_tag
+  docker push $metric_push_tag
 fi
