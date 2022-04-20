@@ -20,7 +20,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: metrics
-              containerPort: 1717
+              containerPort: 9117
               protocol: TCP
           command: ["/bin/uwsgi_exporter"]
           args: ["--stats.uri", "http://localhost:1717"]

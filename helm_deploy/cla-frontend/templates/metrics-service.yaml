@@ -7,8 +7,8 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: 1717
+    - port: 9117
       name: metrics
-      targetPort: 1717
+      targetPort: 9117
   selector:
     {{- include "cla-metrics.selectorLabels" . | nindent 4 }}
