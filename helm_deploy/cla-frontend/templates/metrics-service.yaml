@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "cla-frontend.fullname" . }}-metrics
   labels:
-    {{- include "cla-frontend.labels" . | nindent 4 }}
+    {{- include "cla-metrics.selectorLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
