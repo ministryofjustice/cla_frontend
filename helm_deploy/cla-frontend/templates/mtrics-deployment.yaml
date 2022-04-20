@@ -23,5 +23,5 @@ spec:
               containerPort: 9117
               protocol: TCP
           command: ["/bin/uwsgi_exporter"]
-          args: ["--stats.uri", "http://localhost:1717"]
+          args: ["--stats.uri", '{{ include "cla-service-app-url" . }}:1717']
 
