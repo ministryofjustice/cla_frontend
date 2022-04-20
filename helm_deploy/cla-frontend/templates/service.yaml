@@ -11,5 +11,8 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: 1717
+      name: stats
+      targetPort: 1717
   selector:
     {{- include "cla-frontend.selectorLabels" . | nindent 4 }}

@@ -22,7 +22,7 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
-            - name: metrics
+            - name: stats
               containerPort: 1717
               protocol: TCP
           livenessProbe:
