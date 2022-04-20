@@ -16,7 +16,7 @@ helm upgrade $RELEASE_NAME \
   --set ingress.cluster.weight=${INGRESS_CLUSTER_WEIGHT} \
   --set image.repository=$ECR_URL_APP \
   --set image.tag=$IMAGE_TAG \
-  --set metrics.tag=$IMAGE_TAG \
+  --set metrics.tag=$METRICS_IMAGE_TAG \
   --set metrics.repository=$ECR_URL_APP \
   --set socketServer.image.repository=$ECR_URL_SOCKET_SERVER \
   --set socketServer.image.tag=$IMAGE_TAG \
