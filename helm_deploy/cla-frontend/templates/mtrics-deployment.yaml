@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cla-frontend.fullname" . }}-metrics
+  labels:
+    {{- include "cla-frontend.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "cla-metrics.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "cla-metrics.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-metrics
+          image: "{{ .Values.metrics.repository }}:{{ .Values.metrics.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: metrics
+              containerPort: 1717
+              protocol: TCP
+          command: ["/bin/uwsgi_exporter"]
+          args: ["--stats.uri", "http://localhost:1717"]
+

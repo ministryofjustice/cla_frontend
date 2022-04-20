@@ -37,12 +37,3 @@ spec:
                 command: ["/bin/sleep","30"]
           env:
             {{ include "cla-frontend.app.vars" . | nindent 12 }}
-        - name: {{ .Chart.Name }}-metrics
-          image: "{{ .Values.metrics.repository }}:{{ .Values.metrics.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: metrics
-              containerPort: 1717
-              protocol: TCP
-          command: ["/bin/uwsgi_exporter"]
-          args: ["--stats.uri", "http://localhost:1717"]

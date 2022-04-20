@@ -5,7 +5,7 @@ metadata:
 spec:
  selector:
    matchLabels:
-     app.kubernetes.io/instance: {{ .Release.Name }}
+     app.kubernetes.io/name: cla-metrics
  endpoints:
  - port: metrics
    interval: 15s
