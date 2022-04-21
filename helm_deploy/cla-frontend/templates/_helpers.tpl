@@ -57,6 +57,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/name: cla-socket-server
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+{{- define "cla-metrics.selectorLabels" -}}
+app.kubernetes.io/name: cla-metrics
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "cla-service-app-name" -}}
+{{ include "cla-frontend.fullname" . }}-app
+{{- end }}
+{{- define "cla-service-app-url" -}}
+http://{{ include "cla-service-app-name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+{{- end }}
 
 {{- define "cla-socket-server.service-url" -}}
 {{ include "cla-frontend.fullname" . }}-socket-server/socket.io/
