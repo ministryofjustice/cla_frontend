@@ -19,11 +19,6 @@ from sys import path
 
 from django.core.wsgi import get_wsgi_application
 
-from prometheus_client.core import REGISTRY
-from uwsgi_prometheus.collectors import UWSGIStatsCollector
-
-REGISTRY.register(UWSGIStatsCollector())
-
 SITE_ROOT = dirname(dirname(abspath(__file__)))
 path.append(SITE_ROOT)
 
