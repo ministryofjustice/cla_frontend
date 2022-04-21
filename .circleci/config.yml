@@ -214,9 +214,9 @@ workflows:
   version: 2
   test_and_build:
     jobs:
-      - python_lint
-      - python_unit_test
-      - javascript_unit_test
+#      - python_lint
+#      - python_unit_test
+#      - javascript_unit_test
       - cleanup_merged:
           name: cleanup_merged_live
           context:
@@ -225,20 +225,20 @@ workflows:
       - build:
           name: build_app
           image: app
-          requires:
-            - python_lint
-            - python_unit_test
-            - javascript_unit_test
+#          requires:
+#            - python_lint
+#            - python_unit_test
+#            - javascript_unit_test
           context:
             - laa-cla-frontend
             - laa-cla-frontend-app-ecr
       - build:
           name: build_socket_server
           image: socket-server
-          requires:
-            - python_lint
-            - python_unit_test
-            - javascript_unit_test
+#          requires:
+#            - python_lint
+#            - python_unit_test
+#            - javascript_unit_test
           context:
             - laa-cla-frontend
             - laa-cla-frontend-socket-server-ecr
