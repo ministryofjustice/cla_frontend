@@ -125,6 +125,5 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
     response = proxy_view(request, remoteurl, extra_requests_args)
     if "csvupload" in remoteurl and request.method:
         logger.info("PROVIDER CSV UPLOAD RESPONSE: {}".format(response.content))
-        response.content = '{"count": 0, "next": null, "previous": null, "results": []}'
 
     return response
