@@ -96,6 +96,9 @@ def login(
 
 @csrf_exempt
 def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None):
+    if "provider/csvupload" in path:
+        logger.info("PROVIDER CSV UPLOAD PROXY START")
+
     """
         TODO: hacky as it's getting the base_url and the auth header from the
             get_connection slumber object.
@@ -117,4 +120,9 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
     else:
         extra_requests_args = {}
     remoteurl = u"%s%s" % (base_remote_url, path)
-    return proxy_view(request, remoteurl, extra_requests_args)
+    if "provider/csvupload" in remoteurl:
+        logger.info("PROVIDER CSV UPLOAD SENDING: {}".format(remoteurl))
+    response = proxy_view(request, remoteurl, extra_requests_args)
+    if "provider/csvupload" in remoteurl:
+        logger.info("PROVIDER CSV UPLOAD RESPONSE: {}".format(response.content))
+    return response
