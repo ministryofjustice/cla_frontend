@@ -5,6 +5,8 @@ from . import views
 
 urlpatterns = patterns(
     "",
+    url(r"^idle/$", views.idle, name="status_idle"),
+    url(r"^good/$", views.good, name="status_good"),
     url(r"^live/$", views.status, {"probe_type": "live"}, name="live_probe"),
     url(r"^ready/$", views.status, {"probe_type": "ready"}, name="ready_probe"),
     url(r"^status.json$", views.smoketests_json),

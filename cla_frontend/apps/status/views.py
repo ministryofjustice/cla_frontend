@@ -7,6 +7,27 @@ from cla_common.smoketest import smoketest
 
 from .smoketests import ready_smoketests, live_smoketests, basic  # noqa F401
 
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+import logging
+import time
+
+logger = logging.getLogger(__name__)
+
+
+@csrf_exempt
+def idle(request):
+    logger.info("IDLE - STARTING")
+    time.sleep(180)
+    logger.info("IDLE - COMPLETED")
+    return HttpResponse(status=400, content="hello world")
+
+
+@csrf_exempt
+def good(request):
+    return HttpResponse(status=200, content="hello world")
+
 
 def status(request, probe_type):
     if probe_type == "ready":
