@@ -1,13 +1,12 @@
 import datetime
 
-from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import View
 from cla_common.smoketest import smoketest
 
 from .smoketests import ready_smoketests, live_smoketests, basic  # noqa F401
 
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 import logging
@@ -21,12 +20,12 @@ def idle(request):
     logger.info("IDLE - STARTING")
     time.sleep(180)
     logger.info("IDLE - COMPLETED")
-    return HttpResponse(status=400, content="hello world")
+    return JsonResponse({"msg": "hello world"}, status=400)
 
 
 @csrf_exempt
 def good(request):
-    return HttpResponse(status=200, content="hello world")
+    return JsonResponse({"msg": "hello world"}, status=200)
 
 
 def status(request, probe_type):
