@@ -16,6 +16,11 @@ metadata:
     {{- if .Values.ingress.whitelist }}
     nginx.ingress.kubernetes.io/whitelist-source-range: "{{ include "cla-frontend.whitelist" . }}"
     {{- end }}
+    nginx.ingress.kubernetes.io/keepalive: "8"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/client-max-body-size: "16m"
     nginx.ingress.kubernetes.io/server-snippets: |
       location /socket.io {
         proxy_http_version 1.1;
