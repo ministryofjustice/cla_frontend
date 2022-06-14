@@ -151,7 +151,9 @@ jobs:
           command: npm run js
       - run:
           name: Run Jasmine unit tests
-          command: npm run test-single-run
+          command: |
+            npm install
+            npm run test-single-run
   deploy:
     parameters:
       namespace:
