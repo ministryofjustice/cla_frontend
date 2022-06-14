@@ -1,0 +1,150 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - karma > chokidar > fsevents > node-pre-gyp > tar-pack > debug:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > debug:
+        patched: '2022-06-14T15:03:02.613Z'
+  'npm:extend:20180424':
+    - karma > dom-serialize > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - phantomjs > request > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma-phantomjs-launcher > phantomjs-prebuilt > request > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > hipchat-notifier > request > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > loggly > request > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > slack-node > requestretry > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > request > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > slack-node > requestretry > request > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > agent-base > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > http-proxy-agent > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > https-proxy-agent > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > socks-proxy-agent > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > http-proxy-agent > agent-base > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > https-proxy-agent > agent-base > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > socks-proxy-agent > agent-base > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > agent-base > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > http-proxy-agent > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > https-proxy-agent > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > get-uri > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > socks-proxy-agent > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > http-proxy-agent > agent-base > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > https-proxy-agent > agent-base > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > mailgun-js > proxy-agent > pac-proxy-agent > socks-proxy-agent > agent-base > extend:
+        patched: '2022-06-14T15:03:02.613Z'
+  'npm:hoek:20180212':
+    - phantomjs > request > hawk > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - phantomjs > request > hawk > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - phantomjs > request > hawk > sntp > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - phantomjs > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > hawk > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > loggly > request > hawk > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > hawk > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > loggly > request > hawk > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > loggly > request > hawk > sntp > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > request > hawk > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > loggly > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma-phantomjs-launcher > phantomjs-prebuilt > request > hawk > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma-phantomjs-launcher > phantomjs-prebuilt > request > hawk > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma-phantomjs-launcher > phantomjs-prebuilt > request > hawk > sntp > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > hipchat-notifier > request > hawk > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > hipchat-notifier > request > hawk > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma-phantomjs-launcher > phantomjs-prebuilt > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > hipchat-notifier > request > hawk > sntp > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > slack-node > requestretry > request > hawk > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > slack-node > requestretry > request > hawk > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > hipchat-notifier > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > slack-node > requestretry > request > hawk > sntp > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > slack-node > requestretry > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-06-14T15:03:02.613Z'
+  SNYK-JS-LODASH-567746:
+    - phantomjs > request > form-data > async > lodash:
+        patched: '2022-06-14T15:03:02.613Z'
+  'npm:ms:20170412':
+    - karma > log4js > mailgun-js > debug > ms:
+        patched: '2022-06-14T15:03:02.613Z'
+  'npm:request:20160119':
+    - phantomjs > request:
+        patched: '2022-06-14T15:03:02.613Z'
+  'npm:stringstream:20180511':
+    - phantomjs > request > stringstream:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma-phantomjs-launcher > phantomjs-prebuilt > request > stringstream:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > hipchat-notifier > request > stringstream:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > loggly > request > stringstream:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > request > stringstream:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > slack-node > requestretry > request > stringstream:
+        patched: '2022-06-14T15:03:02.613Z'
+  'npm:tough-cookie:20170905':
+    - phantomjs > request > tough-cookie:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
+        patched: '2022-06-14T15:03:02.613Z'
+  'npm:tunnel-agent:20170305':
+    - phantomjs > request > tunnel-agent:
+        patched: '2022-06-14T15:03:02.613Z'
+    - karma > log4js > loggly > request > tunnel-agent:
+        patched: '2022-06-14T15:03:02.613Z'
