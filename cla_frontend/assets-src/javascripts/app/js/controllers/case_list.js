@@ -151,26 +151,13 @@
             };
 
             $rootScope.$emit('timer:start', {
-              success: function() {
+              success: function() {                
                 new Case(saveParams).$save(function (data) {
                   $state.go('case_detail.edit.diagnosis', {caseref: data.reference});
                 });
               }
             });
           };
-
-          // keyboard shortcut to create case
-          hotkeys
-            .bindTo($scope)
-            .add({
-              combo: 'c c',
-              description: 'Create case',
-              callback: function(e, hotkey) {
-                ClaPostalService.publishHotKey(hotkey);
-
-                $scope.addCase($scope.person.reference);
-              }
-            });
 
           $scope.goToCase = goToCase;
 
