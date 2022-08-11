@@ -23,8 +23,8 @@
 
   <div data-block="top-actions">
     <form name="newCaseForm" class="newCaseForm u-pullLeft">
-      <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase(person.reference)" ng-if="person.reference">Create a case for {{ person.full_name }}</button>
-      <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-click="addCase()" ng-if="!person.reference">Create a case</button>
+      <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-disabled="create_case_in_progress" ng-click="addCase(person.reference)" ng-if="person.reference">Create a case for {{ person.full_name }}</button>
+      <button id="create_case" type="button" class="Button Button--secondary Button--add" ng-disabled="create_case_in_progress" ng-click="addCase()" ng-if="!person.reference">Create a case</button>
     </form>
   </div>
 
