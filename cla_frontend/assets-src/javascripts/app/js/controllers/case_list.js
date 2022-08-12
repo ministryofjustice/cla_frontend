@@ -16,6 +16,8 @@
           $scope.pagesObj = [];
           $scope.selectedPage = $scope.searchParams.page;
 
+          $scope.create_case_in_progress = false;
+
           var totalPages = cases.count / 20;
           for (var i = 1; i < totalPages + 1; i+=1) {
             $scope.pagesObj.push(i);
@@ -146,6 +148,7 @@
           };
 
           $scope.addCase = function(person_ref) {
+            $scope.create_case_in_progress = true;
             var saveParams = {
               personal_details: person_ref || null
             };
@@ -158,19 +161,6 @@
               }
             });
           };
-
-          // keyboard shortcut to create case
-          hotkeys
-            .bindTo($scope)
-            .add({
-              combo: 'c c',
-              description: 'Create case',
-              callback: function(e, hotkey) {
-                ClaPostalService.publishHotKey(hotkey);
-
-                $scope.addCase($scope.person.reference);
-              }
-            });
 
           $scope.goToCase = goToCase;
 
