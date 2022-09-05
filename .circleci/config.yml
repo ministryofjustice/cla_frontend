@@ -56,7 +56,7 @@ jobs:
             .circleci/tag_and_push_docker_image << parameters.image >>:$CIRCLE_SHA1 << parameters.image >>
   python_lint:
     docker:
-      - image: circleci/python:3.7
+      - image: cimg/python:3.7
     steps:
       - checkout
       - run:
@@ -88,7 +88,7 @@ jobs:
             black --check cla_frontend
   python_unit_test:
     docker:
-      - image: circleci/python:2.7
+      - image: cimg/python:2.7
         environment:
           DJANGO_SETTINGS_MODULE: cla_frontend.settings.testing
           SECRET_KEY: testing_key
@@ -120,7 +120,7 @@ jobs:
             python manage.py test --verbosity=2
   javascript_unit_test:
     docker:
-      - image: circleci/node:8.9.3
+      - image: cimg/node:8.9.3
         environment:
           DJANGO_SETTINGS_MODULE: cla_frontend.settings.test
     steps:
