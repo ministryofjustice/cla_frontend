@@ -120,7 +120,7 @@ jobs:
             python manage.py test --verbosity=2
   javascript_unit_test:
     docker:
-      - image: cimg/node:8.9.3
+      - image: circleci/node:8.9.3
         environment:
           DJANGO_SETTINGS_MODULE: cla_frontend.settings.test
     steps:
