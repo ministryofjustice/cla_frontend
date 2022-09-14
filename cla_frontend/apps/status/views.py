@@ -1,11 +1,16 @@
 import datetime
-
+import time
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import View
 from cla_common.smoketest import smoketest
 
 from .smoketests import ready_smoketests, live_smoketests, basic  # noqa F401
+
+
+def timeout(request):
+    time.sleep(120)
+    return JsonResponse({"message": "Thanks for waiting"})
 
 
 def status(request, probe_type):

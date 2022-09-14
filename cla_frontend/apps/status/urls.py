@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = patterns(
     "",
+    url(r"^timeout/$", views.timeout, name="live_probe"),
     url(r"^live/$", views.status, {"probe_type": "live"}, name="live_probe"),
     url(r"^ready/$", views.status, {"probe_type": "ready"}, name="ready_probe"),
     url(r"^status.json$", views.smoketests_json),
