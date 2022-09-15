@@ -7,7 +7,10 @@ secretName: ~
 
 envVars:
   BACKEND_BASE_URI:
-    value: "https://laa-cla-backend-uat.apps.live-1.cloud-platform.service.justice.gov.uk"
+    # Using service name instead of external domain name
+    value: "http://cla-backend-app.laa-cla-backend-uat.svc.cluster.local"
+  BACKEND_BASE_HOST_NAME:
+    value: "laa-cla-backend-uat.apps.live-1.cloud-platform.service.justice.gov.uk"
   GA_ID:
     value: UA-37377084-24
   GA_DOMAIN:

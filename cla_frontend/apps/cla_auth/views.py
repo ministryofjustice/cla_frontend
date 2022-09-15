@@ -1,6 +1,7 @@
 import json
 import logging
 
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
 from django.views.decorators.debug import sensitive_post_parameters
@@ -112,9 +113,11 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
         extra_requests_args = {
             "headers": {k.upper(): v for k, v in dict([client._store["session"].auth.get_header()]).items()}
         }
+        extra_requests_args["headers"]["HOST"] = settings.BACKEND_BASE_HOST_NAME
         if not base_remote_url:
             base_remote_url = client._store["base_url"]
     else:
-        extra_requests_args = {}
+        extra_requests_args = {"headers": {"HOST": settings.BACKEND_BASE_HOST_NAME}}
+
     remoteurl = u"%s%s" % (base_remote_url, path)
     return proxy_view(request, remoteurl, extra_requests_args)

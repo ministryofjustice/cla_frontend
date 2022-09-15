@@ -18,7 +18,9 @@ class FormSerializer(slumber.serialize.JsonSerializer):
 def get_auth_connection():
     s = slumber.serialize.Serializer(default="form", serializers=[FormSerializer()])
 
-    return slumber.API(settings.BACKEND_BASE_URI, serializer=s)
+    client = slumber.API(settings.BACKEND_BASE_URI, serializer=s)
+    client._store["session"].headers.update({"HOST": settings.BACKEND_BASE_HOST_NAME})
+    return client
 
 
 def get_connection(request):
@@ -35,4 +37,6 @@ def get_connection(request):
 
 
 def get_raw_connection(token, zone):
-    return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(token))
+    client = slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(token))
+    client._store["session"].headers.update({"HOST": settings.BACKEND_BASE_HOST_NAME})
+    return client
