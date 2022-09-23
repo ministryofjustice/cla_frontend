@@ -5,7 +5,8 @@ environment: "staging"
 
 envVars:
   BACKEND_BASE_URI:
-    value: "https://staging.fox.civillegaladvice.service.gov.uk"
+    # Using service name instead of external domain name
+    value: "http://cla-backend-app.laa-cla-backend-staging.svc.cluster.local"
   GA_ID:
     value: UA-37377084-24
   GA_DOMAIN:

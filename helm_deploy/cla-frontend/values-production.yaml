@@ -12,7 +12,8 @@ ingress:
 
 envVars:
   BACKEND_BASE_URI:
-    value: "https://fox.civillegaladvice.service.gov.uk"
+    # Using service name instead of external domain name
+    value: "http://cla-backend-app.laa-cla-backend-production.svc.cluster.local"
   GA_ID:
     value: UA-37377084-19
   GA_DOMAIN:
