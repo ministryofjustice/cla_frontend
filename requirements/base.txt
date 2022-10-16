@@ -19,7 +19,7 @@ logstash-formatter==0.5.9
 django-ipware==0.1.0
 pyjade==3.0.0
 websocket-client==0.23.0
-requests==2.19.1
+requests==2.20
 django-extended-choices==0.3.0
 sentry-sdk==0.19.3
 uwsgi==2.0.19.1
@@ -30,3 +30,4 @@ django-storages==1.5.2
 
 #Irat healthcheck and ping package
 git+https://github.com/ministryofjustice/django-moj-irat.git@4d54b86b1cb574fe787ba0fb8a992cf352f8eba6
+urllib3>=1.26.5 # not directly required, pinned by Snyk to avoid a vulnerability
