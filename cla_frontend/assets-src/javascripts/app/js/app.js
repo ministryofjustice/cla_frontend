@@ -62,10 +62,14 @@
         // log the previous state in the History
         ga(function(tracker) {
           var location = tracker.get('location');
-          if(location.includes('search')) {
-            var newURL = location.replace(/search=[^&]+/gi, 'search=redacted');
-            ga('set', 'location', newURL);
+          if(toParams && toParams.hasOwnProperty('caseref')) {
+            // Filter case reference before sending to Google analytics
+            location = location.replace(toParams.caseref, "FILTERED")
           }
+          if(location.includes('search')) {
+            location = location.replace(/search=[^&]+/gi, 'search=redacted');
+          }
+          ga('set', 'location', location);
         });
         History.previousState = fromState;
         History.previousState.params = fromParams;
@@ -97,6 +101,8 @@
       $resourceProvider.defaults.stripTrailingSlashes = false;
       cfpLoadingBarProvider.includeBar = false;
       $analyticsProvider.queryKeysBlacklist(['search']);
+      // Filter case reference before sending to Google analytics
+      $analyticsProvider.filterUrlSegments([new RegExp(/^\w{2}-\d{4}-\d{4}/)]);
   }];
 
 
