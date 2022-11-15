@@ -1,3 +1,4 @@
 -r base.txt
 
 sphinx-rtd-theme==0.1.6
+setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
