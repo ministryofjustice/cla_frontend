@@ -252,7 +252,8 @@ workflows:
             - laa-cla-frontend-socket-server-ecr
       - cla-end-to-end-tests/behave:
           requires:
-            - build
+            - build_socket_server
+            - build_app
           context: laa-cla-frontend
           pre-steps:
             - checkout:
