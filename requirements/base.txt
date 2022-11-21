@@ -15,6 +15,8 @@ django-proxy==1.0.2
 django-csp==2.0.3
 django-session-security==2.2.3
 django-statsd-mozilla==0.3.14
+# Pin statsd version to support Python 2.7
+statsd==3.3.0
 logstash-formatter==0.5.9
 django-ipware==0.1.0
 pyjade==3.0.0
