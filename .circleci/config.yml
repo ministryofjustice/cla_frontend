@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   slack: circleci/slack@3.4.2
   node: circleci/node@5.0.2
+  cla-end-to-end-tests: ministryofjustice/cla-end-to-end-tests@volatile
 jobs:
   build:
     parameters:
@@ -249,6 +250,19 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-socket-server-ecr
+      - cla-end-to-end-tests/behave:
+          requires:
+            - build
+          context: laa-cla-frontend
+          pre-steps:
+            - checkout:
+                path: cla_frontend
+            - run:
+                command: |
+                  cd cla_frontend
+                  source .circleci/define_build_environment_variables testing
+                  echo "export CLA_FRONTEND_IMAGE=$ECR_DEPLOY_IMAGE" >> $BASH_ENV
+                  echo "Setting CLA Frontend image $ECR_DEPLOY_IMAGE"
 
       - deploy:
           name: uat_deploy_live
