@@ -1,7 +1,11 @@
 var app = require('express')()
   , _ = require('underscore')._
   , server = require('http').Server(app)
-  , io = require('socket.io')(server)
+  , io = require('socket.io')(server, {
+      cors: {
+        origin: '*' + siteHostname + ':*',
+      }
+  })
   , bodyParser = require('body-parser')
   , peopleManager = require('./utils/peopleManager')
   , adminApp = require('./admin')
@@ -13,7 +17,6 @@ var app = require('express')()
   , versions = []
   , siteHostname = process.env.SITE_HOSTNAME || 'localhost';
 
-io.set('origins', '*' + siteHostname + ':*');
 var nsp = io.of('/socket.io')
 
 app.set('views', __dirname + '/views')
