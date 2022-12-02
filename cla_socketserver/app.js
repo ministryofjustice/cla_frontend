@@ -2,11 +2,6 @@ var app = require('express')()
   , siteHostname = process.env.SITE_HOSTNAME || 'localhost'
   , _ = require('underscore')._
   , server = require('http').Server(app)
-  , io = require('socket.io')(server, {
-      cors: {
-        origin: '*' + siteHostname + ':*',
-      }
-  })
   , bodyParser = require('body-parser')
   , peopleManager = require('./utils/peopleManager')
   , adminApp = require('./admin')
@@ -17,13 +12,20 @@ var app = require('express')()
     })
   , versions = [];
 
+server.listen(8005);
+var io = require('socket.io')(server, {
+    cors: {
+      origin: `*${siteHostname}:*`
+    },
+    allowEIO3: true
+});
+
 var nsp = io.of('/socket.io')
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-server.listen(8005);
 
 app.use(function(err, req, res, next){
   // we may use properties of the error object
