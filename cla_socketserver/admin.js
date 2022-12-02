@@ -2,21 +2,9 @@
   'use strict';
 
   var _ = require('underscore')._;
-  var peopleManager = require('./utils/peopleManager');
   var utils = require('./utils/utils');
-  var MSG_OPTIONS = {
-    '1': 'Out of date version, refresh browser'
-  };
 
   function getViews(nsp) {
-    function validateMsg(msg) {
-      if (!_.has(MSG_OPTIONS, msg)) {
-        var err = new Error('You didn\'t pass any msg options.');
-        err.status = 403;
-        throw err;
-      }
-    }
-
     return {
       notifications: function (req, res) {
         var data = {
