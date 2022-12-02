@@ -1,4 +1,5 @@
 var app = require('express')()
+  , siteHostname = process.env.SITE_HOSTNAME || 'localhost'
   , _ = require('underscore')._
   , server = require('http').Server(app)
   , io = require('socket.io')(server, {
@@ -14,8 +15,7 @@ var app = require('express')()
       host: process.env.STATSD_HOST || 'localhost',
       post: process.env.STATSD_POST || 8125
     })
-  , versions = []
-  , siteHostname = process.env.SITE_HOSTNAME || 'localhost';
+  , versions = [];
 
 var nsp = io.of('/socket.io')
 
