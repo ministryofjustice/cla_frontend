@@ -1,8 +1,11 @@
 {
   "name": "cla-socketserver",
   "version": "0.1.0",
+  "scripts": {
+    "test": "jest"
+  },
   "engines": {
-    "node": ">=8.9.x"
+    "node": ">=10.x.x"
   },
   "repository": {
     "type": "git",
@@ -13,9 +16,12 @@
     "cookie": "~0.1.2",
     "express": "^4.9.8",
     "jade": "^1.9.1",
-    "node-statsd": "0.0.7",
     "promise": "^6.0.0",
     "socket.io": "^4.5.3",
     "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "supertest": "^6.3.1"
   }
 }
