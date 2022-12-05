@@ -6,7 +6,6 @@ var app = require('express')()
   , peopleManager = require('./utils/peopleManager')
   , adminApp = require('./admin');
 
-server.listen(8005);
 var io = require('socket.io')(server, {
     cors: {
       origin: `*${siteHostname}:*`
@@ -50,3 +49,5 @@ nsp.on('connection', function (socket) {
     peopleManager.stopViewingCase(nsp, socket, caseref);
   });
 });
+
+Module.exports = server
