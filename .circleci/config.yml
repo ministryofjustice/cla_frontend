@@ -122,9 +122,11 @@ jobs:
             python manage.py test --verbosity=2
   socket_server_tests:
     docker:
-      - image: node:18
+      - image: cimg/node:18.8.0
     steps:
       - checkout
+      - node/install:
+          node-version: '18'
       - run:
           name: Run tests
           command: |
