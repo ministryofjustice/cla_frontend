@@ -128,10 +128,13 @@ jobs:
       - node/install:
           node-version: '18'
       - run:
-          name: Run tests
+          name: Install dependencies
           command: |
             cd cla_socketserver
-            npm install --include dev
+            npm run test
+      - run:
+          name: Run tests
+          command: |
             npm run test
   javascript_unit_test:
     docker:
