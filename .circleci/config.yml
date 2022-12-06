@@ -135,6 +135,7 @@ jobs:
       - run:
           name: Run tests
           command: |
+            cd cla_socketserver
             npm run test
   javascript_unit_test:
     docker:
