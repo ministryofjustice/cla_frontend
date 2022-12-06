@@ -120,6 +120,20 @@ jobs:
           command: |
             source env/bin/activate
             python manage.py test --verbosity=2
+  socket_server_tests:
+    docker:
+      - image: node:18
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            cd cla_socketserver
+            npm install
+      - run:
+          name: Run unit tests
+          command: |
+            npm test
   javascript_unit_test:
     docker:
       - image: cimg/node:18.8.0
@@ -224,6 +238,7 @@ workflows:
     jobs:
       - python_lint
       - python_unit_test
+      - socket_server_tests
       - javascript_unit_test
       - cleanup_merged:
           name: cleanup_merged_live
