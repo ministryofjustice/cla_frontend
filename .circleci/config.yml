@@ -123,16 +123,18 @@ jobs:
   socket_server_tests:
     docker:
       - image: cimg/node:18.8.0
+
     steps:
       - checkout
       - node/install:
           node-version: '18'
       - run:
+          working_directory: ./cla_socketserver
           name: Install dependencies
           command: |
-            cd cla_socketserver
             npm install --include dev
       - run:
+          working_directory: ./cla_socketserver
           name: Run tests
           command: |
             npm run test
