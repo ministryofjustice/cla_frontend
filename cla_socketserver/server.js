@@ -1,3 +1,3 @@
-var server = require('./app');
+var { httpServer } = require('./app');
 
-server.listen(8005);
+httpServer.listen(8005);

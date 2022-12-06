@@ -1,19 +1,17 @@
 var app = require('express')()
   , siteHostname = process.env.SITE_HOSTNAME || 'localhost'
   , _ = require('underscore')._
-  , server = require('http').Server(app)
+  , httpServer = require('http').Server(app)
   , bodyParser = require('body-parser')
   , peopleManager = require('./utils/peopleManager')
   , adminApp = require('./admin');
 
-var io = require('socket.io')(server, {
+var socketServer = require('socket.io')(httpServer, {
     cors: {
       origin: `*${siteHostname}:*`
     },
     allowEIO3: true
 });
-
-var nsp = io.of('/socket.io')
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
@@ -29,25 +27,27 @@ app.use(function(err, req, res, next){
 });
 
 // ADMIN
-adminApp.install(app, nsp);
+adminApp.install(app, socketServer);
 
 // SOCKETS
-nsp.on('connection', function (socket) {
+socketNamespace = socketServer.of('/socket.io');
+
+socketNamespace.on('connection', function (socket) {
   socket.on('identify', function(data) {
-    peopleManager.identify(nsp, socket, data.username || data, data.usertype, data.appVersion);
+    peopleManager.identify(socketNamespace, socket, data.username || data, data.usertype, data.appVersion);
   });
 
   socket.on('disconnect', function () {
-    peopleManager.disconnect(nsp, socket);
+    peopleManager.disconnect(socketNamespace, socket);
   });
 
   socket.on('startViewingCase', function(caseref) {
-    peopleManager.startViewingCase(nsp, socket, caseref);
+    peopleManager.startViewingCase(socketNamespace, socket, caseref);
   });
 
   socket.on('stopViewingCase', function(caseref) {
-    peopleManager.stopViewingCase(nsp, socket, caseref);
+    peopleManager.stopViewingCase(socketNamespace, socket, caseref);
   });
 });
 
-Module.exports = server
+module.exports = {app, httpServer, socketServer};
