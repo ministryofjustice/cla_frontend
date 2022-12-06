@@ -6,7 +6,7 @@ var app = require('express')()
   , peopleManager = require('./utils/peopleManager')
   , adminApp = require('./admin');
 
-var socketServer = require('socket.io')(httpServer, {
+const socketServer = require('socket.io')(httpServer, {
     cors: {
       origin: `*${siteHostname}:*`
     },
@@ -30,7 +30,7 @@ app.use(function(err, req, res, next){
 adminApp.install(app, socketServer);
 
 // SOCKETS
-socketNamespace = socketServer.of('/socket.io');
+const socketNamespace = socketServer.of('/socket.io');
 
 socketNamespace.on('connection', function (socket) {
   socket.on('identify', function(data) {

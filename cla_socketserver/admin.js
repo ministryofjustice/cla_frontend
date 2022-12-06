@@ -1,7 +1,6 @@
 (function () {
   'use strict';
 
-  var _ = require('underscore')._;
   var utils = require('./utils/utils');
 
   function getViews(nsp) {
