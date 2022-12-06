@@ -126,14 +126,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
+          name: Run tests
           command: |
             cd cla_socketserver
             npm install
-      - run:
-          name: Run unit tests
-          command: |
-            cd cla_socketserver
             npm test
   javascript_unit_test:
     docker:
