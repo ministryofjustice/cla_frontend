@@ -131,11 +131,10 @@ jobs:
           name: Install dependencies
           command: |
             cd cla_socketserver
-            npm run test
+            npm install --include dev
       - run:
           name: Run tests
           command: |
-            cd cla_socketserver
             npm run test
   javascript_unit_test:
     docker:
