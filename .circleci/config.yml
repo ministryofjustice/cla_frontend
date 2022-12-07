@@ -266,6 +266,7 @@ workflows:
             - python_lint
             - python_unit_test
             - javascript_unit_test
+            - socket_server_tests
           context:
             - laa-cla-frontend
             - laa-cla-frontend-socket-server-ecr
