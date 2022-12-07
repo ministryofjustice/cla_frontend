@@ -280,9 +280,9 @@ workflows:
             - run:
                 command: |
                   cd cla_frontend
-                  source .circleci/define_build_environment_variables testing
-                  export APP_IMAGE=$ECR_URL_APP:$safe_git_branch.$short_sha
-                  export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$safe_git_branch.$short_sha
+                  source .circleci/define_build_environment_variables
+                  export APP_IMAGE=$ECR_URL_APP:$IMAGE_TAG
+                  export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$IMAGE_TAG
                   echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
                   echo "Setting CLA Frontend image $APP_IMAGE"
                   echo "Setting CLA Socket Server image $SOCKET_IMAGE"
