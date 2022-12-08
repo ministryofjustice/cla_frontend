@@ -120,6 +120,24 @@ jobs:
           command: |
             source env/bin/activate
             python manage.py test --verbosity=2
+  socket_server_tests:
+    docker:
+      - image: cimg/node:18.8.0
+
+    steps:
+      - checkout
+      - node/install:
+          node-version: '18'
+      - run:
+          working_directory: ./cla_socketserver
+          name: Install dependencies
+          command: |
+            npm install --include dev
+      - run:
+          working_directory: ./cla_socketserver
+          name: Run tests
+          command: |
+            npm run test
   javascript_unit_test:
     docker:
       - image: cimg/node:18.8.0
@@ -224,6 +242,7 @@ workflows:
     jobs:
       - python_lint
       - python_unit_test
+      - socket_server_tests
       - javascript_unit_test
       - cleanup_merged:
           name: cleanup_merged_live
@@ -247,6 +266,7 @@ workflows:
             - python_lint
             - python_unit_test
             - javascript_unit_test
+            - socket_server_tests
           context:
             - laa-cla-frontend
             - laa-cla-frontend-socket-server-ecr
@@ -261,9 +281,12 @@ workflows:
             - run:
                 command: |
                   cd cla_frontend
-                  source .circleci/define_build_environment_variables testing
-                  echo "export CLA_FRONTEND_IMAGE=$ECR_DEPLOY_IMAGE" >> $BASH_ENV
-                  echo "Setting CLA Frontend image $ECR_DEPLOY_IMAGE"
+                  source .circleci/define_build_environment_variables
+                  export APP_IMAGE=$ECR_URL_APP:$IMAGE_TAG
+                  export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$IMAGE_TAG
+                  echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
+                  echo "Setting CLA Frontend image $APP_IMAGE"
+                  echo "Setting CLA Socket Server image $SOCKET_IMAGE"
 
       - deploy:
           name: uat_deploy_live

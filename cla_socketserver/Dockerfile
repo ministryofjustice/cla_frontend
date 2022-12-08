@@ -1,4 +1,4 @@
-FROM node:8.9.3-alpine
+FROM node:18-alpine
 
 RUN apk add --no-cache \
       curl \
@@ -16,4 +16,4 @@ COPY . .
 USER 1000
 EXPOSE 8005
 
-CMD ["node", "/home/app/app.js"]
+CMD ["node", "/home/app/server.js"]
