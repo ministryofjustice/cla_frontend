@@ -60,7 +60,7 @@
     "gulp-ng-constant": "^1.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-rimraf": "^0.2.2",
-    "gulp-sass": "^4.0.1",
+    "gulp-sass": "^5.1.0",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "jshint": "^2.9.5",
