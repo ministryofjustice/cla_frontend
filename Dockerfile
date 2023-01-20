@@ -1,4 +1,7 @@
-FROM alpine:3.11
+#################################################
+# BASE IMAGE USED BY ALL STAGES
+#################################################
+FROM alpine:3.11 as base
 
 RUN apk add --no-cache \
       bash \
@@ -42,6 +45,41 @@ COPY gulpfile.js ./
 RUN npm run build
 
 COPY ./requirements ./requirements
+
+#################################################
+# DEVELOPMENT
+#################################################
+
+FROM base AS development
+
+RUN pip install -r ./requirements/dev.txt --no-cache-dir
+COPY . .
+
+# Make sure static assets directory has correct permissions
+RUN chown -R app:app /home/app && \
+    mkdir -p cla_backend/assets
+
+USER 1000
+EXPOSE 8000
+CMD ["docker/run_dev.sh"]
+
+#################################################
+# TEST
+#################################################
+# FROM development AS test
+#
+# ARG specific_test_input=""
+# ENV specific_test $specific_test_input
+#
+# USER 1000
+# CMD ["sh", "-c", "./manage.py test $specific_test"]
+
+
+#################################################
+# PRODUCTION
+#################################################
+FROM base AS production
+
 RUN pip install -r ./requirements/production.txt
 
 COPY . .
