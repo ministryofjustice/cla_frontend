@@ -135,7 +135,9 @@
               criminal_injuries: false,
               national_emergencies: false,
               london_emergencies: false,
-              love_manchester: false
+              love_manchester: false,
+              energy_prices: false,
+              cost_living: false
             }
           };
 
