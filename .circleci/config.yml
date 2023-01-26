@@ -30,6 +30,7 @@ jobs:
                 name: Build app Docker image
                 command: |
                   docker build --tag << parameters.image >>:$CIRCLE_SHA1 \
+                    --target production \
                     --label build.git.sha=$CIRCLE_SHA1 \
                     --label build.git.branch=$CIRCLE_BRANCH \
                     --label build.url=$CIRCLE_BUILD_URL \
