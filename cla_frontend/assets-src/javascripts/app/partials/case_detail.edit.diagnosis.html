@@ -30,7 +30,7 @@
   </div>
 
   <div class="FormActions">
-    <button type="submit" name="diagnosis-new" class="Button" ng-click="createDiagnosis()" ng-if="!diagnosis.reference">Create scope diagnosis</button>
+    <button type="button" name="diagnosis-new" class="Button" ng-click="createDiagnosis()" ng-if="!diagnosis.reference">Create scope diagnosis</button>
 
     <button type="submit" name="diagnosis-next" class="Button" ng-if="!diagnosis.version_in_conflict && diagnosis.isInScopeUnknown() && diagnosis.reference">Next</button>
     <button type="button" name="diagnosis-back" class="Button Button--text" ng-if="!diagnosis.version_in_conflict && diagnosis.nodes && diagnosis.isInScopeUnknown()" ng-click="moveUp()">Back</button>
