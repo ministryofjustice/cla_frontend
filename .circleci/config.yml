@@ -325,10 +325,6 @@ workflows:
           requires:
             - build_app
             - build_socket_server
-          filters:
-            branches:
-              only:
-                - master
 
       - deploy:
           name: staging_deploy_live
