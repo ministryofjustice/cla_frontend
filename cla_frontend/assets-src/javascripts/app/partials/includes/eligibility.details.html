@@ -64,6 +64,33 @@
 
 <h2 class="FormBlock-label">About you</h2>
 <section class="FormBlock FormBlock--grey">
+
+  <div class="FormRow cf">
+    <p class="FormRow-label">Are you aged 17 or under?<guidance-link doc="eligibility_check/#ecg-under_18"></guidance-link></p>
+
+    <label for="id_your_details-under_18_0" class="FormRow-option FormRow-option--inline">
+      <input type="radio" name="your_details-under_eighteen" id="id_your_details-has_partner_0" ng-value="true" ng-model="::eligibility_check.under_18">Yes
+    </label>
+
+    <label for="id_your_details-under_18_1" class="FormRow-option FormRow-option--inline">
+      <input type="radio" name="your_details-under_eighteen" id="id_your_details-has_partner_1" ng-value="false" ng-model="::eligibility_check.under_18" checked>No
+    </label>
+  </div>
+
+  <span ng-show="under18()">
+    <div class="FormRow cf">
+      <p class="FormRow-label">Do you receive any money on a regular basis? Do not include part time earnings (less than 16 hours a week), holiday jobs or pocket money.?<guidance-link doc="eligibility_check/#ecg-under_18"></guidance-link></p>
+
+      <label class="radio">
+        <input type="radio" name="your_details-part_time_earnings" ng-value="true">Yes
+      </label>
+      <label class="radio">
+        <input type="radio" name="your_details-part_time_earnings" ng-value="false">No
+      </label>
+
+    </div>
+  </span>
+
   <div class="FormRow cf">
     <p class="FormRow-label">Do you have a partner? <guidance-link doc="eligibility_check/#ecg-has_partner"></guidance-link></p>
 

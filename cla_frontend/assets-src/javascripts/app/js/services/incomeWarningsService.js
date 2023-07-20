@@ -14,6 +14,10 @@
         return this.eligibilityCheck.has_partner && this.eligibilityCheck.has_partner !== '0';
       };
 
+      this.under18 = function () {
+        return this.eligibilityCheck.under_18 && this.eligibilityCheck.under_18 !== '0';
+      };
+
       this.isComplete = function (fields) {
         var complete = true;
         angular.forEach(fields, function (v, k) {

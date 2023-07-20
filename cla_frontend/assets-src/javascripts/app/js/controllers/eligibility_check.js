@@ -119,6 +119,7 @@
           };
 
           var setDetailsDefaults = function (ec) {
+            ec.under_18 = false;
             ec.has_partner = false;
             ec.is_you_or_your_partner_over_60 = false;
             ec.specific_benefits = {
