@@ -59,7 +59,15 @@
 
           $scope.specificBenefitsOptions = SPECIFIC_BENEFITS;
           $scope.disregardOptions = DISREGARDS;
-
+          var under_18_passported = function() {
+            if(!$scope.eligibility_check.is_you_under_18) {
+              return false;
+            }
+            if($scope.eligibility_check.under_18_receive_regular_payment === false && $scope.eligibility_check.under_18_has_valuables === false) {
+              return true;
+            }
+            return false;
+          }
           var passported = function() {
             var _radio = $('#id_your_details-passported_benefits_0').get(0);
             if (_radio) {
@@ -74,9 +82,9 @@
 
           var tabHideRules = {
             'Details': [],
-            'Finances': [],
-            'Income': [passported],
-            'Expenses': [passported]
+            'Finances': [under_18_passported],
+            'Income': [passported, under_18_passported],
+            'Expenses': [passported, under_18_passported]
           };
 
           var isRequired = function (section) {
@@ -108,6 +116,10 @@
               $scope.updateTabs();
             });
           };
+          $scope.under18Change = function() {
+            $scope.eligibility_check.under_18_passported = under_18_passported();
+            $scope.updateTabs();
+          }
 
           $scope.updateTabs = function () {
             $scope.sections = all_sections.filter(isRequired);
