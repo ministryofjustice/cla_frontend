@@ -66,7 +66,7 @@
 <section class="FormBlock FormBlock--grey">
 
   <div class="FormRow cf">
-    <p class="FormRow-label">Are you aged under 18? <guidance-link doc="eligibility_check/#ecg-has_partner"></guidance-link></p>
+    <p class="FormRow-label">Are you aged 17 or under? <guidance-link doc="eligibility_check/#ecg-under_18"></guidance-link></p>
 
     <label for="id_your_details-is_you_under_18_0" class="FormRow-option FormRow-option--inline">
       <input type="radio" name="your_details-is_you_under_18" id="id_your_details-is_you_under_18_0" ng-value="true" ng-model="::eligibility_check.is_you_under_18" ng-change="under18Change()">Yes
@@ -77,8 +77,8 @@
     </label>
   </div>
 
-  <div class="FormRow cf" ng-show="eligibility_check.is_you_under_18">
-    <p class="FormRow-label">Do you receive any money on a regular basis? Do not include part time earnings (less than 16 hours a week), holiday jobs or pocket money? <guidance-link doc="eligibility_check/#ecg-has_partner"></guidance-link></p>
+  <div class="FormRow cf" ng-if="eligibility_check.is_you_under_18">
+    <p class="FormRow-label">Do you receive any money on a regular basis? <guidance-link doc="eligibility_check/#ecg-under_18"></guidance-link></p>
 
     <label for="id_your_details-under_18_receive_regular_payment_0" class="FormRow-option FormRow-option--inline">
       <input type="radio" name="your_details-under_18_receive_regular_payment" id="id_your_details-under_18_receive_regular_payment_0" ng-value="true" ng-model="::eligibility_check.under_18_receive_regular_payment" ng-change="under18Change()">Yes
@@ -89,8 +89,8 @@
     </label>
   </div>
 
-  <div class="FormRow cf" ng-show="eligibility_check.is_you_under_18 && eligibility_check.under_18_receive_regular_payment === false">
-    <p class="FormRow-label">Do you have any savings, items of value or investments totalling £2500 or more?<guidance-link doc="eligibility_check/#ecg-has_partner"></guidance-link></p>
+  <div class="FormRow cf" ng-if="eligibility_check.is_you_under_18 && eligibility_check.under_18_receive_regular_payment === false">
+    <p class="FormRow-label">Do you have any savings, items of value or investments totalling £2500 or more?<guidance-link doc="eligibility_check/#ecg-under_18"></guidance-link></p>
 
     <label for="id_your_details-under_18_has_valuables_0" class="FormRow-option FormRow-option--inline">
       <input type="radio" name="your_details-under_18_has_valuables" id="id_your_details-under_18_has_valuables_0" ng-value="true" ng-model="::eligibility_check.under_18_has_valuables" ng-change="under18Change()">Yes
@@ -101,7 +101,7 @@
     </label>
   </div>
 
-  <div class="FormRow cf">
+  <div class="FormRow cf" ng-if="!eligibility_check.under_18_passported">
     <p class="FormRow-label">Do you have a partner? <guidance-link doc="eligibility_check/#ecg-has_partner"></guidance-link></p>
 
     <label for="id_your_details-has_partner_0" class="FormRow-option FormRow-option--inline">
@@ -113,7 +113,7 @@
     </label>
   </div>
 
-  <div class="FormRow cf">
+  <div class="FormRow cf" ng-if="!eligibility_check.under_18_passported">
     <p class="FormRow-label">Are you<span ng-show="hasPartner()"> or your partner</span> aged 60 or over? <guidance-link doc="eligibility_check/#ecg-over_60"></guidance-link></p>
 
     <label for="id_your_details-older_than_sixty_0" class="FormRow-option FormRow-option--inline">
@@ -127,8 +127,8 @@
 </section>
 
 <h2 class="FormBlock-label" ng-if="!eligibility_check.under_18_passported">Benefits</h2>
-<call-script ng-if="::hasSpecificBenefits() && !eligibility_check.under_18_passported">
-  <p>I am now going to read through a list of benefits. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> receive any of these.</p>
+<call-script ng-if="::hasSpecificBenefits()">
+  <p ng-if="!eligibility_check.under_18_passported">I am now going to read through a list of benefits. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> receive any of these.</p>
 </call-script>
 <section class="FormBlock FormBlock--grey" ng-switch on="::hasSpecificBenefits()" ng-if="!eligibility_check.under_18_passported">
   <div class="FormRow cf" ng-switch-when="true" ng-repeat="opt in ::specificBenefitsOptions">
