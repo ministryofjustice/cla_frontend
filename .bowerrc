@@ -1,5 +1,6 @@
 {
   "directory": "cla_frontend/assets-src/vendor",
   "interactive": false,
-  "allow_root": true
+  "allow_root": true,
+  "registry": "https://bower.herokuapp.com"
 }
