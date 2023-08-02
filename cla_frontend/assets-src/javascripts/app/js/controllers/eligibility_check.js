@@ -153,6 +153,10 @@
             }
           };
 
+          var setFinancesDefault = function(ec) {
+            setSavingsDefaults(ec);
+            ec.property_set = [];
+          };
           var setSavingsDefaults = function (ec) {
             [ec.you, ec.partner].map(function (person) {
               person.savings = {
@@ -196,6 +200,7 @@
           };
 
           var defaultsSetters = {
+            "Finances": setFinancesDefault,
             'Income': setIncomeDefaults,
             'Expenses': setExpensesDefaults
           };
