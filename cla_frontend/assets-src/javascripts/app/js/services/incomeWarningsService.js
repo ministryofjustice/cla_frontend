@@ -7,6 +7,9 @@
       this.warnings = {};
 
       this.isPassported = function () {
+        if (this.eligibilityCheck.under_18_passported) {
+          return true;
+        }
         return this.eligibilityCheck.on_passported_benefits && this.eligibilityCheck.on_passported_benefits !== '0';
       };
 
