@@ -3,7 +3,6 @@ import os
 from os.path import join, abspath, dirname
 
 import sentry_sdk
-from boto.s3.connection import NoHostProvided
 from sentry_sdk.integrations.django import DjangoIntegration
 
 # PATH vars
@@ -127,10 +126,6 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = False
-
-# Annoyingly the host parameter boto.s3.connection.S3Connection needs to be host string if it's not the default
-# value of boto.s3.connection.NoHostProvided class reference and not None
-AWS_S3_HOST = os.environ.get("AWS_S3_HOST", NoHostProvided)
 
 # This bucket needs to a public bucket as it will serve public assets such as css,images and js
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STATIC_FILES_STORAGE_BUCKET_NAME")
