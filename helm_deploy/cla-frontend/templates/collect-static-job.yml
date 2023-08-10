@@ -19,6 +19,7 @@ spec:
         app.kubernetes.io.instance: {{ .Release.Name | quote }}
         helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     spec:
+      serviceAccountName: {{ include "cla-frontend.serviceAccountName" . }}
       restartPolicy: Never
       containers:
         - name: collect-static

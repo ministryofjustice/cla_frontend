@@ -102,3 +102,14 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "cla-frontend.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "cla-frontend.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{.Release.Namespace }}-{{.Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}

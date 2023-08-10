@@ -8,6 +8,15 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: irsa-sevice-account
+
 image:
   repository: cla_frontend
   tag: latest
@@ -79,20 +88,6 @@ envVars:
     secret:
       name: s3
       key: static_files_bucket_name
-  AWS_ACCESS_KEY_ID:
-    secret:
-      name: s3
-      key: access_key_id
-  AWS_SECRET_ACCESS_KEY:
-    secret:
-      name: s3
-      key: secret_access_key
-  AWS_S3_REGION_NAME:
-    value: "eu-west-2"
-  AWS_S3_HOST:
-    value: "s3.eu-west-2.amazonaws.com"
-  S3_USE_SIGV4:
-    value: "True"
   SECRET_KEY:
     secret:
       name: secret
