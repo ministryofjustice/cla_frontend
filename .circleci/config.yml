@@ -3,6 +3,40 @@ orbs:
   slack: circleci/slack@3.4.2
   node: circleci/node@5.0.2
   cla-end-to-end-tests: ministryofjustice/cla-end-to-end-tests@volatile
+  aws-cli: circleci/aws-cli@4.0.0 # use v4 of this orb
+  aws-ecr: circleci/aws-ecr@8.2.1 # this orb doesn't support OIDC v2, so we use aws-cli to authenticate
+
+# ------------------
+# EXECUTORS
+# these are ones we use rather than one from rom the orb
+# ------------------
+
+executors:
+  cloud-platform-executor:
+    docker:
+      - image: ministryofjustice/cloud-platform-tools:2.1
+
+# ------------------
+#
+# REFERENCES
+#
+# ------------------
+
+references:
+  install_helm: &install_helm
+      run:
+        name: Install helm v3
+        command: |
+          wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
+          tar -zxvf helm-v3.2.4-linux-amd64.tar.gz
+          mv linux-amd64/helm /usr/local/bin/helm
+
+
+# ------------------
+#
+# JOBS
+#
+# ------------------
 jobs:
   build:
     parameters:
@@ -184,19 +218,13 @@ jobs:
         type: string
       dynamic_hostname:
         type: boolean
-    docker:
-      - image: ministryofjustice/cloud-platform-tools:2.1
+    executor: cloud-platform-executor
     shell: /bin/sh -leo pipefail
     environment:
       BASH_ENV: /etc/profile
     steps:
       - checkout
-      - run:
-          name: Install helm v3
-          command: |
-            wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
-            tar -zxvf helm-v3.2.4-linux-amd64.tar.gz
-            mv linux-amd64/helm /usr/local/bin/helm
+      - *install_helm
       - run:
           name: Authenticate with cluster
           command: |
@@ -217,16 +245,10 @@ jobs:
           title_link: "https://$RELEASE_HOST"
 
   cleanup_merged:
-    docker:
-      - image: ministryofjustice/cloud-platform-tools:2.1
+    executor: cloud-platform-executor
     steps:
       - checkout
-      - run:
-          name: Install helm v3
-          command: |
-            wget https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz
-            tar -zxvf helm-v3.1.2-linux-amd64.tar.gz
-            mv linux-amd64/helm /usr/local/bin/helm
+      - *install_helm
       - run:
           name: Authenticate with cluster
           command: |
@@ -236,6 +258,11 @@ jobs:
           command: |
             ./bin/delete_uat_release.sh
 
+# ------------------
+#
+# WORKFLOWS
+#
+# ------------------
 workflows:
   version: 2
   test_and_build:
