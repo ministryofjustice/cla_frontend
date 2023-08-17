@@ -45,13 +45,6 @@ jobs:
         type: string
     steps:
       - checkout
- # Authenticate to AWS using OIDC v2 with the AWS CLI
-      - aws-cli/setup:
-          role_arn: $ECR_ROLE_TO_ASSUME # this will use the env var
-          region: $ECR_REGION # this will use the env var
-      # Authenticate to the ECR repository using the standard command
-      - run: |
-          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
       - run:
           name: Create target tags
           command: |
@@ -59,6 +52,13 @@ jobs:
             echo "Created tags $TARGET_TAGS"
             echo "export BUILD_TAGS=$TARGET_TAGS" >> $BASH_ENV
             echo "export IMAGE_TAG=$IMAGE_TAG" >> $BASH_ENV
+ # Authenticate to AWS using OIDC v2 with the AWS CLI
+      - aws-cli/setup:
+          role_arn: $ECR_ROLE_TO_ASSUME # this will use the env var
+          region: $ECR_REGION # this will use the env var
+      # Authenticate to the ECR repository using the standard command
+      - run: |
+          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
       - when:
           condition:
             equal: ["app", << parameters.image >>]
