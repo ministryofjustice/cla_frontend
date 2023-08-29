@@ -254,6 +254,21 @@ jobs:
           command: |
             ./bin/delete_uat_release.sh
 
+  behave:
+    executor: aws-ecr/default
+    steps:
+      - checkout:
+          path: cla_frontend
+      - run: |
+          cd cla_frontend
+          source .circleci/define_build_environment_variables
+          export APP_IMAGE=$ECR_URL_APP:$IMAGE_TAG
+          export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$IMAGE_TAG
+          echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
+          echo "Setting CLA Frontend image $APP_IMAGE"
+          echo "Setting CLA Socket Server image $SOCKET_IMAGE"
+      - cla-end-to-end-tests/behave
+      
 # ------------------
 #
 # WORKFLOWS
@@ -296,25 +311,13 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-socket-server-ecr
-      - cla-end-to-end-tests/behave:
+      - behave:
           requires:
             - build_socket_server
             - build_app
           context:
             - laa-cla-frontend
             - laa-cla-frontend-app-ecr
-          pre-steps:
-            - checkout:
-                path: cla_frontend
-            - run:
-                command: |
-                  cd cla_frontend
-                  source .circleci/define_build_environment_variables
-                  export APP_IMAGE=$ECR_URL_APP:$IMAGE_TAG
-                  export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$IMAGE_TAG
-                  echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
-                  echo "Setting CLA Frontend image $APP_IMAGE"
-                  echo "Setting CLA Socket Server image $SOCKET_IMAGE"
 
       - deploy:
           name: uat_deploy_live
