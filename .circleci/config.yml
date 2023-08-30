@@ -286,7 +286,6 @@ workflows:
           name: cleanup_merged_live
           context:
             - laa-cla-frontend
-            - laa-cla-frontend-app-ecr
             - laa-cla-frontend-live-uat
       - build:
           name: build_app
@@ -298,7 +297,6 @@ workflows:
             - javascript_unit_test
           context:
             - laa-cla-frontend
-            - laa-cla-frontend-app-ecr
       - build:
           name: build_socket_server
           image: socket-server
@@ -317,7 +315,6 @@ workflows:
             - build_app
           context:
             - laa-cla-frontend
-            - laa-cla-frontend-app-ecr
 
       - deploy:
           name: uat_deploy_live
@@ -329,7 +326,6 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live-uat
-            - laa-cla-frontend-app-ecr
 
       - static_uat_deploy_approval:
           type: approval
@@ -346,7 +342,6 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live-uat
-            - laa-cla-frontend-app-ecr
 
       - staging_deploy_approval:
           type: approval
@@ -367,7 +362,6 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live-staging
-            - laa-cla-frontend-app-ecr
 
       - production_deploy_approval:
           requires:
@@ -387,7 +381,6 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live-training
-            - laa-cla-frontend-app-ecr
 
       - deploy:
           name: production_deploy_live
@@ -398,4 +391,3 @@ workflows:
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live-production
-            - laa-cla-frontend-app-ecr
