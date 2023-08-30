@@ -308,7 +308,6 @@ workflows:
             - socket_server_tests
           context:
             - laa-cla-frontend
-            - laa-cla-frontend-socket-server-ecr
       - behave:
           requires:
             - build_socket_server
