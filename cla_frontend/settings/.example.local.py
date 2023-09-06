@@ -1,5 +1,7 @@
 from .base import *
 
+# Overwriting BACKEND_BASE_URI will have no effect unless the ZONE_PROFILES dict is updated with the new value
+
 DEBUG = True
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
