@@ -1,6 +1,9 @@
 from .base import *
 
-# Overwriting BACKEND_BASE_URI will have no effect unless the ZONE_PROFILES dict is updated with the new value
+# If the backend ports need to be changed locally or in the Docker file, changing BACKEND_BASE_URI has no effect,
+# as the address is written to ZONE_PROFILES before being read from this file.
+# To point the backend to an address besides "127.0.0.1:8000" either alter your environment variables or overwrite
+# the ZONE_PROFILES dict with the new backend address by adding it to this file.
 
 DEBUG = True
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
