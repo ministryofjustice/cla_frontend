@@ -26,11 +26,12 @@ app.use(function(err, req, res, next){
   res.render('error', { error: err });
 });
 
-// ADMIN
-adminApp.install(app, socketServer);
 
 // SOCKETS
 const socketNamespace = socketServer.of('/socket.io');
+
+// ADMIN
+adminApp.install(app, socketNamespace);
 
 socketNamespace.on('connection', function (socket) {
   socket.on('identify', function(data) {
