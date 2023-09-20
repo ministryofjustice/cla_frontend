@@ -24,6 +24,10 @@ def legal_help_form(request, case_reference):
         ec = extract["eligibility_check"]
         calculations = ec.get("calculations") or {}
 
+        # Conditions for Jade template. Jade templates doesn't work with conditions very well
+        if ec["is_you_under_18"] and not ec["under_18_receive_regular_payment"]:
+            ec["under_18_investments_totalling"] = True
+
         # any specific benefits === True ?!
         has_any_specific_benefits = False
         if ec["on_passported_benefits"] and ec["specific_benefits"]:
