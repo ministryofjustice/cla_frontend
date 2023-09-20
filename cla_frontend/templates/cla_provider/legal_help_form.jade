@@ -89,29 +89,44 @@ html(lang='en')
           h2.section-heading Your Finances
           table.field-table(width='100%')
             tbody
-              tr
-                td Do you have a partner that you live with?
+            tr
+                td Are you aged 17 or under?
                 td(width='30%')
-                  input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No,"}}')
-              // passported and nass questions should be replaced by the 5 questions below when ready
-              if eligibility_check.specific_benefits
-                tr
-                  td(colspan='2') Do you or your partner receive any of the following benefits:
-                for benefit in eligibility_check.all_benefits
-                  - with benefit_key=benefit.0
+                    input(type='text', readonly='readonly', value='{{eligibility_check.is_you_under_18|yesno:"Yes,No,"}}')
+                if eligibility_check.is_you_under_18
                     tr
-                      td {{ benefit.1 }}
-                      td
-                        input(type='text', readonly='readonly', name='{{benefit_key}}', value='{{ eligibility_check.specific_benefits|get:benefit_key|yesno:"Yes,No," }}')
-              else
-                tr
-                  td Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker's Allowance, Income-related Employment and Support Allowance or Guarantee Credit?
-                  td(width='30%')
-                    input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No,"}}')
-              tr
-                td Are you on National Asylum Support Service benefits?
-                td(width='30%')
-                  input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No,"}}')
+                        td Do you receive any money on a regular basis?
+                        td(width='30%')
+                            input(type='text', readonly='readonly', value='{{eligibility_check.under_18_receive_regular_payment|yesno:"Yes,No,"}}')
+                if eligibility_check.under_18_investments_totalling
+                    tr
+                        td Do you have any savings, items of value or investments totalling £2500 or more?
+                        td(width='30%')
+                            input(type='text', readonly='readonly', value='{{eligibility_check.under_18_has_valuables|yesno:"Yes,No,"}}')
+              if not eligibility_check.under_18_passported
+                  tr
+                    td Do you have a partner that you live with?
+                    td(width='30%')
+                      input(type='text', readonly='readonly', value='{{eligibility_check.has_partner|yesno:"Yes,No,"}}')
+                  // passported and nass questions should be replaced by the 5 questions below when ready
+                  if eligibility_check.specific_benefits
+                    tr
+                      td(colspan='2') Do you or your partner receive any of the following benefits:
+                    for benefit in eligibility_check.all_benefits
+                      - with benefit_key=benefit.0
+                        tr
+                          td {{ benefit.1 }}
+                          td
+                            input(type='text', readonly='readonly', name='{{benefit_key}}', value='{{ eligibility_check.specific_benefits|get:benefit_key|yesno:"Yes,No," }}')
+                  else
+                    tr
+                      td Are you or your partner directly or indirectly in receipt of Universal Credit, Income Support, Income-based Jobseeker's Allowance, Income-related Employment and Support Allowance or Guarantee Credit?
+                      td(width='30%')
+                        input(type='text', readonly='readonly', value='{{eligibility_check.on_passported_benefits|yesno:"Yes,No,"}}')
+                  tr
+                    td Are you on National Asylum Support Service benefits?
+                    td(width='30%')
+                      input(type='text', readonly='readonly', value='{{eligibility_check.on_nass_benefits|yesno:"Yes,No,"}}')
       // Property, Capital
       .page
         fieldset.box
