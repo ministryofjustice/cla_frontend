@@ -118,6 +118,35 @@ jobs:
           command: |
             source lint-env/bin/activate
             black --check cla_frontend
+  pip-compile:
+    executor: python2-executor
+    steps:
+      - checkout
+      - run:
+          name: Setup Python environment
+          command: |
+            echo "Installing ibcurl4-gnutls-dev because it is required for pycurl"
+            sudo apt-get update
+            sudo apt-get install -y libcurl4-gnutls-dev
+            pip install virtualenv
+            virtualenv pip-compile-env
+      - restore_cache:
+          keys:
+            - pip-v1-pip-compile
+      - run:
+          name: Install dependencies
+          command: |
+            source pip-compile-env/bin/activate
+            pip install pre-commit==1.14.2
+      - save_cache:
+          key: pip-v1-pip-compile
+          paths:
+            - "~/.cache/pip"
+      - run:
+          name: Check for changes with pip-compile
+          command: |
+            source pip-compile-env/bin/activate
+            ls requirements/source/* | xargs pre-commit run pip-compile --files
   python_unit_test:
     docker:
       - image: cimg/python:2.7
@@ -279,6 +308,7 @@ workflows:
   test_and_build:
     jobs:
       - python_lint
+      - pip-compile
       - python_unit_test
       - socket_server_tests
       - javascript_unit_test
@@ -293,6 +323,7 @@ workflows:
           ecr_role_to_assume: "$ECR_APP_ROLE_TO_ASSUME"
           requires:
             - python_lint
+            - pip-compile
             - python_unit_test
             - javascript_unit_test
           context:
