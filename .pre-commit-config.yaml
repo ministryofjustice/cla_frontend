@@ -16,25 +16,25 @@ repos:
       - id: pip-compile
         language_version: python2.7
         name: pip-compile docs.in
-        files: requirements-(base|docs).in
+        files: (base|docs).in
         args: [requirements/source/docs.in, "--output-file", requirements/generated/docs.txt]
       - id: pip-compile
         language_version: python2.7
         name: pip-compile dev.in
-        files: requirements-(base|dev).in
+        files: (base|dev).in
         args: [requirements/source/dev.in, "--output-file", requirements/generated/dev.txt]
       - id: pip-compile
         language_version: python2.7
         name: pip-compile lint.in
-        files: requirements-(base|lint).in
+        files: (base|lint).in
         args: [requirements/source/lint.in, "--output-file", requirements/generated/lint.txt]
       - id: pip-compile
         language_version: python2.7
         name: pip-compile testing.in
-        files: requirements-(base|testing).in
+        files: (base|testing).in
         args: [requirements/source/testing.in, "--output-file", requirements/generated/testing.txt]
       - id: pip-compile
         language_version: python2.7
         name: pip-compile production.in
-        files: requirements-(base|production).in
+        files: (base|production).in
         args: [requirements/source/production.in, "--output-file", requirements/generated/production.txt]
