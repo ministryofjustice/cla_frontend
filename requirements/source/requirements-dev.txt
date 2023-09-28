@@ -1,4 +1,4 @@
--r testing.txt
+-r generated/requirements-testing.txt
 
 #Sphinx
 django-extensions==1.4.9
