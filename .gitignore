@@ -70,7 +70,6 @@ npm-debug.log
 # bower packages
 cla_frontend/assets-src/vendor/
 .sass-cache/
-generated/
 
 /phantomjsdriver.log
 reports/
