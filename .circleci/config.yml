@@ -15,7 +15,10 @@ executors:
   cloud-platform-executor:
     docker:
       - image: ministryofjustice/cloud-platform-tools:2.1
-
+  python2-executor:
+    docker:
+      - image: cimg/python:2.7
+      
 # ------------------
 #
 # REFERENCES
@@ -323,7 +326,6 @@ workflows:
           ecr_role_to_assume: "$ECR_APP_ROLE_TO_ASSUME"
           requires:
             - python_lint
-            - pip-compile
             - python_unit_test
             - javascript_unit_test
           context:
