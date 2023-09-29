@@ -1,4 +1,4 @@
--r testing.in
+-r requirements-testing.in
 
 #Sphinx
 django-extensions==1.4.9
@@ -6,3 +6,4 @@ Werkzeug==0.9.6
 django-debug-toolbar==1.2.2
 pre-commit==1.14.2
 pip-tools==5.5.0
+click==7.1.2
