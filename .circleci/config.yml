@@ -91,7 +91,7 @@ jobs:
                 repo: $ECR_SOCKET_SERVER_REPOSITORY
   python_lint:
     docker:
-      - image: cimg/python:2.7
+      - image: cimg/python:3.7
     steps:
       - checkout
       - run:
