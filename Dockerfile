@@ -42,7 +42,7 @@ COPY gulpfile.js ./
 RUN npm run build
 
 COPY ./requirements ./requirements
-RUN pip install -r ./requirements/production.txt
+RUN pip install -r ./requirements/generated/requirements-production.txt
 
 COPY . .
 
