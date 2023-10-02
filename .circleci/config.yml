@@ -118,7 +118,7 @@ jobs:
           name: Lint with flake8 (warnings only)
           command: |
             source lint-env/bin/activate
-            flake8 cla_frontend
+            flake8 --exit-zero cla_frontend
   formatting:
     executor: python3-executor
     steps:
