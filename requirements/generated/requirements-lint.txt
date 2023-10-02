@@ -14,7 +14,7 @@ contextlib2==0.6.0.post1
     #   zipp
 enum34==1.1.10
     # via flake8
-flake8==3.9.2
+flake8==3.6.0
     # via -r requirements/source/requirements-lint.in
 functools32==3.2.3.post2
     # via flake8
