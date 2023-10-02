@@ -18,8 +18,8 @@ RUN apk add --no-cache \
       linux-headers \
       python2-dev && \
       python -m ensurepip --upgrade && \
-      pip install -U setuptools pip==18.1 wheel && \
-      apk add --repository=http://dl-cdn.alpinelinux.org/alpine/v3.7/main nodejs=8pr1
+      pip install -U setuptools pip==18.1 wheel \
+      && apk add --repository=http://dl-cdn.alpinelinux.org/alpine/v3.7/main nodejs=8.9.3-r1
 
 WORKDIR /home/app
 
