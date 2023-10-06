@@ -81,7 +81,7 @@ python-dateutil==2.4.0
     #   cla-common
 pytz==2021.1
     # via cla-common
-requests==2.27.1
+requests==2.31.0
     # via
     #   -r requirements/source/requirements-base.in
     #   cla-common
