@@ -1,8 +1,7 @@
-FROM alpine:3.11
+FROM alpine:3.15
 
 RUN apk add --no-cache \
       bash \
-      py2-pip \
       tzdata \
       gettext
 
@@ -18,8 +17,9 @@ RUN apk add --no-cache \
       libxslt-dev \
       linux-headers \
       python2-dev && \
-    pip install -U setuptools pip==18.1 wheel GitPython \
-    && apk add --repository=http://dl-cdn.alpinelinux.org/alpine/v3.7/main nodejs=8.9.3-r1
+      python -m ensurepip --upgrade && \
+      pip install -U setuptools pip==18.1 wheel \
+      && apk add --repository=http://dl-cdn.alpinelinux.org/alpine/v3.7/main nodejs=8.9.3-r1
 
 WORKDIR /home/app
 
@@ -42,7 +42,7 @@ COPY gulpfile.js ./
 RUN npm run build
 
 COPY ./requirements ./requirements
-RUN pip install -r ./requirements/production.txt
+RUN pip install -r ./requirements/generated/requirements-production.txt
 
 COPY . .
 

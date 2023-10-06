@@ -49,7 +49,7 @@ pip install -U pip
 
 Install dev Python dependencies:
 ```
-pip install -r requirements/dev.txt
+pip install -r requirements/generated/requirements-dev.txt
 ```
 
 Create a `local.py` settings file from the example file:
@@ -203,7 +203,7 @@ Now any changes in the assets folder will automatically reload the site in Chrom
 To lint with Black and flake8, install pre-commit hooks:
 ```
 . env/bin/activate
-pip install -r requirements/dev.txt
+pip install -r requirements/generated/requirements-dev.txt
 pre-commit install
 ```
 
