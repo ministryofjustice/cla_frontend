@@ -22,7 +22,7 @@
         <label>
           <span class="FormRow-label">What is the current market value of the property? <guidance-link doc="eligibility_check/#ecg-property_worth"></guidance-link></span>
           <span class="FormRow-prefix">£</span>
-          <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.value">
+          <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.value">
         </label>
       </div>
 
@@ -30,7 +30,7 @@
         <label>
           <span class="FormRow-label">How much is left to pay on the mortgage? <guidance-link doc="eligibility_check/#ecg-property_mortgage_left"></guidance-link></span>
           <span class="FormRow-prefix">£</span>
-          <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.mortgage_left">
+          <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.mortgage_left">
         </label>
       </div>
 
@@ -81,7 +81,7 @@
       <label>
         <span class="FormRow-label">How much was in your bank account/building society before your last payment went in? <guidance-link doc="eligibility_check/#ecg-savings_bank_balance"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.bank_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.bank_balance">
       </label>
     </div>
 
@@ -89,7 +89,7 @@
       <label>
         <span class="FormRow-label">Do you have any investments, shares or ISAs? <guidance-link doc="eligibility_check/#ecg-savings_investments"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.investment_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.investment_balance">
       </label>
     </div>
 
@@ -97,7 +97,7 @@
       <label>
         <span class="FormRow-label">Do you have any valuable items worth over £500 each? <guidance-link doc="eligibility_check/#ecg-savings_valuable_items"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.asset_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.asset_balance">
       </label>
     </div>
 
@@ -105,7 +105,7 @@
       <label>
         <span class="FormRow-label">Do you have any money owed to you? <guidance-link doc="eligibility_check/#ecg-savings_money_owned"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.credit_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.you.savings.credit_balance">
       </label>
     </div>
   </div>
@@ -118,7 +118,7 @@
       <label>
         <span class="FormRow-label">How much was in your partner's bank account/building society before your last payment went in? <guidance-link doc="eligibility_check/#ecg-savings_bank_balance"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.bank_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.bank_balance">
       </label>
     </div>
 
@@ -126,7 +126,7 @@
       <label>
         <span class="FormRow-label">Does your partner have any investments, shares or ISAs? <guidance-link doc="eligibility_check/#ecg-savings_investments"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.investment_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.investment_balance">
       </label>
     </div>
 
@@ -134,7 +134,7 @@
       <label>
         <span class="FormRow-label">Does your partner have any valuable items worth over £500 each? <guidance-link doc="eligibility_check/#ecg-savings_valuable_items"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.asset_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.asset_balance">
       </label>
     </div>
 
@@ -142,7 +142,7 @@
       <label>
         <span class="FormRow-label">Does your partner have any money owed to them? <guidance-link doc="eligibility_check/#ecg-savings_money_owned"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.credit_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.partner.savings.credit_balance">
       </label>
     </div>
   </div>
@@ -156,7 +156,7 @@
       <label>
         <span class="FormRow-label">How much was in your bank account/building society before your last payment went in? <guidance-link doc="eligibility_check/#ecg-savings_bank_balance"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.bank_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.bank_balance">
       </label>
     </div>
 
@@ -164,7 +164,7 @@
       <label>
         <span class="FormRow-label">Do you have any investments, shares or ISAs? <guidance-link doc="eligibility_check/#ecg-savings_investments"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.investment_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.investment_balance">
       </label>
     </div>
 
@@ -172,7 +172,7 @@
       <label>
         <span class="FormRow-label">Do you have any valuable items worth over £500 each? <guidance-link doc="eligibility_check/#ecg-savings_valuable_items"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.asset_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.asset_balance">
       </label>
     </div>
 
@@ -180,7 +180,7 @@
       <label>
         <span class="FormRow-label">Do you have any money owed to you? <guidance-link doc="eligibility_check/#ecg-savings_money_owned"></guidance-link></span>
         <span class="FormRow-prefix">£</span>
-        <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.credit_balance">
+        <input min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="eligibility_check.disputed_savings.credit_balance">
       </label>
     </div>
   </div>
