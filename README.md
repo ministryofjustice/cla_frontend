@@ -100,11 +100,14 @@ python ./manage.py runserver 8001
 ```
 
 #### Dev
+Clone [CLA Backend](https://github.com/ministryofjustice/cla_backend) and go into the cla_backend folder then run:
+
 ```
-docker-compose -f docker-compose-local.yml up
+./run_local.sh
 ```
 
-Setups the [CLA Backend](https://github.com/ministryofjustice/cla_backend) for the service to consume.
+After this you should be able to connect to localhost:8010. At that point update your cla_frontend base.py file BACKEND_BASE_URI to point to 8010 to get the two systems talking.
+
 
 Each time you start a new terminal instance you will need to run the
 following commands to get the server running again:

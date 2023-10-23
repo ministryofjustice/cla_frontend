@@ -130,13 +130,10 @@ AWS_QUERYSTRING_AUTH = False
 # This bucket needs to a public bucket as it will serve public assets such as css,images and js
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STATIC_FILES_STORAGE_BUCKET_NAME")
 
-# Currently GA
-ANALYTICS_ID = os.environ.get("GA_ID", "")
-ANALYTICS_DOMAIN = os.environ.get("GA_DOMAIN", "")
-
 CSP_DEFAULT_SRC = [
     "'self'",
     "o345774.ingest.sentry.io",
+    "www.googletagmanager.com",
     "ws:",
     "wss:",
     "www.google-analytics.com",

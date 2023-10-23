@@ -1,9 +1,10 @@
 - load staticfiles core_tags helpers
 !!! 5
 html(lang='en')
-  head(data-analytics-id='{{ analytics_id }}', data-analytics-domain='{{ analytics_domain }}')
+  head
     title Legal Help Form
     link(href='{% staticmin "stylesheets/cla.legal-help-form.css" %}', media='all', rel='stylesheet', type='text/css')
+    script(src='{% static "javascripts/vendor/tagmanager.js" %}')
   body
     #wrapper
       // Intro, Details, Finances

@@ -73,7 +73,7 @@
     }];
 
   common_config = ['$resourceProvider', 'cfpLoadingBarProvider',
-    function($resourceProvider, cfpLoadingBarProvider, $analyticsProvider) {
+    function($resourceProvider, cfpLoadingBarProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
       cfpLoadingBarProvider.includeBar = false;
   }];

@@ -1,8 +1,6 @@
 {% load staticfiles core_tags %}
 <!DOCTYPE html>
 <html lang="en" {% block html_attrs %}ng-csp{% endblock %}
-  data-analytics-id="{{ analytics_id }}"
-  data-analytics-domain="{{ analytics_domain }}"
   data-cla-features="{{ cla_features|join:' ' }}">
 
   <head data-sentry-dsn="{{ sentry_public_dsn }}" data-sentry-environment="{{ cla_environment }}"
@@ -24,6 +22,8 @@
     <!-- print styles -->
     <link href="{% staticmin 'stylesheets/cla.print.css' %}" media="print" rel="stylesheet" type="text/css" />
 
+    <script src="{% static 'javascripts/vendor/tagmanager.js' %}"></script>
+
     {% if not debug %}
     <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/boomerang.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/vendor/boomerang/config.js' %}"></script>
@@ -37,6 +37,10 @@
   </head>
 
   <body class="{{ product_type }} {{ phase }}{% block body_classes %}{% endblock %}"{% block body_attrs %}{% endblock %}>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M36WCLNV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     {% block notifications %}{% endblock %}
     {% block before_header %}{% endblock %}
 
