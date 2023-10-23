@@ -258,10 +258,6 @@ If you wish to view the Disregards questions in the eligibility templates then s
 SHOW_DISREGARDS_FEATURE_FLAG = True
 ```
 
-Without Google Analytics set up, the application will fail silently when a user clicks on the Assign button.
-
-As a temporary fix, devs should create environment variables GA_ID (any value) and GA_DOMAIN (localhost). Long term another ticket to be created to update js code so that if no Google Analytics available then an error is raised but the application will still run.
-
 ## To demo the service
 ```
 docker-compose up

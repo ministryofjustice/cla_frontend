@@ -60,17 +60,6 @@
       });
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         // log the previous state in the History
-        ga(function(tracker) {
-          var location = tracker.get('location');
-          if(toParams && toParams.hasOwnProperty('caseref')) {
-            // Filter case reference before sending to Google analytics
-            location = location.replace(toParams.caseref, "FILTERED")
-          }
-          if(location.includes('search')) {
-            location = location.replace(/search=[^&]+/gi, 'search=redacted');
-          }
-          ga('set', 'location', location);
-        });
         History.previousState = fromState;
         History.previousState.params = fromParams;
       });
@@ -78,31 +67,15 @@
       Timer.install();
       bus.install();
 
-      // set Piwik user id as logged in username
-      postal.subscribe({
-        channel: 'system',
-        topic: 'user.identified',
-        callback: function (user) {
-          try {
-            ga('set', '&uid', user.username);
-          } catch (err) {
-            console.warn('Google analytics is not installed', err);
-          }
-        }
-      });
-
       $rootScope.is_cla_feature_enabled = function(name) {
         return ClaFeatures.is_feature_enabled(name);
       }
     }];
 
-  common_config = ['$resourceProvider', 'cfpLoadingBarProvider', '$analyticsProvider',
+  common_config = ['$resourceProvider', 'cfpLoadingBarProvider',
     function($resourceProvider, cfpLoadingBarProvider, $analyticsProvider) {
       $resourceProvider.defaults.stripTrailingSlashes = false;
       cfpLoadingBarProvider.includeBar = false;
-      $analyticsProvider.queryKeysBlacklist(['search']);
-      // Filter case reference before sending to Google analytics
-      $analyticsProvider.filterUrlSegments([new RegExp(/^\w{2}-\d{4}-\d{4}/)]);
   }];
 
 
@@ -148,8 +121,6 @@
       'ui.select2',
       'hl.sticky',
       'angular-loading-bar',
-      'angulartics',
-      'angulartics.google.analytics',
       'cfp.hotkeys',
       'LocalStorageModule',
       'diff-match-patch',
@@ -205,8 +176,6 @@
       'ui.select2',
       'hl.sticky',
       'angular-loading-bar',
-      'angulartics',
-      'angulartics.google.analytics',
       'cfp.hotkeys',
       'LocalStorageModule',
       'diff-match-patch',
