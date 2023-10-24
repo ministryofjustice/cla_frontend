@@ -134,9 +134,10 @@ CSP_DEFAULT_SRC = [
     "'self'",
     "o345774.ingest.sentry.io",
     "www.googletagmanager.com",
+    "www.google.co.uk"
+    "*.analytics.google.com",
     "ws:",
     "wss:",
-    "www.google-analytics.com",
     "stats.g.doubleclick.net",
 ]
 if "localhost" in ALLOWED_HOSTS:
