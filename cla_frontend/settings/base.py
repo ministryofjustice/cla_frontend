@@ -134,7 +134,7 @@ CSP_DEFAULT_SRC = [
     "'self'",
     "o345774.ingest.sentry.io",
     "www.googletagmanager.com",
-    "www.google.co.uk"
+    "www.google.co.uk",
     "*.analytics.google.com",
     "ws:",
     "wss:",

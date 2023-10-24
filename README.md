@@ -106,7 +106,7 @@ Clone [CLA Backend](https://github.com/ministryofjustice/cla_backend) and go int
 ./run_local.sh
 ```
 
-After this you should be able to connect to localhost:8010. At that point update your cla_frontend base.py file BACKEND_BASE_URI to point to 8010 to get the two systems talking.
+After this you should be able to connect to localhost:8010. Base.py looks for BACKEND_BASE_URI - so setup this environment variable pointing to http://127.0.0.1:8010 to get cla_frontend talkign to cla_backend. 
 
 
 Each time you start a new terminal instance you will need to run the
