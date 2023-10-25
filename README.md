@@ -100,11 +100,14 @@ python ./manage.py runserver 8001
 ```
 
 #### Dev
+Clone [CLA Backend](https://github.com/ministryofjustice/cla_backend) and go into the cla_backend folder then run:
+
 ```
-docker-compose -f docker-compose-local.yml up
+./run_local.sh
 ```
 
-Setups the [CLA Backend](https://github.com/ministryofjustice/cla_backend) for the service to consume.
+After this you should be able to connect to localhost:8010. Base.py looks for BACKEND_BASE_URI - so setup this environment variable pointing to http://127.0.0.1:8010 to get cla_frontend talkign to cla_backend. 
+
 
 Each time you start a new terminal instance you will need to run the
 following commands to get the server running again:
@@ -257,10 +260,6 @@ If you wish to view the Disregards questions in the eligibility templates then s
 ```
 SHOW_DISREGARDS_FEATURE_FLAG = True
 ```
-
-Without Google Analytics set up, the application will fail silently when a user clicks on the Assign button.
-
-As a temporary fix, devs should create environment variables GA_ID (any value) and GA_DOMAIN (localhost). Long term another ticket to be created to update js code so that if no Google Analytics available then an error is raised but the application will still run.
 
 ## To demo the service
 ```
