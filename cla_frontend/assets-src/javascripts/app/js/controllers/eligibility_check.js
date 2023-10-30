@@ -27,7 +27,7 @@
           }
 
           $scope.inJudicialReview = function() {
-            return diagnosis.nodes[diagnosis.nodes.length - 2].id === 'n156';
+            return diagnosis.nodes[diagnosis.nodes.length - 1].id === 'n156';
           }
 
           IncomeWarningsService.setEligibilityCheck($scope.eligibility_check);
