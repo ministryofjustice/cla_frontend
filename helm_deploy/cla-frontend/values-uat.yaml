@@ -8,4 +8,4 @@ secretName: ~
 envVars:
   BACKEND_BASE_URI:
     # Using service name instead of external domain name
-    value: "http://cla-backend-app.laa-cla-backend-uat.svc.cluster.local"
+    value: "http://cfe-integration-app.laa-cla-backend-uat.svc.cluster.local"
