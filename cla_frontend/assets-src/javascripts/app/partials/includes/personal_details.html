@@ -25,6 +25,10 @@
       <span ng-class="{'u-strike': personal_details.safe_to_contact !== 'SAFE'}">{{ personal_details.mobile_phone }}</span>
     </p>
 
+    <div class="VCard-row Icon Icon--row Icon--alert Icon--red" ng-if="personal_details.announce_call != true" title="Do not say the call is from Civil Legal Advice">
+      <b class="u-compact">Do not say the call is from Civil Legal Advice</b>
+    </div>
+
     <p class="VCard-row Icon Icon--row Icon--email" ng-if="personal_details.email" title="Email address">
       {{ personal_details.email }}
     </p>
