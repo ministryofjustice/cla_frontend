@@ -1,77 +1,117 @@
 # CLA Frontend
 
-Frontend application for the Civil Legal Aid Tool.
+A frontend (web UI), part of the Civil Legal Advice product.
 
-## Dependencies
+Used by call centre operators and specialist providers to view & edit information about a case.
 
-- [Virtualenv](http://www.virtualenv.org/en/latest/)
-- [docker](https://www.docker.com/)
-- [Python 2.7](http://www.python.org/) (Can be installed using `brew`)
-- [nodejs.org](http://nodejs.org/) (v8.9.3 - can be installed using [nvm](https://github.com/creationix/nvm))
-- [Sass](http://sass-lang.com/)
-- [gulp.js](http://gulpjs.com/) (Installed using `npm install` and npm scripts tasks)
-- [Bower](http://bower.io/) (Installed using `npm install` and npm scripts tasks)
+Comprises:
+* Angular 1 app - the presentation layer
+* Django app - a thin API and auth
 
-Note that you only need to install the gulp command line utility as the local version will be installed later on as part of the application.
+It depends on a *cla_backend*, an API service, which is responsible for the data (cases and users) and eligibility business logic.
+
+## Pre-requisites
+
+### Docker Desktop
+
+1. Install (https://www.docker.com/products/docker-desktop/) on your Mac/Linux box
+
+2. Ensure you are allocated a Docker licence: log into https://hub.docker.com/ with Google SSO. (Optionally in Docker Desktop app you can log in using Docker Hub)
+
+You can check the Docker daemon is running:
+
+    docker info
+
+### NodeJS v8.9.x
+
+It's suggested to use 'nvm' to install this old version of Node.
+
+1. Install NVM: https://github.com/nvm-sh/nvm#install--update-script
+
+2. Install the NodeJS version:
+
+      nvm install 8.9
+
+You can check your NodeJS version:
+
+   node --version
+
+### Pyenv, python2
+
+"pyenv" is used to provide python2. (Recent MacOS versions no longer include python2, and Homebrew no longer provides it.)
+
+1. Install pyenv with brew:
+
+        brew install pyenv
+
+2. Set up your shell for pyenv. Make the changes to `~/.zshrc` described here: [Set up your shell for pyenv](https://github.com/pyenv/pyenv#set-up-your-shell-environment-for-pyenv) (This is so that pyenv's python binary can be found in your path)
+
+3. To make the shell changes take effect:
+
+        exec "$SHELL"
+
+    (or alternatively, restart your shell)
+
+4. Install into pyenv the python version this repo uses (which is defined in `.python-version`):
+
+    pyenv install 2.7.18 --skip-existing
+
 
 ## Installation
 
-Clone the repository:
+Clone this repository:
 
 ```
 git clone git@github.com:ministryofjustice/cla_frontend.git
 ```
-or
-```
-git clone https://github.com/ministryofjustice/cla_frontend.git
-```
 
-
-Next, create the environment and start it up:
-
+Ensure you have the right Python version on the path:
 ```
 cd cla_frontend
-virtualenv -p python2.7 env --prompt=\(cla_fe\)
+python --version
 ```
-and on Linux and Mac
+Ensure it reports `Python 2.7.18`. (This should match the version `.python-version`. If it's not correct, check your pyenv shell setup.)
+
+Update 'pip' and install 'virtualenv' (in pyenv's python 2.7.18 environment):
+```
+pip install -U pip
+pip install virtualenv
+```
+
+Create the python environment:
+```
+virtualenv -p python2.7 env --prompt=cla_fe
+```
+
+Activate the python environment - Linux and Mac:
 ```
 source env/bin/activate
 ```
-and on Windows
+or on Windows:
 ```
 env\scripts\activate
 ```
 
-Update pip to the latest version:
-```
-pip install -U pip
-```
-
-Install dev Python dependencies:
+Install Python dependencies:
 ```
 pip install -r requirements/generated/requirements-dev.txt
 ```
 
-Create a `local.py` settings file from the example file:
-
-on Linux and Mac
+Create a `local.py` settings file from the example file - on Linux and Mac:
 ```
 cp cla_frontend/settings/.example.local.py cla_frontend/settings/local.py
 ```
-on Windows
+or on Windows:
 ```
 copy cla_frontend\settings\.example.local.py cla_frontend\settings\local.py
 ```
 
 Install node packages:
-Currently due to using an older node for installing modules we have a script that sets and unsets some git settings around the npm install command.  This will no longer be needed when we update our node and module versions.
 ```
 ./npm_git_wrapper.sh
 ```
-Do not, for now, use the plain npm install command.
-```
-npm install
-```
+
+   Note: We use this "npm_git_wrapper.sh" rather than call "npm install" directly. This is a temporary hack due to the older version of node needing particular git settings for npm install to work. Do NOT use `npm install` directly for the time being.
 
 Install bower packages:
 ```
@@ -83,57 +123,88 @@ Compile assets:
 npm run build
 ```
 
-Install the socket server node packages. Open a new terminal and run:
+Install the Angular app's "socket server" (server-side) packages. Open a 2nd terminal and run:
 
 ```
 cd cla_frontend/cla_socketserver/
-```
-then
-```
 npm install
 node app.js
 ```
-Leave this running and return to the previous window/tabtab, start the runserver. Don't forget to keep the backend server running on port 8000:
+Leave this running. Return to your **1st terminal**.
+
+Ensure cla_backend is running - see [Running CLA Backend](#running-cla-backend).
+
+Point cla_frontend at cla_backend:
+
+```
+export BACKEND_BASE_URI=http://localhost:8010
+```
+
+You need to set SECRET_KEY. For local development it doesn't need to be secure, so just do:
+
+```
+export SECRET_KEY=dummy
+```
+
+Start the Django server:
 
 ```
 python ./manage.py runserver 8001
 ```
 
-#### Dev
-Clone [CLA Backend](https://github.com/ministryofjustice/cla_backend) and go into the cla_backend folder then run:
+By default you can sign in with username: `test_operator` password: `test_operator`. If you have errors, see: [Troubleshooting](#troubleshooting).
+
+#### Running CLA Backend
+
+It's recommended to use the [docker-compose method of running CLA Backend](https://github.com/ministryofjustice/cla_backend/blob/master/README.md#development-container):
 
 ```
+git clone git@github.com:ministryofjustice/cla_backend.git
+cd cla_backend
 ./run_local.sh
 ```
 
-After this you should be able to connect to localhost:8010. Base.py looks for BACKEND_BASE_URI - so setup this environment variable pointing to http://127.0.0.1:8010 to get cla_frontend talkign to cla_backend. 
+You should be able to browse it at: http://localhost:8010/
 
+Point cla_frontend at it with:
 
-Each time you start a new terminal instance you will need to run the
-following commands to get the server running again:
 ```
-source env/bin/activate
-
-./manage.py runserver 8001
+export BACKEND_BASE_URI=http://localhost:8010
 ```
+
+## Development
 
 We suggest you should keep 3 terminals (+1 for the backend):
 
-1. with django runserver running
+1. Django runserver:
 ```
+cd cla_frontend
 source env/bin/activate
+export BACKEND_BASE_URI=http://localhost:8010
+export SECRET_KEY=dummy
 ./manage.py runserver 8001
 ```
-2. with the socket server running
+
+2. Socket server:
 ```
 cd cla_frontend/cla_socketserver/
 npm install
 node app.js
 ```
-3. with gulp watching and compiling the assets
+
+3. Gulp watching and compiling the assets
 ```
+cd cla_frontend
 gulp build && gulp watch
 ```
+
+4. Backend
+```
+cd cla_backend
+./run_local.sh
+```
+
+### Django toolbar
 
 If using the Django Toolbar, include the following in your `local.py`:
 ```
@@ -245,6 +316,11 @@ npm run images
 ```
 
 ## Troubleshooting
+
+If on Sign In you get "Forbidden. CSRF verification failed", then clear your cookies and start again. It is due to finding cookies from previously running a different Django site on 127.0.0.1. (You can use 'localhost' for one to avoid this.)
+
+If on Sign In you get "There was a problem submitting the form. Please enter a correct username and password.", it might also be due to no response on the configured BACKEND_BASE_URI. Check that is configured correctly to point at a working cla_backend instance.
+
 If the application does not run because SECRET_KEY is not defined, then add SECRET_KEY as an environment variable.
 
 If the application runs but you get a 400 error (Bad request) when using 127.0.0.1:8001 then you will need to update the ALLOWED_HOSTS environment variable.
