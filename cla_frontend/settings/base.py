@@ -156,10 +156,16 @@ if AWS_STORAGE_BUCKET_NAME:
 # Security Middleware
 MIDDLEWARE = (
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
 )
 
-# X-content no sniff
+# Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+
 
 # Additional locations of static files
 STATICFILES_DIRS = (root("assets"),)
