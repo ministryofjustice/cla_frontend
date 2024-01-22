@@ -153,6 +153,14 @@ if AWS_STORAGE_BUCKET_NAME:
     CSP_FONT_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
     CSP_STYLE_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
 
+# Security Middleware
+MIDDLEWARE = (
+    "django.middleware.security.SecurityMiddleware",
+)
+
+# X-content no sniff
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
 # Additional locations of static files
 STATICFILES_DIRS = (root("assets"),)
 
