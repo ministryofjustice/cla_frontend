@@ -158,13 +158,16 @@ MIDDLEWARE = (
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
 )
+MIDDLEWARE_CLASSES = (
+    'django_cookies_samesite.middleware.CookiesSameSite',
+)
 
 # Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'strict'
+SESSION_COOKIE_SAMESITE = 'strict'
 
 
 # Additional locations of static files
