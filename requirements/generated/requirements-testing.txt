@@ -23,6 +23,8 @@ https://github.com/ministryofjustice/cla_common/archive/refs/tags/0.3.20.tar.gz
     # via -r requirements/source/requirements-base.in
 configparser==4.0.2
     # via flake8
+django-cookies-samesite==0.9.0
+    # via -r requirements/source/requirements-base.in
 django-csp==2.0.3
     # via -r requirements/source/requirements-base.in
 django-extended-choices==0.3.0
@@ -105,6 +107,8 @@ statsd==3.3.0
     # via
     #   -r requirements/source/requirements-base.in
     #   django-statsd-mozilla
+ua-parser==0.10.0
+    # via django-cookies-samesite
 urllib3==1.26.16
     # via
     #   botocore
