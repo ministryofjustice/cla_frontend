@@ -27,8 +27,10 @@ metadata:
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
       SecDefaultAction "phase:2,pass,log,tag:github_team=laa-get-access"
+      SecRule REQUEST_METHOD "DELETE" "phase:1,id:1000,nolog,allow"
+      SecRule REQUEST_METHOD "PATCH" "phase:1,id:1001,nolog,allow"
       SecRule REQUEST_URI socket.io/ "phase:1,id:12346,nolog,chain"
-        SecRule REQUEST_BODY_LENGTH "@eq 0" "ctl:requestBodyAccess=off"
+      SecRule REQUEST_BODY_LENGTH "@eq 0" "ctl:requestBodyAccess=off"
     # Add annotation to exclude 503 error pages from the list the cloud-platform error pages
     # and use our error pages for 503 errors
     nginx.ingress.kubernetes.io/custom-http-errors: "413,502,504"
