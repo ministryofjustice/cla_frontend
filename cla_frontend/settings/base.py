@@ -154,20 +154,15 @@ if AWS_STORAGE_BUCKET_NAME:
     CSP_STYLE_SRC.append(AWS_STORAGE_BUCKET_HOSTNAME)
 
 # Security Middleware
-MIDDLEWARE = (
-    "django.middleware.security.SecurityMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-)
-MIDDLEWARE_CLASSES = (
-    'django_cookies_samesite.middleware.CookiesSameSite',
-)
+MIDDLEWARE = ("django.middleware.security.SecurityMiddleware", "django.middleware.csrf.CsrfViewMiddleware")
+MIDDLEWARE_CLASSES = ("django_cookies_samesite.middleware.CookiesSameSite",)
 
 # Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'strict'
-SESSION_COOKIE_SAMESITE = 'strict'
+CSRF_COOKIE_SAMESITE = "strict"
+SESSION_COOKIE_SAMESITE = "strict"
 
 
 # Additional locations of static files
