@@ -26,6 +26,7 @@ metadata:
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
+      SecRequestBodyAccess On
       SecDefaultAction "phase:2,pass,log,tag:github_team=laa-get-access"
       SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE"
       SecRule REQUEST_URI "^/socket.io" "phase:2,nolog,id:700004,pass,allow"
