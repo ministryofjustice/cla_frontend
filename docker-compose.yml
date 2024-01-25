@@ -9,7 +9,7 @@ services:
       ENV: local
       DEBUG: "True"
       SECRET_KEY: CHANGE_ME
-      BACKEND_BASE_URI: http://clabackend
+      BACKEND_BASE_URI: http://clabackend:8000
       CALL_CENTRE_CLIENT_ID: b4b9220ffcb11ebfdab1
       CALL_CENTRE_SECRET_ID: 2df71313bdd38a2e1b815015e1b14387e7681d41
       CLA_PROVIDER_CLIENT_ID: 59657ed22d980251cdd3
@@ -27,7 +27,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: cla_backend
 
-  cla_backend:
+  cla_backend: &cla_backend
     build:
       context: https://github.com/ministryofjustice/cla_backend.git#master
       target: ${ENVIRONMENT:-development}
