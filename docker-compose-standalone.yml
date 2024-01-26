@@ -1,9 +1,5 @@
 version: '3.9'
 
-include:
-   - path: ../cla_backend/docker-compose.yaml
-     project_directory: ../cla_backend
-
 services:
   cla_frontend:
     build: .
