@@ -194,9 +194,8 @@ MIDDLEWARE_CLASSES = (
     "core.middleware.Cla401Middleware",
     "csp.middleware.CSPMiddleware",
     "django_cookies_samesite.middleware.CookiesSameSite",
+    "djangosecure.middleware.SecurityMiddleware",
 )
-
-MIDDLEWARE = ("django.middleware.security.SecurityMiddleware",)
 
 # Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -237,6 +236,7 @@ INSTALLED_APPS = (
     "django_statsd",
     "widget_tweaks",
     "session_security",
+    "djangosecure",
 )
 
 PROJECT_APPS = ("cla_auth", "cla_common", "core", "legalaid", "call_centre", "cla_provider", "status")
