@@ -39,6 +39,8 @@ git+https://github.com/tomchristie/django-pdb.git@e28e9ee73e52e7df4a125ec7326882
     # via -r requirements/source/requirements-testing.in
 django-proxy==1.0.2
     # via -r requirements/source/requirements-base.in
+django-secure==1.0.2
+    # via -r requirements/source/requirements-base.in
 django-session-security==2.2.3
     # via -r requirements/source/requirements-base.in
 django-statsd-mozilla==0.3.14
@@ -51,6 +53,7 @@ django==1.7.9
     # via
     #   -r requirements/source/requirements-base.in
     #   django-moj-irat
+    #   django-secure
     #   django-session-security
 enum34==1.1.10
     # via flake8
