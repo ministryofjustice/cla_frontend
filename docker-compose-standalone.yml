@@ -5,6 +5,10 @@ services:
     build: .
     ports:
       - "8000:8000"
+    volumes:
+      - ./cla_frontend:/home/app/cla_frontend
+      - /home/app/cla_frontend/assets
+      - /home/app/cla_frontend/static
     environment:
       ENV: local
       DEBUG: "True"
