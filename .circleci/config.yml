@@ -180,6 +180,12 @@ jobs:
         environment:
           DJANGO_SETTINGS_MODULE: cla_frontend.settings.testing
           SECRET_KEY: testing_key
+          SESSION_COOKIE_SECURE: "False"
+          SECURE_CONTENT_TYPE_NOSNIFF: "False"
+          CSRF_COOKIE_SECURE: "False"
+          CSRF_COOKIE_SAMESITE: "False"
+          SESSION_COOKIE_SAMESITE: "False"
+          SESSION_COOKIE_HTTPONLY: "False"
     steps:
       - checkout
       - run:
@@ -366,13 +372,6 @@ workflows:
           context:
             - laa-cla-frontend
       - behave:
-          environment:
-            SESSION_COOKIE_SECURE: "False"
-            SECURE_CONTENT_TYPE_NOSNIFF: "False"
-            CSRF_COOKIE_SECURE: "False"
-            CSRF_COOKIE_SAMESITE: "False"
-            SESSION_COOKIE_SAMESITE: "False"
-            SESSION_COOKIE_HTTPONLY: "False"
           requires:
             - build_socket_server
             - build_app
