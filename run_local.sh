@@ -6,7 +6,7 @@
 
 export DOCKER_BUILDKIT=1
 export ENVIRONMENT=${1:-development}
-export BACKEND_BASE_URI="host.docker.internal:8010"
+export BACKEND_BASE_URI="http://host.docker.internal:8010"
 
 if [ ! -d "../cla_backend" ]; then
   echo "cla_backend does not exist at ../cla_backend, clonining it."

@@ -19,3 +19,4 @@ services:
       CLA_PROVIDER_CLIENT_ID: 59657ed22d980251cdd3
       CALL_PROVIDER_SECRET_ID: 0494287c65bdf61d29f0eeed467ec8e090f0d80f
       SOCKETIO_SERVER_URL: /socket.io
+      BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-dev.txt"
