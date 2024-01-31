@@ -16,8 +16,8 @@ Note that you only need to install the gulp command line utility as the local ve
 
 ## Installation
 
-[!TIP]
-It is recommended to use Docker for local development, for installation instuctions using Docker please see [here](/docker/README.md).
+> [!TIP]
+> It is recommended to use Docker for local development, for installation instuctions using Docker please see [here](/docker/README.md).
 
 ___ 
 For installation using virtualenv please see below
