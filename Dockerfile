@@ -1,4 +1,8 @@
+ARG BASE_REQUIREMENTS_FILE="requirements/generated/requirements-production.txt"
+
 FROM alpine:3.15
+
+ARG BASE_REQUIREMENTS_FILE
 
 RUN apk add --no-cache \
       bash \
@@ -42,7 +46,7 @@ COPY gulpfile.js ./
 RUN npm run build
 
 COPY ./requirements ./requirements
-RUN pip install -r ./requirements/generated/requirements-production.txt
+RUN pip install -r ${BASE_REQUIREMENTS_FILE}
 
 COPY . .
 

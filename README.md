@@ -59,6 +59,12 @@ You can check your NodeJS version:
 
 ## Installation
 
+> [!TIP]
+> It is recommended to use Docker for local development, for installation instuctions using Docker please see [here](/docker/README.md).
+
+___ 
+### For installation using virtualenv please see below
+
 Clone this repository:
 
 ```
