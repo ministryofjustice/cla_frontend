@@ -1,33 +1,42 @@
 <!-- no providers -->
-<div class="Error Error--basic" ng-if="suggested_providers.length < 1 && !suggested_provider && !case.provider">
-  <p>There are <strong>no providers available</strong> to assign to this case. Please contact a dfdffgf.</p>
-</div>
+<div ng-if="suggested_providers.length < 1 && !suggested_provider && !case.provider">
+  <div ng-switch on="case.category">
+    <div ng-switch-when="education" class="Error Error--basic" >
+      <p>There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
+    </div>
+    <div ng-switch-default class="Notice" >
+      <p>There are <strong>no specialist providers current available</strong> to assign to this case. Please use Find a Legal Advisor.</p>
+    </div>
+  </div>
+</div> 
 <!-- no category -->
 <div class="Error Error--basic" ng-if="!eligibility_check.category">
   <p>This case has <strong>no category of law assigned</strong> but you can still manually assign a provider.</p>
 </div>
 
-<form method="post" name="assign_provider_form" ng-submit="assign(assign_provider_form)">
-  <h2 class="FormBlock-label">Matter types</h2>
-  <div class="FormBlock FormBlock--grey" ng-if="::canAssign()">
-    <div class="FormRow">
-      <label for="matter_type1">
-        <span class="FormRow-label">Matter type 1</span>
-        <select ui-select2="{allowClear: true}" ng-model="::case.matter_type1" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter1_types track by s.code" id="matter_type1" name="matter_type1" data-placeholder="Choose a matter type" class="FormRow-field--full">
-          <option value=""></option>
-        </select>
-      </label>
-    </div>
+<div ng-hide="suggested_providers.length < 1 && !suggested_provider && !case.provider">
+  <form method="post" name="assign_provider_form" ng-submit="assign(assign_provider_form)">
+    <h2 class="FormBlock-label">Matter types</h2>
+    <div class="FormBlock FormBlock--grey" ng-if="::canAssign()">
+      <div class="FormRow">
+        <label for="matter_type1">
+          <span class="FormRow-label">Matter type 1</span>
+          <select ui-select2="{allowClear: true}" ng-model="::case.matter_type1" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter1_types track by s.code" id="matter_type1" name="matter_type1" data-placeholder="Choose a matter type" class="FormRow-field--full">
+            <option value=""></option>
+          </select>
+        </label>
+      </div>
 
-    <div class="FormRow">
-      <label for="matter_type2">
-        <span class="FormRow-label">Matter type 2</span>
-        <select ui-select2="{allowClear: true}" ng-model="::case.matter_type2" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter2_types track by s.code" id="matter_type2" name="matter_type2" data-placeholder="Choose a matter type" class="FormRow-field--full">
-          <option value=""></option>
-        </select>
-      </label>
+      <div class="FormRow">
+        <label for="matter_type2">
+          <span class="FormRow-label">Matter type 2</span>
+          <select ui-select2="{allowClear: true}" ng-model="::case.matter_type2" ng-options="s.code as (s.code + ' - ' + s.description) for s in matter2_types track by s.code" id="matter_type2" name="matter_type2" data-placeholder="Choose a matter type" class="FormRow-field--full">
+            <option value=""></option>
+          </select>
+        </label>
+      </div>
     </div>
-  </div>
+</div>
 
   <div ng-if="::!canAssign()" class="SummaryBlock SummaryBlock--compact">
     <p class="SummaryBlock-content" ng-if="::case.matter_type1">
@@ -70,10 +79,8 @@
 
   <call-script ng-if="::isEducationF2F()">
     <div>
-      <p>Based on what you have told me I can provide you with details of legally aided Education providers in your area. They will check what you have told me and assess whether our service is right for you.</p>
-      <br>
-      <p>Is there anything else we can help you with today?</p>
-      <p>If you need any further help please call us back. We are open from 9am-8pm Monday to Friday and 9am – 12:30pm on Saturdays.</p>
+      <p>Based on what you have told me I can provide you with details of legally aided Education providers in your area. </p>
+      <p>They will check what you have told me and assess whether our service is right for you.</p>
     </div>
   </call-script>
 
@@ -117,33 +124,47 @@
     </label>
   </div>
 
-  <div class="Notice">
-    <label>
-      <input type="checkbox" name="is_spor" ng-model="is_spor" ng-disabled="!selected_provider.id || is_manual_ref">
-      Refer for second opinion (SPOR)
-    </label>
-  </div>
+  <div ng-hide="isEducationF2F()">
+    <div class="Notice">
+      <label>
+        <input type="checkbox" name="is_spor" ng-model="is_spor" ng-disabled="!selected_provider.id || is_manual_ref">
+        Refer for second opinion (SPOR)
+      </label>
+    </div>
 
-  <div class="Notice">
-    <label>
-      <input type="checkbox" name="is_urgent" ng-model="is_urgent">
-      This case requires urgent attention
-    </label>
+    <div class="Notice">
+      <label>
+        <input type="checkbox" name="is_urgent" ng-model="is_urgent">
+        This case requires urgent attention
+      </label>
+    </div>
   </div>
-
+  
   <div class="Error Error--basic" ng-if="errors.__all__">
     <p class="Error-message">{{ errors.__all__ }}</p>
   </div>
 
-  <a href="{{getF2fDeepLink()}}" target="_blank" ng-if="::isEducationF2F()" ng-click="f2f_clicked=true">Find a Face to Face provider on Find a Legal Advisor (opens in new tab)</a>
-
   <ng-template ng-if="::isEducationF2F()">
-    <div class="FormActions" ng-if="::canAssign()">
-      <button type="submit" class="Button" name="assign-f2f" ng-disabled="!f2f_clicked" ng-click="submit('COSPF')">Assign F2F help</button>
-    </div>
+
+    <a href="{{getF2fDeepLink()}}" style="font-size: 19px" target="_blank" ng-click="f2f_clicked=true">Find a Face to Face provider on Find a Legal Advisor (opens in new tab)</a>
+
+    <form class="FormRow cf" name="alternative_help">
+
+      <div class="FormRow cf">
+        <label for="notes" class="visuallyhidden">Reassignment notes</label>
+        <textarea name="assign-notes" id="notes" cols="30" rows="4" ng-model="::alternativeHelpService.notes" placeholder="Assignment comments"></textarea>
+      </div>
+
+      <div class="FormActions" ng-if="::canAssign()">
+        <button type="submit" class="Button" name="assign-f2f" ng-disabled="alternativeHelpService.notes.length==0" ng-click="submit('EDFF')">Assign F2F help</button>
+
+        <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
+
+      </div>
+  </form>
   </ng-template>
 
-  <ng-template ng-if="!::isEducationF2F()">
+  <ng-template ng-hide="::isEducationF2F()">
     <div class="FormActions" ng-if="::canAssign()">
       <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id || assigning_provider_in_progress">Assign provider</button>
   

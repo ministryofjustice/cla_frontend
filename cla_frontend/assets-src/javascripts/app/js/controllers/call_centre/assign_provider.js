@@ -2,8 +2,8 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal', 'diagnosis',
-      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal, diagnosis) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal', 'diagnosis', '$uibModal', 'AlternativeHelpService', '$q',
+      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal, diagnosis, $uibModal, AlternativeHelpService, $q) {
         $scope.category = diagnosis.category;
         $scope.is_manual = false;
         $scope.is_manual_ref = false;
@@ -51,13 +51,12 @@
         };
 
         $scope.isEducationF2F = function () {
-          return $scope.suggested_providers.length > 0 || $scope.suggested_provider || !$scope.case.provider || $scope.case.category != 'Education';
+          return $scope.suggested_providers.length < 1 && !$scope.suggested_provider && !$scope.case.provider && $scope.case.category == 'Education';
         }
 
         $scope.getF2fDeepLink = function () {
           if ($scope.personal_details && $scope.personal_details.postcode) {
-            let postcode = $window.encodeURIComponent($scope.personal_details.postcode);
-            return 'https://find-legal-advice.justice.gov.uk/?postcode=' + postcode;
+            return 'https://find-legal-advice.justice.gov.uk/?postcode=' + encodeURI($scope.personal_details.postcode);
           }
           return 'http://find-legal-advice.justice.gov.uk/';
         };
@@ -97,11 +96,28 @@
 
         function saveAlternativeHelp(code) {
           return $scope.case.$assign_alternative_help({
-            selected_providers: AlternativeHelpService.get_selected_provider_ids(),
+            selected_providers: null,
             notes: AlternativeHelpService.notes,
             event_code: code
           });
         };
+
+        function isECFRequired() {
+          var isOutOfScope = $scope.diagnosis && !$scope.diagnosis.isInScopeTrue(),
+            category = $scope.diagnosis.category;
+          if (isOutOfScope && category) {
+            return _.some($scope.law_categories, {ecf_available: true, code: category});
+          }
+          return false;
+        }
+
+        function showECFModal() {
+          return $uibModal.open({
+            templateUrl: 'case_detail.alternative_help.ecf.html',
+            controller: 'SetECFundCtrl',
+            scope: $scope
+          }).result;
+        }
 
         $scope.submit = function (code) {
           code = code || this.code;
@@ -114,6 +130,34 @@
                 console.log('something went wrong', response);
               });
           });
+        };
+
+        function showModal() {
+          if(isECFRequired()) {
+            return showECFModal();
+          }
+          if($scope.$root.showCallScript) {
+            return showSurveyModal();
+          }
+          return $q.when(true);
+        }
+
+        function showSurveyModal() {
+          return $uibModal.open({
+            templateUrl: 'alternative_help_survey.modal.html',
+            controller: function ($scope, $uibModalInstance) {
+              $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+              };
+              $scope.continue = function() {
+                $uibModalInstance.close();
+              };
+            }
+          }).result;
+        };
+
+        $scope.decline_help = function() {
+          return showModal();
         };
       }
     ]);
