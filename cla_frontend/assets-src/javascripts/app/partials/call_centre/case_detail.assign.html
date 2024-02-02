@@ -1,6 +1,6 @@
 <!-- no providers -->
 <div class="Error Error--basic" ng-if="suggested_providers.length < 1 && !suggested_provider && !case.provider">
-  <p>There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
+  <p>There are <strong>no providers available</strong> to assign to this case. Please contact a dfdffgf.</p>
 </div>
 <!-- no category -->
 <div class="Error Error--basic" ng-if="!eligibility_check.category">
@@ -68,6 +68,15 @@
     </div>
   </call-script>
 
+  <call-script ng-if="::isEducationF2F()">
+    <div>
+      <p>Based on what you have told me I can provide you with details of legally aided Education providers in your area. They will check what you have told me and assess whether our service is right for you.</p>
+      <br>
+      <p>Is there anything else we can help you with today?</p>
+      <p>If you need any further help please call us back. We are open from 9am-8pm Monday to Friday and 9am – 12:30pm on Saturdays.</p>
+    </div>
+  </call-script>
+
   <div ng-if="selected_provider.id">
     <h2 class="FormBlock-label" ng-if="case.provider">Assigned to</h2>
     <div class="ContactBlock ContactBlock--grey clearfix">
@@ -126,15 +135,26 @@
     <p class="Error-message">{{ errors.__all__ }}</p>
   </div>
 
-  <div class="FormActions" ng-if="::canAssign()">
-    <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id || assigning_provider_in_progress">Assign provider</button>
+  <a href="{{getF2fDeepLink()}}" target="_blank" ng-if="::isEducationF2F()" ng-click="f2f_clicked=true">Find a Face to Face provider on Find a Legal Advisor (opens in new tab)</a>
 
-    <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
+  <ng-template ng-if="::isEducationF2F()">
+    <div class="FormActions" ng-if="::canAssign()">
+      <button type="submit" class="Button" name="assign-f2f" ng-disabled="!f2f_clicked" ng-click="submit('COSPF')">Assign F2F help</button>
+    </div>
+  </ng-template>
 
-    <button type="button" name="assign-manually" class="Button Button--secondary" ng-click="assignManually(true)" ng-if="!is_manual && suggested_providers.length > 0">Assign manually</button>
+  <ng-template ng-if="!::isEducationF2F()">
+    <div class="FormActions" ng-if="::canAssign()">
+      <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id || assigning_provider_in_progress">Assign provider</button>
+  
+      <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
+  
+      <button type="button" name="assign-manually" class="Button Button--secondary" ng-click="assignManually(true)" ng-if="!is_manual && suggested_providers.length > 0">Assign manually</button>
+  
+      <button type="button" ng-click="decline_help()" class="Button Button--secondary" ng-if="is_manual && suggested_provider.id" ng-controller="CaseDetailDeclineHelpCtrl">Decline help</button>
+  
+      <a href="" ng-click="assignManually(false)" ng-if="is_manual && suggested_provider.id">Cancel</a>
+    </div>
+  </ng-template>
 
-    <button type="button" ng-click="decline_help()" class="Button Button--secondary" ng-if="is_manual && suggested_provider.id" ng-controller="CaseDetailDeclineHelpCtrl">Decline help</button>
-
-    <a href="" ng-click="assignManually(false)" ng-if="is_manual && suggested_provider.id">Cancel</a>
-  </div>
 </form>
