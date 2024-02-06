@@ -30,6 +30,8 @@ metadata:
       SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE"
       SecRule REQUEST_URI "^/socket.io" "phase:2,nolog,id:700004,pass,allow"
       SecRuleRemoveById 942230
+      SecRuleRemoveById 930120
+      SecRuleRemoveById 933210
     # Add annotation to exclude 503 error pages from the list the cloud-platform error pages
     # and use our error pages for 503 errors
     nginx.ingress.kubernetes.io/custom-http-errors: "413,502,504"
