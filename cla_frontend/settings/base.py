@@ -193,7 +193,17 @@ MIDDLEWARE_CLASSES = (
     "cla_auth.middleware.ZoneMiddleware",
     "core.middleware.Cla401Middleware",
     "csp.middleware.CSPMiddleware",
+    "django_cookies_samesite.middleware.CookiesSameSite",
+    "djangosecure.middleware.SecurityMiddleware",
 )
+
+# Security Settings
+SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = "strict"
+SESSION_COOKIE_SAMESITE = "strict"
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
@@ -227,6 +237,7 @@ INSTALLED_APPS = (
     "django_statsd",
     "widget_tweaks",
     "session_security",
+    "djangosecure",
 )
 
 PROJECT_APPS = ("cla_auth", "cla_common", "core", "legalaid", "call_centre", "cla_provider", "status")

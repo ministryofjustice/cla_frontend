@@ -40,6 +40,8 @@ contextlib2==0.6.0.post1
     #   zipp
 distlib==0.3.7
     # via virtualenv
+django-cookies-samesite==0.9.0
+    # via -r requirements/source/requirements-base.in
 django-csp==2.0.3
     # via -r requirements/source/requirements-base.in
 django-debug-toolbar==1.2.2
@@ -58,6 +60,8 @@ git+https://github.com/tomchristie/django-pdb.git@e28e9ee73e52e7df4a125ec7326882
     # via -r requirements/source/requirements-testing.in
 django-proxy==1.0.2
     # via -r requirements/source/requirements-base.in
+django-secure==1.0.2
+    # via -r requirements/source/requirements-base.in
 django-session-security==2.2.3
     # via -r requirements/source/requirements-base.in
 django-statsd-mozilla==0.3.14
@@ -71,6 +75,7 @@ django==1.7.9
     #   -r requirements/source/requirements-base.in
     #   django-debug-toolbar
     #   django-moj-irat
+    #   django-secure
     #   django-session-security
 enum34==1.1.10
     # via flake8
@@ -176,6 +181,8 @@ typing==3.10.0.0
     # via
     #   importlib-resources
     #   pathlib2
+ua-parser==0.10.0
+    # via django-cookies-samesite
 urllib3==1.26.16
     # via
     #   botocore

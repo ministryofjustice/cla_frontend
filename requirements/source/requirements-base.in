@@ -14,6 +14,8 @@ https://github.com/ministryofjustice/cla_common/archive/refs/tags/0.3.20.tar.gz
 django-proxy==1.0.2
 django-csp==2.0.3
 django-session-security==2.2.3
+django-cookies-samesite==0.9.0
+django-secure==1.0.2
 django-statsd-mozilla==0.3.14
 # Pin statsd version to support Python 2.7
 statsd==3.3.0
