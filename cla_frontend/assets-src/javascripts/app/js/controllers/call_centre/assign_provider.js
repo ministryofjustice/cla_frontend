@@ -47,19 +47,8 @@
           if($scope.suggested_providers.length > 0 || $scope.suggested_provider || !$scope.case.provider) {
             return true;
           }
+
           return false;
-        };
-
-        $scope.isEducationF2F = function () {
-          return $scope.suggested_providers.length > 0 || $scope.suggested_provider || !$scope.case.provider || $scope.case.category != 'Education';
-        }
-
-        $scope.getF2fDeepLink = function () {
-          if ($scope.personal_details && $scope.personal_details.postcode) {
-            let postcode = $window.encodeURIComponent($scope.personal_details.postcode);
-            return 'https://find-legal-advice.justice.gov.uk/?postcode=' + postcode;
-          }
-          return 'http://find-legal-advice.justice.gov.uk/';
         };
 
         $scope.assign = function(form) {
@@ -93,27 +82,6 @@
               form_utils.ctrlFormErrorCallback($scope, data, form);
             }
           );
-        };
-
-        function saveAlternativeHelp(code) {
-          return $scope.case.$assign_alternative_help({
-            selected_providers: AlternativeHelpService.get_selected_provider_ids(),
-            notes: AlternativeHelpService.notes,
-            event_code: code
-          });
-        };
-
-        $scope.submit = function (code) {
-          code = code || this.code;
-          showModal().then(function () {
-            saveAlternativeHelp(code)
-              .then(function () {
-                AlternativeHelpService.clear();
-                $state.go('case_list');
-              }, function(response){
-                console.log('something went wrong', response);
-              });
-          });
         };
       }
     ]);
