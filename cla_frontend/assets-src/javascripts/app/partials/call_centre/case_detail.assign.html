@@ -1,11 +1,12 @@
 <!-- no providers -->
 <div ng-if="suggested_providers.length < 1 && !suggested_provider && !case.provider">
   <div ng-switch on="case.category">
-    <div ng-switch-when="education" class="Error Error--basic" >
-      <p>There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
-    </div>
-    <div ng-switch-default class="Notice" >
+    <div ng-switch-when="Education" class="Notice" >
       <p>There are <strong>no specialist providers current available</strong> to assign to this case. Please use Find a Legal Advisor.</p>
+      
+    </div>
+    <div ng-switch-default class="Error Error--basic" >
+      <p>There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
     </div>
   </div>
 </div> 
@@ -14,8 +15,8 @@
   <p>This case has <strong>no category of law assigned</strong> but you can still manually assign a provider.</p>
 </div>
 
-<div ng-hide="suggested_providers.length < 1 && !suggested_provider && !case.provider">
-  <form method="post" name="assign_provider_form" ng-submit="assign(assign_provider_form)">
+<form method="post" name="assign_provider_form" ng-submit="assign(assign_provider_form)">
+  <div ng-hide="suggested_providers.length < 1 && !suggested_provider && !case.provider">
     <h2 class="FormBlock-label">Matter types</h2>
     <div class="FormBlock FormBlock--grey" ng-if="::canAssign()">
       <div class="FormRow">
@@ -36,7 +37,7 @@
         </label>
       </div>
     </div>
-</div>
+  </div>
 
   <div ng-if="::!canAssign()" class="SummaryBlock SummaryBlock--compact">
     <p class="SummaryBlock-content" ng-if="::case.matter_type1">
@@ -150,18 +151,12 @@
 
     <form class="FormRow cf" name="alternative_help">
 
-      <div class="FormRow cf">
-        <label for="notes" class="visuallyhidden">Reassignment notes</label>
-        <textarea name="assign-notes" id="notes" cols="30" rows="4" ng-model="::alternativeHelpService.notes" placeholder="Assignment comments"></textarea>
-      </div>
-
       <div class="FormActions" ng-if="::canAssign()">
         <button type="submit" class="Button" name="assign-f2f" ng-click="submit('EDFF')">Assign F2F help</button>
 
         <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
 
       </div>
-  </form>
   </ng-template>
 
   <ng-template ng-hide="::isEducationF2F()">
