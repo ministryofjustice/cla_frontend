@@ -312,6 +312,13 @@ jobs:
 
   behave:
     executor: aws-ecr/default
+    environment:
+      SECURE_CONTENT_TYPE_NOSNIFF: "false"
+      CSRF_COOKIE_SECURE: "false"
+      SESSION_COOKIE_SECURE: "false"
+      SESSION_COOKIE_HTTPONLY: "false"
+      CSRF_COOKIE_SAMESITE: "false"
+      SESSION_COOKIE_SAMESITE: "false"
     steps:
       - checkout:
           path: cla_frontend
