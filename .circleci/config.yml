@@ -313,12 +313,12 @@ jobs:
   behave:
     executor: aws-ecr/default
     environment:
-      SECURE_CONTENT_TYPE_NOSNIFF: 'false'
-      CSRF_COOKIE_SECURE: 'false'
-      SESSION_COOKIE_SECURE: 'false'
-      SESSION_COOKIE_HTTPONLY: 'false'
-      CSRF_COOKIE_SAMESITE: 'false'
-      SESSION_COOKIE_SAMESITE: 'false'
+      SECURE_CONTENT_TYPE_NOSNIFF: 'False'
+      CSRF_COOKIE_SECURE: 'False'
+      SESSION_COOKIE_SECURE: 'False'
+      SESSION_COOKIE_HTTPONLY: 'False'
+      CSRF_COOKIE_SAMESITE: 'False'
+      SESSION_COOKIE_SAMESITE: 'False'
     steps:
       - checkout:
           path: cla_frontend
@@ -328,9 +328,9 @@ jobs:
           export APP_IMAGE=$ECR_URL_APP:$IMAGE_TAG
           export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$IMAGE_TAG
           echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE; \
-          export SESSION_COOKIE_SECURE=false; export SECURE_CONTENT_TYPE_NOSNIFF=false; export CSRF_COOKIE_SECURE=false; \
-          export SESSION_COOKIE_SECURE=false; export SESSION_COOKIE_HTTPONLY=false; export CSRF_COOKIE_SAMESITE=false; \
-          export SESSION_COOKIE_SAMESITE=false" >> $BASH_ENV
+          export SESSION_COOKIE_SECURE=False; export SECURE_CONTENT_TYPE_NOSNIFF=False; export CSRF_COOKIE_SECURE=False; \
+          export SESSION_COOKIE_SECURE=False; export SESSION_COOKIE_HTTPONLY=False; export CSRF_COOKIE_SAMESITE=False; \
+          export SESSION_COOKIE_SAMESITE=False" >> $BASH_ENV
           echo "Setting CLA Frontend image $APP_IMAGE"
           echo "Setting CLA Socket Server image $SOCKET_IMAGE"
           echo "SESSION_COOKIE_SECURE: $SESSION_COOKIE_SECURE"
