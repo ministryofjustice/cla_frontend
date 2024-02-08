@@ -330,6 +330,12 @@ jobs:
           echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
           echo "Setting CLA Frontend image $APP_IMAGE"
           echo "Setting CLA Socket Server image $SOCKET_IMAGE"
+          echo "SESSION_COOKIE_SECURE = False" >> behave/docker-compose.yml
+          echo "SECURE_CONTENT_TYPE_NOSNIFF = False" >> behave/docker-compose.yml
+          echo "CSRF_COOKIE_SECURE = False" >> behave/docker-compose.yml
+          echo "SESSION_COOKIE_HTTPONLY = False" >> behave/docker-compose.yml
+          echo "CSRF_COOKIE_SAMESITE = False" >> behave/docker-compose.yml
+          echo "SESSION_COOKIE_SAMESITE = False" >> behave/docker-compose.yml
       - cla-end-to-end-tests/behave
       
 # ------------------
