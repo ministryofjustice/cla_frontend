@@ -198,20 +198,12 @@ MIDDLEWARE_CLASSES = (
 )
 
 # Security Settings
-if DEBUG != "True":
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
-    SESSION_COOKIE_HTTPONLY = True
-    CSRF_COOKIE_SAMESITE = "strict"
-    SESSION_COOKIE_SAMESITE = "strict"
-else:
-    SECURE_CONTENT_TYPE_NOSNIFF = False
-    CSRF_COOKIE_SECURE = False
-    SESSION_COOKIE_SECURE = False
-    SESSION_COOKIE_HTTPONLY = False
-    CSRF_COOKIE_SAMESITE = False
-    SESSION_COOKIE_SAMESITE = False
+SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", True) == True
+CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", True) == True
+SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", True) == True
+SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", True) == True
+CSRF_COOKIE_SAMESITE = os.environ.get("CSRF_COOKIE_SAMESITE", "strict") == "strict"
+SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "strict") == "strict"
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
