@@ -2,8 +2,8 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal', 'diagnosis', '$uibModal', 'AlternativeHelpService', '$q',
-      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal, diagnosis, $uibModal, AlternativeHelpService, $q) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal', 'diagnosis', '$uibModal', '$q',
+      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal, diagnosis, $uibModal, $q) {
         $scope.category = diagnosis.category;
         $scope.is_manual = false;
         $scope.is_manual_ref = false;
@@ -94,10 +94,10 @@
           );
         };
 
-        function saveAlternativeHelp(code) {
+        function saveAlternativeHelp(code, notes) {
           return $scope.case.$assign_alternative_help({
             selected_providers: null,
-            notes: AlternativeHelpService.notes,
+            notes: notes,
             event_code: code
           });
         };
@@ -119,12 +119,11 @@
           }).result;
         }
 
-        $scope.submit = function (code) {
+        $scope.submit = function (code, notes) {
           code = code || this.code;
           showModal().then(function () {
-            saveAlternativeHelp(code)
+            saveAlternativeHelp(code, notes)
               .then(function () {
-                AlternativeHelpService.clear();
                 $state.go('case_list');
               }, function(response){
                 console.log('something went wrong', response);
