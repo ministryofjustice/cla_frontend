@@ -58,7 +58,7 @@
           if ($scope.personal_details && $scope.personal_details.postcode) {
             return 'https://find-legal-advice.justice.gov.uk/?postcode=' + encodeURI($scope.personal_details.postcode);
           }
-          return 'http://find-legal-advice.justice.gov.uk/';
+          return 'https://find-legal-advice.justice.gov.uk/';
         };
 
         $scope.assign = function(form) {
