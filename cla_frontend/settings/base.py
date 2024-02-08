@@ -202,8 +202,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", True
 CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", True) == True
 SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", True) == True
 SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", True) == True
-CSRF_COOKIE_SAMESITE = os.environ.get("CSRF_COOKIE_SAMESITE", "Strict") == "Strict"
-SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "Strict") == "Strict"
+CSRF_COOKIE_SAMESITE = os.environ.get("CSRF_COOKIE_SAMESITE", "strict")
+SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "strict")
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",

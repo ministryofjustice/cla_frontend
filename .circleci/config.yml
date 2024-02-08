@@ -317,8 +317,8 @@ jobs:
       CSRF_COOKIE_SECURE: "false"
       SESSION_COOKIE_SECURE: "false"
       SESSION_COOKIE_HTTPONLY: "false"
-      CSRF_COOKIE_SAMESITE: "false"
-      SESSION_COOKIE_SAMESITE: "false"
+      CSRF_COOKIE_SAMESITE: "None"
+      SESSION_COOKIE_SAMESITE: "None"
     steps:
       - checkout:
           path: cla_frontend
