@@ -318,7 +318,7 @@ jobs:
       SESSION_COOKIE_SECURE: "false"
       SESSION_COOKIE_HTTPONLY: "false"
       CSRF_COOKIE_SAMESITE: "false"
-      SESSION_COOKIE_SAMESITE: "false"
+      SESSION_COOKIE_SAMESITE: false
     steps:
       - checkout:
           path: cla_frontend
@@ -327,15 +327,9 @@ jobs:
           source .circleci/define_build_environment_variables
           export APP_IMAGE=$ECR_URL_APP:$IMAGE_TAG
           export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$IMAGE_TAG
-          echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
+          echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE; export SESSION_COOKIE_SECURE=False" >> $BASH_ENV
           echo "Setting CLA Frontend image $APP_IMAGE"
           echo "Setting CLA Socket Server image $SOCKET_IMAGE"
-          echo "SESSION_COOKIE_SECURE = False" >> $BASH_ENV
-          echo "SECURE_CONTENT_TYPE_NOSNIFF = False" >> $BASH_ENV
-          echo "CSRF_COOKIE_SECURE = False" >> $BASH_ENV
-          echo "SESSION_COOKIE_HTTPONLY = False" >> $BASH_ENV
-          echo "CSRF_COOKIE_SAMESITE = False" >> $BASH_ENV
-          echo "SESSION_COOKIE_SAMESITE = False" >> $BASH_ENV
       - cla-end-to-end-tests/behave
       
 # ------------------
