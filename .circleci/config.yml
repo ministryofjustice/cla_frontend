@@ -330,6 +330,7 @@ jobs:
           echo "Setting CLA Frontend image $APP_IMAGE"
           echo "Setting CLA Socket Server image $SOCKET_IMAGE"
           echo "DISABLE_SAMESITE_MIDDLEWARE: $DISABLE_SAMESITE_MIDDLEWARE"
+          echo "SESSION_COOKIE_SECURE: $SESSION_COOKIE_SECURE"
       - cla-end-to-end-tests/behave
       
 # ------------------
