@@ -329,8 +329,6 @@ jobs:
           echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
           echo "Setting CLA Frontend image $APP_IMAGE"
           echo "Setting CLA Socket Server image $SOCKET_IMAGE"
-          echo "DISABLE_SAMESITE_MIDDLEWARE: $DISABLE_SAMESITE_MIDDLEWARE"
-          echo "SESSION_COOKIE_SECURE: $SESSION_COOKIE_SECURE"
       - cla-end-to-end-tests/behave
       
 # ------------------
