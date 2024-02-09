@@ -408,7 +408,6 @@ workflows:
             branches:
               only:
                 - master
-                - feature/LGA-2967-Education-no-provider-available
 
       - deploy:
           name: staging_deploy_live
