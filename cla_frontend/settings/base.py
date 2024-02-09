@@ -179,31 +179,49 @@ TEMPLATE_LOADERS = (
     ),
 )
 
-MIDDLEWARE_CLASSES = (
-    "core.middleware.MaintenanceModeMiddleware",
-    "django_statsd.middleware.GraphiteRequestTimingMiddleware",
-    "django_statsd.middleware.GraphiteMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "core.session_security.middleware.SessionSecurityMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "cla_auth.middleware.ZoneMiddleware",
-    "core.middleware.Cla401Middleware",
-    "csp.middleware.CSPMiddleware",
-    "django_cookies_samesite.middleware.CookiesSameSite",
-    "djangosecure.middleware.SecurityMiddleware",
-)
+DISABLE_SAMESITE_MIDDLEWARE = os.environ.get("DISABLE_SAMESITE_MIDDLEWARE", False)
+
+if not DISABLE_SAMESITE_MIDDLEWARE:
+    MIDDLEWARE_CLASSES = (
+        "core.middleware.MaintenanceModeMiddleware",
+        "django_statsd.middleware.GraphiteRequestTimingMiddleware",
+        "django_statsd.middleware.GraphiteMiddleware",
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "core.session_security.middleware.SessionSecurityMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
+        "cla_auth.middleware.ZoneMiddleware",
+        "core.middleware.Cla401Middleware",
+        "csp.middleware.CSPMiddleware",
+        "django_cookies_samesite.middleware.CookiesSameSite",
+        "djangosecure.middleware.SecurityMiddleware",
+    )
+else:
+    MIDDLEWARE_CLASSES = (
+        "core.middleware.MaintenanceModeMiddleware",
+        "django_statsd.middleware.GraphiteRequestTimingMiddleware",
+        "django_statsd.middleware.GraphiteMiddleware",
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "core.session_security.middleware.SessionSecurityMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
+        "cla_auth.middleware.ZoneMiddleware",
+        "core.middleware.Cla401Middleware",
+        "csp.middleware.CSPMiddleware",
+        "djangosecure.middleware.SecurityMiddleware",
+    )
 
 # Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", True) == True
 CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", True) == True
 SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", True) == True
 SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", True) == True
-CSRF_COOKIE_SAMESITE = os.environ.get("CSRF_COOKIE_SAMESITE", "Strict")
-SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "Strict")
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
