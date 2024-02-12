@@ -197,7 +197,7 @@ MIDDLEWARE_CLASSES = (
     "djangosecure.middleware.SecurityMiddleware",
 )
 
-DISABLE_SAMESITE_MIDDLEWARE = os.environ.get("DISABLE_SAMESITE_MIDDLEWARE", False) == "True"
+DISABLE_SAMESITE_MIDDLEWARE = os.environ.get("DISABLE_SAMESITE_MIDDLEWARE", "False") == "True"
 
 if not DISABLE_SAMESITE_MIDDLEWARE:
     MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ("django_cookies_samesite.middleware.CookiesSameSite",)
