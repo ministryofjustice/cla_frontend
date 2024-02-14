@@ -203,10 +203,10 @@ if not DISABLE_SAMESITE_MIDDLEWARE:
     MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ("django_cookies_samesite.middleware.CookiesSameSite",)
 
 # Security Settings
-SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", True) == True
-CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", True) == True
-SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", True) == True
-SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", True) == True
+SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", "True") == "True"
+CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", "True") == "True"
+SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "True") == "True"
+SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", "True") == "True"
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
