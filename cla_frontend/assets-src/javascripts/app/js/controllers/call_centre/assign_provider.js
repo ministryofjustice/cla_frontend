@@ -51,7 +51,11 @@
         };
 
         $scope.isEducationF2F = function () {
-          return $scope.suggested_providers.length < 1 && !$scope.suggested_provider && !$scope.case.provider && $scope.case.category == 'Education';
+          return !$scope.suggested_provider && !$scope.case.provider && $scope.case.category == 'Education';
+        }
+
+        if ($scope.isEducationF2F) {
+          $scope.is_manual = false;
         }
 
         $scope.getF2fDeepLink = function () {
