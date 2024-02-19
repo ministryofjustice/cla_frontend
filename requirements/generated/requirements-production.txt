@@ -21,6 +21,8 @@ chardet==4.0.0
     # via requests
 https://github.com/ministryofjustice/cla_common/archive/refs/tags/0.3.20.tar.gz
     # via -r requirements/source/requirements-base.in
+django-cookies-samesite==0.9.0
+    # via -r requirements/source/requirements-base.in
 django-csp==2.0.3
     # via -r requirements/source/requirements-base.in
 django-extended-choices==0.3.0
@@ -32,6 +34,8 @@ django-ipware==0.1.0
 https://github.com/said-moj/django-moj-irat/archive/refs/tags/0.3.1.tar.gz
     # via -r requirements/source/requirements-base.in
 django-proxy==1.0.2
+    # via -r requirements/source/requirements-base.in
+django-secure==1.0.2
     # via -r requirements/source/requirements-base.in
 django-session-security==2.2.3
     # via -r requirements/source/requirements-base.in
@@ -45,6 +49,7 @@ django==1.7.9
     # via
     #   -r requirements/source/requirements-base.in
     #   django-moj-irat
+    #   django-secure
     #   django-session-security
 futures==3.4.0
     # via s3transfer
@@ -89,6 +94,8 @@ statsd==3.3.0
     # via
     #   -r requirements/source/requirements-base.in
     #   django-statsd-mozilla
+ua-parser==0.10.0
+    # via django-cookies-samesite
 urllib3==1.26.16
     # via
     #   botocore
