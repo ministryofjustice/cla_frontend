@@ -54,7 +54,7 @@
           return !$scope.suggested_provider && !$scope.case.provider && $scope.case.category == 'Education';
         }
 
-        if ($scope.isEducationF2F) {
+        if ($scope.isEducationF2F()) {
           $scope.is_manual = false;
         }
 
