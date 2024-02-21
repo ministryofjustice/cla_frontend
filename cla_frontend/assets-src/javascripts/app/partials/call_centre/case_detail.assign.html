@@ -2,7 +2,7 @@
 <div ng-if="suggested_providers.length < 1 && !suggested_provider && !case.provider && case.category != 'Education'" class="Notice">
   <p>There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
 </div>
-<div ng-if="::isEducationF2F()" class="Notice" >
+<div ng-if="isEducationF2F()" class="Notice" >
   <p>There are <strong>no specialist providers current available</strong> to assign to this case. Please use Find a Legal Advisor.</p>
 </div>
 <!-- no category -->
@@ -44,7 +44,7 @@
   </div>
 
   <call-script ng-if="suggested_providers.length > 1 || suggested_provider">
-    <div ng-if="::!isEducationF2F()">
+    <div ng-if="!isEducationF2F()">
       <div ng-switch on="category">
 
         <div ng-switch-when="education">
@@ -75,7 +75,7 @@
     </div>
   </call-script>
 
-  <call-script ng-if="::isEducationF2F()">
+  <call-script ng-if="isEducationF2F()">
     <div>
       <p>Based on what you have told me I can provide you with details of legally aided Education providers in your area. </p>
       <p>They will check what you have told me and assess whether our service is right for you.</p>
@@ -142,7 +142,7 @@
     <p class="Error-message">{{ errors.__all__ }}</p>
   </div>
 
-  <ng-template ng-if="::isEducationF2F()">
+  <ng-template ng-if="isEducationF2F()">
 
     <div ng-if="is_manual">
       <div class="FormActions" ng-if="::canAssign()">
@@ -177,7 +177,7 @@
     
   </ng-template>
 
-  <ng-template ng-hide="::isEducationF2F()">
+  <ng-template ng-hide="isEducationF2F()">
     <div class="FormActions" ng-if="::canAssign()">
       <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id || assigning_provider_in_progress">Assign provider</button>
   
