@@ -43,7 +43,7 @@
     </p>
   </div>
 
-  <call-script ng-if="suggested_providers.length > 1 || suggested_provider && !::isEducationF2F()">
+  <call-script ng-if="(suggested_providers.length > 1 || suggested_provider) && ::!isEducationF2F()">
     <div ng-switch on="category">
 
       <div ng-switch-when="education">
