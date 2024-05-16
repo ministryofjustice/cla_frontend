@@ -16,7 +16,8 @@ metadata:
     {{- if .Values.ingress.whitelist }}
     nginx.ingress.kubernetes.io/whitelist-source-range: "{{ include "cla-frontend.whitelist" . }}"
     {{- end }}
-    nginx.ingress.kubernetes.io/server-snippets: |
+    nginx.ingress.kubernetes.io/server-snippet: |
+      add_header X-Robots-Tag "noindex, nofollow";
       location /socket.io {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
