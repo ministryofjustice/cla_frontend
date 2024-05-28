@@ -2,7 +2,8 @@
   'use strict';
 
   angular.module('cla.controllers.provider').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$uibModal', 'flash', 'postal', '$state', function($scope, $uibModal, flash, postal, $state){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$uibModal', 'flash', 'postal', '$state', '$window',
+    function($scope, $uibModal, flash, postal, $state, $window){
       $scope.showDebtReferralButton = function() {
         if (!$scope.case.provider_accepted || $scope.case.provider_closed) {
           return false;
@@ -20,6 +21,7 @@
             topic   : 'Log.refresh'
           });
           $scope.case = data;
+          $window.dataLayer.push({ 'event': 'ProviderAcceptOrReject', 'AcceptOrReject': 'Accepted', 'MediaCode': data.media_code, 'MatterType1': data.matter_type1, 'MatterType2': data.matter_type2, 'OutcomeCode': data.outcome_code  });
         });
       };
 
@@ -47,6 +49,7 @@
         };
         var onSuccess = function (result) {
           if (result) {
+            $window.dataLayer.push({ 'event': 'ProviderAcceptOrReject', 'AcceptOrReject': 'Rejected', 'MediaCode': $scope.case ? $scope.case.media_code : null, 'MatterType1': $scope.case ? $scope.case.matter_type1 : null, 'MatterType2': $scope.case ? $scope.case.matter_type2 : null, 'OutcomeCode': result.config ? result.config.data ? result.config.data.event_code : null : null  });
             flash('success', 'Case ' + $scope.case.reference + ' rejected successfully');
           } else {
             flash('error', 'There was a problem rejecting this case');
