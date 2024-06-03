@@ -133,12 +133,13 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STATIC_FILES_STORAGE_BUCKET_NAME")
 CSP_DEFAULT_SRC = [
     "'self'",
     "o345774.ingest.sentry.io",
-    "www.googletagmanager.com",
+    "*.googletagmanager.com",
     "www.google.co.uk",
     "*.analytics.google.com",
+    "*.google-analytics.com",
     "ws:",
     "wss:",
-    "stats.g.doubleclick.net",
+    "*.doubleclick.net",
 ]
 if "localhost" in ALLOWED_HOSTS:
     CSP_DEFAULT_SRC += "localhost:*"
