@@ -17,12 +17,12 @@
     "express": "^4.9.8",
     "jade": "^1.9.1",
     "promise": "^6.0.0",
-    "socket.io": "^4.5.3",
+    "socket.io": "^4.7.5",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
     "jest": "^29.3.1",
-    "socket.io-client": "^4.5.4",
+    "socket.io-client": "^4.7.5",
     "supertest": "^6.3.1"
   }
 }
