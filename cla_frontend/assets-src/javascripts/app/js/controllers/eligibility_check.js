@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('EligibilityCheckCtrl',
-      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout', 'diagnosis', 'DISREGARDS',
-        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout, diagnosis, DISREGARDS ){
+      ['$scope', 'Category', '$stateParams', 'flash', '$state', 'postal', 'moment', '_', 'IncomeWarningsService', 'SPECIFIC_BENEFITS', '$timeout', 'diagnosis', 'DISREGARDS', '$window',
+        function($scope, Category, $stateParams, flash, $state, postal, Moment, _, IncomeWarningsService, SPECIFIC_BENEFITS, $timeout, diagnosis, DISREGARDS, $window){
           $scope.category_list = Category.query();
           $scope.formDidChange = false;
           // set nass benefits to FALSE by default
@@ -218,6 +218,7 @@
             setSavingsDefaults($scope.eligibility_check);
             setIncomeDefaults($scope.eligibility_check);
             setExpensesDefaults($scope.eligibility_check);
+            $scope.skipped_eligibility = true;
             $scope.save();
           };
 
@@ -307,6 +308,7 @@
 
               // updates the state of case.eligibility_state after each save
               $scope.case.state = data.state;
+              $window.dataLayer.push({ 'event': 'MeansEligibilityChecked', 'MeansEligibilitySkipped': $scope.skipped_eligibility, 'MeansEligibilityResult': data.state });
 
               // publish eligibility save
               postal.publish({

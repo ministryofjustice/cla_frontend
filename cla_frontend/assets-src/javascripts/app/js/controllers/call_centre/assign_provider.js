@@ -2,8 +2,8 @@
   'use strict';
 
   angular.module('cla.controllers.operator')
-    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal', 'diagnosis', '$uibModal', '$q',
-      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal, diagnosis, $uibModal, $q) {
+    .controller('AssignProviderCtrl', ['$scope', '_', '$state', 'form_utils', 'flash', 'MatterTypes', 'Suggestions', 'postal', 'diagnosis', '$uibModal', '$q', '$window',
+      function($scope, _, $state, form_utils, flash, MatterTypes, Suggestions, postal, diagnosis, $uibModal, $q, $window) {
         $scope.category = diagnosis.category;
         $scope.is_manual = false;
         $scope.is_manual_ref = false;
@@ -84,6 +84,7 @@
               $scope.case.$assign(data).then(
                 function(response) {
                   $state.go('case_list');
+                  $window.dataLayer.push({ 'event': 'ProviderAssigned', 'AssignedProviderId': $scope.selected_provider ? $scope.selected_provider.id : null, 'MatterType1': $scope.$parent.case ? $scope.$parent.case.matter_type1 : null, 'MatterType2': $scope.$parent.case ? $scope.$parent.case.matter_type2 : null  });
                   flash('success', 'Case ' + $scope.case.reference + ' assigned to ' + response.data.name);
                 },
                 function(data) {

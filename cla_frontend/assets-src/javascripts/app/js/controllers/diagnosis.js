@@ -3,9 +3,10 @@
 
   angular.module('cla.controllers')
     .controller('DiagnosisCtrl',
-      ['$scope', 'Category', 'postal', 'eligibility_check',
-        function($scope, Category, postal, eligibility_check) {
+      ['$scope', 'Category', 'postal', 'eligibility_check', '$window',
+        function($scope, Category, postal, eligibility_check, $window) {
           // updates the state of case.diagnosis_state after each save
+          $scope.diagnosing = false;
           function saveCallback(data) {
             $scope.case.diagnosis_state = data.state;
 
@@ -31,6 +32,7 @@
           };
 
           $scope.moveDown = function() {
+            $scope.diagnosing = true;
             $scope.diagnosis.$move_down({
               'case_reference': $scope.case.reference
             }, saveCallback);
@@ -93,7 +95,11 @@
               $scope.category = null;
             } else {
               Category.get({code: $scope.diagnosis.category}).$promise.then(function(data) {
+                var categoryChanged = $scope.$parent.currentCategory !== data.code;
+                $scope.$parent.currentCategory = data.code;
                 $scope.category = data;
+                if(categoryChanged&&$scope.diagnosing)$window.dataLayer.push({ 'event': 'Diagnosed', 'CategoryCode': $scope.category? $scope.category.code : null, 'DiagnosisResult': $scope.diagnosis ? $scope.diagnosis.state : null, 'LawCategoryAfterOpDiagnosed': $scope.category ? $scope.category.name : null });
+                $scope.diagnosing = false;
               });
             }
           });
