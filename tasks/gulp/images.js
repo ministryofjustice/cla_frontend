@@ -9,7 +9,6 @@
   gulp.task('images', function() {
     gulp
       .src(paths.images)
-      .pipe(imagemin({optimizationLevel: 5}))
       .pipe(gulp.dest(paths.dest + 'images'));
   });
 })();
