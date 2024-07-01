@@ -10,6 +10,9 @@
           // set nass benefits to FALSE by default
           $scope.eligibility_check.on_nass_benefits = $scope.eligibility_check.on_nass_benefits || false;
 
+          // Variable to track skipping eligibility in GA4
+          $scope.skipped_eligibility = false;
+
           // income warnings
           postal.subscribe({
             channel: 'IncomeWarnings',
@@ -309,6 +312,7 @@
               // updates the state of case.eligibility_state after each save
               $scope.case.state = data.state;
               $window.dataLayer.push({ 'event': 'MeansEligibilityChecked', 'MeansEligibilitySkipped': $scope.skipped_eligibility, 'MeansEligibilityResult': data.state });
+              $scope.skipped_eligibility = false;
 
               // publish eligibility save
               postal.publish({
