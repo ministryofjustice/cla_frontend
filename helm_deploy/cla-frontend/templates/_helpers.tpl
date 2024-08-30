@@ -6,7 +6,9 @@ Expand the name of the chart.
 {{- end }}
 
 {{- define "cla-frontend.whitelist" -}}
-{{ join "," .Values.ingress.whitelist }}{{- if .Values.pingdomIPs }},{{.Values.pingdomIPs}}{{- end }}
+{{ join "," .Values.ingress.whitelist }}
+{{- if .Values.pingdomIPs }},{{.Values.pingdomIPs}}{{- end }}
+{{- if .Values.sharedIPRangesLAA}},{{.Values.sharedIPRangesLAA}}{{- end }}
 {{- end -}}
 
 {{/*
