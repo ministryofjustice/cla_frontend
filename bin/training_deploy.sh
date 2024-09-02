@@ -15,5 +15,4 @@ helm upgrade $RELEASE_NAME \
   --set image.tag=$IMAGE_TAG \
   --set socketServer.image.repository=$ECR_URL_SOCKET_SERVER \
   --set socketServer.image.tag=$IMAGE_TAG \
-  --set-string sharedIPRangesLAA="Any IP allowed but keep this string" \
   --install
