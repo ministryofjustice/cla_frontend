@@ -20,4 +20,5 @@ helm upgrade $RELEASE_NAME \
   --set socketServer.image.repository=$ECR_URL_SOCKET_SERVER \
   --set socketServer.image.tag=$IMAGE_TAG \
   --set-string pingdomIPs=$PINGDOM_IPS \
+  --set-string sharedIPRangesLAA=$SHARED_IP_RANGES_LAA \
   --install
