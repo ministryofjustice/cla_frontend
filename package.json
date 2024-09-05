@@ -39,11 +39,11 @@
     "raven-js": "3.27.2",
     "rome": "1.2.1",
     "select2": "3.5.1",
-    "socket.io-client": "1.7.4"
+    "socket.io-client": "4.7.5"
   },
   "devDependencies": {
     "bower": "^1.8.2",
-    "browser-sync": "^2.24.1",
+    "browser-sync": "^2.29.3",
     "gulp": "^3.9.1",
     "gulp-angular-templates": "0.0.2",
     "gulp-clean-css": "^3.9.2",
@@ -73,7 +73,7 @@
     "jasmine": "^3.2.0",
     "jasmine-reporters": "^2.3.0",
     "jasmine-spec-reporter": "^4.2.1",
-    "karma": "^2.0.0",
+    "karma": "^6.4.3",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.1.0",
     "karma-jasmine": "^1.1.1",
