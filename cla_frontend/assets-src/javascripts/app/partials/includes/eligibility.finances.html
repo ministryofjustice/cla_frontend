@@ -35,6 +35,10 @@
       </div>
 
       <div class="FormRow cf" ng-show="hasSMOD()">
+        <!-- Error Message -->
+        <p class="Error Error--basic" ng-show="!property.disputed && form.$submitted">
+          Please select whether the property is disputed.
+        </p>
         <p class="FormRow-label">Is the property disputed? <guidance-link doc="eligibility_check/#ecg-property_disputed"></guidance-link></p>
 
         <label class="FormRow-option FormRow-option--inline">
@@ -45,10 +49,6 @@
           <input type="radio" value="0" name="property_disputed-{{ $index }}" ng-model="property.disputed">No
         </label>
 
-        <!-- Error Message -->
-        <p class="Error Error--basic" ng-show="!property.disputed && form.$submitted">
-          Please select whether the property is disputed.
-        </p>
       </div>
 
       <div class="FormRow cf">
