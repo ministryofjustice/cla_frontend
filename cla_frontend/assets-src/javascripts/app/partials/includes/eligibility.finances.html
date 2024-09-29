@@ -34,7 +34,7 @@
         </label>
       </div>
 
-      <div class="FormRow cf" ng-show="hasSMOD()" name="propertyform">
+      <div class="FormRow cf" ng-show="hasSMOD()">
         <p class="FormRow-label">Is the property disputed? <guidance-link doc="eligibility_check/#ecg-property_disputed"></guidance-link></p>
           <!-- Error Message -->
           <span class="Error-message" ng-show="!property.disputed">Please select whether the property is disputed</span>
@@ -50,11 +50,11 @@
       <div class="FormRow cf">
         <p class="FormRow-label">Is this your main property? <guidance-link doc="eligibility_check/#ecg-property_main"></guidance-link></p>
 
-        <label class="FormRow-option FormRow-option--inline">
+        <label class="FormRow-option FormRow-option--inline" ng-click="propertyDisputed()">
           <input type="radio" value="1" name="property_main-{{ $index }}" ng-model="property.main">Yes
         </label>
 
-        <label class="FormRow-option FormRow-option--inline">
+        <label class="FormRow-option FormRow-option--inline" ng-click="propertyDisputed()">
           <input type="radio" value="0" name="property_main-{{ $index }}" ng-model="property.main">No
         </label>
       </div>
