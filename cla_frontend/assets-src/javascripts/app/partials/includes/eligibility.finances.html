@@ -41,7 +41,7 @@
       <div class="FormRow cf" ng-show="hasSMOD()">
         <p class="FormRow-label">Is the property disputed? <guidance-link doc="eligibility_check/#ecg-property_disputed"></guidance-link></p>
           <!-- Error Message -->
-          <span class="Error-message" ng-show="!property.disputed && form.$submitted">Please select whether the property is disputed</span>
+          <span class="Error-message" ng-show="(property.disputed === undefined || property.disputed === null) && form.$submitted">Please select whether the property is disputed</span>
         <label class="FormRow-option FormRow-option--inline">
           <input type="radio" value="1" name="property_disputed-{{ $index }}" ng-model="property.disputed">Yes
         </label>
@@ -54,7 +54,7 @@
       <div class="FormRow cf">
         <p class="FormRow-label">Is this your main property? <guidance-link doc="eligibility_check/#ecg-property_main"></guidance-link></p>
         <!-- Error Message -->
-        <span class="Error-message" ng-show="!property.main && form.$submitted">Please select whether this is the main property</span>
+        <span class="Error-message" ng-show="(property.main === undefined || property.main === null) && form.$submitted">Please select whether this is the main property</span>
         <label class="FormRow-option FormRow-option--inline">
           <input type="radio" value="1" name="property_main-{{ $index }}" ng-model="property.main">Yes
         </label>
