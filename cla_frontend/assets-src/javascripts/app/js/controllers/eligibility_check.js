@@ -336,11 +336,6 @@
 
           $scope.removeProperty = function (index) {
             $scope.eligibility_check.property_set.splice(index, 1);
-            $scope.$evalAsync(function() {
-              if ($scope.eligibility_check.property_set.length === 0) {
-                $scope.isPropertyAdded = false;
-              }
-            });
           };
           $scope.addProperty = function () {
             var property = {};
@@ -351,13 +346,8 @@
             // if not SMOD, set to not disputed
             if (!$scope.hasSMOD()) {
               property.disputed = 0;
-
             }
-
-            $scope.$evalAsync(function() {
-              $scope.isPropertyAdded = true;
-            });
-
+  
             $scope.eligibility_check.property_set.push(property);
           };
 
