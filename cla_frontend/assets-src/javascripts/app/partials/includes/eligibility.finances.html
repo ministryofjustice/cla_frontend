@@ -21,6 +21,8 @@
       <div class="FormRow cf">
         <label>
           <span class="FormRow-label">What is the current market value of the property? <guidance-link doc="eligibility_check/#ecg-property_worth"></guidance-link></span>
+          <!-- Error Message -->
+          <span class="Error-message" ng-show="!property.value && form.$submitted">Please enter the value of the property</span>
           <span class="FormRow-prefix">£</span>
           <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.value">
         </label>
@@ -29,6 +31,8 @@
       <div class="FormRow cf">
         <label>
           <span class="FormRow-label">How much is left to pay on the mortgage? <guidance-link doc="eligibility_check/#ecg-property_mortgage_left"></guidance-link></span>
+          <!-- Error Message -->
+          <span class="Error-message" ng-show="!property.mortgage_left && form.$submitted">Please enter how much mortgage is left</span>
           <span class="FormRow-prefix">£</span>
           <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.mortgage_left">
         </label>
@@ -37,19 +41,20 @@
       <div class="FormRow cf" ng-show="hasSMOD()">
         <p class="FormRow-label">Is the property disputed? <guidance-link doc="eligibility_check/#ecg-property_disputed"></guidance-link></p>
           <!-- Error Message -->
-          <span class="Error-message" ng-show="!property.disputed">Please select whether the property is disputed</span>
+          <span class="Error-message" ng-show="!property.disputed && form.$submitted">Please select whether the property is disputed</span>
         <label class="FormRow-option FormRow-option--inline">
-          <input type="radio" value="1" name="property_disputed-{{ $index }}" ng-model="property.disputed" ng-click="propertyDisputed()">Yes
+          <input type="radio" value="1" name="property_disputed-{{ $index }}" ng-model="property.disputed">Yes
         </label>
 
         <label class="FormRow-option FormRow-option--inline">
-          <input type="radio" value="0" name="property_disputed-{{ $index }}" ng-model="property.disputed" ng-click="propertyDisputed()">No
+          <input type="radio" value="0" name="property_disputed-{{ $index }}" ng-model="property.disputed">No
         </label>
       </div>
 
       <div class="FormRow cf">
         <p class="FormRow-label">Is this your main property? <guidance-link doc="eligibility_check/#ecg-property_main"></guidance-link></p>
-
+        <!-- Error Message -->
+        <span class="Error-message" ng-show="!property.main && form.$submitted">Please select whether this is the main property</span>
         <label class="FormRow-option FormRow-option--inline">
           <input type="radio" value="1" name="property_main-{{ $index }}" ng-model="property.main">Yes
         </label>
@@ -62,6 +67,8 @@
       <div class="FormRow cf">
         <label>
           <span class="FormRow-label">What percentage of the property do you<span ng-show="hasPartner()"> and/or your partner</span> own? <guidance-link doc="eligibility_check/#ecg-property_share"></guidance-link></span>
+          <!-- Error Message -->
+          <span class="Error-message" ng-show="!property.shared && form.$submitted">Please enter the share percentage owned</span>
           <input class="FormRow-field--s" max="100" min="0" type="number" ng-model="property.share">
           <span class="FormRow-suffix">%</span>
         </label>

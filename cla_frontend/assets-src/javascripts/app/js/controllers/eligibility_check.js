@@ -342,11 +342,6 @@
               }
             });
           };
-          $scope.propertyDisputed = function () {
-            $scope.$evalAsync(function() {
-              $scope.isPropertyAdded = false;
-            });
-          };
           $scope.addProperty = function () {
             var property = {};
 
