@@ -347,7 +347,6 @@
             if (!$scope.hasSMOD()) {
               property.disputed = 0;
             }
-  
             $scope.eligibility_check.property_set.push(property);
           };
 
