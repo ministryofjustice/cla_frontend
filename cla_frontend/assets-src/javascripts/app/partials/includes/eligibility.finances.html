@@ -68,7 +68,7 @@
         <label>
           <span class="FormRow-label">What percentage of the property do you<span ng-show="hasPartner()"> and/or your partner</span> own? <guidance-link doc="eligibility_check/#ecg-property_share"></guidance-link></span>
           <!-- Error Message -->
-          <span class="Error-message" ng-show="!property.shared && form.$submitted">Please enter the share percentage owned</span>
+          <span class="Error-message" ng-show="!property.share && form.$submitted">Please enter the share percentage owned</span>
           <input class="FormRow-field--s" max="100" min="0" type="number" ng-model="property.share">
           <span class="FormRow-suffix">%</span>
         </label>
