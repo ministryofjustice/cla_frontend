@@ -70,7 +70,7 @@
                       topic: 'unauthorized'
                     });
                   },
-                  400: 'There is an error on this page.',
+                  400: 'There is an error on this page.' || angular.noop,
                   0: 'Your internet connection seems down, please check and try again.'
                 },
                 msg = msgs[rejection.status] || 'Error!';
