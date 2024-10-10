@@ -336,6 +336,10 @@
 
           $scope.removeProperty = function (index) {
             $scope.eligibility_check.property_set.splice(index, 1);
+            /*
+            Prevents property error messages showing if property
+            is removed then re-added.
+            */
             if ($scope.eligibility_check.property_set.length === 0) {
               $scope.propertyAdded = false;
               $scope.propertySave = false;
@@ -352,10 +356,13 @@
               property.disputed = 0;
             }
             $scope.eligibility_check.property_set.push(property);
-
+            // Sets if the property field is added to the page
             $scope.propertyAdded = true;
           };
-
+          /*
+          This prevents the property field from showing errors 
+          prematurely if the form has already been submitted.
+          */
           $scope.propertyVisibility = function () {
             if ($scope.propertyAdded) {
               $scope.propertySave = true
