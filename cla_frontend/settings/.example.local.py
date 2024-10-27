@@ -7,6 +7,7 @@ from .base import *
 
 DEBUG = True
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+SHOW_DISREGARDS_FEATURE_FLAG = True
 
 DEV_APPS = ("django_pdb",)
 

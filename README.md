@@ -337,10 +337,10 @@ If the application runs locally but there are no images then this means that DEB
 DEBUG = True
 ```
 
-If you wish to view the Disregards questions in the eligibility templates then set the following flag in local.py
+If you wish to hide the Disregards questions in the eligibility templates then set the following flag in local.py
 
 ```
-SHOW_DISREGARDS_FEATURE_FLAG = True
+SHOW_DISREGARDS_FEATURE_FLAG = False
 ```
 
 ## To demo the service

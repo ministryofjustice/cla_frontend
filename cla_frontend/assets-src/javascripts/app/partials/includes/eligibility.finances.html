@@ -197,7 +197,28 @@
 <div ng-if="is_cla_feature_enabled('show_disregards_feature_flag')">
   <h2 class="FormBlock-label">Disregards <guidance-link doc="disregards"></guidance-link></h2>
   <call-script>
-    <p>I am now going to read through a list of support schemes. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> received any of these.</p>
+    <div class="FormBlock" >
+      <p>There are some payments that do not count towards your savings or income. I need to check if you received any of these.</p>
+      <p>Have you had a big payment that you do not normally get? This could be from the government, from a support scheme, or backdated payments for benefits or child maintenance.</p>
+      <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
+        <label class="FormRow-label">
+          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" type="radio" name="disregards" id="id_disregards_0">
+          <span class="FormRow-labelText FormRow-labelText--basic ng-binding">No</span>
+        </label>
+      </div>
+      <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
+        <label class="FormRow-label">
+          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" type="radio" name="disregards" id="id_disregards_1">
+          <span class="FormRow-labelText FormRow-labelText--basic ng-binding">Yes</span>
+        </label>
+      </div>
+      <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
+        <label class="FormRow-label">
+          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" type="radio" name="disregards" id="id_disregards_2">
+          <span class="FormRow-labelText FormRow-labelText--basic ng-binding">Not sure</span>
+        </label>
+      </div>
+    </div>
   </call-script>
   <section class="FormBlock FormBlock--grey">
     <div class="FormRow cf" ng-repeat="opt in ::disregardOptions">
