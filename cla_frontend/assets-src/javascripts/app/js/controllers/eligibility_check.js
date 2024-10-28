@@ -144,15 +144,22 @@
               employment_support: false
             };
             ec.disregards = {
+              benefit_payments: false,
+              child_maintenance: false,
+              energy_support: false,
+              cost_living: false,
               infected_blood: false,
-              vaccine_damage: false,
-              vcjd_trust: false,
               criminal_injuries: false,
+              grenfell_tower: false,
+              modern_slavery: false,
               national_emergencies: false,
               london_emergencies: false,
-              love_manchester: false,
-              energy_prices: false,
-              cost_living: false
+              vcjd_trust: false,
+              vaccine_damage: false,
+              overseas_terrorism: false,
+              child_abuse: false,
+              justice_compensation: false,
+              love_manchester: false
             }
           };
 
