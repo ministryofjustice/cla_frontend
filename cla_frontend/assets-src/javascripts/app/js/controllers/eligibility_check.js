@@ -103,7 +103,14 @@
           $scope.hasDisregards = function () {
             return $scope.eligibility_check.disregards !== undefined && $scope.eligibility_check.disregards !== null && typeof $scope.eligibility_check.disregards === 'object';
           };
-
+          $scope.showDisregards = function (value) {
+            var element = document.getElementById('disregardSection');
+              if (value === 'yes' || value === 'not_sure') {
+                element.style.display = 'block';
+              } else {
+                element.style.display = 'none';
+              }
+          };
           $scope.benefitChange = function () {
             var passported = _.some($scope.eligibility_check.specific_benefits, function (benefit) {
               return benefit === true || benefit === '1';
