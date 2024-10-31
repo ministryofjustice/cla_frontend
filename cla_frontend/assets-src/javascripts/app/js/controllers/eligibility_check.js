@@ -103,15 +103,7 @@
           $scope.hasDisregards = function () {
             return $scope.eligibility_check.disregards !== undefined && $scope.eligibility_check.disregards !== null && typeof $scope.eligibility_check.disregards === 'object';
           };
-          $scope.showDisregards = function (value) {
-            var element = document.getElementById('disregardSection');
-              if (value === 'yes' || value === 'not_sure') {
-                element.style.display = 'block';
-              } else {
-                element.style.display = 'none';
-              }
-          };
-          $scope.benefitChange = function () {
+           $scope.benefitChange = function () {
             var passported = _.some($scope.eligibility_check.specific_benefits, function (benefit) {
               return benefit === true || benefit === '1';
             });
@@ -374,7 +366,7 @@
             $scope.propertyAdded = true;
           };
           /*
-          This prevents the property field from showing errors 
+          This prevents the property field from showing errors
           prematurely if the form has already been submitted.
           */
           $scope.propertyVisibility = function () {

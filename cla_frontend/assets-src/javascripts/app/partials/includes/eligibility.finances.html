@@ -202,22 +202,22 @@
       <p>Have you had a big payment that you do not normally get? This could be from the government, from a support scheme, or backdated payments for benefits or child maintenance.</p>
       <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
         <label class="FormRow-label">
-          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_0" value="no" ng-click="showDisregards('no')">No
+          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_0" value="no">No
         </label>
       </div>
       <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
         <label class="FormRow-label">
-          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_1" value="yes" ng-click="showDisregards('yes')">Yes
+          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_1" value="yes">Yes
         </label>
       </div>
       <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
         <label class="FormRow-label">
-          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_2" value="not_sure" ng-click="showDisregards('not_sure')">Not sure
+          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_2" value="not_sure">Not sure
         </label>
       </div>
     </div>
   </call-script>
-  <section class="FormBlock" id="disregardSection" style="display: none;">
+  <section class="FormBlock" id="disregardSection" ng-show="eligibility_check.disregard_selection === 'yes' || eligibility_check.disregard_selection === 'not_sure'">
     <h1 class="FormBlock-label">Read this list of disregards if the client answers 'yes' or 'not sure'</h1>
     <div class="FormRow cf FormRow--group" ng-repeat="opt in ::disregardOptions">
       <label class="FormRow-option FormRow-option--inline">
