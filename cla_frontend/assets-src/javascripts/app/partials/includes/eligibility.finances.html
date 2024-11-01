@@ -197,31 +197,29 @@
 <div>
   <h2 class="FormBlock-label">Disregards <guidance-link doc="disregards"></guidance-link></h2>
   <call-script>
-    <div class="FormBlock">
+    <div class="govuk-radios--small">
       <p>There are some payments that do not count towards your savings or income. I need to check if you received any of these.</p>
       <p>Have you had a big payment that you do not normally get? This could be from the government, from a support scheme, or backdated payments for benefits or child maintenance.</p>
-      <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
-        <label class="FormRow-label">
-          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_0" value="no">No
-        </label>
+      <div class="ng-scope govuk-radios__item">
+        <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required govuk-radios__input" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_0" value="no">
+        <label class="govuk-radios__label" for="id_disregards_0">No</label>
       </div>
-      <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
-        <label class="FormRow-label">
-          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_1" value="yes">Yes
-        </label>
+      <div class="ng-scope govuk-radios__item">
+        <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required govuk-radios__input" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_1" value="yes">
+        <label class="govuk-radios__label" for="id_disregards_1">Yes</label>
       </div>
-      <div class="FormRow FormRow--group FormRow--groupNarrow ng-scope">
-        <label class="FormRow-label">
-          <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_2" value="not_sure">Not sure
-        </label>
+      <div class="ng-scope govuk-radios__item">
+        <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required govuk-radios__input" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_2" value="not_sure">
+        <label class="govuk-radios__label" for="id_disregards_2">Not sure</label>
       </div>
     </div>
   </call-script>
-  <section class="FormBlock" id="disregardSection" ng-show="eligibility_check.disregard_selection === 'yes' || eligibility_check.disregard_selection === 'not_sure'">
-    <h1 class="FormBlock-label">Read this list of disregards if the client answers 'yes' or 'not sure'</h1>
-    <div class="FormRow cf FormRow--group" ng-repeat="opt in ::disregardOptions">
-      <label class="FormRow-option FormRow-option--inline">
-        <input type="checkbox" name="your_details-disregards-{{::opt.value}}" ng-model="::eligibility_check.disregards[opt.value]" ng-click="benefitChange()">{{ ::opt.text }}
+  <section class="FormBlock" style="margin-left: 40px" id="disregardSection" ng-show="eligibility_check.disregard_selection === 'yes' || eligibility_check.disregard_selection === 'not_sure'">
+    <h1 class="FormBlock-label" style="font-weight: 700; color: #505A5F;">Read these disregards to the client. Select all that apply.</h1>
+    <div class="govuk-checkboxes__item govuk-checkboxes--small" ng-repeat="opt in ::disregardOptions">
+      <input type="checkbox" class="govuk-checkboxes__input" id="your_details-disregards-{{::opt.value}}" name="your_details-disregards-{{::opt.value}}" ng-model="::eligibility_check.disregards[opt.value]" ng-click="benefitChange()">
+      <label class="govuk-checkboxes__label" for="your_details-disregards-{{::opt.value}}" style="font-size 19px;">
+        {{ ::opt.text }}
       </label>
     </div>
   </section>
