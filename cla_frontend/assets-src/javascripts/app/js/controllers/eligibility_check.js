@@ -103,6 +103,10 @@
           $scope.hasDisregards = function () {
             return $scope.eligibility_check.disregards !== undefined && $scope.eligibility_check.disregards !== null && typeof $scope.eligibility_check.disregards === 'object';
           };
+
+          $scope.clearDisregards = function () {
+            $scope.eligibility_check.disregards = {}
+          }
            $scope.benefitChange = function () {
             var passported = _.some($scope.eligibility_check.specific_benefits, function (benefit) {
               return benefit === true || benefit === '1';
