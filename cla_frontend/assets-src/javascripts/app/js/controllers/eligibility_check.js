@@ -149,7 +149,7 @@
             ec.disregards = {
               benefit_payments: false,
               child_maintenance: false,
-              energy_support: false,
+              energy_prices: false,
               cost_living: false,
               infected_blood: false,
               criminal_injuries: false,
