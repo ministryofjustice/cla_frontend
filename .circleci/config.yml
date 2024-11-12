@@ -332,7 +332,7 @@ jobs:
           echo "Setting CLA Frontend image $APP_IMAGE"
           echo "Setting CLA Socket Server image $SOCKET_IMAGE"
       - cla-end-to-end-tests/behave
-      
+
 # ------------------
 #
 # WORKFLOWS
@@ -427,6 +427,17 @@ workflows:
             - laa-cla-frontend
             - laa-cla-frontend-live-staging
 
+      - training_deploy_approval:
+          requires:
+            - build_app
+            - build_socket_server
+          type: approval
+          filters:
+            branches:
+              only:
+                - master
+                - feature/LGA-3323-mtr-disregard-changes
+
       - production_deploy_approval:
           requires:
             - staging_deploy_live
@@ -441,7 +452,7 @@ workflows:
           namespace: training
           dynamic_hostname: false
           requires:
-            - production_deploy_approval
+            - training_deploy_approval
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live-training
