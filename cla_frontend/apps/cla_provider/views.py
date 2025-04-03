@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse
 
+from apps.call_centre.views import get_enabled_feature_flags
+
 from api.client import get_connection
 
 from slumber.exceptions import HttpClientError
@@ -11,7 +13,7 @@ from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
 @cla_provider_zone_required
 def dashboard(request):
-    return render(request, "cla_provider/angular_app.html", {})
+    return render(request, "cla_provider/angular_app.html", {"cla_features": get_enabled_feature_flags()})
 
 
 @cla_provider_zone_required
