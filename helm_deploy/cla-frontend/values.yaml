@@ -132,7 +132,7 @@ envVars:
       name: maintenance-mode
       key: "value"
       optional: true
-  NO_CACHE_MIDDLEWARE:
+  ENABLE_NO_CACHE_MIDDLEWARE:
     configmap:
       name: no-cache-middleware
       key: enabled
