@@ -51,12 +51,12 @@
         <p style="margin-top: 0;">"{{ case.client_notes }}"</p>
     </div>
 
-    <div>
+    <div ng-if="scope_traversal.financial_assessment_status">
       <p style="margin-bottom: 0;">Financial assessment</p>
-      <p style="margin-top: 0;">Client referred to helpline for assessment</p>
+      <p style="margin-top: 0;">{{ scope_traversal.financial_assessment_status }}</p>
     </div>
 
-    <div>
+    <div ng-if="scope_traversal.category.code">
       <p style="margin-bottom: 0;">Area of law</p>
       <p style="margin-top: 0;">{{ scope_traversal.category.code | capitalizeFirst }}</p>
     </div>
