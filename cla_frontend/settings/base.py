@@ -170,7 +170,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 FAMILY_ISSUE_FEATURE_FLAG = os.environ.get("FAMILY_ISSUE_FEATURE_FLAG", "False").lower() == "true"
 
 # Sets whether the new notes format is displayed
-NEW_CLIENT_NOTE_FEATURE_FLAG = os.environ.get("NEW_CLIENT_NOTE_FEATURE_FLAG", False)
+NEW_CLIENT_NOTE_FEATURE_FLAG = os.environ.get("NEW_CLIENT_NOTE_FEATURE_FLAG", "False").lower() == "true"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
