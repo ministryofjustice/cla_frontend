@@ -2,7 +2,6 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.conf import settings
 from django.shortcuts import redirect
-from django.utils.cache import add_never_cache_headers
 
 class HttpResponseForbidden(HttpResponse):
     status_code = 401
@@ -29,5 +28,7 @@ class MaintenanceModeMiddleware(object):
 
 class NoCacheMiddleware(object):
     def process_response(self, request, response):
-        add_never_cache_headers(response)
+        response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response['Pragma'] = 'no-cache'
+        response['Expires'] = '0'
         return response
