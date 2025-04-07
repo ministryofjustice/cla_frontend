@@ -136,4 +136,7 @@ envVars:
     configmap:
       name: new-client-note-format
       key: enabled
-
+  ENABLE_NO_CACHE_MIDDLEWARE:
+    configmap:
+      name: no-cache-middleware
+      key: enabled
