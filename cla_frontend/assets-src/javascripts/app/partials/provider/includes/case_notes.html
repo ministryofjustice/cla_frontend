@@ -1,16 +1,39 @@
-<notes-form ng-model="case.provider_notes" case="case"></notes-form>
+<div ng-if="!feature_flags.new_client_note_flag">
+  <notes-form ng-model="case.provider_notes" case="case"></notes-form>
 
-<div ng-if="eligibility_check.notes">
-  <figure class="CommentBlock Icon Icon--row Icon--comments">
-    <cite class="CommentBlock-author">User said</cite>
-    <blockquote class="Quote" ng-bind-html="eligibility_check.notes|escapeHtml|nl2br"></blockquote>
-  </figure>
+  <div ng-if="eligibility_check.notes">
+    <figure class="CommentBlock Icon Icon--row Icon--comments">
+      <cite class="CommentBlock-author">User said</cite>
+      <blockquote class="Quote" ng-bind-html="eligibility_check.notes|escapeHtml|nl2br"></blockquote>
+    </figure>
+  </div>
+
+  <div ng-if="case.notes">
+    <figure class="CommentBlock Icon Icon--row Icon--comments">
+      <a href="" notes-history="{{ case.reference }}" history-type="operator" summary="true" class="CommentBlock-history" title="View notes history"></a>
+      <cite class="CommentBlock-author">Operator said</cite>
+      <blockquote class="Quote" ng-bind-html="::case.notes|escapeHtml|nl2br"></blockquote>
+    </figure>
+  </div>
 </div>
 
-<div ng-if="case.notes">
-  <figure class="CommentBlock Icon Icon--row Icon--comments">
-    <a href="" notes-history="{{ case.reference }}" history-type="operator" summary="true" class="CommentBlock-history" title="View notes history"></a>
-    <cite class="CommentBlock-author">Operator said</cite>
-    <blockquote class="Quote" ng-bind-html="::case.notes|escapeHtml|nl2br"></blockquote>
-  </figure>
+<div ng-if="feature_flags.new_client_note_flag">
+  <div ng-if="eligibility_check.notes">
+    <figure class="CommentBlock">
+      <cite class="CommentBlock-heading">Client problem</cite>
+      <div class="CommentBlock-details">Details from version of '<a href="https://www.gov.uk/check-legal-aid">Check if you can get legal aid</a>' before 16 April 2025.</div>
+      <cite class="CommentBlock-author">User said</cite>
+      <blockquote class="Quote" ng-bind-html="eligibility_check.notes|escapeHtml|nl2br"></blockquote>
+    </figure>
+  </div>
+
+  <notes-form ng-model="case.provider_notes" case="case"></notes-form>
+
+  <div ng-if="case.notes">
+    <figure class="CommentBlock">
+      <a href="" notes-history="{{ case.reference }}" history-type="operator" summary="true" class="CommentBlock-history" title="View notes history"></a>
+      <cite class="CommentBlock-heading">Operator notes</cite>
+      <p class="CommentText" ng-bind-html="::case.notes|escapeHtml|nl2br"></p>
+    </figure>
+  </div>
 </div>
