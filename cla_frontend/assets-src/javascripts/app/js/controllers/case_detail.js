@@ -3,8 +3,8 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', 'eod_details', '$uibModal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService', '$window',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, eod_details, $uibModal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService, $window){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', 'eod_details', '$uibModal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService', '$window', '$http',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, eod_details, $uibModal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService, $window, $http){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.eod_details = eod_details;
@@ -14,6 +14,14 @@
           $scope.personal_details = $personal_details;
           $scope.appName = AppSettings.appName;
           $scope.GTMClientUpdated = false;
+          
+          $http.get('/feature-flags/')
+          .then(function(response) {
+            $scope.feature_flags = response.data;
+          })
+          .catch(function(error) {
+            console.error('Error fetching feature flags:', error);
+          });
 
           $scope.sendGAUserAndCasePageEvent = function() {
             if($scope.GMTClientUpdated)return;

@@ -203,6 +203,11 @@ DISABLE_SAMESITE_MIDDLEWARE = os.environ.get("DISABLE_SAMESITE_MIDDLEWARE", "Fal
 if not DISABLE_SAMESITE_MIDDLEWARE:
     MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ("django_cookies_samesite.middleware.CookiesSameSite",)
 
+ENABLE_NO_CACHE_MIDDLEWARE = os.environ.get("ENABLE_NO_CACHE_MIDDLEWARE", "False").lower() == "true"
+
+if ENABLE_NO_CACHE_MIDDLEWARE:
+    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ("core.middleware.NoCacheMiddleware",)
+
 # Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", "True") == "True"
 CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", "True") == "True"

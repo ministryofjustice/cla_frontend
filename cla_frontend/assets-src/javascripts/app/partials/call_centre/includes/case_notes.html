@@ -1,4 +1,4 @@
-<div ng-if="!is_cla_feature_enabled('new_client_note_flag')">
+<div ng-if="!feature_flags.new_client_note_flag">
   <notes-form ng-model="case.notes" case="case"></notes-form>
 
   <div ng-if="eligibility_check.notes">
@@ -18,7 +18,7 @@
 </div>
 
 
-<div ng-if="is_cla_feature_enabled('new_client_note_flag')">
+<div ng-if="feature_flags.new_client_note_flag">
   <div ng-if="eligibility_check.notes">
       <figure class="CommentBlock">
         <cite class="CommentBlock-heading">Client problem</cite>
