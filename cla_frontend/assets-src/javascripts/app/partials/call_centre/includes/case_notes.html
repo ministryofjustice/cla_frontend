@@ -31,36 +31,40 @@
 
   <!-- New comment format -->
   <div ng-if="case.scope_traversal">
-    <p style="margin-bottom: 0;"><b>Client problem</b></p>
-    <p style="margin-top: 0;">From <a href="https://www.gov.uk/check-legal-aid" target="_blank">'Check if you can get legal aid'</a></p>
-    <p style="margin-bottom: 0;"><b>{{ scope_traversal.category.name | capitalizeFirst }}</b></p>
-    <div ng-if="scope_traversal.subcategory">
-       <p style="margin-bottom: 0; margin-top: 0;">{{ scope_traversal.subcategory.name }}</p>
-       <p style="margin-top: 0">{{ scope_traversal.subcategory.description }}</p>
-    </div>
-    <div ng-if="scope_traversal.scope_answers.length > 1">
-        <div ng-repeat="answer in scope_traversal.scope_answers">
-          <div ng-if="answer.type == 'onward'">
-            <p style="margin-bottom: 0;">{{ answer.question }}</p>
-            <p style="margin-top: 0;">{{ answer.answer }}</p>
+    <figure class="CommentBlock">
+      <cite class="CommentBlock-heading" style="margin-bottom: 0;">Client problem</cite>
+      <div class="CommentBlock-details">Details from version of '<a href="https://www.gov.uk/check-legal-aid" target="_blank">Check if you can get legal aid</a>'</div>
+      <cite class="CommentBlock-heading" style="margin-bottom: 0;" ng-if="scope_traversal.category.name">{{ scope_traversal.category.name | capitalizeFirst }}</cite>
+      <div ng-if="!scope_traversal.category.name">
+        <p class="CommentBlock-details">No details. Client called the helpline directly.</p>
+      </div>
+      <div ng-if="scope_traversal.subcategory">
+         <p class="CommentBlock-details" style="margin-bottom: 0; margin-top: 0;">{{ scope_traversal.subcategory.name }}</p>
+         <p class="CommentBlock-details" style="margin-top: 0;">{{ scope_traversal.subcategory.description }}</p>
+      </div>
+      <div ng-if="scope_traversal.scope_answers.length > 1" style="margin-top: 0;">
+          <div ng-repeat="answer in scope_traversal.scope_answers">
+            <div ng-if="answer.type == 'onward_question'">
+              <p class="CommentBlock-details" style="margin-bottom: 0; margin-top: 0;">{{ answer.question }}</p>
+              <p class="CommentBlock-details" style="margin-top: 0;">{{ answer.answer }}</p>
+            </div>
           </div>
-        </div>
-    </div>
-    <div ng-if="case.client_notes">
-        <p style="margin-bottom: 0;">Client notes</p>
-        <p style="margin-top: 0;">"{{ case.client_notes }}"</p>
-    </div>
+      </div>
+      <div ng-if="case.client_notes">
+          <p class="CommentBlock-details" style="margin-bottom: 0;">Client notes</p>
+          <p class="CommentBlock-details" style="margin-top: 0;">"{{ case.client_notes }}"</p>
+      </div>
 
-    <div ng-if="scope_traversal.financial_assessment_status">
-      <p style="margin-bottom: 0;">Financial assessment</p>
-      <p style="margin-top: 0;">{{ scope_traversal.financial_assessment_status }}</p>
-    </div>
+      <div ng-if="scope_traversal.financial_assessment_status">
+        <p class="CommentBlock-details">Financial assessment</p>
+        <p class="CommentBlock-details">{{ scope_traversal.financial_assessment_status }}</p>
+      </div>
 
-    <div ng-if="scope_traversal.category.code">
-      <p style="margin-bottom: 0;">Area of law</p>
-      <p style="margin-top: 0;">{{ scope_traversal.category.code | capitalizeFirst }}</p>
-    </div>
-
+      <div ng-if="scope_traversal.category.code">
+        <p class="CommentBlock-details" style="margin-bottom: 0;">Area of law</p>
+        <p class="CommentBlock-details" style="margin-top: 0;">{{ scope_traversal.category.code | capitalizeFirst }}</p>
+      </div>
+    </figure>
   </div>
 
   <notes-form ng-model="case.notes" case="case"></notes-form>
