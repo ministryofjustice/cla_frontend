@@ -12,7 +12,6 @@ def dashboard(request):
 def get_enabled_feature_flags():
     flags = {
         "family_issue_flag": settings.FAMILY_ISSUE_FEATURE_FLAG,
-        "new_client_note_flag": settings.NEW_CLIENT_NOTE_FEATURE_FLAG,
     }
     enabled = []
     for name, value in flags.items():
