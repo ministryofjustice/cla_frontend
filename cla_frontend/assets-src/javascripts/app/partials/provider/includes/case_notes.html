@@ -18,12 +18,51 @@
 </div>
 
 <div ng-if="feature_flags.new_client_note_flag">
+  <!-- Old comment format used for cases pre-April 2025 -->
   <div ng-if="eligibility_check.notes">
+      <figure class="CommentBlock">
+        <cite class="CommentBlock-heading">Client problem</cite>
+        <div class="CommentBlock-details">Details from version of '<a href="https://www.gov.uk/check-legal-aid" target="_blank">Check if you can get legal aid</a>' before 16 April 2025.</div>
+        <cite class="CommentBlock-author">User said</cite>
+        <blockquote class="Quote" ng-bind-html="eligibility_check.notes|escapeHtml|nl2br"></blockquote>
+      </figure>
+  </div>
+
+  <!-- New comment format -->
+  <div ng-if="case.scope_traversal">
     <figure class="CommentBlock">
-      <cite class="CommentBlock-heading">Client problem</cite>
-      <div class="CommentBlock-details">Details from version of '<a href="https://www.gov.uk/check-legal-aid">Check if you can get legal aid</a>' before 16 April 2025.</div>
-      <cite class="CommentBlock-author">User said</cite>
-      <blockquote class="Quote" ng-bind-html="eligibility_check.notes|escapeHtml|nl2br"></blockquote>
+      <cite class="CommentBlock-heading" style="margin-bottom: 0;">Client problem</cite>
+      <div class="CommentBlock-details">Details from version of '<a href="https://www.gov.uk/check-legal-aid" target="_blank">Check if you can get legal aid</a>'</div>
+      <cite class="CommentBlock-heading" style="margin-bottom: 0;" ng-if="scope_traversal.category.name">{{ scope_traversal.category.name | capitalizeFirst }}</cite>
+      <div ng-if="!scope_traversal.category.name">
+        <p class="CommentBlock-details">No details. Client called the helpline directly.</p>
+      </div>
+      <div ng-if="scope_traversal.subcategory">
+         <p class="CommentBlock-details" style="margin-bottom: 0; margin-top: 0;">{{ scope_traversal.subcategory.name }}</p>
+         <p class="CommentBlock-details" style="margin-top: 0;">{{ scope_traversal.subcategory.description }}</p>
+      </div>
+      <div ng-if="scope_traversal.scope_answers.length > 1" style="margin-top: 0;">
+          <div ng-repeat="answer in scope_traversal.scope_answers">
+            <div ng-if="answer.type == 'onward_question'">
+              <p class="CommentBlock-details" style="margin-bottom: 0; margin-top: 0;">{{ answer.question }}</p>
+              <p class="CommentBlock-details" style="margin-top: 0;">{{ answer.answer }}</p>
+            </div>
+          </div>
+      </div>
+      <div ng-if="case.client_notes">
+          <p class="CommentBlock-details" style="margin-bottom: 0;">Client notes</p>
+          <p class="CommentBlock-details" style="margin-top: 0;">"{{ case.client_notes }}"</p>
+      </div>
+
+      <div ng-if="scope_traversal.financial_assessment_status">
+        <p class="CommentBlock-details">Financial assessment</p>
+        <p class="CommentBlock-details">{{ scope_traversal.financial_assessment_status }}</p>
+      </div>
+
+      <div ng-if="scope_traversal.category.code">
+        <p class="CommentBlock-details" style="margin-bottom: 0;">Area of law</p>
+        <p class="CommentBlock-details" style="margin-top: 0;">{{ scope_traversal.category.code | capitalizeFirst }}</p>
+      </div>
     </figure>
   </div>
 
