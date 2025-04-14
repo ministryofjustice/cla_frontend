@@ -3,18 +3,20 @@
 
   angular.module('cla.controllers')
     .controller('CaseDetailCtrl',
-      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', 'eod_details', '$uibModal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService', '$window', '$http',
-        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, eod_details, $uibModal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService, $window, $http){
+      ['$rootScope', '$scope', 'case', 'eligibility_check', 'diagnosis', 'personal_details', 'eod_details', 'scope_traversal', 'FINANCIAL_ASSESSMENT_STATUSES', '$uibModal', 'MatterType', 'History', 'log_set', 'hotkeys', '$state', 'AppSettings', 'ClaPostalService', '$window', '$http',
+        function($rootScope, $scope, $case, $eligibility_check, $diagnosis, $personal_details, eod_details, $scope_traversal, FINANCIAL_ASSESSMENT_STATUSES, $uibModal, MatterType, History, log_set, hotkeys, $state, AppSettings, ClaPostalService, $window, $http){
           $scope.caseListStateParams = History.caseListStateParams;
           $scope.case = $case;
           $scope.eod_details = eod_details;
+          $scope.scope_traversal = $scope_traversal;
+          $scope.financial_assessment_statuses = FINANCIAL_ASSESSMENT_STATUSES
           $scope.log_set = log_set;
           $scope.eligibility_check = $eligibility_check;
           $scope.diagnosis = $diagnosis;
           $scope.personal_details = $personal_details;
           $scope.appName = AppSettings.appName;
           $scope.GTMClientUpdated = false;
-          
+
           $http.get('/feature-flags/')
           .then(function(response) {
             $scope.feature_flags = response.data;

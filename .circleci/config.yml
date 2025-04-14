@@ -332,7 +332,7 @@ jobs:
           echo "Setting CLA Frontend image $APP_IMAGE"
           echo "Setting CLA Socket Server image $SOCKET_IMAGE"
       - cla-end-to-end-tests/behave
-      
+
 # ------------------
 #
 # WORKFLOWS
