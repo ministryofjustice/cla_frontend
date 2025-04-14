@@ -436,18 +436,12 @@ workflows:
               only:
                 - master
 
-      - training_deploy_approval:
-          requires:
-            - build_app
-            - build_socket_server
-          type: approval
-
       - deploy:
           name: training_deploy_live
           namespace: training
           dynamic_hostname: false
           requires:
-            - training_deploy_approval
+            - production_deploy_approval
           context:
             - laa-cla-frontend
             - laa-cla-frontend-live-training
