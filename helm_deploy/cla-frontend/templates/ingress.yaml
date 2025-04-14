@@ -29,7 +29,7 @@ metadata:
     # and use our error pages for 503 errors
     nginx.ingress.kubernetes.io/custom-http-errors: "413,502,504"
 spec:
-  ingressClassName: "modsec"
+  ingressClassName: modsec-non-prod
   tls:
     - hosts:
        - "{{ .Values.host }}"
