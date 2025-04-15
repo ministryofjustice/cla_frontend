@@ -42,12 +42,23 @@
          <p class="CommentBlock-details" style="margin-top: 0;">{{ scope_traversal.subcategory.description }}</p>
       </div>
       <div ng-if="scope_traversal.scope_answers.length > 1" style="margin-top: 0;">
-          <div ng-repeat="answer in scope_traversal.scope_answers">
-            <div ng-if="answer.type == 'onward_question'">
-              <p class="CommentBlock-details" style="margin-bottom: 0; margin-top: 0;">{{ answer.question }}</p>
-              <p class="CommentBlock-details" style="margin-top: 0;">{{ answer.answer }}</p>
-            </div>
+        <div ng-repeat="answer in scope_traversal.scope_answers">
+          <div ng-if="answer.type == 'onward_question'">
+            <p class="CommentBlock-details" style="margin-bottom: 0; margin-top: 0;">{{ answer.question }}</p>
+
+            <!-- For array type answers, render as list -->
+            <ul ng-if="isList(answer.answer)" class="answer-list" style="margin-top: 0;">
+              <li ng-repeat="item in answer.answer" class="CommentBlock-details" style="margin-top: 0; margin-bottom: 0;">
+                {{ item }}
+              </li>
+            </ul>
+
+            <!-- For regular strings -->
+            <p ng-if="!isList(answer.answer)" class="CommentBlock-details" style="margin-top: 0;">
+              {{ answer.answer }}
+            </p>
           </div>
+        </div>
       </div>
       <div ng-if="case.client_notes">
           <p class="CommentBlock-details" style="margin-bottom: 0;">Client notes</p>

@@ -90,6 +90,10 @@
               }
             });
 
+          $scope.isList = function(answer) {
+            return typeof answer === 'object';
+          };
+
           // modelsEventManager.onEnter();
           // $scope.$on('$destroy', function () {
           //   modelsEventManager.onExit();
