@@ -90,6 +90,21 @@
               }
             });
 
+          $scope.isList = function(answer) {
+            console.log(answer);
+            console.log(typeof answer);
+            return typeof answer === 'object';
+          };
+
+          $scope.parseJsonArray = function(str) {
+            try {
+              return $.parseJSON(str);
+            } catch(e) {
+              console.error("Failed to parse JSON string:", e);
+              return [str]; // Return as single item array if parsing fails
+            }
+          };
+
           // modelsEventManager.onEnter();
           // $scope.$on('$destroy', function () {
           //   modelsEventManager.onExit();
