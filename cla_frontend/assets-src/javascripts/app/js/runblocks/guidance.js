@@ -16,8 +16,8 @@
 
   angular.module('cla.controllers')
     .controller('GuidanceCtrl',
-      ['$scope', '$rootScope', '$http', 'cla.guidance', '$sce', '$location', 'postal',
-        function($scope, $rootScope, $http, guidance, $sce, $location, postal){
+      ['$scope', '$rootScope', '$http', 'cla.guidance', '$sce', '$location', 'postal','$anchorScroll',
+        function($scope, $rootScope, $http, guidance, $sce, $location, postal, $anchorScroll){
           $scope.results = [];
           $scope.htmlDoc = null;
 
@@ -37,6 +37,13 @@
           $scope.addDoc = function(docName) {
             $scope.toggleResults(false);
             $scope.docName = docName;
+            if(docName) {
+              var hash = docName.split("#").pop();
+              if (hash) {
+                $location.hash(hash);
+                $anchorScroll();
+              }
+            }
           };
 
           $scope.closeDoc = function() {
