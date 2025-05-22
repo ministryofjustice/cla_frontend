@@ -78,9 +78,17 @@
       };
     })
 
+    // Capitalizes the first letter of each word of a string
     .filter('capitalize', function() {
       return function(input) {
         return (!!input) ? input.replace(/([^\W_]+[^\s-]*) */g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
+      };
+    })
+
+    // Capitalizes the first letter of a string
+    .filter('capitalizeFirst', function() {
+      return function(input) {
+        return (!!input) ? input.charAt(0).toUpperCase() + input.slice(1) : '';
       };
     })
 
