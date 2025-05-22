@@ -37,15 +37,6 @@
           $scope.addDoc = function(docName) {
             $scope.toggleResults(false);
             $scope.docName = docName;
-            if(docName) {
-              var hash = docName.split("#").pop();
-              if (hash) {
-                $location.hash(hash);
-                setTimeout(function (){
-                  $anchorScroll();
-                }, 100);
-              }
-            }
           };
 
           $scope.closeDoc = function() {
@@ -67,6 +58,17 @@
             }
           };
 
+          $scope.$watch('htmlDoc', function(newVal) {
+              if($scope.docName) {
+                var hash = $scope.docName.split("#").pop();
+                if (hash) {
+                  $location.hash(hash);
+                  setTimeout(function (){
+                    $anchorScroll();
+                  }, 100);
+                }
+              }
+          });
           $scope.$watch('docName', function(newVal) {
             if (!newVal) {
               $scope.htmlDoc = null;
