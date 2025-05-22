@@ -12,7 +12,6 @@ def dashboard(request):
 def get_enabled_feature_flags():
     flags = {
         "family_issue_flag": settings.FAMILY_ISSUE_FEATURE_FLAG,
-        "show_disregards_feature_flag": settings.SHOW_DISREGARDS_FEATURE_FLAG,
     }
     enabled = []
     for name, value in flags.items():

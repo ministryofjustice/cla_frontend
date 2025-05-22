@@ -21,6 +21,8 @@
       <div class="FormRow cf">
         <label>
           <span class="FormRow-label">What is the current market value of the property? <guidance-link doc="eligibility_check/#ecg-property_worth"></guidance-link></span>
+          <!-- Error Message -->
+          <span class="Error-message" ng-show="propertySave && (property.value === undefined) && form.$submitted">Enter the value of the property</span>
           <span class="FormRow-prefix">£</span>
           <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.value">
         </label>
@@ -29,6 +31,8 @@
       <div class="FormRow cf">
         <label>
           <span class="FormRow-label">How much is left to pay on the mortgage? <guidance-link doc="eligibility_check/#ecg-property_mortgage_left"></guidance-link></span>
+          <!-- Error Message -->
+          <span class="Error-message" ng-show="propertySave && (property.mortgage_left === undefined) && form.$submitted">Enter how much is left to pay on the mortgage</span>
           <span class="FormRow-prefix">£</span>
           <input max="9999999999" min="0" step="0.01" type="number" cla-pence-to-pounds ng-model="property.mortgage_left">
         </label>
@@ -36,7 +40,8 @@
 
       <div class="FormRow cf" ng-show="hasSMOD()">
         <p class="FormRow-label">Is the property disputed? <guidance-link doc="eligibility_check/#ecg-property_disputed"></guidance-link></p>
-
+          <!-- Error Message -->
+          <span class="Error-message" ng-show="propertySave && (property.disputed === undefined) && form.$submitted">Select if the property is disputed</span>
         <label class="FormRow-option FormRow-option--inline">
           <input type="radio" value="1" name="property_disputed-{{ $index }}" ng-model="property.disputed">Yes
         </label>
@@ -48,7 +53,8 @@
 
       <div class="FormRow cf">
         <p class="FormRow-label">Is this your main property? <guidance-link doc="eligibility_check/#ecg-property_main"></guidance-link></p>
-
+        <!-- Error Message -->
+        <span class="Error-message" ng-show="propertySave && (property.main === undefined) && form.$submitted">Select if this is the main property</span>
         <label class="FormRow-option FormRow-option--inline">
           <input type="radio" value="1" name="property_main-{{ $index }}" ng-model="property.main">Yes
         </label>
@@ -61,6 +67,8 @@
       <div class="FormRow cf">
         <label>
           <span class="FormRow-label">What percentage of the property do you<span ng-show="hasPartner()"> and/or your partner</span> own? <guidance-link doc="eligibility_check/#ecg-property_share"></guidance-link></span>
+          <!-- Error Message -->
+          <span class="Error-message" ng-show="propertySave && (property.share === undefined) && form.$submitted">Enter what percentage of the property the client owns</span>
           <input class="FormRow-field--s" max="100" min="0" type="number" ng-model="property.share">
           <span class="FormRow-suffix">%</span>
         </label>
@@ -186,21 +194,32 @@
   </div>
 </section>
 
-<div ng-if="is_cla_feature_enabled('show_disregards_feature_flag')">
+<div>
   <h2 class="FormBlock-label">Disregards <guidance-link doc="disregards"></guidance-link></h2>
   <call-script>
-    <p>I am now going to read through a list of support schemes. Could you please tell me if you<span ng-show="hasPartner()"> or your partner</span> received any of these.</p>
+    <div class="govuk-radios--small">
+      <p>There are some payments that do not count towards your savings or income. I need to check if you received any of these.</p>
+      <p>Have you had a payment that you do not normally get? This could be from the government, from a support scheme, or backdated payments for benefits or child maintenance.</p>
+      <div class="ng-scope govuk-radios__item">
+        <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required govuk-radios__input" ng-model="eligibility_check.disregard_selection" ng-click="clearDisregards()" type="radio" name="disregard" id="id_disregards_0" value="no">
+        <label class="govuk-radios__label" for="id_disregards_0">No</label>
+      </div>
+      <div class="ng-scope govuk-radios__item">
+        <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required govuk-radios__input" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_1" value="yes">
+        <label class="govuk-radios__label" for="id_disregards_1">Yes</label>
+      </div>
+      <div class="ng-scope govuk-radios__item">
+        <input class="ng-pristine ng-untouched ng-invalid ng-invalid-required govuk-radios__input" ng-model="eligibility_check.disregard_selection" type="radio" name="disregard" id="id_disregards_2" value="not_sure">
+        <label class="govuk-radios__label" for="id_disregards_2">Not sure</label>
+      </div>
+    </div>
   </call-script>
-  <section class="FormBlock FormBlock--grey">
-    <div class="FormRow cf" ng-repeat="opt in ::disregardOptions">
-      <p class="FormRow-label">{{ ::opt.text }}</p>
-
-      <label class="FormRow-option FormRow-option--inline">
-        <input type="radio" name="your_details-disregards-{{::opt.value}}" ng-value="true" ng-model="::eligibility_check.disregards[opt.value]" ng-change="benefitChange()">Yes
-      </label>
-
-      <label class="FormRow-option FormRow-option--inline">
-        <input type="radio" name="your_details-disregards-{{::opt.value}}" ng-value="false" ng-model="::eligibility_check.disregards[opt.value]" ng-change="benefitChange()">No
+  <section style="margin-left: 40px" id="disregardSection" ng-show="appName === 'provider' || eligibility_check.disregard_selection === 'yes' || eligibility_check.disregard_selection === 'not_sure'">
+    <h1 class="FormBlock-label" style="font-weight: 700; color: #505A5F;">Read these disregards to the client. Select all that apply.</h1>
+    <div class="govuk-checkboxes__item govuk-checkboxes--small" ng-repeat="opt in ::disregardOptions">
+      <input type="checkbox" class="govuk-checkboxes__input" id="your_details-disregards-{{::opt.value}}" name="your_details-disregards-{{::opt.value}}" ng-model="eligibility_check.disregards[opt.value]" ng-click="benefitChange()">
+      <label class="govuk-checkboxes__label" for="your_details-disregards-{{::opt.value}}" style="font-size 19px;">
+        {{ ::opt.text }}
       </label>
     </div>
   </section>

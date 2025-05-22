@@ -1,0 +1,117 @@
+.govuk-radios__item:last-child, .govuk-radios__item:last-of-type {
+    margin-bottom: 0;
+}
+
+
+.govuk-radios--small .govuk-radios__input {
+    margin-left: -10px;
+}
+
+.govuk-radios--small .govuk-radios__label {
+    padding-left: 1px;
+}
+
+.govuk-radios--small .govuk-radios__item, .govuk-radios__conditional>:last-child {
+    margin-bottom: 0;
+}
+
+.govuk-radios__item {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    margin-bottom: 0;
+    z-index: 1;
+}
+
+.govuk-radios__label {
+    align-self: center;
+    max-width: calc(100% - 74px);
+    margin-bottom: 0;
+    padding: 0px 15px;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.govuk-radios--small .govuk-radios__label:before {
+    left: 0;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    scale: 0.9;
+}
+
+.govuk-radios__label:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 40px;
+    height: 40px;
+    border: 2px solid;
+    border-radius: 50%;
+    background: white;
+}
+
+.govuk-radios--small .govuk-radios__label:after {
+    top: 15px;
+    left: 7px;
+    border-width: 5px;
+}
+
+.govuk-radios__label:after {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: 12px;
+    width: 0;
+    height: 0;
+    border: 10px solid;
+    border-radius: 50%;
+    opacity: 0;
+    background: currentcolor;
+    scale: 0.9;
+}
+
+.govuk-radios__input:checked+.govuk-radios__label:after {
+    opacity: 1;
+}
+
+.govuk-radios__input {
+    z-index: 1;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+input[type="radios"] {
+    background-color: initial;
+    cursor: default;
+    appearance: auto;
+    box-sizing: border-box;
+    margin: 0;
+    padding: initial;
+    border: initial;
+}
+
+.govuk-radios__input:focus + .govuk-radios__label:before {
+    border-width: 4px;
+    outline: 3px solid transparent;
+    outline-offset: 1px;
+    box-shadow: 0 0 0 3px #fd0;
+}
+
+.govuk-radios--small .govuk-radios__input:hover + .govuk-radios__label:before {
+    outline: 3px dashed transparent;
+    outline-offset: 1px;
+    box-shadow: 0 0 0 10px #b1b4b6;
+}
+
+.govuk-radios--small .govuk-radios__input:focus:hover + .govuk-radios__label:before {
+    border-width: 4px;
+    outline: 3px solid transparent;
+    outline-offset: 1px;
+    box-shadow: 0 0 0 3px #fd0, 0 0 0 10px #b1b4b6;
+}

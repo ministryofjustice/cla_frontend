@@ -15,10 +15,7 @@
           $scope.exempt_user_reason_choices = EXEMPT_USER_REASON;
 
           $scope.language = {};
-          if ($scope.adaptations.language === 'WELSH') {
-            $scope.language.welsh_override = true;
-            $scope.language.disable = true;
-          }
+          $scope.language.welsh_override = $scope.adaptations.language === 'WELSH';
 
           $scope.contact_for_research_methods = {};
           $scope.selected_adaptations = [];
@@ -146,7 +143,7 @@
           $scope.spokenWithToggle($scope.third_party.spoke_to);
 
           $scope.toggleWelsh = function (value) {
-            $scope.language.disable = value ? false : true;
+            $scope.language.welsh_override = value ? true : false;
           };
 
           $scope.showPersonalDetails = function(form, isNew) {
@@ -159,7 +156,7 @@
 
           $scope.cancelPersonalDetails = function (form) {
             form.$cancel();
-            $scope.language.disable = $scope.adaptations.language === 'WELSH';
+            $scope.language.welsh_override = $scope.adaptations.language === 'WELSH';
             $scope.personal_details_frm_visible = false;
 
             postal.publish({channel: 'Person', topic: 'cancel'});

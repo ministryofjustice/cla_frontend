@@ -67,6 +67,9 @@
         contact_research_method_choices: ['ContactResearchMethod', function(ResearchMethods) {
           return ResearchMethods.get().$promise;
         }],
+        scope_traversal: ['case', 'ScopeTraversal', function(case_, ScopeTraversal) {
+          return case_.scope_traversal ? ScopeTraversal.get({case_reference: case_.reference}).$promise : new ScopeTraversal({case_reference: case_.reference});
+        }],
         log_set: function() {
           return {
             data: []
