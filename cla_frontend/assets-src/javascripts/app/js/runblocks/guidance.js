@@ -41,7 +41,9 @@
               var hash = docName.split("#").pop();
               if (hash) {
                 $location.hash(hash);
-                $anchorScroll();
+                setTimeout(function (){
+                  $anchorScroll();
+                }, 100);
               }
             }
           };
