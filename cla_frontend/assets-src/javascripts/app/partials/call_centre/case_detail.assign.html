@@ -2,9 +2,6 @@
 <div ng-if="suggested_providers.length < 1 && !suggested_provider && !case.provider && case.category != 'Education'" class="Notice">
   <p>There are <strong>no providers available</strong> to assign to this case. Please contact a supervisor.</p>
 </div>
-<div ng-if="isEducationF2F()" class="Notice" >
-  <p>There are <strong>no specialist providers current available</strong> to assign to this case. Please use Find a Legal Advisor.</p>
-</div>
 <!-- no category -->
 <div class="Error Error--basic" ng-if="!eligibility_check.category">
   <p>This case has <strong>no category of law assigned</strong> but you can still manually assign a provider.</p>
@@ -44,44 +41,15 @@
   </div>
 
   <call-script ng-if="suggested_providers.length > 1 || suggested_provider">
-    <div ng-if="!isEducationF2F()">
-      <div ng-switch on="category">
-
-        <div ng-switch-when="education">
-          <strong>Monday to Thursday</strong>
-          <p>Based on what you have told me today I can put you through to a Civil Legal Advice Specialist Advisor, they will check what you have told me and assess whether our service is right for you.</p>
-          <p>If you qualify for legal aid you will need to provide proof of your financial circumstances to the specialist.</p>
-          <p>If they do take on your case they will provide you legal advice remotely via email, letters and phone calls until the conclusion of your case. You won’t be able to get advice from any other legal aid providers on this issue.</p>
-          <p>Should you prefer face to face to remote advice, I can instead provide you three face to face providers in your area who you can contact for assistance.</p>
-          <p>(If the client chooses remote assistance: ) Is it ok to transfer you to a civil legal advice provider?</p>
-          <p>Is there anything else we can help you with today?</p>
-          <p>If you need further help please call us back. We are open 9am – 8pm Monday to Friday and 9am-12:30pm on Saturdays.</p>
-          <strong>Friday and Saturday</strong>
-          <p>Based on what you have told me I can provide you with details of legally aided Education providers in your area. They will check what you have told me and assess whether our service is right for you.</p>
-          <strong>All days</strong>
-          <p>Is there anything else we can help you with today?</p>
-          <p>If you need further help please call us back. We are open 9am – 8pm Monday to Friday and 9am-12:30pm on Saturdays.</p>
-        </div>
-
-        <div ng-switch-default>
-          <p>Based on what you have told me today I can put you through to a Civil Legal Advice Specialist Advisor, they will check what you have told me and assess whether our service is right for you.</p>
-          <p>If you qualify for legal aid you will need to provide proof of your financial circumstances to the specialist.</p>
-          <p>If they do take on your case they will provide you legal advice remotely via email, letters and phone calls until the conclusion of your case. You won’t be able to get advice from any other legal aid providers on this issue.</p>
-          <p>Should you prefer face to face to remote advice, I can instead provide you three face to face providers in your area who you can contact for assistance.</p>
-          <p>(If the client chooses remote assistance: ) Is it ok to transfer you to a civil legal advice provider?</p>
-          <p>Is there anything else we can help you with today?</p>
-          <p>If you need further help please call us back. We are open 9am – 8pm Monday to Friday and 9am-12:30pm on Saturdays.</p>
-        </div>
-
+      <div>
+        <p>Based on what you have told me today I can put you through to a Civil Legal Advice Specialist Advisor, they will check what you have told me and assess whether our service is right for you.</p>
+        <p>If you qualify for legal aid you will need to provide proof of your financial circumstances to the specialist.</p>
+        <p>If they do take on your case they will provide you legal advice remotely via email, letters and phone calls until the conclusion of your case. You won’t be able to get advice from any other legal aid providers on this issue.</p>
+        <p>Should you prefer face to face to remote advice, I can instead provide you three face to face providers in your area who you can contact for assistance.</p>
+        <p>(If the client chooses remote assistance: ) Is it ok to transfer you to a civil legal advice provider?</p>
+        <p>Is there anything else we can help you with today?</p>
+        <p>If you need further help please call us back. We are open 9am – 8pm Monday to Friday and 9am-12:30pm on Saturdays.</p>
       </div>
-    </div>
-  </call-script>
-
-  <call-script ng-if="isEducationF2F()">
-    <div>
-      <p>Based on what you have told me I can provide you with details of legally aided Education providers in your area. </p>
-      <p>They will check what you have told me and assess whether our service is right for you.</p>
-    </div>
   </call-script>
 
   <div ng-if="selected_provider.id">
@@ -124,7 +92,7 @@
     </label>
   </div>
 
-  <div ng-hide="isEducationF2F()">
+  <div>
     <div class="Notice">
       <label>
         <input type="checkbox" name="is_spor" ng-model="is_spor" ng-disabled="!selected_provider.id || is_manual_ref">
@@ -139,56 +107,21 @@
       </label>
     </div>
   </div>
-  
+
   <div class="Error Error--basic" ng-if="errors.__all__">
     <p class="Error-message">{{ errors.__all__ }}</p>
   </div>
 
-  <ng-template ng-if="isEducationF2F()">
-
-    <div ng-if="is_manual">
-      <div class="FormActions" ng-if="::canAssign()">
-          <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id || assigning_provider_in_progress">Assign provider</button>
-      
-          <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
-      
-          <button type="button" ng-click="decline_help()" class="Button Button--secondary" ng-if="is_manual && suggested_provider.id" ng-controller="CaseDetailDeclineHelpCtrl">Decline help</button>
-      
-          <a href="" ng-click="assignManually(false)" ng-if="is_manual">Cancel</a>
-      </div>
-    </div>
-    <div ng-if="!is_manual">
-      <a href="{{getF2fDeepLink()}}" style="font-size: 19px" target="_blank" rel="noopener" ng-click="f2f_clicked=true">Find a Face to Face provider on Find a Legal Advisor (opens in new tab)</a>
-
-      <form class="FormRow cf" name="alternative_help">
-        <div class="FormRow cf">
-          <label for="notes" class="visuallyhidden">Reassignment notes</label>
-          <textarea name="assign-notes" id="notes" cols="30" rows="4" ng-model="assignNotes" placeholder="Assignment comments"></textarea>
-        </div>
-
-
-        <div class="FormActions" ng-if="::canAssign()">
-          <button type="submit" class="Button" name="assign-f2f" ng-click="submit('EDFF', assignNotes)">Assign F2F help</button>
-
-          <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
-        
-          <button type="button" name="assign-manually" class="Button Button--secondary" ng-click="assignManually(true)" ng-if="!is_manual && suggested_providers.length > 0">Assign manually</button>
-
-        </div>
-    </div>
-    
-  </ng-template>
-
-  <ng-template ng-hide="isEducationF2F()">
+  <ng-template>
     <div class="FormActions" ng-if="::canAssign()">
       <button type="submit" name="assign-provider" class="Button" ng-disabled="!selected_provider.id || assigning_provider_in_progress">Assign provider</button>
-  
+
       <a ui-sref="case_detail.defer_assignment" class="Button Button--secondary">Defer</a>
-  
+
       <button type="button" name="assign-manually" class="Button Button--secondary" ng-click="assignManually(true)" ng-if="!is_manual && suggested_providers.length > 0">Assign manually</button>
-  
+
       <button type="button" ng-click="decline_help()" class="Button Button--secondary" ng-if="is_manual && suggested_provider.id" ng-controller="CaseDetailDeclineHelpCtrl">Decline help</button>
-  
+
       <a href="" ng-click="assignManually(false)" ng-if="is_manual && suggested_provider.id">Cancel</a>
     </div>
   </ng-template>
