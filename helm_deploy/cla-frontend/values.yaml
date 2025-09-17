@@ -127,14 +127,16 @@ envVars:
     configmap:
       name: family-issue
       key: family-issue-on
-  SHOW_DISREGARDS_QUESTIONS:
-    configmap:
-      name: show-disregards-questions
-      key: showing
-      optional: true
   MAINTENANCE_MODE:
     configmap:
       name: maintenance-mode
       key: "value"
       optional: true
-
+  NEW_CLIENT_NOTE_FEATURE_FLAG:
+    configmap:
+      name: new-client-note-format
+      key: enabled
+  ENABLE_NO_CACHE_MIDDLEWARE:
+    configmap:
+      name: no-cache-middleware
+      key: enabled

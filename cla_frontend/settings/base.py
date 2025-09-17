@@ -166,11 +166,11 @@ STATICFILES_FINDERS = (
 
 SECRET_KEY = os.environ["SECRET_KEY"]
 
-# sets whether the disregards questions show, should be removed when they can perma stay
-SHOW_DISREGARDS_FEATURE_FLAG = os.environ.get("SHOW_DISREGARDS_QUESTIONS", "False").lower() == "true"
-
 # Sets whether the updated family issue text displays on in scope family cases or not
 FAMILY_ISSUE_FEATURE_FLAG = os.environ.get("FAMILY_ISSUE_FEATURE_FLAG", "False").lower() == "true"
+
+# Sets whether the new notes format is displayed
+NEW_CLIENT_NOTE_FEATURE_FLAG = os.environ.get("NEW_CLIENT_NOTE_FEATURE_FLAG", "False").lower() == "true"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -202,6 +202,11 @@ DISABLE_SAMESITE_MIDDLEWARE = os.environ.get("DISABLE_SAMESITE_MIDDLEWARE", "Fal
 
 if not DISABLE_SAMESITE_MIDDLEWARE:
     MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ("django_cookies_samesite.middleware.CookiesSameSite",)
+
+ENABLE_NO_CACHE_MIDDLEWARE = os.environ.get("ENABLE_NO_CACHE_MIDDLEWARE", "False").lower() == "true"
+
+if ENABLE_NO_CACHE_MIDDLEWARE:
+    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ("core.middleware.NoCacheMiddleware",)
 
 # Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", "True") == "True"

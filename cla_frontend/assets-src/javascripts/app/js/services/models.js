@@ -416,6 +416,15 @@
       return resource;
     }]);
 
+  angular.module('cla.services')
+    .factory('ScopeTraversal', ['$resource', 'url_utils', function($resource, url_utils) {
+      var resource = $resource(url_utils.proxy('case/:case_reference/scope_traversal/'), {case_reference: '@case_reference'}, {
+        get: {method: 'GET'}
+      });
+
+      return resource;
+    }]);
+
   angular.module('cla.services.operator')
     .factory('ComplaintCategory', ['$resource', 'url_utils', function($resource, url_utils) {
       return $resource(url_utils.proxy('complaints/category/'), null, {
