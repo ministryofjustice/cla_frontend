@@ -104,7 +104,10 @@
             return $scope.eligibility_check.disregards !== undefined && $scope.eligibility_check.disregards !== null && typeof $scope.eligibility_check.disregards === 'object';
           };
 
-          $scope.benefitChange = function () {
+          $scope.clearDisregards = function () {
+            $scope.eligibility_check.disregards = {}
+          }
+           $scope.benefitChange = function () {
             var passported = _.some($scope.eligibility_check.specific_benefits, function (benefit) {
               return benefit === true || benefit === '1';
             });
@@ -144,15 +147,22 @@
               employment_support: false
             };
             ec.disregards = {
+              benefit_payments: false,
+              child_maintenance: false,
+              energy_prices: false,
+              cost_living: false,
               infected_blood: false,
-              vaccine_damage: false,
-              vcjd_trust: false,
               criminal_injuries: false,
+              grenfell_tower: false,
+              modern_slavery: false,
               national_emergencies: false,
               london_emergencies: false,
-              love_manchester: false,
-              energy_prices: false,
-              cost_living: false
+              vcjd_trust: false,
+              vaccine_damage: false,
+              overseas_terrorism: false,
+              child_abuse: false,
+              justice_compensation: false,
+              love_manchester: false
             }
           };
 
@@ -336,6 +346,14 @@
 
           $scope.removeProperty = function (index) {
             $scope.eligibility_check.property_set.splice(index, 1);
+            /*
+            Prevents property error messages showing if property
+            is removed then re-added.
+            */
+            if ($scope.eligibility_check.property_set.length === 0) {
+              $scope.propertyAdded = false;
+              $scope.propertySave = false;
+            }
           };
           $scope.addProperty = function () {
             var property = {};
@@ -347,10 +365,19 @@
             if (!$scope.hasSMOD()) {
               property.disputed = 0;
             }
-
             $scope.eligibility_check.property_set.push(property);
+            // Sets if the property field is added to the page
+            $scope.propertyAdded = true;
           };
-
+          /*
+          This prevents the property field from showing errors
+          prematurely if the form has already been submitted.
+          */
+          $scope.propertyVisibility = function () {
+            if ($scope.propertyAdded) {
+              $scope.propertySave = true
+            }
+          }
           $scope.eligibilityText = function (eligible) {
             return eligible === 'yes' ? 'eligible for Legal Aid' : (eligible === 'no' ? 'not eligible for Legal Aid' : 'unknown');
           };

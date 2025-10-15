@@ -5,6 +5,9 @@
   .Quote {
     padding-top: 0;
   }
+  .CommentText {
+    padding-top: 0;
+  }
 }
 .CommentBlock-author {
   @include core-14;
@@ -28,4 +31,17 @@
     background-color: $grey-4;
     border: 1px solid $grey-2;
   }
+}
+.CommentBlock-heading {
+  @include core-14;
+  display: inline-block;
+  position: relative;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+}
+.CommentBlock-details {
+  @include core-14;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
