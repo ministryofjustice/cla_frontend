@@ -1,5 +1,51 @@
 version: '3.9'
+name: cla-frontend
 
-include:
-   - ./docker-compose-standalone.yml
-   - ../cla_backend/docker-compose.yaml
+services:
+  cla_frontend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./cla_frontend:/home/app/cla_frontend
+      - /home/app/assets
+      - /home/app/static
+    environment:
+      ENV: local
+      DEBUG: "True"
+      SECRET_KEY: CHANGE_ME
+      BACKEND_BASE_URI: ${BACKEND_BASE_URI:-http://host.docker.internal:8010}
+      CALL_CENTRE_CLIENT_ID: b4b9220ffcb11ebfdab1
+      CALL_CENTRE_SECRET_ID: 2df71313bdd38a2e1b815015e1b14387e7681d41
+      CLA_PROVIDER_CLIENT_ID: 59657ed22d980251cdd3
+      CALL_PROVIDER_SECRET_ID: 0494287c65bdf61d29f0eeed467ec8e090f0d80f
+      SOCKETIO_SERVER_URL: /socket.io
+      BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-dev.txt"
+
+  cla_backend:
+    extends:
+      file: ../cla_backend/docker-compose.yaml
+      service: cla_backend
+    depends_on:
+       - db
+    profiles: [backend]
+
+  db:
+    extends:
+      file: ../cla_backend/docker-compose.yaml
+      service: db
+    profiles: [backend]
+
+  rabbitmq:
+    extends:
+      file: ../cla_backend/docker-compose.yaml
+      service: rabbitmq
+    profiles: [backend]
+
+  cla_backend_worker:
+    extends:
+      file: ../cla_backend/docker-compose.yaml
+      service: cla_backend_worker
+    depends_on:
+      - cla_backend
+    profiles: [backend]

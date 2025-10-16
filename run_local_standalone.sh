@@ -6,15 +6,17 @@
 
 export DOCKER_BUILDKIT=1
 export ENVIRONMENT=${1:-development}
-export BACKEND_BASE_URI="http://host.docker.internal:8010"
+export COMPOSE_PROFILES=backend
 
 echo "Running environment: $ENVIRONMENT"
 docker compose down --remove-orphans
 
-echo "Starting cla_frontend as standalone"
-docker compose -f docker-compose-standalone.yml up --build -d
+unset COMPOSE_PROFILES
 
-CLA_FRONTEND_CID=$(docker ps -q -f status=running -f name=cla_frontend-cla_frontend)
+echo "Starting cla_frontend as standalone"
+docker compose up -d
+
+CLA_FRONTEND_CID=$(docker ps -q -f status=running -f name=cla-frontend-cla_frontend)
 if [ "$CLA_FRONTEND_CID" == "" ];
 then
     echo "ERROR: Could not find a running cla_frontend container"
@@ -22,4 +24,4 @@ then
 fi
 
 # Collects the frontend js and css assets
-docker exec $CLA_FRONTEND_CID python manage.py collectstatic --noinput
+docker exec -d $CLA_FRONTEND_CID python manage.py collectstatic --noinput
