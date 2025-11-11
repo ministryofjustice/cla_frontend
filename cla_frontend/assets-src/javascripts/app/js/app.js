@@ -125,7 +125,6 @@
       'LocalStorageModule',
       'diff-match-patch',
       'angularUtils.directives.dirPagination',
-      'ngTextTruncate',
       'ngIdle'
     ])
     .config(common_config)
@@ -180,7 +179,6 @@
       'LocalStorageModule',
       'diff-match-patch',
       'angularUtils.directives.dirPagination',
-      'ngTextTruncate',
       'ngIdle'
     ])
     .config(common_config)
