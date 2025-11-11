@@ -33,8 +33,7 @@
         <span
           class="CaseHistory-logItemNotes"
           ng-if="log.notes && log.code !== 'MT_CREATED' && log.code !== 'MT_CHANGED'"
-        >
-          {{ ::log.notes }}
+          strip-html="::log.notes">
         </span>
       </li>
     </ul>
