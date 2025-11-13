@@ -36,7 +36,7 @@
             var sanitised = sanitize(input);
 
             // 2. Remove any remaining HTML tags
-            var text = sanitised.replaceAll(/<[^>]*>/g, "");
+            var text = sanitised.replace(/<[^>]*>/g, "");
 
             // 3. Whitespace
             return text.trim();
