@@ -55,9 +55,11 @@
       expect(element.text()).toEqual("Hi");
     });
 
-        it("should remove various HTML tags", function () {
+    it("should remove various HTML tags", function () {
       // Arrange + Act
-      var element = compileDirective("<h1>Heading<h1> <b>Bold</b> <img src=x onerror=alert(1)>Test<object src='data:123' />");
+      var element = compileDirective(
+        "<h1>Heading<h1> <b>Bold</b> <img src=x onerror=alert(1)>Test<object src='data:123' />"
+      );
 
       // Assert
       expect(element.text()).toEqual("Heading Bold Test");
@@ -84,7 +86,7 @@
       var element = compileDirective("Test 1 & 2");
 
       // Assert
-      expect(element.text()).toEqual("Test 1 &amp; 2");
+      expect(element.text()).toEqual("Test 1 & 2");
     });
 
     it("should handle plain text safely with HTML entities", function () {
@@ -92,7 +94,17 @@
       var element = compileDirective("&lt;script&gt;alert(1)&lt;/script&gt;");
 
       // Assert
-      expect(element.text()).toEqual("&lt;script&gt;alert(1)&lt;/script&gt;");
+      expect(element.text()).toEqual("<script>alert(1)</script>");
+    });
+
+    it("should handle non-recursive filtering", function () {
+      // Arrange + Act
+      var element = compileDirective(
+        "<scr<script>ipt>alert(document.cookie)</script>"
+      );
+
+      // Assert
+      expect(element.text()).toEqual("");
     });
   });
 })();
