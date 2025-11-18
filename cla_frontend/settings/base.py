@@ -164,6 +164,11 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 
+# Limit in-memory upload size to 5MB
+# Prevents files above 5MB being kept in the memory.
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
+
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # Sets whether the updated family issue text displays on in scope family cases or not
@@ -181,7 +186,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    "core.middleware.MaintenanceModeMiddleware",
+    "core.middleware.request_size.RequestSizeMiddleware",
+    "core.middlewares.MaintenanceModeMiddleware",
     "django_statsd.middleware.GraphiteRequestTimingMiddleware",
     "django_statsd.middleware.GraphiteMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -192,7 +198,7 @@ MIDDLEWARE_CLASSES = (
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "cla_auth.middleware.ZoneMiddleware",
-    "core.middleware.Cla401Middleware",
+    "core.middlewares.Cla401Middleware",
     "csp.middleware.CSPMiddleware",
     "django_cookies_samesite.middleware.CookiesSameSite",
     "djangosecure.middleware.SecurityMiddleware",
@@ -206,7 +212,7 @@ if not DISABLE_SAMESITE_MIDDLEWARE:
 ENABLE_NO_CACHE_MIDDLEWARE = os.environ.get("ENABLE_NO_CACHE_MIDDLEWARE", "False").lower() == "true"
 
 if ENABLE_NO_CACHE_MIDDLEWARE:
-    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ("core.middleware.NoCacheMiddleware",)
+    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ("core.middlewares.NoCacheMiddleware",)
 
 # Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", "True") == "True"
