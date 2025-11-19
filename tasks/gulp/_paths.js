@@ -63,7 +63,6 @@
       libPath + 'socket.io-client/dist/socket.io.js',
       libPath + 'angular-socket-io/socket.js',
       libPath + 'angular-hotkeys/build/hotkeys.js',
-      paths.src + 'vendor/ng-text-truncate/ng-text-truncate.js',
       libPath + 'angular-local-storage/dist/angular-local-storage.js',
       paths.src + 'vendor/angularUtils/src/directives/pagination/dirPagination.js',
       paths.src + 'vendor/ng-idle/angular-idle.js',
