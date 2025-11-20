@@ -1,8 +1,13 @@
+import logging
+
 from django.http import HttpResponseBadRequest
 from django.core.files.uploadhandler import MemoryFileUploadHandler, StopUpload
 
+logger = logging.getLogger(__name__)
+
 # Limit to 5MB
 MAX_REQUEST_CONTENT_LENGTH_BYTES = 5 * 1024 * 1024
+
 
 class MaxSizeUploadHandler(MemoryFileUploadHandler):
     """
@@ -24,7 +29,7 @@ class MaxSizeUploadHandler(MemoryFileUploadHandler):
 
     Example:
         To use this handler, configure it in Django settings:
-        
+
         FILE_UPLOAD_HANDLERS = [
             'path.to.MaxSizeUploadHandler',
         ]
@@ -36,9 +41,19 @@ class MaxSizeUploadHandler(MemoryFileUploadHandler):
 
     def receive_data_chunk(self, raw_data, start):
         self.total_bytes += len(raw_data)
+
         if self.total_bytes > MAX_REQUEST_CONTENT_LENGTH_BYTES:
+            logger.warning(
+                "File upload exceeds %d bytes, received %d bytes", MAX_REQUEST_CONTENT_LENGTH_BYTES, self.total_bytes
+            )
+
+            # Stop processing upload handlers
+            self.request.upload_handlers = []
+
             raise StopUpload(connection_reset=True)
+
         return raw_data
+
 
 class RequestSizeMiddleware:
     """
@@ -70,15 +85,22 @@ class RequestSizeMiddleware:
     """
 
     def process_request(self, request):
+
         # Ascertain `Content-Length` header
         length = request.META.get("CONTENT_LENGTH")
 
         if length:
             try:
                 if int(length) > MAX_REQUEST_CONTENT_LENGTH_BYTES:
-                    return HttpResponseBadRequest("Payload exceeds {} bytes.".format(MAX_REQUEST_CONTENT_LENGTH_BYTES), status=413)
+                    logger.warning(
+                        "Payload exceeds %d bytes, received %d bytes", MAX_REQUEST_CONTENT_LENGTH_BYTES, length
+                    )
+
+                    return HttpResponseBadRequest(
+                        "Payload exceeds {} bytes.".format(MAX_REQUEST_CONTENT_LENGTH_BYTES), status=413
+                    )
             except (ValueError, TypeError):
                 return HttpResponseBadRequest("Invalid content length")
-            
+
         if request.method in ("POST", "PUT", "PATCH"):
             request.upload_handlers.insert(0, MaxSizeUploadHandler())
