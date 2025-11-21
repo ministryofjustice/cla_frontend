@@ -33,9 +33,9 @@ spec:
   ingressClassName: "modsec"
   tls:
     - hosts:
-        - "{{ .Values.host }}"
+      - "{{ .Values.host }}"
       {{- if .Values.secretName }}
-    secretName: {{ .Values.secretName }}
+      secretName: {{ .Values.secretName }}
       {{- end }}
   rules:
     - host: "{{ .Values.host }}"
