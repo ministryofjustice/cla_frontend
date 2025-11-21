@@ -2,7 +2,7 @@
 import json
 
 from datetime import datetime
-from core.middleware import HttpResponseForbidden
+from core.middlewares import HttpResponseForbidden
 from core.session_security.utils import get_expires_in
 
 from django import http

@@ -16,6 +16,7 @@ metadata:
     {{- if .Values.ingress.whitelist }}
     nginx.ingress.kubernetes.io/whitelist-source-range: "{{ include "cla-frontend.whitelist" . }}"
     {{- end }}
+    nginx.ingress.kubernetes.io/proxy-body-size: "5m"
     nginx.ingress.kubernetes.io/server-snippet: |
       add_header X-Robots-Tag "noindex, nofollow";
       location /socket.io {
@@ -32,9 +33,9 @@ spec:
   ingressClassName: "modsec"
   tls:
     - hosts:
-       - "{{ .Values.host }}"
+        - "{{ .Values.host }}"
       {{- if .Values.secretName }}
-      secretName: {{ .Values.secretName }}
+    secretName: {{ .Values.secretName }}
       {{- end }}
   rules:
     - host: "{{ .Values.host }}"
