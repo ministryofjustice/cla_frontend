@@ -24,7 +24,7 @@ class SessionSecurityMiddleware(BaseSessionSecurityMiddleware):
             return True
         if request.META.get(PASSIVE_HEADER) == "1":
             return True
-        if request.REQUEST.get(PASSIVE_QUERYSTRING) == "1":
+        if request.GET.get(PASSIVE_QUERYSTRING) == "1":
             return True
         return False
 
