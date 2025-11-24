@@ -2,7 +2,10 @@ version: '3.9'
 
 services:
   cla_frontend:
-    build: .
+    build:
+      context: ./
+      args:
+        BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-testing.txt"
     ports:
       - "8000:8000"
     volumes:
