@@ -124,6 +124,28 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
 
 
 def logout_view(request):
+    """
+    Handle user logout by revoking API token, clearing Django session, and deleting cookies.
+
+    This view performs a complete logout process in three steps:
+    1. Revokes the user's API token from the authentication backend
+    2. Logs out the user from the Django session
+    3. Deletes the HTTP-only session cookie
+
+    Args:
+        request: HttpRequest object containing user session and authentication data
+
+    Returns:
+        HttpResponse: A redirect response to the home page ("/") with the session 
+        cookie cleared by setting Max-Age=0
+
+    Note:
+        The session cookie is cleared using secure flags:
+        - __Host- prefix for enhanced security
+        - Secure flag (HTTPS only)
+        - HttpOnly flag (no JavaScript access)
+        - SameSite=Strict (CSRF protection)
+    """
 
     # 1. Revoke API token
     token = request.user.pk
