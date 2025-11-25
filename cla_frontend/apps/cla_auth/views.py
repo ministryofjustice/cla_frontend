@@ -16,12 +16,13 @@ from django.shortcuts import redirect
 
 from django_statsd.clients import statsd
 from ipware.ip import get_ip
-
 from proxy.views import proxy_view
 
 from api.client import get_connection
-
 from .forms import AuthenticationForm
+from .backend import get_backend
+
+from . import get_zone
 
 
 logger = logging.getLogger(__name__)
@@ -123,27 +124,15 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
 
 
 def logout_view(request):
-    """
-    Handle user logout by clearing Django session and cookies.
 
-    This view performs the following actions:
-    1. Logs out the user from the Django session
-    2. Redirects the user to the home page
-    3. Deletes the '__Host-Http-SID' cookie by setting its Max-Age to 0
+    # 1. Revoke API token
+    token = request.user.pk
+    zone = get_zone(request)
 
-    Args:
-        request: HttpRequest object containing metadata about the request
+    backend = get_backend(zone["name"])
+    backend.revoke_token(token)
 
-    Returns:
-        HttpResponse: A redirect response to the home page ("/") with
-        the session cookie cleared
-
-    Note:
-        The cookie deletion uses secure flags (Secure, HttpOnly, SameSite=Strict)
-        to ensure proper security when removing the cookie.
-    """
-
-    # 1. Logout Django session
+    # 2. Logout Django session
     logout(request)
 
     # 3. Delete cookies
