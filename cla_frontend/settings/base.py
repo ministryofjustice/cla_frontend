@@ -311,9 +311,9 @@ LOGIN_URL = "auth:login"
 AUTHENTICATION_BACKENDS = [v["AUTHENTICATION_BACKEND"] for k, v in ZONE_PROFILES.items()]
 
 # Settings for django-session-security.
-SESSION_COOKIE_NAME = os.environ.get("SESSION_COOKIE_NAME", "True") == "__Host-Http-SID"
+SESSION_COOKIE_NAME = os.environ.get("SESSION_COOKIE_NAME", "__Host-Http-SID")
 SESSION_COOKIE_PATH = "/"
-SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "True") == "Strict"
+SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "Lax")
 SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "True") == "True"
 SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", "True") == "True"
 

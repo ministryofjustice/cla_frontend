@@ -315,10 +315,10 @@ jobs:
   behave:
     executor: aws-ecr/default
     environment:
-      SESSION_COOKIE_NAME: "sessionid"
+      SESSION_COOKIE_NAME: "SID"
       SESSION_COOKIE_SECURE: "false"
       SESSION_COOKIE_HTTPONLY: "false"
-      SESSION_COOKIE_SAMESITE: ""
+      SESSION_COOKIE_SAMESITE: "Lax"
       DISABLE_SAMESITE_MIDDLEWARE: "True"
       SECURE_CONTENT_TYPE_NOSNIFF: "false"
       CSRF_COOKIE_SECURE: "false"
