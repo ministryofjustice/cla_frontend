@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
@@ -159,6 +160,6 @@ def logout_view(request):
 
     # 3. Delete cookies
     response = redirect("/")
-    response["Set-Cookie"] = "__Host-Http-SID=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+    response["Set-Cookie"] = os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
 
     return response
