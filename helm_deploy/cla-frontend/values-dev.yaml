@@ -32,7 +32,13 @@ envVars:
     value: "True"
   BACKEND_BASE_URI:
     value: "https://laa-cla-backend-uat.apps.live-1.cloud-platform.service.justice.gov.uk"
+  SESSION_COOKIE_NAME:
+    value: "__Host-Http-SID"
   SESSION_COOKIE_SECURE:
-    value: "False"
+    value: "True"
+  SESSION_COOKIE_HTTPONLY:
+    value: "True"
+  SESSION_COOKIE_SAMESITE:
+    value: "Strict"
   SOCKETIO_SERVER_URL:
     value: "localhost:30312/socket.io"

@@ -9,3 +9,11 @@ envVars:
   BACKEND_BASE_URI:
     # Using service name instead of external domain name
     value: "http://cla-backend-app.laa-cla-backend-uat.svc.cluster.local"
+  SESSION_COOKIE_NAME:
+    value: "SID"
+  SESSION_COOKIE_SECURE:
+    value: "False"
+  SESSION_COOKIE_HTTPONLY:
+    value: "False"
+  SESSION_COOKIE_SAMESITE:
+    value: "Lax"
