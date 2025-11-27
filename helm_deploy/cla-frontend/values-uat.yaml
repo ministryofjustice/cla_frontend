@@ -16,4 +16,4 @@ envVars:
   SESSION_COOKIE_HTTPONLY:
     value: "False"
   SESSION_COOKIE_SAMESITE:
-    value: "Lax"
+    value: "None"
