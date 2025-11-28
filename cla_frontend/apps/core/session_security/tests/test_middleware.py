@@ -67,8 +67,8 @@ class TestSessionSecurityMiddleware(TestCase):
         request.method = "GET"
         request.user = MagicMock()
         request.user.is_authenticated.return_value = True
-        thirty_mins_ago = (datetime.datetime.now() - datetime.timedelta(minutes=30)).strftime("%Y-%m-%dT%H:%M:%S.%f")
-        request.session = {"_session_security": thirty_mins_ago}
+        one_min_ago = (datetime.datetime.now() - datetime.timedelta(minutes=1)).strftime("%Y-%m-%dT%H:%M:%S.%f")
+        request.session = {"_session_security": one_min_ago}
 
         if headers:
             request.META = headers
@@ -80,14 +80,14 @@ class TestSessionSecurityMiddleware(TestCase):
         response = self.middleware.process_response(request, before_response)
         self.assertIsNotNone(response.get("Session-Expires-In"))
 
-        self.assertIsAlmostEqualMinutes(response.get("Session-Expires-In"), should_expire_in - 30, delta=1.0)
+        self.assertIsAlmostEqualMinutes(response.get("Session-Expires-In"), should_expire_in - 1, delta=1.0)
         self.middleware.process_request(request)
         response2 = self.middleware.process_response(request, before_response)
         self.assertIsNotNone(response2.get("Session-Expires-In"))
         if should_extend:
             self.assertIsAlmostEqualMinutes(response.get("Session-Expires-In"), should_expire_in, delta=1.0)
         else:
-            self.assertIsAlmostEqualMinutes(response.get("Session-Expires-In"), should_expire_in - 30, delta=1.0)
+            self.assertIsAlmostEqualMinutes(response.get("Session-Expires-In"), should_expire_in - 1, delta=1.0)
 
     def test_process_response_has_extended_expire_time(self):
         self.assert_expire_in_extended("/", EXPIRE_AFTER // 60, True)

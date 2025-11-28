@@ -140,3 +140,15 @@ envVars:
     configmap:
       name: no-cache-middleware
       key: enabled
+  SESSION_COOKIE_NAME:
+    value: "__Host-Http-SID"
+  SESSION_COOKIE_SECURE:
+    value: "True"
+  SESSION_COOKIE_HTTPONLY:
+    value: "True"
+  SESSION_COOKIE_SAMESITE:
+    value: "Strict"
+  DISABLE_SAMESITE_MIDDLEWARE:
+    value: "False"
+  CSRF_COOKIE_SECURE:
+    value: "True"

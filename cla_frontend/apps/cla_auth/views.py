@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
@@ -11,15 +12,18 @@ from django.shortcuts import resolve_url
 from django.contrib.sites.models import get_current_site
 from django.template.response import TemplateResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 from django_statsd.clients import statsd
 from ipware.ip import get_ip
-
 from proxy.views import proxy_view
 
 from api.client import get_connection
-
 from .forms import AuthenticationForm
+from .backend import get_backend
+
+from . import get_zone
 
 
 logger = logging.getLogger(__name__)
@@ -40,7 +44,7 @@ def login(
     Displays the login form and handles the login action.
     """
     is_json = "application/json" in request.META.get("HTTP_ACCEPT", "")
-    redirect_to = request.REQUEST.get(redirect_field_name, "")
+    redirect_to = request.GET.get(redirect_field_name, "")
 
     if request.method == "POST":
         form = authentication_form(request, data=request.POST)
@@ -97,14 +101,14 @@ def login(
 @csrf_exempt
 def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None):
     """
-        TODO: hacky as it's getting the base_url and the auth header from the
-            get_connection slumber object.
+    TODO: hacky as it's getting the base_url and the auth header from the
+        get_connection slumber object.
 
-            Also, we should limit the endpoint accessible from this proxy
+        Also, we should limit the endpoint accessible from this proxy
 
-        if you specifiy `use_auth_header` to be false, then it won't use the zone
-        or url info from the get_connection slumber object. In that case you
-        should pass in the base_remote_url yourself.
+    if you specifiy `use_auth_header` to be false, then it won't use the zone
+    or url info from the get_connection slumber object. In that case you
+    should pass in the base_remote_url yourself.
     """
     assert use_auth_header or base_remote_url
     if use_auth_header:
@@ -116,5 +120,46 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
             base_remote_url = client._store["base_url"]
     else:
         extra_requests_args = {}
-    remoteurl = u"%s%s" % (base_remote_url, path)
+    remoteurl = "%s%s" % (base_remote_url, path)
     return proxy_view(request, remoteurl, extra_requests_args)
+
+
+def logout_view(request):
+    """
+    Handle user logout by revoking API token, clearing Django session, and deleting cookies.
+
+    This view performs a complete logout process in three steps:
+    1. Revokes the user's API token from the authentication backend
+    2. Logs out the user from the Django session
+    3. Deletes the HTTP-only session cookie
+
+    Args:
+        request: HttpRequest object containing user session and authentication data
+
+    Returns:
+        HttpResponse: A redirect response to the home page ("/") with the session 
+        cookie cleared by setting Max-Age=0
+
+    Note:
+        The session cookie is cleared using secure flags:
+        - __Host- prefix for enhanced security
+        - Secure flag (HTTPS only)
+        - HttpOnly flag (no JavaScript access)
+        - SameSite=Strict (CSRF protection)
+    """
+
+    # 1. Revoke API token
+    token = request.user.pk
+    zone = get_zone(request)
+
+    backend = get_backend(zone["name"])
+    backend.revoke_token(token)
+
+    # 2. Logout Django session
+    logout(request)
+
+    # 3. Delete cookies
+    response = redirect("/")
+    response["Set-Cookie"] = os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+
+    return response

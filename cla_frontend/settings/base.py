@@ -217,8 +217,6 @@ if ENABLE_NO_CACHE_MIDDLEWARE:
 # Security Settings
 SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", "True") == "True"
 CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", "True") == "True"
-SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "True") == "True"
-SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", "True") == "True"
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
@@ -240,7 +238,6 @@ WSGI_APPLICATION = "cla_frontend.wsgi.application"
 # TODO change this ?
 # SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
-SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "True") == "True"
 
 TEMPLATE_DIRS = (root("templates"),)
 
@@ -313,9 +310,16 @@ LOGIN_URL = "auth:login"
 AUTHENTICATION_BACKENDS = [v["AUTHENTICATION_BACKEND"] for k, v in ZONE_PROFILES.items()]
 
 # Settings for django-session-security.
+SESSION_COOKIE_NAME = os.environ.get("SESSION_COOKIE_NAME", "__Host-Http-SID")
+# SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "Strict")
+SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "True") == "True"
+SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", "True") == "True"
+SESSION_COOKIE_PATH = "/"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_SECURITY_WARN_AFTER = 3360
-SESSION_SECURITY_EXPIRE_AFTER = 3600
+
+SESSION_SECURITY_WARN_AFTER = 60 * 25 # 25 minutes
+SESSION_SECURITY_EXPIRE_AFTER = 60 * 30 # 30 minutes
+SESSION_COOKIE_AGE = 60 * 30  # 30 minutes
 
 SESSION_SECURITY_PASSIVE_URLS = []
 SESSION_SECURITY_PASSIVE_HEADER = "HTTP__PASSIVE"
