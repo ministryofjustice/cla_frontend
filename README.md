@@ -158,7 +158,7 @@ Start the Django server:
 python ./manage.py runserver 8001
 ```
 
-By default you can sign in with username: `test_operator` password: `test_operator`. If you have errors, see: [Troubleshooting](#troubleshooting).
+By default you can sign in with username: `cla_operator` password: `cla_operator`. If you have errors, see: [Troubleshooting](#troubleshooting).
 
 #### Running CLA Backend
 

@@ -7,7 +7,7 @@ describe("socket server app", () => {
     let nspSocket, testServer;
     const testPort = 5005;
     const testUserInfo = {
-        'username': 'test_user',
+        'username': 'cla_user',
         'usertype': 'operator',
         'appVersion': '1.0.0'
     };
