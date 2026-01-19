@@ -18,7 +18,7 @@ class RotaTests(CLATFrontEndTestCase):
 
         # Mock get_raw_connection API
         self.connection.user.me.get.return_value = {
-            "username": "test_operator",
+            "username": "cla_operator",
             "first_name": "",
             "last_name": "",
             "email": "",
