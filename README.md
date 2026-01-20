@@ -28,15 +28,15 @@ You can check the Docker daemon is running:
 
     docker info
 
-### NodeJS v8.9.x
+### NodeJS v20.x or higher
 
-It's suggested to use 'nvm' to install this old version of Node.
+It's suggested to use 'nvm' to install Node.
 
 1. Install NVM: https://github.com/nvm-sh/nvm#install--update-script
 
 2. Install the NodeJS version:
 
-   nvm install 8.9
+   nvm install 20
 
 You can check your NodeJS version:
 
@@ -66,7 +66,7 @@ You can check your NodeJS version:
 
 ```bash
   docker --version # Should show Docker 20.x+
-  node --version # Should show v8.9.x
+  node --version # Should show v20.x or higher
   python --version # Should show Python 2.7.18
 ```
 
