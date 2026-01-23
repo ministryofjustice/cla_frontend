@@ -1,5 +1,7 @@
 # CLA Frontend
 
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/cla_frontend/badge)](https://github-community.service.justice.gov.uk/repository-standards/cla_frontend)
+
 A frontend (web UI), part of the Civil Legal Advice product.
 
 Used by call centre operators and specialist providers to view & edit information about a case.
@@ -588,7 +590,7 @@ Configure the frontend to connect to it by setting:
 
 - SOCKETIO_SERVER_URL - External browser URL (default: http://localhost:8005/socket.io)
 - SOCKETIO_SERVICE_URL - Internal service URL (default: localhost:8005/socket.io/)
-:tada: :shipit:
+  :tada: :shipit:
 
 ## Git hooks
 
@@ -604,7 +606,7 @@ Repository uses [MoJ DevSecOps hooks](https://github.com/ministryofjustice/devse
    curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.sh | sh
    ```
 
-   or 
+   or
 
    ```bash
    brew install prek
@@ -616,7 +618,7 @@ Repository uses [MoJ DevSecOps hooks](https://github.com/ministryofjustice/devse
    powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.ps1 | iex"
    ```
 
-3. **Activation**
+2. **Activation**
 
    Execute the following command in the repository directory
 
@@ -624,9 +626,9 @@ Repository uses [MoJ DevSecOps hooks](https://github.com/ministryofjustice/devse
    prek install
    ```
 
-4. **Test**
+3. **Test**
 
-    To dry-run the hook
+   To dry-run the hook
 
    ```bash
    prek run
