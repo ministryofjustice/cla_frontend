@@ -417,7 +417,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
 
       - deploy:
           name: staging_deploy_live
@@ -436,7 +436,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
 
       - deploy:
           name: training_deploy_live
