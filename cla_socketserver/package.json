@@ -12,9 +12,9 @@
     "url": "https://github.com/ministryofjustice/cla_frontend"
   },
   "dependencies": {
-    "body-parser": "^1.20.3",
+    "body-parser": "^1.20.4",
     "cookie": "~0.1.2",
-    "express": "^4.20.0",
+    "express": "^4.22.1",
     "jade": "^1.9.1",
     "promise": "^6.0.0",
     "socket.io": "^4.5.3",
