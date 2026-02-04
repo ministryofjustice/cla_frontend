@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, url_for, session
-import os 
+import os
 from identity.flask import Auth
 import app_config
 
@@ -33,7 +33,7 @@ class Config:
     FLASK_SECRET_KEY = _require_env("FLASK_SECRET_KEY")
 
     AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
-    GRAPH_SCOPES = ["User.Read"]
+    GRAPH_SCOPES = ["https://graph.microsoft.com/User.Read"]
 
 
 app = Flask(__name__)
@@ -50,47 +50,37 @@ auth = Auth(
 )
 
 
-
 @app.route("/", methods=["GET", "POST"])
-@auth.login_required(scopes=["User.read"])
+@auth.login_required(scopes=Config.GRAPH_SCOPES)
 def home(*, context):
-    
+
     data = context.get("user")
     name = data.get("name")
-   
+
     return render_template("dashboard.html", context=name)
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    
-    return render_template("login.html")
-   
 
+    return render_template("login.html")
 
 
 @app.route("/dashboard")
-@auth.login_required(scopes=["User.read"])
+@auth.login_required(scopes=Config.GRAPH_SCOPES)
 def dashboard(*, context):
     user = context.get("user")
 
     name = user.get("name", "Guest")
-    email = (
-        user.get("preferred_username")
-        or user.get("email")
-        or "Guest"
-    )
+    email = user.get("preferred_username") or user.get("email") or "Guest"
 
     return render_template("dashboard.html", name=name, email=email)
-
-
 
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
-
 
 
 if __name__ == "__main__":

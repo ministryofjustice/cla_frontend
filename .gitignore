@@ -81,3 +81,7 @@ reports/
 cla_frontend/assets-src/javascripts/app/**/constants.js
 
 !/bin
+
+# SSO
+sso/.env
+sso/flask_session
