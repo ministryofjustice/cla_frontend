@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            color: rgb(5, 5, 5);
+            padding: 20px;
+            text-align: center;
+            position: relative; /* allows positioning of logout button */
+        }
+
+        .logout-button {
+            position: absolute; /* move relative to header */
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #000; /* black background */
+            color: #fff; /* white text */
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .logout-button:hover {
+            background-color: #333;
+        }
+
+        main {
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+        <p class="logout-button" id="logout">Logout</p>
+    </header>
+
+    <main>
+        <p>Welcome, <strong>{{ context }}</strong>!</p>
+        <p>You have successfully logged in.</p>
+    </main>
+</body>
+
+<script>
+  document.getElementById("logout").addEventListener("click", () => {
+    const data = localStorage.setItem("Name", "Key value pair?")
+    window.location.href = "/login";
+  });
+
+</script>
+
+
+</html>

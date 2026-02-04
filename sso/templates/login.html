@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        a.button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #0078D4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        a.button:hover {
+            background: #005a9e;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Welcome</h1>
+        <p>Please sign in to continue</p>
+        <a href="{{ url_for('dashboard') }}" class="button">
+            Sign in with Microsoft
+        </a>
+    </div>
+</body>
+</html>
