@@ -55,4 +55,11 @@ spec:
                 name: {{ $fullName }}-socket-server
                 port:
                   number: {{ .Values.socketServer.service.port }}
+          - path: "/silas/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ $fullName }}-sso
+                port:
+                  number: {{ .Values.service.port }}
 {{- end }}
