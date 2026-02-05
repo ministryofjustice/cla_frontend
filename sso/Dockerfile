@@ -17,7 +17,7 @@ COPY templates templates
 RUN pip install -r requirementssso.txt
 RUN mkdir flask_session
 RUN chown app:app flask_session
-USER app
+USER 1000
 
 # Expose the Flask port
 EXPOSE $FLASK_RUN_PORT
