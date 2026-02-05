@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, url_for, session
 import os
-import msal
 from identity.flask import Auth
 import app_config
 
@@ -47,13 +46,6 @@ auth = Auth(
     authority=Config.AUTHORITY,
     redirect_uri=Config.REDIRECT_URI,
 )
-
-def build_msal_app():
-    return msal.ConfidentialClientApplication(
-        client_id=Config.CLIENT_ID,
-        client_credential=Config.CLIENT_SECRET,
-        authority=Config.AUTHORITY,
-    )
 
 @app.route("/", methods=["GET", "POST"])
 @auth.login_required(scopes=[Config.BACKEND_SCOPE])
