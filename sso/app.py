@@ -31,9 +31,7 @@ class Config:
     TENANT_ID = _require_env("MS_TENANT_ID")
     REDIRECT_URI = _require_env("MS_REDIRECT_URI")
     FLASK_SECRET_KEY = _require_env("FLASK_SECRET_KEY")
-
     AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
-    GRAPH_SCOPES = ["https://graph.microsoft.com/.default"]
     BACKEND_SCOPE =  _require_env("BACKEND_SCOPE")
 
 
@@ -58,23 +56,14 @@ def build_msal_app():
     )
 
 @app.route("/", methods=["GET", "POST"])
-@auth.login_required(scopes=Config.GRAPH_SCOPES)
+@auth.login_required(scopes=[Config.BACKEND_SCOPE])
 def home(*, context):
 
     data = context.get("user")
     name = data.get("name")
+    access_token = context.get("access_token")
     print("ACCESS TOKEN:", context.get("access_token"))
-    print("GENERATING OBO TOKEN......" )
-    obo_result = build_msal_app().acquire_token_on_behalf_of(
-        user_assertion=context["access_token"],
-        scopes=[Config.BACKEND_SCOPE],
-    )
-    if "error" in obo_result:
-        raise RuntimeError(obo_result["error_description"])
-    else:
-        print("OBO TOKEN:", obo_result)
-
-    return render_template("dashboard.html", context=name)
+    return render_template("dashboard.html", name=name, access_token=access_token)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -84,7 +73,7 @@ def login():
 
 
 @app.route("/dashboard")
-@auth.login_required(scopes=Config.GRAPH_SCOPES)
+@auth.login_required(scopes=[Config.BACKEND_SCOPE])
 def dashboard(*, context):
     user = context.get("user")
 
