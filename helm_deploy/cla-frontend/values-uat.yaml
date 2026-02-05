@@ -9,3 +9,19 @@ envVars:
   BACKEND_BASE_URI:
     # Using service name instead of external domain name
     value: "http://cla-backend-app.laa-cla-backend-uat.svc.cluster.local"
+  MS_CLIENT_ID:
+    secret:
+      name: sso
+      key: client_id
+  MS_CLIENT_SECRET:
+    secret:
+      name: sso
+      key: client_secret
+  MS_REDIRECT_URI:
+    secret:
+      name: sso
+      key: redirect_uri
+  BACKEND_SCOPE:
+    secret:
+      name: sso
+      key: backend_scope
