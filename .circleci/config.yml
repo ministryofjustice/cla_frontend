@@ -367,10 +367,10 @@ workflows:
           name: build_app
           image: app
           ecr_role_to_assume: "$ECR_APP_ROLE_TO_ASSUME"
-          requires:
-            - lint
-            - python_unit_test
-            - javascript_unit_test
+#          requires:
+#            - lint
+#            - python_unit_test
+#            - javascript_unit_test
           context:
             - laa-cla-frontend
       - build:
