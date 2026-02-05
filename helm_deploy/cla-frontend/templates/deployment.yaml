@@ -35,3 +35,31 @@ spec:
                 command: ["/bin/sleep","30"]
           env:
             {{ include "cla-frontend.app.vars" . | nindent 12 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cla-frontend.fullname" . }}-sso
+  labels:
+    {{- include "cla-frontend.ssoLabels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "cla-frontend.ssoSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "cla-frontend.ssoSelectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "cla-frontend.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}-sso
+          image: "{{ .Values.image.repository }}:sso"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          env:
+            {{ include "cla-frontend.app.vars" . | nindent 12 }}

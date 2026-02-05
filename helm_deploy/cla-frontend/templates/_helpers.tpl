@@ -48,12 +48,25 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{- define "cla-frontend.ssoLabels" -}}
+helm.sh/chart: {{ include "cla-frontend.chart" . }}
+{{ include "cla-frontend.ssoSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{/*
 Selector labels
 */}}
 {{- define "cla-frontend.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "cla-frontend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+{{- define "cla-frontend.ssoSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "cla-frontend.name" . }}-sso
+app.kubernetes.io/instance: {{ .Release.Name }}-sso
 {{- end }}
 {{- define "cla-socket-server.selectorLabels" -}}
 app.kubernetes.io/name: cla-socket-server
