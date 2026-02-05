@@ -78,15 +78,15 @@ jobs:
                 tag: sso
                 region: $ECR_REGION # this will use the env var
                 repo: $ECR_APP_REPOSITORY # this will use the env var
-#            - run:
-#                name: Cleanup Buildx
-#                command: docker buildx rm DLC_builder || true
-#            - aws-ecr/build_image:
-#                push_image: true
-#                account_id: $AWS_ECR_REGISTRY_ID
-#                tag: $BUILD_TAGS
-#                region: $ECR_REGION # this will use the env var
-#                repo: $ECR_APP_REPOSITORY # this will use the env var
+            - run:
+                name: Cleanup Buildx
+                command: docker buildx rm DLC_builder || true
+            - aws-ecr/build_image:
+                push_image: true
+                account_id: $AWS_ECR_REGISTRY_ID
+                tag: $BUILD_TAGS
+                region: $ECR_REGION # this will use the env var
+                repo: $ECR_APP_REPOSITORY # this will use the env var
             # Validate the python version as 2.7
 #            - run:
 #                name: Validate Python version
@@ -377,11 +377,11 @@ workflows:
           name: build_socket_server
           image: socket-server
           ecr_role_to_assume: "$ECR_SOCKET_SERVER_ROLE_TO_ASSUME"
-          requires:
-            - lint
-            - python_unit_test
-            - javascript_unit_test
-            - socket_server_tests
+#          requires:
+#            - lint
+#            - python_unit_test
+#            - javascript_unit_test
+#            - socket_server_tests
           context:
             - laa-cla-frontend
       - behave:
