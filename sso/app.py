@@ -47,7 +47,7 @@ auth = Auth(
     redirect_uri=Config.REDIRECT_URI,
 )
 
-@app.route("/silas", methods=["GET", "POST"])
+@app.route("/silas/", methods=["GET", "POST"])
 @auth.login_required(scopes=[Config.BACKEND_SCOPE])
 def home(*, context):
 
