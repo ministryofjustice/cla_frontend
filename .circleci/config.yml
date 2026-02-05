@@ -22,7 +22,6 @@ executors:
     docker:
       - image: cimg/python:3.7
 
-
 # ------------------
 #
 # REFERENCES
@@ -31,13 +30,12 @@ executors:
 
 references:
   install_helm: &install_helm
-      run:
-        name: Install helm v3
-        command: |
-          wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
-          tar -zxvf helm-v3.2.4-linux-amd64.tar.gz
-          mv linux-amd64/helm /usr/local/bin/helm
-
+    run:
+      name: Install helm v3
+      command: |
+        wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
+        tar -zxvf helm-v3.2.4-linux-amd64.tar.gz
+        mv linux-amd64/helm /usr/local/bin/helm
 
 # ------------------
 #
@@ -61,7 +59,7 @@ jobs:
             echo "Created tags $TARGET_TAGS"
             echo "export BUILD_TAGS=$TARGET_TAGS" >> $BASH_ENV
             echo "export IMAGE_TAG=$IMAGE_TAG" >> $BASH_ENV
- # Authenticate to AWS using OIDC v2 with the AWS CLI
+      # Authenticate to AWS using OIDC v2 with the AWS CLI
       - aws-cli/setup:
           role_arn: << parameters.ecr_role_to_assume >> # this will use the env var
           region: $ECR_REGION # this will use the env var
@@ -75,14 +73,15 @@ jobs:
             - aws-ecr/build_image:
                 push_image: true
                 account_id: $AWS_ECR_REGISTRY_ID
-                tag: $BUILD_TAGS
+                path: sso
+                build_path: sso
+                tag: sso
                 region: $ECR_REGION # this will use the env var
                 repo: $ECR_APP_REPOSITORY # this will use the env var
             - aws-ecr/build_image:
                 push_image: true
                 account_id: $AWS_ECR_REGISTRY_ID
-                path: sso
-                tag: sso
+                tag: $BUILD_TAGS
                 region: $ECR_REGION # this will use the env var
                 repo: $ECR_APP_REPOSITORY # this will use the env var
             # Validate the python version as 2.7
@@ -222,7 +221,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '18'
+          node-version: "18"
       - run:
           working_directory: ./cla_socketserver
           name: Install dependencies
@@ -242,7 +241,7 @@ jobs:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: '8.9.3'
+          node-version: "8.9.3"
       - restore_cache:
           keys:
             - node-v1-{{ checksum "package-lock.json" }}
