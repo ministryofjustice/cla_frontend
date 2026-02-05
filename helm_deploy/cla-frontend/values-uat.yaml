@@ -29,7 +29,7 @@ envVars:
     secret:
       name: sso
       key: backend_scope
-    FLASK_SECRET_KEY:
-      secret:
-        name: sso
-        key: flask_secret_key
+  FLASK_SECRET_KEY:
+    secret:
+      name: sso
+      key: flask_secret_key
