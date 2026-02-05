@@ -47,7 +47,7 @@ auth = Auth(
     redirect_uri=Config.REDIRECT_URI,
 )
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/silas", methods=["GET", "POST"])
 @auth.login_required(scopes=[Config.BACKEND_SCOPE])
 def home(*, context):
 
@@ -57,14 +57,7 @@ def home(*, context):
     print("ACCESS TOKEN:", context.get("access_token"))
     return render_template("dashboard.html", name=name, access_token=access_token)
 
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-
-    return render_template("login.html")
-
-
-@app.route("/dashboard")
+@app.route("/silas/dashboard")
 @auth.login_required(scopes=[Config.BACKEND_SCOPE])
 def dashboard(*, context):
     user = context.get("user")
@@ -73,13 +66,6 @@ def dashboard(*, context):
     email = user.get("preferred_username") or user.get("email") or "Guest"
 
     return render_template("dashboard.html", name=name, email=email)
-
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("login"))
-
 
 if __name__ == "__main__":
     app.run(debug=True)
