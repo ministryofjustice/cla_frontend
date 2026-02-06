@@ -33,6 +33,10 @@ envVars:
     secret:
       name: sso
       key: backend_scope
+  FRONTEND_SCOPE:
+    secret:
+      name: sso
+      key: frontend_scope
   FLASK_SECRET_KEY:
     secret:
       name: sso
