@@ -5,6 +5,10 @@
 environment: "uat"
 secretName: ~
 
+image:
+  sso:
+    tag: sso
+
 envVars:
   BACKEND_BASE_URI:
     # Using service name instead of external domain name
