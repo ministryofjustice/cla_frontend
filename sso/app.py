@@ -32,6 +32,7 @@ class Config:
     FLASK_SECRET_KEY = _require_env("FLASK_SECRET_KEY")
     AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
     BACKEND_SCOPE =  _require_env("BACKEND_SCOPE")
+    FRONTEND_SCOPE = _require_env("FRONTEND_SCOPE")
 
 
 app = Flask(__name__)
@@ -47,9 +48,17 @@ auth = Auth(
     redirect_uri=Config.REDIRECT_URI,
 )
 
+def build_msal_app():
+    import msal
+    return msal.ConfidentialClientApplication(
+        client_id=Config.CLIENT_ID,
+        client_credential=Config.CLIENT_SECRET,
+        authority=Config.AUTHORITY,
+    )
+
 @app.route("/silas/", methods=["GET", "POST"])
 @auth.login_required(scopes=[Config.BACKEND_SCOPE])
-def home(*, context):
+def access_token_route(*, context):
 
     data = context.get("user")
     name = data.get("name")
@@ -57,15 +66,28 @@ def home(*, context):
     print("ACCESS TOKEN:", context.get("access_token"))
     return render_template("dashboard.html", name=name, access_token=access_token)
 
-@app.route("/silas/dashboard")
-@auth.login_required(scopes=[Config.BACKEND_SCOPE])
-def dashboard(*, context):
-    user = context.get("user")
+@app.route("/silas/obo", methods=["GET", "POST"])
+@auth.login_required(scopes=[Config.FRONTEND_SCOPE])
+def obo_route(*, context):
 
-    name = user.get("name", "Guest")
-    email = user.get("preferred_username") or user.get("email") or "Guest"
 
-    return render_template("dashboard.html", name=name, email=email)
+    data = context.get("user")
+    name = data.get("name")
+    access_token = context.get("access_token")
+    print("ACCESS TOKEN:", access_token)
+    print("Getting obo token...")
+    msal_app = build_msal_app()
+    result = msal_app.acquire_token_on_behalf_of(access_token, [Config.BACKEND_SCOPE])
+    if "error" in result:
+        raise RuntimeError(result["error_description"])
+    obo_token = result.get("access_token")
+    obo_token_expires_in = result.get("expires_in")
+    print("OBO TOKEN:", obo_token)
+    print("OBO TOKEN EXPIRES IN :", obo_token_expires_in)
+
+
+    return render_template("dashboard.html", name=name, access_token=access_token, obo_token=obo_token, obo_token_expires_in=obo_token_expires_in)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

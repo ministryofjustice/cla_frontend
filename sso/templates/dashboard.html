@@ -58,6 +58,9 @@
     <main>
         <p>Welcome, <strong>{{ name }}</strong>!</p>
         <p>You have successfully logged in.</p>
+        {% if obo_token %}
+          Successfully acquired obo token that expires in {{ obo_token_expires_in }}
+        {% endif %}
 
     </main>
 </body>
