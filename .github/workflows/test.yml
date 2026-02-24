@@ -1,5 +1,5 @@
-name: Lint ✏️
-run-name: Lint checks ✏️
+name: Test ⚡️
+run-name: Automated tests ⚡️
 
 on:
   pull_request:
@@ -30,7 +30,7 @@ jobs:
       contents: read
 
     name: 🐍 Python
-    runs-on: ["ubuntu-20.04"]
+    runs-on: ["ubuntu-latest"]
     needs: [setup]
     environment:
       name: ${{ needs.setup.outputs.environment }}
@@ -47,20 +47,25 @@ jobs:
       - name: Install
         shell: bash
         working-directory: ./
-        run: python -m pip install -r requirements/generated/requirements-lint.txt
+        run: python -m pip install -r requirements.txt
 
-  lint:
+  unit-test:
     permissions:
       contents: read
 
-    name: ⚡️ Lint
-    runs-on: ["ubuntu-20.04"]
+    name: ⚡️ Unit tests
+    runs-on: ["ubuntu-latest"]
     needs: [setup, python]
     environment:
       name: ${{ needs.setup.outputs.environment }}
 
     steps:
+      - name: Repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
       - name: Python
         shell: bash
         working-directory: ./
-        run: python -m flake8 --exit-zero cla_frontend
+        run: |
+          source env/bin/activate
+          python manage.py test --verbosity=2
