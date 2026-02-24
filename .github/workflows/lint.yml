@@ -1,3 +1,26 @@
+# Lint Workflow Documentation
+#  GitHub Actions workflow for running linting checks on the cla_frontend repository.
+#
+#  Purpose:
+#    - Executes automated code quality and style checks on pull requests
+#    - Runs Python linting using flake8 to maintain code standards
+#
+#  Triggers:
+#    - Activates on all pull requests across any branch
+#
+#  Jobs:
+#    - setup: Initializes workflow environment variables and outputs them for dependent jobs
+#    - python: Executes Python-based linting checks using flake8 in a Python 2.7.18 container
+#
+#  Key Features:
+#    - Minimal permissions set (contents: read only for Python job)
+#    - Uses environment variables for timezone and environment configuration
+#    - Runs flake8 with exit-zero flag to report violations without failing the workflow
+#    - Depends on setup job for environment output propagation
+#
+#  Requirements:
+#    - Python linting dependencies installed from requirements/generated/requirements-lint.txt
+
 name: Lint ✏️
 run-name: Lint checks ✏️
 
@@ -40,11 +63,6 @@ jobs:
     steps:
       - name: Repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - name: PIP
-        shell: bash
-        working-directory: ./
-        run: pip --version
 
       - name: Requirements
         shell: bash

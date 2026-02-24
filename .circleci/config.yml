@@ -22,7 +22,6 @@ executors:
     docker:
       - image: cimg/python:3.7
 
-
 # ------------------
 #
 # REFERENCES
@@ -31,13 +30,12 @@ executors:
 
 references:
   install_helm: &install_helm
-      run:
-        name: Install helm v3
-        command: |
-          wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
-          tar -zxvf helm-v3.2.4-linux-amd64.tar.gz
-          mv linux-amd64/helm /usr/local/bin/helm
-
+    run:
+      name: Install helm v3
+      command: |
+        wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
+        tar -zxvf helm-v3.2.4-linux-amd64.tar.gz
+        mv linux-amd64/helm /usr/local/bin/helm
 
 # ------------------
 #
@@ -61,7 +59,7 @@ jobs:
             echo "Created tags $TARGET_TAGS"
             echo "export BUILD_TAGS=$TARGET_TAGS" >> $BASH_ENV
             echo "export IMAGE_TAG=$IMAGE_TAG" >> $BASH_ENV
- # Authenticate to AWS using OIDC v2 with the AWS CLI
+      # Authenticate to AWS using OIDC v2 with the AWS CLI
       - aws-cli/setup:
           role_arn: << parameters.ecr_role_to_assume >> # this will use the env var
           region: $ECR_REGION # this will use the env var
@@ -95,58 +93,6 @@ jobs:
                 tag: $BUILD_TAGS
                 region: $ECR_REGION # this will use the env var
                 repo: $ECR_SOCKET_SERVER_REPOSITORY
-  lint:
-    executor: python2-executor
-    steps:
-      - checkout
-      - run:
-          name: Setup Python environment
-          command: |
-            pip install virtualenv
-            virtualenv lint-env
-      - restore_cache:
-          keys:
-            - pip-v1-{{ checksum "requirements/generated/requirements-lint.txt" }}
-      - run:
-          name: Install dependencies
-          command: |
-            source lint-env/bin/activate
-            pip install --requirement requirements/generated/requirements-lint.txt
-      - save_cache:
-          key: pip-v1-{{ checksum "requirements/generated/requirements-lint.txt" }}
-          paths:
-            - "~/.cache/pip"
-      - run:
-          name: Lint with flake8 (warnings only)
-          command: |
-            source lint-env/bin/activate
-            flake8 --exit-zero cla_frontend
-  formatting:
-    executor: python3-executor
-    steps:
-      - checkout
-      - run:
-          name: Setup Python environment
-          command: |
-            pip install virtualenv
-            virtualenv formatting-env
-      - restore_cache:
-          keys:
-            - pip-v1-black-18.9b0
-      - run:
-          name: Install dependencies
-          command: |
-            source formatting-env/bin/activate
-            pip install black>=18.9b0
-      - save_cache:
-          key: pip-v1-black-18.9b0
-          paths:
-            - "~/.cache/pip"
-      - run:
-          name: Check formatting with Black
-          command: |
-            source lint-env/bin/activate
-            black --check cla_frontend
   pip-compile:
     executor: python2-executor
     steps:
@@ -215,7 +161,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '18'
+          node-version: "18"
       - run:
           working_directory: ./cla_socketserver
           name: Install dependencies
@@ -235,7 +181,7 @@ jobs:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: '8.9.3'
+          node-version: "8.9.3"
       - restore_cache:
           keys:
             - node-v1-{{ checksum "package-lock.json" }}
@@ -344,7 +290,6 @@ workflows:
   version: 2
   test_and_build:
     jobs:
-      - lint
       - pip-compile
       - python_unit_test
       - socket_server_tests
@@ -359,7 +304,6 @@ workflows:
           image: app
           ecr_role_to_assume: "$ECR_APP_ROLE_TO_ASSUME"
           requires:
-            - lint
             - python_unit_test
             - javascript_unit_test
           context:
@@ -369,7 +313,6 @@ workflows:
           image: socket-server
           ecr_role_to_assume: "$ECR_SOCKET_SERVER_ROLE_TO_ASSUME"
           requires:
-            - lint
             - python_unit_test
             - javascript_unit_test
             - socket_server_tests
