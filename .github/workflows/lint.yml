@@ -44,10 +44,7 @@ jobs:
       - name: PIP
         shell: bash
         working-directory: ./
-        run: |
-          curl -sSL https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
-          echo "14ef322f183792f3984365b263b6a983b6329c36c64639ed811804c8f0003058  get-pip.py" | sha256sum -c -
-          python get-pip.py --user
+        run: pip --version
 
       - name: Requirements
         shell: bash
