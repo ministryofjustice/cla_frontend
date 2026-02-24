@@ -30,7 +30,9 @@ jobs:
       contents: read
 
     name: 🐍 Python
-    runs-on: ["ubuntu-22.04"]
+    runs-on: ["ubuntu-latest"]
+    container:
+      image: python:2.7.18-slim
     needs: [setup]
     environment:
       name: ${{ needs.setup.outputs.environment }}
@@ -54,7 +56,9 @@ jobs:
       contents: read
 
     name: ⚡️ Lint
-    runs-on: ["ubuntu-22.04"]
+    runs-on: ["ubuntu-latest"]
+    container:
+      image: python:2.7.18-slim
     needs: [setup, python]
     environment:
       name: ${{ needs.setup.outputs.environment }}
