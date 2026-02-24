@@ -121,7 +121,10 @@ jobs:
           name: Check for changes with pip-compile
           command: |
             source pip-compile-env/bin/activate
-            ls requirements/source/* | grep -v "requirements-lint.in" | xargs pre-commit run pip-compile --files
+            pre-commit run pip-compile --files requirements-dev.in
+            pre-commit run pip-compile --files requirements-docs.in
+            pre-commit run pip-compile --files requirements-testing.in
+            pre-commit run pip-compile --files requirements-production.in
   python_unit_test:
     docker:
       - image: cimg/python:2.7
