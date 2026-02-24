@@ -30,7 +30,7 @@ jobs:
       contents: read
 
     name: 🐍 Python
-    runs-on: ["ubuntu-20.04"]
+    runs-on: ["ubuntu-22.04"]
     needs: [setup]
     environment:
       name: ${{ needs.setup.outputs.environment }}
@@ -54,7 +54,7 @@ jobs:
       contents: read
 
     name: ⚡️ Lint
-    runs-on: ["ubuntu-20.04"]
+    runs-on: ["ubuntu-22.04"]
     needs: [setup, python]
     environment:
       name: ${{ needs.setup.outputs.environment }}
