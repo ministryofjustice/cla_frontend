@@ -21,8 +21,8 @@
 #  Requirements:
 #    - Python linting dependencies installed from requirements/generated/requirements-lint.txt
 
-name: Lint ✏️
-run-name: Lint checks ✏️
+name: Lint
+run-name: Lint checks
 
 on:
   pull_request:
@@ -36,23 +36,23 @@ env:
 
 jobs:
   setup:
-    name: Setup 🔧
+    name: Setup
     runs-on: ["ubuntu-latest"]
     outputs:
       environment: ${{ env.environment }}
       timezone: ${{ env.timezone }}
     steps:
-      - name: Environment 🧪
+      - name: Environment
         run: echo "Environment set to ${{ env.environment }}"
 
-      - name: Timezone 🌐
+      - name: Timezone
         run: echo "Timezone set to ${{ env.timezone }}"
 
   python:
     permissions:
       contents: read
 
-    name: 🐍 Python
+    name: Python
     runs-on: ["ubuntu-latest"]
     container:
       image: python:2.7.18-slim
