@@ -10,17 +10,15 @@
 #
 #  Jobs:
 #    - setup: Initializes workflow environment variables and outputs them for dependent jobs
-#    - lint: Executes commit checks and Python-based linting checks using flake8 in a Python 2.7.18 container
+#    - lint: Executes Python-based linting checks using flake8 in a Python 2.7.18 container
 #
 #  Key Features:
 #    - Minimal permissions set (contents: read only for Python job)
 #    - Uses environment variables for timezone and environment configuration
-#    -  Runs ministryofjustice/devsecops-actions/github/commit for commit validation
 #    - Runs flake8 with exit-zero flag to report violations without failing the workflow
 #    - Depends on setup job for environment output propagation
 #
 #  Requirements:
-#    - ministryofjustice/devsecops-actions/github/commit
 #    - Python linting dependencies installed from requirements/generated/requirements-lint.txt
 
 name: Lint
@@ -54,7 +52,7 @@ jobs:
     permissions:
       contents: read
 
-    name: Python
+    name: Lint
     runs-on: ["ubuntu-latest"]
     container:
       image: python:2.7.18-slim
@@ -66,15 +64,12 @@ jobs:
       - name: Repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Commit
-        uses: ministryofjustice/devsecops-actions/github/commit@27614b1ca989dade166b707a08f42a61b289a1ba # v1.3.0
-
       - name: Requirements
         shell: bash
         working-directory: ./
         run: python -m pip install -r requirements/generated/requirements-lint.txt
 
-      - name: Lint
+      - name: Flake8
         shell: bash
         working-directory: ./
         run: python -m flake8 --exit-zero cla_frontend
