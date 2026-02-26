@@ -26,7 +26,7 @@ jobs:
     permissions:
       contents: read
 
-    name: Commit
+    name: Validate
     runs-on: ["ubuntu-latest"]
 
     steps:
