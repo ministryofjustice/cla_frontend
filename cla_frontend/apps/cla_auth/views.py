@@ -137,7 +137,7 @@ def logout_view(request):
         request: HttpRequest object containing user session and authentication data
 
     Returns:
-        HttpResponse: A redirect response to the home page ("/") with the session 
+        HttpResponse: A redirect response to the home page ("/") with the session
         cookie cleared by setting Max-Age=0
 
     Note:

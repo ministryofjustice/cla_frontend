@@ -1,4 +1,4 @@
-from .base import *
+from .base import *  # noqa: F403, F401
 
 # If the backend ports need to be changed locally or in the Docker file, changing BACKEND_BASE_URI has no effect,
 # as the address is written to ZONE_PROFILES before being read from this file.
@@ -10,7 +10,7 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 DEV_APPS = ("django_pdb",)
 
-INSTALLED_APPS += DEV_APPS
+INSTALLED_APPS += DEV_APPS  # noqa: F405
 
 LOGGING = {
     "version": 1,

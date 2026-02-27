@@ -28,38 +28,38 @@ class ClaBackend(object):
     Methods:
         authenticate(username, password):
             Authenticates a user with username and password credentials.
-            
+
             Args:
                 username (str): The user's username.
                 password (str): The user's password.
-                
+
             Returns:
                 ClaUser: An authenticated user object with access token, or a user
                         object with special flags (is_locked_out, is_active) set to
                         False for locked/disabled accounts.
                 None: If authentication fails or zone profile is not found.
-                
+
         get_user(token):
             Retrieves a user object from an access token.
-            
+
             Args:
                 token (str): OAuth2 access token.
-                
+
             Returns:
                 ClaUser: User object initialized with the provided token.
-                
+
         get_this_zone_profile():
             Fetches the authentication configuration for the current zone.
-            
+
             Returns:
                 dict: Zone profile containing CLIENT_ID and CLIENT_SECRET, or None.
-                
+
         revoke_token(token):
             Revokes an OAuth2 access token.
-            
+
             Args:
                 token (str): The access token to revoke.
-                
+
             Returns:
                 bool: True if revocation was successful, False otherwise.
     """
@@ -217,15 +217,15 @@ def get_backend(zone_name):
         zone_name (str): The name of the zone for which to retrieve the authentication backend.
 
     Returns:
-        class or None: The authentication backend class for the specified zone, or None if the zone 
+        class or None: The authentication backend class for the specified zone, or None if the zone
                        profile cannot be found.
 
     Raises:
-        May raise exceptions from load_backend() if the backend path is invalid or the backend 
+        May raise exceptions from load_backend() if the backend path is invalid or the backend
         class cannot be loaded.
 
     Note:
-        This function retrieves the zone profile configuration, extracts the authentication backend 
+        This function retrieves the zone profile configuration, extracts the authentication backend
         path, and loads the corresponding backend class using the load_backend utility function.
     """
     zone_profile = get_zone_profile(zone_name)
