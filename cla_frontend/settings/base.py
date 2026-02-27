@@ -7,9 +7,19 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 # PATH vars
 
-here = lambda *x: join(abspath(dirname(__file__)), *x)
+
+def here(*x):
+    return join(abspath(dirname(__file__)), *x)
+
+
 PROJECT_ROOT = here("..")
-root = lambda *x: join(abspath(PROJECT_ROOT), *x)
+
+
+def root(*x):
+    return join(abspath(PROJECT_ROOT), *x)
+
+
+from django.core.exceptions import ImproperlyConfigured  # noqa: F402
 
 APPS_ROOT = root("apps")
 
@@ -34,8 +44,6 @@ LOW_SAMPLE_RATE_TRANSACTIONS = [
 ]
 
 # ENVIRON values
-
-from django.core.exceptions import ImproperlyConfigured
 
 # .env_values.py contains secrets and host config values usually stored
 # in a different place
@@ -317,8 +325,8 @@ SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", "True") == "
 SESSION_COOKIE_PATH = "/"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SESSION_SECURITY_WARN_AFTER = 60 * 25 # 25 minutes
-SESSION_SECURITY_EXPIRE_AFTER = 60 * 30 # 30 minutes
+SESSION_SECURITY_WARN_AFTER = 60 * 25  # 25 minutes
+SESSION_SECURITY_EXPIRE_AFTER = 60 * 30  # 30 minutes
 SESSION_COOKIE_AGE = 60 * 30  # 30 minutes
 
 SESSION_SECURITY_PASSIVE_URLS = []
@@ -352,11 +360,11 @@ OS_PLACES_API_KEY = os.environ.get("OS_PLACES_API_KEY")
 
 # importing test settings file if necessary (TODO chould be done better)
 if len(sys.argv) > 1 and "test" in sys.argv[1]:
-    from .testing import *
+    from .testing import *  # noqa: F403, F401
 
 # .local.py overrides all the common settings.
 try:
-    from .local import *
+    from .local import *  # noqa: F403, F401
 except ImportError:
     pass
 

@@ -1,4 +1,5 @@
 import datetime
+from functools import reduce
 
 from django.http import JsonResponse
 from django.shortcuts import render
