@@ -90,6 +90,4 @@ jobs:
       - name: Black
         shell: bash
         working-directory: ./
-        # Fix formatting and change to below CLI
-        # run: pre-commit run --all-files black
-        run: pre-commit run black
+        run: pre-commit run --all-files black
