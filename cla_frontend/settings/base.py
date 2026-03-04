@@ -295,12 +295,12 @@ else:
 
 ZONE_PROFILES = {
     "entra": {
-        "LOGIN_REDIRECT_URL":"auth:entra_login",
+        "LOGIN_REDIRECT_URL": "auth:entra_login",
         "AUTHENTICATION_BACKEND": "cla_auth.backend.EntraBackend",
         "BASE_URI": {
             "operator": "%s/call_centre/api/v1/" % BACKEND_BASE_URI,
             "provider": "%s/cla_provider/api/v1/" % BACKEND_BASE_URI,
-        }
+        },
     },
     "call_centre": {
         "CLIENT_ID": os.environ.get("CALL_CENTRE_CLIENT_ID", "b4b9220ffcb11ebfdab1"),
@@ -370,7 +370,7 @@ ENTRA_CLIENT_ID = os.environ.get("ENTRA_CLIENT_ID")
 ENTRA_TENANT_ID = os.environ.get("ENTRA_TENANT_ID")
 ENTRA_CLIENT_SECRET = os.environ.get("ENTRA_CLIENT_SECRET")
 ENTRA_AUTHORITY = os.environ.get("ENTRA_AUTHORITY")
-ENTRA_SCOPES= os.environ.get("ENTRA_SCOPE", "")
+ENTRA_SCOPES = os.environ.get("ENTRA_SCOPE", "")
 ENTRA_TOKEN_EXPECTED_AUDIENCE = os.environ.get("ENTRA_TOKEN_EXPECTED_AUDIENCE")
 ENTRA_REDIRECT_PATH = "/auth/entra-callback"
 ENTRA_ISSUER_URL = "https://login.microsoftonline.com/%s/v2.0" % ENTRA_TENANT_ID

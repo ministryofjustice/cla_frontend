@@ -22,14 +22,15 @@ def get_zone_profile(zone_name):
     return None
 
 
-def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=None, use_legacy_auth=False, login_url=None):
+def zone_required(
+    function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=None, use_legacy_auth=False, login_url=None
+):
     """
     Decorator for views that checks that the zone for logged in user matches,
     given zone kwarg redirecting
     to the log-in page if necessary.
     """
     if not use_legacy_auth:
-        ui = zone
         zone = "entra"
 
     def decorator(view_func):
@@ -61,6 +62,7 @@ def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=N
     if function:
         return decorator(function)
     return decorator
+
 
 def can_access_ui(function=None, ui=None, redirect_field_name=REDIRECT_FIELD_NAME):
     def decorator(view_func):
@@ -98,6 +100,7 @@ if use_legacy_auth:
 else:
     call_centre_zone_required = curry(can_access_ui, ui="operator")
     cla_provider_zone_required = curry(can_access_ui, ui="provider")
+
 
 def manager_member_required(view_func):
     """
