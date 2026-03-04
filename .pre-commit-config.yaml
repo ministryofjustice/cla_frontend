@@ -3,12 +3,24 @@ repos:
     rev: v1.4.1
     hooks:
       - id: baseline
-  - repo: https://github.com/ambv/black
-    rev: 18.9b0
+  - repo: local
     hooks:
-      - id: black
-        additional_dependencies: ["click==8.0.4"]
-        language_version: python3
+      - id: black-legacy-docker
+        name: black (18.9b0 on Python 3.7)
+        language: system
+        # We use 'verbose: true' so you can see the pip install progress
+        verbose: true
+        # The entry follows the 'Shell Method' to avoid the Entrypoint error
+        entry: >
+          bash -c '
+          docker run --rm
+          -v "$PWD:/data"
+          -w /data
+          python:3.7-slim
+          /bin/bash -c "pip install --quiet black==18.9b0 && black \"\$@\""
+          ' --
+        types: [python]
+        pass_filenames: true
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.1.0
     hooks:

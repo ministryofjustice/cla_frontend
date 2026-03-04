@@ -20,26 +20,11 @@ from .utils import get_zone_profile
 logger = logging.getLogger(__name__)
 
 ROLES = {
-    "Civil Legal Advice Helpline Operator Manager": {
-        "ui": "operator",
-        "is_manager": True,
-    },
-    "Civil Legal Advice Helpline Operator": {
-        "ui": "operator",
-        "is_manager": False,
-    },
-    "Civil Legal Advice Operator": {
-        "ui": "operator",
-        "is_manager": False,
-    },
-    "Civil Legal Advice Access": {
-        "ui": "provider",
-        "is_manager": False,
-    },
-    "Civil Legal Advice Helpline Provider": {
-        "ui": "provider",
-        "is_manager": False,
-    }
+    "Civil Legal Advice Helpline Operator Manager": {"ui": "operator", "is_manager": True},
+    "Civil Legal Advice Helpline Operator": {"ui": "operator", "is_manager": False},
+    "Civil Legal Advice Operator": {"ui": "operator", "is_manager": False},
+    "Civil Legal Advice Access": {"ui": "provider", "is_manager": False},
+    "Civil Legal Advice Helpline Provider": {"ui": "provider", "is_manager": False},
 }
 
 
@@ -56,7 +41,9 @@ class EntraTokenDecoder(object):
         cert_str = "-----BEGIN CERTIFICATE-----\n%s\n-----END CERTIFICATE-----" % public_key
         cert_obj = load_pem_x509_certificate(cert_str.encode("utf-8"), default_backend())
         public_key = cert_obj.public_key()
-        return jwt.decode(self.token, public_key, algorithms=["RS256"], audience=self.expected_audience, issuer=self.issuer)
+        return jwt.decode(
+            self.token, public_key, algorithms=["RS256"], audience=self.expected_audience, issuer=self.issuer
+        )
 
     @property
     def public_keys(self):
@@ -91,7 +78,7 @@ class EntraBackend(object):
             "username": payload["preferred_username"],
             "roles": roles,
             "is_manager": any([ROLES[role]["is_manager"] for role in roles]),
-            "ui_access": [ROLES[role]["ui"] for role in roles]
+            "ui_access": [ROLES[role]["ui"] for role in roles],
         }
         return user
 
@@ -286,12 +273,7 @@ class ClaBackend(object):
         connection = get_auth_connection()
 
         try:
-            connection.oauth2.revoke_token.post(
-                {
-                    "token": token,
-                    "client_id": zone_profile["CLIENT_ID"],
-                }
-            )
+            connection.oauth2.revoke_token.post({"token": token, "client_id": zone_profile["CLIENT_ID"]})
 
             return True
         except Exception as error:

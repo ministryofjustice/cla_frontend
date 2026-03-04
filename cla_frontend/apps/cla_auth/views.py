@@ -33,17 +33,15 @@ logger = logging.getLogger(__name__)
 
 def _build_msal_app():
     return msal.ConfidentialClientApplication(
-        settings.ENTRA_CLIENT_ID,
-        authority=settings.ENTRA_AUTHORITY,
-        client_credential=settings.ENTRA_CLIENT_SECRET
+        settings.ENTRA_CLIENT_ID, authority=settings.ENTRA_AUTHORITY, client_credential=settings.ENTRA_CLIENT_SECRET
     )
+
 
 @never_cache
 def entra_login(request):
     msal_app = _build_msal_app()
     auth_url = msal_app.get_authorization_request_url(
-        scopes=[settings.ENTRA_SCOPE],
-        redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
+        scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
     )
     return redirect(auth_url)
 
@@ -57,9 +55,7 @@ def entra_callback(request):
 
     msal_app = _build_msal_app()
     result = msal_app.acquire_token_by_authorization_code(
-        code,
-        scopes=[settings.ENTRA_SCOPE],
-        redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
+        code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
     )
     if "error" in result:
         logger.error("Entra authentication - Error: %s" % result["error"])
@@ -214,6 +210,8 @@ def logout_view(request):
 
     # 3. Delete cookies
     response = redirect("/")
-    response["Set-Cookie"] = os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+    response["Set-Cookie"] = (
+        os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+    )
 
     return response

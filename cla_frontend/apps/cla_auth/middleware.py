@@ -8,9 +8,6 @@ def get_zone(request):
         request._cached_zone = auth_get_zone(request)
     return request._cached_zone
 
-class EntraMiddleware(object):
-    def process_request(self, request):
-        pass
 
 class ZoneMiddleware(object):
     def process_request(self, request):
