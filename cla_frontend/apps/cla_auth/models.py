@@ -24,9 +24,7 @@ class ClaUser(object):
     def _data(self):
         if not hasattr(self, "_me_data"):
             try:
-                zone_profile = get_zone_profile(self.zone_name)
-                client = self.get_raw_connection(self.pk, zone_profile)
-
+                client = self.get_raw_connection()
                 self._me_data = client.user.me.get()
             except HttpClientError:
                 self._me_data = {}

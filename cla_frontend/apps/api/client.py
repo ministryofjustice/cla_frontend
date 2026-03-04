@@ -1,10 +1,7 @@
 import slumber
-
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
-
-from cla_auth.auth_providers import BearerTokenAuth
 
 
 class FormSerializer(slumber.serialize.JsonSerializer):
@@ -32,4 +29,3 @@ def get_connection(request):
         raise PermissionDenied(u"no such app")
 
     return user.get_raw_connection()
-
