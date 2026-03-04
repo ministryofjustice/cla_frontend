@@ -1,4 +1,3 @@
-import os
 from functools import wraps
 from urlparse import urlparse
 from django.conf import settings
@@ -6,7 +5,6 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.shortcuts import resolve_url
 from django.utils.decorators import available_attrs
 from django.utils.encoding import force_str
-from django.utils.functional import curry
 from django.http import Http404
 
 
@@ -22,16 +20,12 @@ def get_zone_profile(zone_name):
     return None
 
 
-def zone_required(
-    function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=None, use_legacy_auth=False, login_url=None
-):
+def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=None, login_url=None):
     """
     Decorator for views that checks that the zone for logged in user matches,
     given zone kwarg redirecting
     to the log-in page if necessary.
     """
-    if not use_legacy_auth:
-        zone = "entra"
 
     def decorator(view_func):
         @wraps(view_func, assigned=available_attrs(view_func))
@@ -93,13 +87,26 @@ def can_access_ui(function=None, ui=None, redirect_field_name=REDIRECT_FIELD_NAM
     return decorator
 
 
-use_legacy_auth = os.environ.get("USE_LEGACY_AUTH", "False").lower() == "true"
-if use_legacy_auth:
-    call_centre_zone_required = curry(zone_required, zone="call_centre")
-    cla_provider_zone_required = curry(zone_required, zone="cla_provider")
-else:
-    call_centre_zone_required = curry(can_access_ui, ui="operator")
-    cla_provider_zone_required = curry(can_access_ui, ui="provider")
+def call_centre_zone_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if settings.USE_LEGACY_AUTH:
+            return zone_required(view_func, zone="call_centre")(request, *args, **kwargs)
+        else:
+            return can_access_ui(view_func, ui="operator")(request, *args, **kwargs)
+
+    return _wrapped_view
+
+
+def cla_provider_zone_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if settings.USE_LEGACY_AUTH:
+            return zone_required(view_func, zone="cla_provider")(request, *args, **kwargs)
+        else:
+            return can_access_ui(view_func, ui="provider")(request, *args, **kwargs)
+
+    return _wrapped_view
 
 
 def manager_member_required(view_func):

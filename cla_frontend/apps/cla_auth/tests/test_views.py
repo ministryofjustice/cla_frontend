@@ -3,6 +3,7 @@ import mock
 from slumber.exceptions import HttpClientError
 
 from django.test.testcases import SimpleTestCase
+from django.test import override_settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth import SESSION_KEY, BACKEND_SESSION_KEY
 
@@ -13,6 +14,7 @@ class LoginTestCase(SimpleTestCase):
     urls = "cla_auth.tests.urls"
 
     @mock.patch("cla_auth.backend.get_auth_connection")
+    @override_settings(USE_LEGACY_AUTH="True")
     def __call__(self, result, mocked_get_auth_connection, *args, **kwargs):
         self.mocked_get_auth_connection = mocked_get_auth_connection
 

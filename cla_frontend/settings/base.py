@@ -366,6 +366,7 @@ ZENDESK_API_ENDPOINT = "https://ministryofjustice.zendesk.com/api/v2/"
 
 OS_PLACES_API_KEY = os.environ.get("OS_PLACES_API_KEY")
 
+USE_LEGACY_AUTH = os.environ.get("USE_LEGACY_AUTH", "False").lower() == "true"
 ENTRA_CLIENT_ID = os.environ.get("ENTRA_CLIENT_ID")
 ENTRA_TENANT_ID = os.environ.get("ENTRA_TENANT_ID")
 ENTRA_CLIENT_SECRET = os.environ.get("ENTRA_CLIENT_SECRET")
