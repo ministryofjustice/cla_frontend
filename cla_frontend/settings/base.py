@@ -294,6 +294,14 @@ else:
     provider_client_secret = os.environ.get("CALL_PROVIDER_SECRET_ID", "0494287c65bdf61d29f0eeed467ec8e090f0d80f")
 
 ZONE_PROFILES = {
+    "entra": {
+        "LOGIN_REDIRECT_URL":"auth:entra_login",
+        "AUTHENTICATION_BACKEND": "cla_auth.backend.EntraBackend",
+        "BASE_URI": {
+            "operator": "%s/call_centre/api/v1/" % BACKEND_BASE_URI,
+            "provider": "%s/cla_provider/api/v1/" % BACKEND_BASE_URI,
+        }
+    },
     "call_centre": {
         "CLIENT_ID": os.environ.get("CALL_CENTRE_CLIENT_ID", "b4b9220ffcb11ebfdab1"),
         "CLIENT_SECRET": os.environ.get("CALL_CENTRE_SECRET_ID", "2df71313bdd38a2e1b815015e1b14387e7681d41"),
@@ -357,6 +365,16 @@ ZENDESK_API_ENDPOINT = "https://ministryofjustice.zendesk.com/api/v2/"
 
 
 OS_PLACES_API_KEY = os.environ.get("OS_PLACES_API_KEY")
+
+ENTRA_CLIENT_ID = os.environ.get("ENTRA_CLIENT_ID")
+ENTRA_TENANT_ID = os.environ.get("ENTRA_TENANT_ID")
+ENTRA_CLIENT_SECRET = os.environ.get("ENTRA_CLIENT_SECRET")
+ENTRA_AUTHORITY = os.environ.get("ENTRA_AUTHORITY")
+ENTRA_SCOPES= os.environ.get("ENTRA_SCOPE", "")
+ENTRA_TOKEN_EXPECTED_AUDIENCE = os.environ.get("ENTRA_TOKEN_EXPECTED_AUDIENCE")
+ENTRA_REDIRECT_PATH = "/auth/entra-callback"
+ENTRA_ISSUER_URL = "https://login.microsoftonline.com/%s/v2.0" % ENTRA_TENANT_ID
+ENTRA_KEYS_URL = "https://login.microsoftonline.com/%s/discovery/v2.0/keys" % ENTRA_TENANT_ID
 
 # importing test settings file if necessary (TODO chould be done better)
 if len(sys.argv) > 1 and "test" in sys.argv[1]:

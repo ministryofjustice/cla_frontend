@@ -1,3 +1,4 @@
+import os
 from functools import wraps
 from urlparse import urlparse
 from django.conf import settings
@@ -21,12 +22,15 @@ def get_zone_profile(zone_name):
     return None
 
 
-def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=None, login_url=None):
+def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=None, use_legacy_auth=False, login_url=None):
     """
     Decorator for views that checks that the zone for logged in user matches,
     given zone kwarg redirecting
     to the log-in page if necessary.
     """
+    if not use_legacy_auth:
+        ui = zone
+        zone = "entra"
 
     def decorator(view_func):
         @wraps(view_func, assigned=available_attrs(view_func))
@@ -58,10 +62,42 @@ def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=N
         return decorator(function)
     return decorator
 
+def can_access_ui(function=None, ui=None, redirect_field_name=REDIRECT_FIELD_NAME):
+    def decorator(view_func):
+        @wraps(view_func, assigned=available_attrs(view_func))
+        def _wrapped_view(request, *args, **kwargs):
+            login_url = settings.ZONE_PROFILES["entra"]["LOGIN_REDIRECT_URL"]
+            print("LOGIN_URL", login_url)
+            if request.user.is_authenticated() and ui in request.user.ui_access:
+                return view_func(request, *args, **kwargs)
+            path = request.build_absolute_uri()
+            resolved_login_url = resolve_url(login_url)
+            # If the login url is the same scheme and net location then just
+            # use the path as the "next" url.
+            login_scheme, login_netloc = urlparse(resolved_login_url)[:2]
+            current_scheme, current_netloc = urlparse(path)[:2]
+            missing_or_matching_login_scheme = not login_scheme or login_scheme == current_scheme
+            missing_or_matching_login_netloc = not login_netloc or login_netloc == current_netloc
+            if missing_or_matching_login_scheme and missing_or_matching_login_netloc:
+                path = request.get_full_path()
+            from django.contrib.auth.views import redirect_to_login
 
-call_centre_zone_required = curry(zone_required, zone="call_centre")
-cla_provider_zone_required = curry(zone_required, zone="cla_provider")
+            return redirect_to_login(path, resolved_login_url, redirect_field_name)
 
+        return _wrapped_view
+
+    if function:
+        return decorator(function)
+    return decorator
+
+
+use_legacy_auth = os.environ.get("USE_LEGACY_AUTH", "False").lower() == "true"
+if use_legacy_auth:
+    call_centre_zone_required = curry(zone_required, zone="call_centre")
+    cla_provider_zone_required = curry(zone_required, zone="cla_provider")
+else:
+    call_centre_zone_required = curry(can_access_ui, ui="operator")
+    cla_provider_zone_required = curry(can_access_ui, ui="provider")
 
 def manager_member_required(view_func):
     """

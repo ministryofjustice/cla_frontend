@@ -1,9 +1,10 @@
 import json
 import logging
 import os
+import msal
 
 from django.http import HttpResponseRedirect
-from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
+from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, authenticate
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
@@ -14,6 +15,7 @@ from django.template.response import TemplateResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from django.conf import settings
 
 from django_statsd.clients import statsd
 from ipware.ip import get_ip
@@ -27,6 +29,58 @@ from . import get_zone
 
 
 logger = logging.getLogger(__name__)
+
+
+def _build_msal_app():
+    return msal.ConfidentialClientApplication(
+        settings.ENTRA_CLIENT_ID,
+        authority=settings.ENTRA_AUTHORITY,
+        client_credential=settings.ENTRA_CLIENT_SECRET
+    )
+
+@never_cache
+def entra_login(request):
+    msal_app = _build_msal_app()
+    auth_url = msal_app.get_authorization_request_url(
+        scopes=[settings.ENTRA_SCOPE],
+        redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
+    )
+    return redirect(auth_url)
+
+
+@never_cache
+def entra_callback(request):
+    code = request.GET.get("code")
+    if not code:
+        logger.error("Entra authentication - No code provided")
+        return redirect("/")
+
+    msal_app = _build_msal_app()
+    result = msal_app.acquire_token_by_authorization_code(
+        code,
+        scopes=[settings.ENTRA_SCOPE],
+        redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
+    )
+    if "error" in result:
+        logger.error("Entra authentication - Error: %s" % result["error"])
+        return redirect("/")
+    user = authenticate(token=result)
+
+    auth_login(request, user)
+
+    logger.info(
+        "login succeeded",
+        extra={
+            "AUTH_METHOD": "ENTRA",
+            "IP": get_ip(request),
+            "USERNAME": request.POST.get("username"),
+            "HTTP_REFERER": request.META.get("HTTP_REFERER"),
+            "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
+        },
+    )
+    ui = user.ui_access[0]
+    path = "/call_centre" if ui == "operator" else "/provider"
+    return redirect(path)
 
 
 @sensitive_post_parameters()

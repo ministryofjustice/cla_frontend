@@ -31,8 +31,5 @@ def get_connection(request):
     if not zone:
         raise PermissionDenied(u"no such app")
 
-    return get_raw_connection(user.pk, zone)
+    return user.get_raw_connection()
 
-
-def get_raw_connection(token, zone):
-    return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(token))

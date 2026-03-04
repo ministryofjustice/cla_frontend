@@ -105,3 +105,6 @@ uwsgi==2.0.19.1
     # via -r requirements/source/requirements-base.in
 websocket-client==0.23.0
     # via -r requirements/source/requirements-base.in
+msal==1.27.0
+cryptography==3.3.2
+PyJWT==1.7.1
