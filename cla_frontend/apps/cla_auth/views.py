@@ -27,7 +27,6 @@ from .backend import get_backend
 
 from . import get_zone
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -175,6 +174,35 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
 
 
 def logout_view(request):
+    if settings.USE_LEGACY_AUTH:
+        return legacy_logout(request)
+    return entra_logout(request)
+
+
+def entra_logout(request):
+    logout(request)
+    response = redirect(get_entra_logout_url())
+    response["Set-Cookie"] = (
+        os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+    )
+    return response
+
+
+def get_entra_logout_url():
+    """
+    Generate the logout URL for Entra ID authentication.
+    This URL will redirect the user to the Entra ID logout endpoint, which will handle the
+    logout process on the Entra ID side and then redirect back to the application.
+    """
+
+    # To-do: we need to decide what to do after logout.
+    # post_logout_redirect_uri = request.build_absolute_uri("/")
+
+    logout_url = settings.ENTRA_AUTHORITY + "/oauth2/v2.0/logout"
+    return logout_url
+
+
+def legacy_logout(request):
     """
     Handle user logout by revoking API token, clearing Django session, and deleting cookies.
 
