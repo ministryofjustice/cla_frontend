@@ -196,12 +196,7 @@ class ClaBackend(object):
         connection = get_auth_connection()
 
         try:
-            connection.oauth2.revoke_token.post(
-                {
-                    "token": token,
-                    "client_id": zone_profile["CLIENT_ID"],
-                }
-            )
+            connection.oauth2.revoke_token.post({"token": token, "client_id": zone_profile["CLIENT_ID"]})
 
             return True
         except Exception as error:
