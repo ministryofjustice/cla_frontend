@@ -38,7 +38,7 @@ chardet==4.0.0 \
     # via requests
 https://github.com/ministryofjustice/cla_common/archive/refs/tags/0.3.20.tar.gz \
     --hash=sha256:8d0b0b79e4aca46df2701d9f83245fcf622c84e92bf5572e3d1c7d9d03e51c0f
-    # via -r requirements/source/requirements-base.in
+    # via -r requirements/source/requirements-git.in
 django-cookies-samesite==0.9.0 \
     --hash=sha256:08a0c528e252c4ef7796d8edde486062ccf054fe24f6990466ae06ce151976be
     # via -r requirements/source/requirements-base.in
@@ -55,7 +55,11 @@ django-ipware==0.1.0 \
     # via -r requirements/source/requirements-base.in
 https://github.com/said-moj/django-moj-irat/archive/refs/tags/0.3.1.tar.gz \
     --hash=sha256:e8d4b8db097a8cc27356c84bf25289541024bc7be03ba06084b4d272e6f8cec6
-    # via -r requirements/source/requirements-base.in
+    # via -r requirements/source/requirements-git.in
+# WARNING: pip install will require the following package to be hashed.
+# Consider using a hashable URL like https://github.com/jazzband/pip-tools/archive/SOMECOMMIT.zip
+git+https://github.com/tomchristie/django-pdb.git@e28e9ee73e52e7df4a125ec7326882e5d8e83740#egg=django-pdb==0.3.2-dev
+    # via -r requirements/source/requirements-git.in
 django-proxy==1.0.2 \
     --hash=sha256:aecb4d9a436522a0b9fd5c92523815368c02eb5d91d4aeb4bd54b829fde82f10
     # via -r requirements/source/requirements-base.in
