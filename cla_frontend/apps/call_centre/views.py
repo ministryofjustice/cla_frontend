@@ -10,9 +10,7 @@ def dashboard(request):
 
 
 def get_enabled_feature_flags():
-    flags = {
-        "family_issue_flag": settings.FAMILY_ISSUE_FEATURE_FLAG,
-    }
+    flags = {"family_issue_flag": settings.FAMILY_ISSUE_FEATURE_FLAG}
     enabled = []
     for name, value in flags.items():
         if value:
