@@ -36,6 +36,21 @@ def _build_msal_app():
     )
 
 
+def login(request):
+    if settings.USE_LEGACY_AUTH:
+        return legacy_login(request)
+    return entra_login(request)
+
+
+def logout_view(request):
+    if settings.USE_LEGACY_AUTH:
+        return legacy_logout(request)
+    return entra_logout(request)
+
+
+# ==============================================================
+# Entra ID Authentication Views
+# ==============================================================
 @never_cache
 def entra_login(request):
     msal_app = _build_msal_app()
@@ -78,10 +93,36 @@ def entra_callback(request):
     return redirect(path)
 
 
+def entra_logout(request):
+    logout(request)
+    response = redirect(get_entra_logout_url())
+    response["Set-Cookie"] = (
+        os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+    )
+    return response
+
+
+def get_entra_logout_url():
+    """
+    Generate the logout URL for Entra ID authentication.
+    This URL will redirect the user to the Entra ID logout endpoint, which will handle the
+    logout process on the Entra ID side and then redirect back to the application.
+    """
+
+    # To-do: we need to decide what to do after logout.
+    # post_logout_redirect_uri = request.build_absolute_uri("/")
+
+    logout_url = settings.ENTRA_AUTHORITY + "/oauth2/v2.0/logout"
+    return logout_url
+
+
+# ==============================================================
+# LEGACY VIEWS - to be removed once we have fully switched to Entra ID authentication
+# ==============================================================
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
-def login(
+def legacy_login(
     request,
     template_name="accounts/login.html",
     redirect_field_name=REDIRECT_FIELD_NAME,
@@ -171,35 +212,6 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
         extra_requests_args = {}
     remoteurl = "%s%s" % (base_remote_url, path)
     return proxy_view(request, remoteurl, extra_requests_args)
-
-
-def logout_view(request):
-    if settings.USE_LEGACY_AUTH:
-        return legacy_logout(request)
-    return entra_logout(request)
-
-
-def entra_logout(request):
-    logout(request)
-    response = redirect(get_entra_logout_url())
-    response["Set-Cookie"] = (
-        os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
-    )
-    return response
-
-
-def get_entra_logout_url():
-    """
-    Generate the logout URL for Entra ID authentication.
-    This URL will redirect the user to the Entra ID logout endpoint, which will handle the
-    logout process on the Entra ID side and then redirect back to the application.
-    """
-
-    # To-do: we need to decide what to do after logout.
-    # post_logout_redirect_uri = request.build_absolute_uri("/")
-
-    logout_url = settings.ENTRA_AUTHORITY + "/oauth2/v2.0/logout"
-    return logout_url
 
 
 def legacy_logout(request):

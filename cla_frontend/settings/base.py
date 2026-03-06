@@ -295,7 +295,7 @@ else:
 
 ZONE_PROFILES = {
     "entra": {
-        "LOGIN_REDIRECT_URL": "auth:entra_login",
+        "LOGIN_REDIRECT_URL": "auth:login",
         "AUTHENTICATION_BACKEND": "cla_auth.backend.EntraBackend",
         "BASE_URI": {
             "operator": "%s/call_centre/api/v1/" % BACKEND_BASE_URI,
