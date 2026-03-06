@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from cla_frontend.apps.cla_auth.utils import use_legacy_auth
 import msal
 
 from django.http import HttpResponseRedirect
@@ -37,13 +38,13 @@ def _build_msal_app():
 
 
 def login(request):
-    if settings.USE_LEGACY_AUTH:
+    if use_legacy_auth():
         return legacy_login(request)
     return entra_login(request)
 
 
 def logout_view(request):
-    if settings.USE_LEGACY_AUTH:
+    if use_legacy_auth():
         return legacy_logout(request)
     return entra_logout(request)
 

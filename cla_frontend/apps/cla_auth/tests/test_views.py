@@ -58,7 +58,7 @@ class LegacyLogoutTestCase(SimpleTestCase):
     urls = "cla_auth.tests.urls"
 
     @mock.patch("cla_auth.backend.get_auth_connection")
-    @override_settings(USE_LEGACY_AUTH=True)
+    @override_settings(USE_LEGACY_AUTH="True")
     def __call__(self, result, mocked_get_auth_connection, *args, **kwargs):
         self.mocked_get_auth_connection = mocked_get_auth_connection
         self.credentials = {"username": "my-username", "password": "my-password"}
@@ -77,14 +77,14 @@ class LegacyLogoutTestCase(SimpleTestCase):
         self.client.post(self.login_url, data=self.credentials)
         return token
 
-    @override_settings(USE_LEGACY_AUTH=True)
+    @override_settings(USE_LEGACY_AUTH="True")
     def test_logout_clears_session(self):
         self._login()
         self.assertTrue(self.client.session.items())  # confirm logged in
         self.client.get(self.logout_url, follow=True)
         self.assertEqual(self.client.session.items(), [])
 
-    @override_settings(USE_LEGACY_AUTH=False, ENTRA_AUTHORITY="https://login.microsoftonline.com/test-tenant")
+    @override_settings(USE_LEGACY_AUTH="True")
     def test_logout_redirects_to_login(self):
         self._login()
         response = self.client.get(self.logout_url)
@@ -94,18 +94,20 @@ class LegacyLogoutTestCase(SimpleTestCase):
 
 class EntraLogoutTestCase(SimpleTestCase):
     urls = "cla_auth.tests.urls"
+    test_tenant = "00000000-0000-0000-0000-000000000000"
+    entra_url = "https://login.microsoftonline.com/" + test_tenant
 
     def setUp(self, *args, **kwargs):
         super(EntraLogoutTestCase, self).setUp(*args, **kwargs)
         self.logout_url = reverse("auth:logout")
 
-    @override_settings(USE_LEGACY_AUTH=False, ENTRA_AUTHORITY="https://login.microsoftonline.com/test-tenant")
+    @override_settings(USE_LEGACY_AUTH="False", ENTRA_AUTHORITY=entra_url)
     def test_logout_redirects_to_entra(self):
         response = self.client.get(self.logout_url)
         self.assertEqual(response.status_code, 302)
         self.assertIn(settings.ENTRA_AUTHORITY, response["Location"])
 
-    @override_settings(USE_LEGACY_AUTH=False, ENTRA_AUTHORITY="https://login.microsoftonline.com/test-tenant")
+    @override_settings(USE_LEGACY_AUTH="False", ENTRA_AUTHORITY=entra_url)
     def test_logout_clears_cookie(self):
         response = self.client.get(self.logout_url)
         self.assertIn("set-cookie", response._headers)
