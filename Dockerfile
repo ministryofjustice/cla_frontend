@@ -20,6 +20,8 @@ RUN apk add --no-cache \
       libxml2-dev \
       libxslt-dev \
       linux-headers \
+      libffi-dev \
+      openssl-dev \
       python2-dev && \
       python -m ensurepip --upgrade && \
       pip install -U setuptools pip==18.1 wheel \

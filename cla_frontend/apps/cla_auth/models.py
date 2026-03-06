@@ -1,8 +1,7 @@
+import slumber
 from cla_auth.utils import get_zone_profile
-
+from cla_auth.auth_providers import BearerTokenAuth
 from slumber.exceptions import HttpClientError
-
-from api.client import get_raw_connection
 
 
 class ClaUser(object):
@@ -25,9 +24,7 @@ class ClaUser(object):
     def _data(self):
         if not hasattr(self, "_me_data"):
             try:
-                zone_profile = get_zone_profile(self.zone_name)
-                client = get_raw_connection(self.pk, zone_profile)
-
+                client = self.get_raw_connection()
                 self._me_data = client.user.me.get()
             except HttpClientError:
                 self._me_data = {}
@@ -40,3 +37,20 @@ class ClaUser(object):
     @property
     def username(self):
         return self._data.get("username")
+
+    def get_raw_connection(self):
+        zone = get_zone_profile(self.zone_name)
+        return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(self.pk))
+
+
+class EntraClaUser(ClaUser):
+    @property
+    def ui_access(self):
+        print("UI_ACCESS", self._data.get("ui_access"))
+        return self._data.get("ui_access")
+
+    def get_raw_connection(self):
+        ui = self.ui_access[0]
+        zone = get_zone_profile(self.zone_name)
+        base_url = zone["BASE_URI"][ui]
+        return slumber.API(base_url=base_url, auth=BearerTokenAuth(self.pk))

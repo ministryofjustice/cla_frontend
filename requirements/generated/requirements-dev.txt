@@ -204,3 +204,6 @@ zipp==1.2.0
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
+msal==1.27.0
+cryptography==3.3.2
+PyJWT==1.7.1

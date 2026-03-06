@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 import mock
 
 
@@ -14,6 +14,7 @@ class CLATFrontEndTestCase(SimpleTestCase):
 
     @mock.patch("cla_auth.forms.get_available_zone_names")
     @mock.patch("cla_auth.backend.get_auth_connection")
+    @override_settings(USE_LEGACY_AUTH="True")
     def __call__(self, result, mocked_get_auth_connection, mocked_get_available_zone_names, *args, **kwargs):
         self.mocked_get_available_zone_names = mocked_get_available_zone_names
         self.mocked_get_available_zone_names.return_value = [self.zone]
