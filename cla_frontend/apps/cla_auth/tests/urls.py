@@ -6,7 +6,6 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 
 from . import base
-from django.core.urlresolvers import reverse_lazy
 
 
 @login_required

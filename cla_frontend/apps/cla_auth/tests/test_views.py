@@ -5,12 +5,10 @@ from slumber.exceptions import HttpClientError
 from django.test.testcases import SimpleTestCase
 from django.conf import settings
 from django.test import override_settings
-from django.contrib.sessions.backends.db import SessionStore
 from django.core.urlresolvers import reverse
 from django.contrib.auth import SESSION_KEY, BACKEND_SESSION_KEY
 
 from . import base
-from .. import get_zone
 
 
 class LoginTestCase(SimpleTestCase):
@@ -86,7 +84,7 @@ class LegacyLogoutTestCase(SimpleTestCase):
         self.client.get(self.logout_url, follow=True)
         self.assertEqual(self.client.session.items(), [])
 
-    @override_settings(USE_LEGACY_AUTH=True)
+    @override_settings(USE_LEGACY_AUTH=False, ENTRA_AUTHORITY="https://login.microsoftonline.com/test-tenant")
     def test_logout_redirects_to_login(self):
         self._login()
         response = self.client.get(self.logout_url)
@@ -101,13 +99,13 @@ class EntraLogoutTestCase(SimpleTestCase):
         super(EntraLogoutTestCase, self).setUp(*args, **kwargs)
         self.logout_url = reverse("auth:logout")
 
-    @override_settings(USE_LEGACY_AUTH=False)
+    @override_settings(USE_LEGACY_AUTH=False, ENTRA_AUTHORITY="https://login.microsoftonline.com/test-tenant")
     def test_logout_redirects_to_entra(self):
         response = self.client.get(self.logout_url)
         self.assertEqual(response.status_code, 302)
         self.assertIn(settings.ENTRA_AUTHORITY, response["Location"])
 
-    @override_settings(USE_LEGACY_AUTH=False)
+    @override_settings(USE_LEGACY_AUTH=False, ENTRA_AUTHORITY="https://login.microsoftonline.com/test-tenant")
     def test_logout_clears_cookie(self):
         response = self.client.get(self.logout_url)
         self.assertIn("set-cookie", response._headers)
