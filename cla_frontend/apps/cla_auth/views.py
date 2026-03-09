@@ -52,13 +52,27 @@ def logout_view(request):
 # ==============================================================
 # Entra ID Authentication Views
 # ==============================================================
+def _get_entra_auth_url(request, prompt=None):
+    msal_app = _build_msal_app()
+    kwargs = {
+        "scopes": [settings.ENTRA_SCOPE],
+        "redirect_uri": request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
+    }
+    if prompt:
+        kwargs["prompt"] = prompt
+    return msal_app.get_authorization_request_url(**kwargs)
+
+
 @never_cache
 def entra_login(request):
-    msal_app = _build_msal_app()
-    auth_url = msal_app.get_authorization_request_url(
-        scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
-    )
-    return redirect(auth_url)
+    return redirect(_get_entra_auth_url(request))
+
+
+@never_cache
+def entra_relogin(request):
+    """Clear session and force Entra re-authentication, bypassing SSO."""
+    logout(request)
+    return redirect(_get_entra_auth_url(request, prompt="login"))
 
 
 @never_cache

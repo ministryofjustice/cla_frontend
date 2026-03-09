@@ -4,7 +4,7 @@
   // in seconds
   var idle = 3300;
   var timeout = 300;
-
+  
   angular.module('cla.operatorApp')
     .config(['IdleProvider', function(IdleProvider) {
       IdleProvider.autoResume(false); // don't auto resume
@@ -21,9 +21,14 @@
           closeModals();
 
           loginModal = $uibModal.open({
-            templateUrl: 'includes/login.html',
+            templateUrl: window.USE_LEGACY_AUTH 
+            ? 'includes/login.html' 
+            : 'includes/expired_session.html',
             backdrop: 'static',
             controller: function ($scope) {
+              $scope.signInEntra = function () {
+                window.location.href = '/auth/entra-relogin/';
+              };
               $scope.login = function (form) {
                 $http({
                   url: url_utils.login,
