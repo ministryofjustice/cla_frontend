@@ -14,7 +14,7 @@ from django.conf import settings
 
 from api.client import get_auth_connection
 
-from .models import ClaUser, EntraClaUser
+from .models import ClaUser
 from .utils import get_zone_profile
 
 logger = logging.getLogger(__name__)
@@ -31,6 +31,7 @@ ROLES = {
 
 class EntraTokenDecoder(object):
     def __init__(self, token):
+        print("TOKEN", token)
         self.tenant_id = settings.ENTRA_TENANT_ID
         self.expected_audience = settings.ENTRA_TOKEN_EXPECTED_AUDIENCE
         self.issuer = settings.ENTRA_ISSUER_URL
@@ -72,7 +73,7 @@ class EntraBackend(object):
 
     def token_to_user(self, token):
         payload = EntraTokenDecoder(token).decode()
-        user = EntraClaUser(token, self.zone_name)
+        user = ClaUser(token, self.zone_name)
         roles = payload["APP_ROLES"] if isinstance(payload["APP_ROLES"], list) else [payload["APP_ROLES"]]
         roles = [role for role in roles if role in ROLES]
         user._me_data = {

@@ -370,10 +370,10 @@ USE_LEGACY_AUTH = os.environ.get("USE_LEGACY_AUTH", "False").lower() == "true"
 ENTRA_CLIENT_ID = os.environ.get("ENTRA_CLIENT_ID")
 ENTRA_TENANT_ID = os.environ.get("ENTRA_TENANT_ID")
 ENTRA_CLIENT_SECRET = os.environ.get("ENTRA_CLIENT_SECRET")
-ENTRA_AUTHORITY = os.environ.get("ENTRA_AUTHORITY")
 ENTRA_SCOPE = os.environ.get("ENTRA_SCOPE", "")
 ENTRA_TOKEN_EXPECTED_AUDIENCE = os.environ.get("ENTRA_TOKEN_EXPECTED_AUDIENCE")
 ENTRA_REDIRECT_PATH = "/auth/entra-callback"
+ENTRA_AUTHORITY = "https://login.microsoftonline.com/%s" % ENTRA_TENANT_ID
 ENTRA_ISSUER_URL = "https://login.microsoftonline.com/%s/v2.0" % ENTRA_TENANT_ID
 ENTRA_KEYS_URL = "https://login.microsoftonline.com/%s/discovery/v2.0/keys" % ENTRA_TENANT_ID
 

@@ -38,18 +38,22 @@ class ClaUser(object):
     def username(self):
         return self._data.get("username")
 
-    def get_raw_connection(self):
-        zone = get_zone_profile(self.zone_name)
-        return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(self.pk))
-
-
-class EntraClaUser(ClaUser):
     @property
     def ui_access(self):
         print("UI_ACCESS", self._data.get("ui_access"))
         return self._data.get("ui_access")
 
     def get_raw_connection(self):
+        if self.zone_name == "entra":
+            return self._entra_get_raw_connection()
+        else:
+            return self._legacy_get_raw_connection()
+
+    def _legacy_get_raw_connection(self):
+        zone = get_zone_profile(self.zone_name)
+        return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(self.pk))
+
+    def _entra_get_raw_connection(self):
         ui = self.ui_access[0]
         zone = get_zone_profile(self.zone_name)
         base_url = zone["BASE_URI"][ui]
