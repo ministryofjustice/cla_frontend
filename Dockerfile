@@ -1,8 +1,12 @@
 ARG BASE_REQUIREMENTS_FILE="requirements/generated/requirements-production.txt"
+ARG CMD_SCRIPT="docker/run.sh"
 
 FROM alpine:3.15
 
 ARG BASE_REQUIREMENTS_FILE
+ARG CMD_SCRIPT
+# Save cmd script as environment variable
+ENV CMD_SCRIPT=$CMD_SCRIPT
 
 RUN apk add --no-cache \
       bash \
@@ -63,4 +67,4 @@ RUN touch /tmp/listen_queue_healthy && \
 USER 1000
 EXPOSE 8000
 
-CMD ["docker/run.sh"]
+CMD ["sh", "-c", "${CMD_SCRIPT}"]
