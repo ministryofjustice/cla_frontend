@@ -33,7 +33,6 @@ ROLES = {
 
 class EntraTokenDecoder(object):
     def __init__(self, token):
-        print("TOKEN", token)
         self.tenant_id = settings.ENTRA_TENANT_ID
         self.expected_audience = settings.ENTRA_TOKEN_EXPECTED_AUDIENCE
         self.issuer = settings.ENTRA_ISSUER_URL
@@ -45,9 +44,12 @@ class EntraTokenDecoder(object):
         cert_str = "-----BEGIN CERTIFICATE-----\n%s\n-----END CERTIFICATE-----" % public_key
         cert_obj = load_pem_x509_certificate(cert_str.encode("utf-8"), default_backend())
         public_key = cert_obj.public_key()
-        return jwt.decode(
-            self.token, public_key, algorithms=["RS256"], audience=self.expected_audience, issuer=self.issuer
-        )
+        try:
+            return jwt.decode(
+                self.token, public_key, algorithms=["RS256"], audience=self.expected_audience, issuer=self.issuer
+            )
+        except Exception:
+            return None
 
     @property
     def public_keys(self):
@@ -75,6 +77,8 @@ class EntraBackend(object):
 
     def token_to_user(self, token):
         payload = EntraTokenDecoder(token).decode()
+        if not payload:
+            return None
         user = ClaUser(token, self.zone_name)
         roles = payload["APP_ROLES"] if isinstance(payload["APP_ROLES"], list) else [payload["APP_ROLES"]]
         roles = [role for role in roles if role in ROLES]
