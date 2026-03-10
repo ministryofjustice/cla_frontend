@@ -41,7 +41,7 @@ class ClaUser(object):
     @property
     def ui_access(self):
         print("UI_ACCESS", self._data.get("ui_access"))
-        return self._data.get("ui_access")
+        return self._data.get("ui_access", [])
 
     def get_raw_connection(self):
         if self.zone_name == "entra":
