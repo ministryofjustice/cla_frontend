@@ -5,7 +5,7 @@ services:
     build:
       context: ./
       args:
-        BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-testing.txt"
+        BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-dev.txt"
         CMD_SCRIPT: "docker/run_local.sh"
     ports:
       - "8000:8000"
