@@ -5,7 +5,7 @@ repos:
       - id: baseline
   - repo: local
     hooks:
-      - id: black-legacy-docker
+      - id: black
         name: black (18.9b0 on Python 3.7)
         language: system
         # We use 'verbose: true' so you can see the pip install progress
