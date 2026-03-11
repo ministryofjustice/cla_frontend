@@ -124,10 +124,3 @@ def manager_member_required(view_func):
         raise Http404()
 
     return _checklogin
-
-
-def use_legacy_auth():
-    value = settings.USE_LEGACY_AUTH
-    if isinstance(value, str):
-        return value.lower() == "true"
-    return bool(value)
