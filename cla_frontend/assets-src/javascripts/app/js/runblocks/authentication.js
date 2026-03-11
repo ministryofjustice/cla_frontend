@@ -16,42 +16,45 @@
     .run(['$rootScope', 'postal', 'Idle', '$uibModal', '$http', 'form_utils', 'url_utils', 'flash',
       function($rootScope, postal, Idle, $uibModal, $http, form_utils, url_utils, flash) {
         var loginModal, warningModal;
+        var useLegacyAuth = document.head.getAttribute('data-use-legacy-auth') === 'true';
+
+        var loginModalController = function ($scope) {
+          $scope.signInEntra = function () {
+            window.location.href = '/auth/entra-relogin/';
+          };
+          $scope.login = function (form) {
+            $http({
+              url: url_utils.login,
+              method: 'POST',
+              data: $.param({
+                username: this.username,
+                password: this.password
+              }),
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+              }
+            }).then(
+              function() {
+                flash('Your session has been successfully restored');
+                $scope.$close();
+                loginModal = null;
+              },
+              function(response){
+                form_utils.ctrlFormErrorCallback($scope, response, form);
+              }
+            );
+          };
+        };
 
         var openLoginModal = function () {
           closeModals();
 
           loginModal = $uibModal.open({
-            templateUrl: window.USE_LEGACY_AUTH 
-            ? 'includes/login.html' 
+            templateUrl: useLegacyAuth
+            ? 'includes/login.html'
             : 'includes/expired_session.html',
             backdrop: 'static',
-            controller: function ($scope) {
-              $scope.signInEntra = function () {
-                window.location.href = '/auth/entra-relogin/';
-              };
-              $scope.login = function (form) {
-                $http({
-                  url: url_utils.login,
-                  method: 'POST',
-                  data: $.param({
-                    username: this.username,
-                    password: this.password
-                  }),
-                  headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                  }
-                }).then(
-                  function() {
-                    flash('Your session has been successfully restored');
-                    $scope.$close();
-                    loginModal = null;
-                  },
-                  function(response){
-                    form_utils.ctrlFormErrorCallback($scope, response, form);
-                  }
-                );
-              };
-            }
+            controller: loginModalController
           });
         };
 
@@ -105,11 +108,15 @@
         };
 
         var logout = function () {
-          $http({
-            url: 'auth/logout/',
-            method: 'GET'
-          })
-          .then(openLoginModal);
+          if (useLegacyAuth) {
+            $http({
+              url: 'auth/logout/',
+              method: 'GET'
+            })
+            .then(openLoginModal);
+          } else {
+            window.location.href = '/auth/entra-relogin/';
+          }
         };
 
         // Listen to authentication events
@@ -130,7 +137,7 @@
         // close modal if idle time is interrupted
         $rootScope.$on('IdleEnd', closeModals);
         // open modal if idle time ends without interruption
-        $rootScope.$on('IdleTimeout', logout);
+        $rootScope.$on('IdleTimeout', useLegacyAuth ? logout : openLoginModal);
 
         // start watching for idleness
         Idle.watch();

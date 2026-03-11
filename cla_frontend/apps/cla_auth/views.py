@@ -49,6 +49,13 @@ def logout_view(request):
     return entra_logout(request)
 
 
+def _clear_session_cookie(response):
+    response["Set-Cookie"] = (
+        os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+    )
+    return response
+
+
 # ==============================================================
 # Entra ID Authentication Views
 # ==============================================================
@@ -62,6 +69,11 @@ def _get_entra_auth_url(request, prompt=None):
         kwargs["prompt"] = prompt
     return msal_app.get_authorization_request_url(**kwargs)
 
+def _get_logout_url(request):
+    post_logout_uri = request.build_absolute_uri("/auth/login/")
+    return "{}/oauth2/v2.0/logout?post_logout_redirect_uri={}".format(
+        settings.ENTRA_AUTHORITY, post_logout_uri
+    )
 
 @never_cache
 def entra_login(request):
@@ -70,9 +82,8 @@ def entra_login(request):
 
 @never_cache
 def entra_relogin(request):
-    """Clear session and force Entra re-authentication, bypassing SSO."""
     logout(request)
-    return redirect(_get_entra_auth_url(request, prompt="login"))
+    return redirect(_get_logout_url(request))
 
 
 @never_cache
@@ -110,25 +121,9 @@ def entra_callback(request):
 
 def entra_logout(request):
     logout(request)
-    response = redirect(get_entra_logout_url())
-    response["Set-Cookie"] = (
-        os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
-    )
+    response = redirect(_get_logout_url(request))
+    response = _clear_session_cookie(response)
     return response
-
-
-def get_entra_logout_url():
-    """
-    Generate the logout URL for Entra ID authentication.
-    This URL will redirect the user to the Entra ID logout endpoint, which will handle the
-    logout process on the Entra ID side and then redirect back to the application.
-    """
-
-    # To-do: we need to decide what to do after logout.
-    # post_logout_redirect_uri = request.build_absolute_uri("/")
-
-    logout_url = settings.ENTRA_AUTHORITY + "/oauth2/v2.0/logout"
-    return logout_url
 
 
 # ==============================================================
@@ -265,8 +260,6 @@ def legacy_logout(request):
 
     # 3. Delete cookies
     response = redirect("/")
-    response["Set-Cookie"] = (
-        os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
-    )
+    response = _clear_session_cookie(response)
 
     return response

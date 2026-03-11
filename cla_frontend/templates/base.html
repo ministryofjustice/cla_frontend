@@ -4,7 +4,8 @@
   data-cla-features="{{ cla_features|join:' ' }}">
 
   <head data-sentry-dsn="{{ sentry_public_dsn }}" data-sentry-environment="{{ cla_environment }}"
-        data-socketio-server="{{ socketio_server_url }}">
+        data-socketio-server="{{ socketio_server_url }}"
+        data-use-legacy-auth="{{ USE_LEGACY_AUTH|lower }}">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -133,9 +134,6 @@
       {% endblock %}
     </main>
     
-    <script>
-      window.USE_LEGACY_AUTH = {% if USE_LEGACY_AUTH %}true{% else %}false{% endif %};
-    </script>
     {% block base_javascript %}
     <script src="{% static 'javascripts/lib.min.js' %}"></script>
     <script src="{% static 'javascripts/vendor/vanilla-js.js' %}"></script>
