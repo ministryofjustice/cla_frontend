@@ -1,11 +1,18 @@
 version: '3.9'
 
 services:
+  redis:
+      image: redis:5.0-alpine
+      container_name: django_redis_cache
+      restart: always
+      command: ["redis-server", "--loglevel", "verbose"]
+      ports:
+        - "6379:6379"
   cla_frontend:
     build:
       context: ./
       args:
-        BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-dev.txt"
+        BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-production.txt"
         CMD_SCRIPT: "docker/run_local.sh"
     ports:
       - "8000:8000"
@@ -24,3 +31,4 @@ services:
       CALL_PROVIDER_SECRET_ID: 0494287c65bdf61d29f0eeed467ec8e090f0d80f
       SOCKETIO_SERVER_URL: /socket.io
       BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-dev.txt"
+      REDIS_URL: "redis://redis:6379/1"

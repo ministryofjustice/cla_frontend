@@ -138,6 +138,10 @@ https://github.com/said-moj/django-moj-irat/archive/refs/tags/0.3.1.tar.gz \
 django-proxy==1.0.2 \
     --hash=sha256:aecb4d9a436522a0b9fd5c92523815368c02eb5d91d4aeb4bd54b829fde82f10
     # via -r requirements/source/requirements-base.in
+django-redis==4.8.0 \
+    --hash=sha256:5229da5b07ccb8d3e3e9ee098c0b7c03e20eba48634bc456697dd73d62c68b19 \
+    --hash=sha256:9660332cf9de5689a7ebbe0c623c4a0de79e0916a6ae867b5d0b94759bba46c9
+    # via -r requirements/source/requirements-base.in
 django-secure==1.0.2 \
     --hash=sha256:b9511e5be1399616649be0402e341382ea40ba361efd48a81a0bbd3efc77f197
     # via -r requirements/source/requirements-base.in
@@ -224,6 +228,12 @@ pytz==2021.1 \
     --hash=sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da \
     --hash=sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798
     # via cla-common
+redis==2.10.6 \
+    --hash=sha256:8a1900a9f2a0a44ecf6e8b5eb3e967a9909dfed219ad66df094f27f7d6f330fb \
+    --hash=sha256:a22ca993cea2962dbb588f9f30d0015ac4afcc45bee27d3978c0dbe9e97c6c0f
+    # via
+    #   -r requirements/source/requirements-base.in
+    #   django-redis
 requests==2.27.1 \
     --hash=sha256:68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61 \
     --hash=sha256:f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d
