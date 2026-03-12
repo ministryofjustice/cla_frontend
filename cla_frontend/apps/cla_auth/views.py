@@ -133,57 +133,60 @@ def entra_logout(request):
     response = _clear_session_cookie(response)
     return response
 
+# These handlers split the two_step_login view into smaller pieces, handling the AJAX login separately.
+def _handle_ajax_login(request):
+    form = PasswordForm(request, username=request.POST.get("username"), data=request.POST)
+    if form.is_valid():
+        auth_login(request, form.get_user())
+        return HttpResponse(status=204)
+    return HttpResponse(json.dumps(form.errors), status=400, content_type="application/json")
+
+
+def _handle_username_step(request, template_name):
+    form = UsernameForm(request.POST)
+    if not form.is_valid():
+        return TemplateResponse(request, template_name, {"form": form})
+    username = form.cleaned_data["username"]
+    if _user_has_entra_access(username):
+        return entra_login(request)
+    request.session["login_username"] = username
+    return TemplateResponse(request, template_name, {"form": PasswordForm(), "show_back": True})
+
+
+def _handle_password_step(request, template_name, redirect_to):
+    form = PasswordForm(request, username=request.session["login_username"], data=request.POST)
+    if not form.is_valid():
+        return TemplateResponse(request, template_name, {"form": form, "show_back": True})
+    request.session.pop("login_username")
+    auth_login(request, form.get_user())
+    if not is_safe_url(url=redirect_to, host=request.get_host()):
+        redirect_to = resolve_url(form.get_login_redirect_url())
+    return HttpResponseRedirect(redirect_to)
+
 
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
 def two_step_login(request, template_name="accounts/login.html"):
     """
-    Pretty much the same as legacy login, but split into two steps. First step is to enter username, then we check
-    if the user has Entra access and either redirect to Entra login or show the password form.
+    Split into two steps: username first, then password (or Entra redirect).
     """
-
     is_json = "application/json" in request.META.get("HTTP_ACCEPT", "")
     redirect_to = request.GET.get(REDIRECT_FIELD_NAME, "")
 
     if is_json and request.method == "POST":
-        form = PasswordForm(request, username=request.POST.get("username"), data=request.POST)
-        if form.is_valid():
-            auth_login(request, form.get_user())
-            return HttpResponse(status=204)
-        else:
-            return HttpResponse(json.dumps(form.errors), status=400, content_type="application/json")
+        return _handle_ajax_login(request)
 
     if request.GET.get("clear"):
         request.session.pop("login_username", None)
         return TemplateResponse(request, template_name, {"form": UsernameForm()})
 
     if request.method == "POST":
-        form = UsernameForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]
-            if _user_has_entra_access(username):
-                print("User has Entra access, redirecting to Entra login")
-                return entra_login(request)
-            print("User does not have Entra access, proceeding with legacy login")
-            request.session["login_username"] = username
-            return TemplateResponse(request, template_name, {"form": PasswordForm(), "show_back": True})
-    else:
-        form = UsernameForm()
+        if "login_username" in request.session:
+            return _handle_password_step(request, template_name, redirect_to)
+        return _handle_username_step(request, template_name)
 
-    if "login_username" in request.session:
-        if request.method == "POST":
-            form = PasswordForm(request, username=request.session["login_username"], data=request.POST)
-            if form.is_valid():
-                request.session.pop("login_username")
-                auth_login(request, form.get_user())
-                if not is_safe_url(url=redirect_to, host=request.get_host()):
-                    redirect_to = resolve_url(form.get_login_redirect_url())
-                return HttpResponseRedirect(redirect_to)
-
-            return TemplateResponse(request, template_name, {"form": form, "show_back": True})
-
-    return TemplateResponse(request, template_name, {"form": form})
+    return TemplateResponse(request, template_name, {"form": UsernameForm()})
 
 
 # ==============================================================
