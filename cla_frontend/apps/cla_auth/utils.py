@@ -124,3 +124,12 @@ def manager_member_required(view_func):
         raise Http404()
 
     return _checklogin
+
+
+def user_has_entra_access(username):
+    """
+    Checks if the user is in the list of users allowed to use Entra, and that legacy auth is not enabled.
+    """
+    if settings.USE_LEGACY_AUTH:
+        return False
+    return username in settings.USERS_ALLOWED_ENTRA_ACCESS

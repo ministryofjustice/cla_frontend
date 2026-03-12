@@ -54,7 +54,7 @@ except ImportError:
 
 
 def get_env_value(var_name):
-    """ Get the env value `var_name` or return exception """
+    """Get the env value `var_name` or return exception"""
     try:
         return getattr(env_values, var_name)
     except AttributeError:
@@ -367,7 +367,9 @@ ZENDESK_API_ENDPOINT = "https://ministryofjustice.zendesk.com/api/v2/"
 
 OS_PLACES_API_KEY = os.environ.get("OS_PLACES_API_KEY")
 
+# ENTRA SETTINGS
 USE_LEGACY_AUTH = os.environ.get("USE_LEGACY_AUTH", "False").lower() == "true"
+USERS_ALLOWED_ENTRA_ACCESS = [u for u in os.environ.get("USERS_ALLOWED_ENTRA_ACCESS", "").split(",") if u]
 ENTRA_CLIENT_ID = os.environ.get("ENTRA_CLIENT_ID")
 ENTRA_TENANT_ID = os.environ.get("ENTRA_TENANT_ID")
 ENTRA_CLIENT_SECRET = os.environ.get("ENTRA_CLIENT_SECRET")
@@ -407,8 +409,3 @@ CACHES = {
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     }
 }
-
-USERS_ALLOWED_ENTRA = [
-    "username1",
-    "username2",
-]

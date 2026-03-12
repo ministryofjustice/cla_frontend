@@ -24,15 +24,13 @@ from proxy.views import proxy_view
 from api.client import get_connection
 from .forms import AuthenticationForm, UsernameForm, PasswordForm
 from .backend import get_backend
+from .utils import user_has_entra_access
 
 from . import get_zone
 
 logger = logging.getLogger(__name__)
 
-
-def _user_has_entra_access(username):
-    # To-do: List currently living in settings for simplicity, better place TBC.
-    return username in settings.USERS_ALLOWED_ENTRA
+CONTENT_TYPE_JSON = "application/json"
 
 
 def _build_msal_app():
@@ -42,14 +40,12 @@ def _build_msal_app():
 
 
 def login(request):
-    if settings.USE_LEGACY_AUTH:
-        return legacy_login(request)
     return two_step_login(request)
 
 
 def logout_view(request):
-    if settings.USE_LEGACY_AUTH:
-        return legacy_logout(request)
+    if not request.user.is_authenticated():
+        return redirect("/auth/login/")
     if request.user.zone_name != "entra":
         return legacy_logout(request)
     return entra_logout(request)
@@ -140,7 +136,7 @@ def _handle_ajax_login(request):
     if form.is_valid():
         auth_login(request, form.get_user())
         return HttpResponse(status=204)
-    return HttpResponse(json.dumps(form.errors), status=400, content_type="application/json")
+    return HttpResponse(json.dumps(form.errors), status=400, content_type=CONTENT_TYPE_JSON)
 
 
 def _handle_username_step(request, template_name):
@@ -148,7 +144,7 @@ def _handle_username_step(request, template_name):
     if not form.is_valid():
         return TemplateResponse(request, template_name, {"form": form})
     username = form.cleaned_data["username"]
-    if _user_has_entra_access(username):
+    if user_has_entra_access(username):
         return entra_login(request)
     request.session["login_username"] = username
     return TemplateResponse(request, template_name, {"form": PasswordForm(), "show_back": True})
@@ -172,7 +168,7 @@ def two_step_login(request, template_name="accounts/login.html"):
     """
     Split into two steps: username first, then password (or Entra redirect).
     """
-    is_json = "application/json" in request.META.get("HTTP_ACCEPT", "")
+    is_json = CONTENT_TYPE_JSON in request.META.get("HTTP_ACCEPT", "")
     redirect_to = request.GET.get(REDIRECT_FIELD_NAME, "")
 
     if is_json and request.method == "POST":
@@ -207,7 +203,7 @@ def legacy_login(
     """
     Displays the login form and handles the login action.
     """
-    is_json = "application/json" in request.META.get("HTTP_ACCEPT", "")
+    is_json = CONTENT_TYPE_JSON in request.META.get("HTTP_ACCEPT", "")
     redirect_to = request.GET.get(redirect_field_name, "")
 
     if request.method == "POST":
@@ -249,7 +245,7 @@ def legacy_login(
             )
 
             if is_json:
-                return HttpResponse(json.dumps(form.errors), status=400, content_type="application/json")
+                return HttpResponse(json.dumps(form.errors), status=400, content_type=CONTENT_TYPE_JSON)
     else:
         form = authentication_form(request)
 

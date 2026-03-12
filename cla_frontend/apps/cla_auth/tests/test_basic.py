@@ -83,7 +83,7 @@ class AuthenticateTestCase(SimpleTestCase):
         mock_backend.authenticate.assert_called_with(**self.credentials)
 
         self.assertEqual(self.mocked_user_login_failed.send.called, False)
-        self.assertEqual(user.backend, "mock.MagicMock")
+        self.assertEqual(user.backend, "mock.mock.MagicMock")
 
     def test_invalid_credentials(self):
         # mocked backend - authenticate => None
