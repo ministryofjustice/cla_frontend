@@ -6,7 +6,7 @@ from slumber.exceptions import HttpClientError
 from django.test.testcases import SimpleTestCase
 from django.conf import settings
 
-from ..backend import get_backend, ClaBackend
+from ..backend import get_backend, ClaBackend, EntraBackend
 
 from . import base
 
@@ -17,7 +17,7 @@ class TestClaBackend(ClaBackend):
 
 class GetBackendTestCase(SimpleTestCase):
     """
-        Test get_backend without mocking anything
+    Test get_backend without mocking anything
     """
 
     def test_invalid_zone_name(self):
@@ -30,7 +30,7 @@ class GetBackendTestCase(SimpleTestCase):
 
         self.assertTrue(backend)
         self.assertEqual(backend.zone_name, zone_name)
-        self.assertTrue(issubclass(backend.__class__, ClaBackend))
+        self.assertTrue(issubclass(backend.__class__, (ClaBackend, EntraBackend)))
 
 
 class ClaBackendTestCase(SimpleTestCase):

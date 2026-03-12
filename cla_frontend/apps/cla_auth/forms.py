@@ -9,8 +9,6 @@ AUTOCOMPLETE_OFF_ATTRS = {"autocomplete": "off", "readonly": True, "class": "js-
 
 
 class AuthenticationForm(forms.Form):
-    """
-    """
 
     username = forms.CharField(
         label=_("Username"), max_length=254, widget=forms.TextInput(attrs=AUTOCOMPLETE_OFF_ATTRS)
@@ -26,8 +24,6 @@ class AuthenticationForm(forms.Form):
     }
 
     def __init__(self, request=None, *args, **kwargs):
-        """
-        """
         self.request = request
         self.user_cache = None
         self.current_zone_name = None
@@ -65,6 +61,50 @@ class AuthenticationForm(forms.Form):
         if self.user_cache:
             return self.user_cache.pk
         return None
+
+    def get_user(self):
+        return self.user_cache
+
+    def get_login_redirect_url(self):
+        zone_profile = get_zone_profile(self.current_zone_name)
+        if not zone_profile:
+            return None
+        return reverse(zone_profile["LOGIN_REDIRECT_URL"])
+
+
+class UsernameForm(forms.Form):
+    username = forms.CharField(
+        label=_("Username"), max_length=254, widget=forms.TextInput(attrs=AUTOCOMPLETE_OFF_ATTRS)
+    )
+
+
+class PasswordForm(forms.Form):
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs=AUTOCOMPLETE_OFF_ATTRS))
+
+    def __init__(self, request=None, username=None, *args, **kwargs):
+        self.request = request
+        self.username = username
+        self.user_cache = None
+        self.current_zone_name = None
+        self.zone_names = kwargs.pop("zone_names", get_available_zone_names())
+        super(PasswordForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        password = self.cleaned_data.get("password")
+        if self.username and password:
+            for zone_name in self.zone_names:
+                user = authenticate(zone_name, username=self.username, password=password)
+                if user:
+                    self.user_cache = user
+                    self.current_zone_name = zone_name
+                    break
+            if self.user_cache is None:
+                raise forms.ValidationError("Please enter a correct username and password.", code="invalid_login")
+            if self.user_cache.is_locked_out:
+                raise forms.ValidationError("Account locked: too many login attempts.", code="locked_out")
+            if not self.user_cache.is_active:
+                raise forms.ValidationError("Account disabled.", code="account_disabled")
+        return self.cleaned_data
 
     def get_user(self):
         return self.user_cache

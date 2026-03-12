@@ -4,7 +4,7 @@
   // in seconds
   var idle = 3300;
   var timeout = 300;
-
+  
   angular.module('cla.operatorApp')
     .config(['IdleProvider', function(IdleProvider) {
       IdleProvider.autoResume(false); // don't auto resume
@@ -16,37 +16,45 @@
     .run(['$rootScope', 'postal', 'Idle', '$uibModal', '$http', 'form_utils', 'url_utils', 'flash',
       function($rootScope, postal, Idle, $uibModal, $http, form_utils, url_utils, flash) {
         var loginModal, warningModal;
+        var userIsEntra = document.head.getAttribute('data-user-is-entra') === 'true';
+
+        var loginModalController = function ($scope) {
+          $scope.signInEntra = function () {
+            window.location.href = '/auth/entra-relogin/';
+          };
+          $scope.login = function (form) {
+            $http({
+              url: url_utils.login,
+              method: 'POST',
+              data: $.param({
+                username: this.username,
+                password: this.password
+              }),
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+              }
+            }).then(
+              function() {
+                flash('Your session has been successfully restored');
+                $scope.$close();
+                loginModal = null;
+              },
+              function(response){
+                form_utils.ctrlFormErrorCallback($scope, response, form);
+              }
+            );
+          };
+        };
 
         var openLoginModal = function () {
           closeModals();
 
           loginModal = $uibModal.open({
-            templateUrl: 'includes/login.html',
+            templateUrl:  !userIsEntra
+            ? 'includes/login.html'
+            : 'includes/expired_session.html',
             backdrop: 'static',
-            controller: function ($scope) {
-              $scope.login = function (form) {
-                $http({
-                  url: url_utils.login,
-                  method: 'POST',
-                  data: $.param({
-                    username: this.username,
-                    password: this.password
-                  }),
-                  headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                  }
-                }).then(
-                  function() {
-                    flash('Your session has been successfully restored');
-                    $scope.$close();
-                    loginModal = null;
-                  },
-                  function(response){
-                    form_utils.ctrlFormErrorCallback($scope, response, form);
-                  }
-                );
-              };
-            }
+            controller: loginModalController
           });
         };
 
@@ -74,7 +82,7 @@
               };
 
               $scope.logout = function () {
-                logout();
+                window.location.href = '/auth/logout/';
               };
             }
           });
@@ -100,11 +108,15 @@
         };
 
         var logout = function () {
-          $http({
-            url: 'auth/logout/',
-            method: 'GET'
-          })
-          .then(openLoginModal);
+          if (userIsEntra) {
+            openLoginModal();
+          } else {
+            $http({
+              url: 'auth/logout/',
+              method: 'GET'
+            })
+            .then(openLoginModal);
+          }
         };
 
         // Listen to authentication events

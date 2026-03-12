@@ -26,7 +26,7 @@ class AuthenticationFormTest(SimpleTestCase):
 
         self.assertFalse(form.is_valid())
         self.assertEqual(
-            form.non_field_errors(), [force_text(form.error_messages["invalid_login"] % {"username": u"username"})]
+            form.non_field_errors(), [force_text(form.error_messages["invalid_login"] % {"username": "username"})]
         )
 
         self.mocked_authenticate.assert_called_with(self.zone_name, **data)
@@ -58,7 +58,7 @@ class AuthenticationFormTest(SimpleTestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.non_field_errors(),
-            [u"Account locked: too many login attempts. Please try again later or contact your Manager."],
+            ["Account locked: too many login attempts. Please try again later or contact your Manager."],
         )
 
     def test_inactive(self):
@@ -68,7 +68,7 @@ class AuthenticationFormTest(SimpleTestCase):
 
         form = AuthenticationForm(None, zone_names=[self.zone_name], data=data)
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.non_field_errors(), [u"Account disabled, please contact your supervisor."])
+        self.assertEqual(form.non_field_errors(), ["Account disabled, please contact your supervisor."])
 
     def test_get_login_redirect_url_invalid_zone(self):
         form = AuthenticationForm(None, zone_names=["invalid"])

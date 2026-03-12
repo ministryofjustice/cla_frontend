@@ -4,3 +4,40 @@
     padding-bottom: 60px;
   }
 }
+
+// This is to replicate the back-link we have in Jinja templates, but in Vue.
+.back-link {
+  display: inline-block;
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  padding-left: 14px;
+  color: #0b0c0c;
+  font-size: 14px;
+  text-decoration: underline;
+
+  &.back-link--hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  &:visited {
+    color: #0b0c0c;
+  }
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -1px;
+    bottom: 1px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    margin: auto 0;
+    transform: rotate(225deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #0b0c0c;
+  }
+}

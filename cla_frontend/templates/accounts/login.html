@@ -6,6 +6,7 @@
   <div class="Grid">
     <div class="Grid-row cf">
       <div class="Grid-col Grid-col--3-5 Grid-colPush--1-5">
+      <a href="?clear=1" class="back-link{% if not show_back %} back-link--hidden{% endif %}">Back</a>
         <header class="PageHeader">
           <h1>Sign in</h1>
         </header>
@@ -16,7 +17,6 @@
           {% csrf_token %}
 
           {% include "includes/error_summary.html" %}
-
           {% for field in form %}
             <div class="FormRow cf{% if field.errors %} Error{% endif %}">
               <label for="{{ field.id_for_label }}" id="{{ field.auto_id }}-label">
