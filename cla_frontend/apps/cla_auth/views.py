@@ -133,6 +133,7 @@ def entra_logout(request):
     response = _clear_session_cookie(response)
     return response
 
+
 # These handlers split the two_step_login view into smaller pieces, handling the AJAX login separately.
 def _handle_ajax_login(request):
     form = PasswordForm(request, username=request.POST.get("username"), data=request.POST)
