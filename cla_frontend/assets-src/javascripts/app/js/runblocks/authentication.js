@@ -3,7 +3,7 @@
 
   // in seconds
   var idle = 3300;
-  var timeout = 5;
+  var timeout = 300;
   
   angular.module('cla.operatorApp')
     .config(['IdleProvider', function(IdleProvider) {
