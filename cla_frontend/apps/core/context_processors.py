@@ -12,7 +12,7 @@ def globals(request):
         "sentry_public_dsn": settings.SENTRY_PUBLIC_DSN,
         "socketio_server_url": settings.SOCKETIO_SERVER_URL,
         "cla_environment": os.environ.get("CLA_ENV", "unknown"),
-        "USE_LEGACY_AUTH": settings.USE_LEGACY_AUTH,
+        "user_is_entra": getattr(request.user, "zone_name", "") == "entra",
     }
 
     if hasattr(request, "zone") and request.zone:

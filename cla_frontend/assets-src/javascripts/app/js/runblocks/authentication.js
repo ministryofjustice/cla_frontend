@@ -3,7 +3,7 @@
 
   // in seconds
   var idle = 3300;
-  var timeout = 300;
+  var timeout = 5;
   
   angular.module('cla.operatorApp')
     .config(['IdleProvider', function(IdleProvider) {
@@ -16,7 +16,7 @@
     .run(['$rootScope', 'postal', 'Idle', '$uibModal', '$http', 'form_utils', 'url_utils', 'flash',
       function($rootScope, postal, Idle, $uibModal, $http, form_utils, url_utils, flash) {
         var loginModal, warningModal;
-        var useLegacyAuth = document.head.getAttribute('data-use-legacy-auth') === 'true';
+        var userIsEntra = document.head.getAttribute('data-user-is-entra') === 'true';
 
         var loginModalController = function ($scope) {
           $scope.signInEntra = function () {
@@ -50,7 +50,7 @@
           closeModals();
 
           loginModal = $uibModal.open({
-            templateUrl: useLegacyAuth
+            templateUrl:  !userIsEntra
             ? 'includes/login.html'
             : 'includes/expired_session.html',
             backdrop: 'static',
@@ -82,7 +82,7 @@
               };
 
               $scope.logout = function () {
-                logout();
+                window.location.href = '/auth/logout/';
               };
             }
           });
@@ -108,14 +108,14 @@
         };
 
         var logout = function () {
-          if (useLegacyAuth) {
+          if (userIsEntra) {
+            openLoginModal();
+          } else {
             $http({
               url: 'auth/logout/',
               method: 'GET'
             })
             .then(openLoginModal);
-          } else {
-            window.location.href = '/auth/entra-relogin/';
           }
         };
 
@@ -137,7 +137,7 @@
         // close modal if idle time is interrupted
         $rootScope.$on('IdleEnd', closeModals);
         // open modal if idle time ends without interruption
-        $rootScope.$on('IdleTimeout', useLegacyAuth ? logout : openLoginModal);
+        $rootScope.$on('IdleTimeout', logout);
 
         // start watching for idleness
         Idle.watch();

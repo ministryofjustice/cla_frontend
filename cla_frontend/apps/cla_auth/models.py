@@ -40,7 +40,10 @@ class ClaUser(object):
 
     @property
     def ui_access(self):
-        print("UI_ACCESS", self._data.get("ui_access"))
+        if self.zone_name == "call_centre":
+            return ["operator"]
+        if self.zone_name == "cla_provider":
+            return ["provider"]
         return self._data.get("ui_access", [])
 
     def get_raw_connection(self):

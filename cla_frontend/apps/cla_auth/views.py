@@ -22,12 +22,17 @@ from ipware.ip import get_ip
 from proxy.views import proxy_view
 
 from api.client import get_connection
-from .forms import AuthenticationForm
+from .forms import AuthenticationForm, UsernameForm, PasswordForm
 from .backend import get_backend
 
 from . import get_zone
 
 logger = logging.getLogger(__name__)
+
+
+def _user_has_entra_access(username):
+    # To-do: List currently living in settings for simplicity, better place TBC.
+    return username in settings.USERS_ALLOWED_ENTRA
 
 
 def _build_msal_app():
@@ -39,11 +44,13 @@ def _build_msal_app():
 def login(request):
     if settings.USE_LEGACY_AUTH:
         return legacy_login(request)
-    return entra_login(request)
+    return two_step_login(request)
 
 
 def logout_view(request):
     if settings.USE_LEGACY_AUTH:
+        return legacy_logout(request)
+    if request.user.zone_name != "entra":
         return legacy_logout(request)
     return entra_logout(request)
 
@@ -68,11 +75,11 @@ def _get_entra_auth_url(request, prompt=None):
         kwargs["prompt"] = prompt
     return msal_app.get_authorization_request_url(**kwargs)
 
+
 def _get_logout_url(request):
     post_logout_uri = request.build_absolute_uri("/auth/login/")
-    return "{}/oauth2/v2.0/logout?post_logout_redirect_uri={}".format(
-        settings.ENTRA_AUTHORITY, post_logout_uri
-    )
+    return "{}/oauth2/v2.0/logout?post_logout_redirect_uri={}".format(settings.ENTRA_AUTHORITY, post_logout_uri)
+
 
 @never_cache
 def entra_login(request):
@@ -125,6 +132,58 @@ def entra_logout(request):
     response = redirect(_get_logout_url(request))
     response = _clear_session_cookie(response)
     return response
+
+
+@sensitive_post_parameters()
+@csrf_protect
+@never_cache
+def two_step_login(request, template_name="accounts/login.html"):
+    """
+    Pretty much the same as legacy login, but split into two steps. First step is to enter username, then we check
+    if the user has Entra access and either redirect to Entra login or show the password form.
+    """
+
+    is_json = "application/json" in request.META.get("HTTP_ACCEPT", "")
+    redirect_to = request.GET.get(REDIRECT_FIELD_NAME, "")
+
+    if is_json and request.method == "POST":
+        form = PasswordForm(request, username=request.POST.get("username"), data=request.POST)
+        if form.is_valid():
+            auth_login(request, form.get_user())
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse(json.dumps(form.errors), status=400, content_type="application/json")
+
+    if request.GET.get("clear"):
+        request.session.pop("login_username", None)
+        return TemplateResponse(request, template_name, {"form": UsernameForm()})
+
+    if request.method == "POST":
+        form = UsernameForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            if _user_has_entra_access(username):
+                print("User has Entra access, redirecting to Entra login")
+                return entra_login(request)
+            print("User does not have Entra access, proceeding with legacy login")
+            request.session["login_username"] = username
+            return TemplateResponse(request, template_name, {"form": PasswordForm(), "show_back": True})
+    else:
+        form = UsernameForm()
+
+    if "login_username" in request.session:
+        if request.method == "POST":
+            form = PasswordForm(request, username=request.session["login_username"], data=request.POST)
+            if form.is_valid():
+                request.session.pop("login_username")
+                auth_login(request, form.get_user())
+                if not is_safe_url(url=redirect_to, host=request.get_host()):
+                    redirect_to = resolve_url(form.get_login_redirect_url())
+                return HttpResponseRedirect(redirect_to)
+
+            return TemplateResponse(request, template_name, {"form": form, "show_back": True})
+
+    return TemplateResponse(request, template_name, {"form": form})
 
 
 # ==============================================================

@@ -17,7 +17,7 @@ class TestClaBackend(ClaBackend):
 
 class GetBackendTestCase(SimpleTestCase):
     """
-        Test get_backend without mocking anything
+    Test get_backend without mocking anything
     """
 
     def test_invalid_zone_name(self):

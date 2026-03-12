@@ -407,3 +407,8 @@ CACHES = {
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     }
 }
+
+USERS_ALLOWED_ENTRA = [
+    "username1",
+    "username2",
+]
