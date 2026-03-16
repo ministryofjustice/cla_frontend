@@ -14,7 +14,7 @@ class LoginTestCase(SimpleTestCase):
     urls = "cla_auth.tests.urls"
 
     @mock.patch("cla_auth.backend.get_auth_connection")
-    @override_settings(USERS_ALLOWED_ENTRA_ACCESS=[])
+    @override_settings(USERS_ALLOWED_ENTRA_ACCESS=[], USE_LEGACY_AUTH="True")
     def __call__(self, result, mocked_get_auth_connection, *args, **kwargs):
         self.mocked_get_auth_connection = mocked_get_auth_connection
 

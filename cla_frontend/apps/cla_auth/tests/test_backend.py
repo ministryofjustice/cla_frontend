@@ -219,14 +219,14 @@ class EntraTokenDecoderDecodeTestCase(SimpleTestCase):
 class EntraBackendTestCase(SimpleTestCase):
     def setUp(self):
         self.backend = EntraBackend()
-        self.token = "header.payload.signature"
+        self.mock_jwt = "header.payload.signature"
 
     @mock.patch("cla_auth.backend.EntraTokenDecoder")
     def test_token_to_user_returns_none_when_decode_fails(self, mock_decoder_cls):
         # Arrange: the decoder's decode method returns None, simulating a decode failure.
         mock_decoder_cls.return_value.decode.return_value = None
         # Act: call token_to_user, which should return None when decoding fails.
-        result = self.backend.token_to_user(self.token)
+        result = self.backend.token_to_user(self.mock_jwt)
         # Assert
         self.assertIsNone(result)
 
@@ -239,7 +239,7 @@ class EntraBackendTestCase(SimpleTestCase):
             "APP_ROLES": [role],
         }
         # Act: call token_to_user, which should create a user object with the decoded data.
-        user = self.backend.token_to_user(self.token)
+        user = self.backend.token_to_user(self.mock_jwt)
         # Assert
         self.assertIsNotNone(user)
         self.assertEqual(user._me_data["username"], "operator@example.com")
@@ -256,7 +256,7 @@ class EntraBackendTestCase(SimpleTestCase):
             "APP_ROLES": [role],
         }
         # Act
-        user = self.backend.token_to_user(self.token)
+        user = self.backend.token_to_user(self.mock_jwt)
         # Assert
         self.assertTrue(user._me_data["is_manager"])
 
@@ -268,7 +268,7 @@ class EntraBackendTestCase(SimpleTestCase):
             "APP_ROLES": ["Civil Legal Advice Helpline Operator", "Unknown Role"],
         }
         # Act
-        user = self.backend.token_to_user(self.token)
+        user = self.backend.token_to_user(self.mock_jwt)
         # Assert
         self.assertEqual(user._me_data["roles"], ["Civil Legal Advice Helpline Operator"])
 
@@ -281,7 +281,7 @@ class EntraBackendTestCase(SimpleTestCase):
             "APP_ROLES": role,
         }
         # Act
-        user = self.backend.token_to_user(self.token)
+        user = self.backend.token_to_user(self.mock_jwt)
         # Assert
         self.assertEqual(user._me_data["roles"], [role])
 
@@ -289,20 +289,20 @@ class EntraBackendTestCase(SimpleTestCase):
     def test_authenticate_passes_access_token(self, mock_token_to_user):
         # Arrange
         mock_token_to_user.return_value = mock.MagicMock()
-        token_dict = {"access_token": self.token}
+        token_dict = {"access_token": self.mock_jwt}
         # Act
         self.backend.authenticate(token_dict)
         # Assert
-        mock_token_to_user.assert_called_once_with(self.token)
+        mock_token_to_user.assert_called_once_with(self.mock_jwt)
 
     @mock.patch.object(EntraBackend, "token_to_user")
     def test_get_user_passes_token(self, mock_token_to_user):
         # Arrange
         mock_token_to_user.return_value = mock.MagicMock()
         # Act
-        self.backend.get_user(self.token)
+        self.backend.get_user(self.mock_jwt)
 
-        mock_token_to_user.assert_called_once_with(self.token)
+        mock_token_to_user.assert_called_once_with(self.mock_jwt)
 
 
 # ==============================================================================
@@ -371,10 +371,29 @@ class EntraTokenGeneratorMixin(object):
 
 
 class EntraTokenDecoderIntegrationTestCase(EntraTokenGeneratorMixin, SimpleTestCase):
+    def _public_key_pem(self, private_key=None):
+        """
+        Return PEM bytes for the public key. PyJWT 1.7.1 + newer cryptography
+        versions have an isinstance incompatibility when passing RSAPublicKey
+        objects directly to jwt.decode(), so we use PEM bytes instead.
+        """
+        key = (private_key or self.private_key).public_key()
+        return key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo,
+        )
+
+    def _mock_cert(self, private_key=None):
+        cert = mock.MagicMock()
+        cert.public_key.return_value = self._public_key_pem(private_key)
+        return cert
+
+    @mock.patch("cla_auth.backend.load_pem_x509_certificate")
     @mock.patch("cla_auth.backend.cache")
-    def test_valid_token_decodes_successfully(self, mock_cache):
+    def test_valid_token_decodes_successfully(self, mock_cache, mock_load_cert):
         # Arrange: the cache returns the certificate that matches our private key.
         mock_cache.get.return_value = self.mock_jwks_keys
+        mock_load_cert.return_value = self._mock_cert()
         token = self._create_token()
 
         # Act: run the real decode pipeline.
@@ -384,10 +403,12 @@ class EntraTokenDecoderIntegrationTestCase(EntraTokenGeneratorMixin, SimpleTestC
         self.assertIsNotNone(result)
         self.assertEqual(result["preferred_username"], "user@example.com")
 
+    @mock.patch("cla_auth.backend.load_pem_x509_certificate")
     @mock.patch("cla_auth.backend.cache")
-    def test_expired_token_returns_none(self, mock_cache):
+    def test_expired_token_returns_none(self, mock_cache, mock_load_cert):
         # Arrange: valid certificate but an expired token.
         mock_cache.get.return_value = self.mock_jwks_keys
+        mock_load_cert.return_value = self._mock_cert()
         token = self._create_token(expired=True)
 
         # Act & Assert: jwt.decode raises ExpiredSignatureError internally;
@@ -395,11 +416,13 @@ class EntraTokenDecoderIntegrationTestCase(EntraTokenGeneratorMixin, SimpleTestC
         result = EntraTokenDecoder(token).decode()
         self.assertIsNone(result)
 
+    @mock.patch("cla_auth.backend.load_pem_x509_certificate")
     @mock.patch("cla_auth.backend.cache")
-    def test_wrong_signing_key_returns_none(self, mock_cache):
+    def test_wrong_signing_key_returns_none(self, mock_cache, mock_load_cert):
         # Arrange: the JWKS holds our test certificate, but the token is signed
         # with a completely different key - simulating a forged or mis-issued token.
         mock_cache.get.return_value = self.mock_jwks_keys
+        mock_load_cert.return_value = self._mock_cert()
         wrong_key = rsa.generate_private_key(public_exponent=65537, key_size=2048, backend=default_backend())
         token = self._create_token(signing_key=wrong_key)
 
