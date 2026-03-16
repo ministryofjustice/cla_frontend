@@ -38,13 +38,14 @@ class ClaUser(object):
     def username(self):
         return self._data.get("username")
 
-    @property
-    def ui_access(self):
+    def zone_to_ui(self):
         if self.zone_name == "call_centre":
             return ["operator"]
         if self.zone_name == "cla_provider":
             return ["provider"]
-        return self._data.get("ui_access", [])
+
+        ui = self._data.get("ui_access", [])
+        return ui
 
     def get_raw_connection(self):
         if self.zone_name == "entra":
@@ -57,7 +58,7 @@ class ClaUser(object):
         return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(self.pk))
 
     def _entra_get_raw_connection(self):
-        ui = self.ui_access[0]
+        ui = self.zone_to_ui()[0]
         zone = get_zone_profile(self.zone_name)
         base_url = zone["BASE_URI"][ui]
         return slumber.API(base_url=base_url, auth=BearerTokenAuth(self.pk))

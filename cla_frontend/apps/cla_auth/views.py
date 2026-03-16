@@ -118,8 +118,11 @@ def entra_callback(request):
             "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
         },
     )
-    ui = user.ui_access[0]
-    path = "/call_centre" if ui == "operator" else "/provider"
+    ui = user.zone_to_ui()
+    if not ui:
+        raise ValueError("User does not have access to any ui.")
+
+    path = "/call_centre" if ui[0] == "operator" else "/provider"
     return redirect(path)
 
 
