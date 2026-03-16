@@ -10,14 +10,12 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.utils.http import is_safe_url
 from django.shortcuts import resolve_url
-from django.contrib.sites.models import get_current_site
 from django.template.response import TemplateResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.conf import settings
 
-from django_statsd.clients import statsd
 from ipware.ip import get_ip
 from proxy.views import proxy_view
 
