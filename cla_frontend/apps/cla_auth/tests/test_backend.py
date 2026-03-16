@@ -303,4 +303,3 @@ class EntraBackendTestCase(SimpleTestCase):
         self.backend.get_user(self.mock_jwt)
 
         mock_token_to_user.assert_called_once_with(self.mock_jwt)
-
