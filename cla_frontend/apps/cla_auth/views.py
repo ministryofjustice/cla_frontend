@@ -150,7 +150,7 @@ def _handle_username_step(request, template_name):
     if user_has_entra_access(username):
         return entra_login(request)
     request.session["login_username"] = username
-    return TemplateResponse(request, template_name, {"form": PasswordForm(), "show_back": True})
+    return HttpResponseRedirect(request.path)
 
 
 def _handle_password_step(request, template_name, redirect_to):
@@ -186,6 +186,8 @@ def two_step_login(request, template_name="accounts/login.html"):
             return _handle_password_step(request, template_name, redirect_to)
         return _handle_username_step(request, template_name)
 
+    if "login_username" in request.session:
+        return TemplateResponse(request, template_name, {"form": PasswordForm(), "show_back": True})
     return TemplateResponse(request, template_name, {"form": UsernameForm()})
 
 

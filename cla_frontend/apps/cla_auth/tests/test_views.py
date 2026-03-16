@@ -71,22 +71,17 @@ class LoginTestCase(SimpleTestCase):
         self.assertNotIn("password", form.fields)
 
     def test_stale_session_username_submit_rerenders_username_form(self):
-        # If session has a stored username (e.g. from a previous login attempt)
-        # but the POST contains a username field, it should be treated as the
-        # username step - not the password step.
         self.client.post(self.url, data={"username": "old-username"})
 
-        response = self.client.post(self.url, data={"username": self.credentials["username"]})
+        response = self.client.post(self.url, data={"username": self.credentials["username"]}, follow=True)
 
         self.assertEqual(response.status_code, 200)
         form = response.context_data["form"]
-        # Should have advanced to the password step with the new username in session
+
         self.assertIn("password", form.fields)
         self.assertEqual(self.client.session.get("login_username"), self.credentials["username"])
 
     def test_browser_back_with_new_username_updates_session(self):
-        # Simulates: user completes username step, uses browser back, submits a
-        # different username. The new username should replace the old one in session.
         token = "123456789"
         connection = mock.MagicMock()
         connection.oauth2.access_token.post.return_value = {"access_token": token}
@@ -132,7 +127,7 @@ class LegacyLogoutTestCase(SimpleTestCase):
     @override_settings(USE_LEGACY_AUTH="True")
     def test_logout_clears_session(self):
         self._login()
-        self.assertTrue(self.client.session.items())  # confirm logged in
+        self.assertTrue(self.client.session.items())
         self.client.get(self.logout_url, follow=True)
         self.assertEqual(self.client.session.items(), [])
 
