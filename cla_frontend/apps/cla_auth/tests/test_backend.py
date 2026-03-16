@@ -318,7 +318,7 @@ class EntraTokenGeneratorMixin(object):
 
         self.private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048, backend=default_backend())
 
-        name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "test")])
+        name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, u"test")])
         cert = (
             x509.CertificateBuilder()
             .subject_name(name)

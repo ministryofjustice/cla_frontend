@@ -182,7 +182,7 @@ def two_step_login(request, template_name="accounts/login.html"):
         return TemplateResponse(request, template_name, {"form": UsernameForm()})
 
     if request.method == "POST":
-        if "login_username" in request.session:
+        if "password" in request.POST and "login_username" in request.session:
             return _handle_password_step(request, template_name, redirect_to)
         return _handle_username_step(request, template_name)
 

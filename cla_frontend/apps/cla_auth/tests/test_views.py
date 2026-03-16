@@ -60,6 +60,50 @@ class LoginTestCase(SimpleTestCase):
         self.assertFalse(response.context_data["form"].is_valid())
         self.assertNotIn(SESSION_KEY, self.client.session)
 
+    def test_empty_username_shows_username_form_error(self):
+        # Submitting an empty username should return the username form with errors
+        response = self.client.post(self.url, data={"username": ""})
+
+        self.assertEqual(response.status_code, 200)
+        form = response.context_data["form"]
+        self.assertIn("username", form.fields)
+        self.assertIn("username", form.errors)
+        self.assertNotIn("password", form.fields)
+
+    def test_stale_session_username_submit_rerenders_username_form(self):
+        # If session has a stored username (e.g. from a previous login attempt)
+        # but the POST contains a username field, it should be treated as the
+        # username step - not the password step.
+        self.client.post(self.url, data={"username": "old-username"})
+
+        response = self.client.post(self.url, data={"username": self.credentials["username"]})
+
+        self.assertEqual(response.status_code, 200)
+        form = response.context_data["form"]
+        # Should have advanced to the password step with the new username in session
+        self.assertIn("password", form.fields)
+        self.assertEqual(self.client.session.get("login_username"), self.credentials["username"])
+
+    def test_browser_back_with_new_username_updates_session(self):
+        # Simulates: user completes username step, uses browser back, submits a
+        # different username. The new username should replace the old one in session.
+        token = "123456789"
+        connection = mock.MagicMock()
+        connection.oauth2.access_token.post.return_value = {"access_token": token}
+        self.mocked_get_auth_connection.return_value = connection
+
+        # First username submission
+        self.client.post(self.url, data={"username": "old-username"})
+        self.assertEqual(self.client.session.get("login_username"), "old-username")
+
+        # Simulate browser back: POST username field again with a new username
+        self.client.post(self.url, data={"username": self.credentials["username"]})
+        self.assertEqual(self.client.session.get("login_username"), self.credentials["username"])
+
+        # Password step should now authenticate with the new username
+        response = self.client.post(self.url, data={"password": self.credentials["password"]}, follow=True)
+        self.assertEqual(response.content, "logged in")
+
 
 class LegacyLogoutTestCase(SimpleTestCase):
     urls = "cla_auth.tests.urls"

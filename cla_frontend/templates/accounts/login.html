@@ -8,10 +8,8 @@
       <div class="Grid-col Grid-col--3-5 Grid-colPush--1-5">
       <a href="?clear=1" class="back-link{% if not show_back %} back-link--hidden{% endif %}">Back</a>
         <header class="PageHeader">
-          <h1>Sign in</h1>
+          <h1>Sign in to Case Handling System</h1>
         </header>
-
-        <p>Sign in using your account details to access the system.</p>
 
         <form action="" name="login_frm" method="post" autocomplete="off">
           {% csrf_token %}
@@ -19,20 +17,22 @@
           {% include "includes/error_summary.html" %}
           {% for field in form %}
             <div class="FormRow cf{% if field.errors %} Error{% endif %}">
+              <h2 class="login-question">What is your {{ field.label|lower }}?</h2>
               <label for="{{ field.id_for_label }}" id="{{ field.auto_id }}-label">
-                <span class="FormRow-label">
-                  {{ field.label }}
-                  {% for error in field.errors %}
-                    <span class="Error-message">{{ error }}</span>
-                  {% endfor %}
-                </span>
+                {% for error in field.errors %}
+                  <span class="Error-message">{{ error }}</span>
+                {% endfor %}
                 {{ field }}
               </label>
             </div>
           {% endfor %}
 
           <div class="FormActions">
+            {% if form.username %}
+            <button type="submit" value="signin" name="login-submit" class="Button">Continue</button>
+            {% else %}
             <button type="submit" value="signin" name="login-submit" class="Button">Sign in</button>
+            {% endif %}
           </div>
         </form>
       </div>
