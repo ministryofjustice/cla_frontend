@@ -1,12 +1,19 @@
-import mock
+import datetime
 
+import jwt
+import mock
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.x509.oid import NameOID
 from requests import ConnectionError
 from slumber.exceptions import HttpClientError
 
-from django.test.testcases import SimpleTestCase
 from django.conf import settings
+from django.test.testcases import SimpleTestCase
 
-from ..backend import get_backend, ClaBackend, EntraBackend
+from ..backend import get_backend, ClaBackend, EntraBackend, EntraTokenDecoder
 
 from . import base
 
@@ -109,3 +116,321 @@ class ClaBackendTestCase(SimpleTestCase):
                 "password": self.credentials["password"],
             }
         )
+
+
+MOCK_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA"
+MOCK_KID = "test-key-id"
+MOCK_KEYS = [{"kid": MOCK_KID, "x5c": [MOCK_PUBLIC_KEY]}]
+
+
+class EntraTokenDecoderPublicKeysTestCase(SimpleTestCase):
+    @mock.patch("cla_auth.backend.cache")
+    def test_returns_cached_keys_when_available(self, mock_cache):
+        # Arrange: the cache returns our mock keys.
+        mock_cache.get.return_value = MOCK_KEYS
+        decoder = EntraTokenDecoder("some.token.here")
+        # Act: access the public_keys property, which should hit the cache and return our mock keys.
+        keys = decoder.public_keys
+        # Assert
+        self.assertEqual(keys, MOCK_KEYS)
+        mock_cache.get.assert_called_once_with("entra_public_keys")
+
+    @mock.patch("cla_auth.backend.requests")
+    @mock.patch("cla_auth.backend.cache")
+    def test_fetches_and_caches_keys_when_not_cached(self, mock_cache, mock_requests):
+        # Arrange: cache miss, and the HTTP response returns our mock keys.
+        mock_cache.get.return_value = None
+        mock_response = mock.MagicMock()
+        mock_response.json.return_value = {"keys": MOCK_KEYS}
+        mock_requests.get.return_value = mock_response
+        # Act: access the public_keys property, which should trigger the fetch and cache logic.
+        decoder = EntraTokenDecoder("some.token.here")
+        keys = decoder.public_keys
+        # Assert
+        self.assertEqual(keys, MOCK_KEYS)
+        mock_requests.get.assert_called_once_with(decoder.discovery_url)
+        mock_cache.set.assert_called_once_with("entra_public_keys", MOCK_KEYS, 86400)
+
+
+class EntraTokenDecoderGetPublicKeyTestCase(SimpleTestCase):
+    @mock.patch("cla_auth.backend.jwt.get_unverified_header")
+    @mock.patch("cla_auth.backend.cache")
+    def test_returns_x5c_for_matching_kid(self, mock_cache, mock_get_header):
+        # Arrange: the cache returns keys, and the token header contains a kid that matches one of the keys.
+        mock_cache.get.return_value = MOCK_KEYS
+        mock_get_header.return_value = {"kid": MOCK_KID}
+        # Act: call get_public_key, which should find the matching key and return its x5c value.
+        decoder = EntraTokenDecoder("some.token.here")
+        key = decoder.get_public_key()
+        # Assert
+        self.assertEqual(key, MOCK_PUBLIC_KEY)
+
+    @mock.patch("cla_auth.backend.requests")
+    @mock.patch("cla_auth.backend.jwt.get_unverified_header")
+    @mock.patch("cla_auth.backend.cache")
+    def test_retries_after_cache_miss_for_unknown_kid(self, mock_cache, mock_get_header, mock_requests):
+        # Arrange: the cache first returns keys that do not match the token's kid, then returns None to trigger a refresh.
+        # The HTTP response returns our mock keys.
+        mock_cache.get.side_effect = [
+            [{"kid": "other-kid", "x5c": ["other-key"]}],
+            None,
+        ]
+        mock_get_header.return_value = {"kid": MOCK_KID}
+        mock_response = mock.MagicMock()
+        mock_response.json.return_value = {"keys": MOCK_KEYS}
+        mock_requests.get.return_value = mock_response
+        # Act: call get_public_key, which should first fail to find the key, then refresh the cache and succeed.
+        decoder = EntraTokenDecoder("some.token.here")
+        key = decoder.get_public_key()
+        # Assert
+        self.assertEqual(key, MOCK_PUBLIC_KEY)
+        mock_cache.delete.assert_called_once_with("entra_public_keys")
+
+
+class EntraTokenDecoderDecodeTestCase(SimpleTestCase):
+    @mock.patch("cla_auth.backend.jwt.decode")
+    @mock.patch("cla_auth.backend.load_pem_x509_certificate")
+    @mock.patch.object(EntraTokenDecoder, "get_public_key", return_value=MOCK_PUBLIC_KEY)
+    def test_returns_decoded_payload_on_success(self, _mock_get_key, _mock_load_cert, mock_jwt_decode):
+        # Arrange: jwt.decode returns a valid payload when called with the correct public key.
+        expected_payload = {
+            "preferred_username": "user@example.com",
+            "APP_ROLES": ["Civil Legal Advice Helpline Operator"],
+        }
+        mock_jwt_decode.return_value = expected_payload
+        # Act: call decode, which should use the mocked get_public_key and jwt.decode to return the expected payload.
+        decoder = EntraTokenDecoder("some.token.here")
+        result = decoder.decode()
+        # Assert
+        self.assertEqual(result, expected_payload)
+
+    @mock.patch("cla_auth.backend.jwt.decode", side_effect=Exception("invalid token"))
+    @mock.patch("cla_auth.backend.load_pem_x509_certificate")
+    @mock.patch.object(EntraTokenDecoder, "get_public_key", return_value=MOCK_PUBLIC_KEY)
+    def test_returns_none_on_decode_error(self, _mock_get_key, _mock_load_cert, _mock_jwt_decode):
+        # Arrange: jwt.decode raises an exception (e.g. due to an invalid token or signature).
+        decoder = EntraTokenDecoder("some.token.here")
+        # Act: call decode, which should catch the exception and return None.
+        result = decoder.decode()
+        # Assert
+        self.assertIsNone(result)
+
+
+class EntraBackendTestCase(SimpleTestCase):
+    def setUp(self):
+        self.backend = EntraBackend()
+        self.token = "header.payload.signature"
+
+    @mock.patch("cla_auth.backend.EntraTokenDecoder")
+    def test_token_to_user_returns_none_when_decode_fails(self, mock_decoder_cls):
+        # Arrange: the decoder's decode method returns None, simulating a decode failure.
+        mock_decoder_cls.return_value.decode.return_value = None
+        # Act: call token_to_user, which should return None when decoding fails.
+        result = self.backend.token_to_user(self.token)
+        # Assert
+        self.assertIsNone(result)
+
+    @mock.patch("cla_auth.backend.EntraTokenDecoder")
+    def test_token_to_user_builds_user_from_valid_payload(self, mock_decoder_cls):
+        # Arrange: the decoder's decode method returns a valid payload with a username and roles.
+        role = "Civil Legal Advice Helpline Operator"
+        mock_decoder_cls.return_value.decode.return_value = {
+            "preferred_username": "operator@example.com",
+            "APP_ROLES": [role],
+        }
+        # Act: call token_to_user, which should create a user object with the decoded data.
+        user = self.backend.token_to_user(self.token)
+        # Assert
+        self.assertIsNotNone(user)
+        self.assertEqual(user._me_data["username"], "operator@example.com")
+        self.assertEqual(user._me_data["roles"], [role])
+        self.assertFalse(user._me_data["is_manager"])
+        self.assertEqual(user._me_data["ui_access"], ["operator"])
+
+    @mock.patch("cla_auth.backend.EntraTokenDecoder")
+    def test_token_to_user_sets_is_manager_for_manager_role(self, mock_decoder_cls):
+        # Arrange: the decoder's decode method returns a payload with a manager role.
+        role = "Civil Legal Advice Helpline Operator Manager"
+        mock_decoder_cls.return_value.decode.return_value = {
+            "preferred_username": "manager@example.com",
+            "APP_ROLES": [role],
+        }
+        # Act
+        user = self.backend.token_to_user(self.token)
+        # Assert
+        self.assertTrue(user._me_data["is_manager"])
+
+    @mock.patch("cla_auth.backend.EntraTokenDecoder")
+    def test_token_to_user_filters_out_unknown_roles(self, mock_decoder_cls):
+        # Arrange
+        mock_decoder_cls.return_value.decode.return_value = {
+            "preferred_username": "user@example.com",
+            "APP_ROLES": ["Civil Legal Advice Helpline Operator", "Unknown Role"],
+        }
+        # Act
+        user = self.backend.token_to_user(self.token)
+        # Assert
+        self.assertEqual(user._me_data["roles"], ["Civil Legal Advice Helpline Operator"])
+
+    @mock.patch("cla_auth.backend.EntraTokenDecoder")
+    def test_token_to_user_handles_single_role_string(self, mock_decoder_cls):
+        # Arrange
+        role = "Civil Legal Advice Helpline Operator"
+        mock_decoder_cls.return_value.decode.return_value = {
+            "preferred_username": "user@example.com",
+            "APP_ROLES": role,
+        }
+        # Act
+        user = self.backend.token_to_user(self.token)
+        # Assert
+        self.assertEqual(user._me_data["roles"], [role])
+
+    @mock.patch.object(EntraBackend, "token_to_user")
+    def test_authenticate_passes_access_token(self, mock_token_to_user):
+        # Arrange
+        mock_token_to_user.return_value = mock.MagicMock()
+        token_dict = {"access_token": self.token}
+        # Act
+        self.backend.authenticate(token_dict)
+        # Assert
+        mock_token_to_user.assert_called_once_with(self.token)
+
+    @mock.patch.object(EntraBackend, "token_to_user")
+    def test_get_user_passes_token(self, mock_token_to_user):
+        # Arrange
+        mock_token_to_user.return_value = mock.MagicMock()
+        # Act
+        self.backend.get_user(self.token)
+
+        mock_token_to_user.assert_called_once_with(self.token)
+
+
+# ==============================================================================
+# Integration tests for EntraTokenDecoder
+# These test the actual decoding logic using real JWTs and cryptographic keys,
+# rather than mocking jwt.decode. They also test the public key fetching and caching logic in more depth.
+# ==============================================================================
+class EntraTokenGeneratorMixin(object):
+    KID = "test-kid-123"
+
+    def setUp(self):
+        super(EntraTokenGeneratorMixin, self).setUp()
+
+        self.private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048, backend=default_backend())
+
+        name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "test")])
+        cert = (
+            x509.CertificateBuilder()
+            .subject_name(name)
+            .issuer_name(name)
+            .public_key(self.private_key.public_key())
+            .serial_number(x509.random_serial_number())
+            .not_valid_before(datetime.datetime.utcnow())
+            .not_valid_after(datetime.datetime.utcnow() + datetime.timedelta(days=1))
+            .sign(self.private_key, hashes.SHA256(), default_backend())
+        )
+
+        cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode("utf-8")
+        cert_base64 = (
+            cert_pem.replace("-----BEGIN CERTIFICATE-----\n", "")
+            .replace("\n-----END CERTIFICATE-----\n", "")
+            .replace("\n", "")
+        )
+
+        self.mock_jwks_keys = [{"kid": self.KID, "x5c": [cert_base64]}]
+
+    def _create_token(self, expired=False, extra_payload=None, kid=None, signing_key=None):
+        """
+        Return a signed JWT string.
+
+        expired      - if True, sets exp in the past so jwt.decode rejects it.
+        extra_payload - dict merged into the default claims (can override any field).
+        kid          - overrides the key ID in the token header.
+        signing_key  - use a different private key to simulate an invalid signature.
+        """
+        now = datetime.datetime.utcnow()
+        exp = now - datetime.timedelta(hours=1) if expired else now + datetime.timedelta(hours=1)
+
+        payload = {
+            "iss": settings.ENTRA_ISSUER_URL,
+            "aud": settings.ENTRA_TOKEN_EXPECTED_AUDIENCE,
+            "exp": exp,
+            "iat": now,
+            "preferred_username": "user@example.com",
+            "APP_ROLES": ["Civil Legal Advice Helpline Operator"],
+        }
+        if extra_payload:
+            payload.update(extra_payload)
+
+        return jwt.encode(
+            payload,
+            signing_key or self.private_key,
+            algorithm="RS256",
+            headers={"kid": kid or self.KID},
+        )
+
+
+class EntraTokenDecoderIntegrationTestCase(EntraTokenGeneratorMixin, SimpleTestCase):
+    @mock.patch("cla_auth.backend.cache")
+    def test_valid_token_decodes_successfully(self, mock_cache):
+        # Arrange: the cache returns the certificate that matches our private key.
+        mock_cache.get.return_value = self.mock_jwks_keys
+        token = self._create_token()
+
+        # Act: run the real decode pipeline.
+        result = EntraTokenDecoder(token).decode()
+
+        # Assert
+        self.assertIsNotNone(result)
+        self.assertEqual(result["preferred_username"], "user@example.com")
+
+    @mock.patch("cla_auth.backend.cache")
+    def test_expired_token_returns_none(self, mock_cache):
+        # Arrange: valid certificate but an expired token.
+        mock_cache.get.return_value = self.mock_jwks_keys
+        token = self._create_token(expired=True)
+
+        # Act & Assert: jwt.decode raises ExpiredSignatureError internally;
+        # decode() catches it and returns None rather than propagating.
+        result = EntraTokenDecoder(token).decode()
+        self.assertIsNone(result)
+
+    @mock.patch("cla_auth.backend.cache")
+    def test_wrong_signing_key_returns_none(self, mock_cache):
+        # Arrange: the JWKS holds our test certificate, but the token is signed
+        # with a completely different key - simulating a forged or mis-issued token.
+        mock_cache.get.return_value = self.mock_jwks_keys
+        wrong_key = rsa.generate_private_key(public_exponent=65537, key_size=2048, backend=default_backend())
+        token = self._create_token(signing_key=wrong_key)
+
+        # Act & Assert: signature verification fails; decode() returns None.
+        result = EntraTokenDecoder(token).decode()
+        self.assertIsNone(result)
+
+
+class EntraTokenDecoderPublicKeysFailureTestCase(SimpleTestCase):
+    @mock.patch("cla_auth.backend.requests")
+    @mock.patch("cla_auth.backend.cache")
+    def test_raises_when_jwks_endpoint_returns_error(self, mock_cache, mock_requests):
+        # Arrange: cache miss, and the HTTP response signals a server error.
+        mock_cache.get.return_value = None
+        mock_requests.get.return_value.raise_for_status.side_effect = Exception("503 Service Unavailable")
+
+        decoder = EntraTokenDecoder("some.token.here")
+
+        # Assert: the exception propagates - there is no try/except in
+        # public_keys, so callers (decode()) will catch it and return None.
+        with self.assertRaises(Exception):
+            _ = decoder.public_keys
+
+    @mock.patch("cla_auth.backend.requests")
+    @mock.patch("cla_auth.backend.cache")
+    def test_raises_when_network_call_fails(self, mock_cache, mock_requests):
+        # Arrange: cache miss, and requests.get itself raises (e.g. DNS failure).
+        mock_cache.get.return_value = None
+        mock_requests.get.side_effect = Exception("Network error")
+
+        decoder = EntraTokenDecoder("some.token.here")
+
+        with self.assertRaises(Exception):
+            _ = decoder.public_keys

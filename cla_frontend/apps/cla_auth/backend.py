@@ -68,7 +68,7 @@ class EntraTokenDecoder(object):
 
         if not key_data and retry:
             cache.delete("entra_public_keys")
-            return self.get_public_key(retry=False)["x5c"][0]
+            return self.get_public_key(retry=False)
         return key_data["x5c"][0]
 
 
