@@ -8,8 +8,16 @@ class CLATFrontEndTestCase(SimpleTestCase):
     credentials = {"username": "my-username", "password": "my-password"}
 
     def login(self):
-        self.client.post(self.login_url, data={"username": self.credentials["username"]})
-        resp = self.client.post(self.login_url, data={"password": self.credentials["password"]}, follow=True)
+        self.client.post(self.login_url, data={"step": "username"})
+        resp = self.client.post(
+            self.login_url,
+            data={
+                "step": "password",
+                "username": self.credentials["username"],
+                "password": self.credentials["password"],
+            },
+            follow=True,
+        )
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(self.mocked_get_auth_connection.called)
 

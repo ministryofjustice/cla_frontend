@@ -6,13 +6,20 @@
   <div class="Grid">
     <div class="Grid-row cf">
       <div class="Grid-col Grid-col--3-5 Grid-colPush--1-5">
-      <a href="?clear=1" class="back-link{% if not show_back %} back-link--hidden{% endif %}">Back</a>
+        <a href="{% url 'auth:login' %}" class="back-link {% if step != 'password' %}back-link--hidden{% endif %}">
+        Back
+        </a>
         <header class="PageHeader">
           <h1>Sign in to Case Handling System</h1>
         </header>
 
         <form action="" name="login_frm" method="post" autocomplete="off">
           {% csrf_token %}
+          <input type="hidden" name="step" value="{{ step }}">
+
+            {% if step == "password" %}
+              <input type="hidden" name="username" value="{{ username }}">
+            {% endif %}
 
           {% include "includes/error_summary.html" %}
           {% for field in form %}
@@ -28,11 +35,11 @@
           {% endfor %}
 
           <div class="FormActions">
-            {% if form.username %}
-            <button type="submit" value="signin" name="login-submit" class="Button">Continue</button>
-            {% else %}
-            <button type="submit" value="signin" name="login-submit" class="Button">Sign in</button>
-            {% endif %}
+          {% if step == "username" %}
+          <button type="submit" class="Button">Continue</button>
+          {% else %}
+          <button type="submit" class="Button">Sign in</button>
+          {% endif %}
           </div>
         </form>
       </div>

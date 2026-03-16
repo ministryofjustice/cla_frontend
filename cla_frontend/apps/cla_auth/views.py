@@ -22,7 +22,7 @@ from ipware.ip import get_ip
 from proxy.views import proxy_view
 
 from api.client import get_connection
-from .forms import AuthenticationForm, UsernameForm, PasswordForm
+from .forms import UsernameForm, PasswordForm
 from .backend import get_backend
 from .utils import user_has_entra_access
 
@@ -144,23 +144,55 @@ def _handle_ajax_login(request):
 
 def _handle_username_step(request, template_name):
     form = UsernameForm(request.POST)
+
     if not form.is_valid():
-        return TemplateResponse(request, template_name, {"form": form})
+        return TemplateResponse(
+            request,
+            template_name,
+            {"form": form, "step": "username"},
+        )
+
     username = form.cleaned_data["username"]
+
     if user_has_entra_access(username):
         return entra_login(request)
-    request.session["login_username"] = username
-    return HttpResponseRedirect(request.path)
+
+    return TemplateResponse(
+        request,
+        template_name,
+        {
+            "form": PasswordForm(request, username=username),
+            "step": "password",
+            "username": username,
+        },
+    )
 
 
 def _handle_password_step(request, template_name, redirect_to):
-    form = PasswordForm(request, username=request.session["login_username"], data=request.POST)
+    username = request.POST.get("username")
+
+    form = PasswordForm(
+        request,
+        username=username,
+        data=request.POST,
+    )
+
     if not form.is_valid():
-        return TemplateResponse(request, template_name, {"form": form, "show_back": True})
-    request.session.pop("login_username")
+        return TemplateResponse(
+            request,
+            template_name,
+            {
+                "form": form,
+                "step": "password",
+                "username": username,
+            },
+        )
+
     auth_login(request, form.get_user())
+
     if not is_safe_url(url=redirect_to, host=request.get_host()):
         redirect_to = resolve_url(form.get_login_redirect_url())
+
     return HttpResponseRedirect(redirect_to)
 
 
@@ -168,101 +200,29 @@ def _handle_password_step(request, template_name, redirect_to):
 @csrf_protect
 @never_cache
 def two_step_login(request, template_name="accounts/login.html"):
-    """
-    Split into two steps: username first, then password (or Entra redirect).
-    """
-    is_json = CONTENT_TYPE_JSON in request.META.get("HTTP_ACCEPT", "")
     redirect_to = request.GET.get(REDIRECT_FIELD_NAME, "")
+    is_json = CONTENT_TYPE_JSON in request.META.get("HTTP_ACCEPT", "")
 
     if is_json and request.method == "POST":
         return _handle_ajax_login(request)
 
-    if request.GET.get("clear"):
-        request.session.pop("login_username", None)
-        return TemplateResponse(request, template_name, {"form": UsernameForm()})
-
     if request.method == "POST":
-        if "password" in request.POST and "login_username" in request.session:
+
+        if request.POST.get("step") == "password":
             return _handle_password_step(request, template_name, redirect_to)
+
         return _handle_username_step(request, template_name)
 
-    if "login_username" in request.session:
-        return TemplateResponse(request, template_name, {"form": PasswordForm(), "show_back": True})
-    return TemplateResponse(request, template_name, {"form": UsernameForm()})
+    return TemplateResponse(
+        request,
+        template_name,
+        {"form": UsernameForm(), "step": "username"},
+    )
 
 
 # ==============================================================
 # LEGACY VIEWS - to be removed once we have fully switched to Entra ID authentication
 # ==============================================================
-@sensitive_post_parameters()
-@csrf_protect
-@never_cache
-def legacy_login(
-    request,
-    template_name="accounts/login.html",
-    redirect_field_name=REDIRECT_FIELD_NAME,
-    authentication_form=AuthenticationForm,
-    current_app=None,
-    extra_context=None,
-):
-    """
-    Displays the login form and handles the login action.
-    """
-    is_json = CONTENT_TYPE_JSON in request.META.get("HTTP_ACCEPT", "")
-    redirect_to = request.GET.get(redirect_field_name, "")
-
-    if request.method == "POST":
-        form = authentication_form(request, data=request.POST)
-        if form.is_valid():
-            # Ensure the user-originating redirection url is safe.
-            if not is_safe_url(url=redirect_to, host=request.get_host()):
-                redirect_to = resolve_url(form.get_login_redirect_url())
-
-            # Okay, security check complete. Log the user in.
-            auth_login(request, form.get_user())
-
-            statsd.incr("login.success")
-
-            logger.info(
-                "login succeeded",
-                extra={
-                    "IP": get_ip(request),
-                    "USERNAME": request.POST.get("username"),
-                    "HTTP_REFERER": request.META.get("HTTP_REFERER"),
-                    "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
-                },
-            )
-
-            if is_json:
-                return HttpResponse(status=204)
-            return HttpResponseRedirect(redirect_to)
-        else:
-            statsd.incr("login.failed")
-
-            logger.info(
-                "login failed",
-                extra={
-                    "IP": get_ip(request),
-                    "USERNAME": request.POST.get("username"),
-                    "HTTP_REFERER": request.META.get("HTTP_REFERER"),
-                    "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
-                },
-            )
-
-            if is_json:
-                return HttpResponse(json.dumps(form.errors), status=400, content_type=CONTENT_TYPE_JSON)
-    else:
-        form = authentication_form(request)
-
-    current_site = get_current_site(request)
-
-    context = {"form": form, redirect_field_name: redirect_to, "site": current_site, "site_name": current_site.name}
-    if extra_context is not None:
-        context.update(extra_context)
-
-    return TemplateResponse(request, template_name, context, current_app=current_app)
-
-
 @csrf_exempt
 def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None):
     """

@@ -37,10 +37,19 @@ class LoginTestCase(SimpleTestCase):
         self.mocked_get_auth_connection.return_value = connection
 
         # Step 1: username form
-        self.client.post(self.url, data={"username": self.credentials["username"]})
+        resp = self.client.post(self.url, data={"step": "username", "username": self.credentials["username"]})
+        self.assertEqual(resp.status_code, 200)
 
         # Step 2: password form
-        response = self.client.post(self.url, data={"password": self.credentials["password"]}, follow=True)
+        response = self.client.post(
+            self.url,
+            data={
+                "step": "password",
+                "username": self.credentials["username"],
+                "password": self.credentials["password"],
+            },
+            follow=True,
+        )
 
         self.assertEqual(response.content, "logged in")
         self.assertEqual(self.client.session[SESSION_KEY], token)
@@ -52,17 +61,25 @@ class LoginTestCase(SimpleTestCase):
         self.mocked_get_auth_connection.return_value = connection
 
         # Step 1: username form
-        self.client.post(self.url, data={"username": self.credentials["username"]})
+        self.client.post(self.url, data={"step": "username", "username": self.credentials["username"]})
 
         # Step 2: password form
-        response = self.client.post(self.url, data={"password": self.credentials["password"]}, follow=True)
+        response = self.client.post(
+            self.url,
+            data={
+                "step": "password",
+                "username": self.credentials["username"],
+                "password": self.credentials["password"],
+            },
+            follow=True,
+        )
 
         self.assertFalse(response.context_data["form"].is_valid())
         self.assertNotIn(SESSION_KEY, self.client.session)
 
     def test_empty_username_shows_username_form_error(self):
         # Submitting an empty username should return the username form with errors
-        response = self.client.post(self.url, data={"username": ""})
+        response = self.client.post(self.url, data={"step": "username", "username": ""})
 
         self.assertEqual(response.status_code, 200)
         form = response.context_data["form"]
@@ -71,15 +88,16 @@ class LoginTestCase(SimpleTestCase):
         self.assertNotIn("password", form.fields)
 
     def test_stale_session_username_submit_rerenders_username_form(self):
-        self.client.post(self.url, data={"username": "old-username"})
+        self.client.post(self.url, data={"step": "username", "username": "old-username"})
 
-        response = self.client.post(self.url, data={"username": self.credentials["username"]}, follow=True)
+        response = self.client.post(
+            self.url, data={"step": "username", "username": self.credentials["username"]}, follow=True
+        )
 
         self.assertEqual(response.status_code, 200)
         form = response.context_data["form"]
 
         self.assertIn("password", form.fields)
-        self.assertEqual(self.client.session.get("login_username"), self.credentials["username"])
 
     def test_browser_back_with_new_username_updates_session(self):
         token = "123456789"
@@ -88,15 +106,21 @@ class LoginTestCase(SimpleTestCase):
         self.mocked_get_auth_connection.return_value = connection
 
         # First username submission
-        self.client.post(self.url, data={"username": "old-username"})
-        self.assertEqual(self.client.session.get("login_username"), "old-username")
+        self.client.post(self.url, data={"ste": "username", "username": "old-username"})
 
         # Simulate browser back: POST username field again with a new username
-        self.client.post(self.url, data={"username": self.credentials["username"]})
-        self.assertEqual(self.client.session.get("login_username"), self.credentials["username"])
+        self.client.post(self.url, data={"step": "username", "username": self.credentials["username"]})
 
         # Password step should now authenticate with the new username
-        response = self.client.post(self.url, data={"password": self.credentials["password"]}, follow=True)
+        response = self.client.post(
+            self.url,
+            data={
+                "step": "password",
+                "username": self.credentials["username"],
+                "password": self.credentials["password"],
+            },
+            follow=True,
+        )
         self.assertEqual(response.content, "logged in")
 
 
@@ -120,8 +144,15 @@ class LegacyLogoutTestCase(SimpleTestCase):
         connection = mock.MagicMock()
         connection.oauth2.access_token.post.return_value = {"access_token": token}
         self.mocked_get_auth_connection.return_value = connection
-        self.client.post(self.login_url, data={"username": self.credentials["username"]})
-        self.client.post(self.login_url, data={"password": self.credentials["password"]})
+        self.client.post(self.login_url, data={"step": "username", "username": self.credentials["username"]})
+        self.client.post(
+            self.login_url,
+            data={
+                "step": "password",
+                "username": self.credentials["username"],
+                "password": self.credentials["password"],
+            },
+        )
         return token
 
     @override_settings(USE_LEGACY_AUTH="True")
