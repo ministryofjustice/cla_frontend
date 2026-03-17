@@ -187,7 +187,7 @@ class EntraTokenDecoderDecodeTestCase(SimpleTestCase):
         # Arrange: jwt.decode returns a valid payload when called with the correct public key.
         expected_payload = {
             "preferred_username": "user@example.com",
-            "APP_ROLES": ["Civil Legal Advice Helpline Operator"],
+            "APP_ROLES": ["Civil Legal Advice - Helpline Operator"],
         }
         mock_jwt_decode.return_value = expected_payload
         # Act: call decode, which should use the mocked get_public_key and jwt.decode to return the expected payload.
@@ -225,7 +225,7 @@ class EntraBackendTestCase(SimpleTestCase):
     @mock.patch("cla_auth.backend.EntraTokenDecoder")
     def test_token_to_user_builds_user_from_valid_payload(self, mock_decoder_cls):
         # Arrange: the decoder's decode method returns a valid payload with a username and roles.
-        role = "Civil Legal Advice Helpline Operator"
+        role = "Civil Legal Advice - Helpline Operator"
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "operator@example.com",
             "APP_ROLES": [role],
@@ -242,7 +242,7 @@ class EntraBackendTestCase(SimpleTestCase):
     @mock.patch("cla_auth.backend.EntraTokenDecoder")
     def test_token_to_user_sets_is_manager_for_manager_role(self, mock_decoder_cls):
         # Arrange: the decoder's decode method returns a payload with a manager role.
-        role = "Civil Legal Advice Helpline Operator Manager"
+        role = "Civil Legal Advice - Helpline Operator Manager"
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "manager@example.com",
             "APP_ROLES": [role],
@@ -257,17 +257,17 @@ class EntraBackendTestCase(SimpleTestCase):
         # Arrange
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "user@example.com",
-            "APP_ROLES": ["Civil Legal Advice Helpline Operator", "Unknown Role"],
+            "APP_ROLES": ["Civil Legal Advice - Helpline Operator", "Unknown Role"],
         }
         # Act
         user = self.backend.token_to_user(self.mock_jwt)
         # Assert
-        self.assertEqual(user._me_data["roles"], ["Civil Legal Advice Helpline Operator"])
+        self.assertEqual(user._me_data["roles"], ["Civil Legal Advice - Helpline Operator"])
 
     @mock.patch("cla_auth.backend.EntraTokenDecoder")
     def test_token_to_user_handles_single_role_string(self, mock_decoder_cls):
         # Arrange
-        role = "Civil Legal Advice Helpline Operator"
+        role = "Civil Legal Advice - Helpline Operator"
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "user@example.com",
             "APP_ROLES": role,
