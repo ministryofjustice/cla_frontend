@@ -160,3 +160,24 @@ envVars:
     configmap:
       name: legacy-auth
       key: enabled
+  ENTRA_CLIENT_ID:
+    secret:
+      name: sso
+      key: client_id
+  ENTRA_TENANT_ID:
+    secret:
+      name: sso
+      key: tenant_id
+  ENTRA_CLIENT_SECRET:
+    secret:
+      name: sso
+      key: client_secret
+  ENTRA_SCOPE:
+    secret:
+      name: sso
+      key: backend_scope
+  ENTRA_TOKEN_EXPECTED_AUDIENCE:
+    secret:
+      name: sso
+      key: expected_audience
+
