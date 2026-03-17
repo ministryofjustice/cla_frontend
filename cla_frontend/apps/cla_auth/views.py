@@ -77,6 +77,9 @@ def _get_logout_url(request):
 
 @never_cache
 def entra_login(request):
+    return_to = request.GET.get(REDIRECT_FIELD_NAME)
+    if return_to:
+        request.session.update({REDIRECT_FIELD_NAME: return_to})
     return redirect(_get_entra_auth_url(request))
 
 
@@ -120,8 +123,13 @@ def entra_callback(request):
     if not ui:
         raise ValueError("User does not have access to any ui.")
 
-    path = "/call_centre" if ui[0] == "operator" else "/provider"
-    return redirect(path)
+    return_to = request.session.get(REDIRECT_FIELD_NAME, None)
+    if return_to:
+        request.session.delete(REDIRECT_FIELD_NAME)
+    else:
+        return_to = "/call_centre" if ui[0] == "operator" else "/provider"
+
+    return redirect(return_to)
 
 
 def entra_logout(request):
@@ -144,11 +152,7 @@ def _handle_username_step(request, template_name):
     form = UsernameForm(request.POST)
 
     if not form.is_valid():
-        return TemplateResponse(
-            request,
-            template_name,
-            {"form": form, "step": "username"},
-        )
+        return TemplateResponse(request, template_name, {"form": form, "step": "username"})
 
     username = form.cleaned_data["username"]
 
@@ -158,33 +162,17 @@ def _handle_username_step(request, template_name):
     return TemplateResponse(
         request,
         template_name,
-        {
-            "form": PasswordForm(request, username=username),
-            "step": "password",
-            "username": username,
-        },
+        {"form": PasswordForm(request, username=username), "step": "password", "username": username},
     )
 
 
 def _handle_password_step(request, template_name, redirect_to):
     username = request.POST.get("username")
 
-    form = PasswordForm(
-        request,
-        username=username,
-        data=request.POST,
-    )
+    form = PasswordForm(request, username=username, data=request.POST)
 
     if not form.is_valid():
-        return TemplateResponse(
-            request,
-            template_name,
-            {
-                "form": form,
-                "step": "password",
-                "username": username,
-            },
-        )
+        return TemplateResponse(request, template_name, {"form": form, "step": "password", "username": username})
 
     auth_login(request, form.get_user())
 
@@ -211,11 +199,7 @@ def two_step_login(request, template_name="accounts/login.html"):
 
         return _handle_username_step(request, template_name)
 
-    return TemplateResponse(
-        request,
-        template_name,
-        {"form": UsernameForm(), "step": "username"},
-    )
+    return TemplateResponse(request, template_name, {"form": UsernameForm(), "step": "username"})
 
 
 # ==============================================================

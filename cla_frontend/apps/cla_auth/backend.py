@@ -20,14 +20,9 @@ from .utils import get_zone_profile
 logger = logging.getLogger(__name__)
 
 ROLES = {
-    "Civil Legal Advice Helpline Operator Manager": {"ui": "operator", "is_manager": True},
-    "Civil Legal Advice Helpline Operator": {"ui": "operator", "is_manager": False},
-    "Civil Legal Advice Helpline Provider": {"ui": "provider", "is_manager": False},
-    # Todo: remove the below roles from silas
-    "Civil Legal Advice Operator": {"ui": "operator", "is_manager": False},
-    "Civil Legal Advice - Provider": {"ui": "provider", "is_manager": False},
-    "Civil Legal Advice Access": {"ui": "provider", "is_manager": False},
+    "Civil Legal Advice - Helpline Operator Manager": {"ui": "operator", "is_manager": True},
     "Civil Legal Advice - Helpline Operator": {"ui": "operator", "is_manager": False},
+    "Civil Legal Advice - Helpline Provider": {"ui": "provider", "is_manager": False},
 }
 
 
