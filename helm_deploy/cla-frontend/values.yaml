@@ -152,3 +152,11 @@ envVars:
     value: "False"
   CSRF_COOKIE_SECURE:
     value: "True"
+  USERS_ALLOWED_ENTRA_ACCESS:
+    configmap:
+      name: entra-allowed-users
+      key: users
+  USE_LEGACY_AUTH:
+    configmap:
+      name: legacy-auth
+      key: enabled
