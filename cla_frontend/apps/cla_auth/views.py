@@ -125,7 +125,7 @@ def entra_callback(request):
 
     return_to = request.session.get(REDIRECT_FIELD_NAME, None)
     if return_to:
-        request.session.delete(REDIRECT_FIELD_NAME)
+        del request.session[REDIRECT_FIELD_NAME]
     else:
         return_to = "/call_centre" if ui[0] == "operator" else "/provider"
 
