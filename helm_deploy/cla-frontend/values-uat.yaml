@@ -3,7 +3,13 @@
 # Declare variables to be passed into your templates.
 
 environment: "uat"
+host: "laa-cla-frontend-uat.beta.cloud-platform.service.justice.gov.uk"
 secretName: ~
+
+ingress:
+  className: beta
+  modsecurity:
+    enabled: false
 
 envVars:
   BACKEND_BASE_URI:

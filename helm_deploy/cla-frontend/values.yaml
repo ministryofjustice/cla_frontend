@@ -38,7 +38,10 @@ host: 'localhost'
 secretName: tls-certificate
 ingress:
   enabled: true
+  className: modsec
   annotations: {}
+  modsecurity:
+    enabled: true
   cluster:
     name: ~
     weight: ~

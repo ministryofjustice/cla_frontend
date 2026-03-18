@@ -25,12 +25,17 @@ metadata:
         proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
       }
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- if .Values.ingress.modsecurity.enabled }}
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    {{- end }}
     # Add annotation to exclude 503 error pages from the list the cloud-platform error pages
     # and use our error pages for 503 errors
     nginx.ingress.kubernetes.io/custom-http-errors: "413,502,504"
 spec:
-  ingressClassName: "modsec"
+  ingressClassName: "{{ .Values.ingress.className }}"
   tls:
     - hosts:
       - "{{ .Values.host }}"
