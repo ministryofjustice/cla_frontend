@@ -37,10 +37,27 @@ def _build_msal_app():
     )
 
 
+@sensitive_post_parameters()
+@csrf_protect
+@never_cache
 def login(request):
-    return two_step_login(request)
+    template_name = "accounts/login.html"
+    redirect_to = request.GET.get(REDIRECT_FIELD_NAME, "")
+    is_json = CONTENT_TYPE_JSON in request.META.get("HTTP_ACCEPT", "")
+
+    if is_json and request.method == "POST":
+        return _handle_ajax_login(request)
+
+    if request.method == "POST":
+        if request.POST.get("step") == "password":
+            return _handle_password_step(request, template_name, redirect_to)
+
+        return _handle_username_step(request, template_name)
+
+    return TemplateResponse(request, template_name, {"form": UsernameForm(), "step": "username"})
 
 
+@never_cache
 def logout_view(request):
     if not request.user.is_authenticated():
         return redirect("/auth/login/")
@@ -180,26 +197,6 @@ def _handle_password_step(request, template_name, redirect_to):
         redirect_to = resolve_url(form.get_login_redirect_url())
 
     return HttpResponseRedirect(redirect_to)
-
-
-@sensitive_post_parameters()
-@csrf_protect
-@never_cache
-def two_step_login(request, template_name="accounts/login.html"):
-    redirect_to = request.GET.get(REDIRECT_FIELD_NAME, "")
-    is_json = CONTENT_TYPE_JSON in request.META.get("HTTP_ACCEPT", "")
-
-    if is_json and request.method == "POST":
-        return _handle_ajax_login(request)
-
-    if request.method == "POST":
-
-        if request.POST.get("step") == "password":
-            return _handle_password_step(request, template_name, redirect_to)
-
-        return _handle_username_step(request, template_name)
-
-    return TemplateResponse(request, template_name, {"form": UsernameForm(), "step": "username"})
 
 
 # ==============================================================

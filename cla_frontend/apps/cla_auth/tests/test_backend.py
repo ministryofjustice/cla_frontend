@@ -163,10 +163,7 @@ class EntraTokenDecoderGetPublicKeyTestCase(SimpleTestCase):
     def test_retries_after_cache_miss_for_unknown_kid(self, mock_cache, mock_get_header, mock_requests):
         # Arrange: the cache first returns keys that do not match the token's kid, then returns None to trigger a refresh.
         # The HTTP response returns our mock keys.
-        mock_cache.get.side_effect = [
-            [{"kid": "other-kid", "x5c": ["other-key"]}],
-            None,
-        ]
+        mock_cache.get.side_effect = [[{"kid": "other-kid", "x5c": ["other-key"]}], None]
         mock_get_header.return_value = {"kid": MOCK_KID}
         mock_response = mock.MagicMock()
         mock_response.json.return_value = {"keys": MOCK_KEYS}
@@ -211,6 +208,7 @@ class EntraTokenDecoderDecodeTestCase(SimpleTestCase):
 class EntraBackendTestCase(SimpleTestCase):
     def setUp(self):
         self.backend = EntraBackend()
+        self.backend.init_user = lambda *args, **kwargs: None
         self.mock_jwt = "header.payload.signature"
 
     @mock.patch("cla_auth.backend.EntraTokenDecoder")

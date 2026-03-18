@@ -83,9 +83,13 @@ class EntraBackend(object):
             "is_manager": any([ROLES[role]["is_manager"] for role in roles]),
             "ui_access": [ROLES[role]["ui"] for role in roles],
         }
-        # Make sure the user is created on the backend if it does not exist
-        user.get_raw_connection().user.me.get()
+        self.init_user(user)
         return user
+
+    @staticmethod
+    def init_user(user):
+        # Make an initial request to backend - The user is created on backend on the first request if it does not exist
+        user.get_raw_connection().user.me.get()
 
     def authenticate(self, token):
         return self.token_to_user(token["access_token"])
