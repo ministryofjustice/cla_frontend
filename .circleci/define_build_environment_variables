@@ -8,21 +8,18 @@ export safe_git_branch=${CIRCLE_BRANCH//\//-}
 export short_sha="$(git rev-parse --short=7 $CIRCLE_SHA1)"
 export IMAGE_TAG="$safe_git_branch.$short_sha"
 
+HOSTNAME_SUFFIX=${HOST}
+if [ "$NAMESPACE" = "uat" ] && [ -n "$BETA_HOST" ]; then
+  HOSTNAME_SUFFIX=${BETA_HOST}
+fi
+
 export CLEANED_BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed 's/^feature[-/]//' | sed 's:^\w*\/::' | tr -s ' _/[]().' '-' | tr '[:upper:]' '[:lower:]' | cut -c1-28 | sed 's/-$//')
 if [ $DYNAMIC_HOSTNAME = true ]; then
   export RELEASE_NAME=${CLEANED_BRANCH_NAME}
-  export RELEASE_HOST=${RELEASE_NAME}-${HOST}
+  export RELEASE_HOST=${RELEASE_NAME}-${HOSTNAME_SUFFIX}
 else
   export RELEASE_NAME=cla-frontend
-  export RELEASE_HOST=${HOST}
-fi
-
-# For UAT namespace with beta ingress class, ensure domain matches required pattern
-if [ "$NAMESPACE" = "uat" ]; then
-  BETA_DOMAIN_SUFFIX="beta.cloud-platform.service.justice.gov.uk"
-  if ! echo "$RELEASE_HOST" | grep -q "$BETA_DOMAIN_SUFFIX"; then
-    export RELEASE_HOST="${RELEASE_HOST}.${BETA_DOMAIN_SUFFIX}"
-  fi
+  export RELEASE_HOST=${HOSTNAME_SUFFIX}
 fi
 
 if [ "$CIRCLE_BRANCH" == "main" ]; then

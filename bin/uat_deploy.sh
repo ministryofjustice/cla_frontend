@@ -5,12 +5,6 @@ ROOT=$(dirname "$0")
 HELM_DIR="$ROOT/../helm_deploy/cla-frontend/"
 VALUES="values-uat.yaml"
 
-# Ensure RELEASE_HOST has the correct beta domain suffix
-BETA_DOMAIN_SUFFIX="beta.cloud-platform.service.justice.gov.uk"
-if [[ ! "$RELEASE_HOST" == *"$BETA_DOMAIN_SUFFIX"* ]]; then
-  RELEASE_HOST="${RELEASE_HOST}.${BETA_DOMAIN_SUFFIX}"
-fi
-
 # Pull ranges from shared LAA IP ranges and then remove spaces,
 # replace linebreaks with commas, remove last comma, and escape commas for helm input
 SHARED_IP_RANGES_LAA=$(curl -s https://raw.githubusercontent.com/ministryofjustice/laa-ip-allowlist/main/cidrs.txt | tr -d ' ' | tr '\n' ',' | sed 's/,/\\,/g' | sed 's/\\,$//')
