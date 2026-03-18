@@ -10,13 +10,18 @@ export IMAGE_TAG="$safe_git_branch.$short_sha"
 
 HOSTNAME_SUFFIX=${HOST}
 if [ "$NAMESPACE" = "uat" ] && [ -n "$BETA_HOST" ]; then
-  HOSTNAME_SUFFIX=${BETA_HOST}
+  # Strip any leading dot so we can safely construct hostnames.
+  BETA_HOST_SANITIZED=${BETA_HOST#.}
 fi
 
 export CLEANED_BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed 's/^feature[-/]//' | sed 's:^\w*\/::' | tr -s ' _/[]().' '-' | tr '[:upper:]' '[:lower:]' | cut -c1-28 | sed 's/-$//')
 if [ $DYNAMIC_HOSTNAME = true ]; then
   export RELEASE_NAME=${CLEANED_BRANCH_NAME}
-  export RELEASE_HOST=${RELEASE_NAME}-${HOSTNAME_SUFFIX}
+  if [ "$NAMESPACE" = "uat" ] && [ -n "$BETA_HOST" ]; then
+    export RELEASE_HOST=${RELEASE_NAME}.${BETA_HOST_SANITIZED}
+  else
+    export RELEASE_HOST=${RELEASE_NAME}-${HOSTNAME_SUFFIX}
+  fi
 else
   export RELEASE_NAME=cla-frontend
   export RELEASE_HOST=${HOSTNAME_SUFFIX}
