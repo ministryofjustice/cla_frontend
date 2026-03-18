@@ -17,6 +17,14 @@ else
   export RELEASE_HOST=${HOST}
 fi
 
+# For UAT namespace with beta ingress class, ensure domain matches required pattern
+if [ "$NAMESPACE" = "uat" ]; then
+  BETA_DOMAIN_SUFFIX="beta.cloud-platform.service.justice.gov.uk"
+  if ! echo "$RELEASE_HOST" | grep -q "$BETA_DOMAIN_SUFFIX"; then
+    export RELEASE_HOST="${RELEASE_HOST}.${BETA_DOMAIN_SUFFIX}"
+  fi
+fi
+
 if [ "$CIRCLE_BRANCH" == "main" ]; then
   export TARGET_TAGS=$IMAGE_TAG,$CLEANED_BRANCH_NAME,"latest"
 else
