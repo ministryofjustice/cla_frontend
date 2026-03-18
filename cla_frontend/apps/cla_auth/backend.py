@@ -83,6 +83,8 @@ class EntraBackend(object):
             "is_manager": any([ROLES[role]["is_manager"] for role in roles]),
             "ui_access": [ROLES[role]["ui"] for role in roles],
         }
+        # Make sure the user is created on the backend if it does not exist
+        user.get_raw_connection().user.me.get()
         return user
 
     def authenticate(self, token):
