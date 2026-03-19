@@ -32,10 +32,99 @@ logger = logging.getLogger(__name__)
 CONTENT_TYPE_JSON = "application/json"
 
 
-def _build_msal_app():
-    return msal.ConfidentialClientApplication(
-        settings.ENTRA_CLIENT_ID, authority=settings.ENTRA_AUTHORITY, client_credential=settings.ENTRA_CLIENT_SECRET
-    )
+class EntraAutView(object):
+    @classmethod
+    def build_msal_app(cls):
+        return msal.ConfidentialClientApplication(
+            settings.ENTRA_CLIENT_ID,
+            authority=settings.ENTRA_AUTHORITY,
+            client_credential=settings.ENTRA_CLIENT_SECRET,
+        )
+
+    @classmethod
+    def build_entra_auth_url(cls, request, state):
+        msal_app = cls.build_msal_app()
+        kwargs = {
+            "scopes": [settings.ENTRA_SCOPE],
+            "redirect_uri": request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
+            "state": state,
+        }
+        return msal_app.get_authorization_request_url(**kwargs)
+
+    @classmethod
+    def route_login(cls, request):
+        logout(request)
+        return_to = request.GET.get(REDIRECT_FIELD_NAME)
+        if return_to:
+            request.session.update({REDIRECT_FIELD_NAME: return_to})
+        state = base64.urlsafe_b64encode(os.urandom(32)).rstrip("=")
+        request.session["oauth_state"] = state
+        return redirect(cls.build_entra_auth_url(request, state))
+
+    @classmethod
+    def route_logout(self, request):
+        logout(request)
+        post_logout_uri = request.build_absolute_uri("/auth/login/")
+        logout_url = "{}/oauth2/v2.0/logout?post_logout_redirect_uri={}".format(
+            settings.ENTRA_AUTHORITY, post_logout_uri
+        )
+        response = redirect(logout_url)
+        response = _clear_session_cookie(response)
+        return response
+
+    @classmethod
+    def route_call_back(cls, request):
+        code = request.GET.get("code")
+        if not code:
+            logger.error("Entra authentication - No code provided")
+            return redirect("/")
+
+        state = request.GET.get("state")
+        if not state:
+            logger.error("Entra authentication -No state provided")
+            return redirect("/")
+
+        if state != request.session.get("oauth_state"):
+            logger.error("Entra authentication -State provided does not match session state")
+            return redirect("/")
+
+        msal_app = cls.build_msal_app()
+        result = msal_app.acquire_token_by_authorization_code(
+            code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
+        )
+
+        if "error" in result:
+            logger.error("Entra authentication - Error: %s" % result["error"])
+            return redirect("/")
+
+        if not result:
+            return redirect("/")
+
+        user = authenticate(token=result)
+
+        auth_login(request, user)
+
+        logger.info(
+            "login succeeded",
+            extra={
+                "AUTH_METHOD": "ENTRA",
+                "IP": get_ip(request),
+                "USERNAME": request.POST.get("username"),
+                "HTTP_REFERER": request.META.get("HTTP_REFERER"),
+                "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
+            },
+        )
+        ui = user.zone_to_ui()
+        if not ui:
+            raise ValueError("User does not have access to any ui.")
+
+        return_to = request.session.get(REDIRECT_FIELD_NAME, None)
+        if return_to:
+            del request.session[REDIRECT_FIELD_NAME]
+        else:
+            return_to = "/call_centre" if ui[0] == "operator" else "/provider"
+
+        return redirect(return_to)
 
 
 @sensitive_post_parameters()
@@ -64,107 +153,13 @@ def logout_view(request):
         return redirect("/auth/login/")
     if request.user.zone_name != "entra":
         return legacy_logout(request)
-    return entra_logout(request)
+    return EntraAutView.route_logout(request)
 
 
 def _clear_session_cookie(response):
     response["Set-Cookie"] = (
         os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
     )
-    return response
-
-
-# ==============================================================
-# Entra ID Authentication Views
-# ==============================================================
-def _get_entra_auth_url(request, prompt=None):
-    msal_app = _build_msal_app()
-    state = base64.urlsafe_b64encode(os.urandom(32)).rstrip("=")
-    request.session["oauth_state"] = state
-    kwargs = {
-        "scopes": [settings.ENTRA_SCOPE],
-        "redirect_uri": request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
-        "state": state,
-    }
-    if prompt:
-        kwargs["prompt"] = prompt
-
-    return msal_app.get_authorization_request_url(**kwargs)
-
-
-def _get_logout_url(request):
-    post_logout_uri = request.build_absolute_uri("/auth/login/")
-    return "{}/oauth2/v2.0/logout?post_logout_redirect_uri={}".format(settings.ENTRA_AUTHORITY, post_logout_uri)
-
-
-def entra_login(request):
-    return_to = request.GET.get(REDIRECT_FIELD_NAME)
-    if return_to:
-        request.session.update({REDIRECT_FIELD_NAME: return_to})
-    return redirect(_get_entra_auth_url(request))
-
-
-@never_cache
-def entra_relogin(request):
-    logout(request)
-    return entra_login(request)
-
-
-@never_cache
-def entra_callback(request):
-    code = request.GET.get("code")
-    if not code:
-        logger.error("Entra authentication - No code provided")
-        return redirect("/")
-
-    state = request.GET.get("state")
-    if not state:
-        logger.error("Entra authentication -No state provided")
-        return redirect("/")
-
-    if state != request.session.get("oauth_state"):
-        logger.error("Entra authentication -State provided does not match session state")
-        return redirect("/")
-
-    msal_app = _build_msal_app()
-    result = msal_app.acquire_token_by_authorization_code(
-        code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
-    )
-
-    if "error" in result:
-        logger.error("Entra authentication - Error: %s" % result["error"])
-        return redirect("/")
-    user = authenticate(token=result)
-
-    auth_login(request, user)
-
-    logger.info(
-        "login succeeded",
-        extra={
-            "AUTH_METHOD": "ENTRA",
-            "IP": get_ip(request),
-            "USERNAME": request.POST.get("username"),
-            "HTTP_REFERER": request.META.get("HTTP_REFERER"),
-            "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
-        },
-    )
-    ui = user.zone_to_ui()
-    if not ui:
-        raise ValueError("User does not have access to any ui.")
-
-    return_to = request.session.get(REDIRECT_FIELD_NAME, None)
-    if return_to:
-        del request.session[REDIRECT_FIELD_NAME]
-    else:
-        return_to = "/call_centre" if ui[0] == "operator" else "/provider"
-
-    return redirect(return_to)
-
-
-def entra_logout(request):
-    logout(request)
-    response = redirect(_get_logout_url(request))
-    response = _clear_session_cookie(response)
     return response
 
 
@@ -186,7 +181,7 @@ def _handle_username_step(request, template_name):
     username = form.cleaned_data["username"]
 
     if user_has_entra_access(username):
-        return entra_login(request)
+        return EntraAutView.route_login(request)
 
     return TemplateResponse(
         request,

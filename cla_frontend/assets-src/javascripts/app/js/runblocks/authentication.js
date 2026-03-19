@@ -4,7 +4,7 @@
   // in seconds
   var idle = 3300;
   var timeout = 300;
-  
+
   angular.module('cla.operatorApp')
     .config(['IdleProvider', function(IdleProvider) {
       IdleProvider.autoResume(false); // don't auto resume
@@ -20,7 +20,7 @@
 
         var loginModalController = function ($scope) {
           $scope.signInEntra = function () {
-            window.location.href = '/auth/entra-relogin/';
+            window.location.href = '/auth/entra-login/';
           };
           $scope.login = function (form) {
             $http({
