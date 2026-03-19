@@ -184,7 +184,7 @@ class EntraTokenDecoderDecodeTestCase(SimpleTestCase):
         # Arrange: jwt.decode returns a valid payload when called with the correct public key.
         expected_payload = {
             "preferred_username": "user@example.com",
-            "APP_ROLES": ["Civil Legal Advice - Helpline Operator"],
+            "LAA_APP_ROLES": ["Civil Legal Advice - Helpline Operator"],
         }
         mock_jwt_decode.return_value = expected_payload
         # Act: call decode, which should use the mocked get_public_key and jwt.decode to return the expected payload.
@@ -226,7 +226,7 @@ class EntraBackendTestCase(SimpleTestCase):
         role = "Civil Legal Advice - Helpline Operator"
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "operator@example.com",
-            "APP_ROLES": [role],
+            "LAA_APP_ROLES": [role],
         }
         # Act: call token_to_user, which should create a user object with the decoded data.
         user = self.backend.token_to_user(self.mock_jwt)
@@ -243,7 +243,7 @@ class EntraBackendTestCase(SimpleTestCase):
         role = "Civil Legal Advice - Helpline Operator Manager"
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "manager@example.com",
-            "APP_ROLES": [role],
+            "LAA_APP_ROLES": [role],
         }
         # Act
         user = self.backend.token_to_user(self.mock_jwt)
@@ -255,7 +255,7 @@ class EntraBackendTestCase(SimpleTestCase):
         # Arrange
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "user@example.com",
-            "APP_ROLES": ["Civil Legal Advice - Helpline Operator", "Unknown Role"],
+            "LAA_APP_ROLES": ["Civil Legal Advice - Helpline Operator", "Unknown Role"],
         }
         # Act
         user = self.backend.token_to_user(self.mock_jwt)
@@ -268,7 +268,7 @@ class EntraBackendTestCase(SimpleTestCase):
         role = "Civil Legal Advice - Helpline Operator"
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "user@example.com",
-            "APP_ROLES": role,
+            "LAA_APP_ROLES": role,
         }
         # Act
         user = self.backend.token_to_user(self.mock_jwt)
@@ -279,7 +279,7 @@ class EntraBackendTestCase(SimpleTestCase):
     def test_authenticate_passes_access_token(self, mock_token_to_user):
         # Arrange
         mock_token_to_user.return_value = mock.MagicMock()
-        token_dict = {"access_token": self.mock_jwt}
+        token_dict = {"id_token": self.mock_jwt, "access_token": None}
         # Act
         self.backend.authenticate(token_dict)
         # Assert
