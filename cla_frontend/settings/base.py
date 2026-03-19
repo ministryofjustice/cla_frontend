@@ -205,6 +205,7 @@ MIDDLEWARE_CLASSES = (
     "core.session_security.middleware.SessionSecurityMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "cla_auth.middleware.EntraAccessTokenMiddleware",
     "cla_auth.middleware.ZoneMiddleware",
     "core.middlewares.Cla401Middleware",
     "csp.middleware.CSPMiddleware",

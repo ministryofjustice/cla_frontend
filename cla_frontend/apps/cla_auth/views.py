@@ -101,9 +101,12 @@ class EntraAutView(object):
             return redirect("/")
 
         user = authenticate(token=result)
+        if not user:
+            logger.error("Entra authentication - No user found")
+            return redirect("/")
 
         auth_login(request, user)
-
+        request.session.update({"entra_access_token": result.get("access_token")})
         logger.info(
             "login succeeded",
             extra={

@@ -29,7 +29,7 @@ ROLES = {
 class EntraTokenDecoder(object):
     def __init__(self, token):
         self.tenant_id = settings.ENTRA_TENANT_ID
-        self.expected_audience = settings.ENTRA_TOKEN_EXPECTED_AUDIENCE
+        self.expected_audience = settings.ENTRA_CLIENT_ID
         self.issuer = settings.ENTRA_ISSUER_URL
         self.discovery_url = settings.ENTRA_KEYS_URL
         self.token = token
@@ -43,7 +43,8 @@ class EntraTokenDecoder(object):
             return jwt.decode(
                 self.token, public_key, algorithms=["RS256"], audience=self.expected_audience, issuer=self.issuer
             )
-        except Exception:
+        except Exception as e:
+            logger.error(e)
             return None
 
     @property
@@ -75,7 +76,7 @@ class EntraBackend(object):
         if not payload:
             return None
         user = ClaUser(token, self.zone_name)
-        roles = payload["APP_ROLES"] if isinstance(payload["APP_ROLES"], list) else [payload["APP_ROLES"]]
+        roles = payload["LAA_APP_ROLES"] if isinstance(payload["LAA_APP_ROLES"], list) else [payload["LAA_APP_ROLES"]]
         roles = [role for role in roles if role in ROLES]
         user._me_data = {
             "username": payload["preferred_username"],
@@ -83,7 +84,6 @@ class EntraBackend(object):
             "is_manager": any([ROLES[role]["is_manager"] for role in roles]),
             "ui_access": [ROLES[role]["ui"] for role in roles],
         }
-        self.init_user(user)
         return user
 
     @staticmethod
@@ -92,7 +92,10 @@ class EntraBackend(object):
         user.get_raw_connection().user.me.get()
 
     def authenticate(self, token):
-        return self.token_to_user(token["access_token"])
+        user = self.token_to_user(token["id_token"])
+        user.entra_access_token = token["access_token"]
+        self.init_user(user)
+        return user
 
     def get_user(self, token):
         user = self.token_to_user(token)

@@ -12,6 +12,7 @@ class ClaUser(object):
         self.zone_name = zone_name
         self.is_locked_out = False
         self.is_active = True
+        self.entra_access_token = None  # this will be set by the middleware
 
     def save(self, *args, **kwargs):
         # TODO call backend api with last_login ?
@@ -61,4 +62,4 @@ class ClaUser(object):
         ui = self.zone_to_ui()[0]
         zone = get_zone_profile(self.zone_name)
         base_url = zone["BASE_URI"][ui]
-        return slumber.API(base_url=base_url, auth=BearerTokenAuth(self.pk))
+        return slumber.API(base_url=base_url, auth=BearerTokenAuth(self.entra_access_token))
