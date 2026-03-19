@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import msal
+import base64
 
 from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, authenticate
@@ -78,12 +79,16 @@ def _clear_session_cookie(response):
 # ==============================================================
 def _get_entra_auth_url(request, prompt=None):
     msal_app = _build_msal_app()
+    state = base64.urlsafe_b64encode(os.urandom(32)).rstrip("=")
+    request.session["oauth_state"] = state
     kwargs = {
         "scopes": [settings.ENTRA_SCOPE],
         "redirect_uri": request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
+        "state": state,
     }
     if prompt:
         kwargs["prompt"] = prompt
+
     return msal_app.get_authorization_request_url(**kwargs)
 
 
@@ -92,7 +97,6 @@ def _get_logout_url(request):
     return "{}/oauth2/v2.0/logout?post_logout_redirect_uri={}".format(settings.ENTRA_AUTHORITY, post_logout_uri)
 
 
-@never_cache
 def entra_login(request):
     return_to = request.GET.get(REDIRECT_FIELD_NAME)
     if return_to:
@@ -103,9 +107,7 @@ def entra_login(request):
 @never_cache
 def entra_relogin(request):
     logout(request)
-    response = redirect(_get_entra_auth_url(request, prompt="login"))
-    response = _clear_session_cookie(response)
-    return response
+    return entra_login(request)
 
 
 @never_cache
@@ -115,10 +117,20 @@ def entra_callback(request):
         logger.error("Entra authentication - No code provided")
         return redirect("/")
 
+    state = request.GET.get("state")
+    if not state:
+        logger.error("Entra authentication -No state provided")
+        return redirect("/")
+
+    if state != request.session.get("oauth_state"):
+        logger.error("Entra authentication -State provided does not match session state")
+        return redirect("/")
+
     msal_app = _build_msal_app()
     result = msal_app.acquire_token_by_authorization_code(
         code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
     )
+
     if "error" in result:
         logger.error("Entra authentication - Error: %s" % result["error"])
         return redirect("/")
