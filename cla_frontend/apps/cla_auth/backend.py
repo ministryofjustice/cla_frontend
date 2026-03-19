@@ -91,9 +91,9 @@ class EntraBackend(object):
         # Make an initial request to backend - The user is created on backend on the first request if it does not exist
         user.get_raw_connection().user.me.get()
 
-    def authenticate(self, token):
-        user = self.token_to_user(token["id_token"])
-        user.entra_access_token = token["access_token"]
+    def authenticate(self, payload):
+        user = self.token_to_user(payload["id_token"])
+        user.entra_access_token = payload["access_token"]
         self.init_user(user)
         return user
 

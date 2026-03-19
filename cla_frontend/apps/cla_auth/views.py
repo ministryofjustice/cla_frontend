@@ -100,7 +100,7 @@ class EntraAutView(object):
         if not result:
             return redirect("/")
 
-        user = authenticate(token=result)
+        user = authenticate(payload=result)
         if not user:
             logger.error("Entra authentication - No user found")
             return redirect("/")
