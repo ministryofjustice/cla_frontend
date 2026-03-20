@@ -8,4 +8,4 @@ secretName: ~
 envVars:
   BACKEND_BASE_URI:
     # Using service name instead of external domain name
-    value: "http://lga-3094-app.laa-cla-backend-uat.svc.cluster.local"
+    value: "http://lga-3903-sso-silas-app.laa-cla-backend-uat.svc.cluster.local"
