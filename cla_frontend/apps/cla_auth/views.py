@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 CONTENT_TYPE_JSON = "application/json"
 
 
-class EntraAutView(object):
+class EntraAuthView(object):
     @classmethod
     def build_msal_app(cls):
         return msal.ConfidentialClientApplication(
@@ -156,7 +156,7 @@ def logout_view(request):
         return redirect("/auth/login/")
     if request.user.zone_name != "entra":
         return legacy_logout(request)
-    return EntraAutView.route_logout(request)
+    return EntraAuthView.route_logout(request)
 
 
 def _clear_session_cookie(response):
@@ -184,7 +184,7 @@ def _handle_username_step(request, template_name):
     username = form.cleaned_data["username"]
 
     if user_has_entra_access(username):
-        return EntraAutView.route_login(request)
+        return EntraAuthView.route_login(request)
 
     return TemplateResponse(
         request,

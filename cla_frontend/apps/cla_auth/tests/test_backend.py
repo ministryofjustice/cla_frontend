@@ -204,6 +204,14 @@ class EntraTokenDecoderDecodeTestCase(SimpleTestCase):
         # Assert
         self.assertIsNone(result)
 
+    @mock.patch.object(EntraTokenDecoder, "get_public_key", return_value=None)
+    def test_returns_none_when_public_key_not_found(self, _mock_get_key):
+        # If get_public_key() returns None (unknown kid after retry), decode() should
+        # return None rather than crash inside load_pem_x509_certificate.
+        decoder = EntraTokenDecoder("some.token.here")
+        result = decoder.decode()
+        self.assertIsNone(result)
+
 
 class EntraBackendTestCase(SimpleTestCase):
     def setUp(self):
@@ -293,3 +301,32 @@ class EntraBackendTestCase(SimpleTestCase):
         self.backend.get_user(self.mock_jwt)
 
         mock_token_to_user.assert_called_once_with(self.mock_jwt)
+
+
+class EntraBackendAuthenticateTestCase(SimpleTestCase):
+    def setUp(self):
+        self.backend = EntraBackend()
+        self.backend.init_user = lambda *args, **kwargs: None
+
+    @mock.patch.object(EntraBackend, "token_to_user", return_value=None)
+    def test_authenticate_returns_none_when_token_to_user_fails(self, _mock_token_to_user):
+        result = self.backend.authenticate({"id_token": "bad.token.here", "access_token": "some-token"})
+        self.assertIsNone(result)
+
+
+class EntraTokenDecoderGetPublicKeyTestCase(SimpleTestCase):
+    @mock.patch("cla_auth.backend.requests")
+    @mock.patch("cla_auth.backend.jwt.get_unverified_header")
+    @mock.patch("cla_auth.backend.cache")
+    def test_get_public_key_returns_none_when_kid_not_found_after_retry(
+        self, mock_cache, mock_get_header, mock_requests
+    ):
+        mock_cache.get.return_value = None
+        mock_get_header.return_value = {"kid": "unknown-kid"}
+        mock_response = mock.MagicMock()
+        mock_response.json.return_value = {"keys": [{"kid": "other-kid", "x5c": ["some-key"]}]}
+        mock_requests.get.return_value = mock_response
+
+        decoder = EntraTokenDecoder("some.token.here")
+        result = decoder.get_public_key()
+        self.assertIsNone(result)

@@ -3,9 +3,10 @@ import mock
 from slumber.exceptions import HttpClientError
 
 from django.test.testcases import SimpleTestCase
-from django.test import override_settings
+from django.test import override_settings, RequestFactory
+from cla_auth.views import EntraAuthView
 from django.core.urlresolvers import reverse
-from django.contrib.auth import SESSION_KEY, BACKEND_SESSION_KEY
+from django.contrib.auth import REDIRECT_FIELD_NAME, SESSION_KEY, BACKEND_SESSION_KEY
 
 from . import base
 
@@ -199,3 +200,103 @@ class EntraLogoutTestCase(SimpleTestCase):
             response = self.client.get(self.logout_url)
         self.assertIn("set-cookie", response._headers)
         self.assertIn("Max-Age=0", response._headers["set-cookie"][1])
+
+
+@mock.patch("cla_auth.backend.get_auth_connection")
+@override_settings(USE_LEGACY_AUTH="True")
+class EntraRouteCallBackTestCase(SimpleTestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.mock_msal_app = mock.Mock()
+        patcher = mock.patch.object(EntraAuthView, "build_msal_app", return_value=self.mock_msal_app)
+        self.mock_build_msal_app = patcher.start()
+        self.addCleanup(patcher.stop)  # stops the patch after each test automatically
+
+    def _make_request(self, params=None, session=None):
+        # Helper so every test doesn't repeat GET request + session setup
+        request = self.factory.get("/callback/", params or {})
+        request.session = session or {"oauth_state": "test-state"}
+        return request
+
+    def test_missing_code_redirects_to_root(self, _):
+        request = self._make_request(params={"state": "test-state"})
+        response = EntraAuthView.route_call_back(request)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], "/")
+
+    def test_missing_state_redirects_to_root(self, _):
+        request = self._make_request(params={"code": "some-code"})
+        response = EntraAuthView.route_call_back(request)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], "/")
+
+    def test_state_mismatch_redirects_to_root(self, _):
+        request = self._make_request(
+            params={"code": "some-code", "state": "wrong-state"},
+            session={"oauth_state": "test-state"},
+        )
+        response = EntraAuthView.route_call_back(request)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], "/")
+
+    def test_msal_error_redirects_to_root(self, _):
+        self.mock_msal_app.acquire_token_by_authorization_code.return_value = {"error": "invalid_grant"}
+        request = self._make_request(params={"code": "some-code", "state": "test-state"})
+        response = EntraAuthView.route_call_back(request)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], "/")
+
+    @mock.patch("cla_auth.views.authenticate", return_value=None)
+    def test_authenticate_returns_none_redirects_to_root(self, _, __):
+        self.mock_msal_app.acquire_token_by_authorization_code.return_value = {"access_token": "tok", "id_token": "id"}
+        request = self._make_request(params={"code": "some-code", "state": "test-state"})
+        response = EntraAuthView.route_call_back(request)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], "/")
+
+    @mock.patch("cla_auth.views.auth_login")
+    @mock.patch("cla_auth.views.authenticate")
+    def test_successful_auth_operator_redirects_to_call_centre(self, mock_authenticate, _, __):
+        mock_user = mock.Mock()
+        mock_user.zone_to_ui.return_value = ["operator"]
+        mock_authenticate.return_value = mock_user
+        self.mock_msal_app.acquire_token_by_authorization_code.return_value = {"access_token": "tok", "id_token": "id"}
+
+        request = self._make_request(params={"code": "some-code", "state": "test-state"})
+        response = EntraAuthView.route_call_back(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/call_centre", response["Location"])
+        self.assertEqual(request.session.get("entra_access_token"), "tok")
+
+    @mock.patch("cla_auth.views.auth_login")
+    @mock.patch("cla_auth.views.authenticate")
+    def test_successful_auth_provider_redirects_to_provider(self, mock_authenticate, _, __):
+        mock_user = mock.Mock()
+        mock_user.zone_to_ui.return_value = ["provider"]
+        mock_authenticate.return_value = mock_user
+        self.mock_msal_app.acquire_token_by_authorization_code.return_value = {"access_token": "tok", "id_token": "id"}
+
+        request = self._make_request(params={"code": "some-code", "state": "test-state"})
+        response = EntraAuthView.route_call_back(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/provider", response["Location"])
+
+    @mock.patch("cla_auth.views.auth_login")
+    @mock.patch("cla_auth.views.authenticate")
+    def test_next_url_in_session_is_used_and_deleted(self, mock_authenticate, _, __):
+        mock_user = mock.Mock()
+        mock_user.zone_to_ui.return_value = ["operator"]
+        mock_authenticate.return_value = mock_user
+        self.mock_msal_app.acquire_token_by_authorization_code.return_value = {"access_token": "tok", "id_token": "id"}
+
+        request = self._make_request(
+            params={"code": "some-code", "state": "test-state"},
+            session={"oauth_state": "test-state", REDIRECT_FIELD_NAME: "/some/next/url"},
+        )
+        response = EntraAuthView.route_call_back(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/some/next/url", response["Location"])
+        self.assertNotIn(REDIRECT_FIELD_NAME, request.session)

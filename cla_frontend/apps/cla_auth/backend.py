@@ -36,6 +36,9 @@ class EntraTokenDecoder(object):
 
     def decode(self):
         public_key = self.get_public_key()
+        if not public_key:
+            logger.error("Entra authentication - Could not retrieve public key for token")
+            return None
         cert_str = "-----BEGIN CERTIFICATE-----\n%s\n-----END CERTIFICATE-----" % public_key
         cert_obj = load_pem_x509_certificate(cert_str.encode("utf-8"), default_backend())
         public_key = cert_obj.public_key()
@@ -65,6 +68,9 @@ class EntraTokenDecoder(object):
         if not key_data and retry:
             cache.delete("entra_public_keys")
             return self.get_public_key(retry=False)
+        if not key_data:
+            logger.error("Entra authentication - No public key found for kid: %s" % kid)
+            return None
         return key_data["x5c"][0]
 
 
@@ -93,6 +99,8 @@ class EntraBackend(object):
 
     def authenticate(self, payload):
         user = self.token_to_user(payload["id_token"])
+        if not user:
+            return None
         user.entra_access_token = payload["access_token"]
         self.init_user(user)
         return user
