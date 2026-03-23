@@ -59,7 +59,10 @@ class ClaUser(object):
         return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(self.pk))
 
     def _entra_get_raw_connection(self):
-        ui = self.zone_to_ui()[0]
+        ui_access = self.zone_to_ui()
+        if not ui_access:
+            raise ValueError("Entra user has no ui_access configured")
+        ui = ui_access[0]
         zone = get_zone_profile(self.zone_name)
         base_url = zone["BASE_URI"][ui]
         return slumber.API(base_url=base_url, auth=BearerTokenAuth(self.entra_access_token))

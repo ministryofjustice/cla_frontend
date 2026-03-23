@@ -160,6 +160,22 @@ class EntraTokenDecoderGetPublicKeyTestCase(SimpleTestCase):
     @mock.patch("cla_auth.backend.requests")
     @mock.patch("cla_auth.backend.jwt.get_unverified_header")
     @mock.patch("cla_auth.backend.cache")
+    def test_get_public_key_returns_none_when_kid_not_found_after_retry(
+        self, mock_cache, mock_get_header, mock_requests
+    ):
+        mock_cache.get.return_value = None
+        mock_get_header.return_value = {"kid": "unknown-kid"}
+        mock_response = mock.MagicMock()
+        mock_response.json.return_value = {"keys": [{"kid": "other-kid", "x5c": ["some-key"]}]}
+        mock_requests.get.return_value = mock_response
+
+        decoder = EntraTokenDecoder("some.token.here")
+        result = decoder.get_public_key()
+        self.assertIsNone(result)
+
+    @mock.patch("cla_auth.backend.requests")
+    @mock.patch("cla_auth.backend.jwt.get_unverified_header")
+    @mock.patch("cla_auth.backend.cache")
     def test_retries_after_cache_miss_for_unknown_kid(self, mock_cache, mock_get_header, mock_requests):
         # Arrange: the cache first returns keys that do not match the token's kid, then returns None to trigger a refresh.
         # The HTTP response returns our mock keys.
@@ -311,22 +327,4 @@ class EntraBackendAuthenticateTestCase(SimpleTestCase):
     @mock.patch.object(EntraBackend, "token_to_user", return_value=None)
     def test_authenticate_returns_none_when_token_to_user_fails(self, _mock_token_to_user):
         result = self.backend.authenticate({"id_token": "bad.token.here", "access_token": "some-token"})
-        self.assertIsNone(result)
-
-
-class EntraTokenDecoderGetPublicKeyTestCase(SimpleTestCase):
-    @mock.patch("cla_auth.backend.requests")
-    @mock.patch("cla_auth.backend.jwt.get_unverified_header")
-    @mock.patch("cla_auth.backend.cache")
-    def test_get_public_key_returns_none_when_kid_not_found_after_retry(
-        self, mock_cache, mock_get_header, mock_requests
-    ):
-        mock_cache.get.return_value = None
-        mock_get_header.return_value = {"kid": "unknown-kid"}
-        mock_response = mock.MagicMock()
-        mock_response.json.return_value = {"keys": [{"kid": "other-kid", "x5c": ["some-key"]}]}
-        mock_requests.get.return_value = mock_response
-
-        decoder = EntraTokenDecoder("some.token.here")
-        result = decoder.get_public_key()
         self.assertIsNone(result)

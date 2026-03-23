@@ -81,11 +81,11 @@ class EntraAuthView(object):
 
         state = request.GET.get("state")
         if not state:
-            logger.error("Entra authentication -No state provided")
+            logger.error("Entra authentication - No state provided")
             return redirect("/")
 
         if state != request.session.get("oauth_state"):
-            logger.error("Entra authentication -State provided does not match session state")
+            logger.error("Entra authentication - State provided does not match session state")
             return redirect("/")
 
         msal_app = cls.build_msal_app()
