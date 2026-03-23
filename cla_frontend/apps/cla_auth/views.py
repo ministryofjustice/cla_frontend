@@ -62,7 +62,7 @@ class EntraAuthView(object):
         return redirect(cls.build_entra_auth_url(request, state))
 
     @classmethod
-    def route_logout(self, request):
+    def route_logout(cls, request):
         logout(request)
         post_logout_uri = request.build_absolute_uri("/auth/login/")
         logout_url = "{}/oauth2/v2.0/logout?post_logout_redirect_uri={}".format(

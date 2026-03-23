@@ -220,13 +220,15 @@ class EntraTokenDecoderDecodeTestCase(SimpleTestCase):
         # Assert
         self.assertIsNone(result)
 
+    @mock.patch("cla_auth.backend.load_pem_x509_certificate")
     @mock.patch.object(EntraTokenDecoder, "get_public_key", return_value=None)
-    def test_returns_none_when_public_key_not_found(self, _mock_get_key):
-        # If get_public_key() returns None (unknown kid after retry), decode() should
-        # return None rather than crash inside load_pem_x509_certificate.
+    def test_returns_none_when_public_key_not_found(self, _mock_get_key, mock_load_cert):
+        # If get_public_key() returns None, decode() should return None early
+        # without attempting to build a certificate.
         decoder = EntraTokenDecoder("some.token.here")
         result = decoder.decode()
         self.assertIsNone(result)
+        mock_load_cert.assert_not_called()
 
 
 class EntraBackendTestCase(SimpleTestCase):

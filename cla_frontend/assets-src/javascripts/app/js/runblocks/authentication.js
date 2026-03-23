@@ -4,7 +4,7 @@
   // in seconds
   var idle = 3300;
   var timeout = 300;
-
+  
   angular.module('cla.operatorApp')
     .config(['IdleProvider', function(IdleProvider) {
       IdleProvider.autoResume(false); // don't auto resume
@@ -16,13 +16,21 @@
     .run(['$rootScope', 'postal', 'Idle', '$uibModal', '$http', 'form_utils', 'url_utils', 'flash',
       function($rootScope, postal, Idle, $uibModal, $http, form_utils, url_utils, flash) {
         var loginModal, warningModal;
-        var userIsEntra = document.head.getAttribute('data-user-is-entra') === 'true';
+        var userIsEntra = document.head.dataset.userIsEntra === 'true';
 
         var loginModalController = function ($scope) {
           $scope.signInEntra = function () {
             window.location.href = '/auth/entra-login/';
           };
           $scope.login = function (form) {
+            var onSuccess = function() {
+              flash('Your session has been successfully restored');
+              $scope.$close();
+              loginModal = null;
+            };
+            var onError = function(response) {
+              form_utils.ctrlFormErrorCallback($scope, response, form);
+            };
             $http({
               url: url_utils.login,
               method: 'POST',
@@ -33,16 +41,7 @@
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
               }
-            }).then(
-              function() {
-                flash('Your session has been successfully restored');
-                $scope.$close();
-                loginModal = null;
-              },
-              function(response){
-                form_utils.ctrlFormErrorCallback($scope, response, form);
-              }
-            );
+            }).then(onSuccess, onError);
           };
         };
 
