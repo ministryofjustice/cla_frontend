@@ -405,8 +405,8 @@ STATSD_RECORD_KEYS = [
 MAINTENANCE_MODE = os.environ.get("MAINTENANCE_MODE", "False") == "True"
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.environ.get("REDIS_URL", "redis://localhost:6379/1"),
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/home/app/tmp",
+        "TIMEOUT": 300,
     }
 }

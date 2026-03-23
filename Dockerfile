@@ -58,11 +58,13 @@ COPY . .
 
 # Make sure static assets directory has correct permissions
 RUN chown -R app:app /home/app && \
-    mkdir -p cla_frontend/assets
+    mkdir -p cla_frontend/assets && \
+    mkdir tmp
 
 # Add file for liveness probe
 RUN touch /tmp/listen_queue_healthy && \
-    chown app:app /tmp/listen_queue_healthy
+    chown app:app /tmp/listen_queue_healthy && \
+    chown app:app tmp
 
 USER 1000
 EXPOSE 8000
