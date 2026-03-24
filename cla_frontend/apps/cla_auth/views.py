@@ -137,7 +137,7 @@ def logout_view(request):
         request: HttpRequest object containing user session and authentication data
 
     Returns:
-        HttpResponse: A redirect response to the home page ("/") with the session 
+        HttpResponse: A redirect response to the home page ("/") with the session
         cookie cleared by setting Max-Age=0
 
     Note:
@@ -160,6 +160,8 @@ def logout_view(request):
 
     # 3. Delete cookies
     response = redirect("/")
-    response["Set-Cookie"] = os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+    response["Set-Cookie"] = (
+        os.environ.get("SESSION_COOKIE_NAME", "SID") + "=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0"
+    )
 
     return response

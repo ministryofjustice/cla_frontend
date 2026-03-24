@@ -1,10 +1,9 @@
-from .base import *
+from .base import *  # noqa: F403, F401
 
 import sys
-from os.path import join, abspath, dirname
 
 
-sys.path.insert(0, root("apps"))
+sys.path.insert(0, root("apps"))  # noqa: F405
 
 TEST_RUNNER = "core.testing.runner.NoDbTestRunner"
 

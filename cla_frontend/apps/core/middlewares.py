@@ -26,9 +26,10 @@ class MaintenanceModeMiddleware(object):
         if not maintenance_mode and request.path == self.MAINTENANCE_PATH:
             return redirect("/")
 
+
 class NoCacheMiddleware(object):
     def process_response(self, request, response):
-        response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-        response['Pragma'] = 'no-cache'
-        response['Expires'] = '0'
+        response["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response["Pragma"] = "no-cache"
+        response["Expires"] = "0"
         return response
