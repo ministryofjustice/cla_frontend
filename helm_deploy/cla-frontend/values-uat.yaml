@@ -9,5 +9,3 @@ envVars:
   BACKEND_BASE_URI:
     # Using service name instead of external domain name
     value: "http://lga-3094-app.laa-cla-backend-uat.svc.cluster.local"
-  STATIC_FILES_BACKEND:
-    value: local
