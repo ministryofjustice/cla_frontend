@@ -12,10 +12,7 @@ class MaintenanceModeView(TemplateView):
 
 
 class FeatureFlagView(View):
-
     def dispatch(self, request, *args, **kwargs):
-        flags = {
-            "new_client_note_flag": settings.NEW_CLIENT_NOTE_FEATURE_FLAG,
-        }
+        flags = {"new_client_note_flag": settings.NEW_CLIENT_NOTE_FEATURE_FLAG}
 
         return JsonResponse(flags)
