@@ -176,8 +176,3 @@ envVars:
     secret:
       name: sso
       key: backend_scope
-  ENTRA_TOKEN_EXPECTED_AUDIENCE:
-    secret:
-      name: sso
-      key: expected_audience
-
