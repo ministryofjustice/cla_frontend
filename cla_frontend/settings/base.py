@@ -259,7 +259,6 @@ INSTALLED_APPS = (
     "widget_tweaks",
     "session_security",
     "djangosecure",
-    "django_redis",
 )
 
 PROJECT_APPS = ("cla_auth", "cla_common", "core", "legalaid", "call_centre", "cla_provider", "status")
