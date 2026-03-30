@@ -1,8 +1,6 @@
 from django.shortcuts import redirect
 from django.conf import settings
 
-from cla_auth import get_zone
-
 
 def home(request):
     """
@@ -12,5 +10,8 @@ def home(request):
     if not request.user.is_authenticated():
         return redirect(settings.LOGIN_URL)
 
-    zone = get_zone(request)
-    return redirect(zone["LOGIN_REDIRECT_URL"])
+    ui = request.user.zone_to_ui()
+    if not ui:
+        raise ValueError("User does not have access to any ui.")
+    return_to = "/call_centre" if ui[0] == "operator" else "/provider"
+    return redirect(return_to)

@@ -4,7 +4,7 @@ from django.conf import settings
 
 
 class NoDbTestRunner(DiscoverRunner):
-    """ A test runner to test without database creation """
+    """A test runner to test without database creation"""
 
     def __init__(self, *args, **kwargs):
         kwargs["top_level"] = settings.APPS_ROOT
@@ -15,9 +15,9 @@ class NoDbTestRunner(DiscoverRunner):
         return super(NoDbTestRunner, self).build_suite(test_labels=test_labels, extra_tests=extra_tests, **kwargs)
 
     def setup_databases(self, **kwargs):
-        """ Override the database creation defined in parent class """
+        """Override the database creation defined in parent class"""
         pass
 
     def teardown_databases(self, old_config, **kwargs):
-        """ Override the database teardown defined in parent class """
+        """Override the database teardown defined in parent class"""
         pass

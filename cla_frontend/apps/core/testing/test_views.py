@@ -1,6 +1,7 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 
 
+@override_settings(USE_LEGACY_AUTH="True")
 class MaintenanceModeTestCase(SimpleTestCase):
     def test_maintenance_mode_enabled_home_page(self):
         with self.settings(MAINTENANCE_MODE=True):

@@ -27,3 +27,10 @@ uwsgi==2.0.19.1
 boto3>=1.17,<2
 botocore==1.20.112
 django-storages==1.5.2
+
+#Irat healthcheck and ping package
+https://github.com/said-moj/django-moj-irat/archive/refs/tags/0.3.1.tar.gz
+
+msal==1.27.0
+cryptography==3.3.2
+PyJWT==1.7.1

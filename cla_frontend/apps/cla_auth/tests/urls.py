@@ -6,7 +6,6 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 
 from . import base
-from django.core.urlresolvers import reverse_lazy
 
 
 @login_required
@@ -19,7 +18,7 @@ zone_url = patterns("", url(r"^test/$", test_view, name=base.DEFAULT_ZONE_PROFIL
 
 global_urls = patterns(
     "",
-    url(r"^logout/$", "django.contrib.auth.views.logout", {"next_page": reverse_lazy("auth:login")}, name="logout"),
+    url(r"^logout/$", "cla_auth.views.logout_view", name="logout"),
     url(r"^login/$", "cla_auth.views.login", name="login"),
 )
 
