@@ -1,6 +1,10 @@
+import logging
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+
+logger = logging.getLogger(__name__)
 
 from . import authenticate
 from .utils import get_zone_profile, get_available_zone_names
@@ -35,6 +39,7 @@ class PasswordForm(forms.Form):
                     self.current_zone_name = zone_name
                     break
             if self.user_cache is None:
+                logger.warning("Failed login attempt for username=%s", self.username)
                 raise forms.ValidationError(
                     "Please enter a correct username and password. " "Note that both fields may be case-sensitive.",
                     code="invalid_login",

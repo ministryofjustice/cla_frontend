@@ -10,7 +10,7 @@ from django.utils.functional import curry
 
 
 def get_available_zone_names():
-    return settings.ZONE_PROFILES.keys()
+    return [name for name in settings.ZONE_PROFILES.keys() if name != "entra"]
 
 
 def get_zone_profile(zone_name):
