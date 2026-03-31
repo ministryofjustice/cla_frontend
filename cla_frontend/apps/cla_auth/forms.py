@@ -4,10 +4,10 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
-logger = logging.getLogger(__name__)
-
 from . import authenticate
 from .utils import get_zone_profile, get_available_zone_names
+
+logger = logging.getLogger(__name__)
 
 AUTOCOMPLETE_OFF_ATTRS = {"autocomplete": "off", "readonly": True, "class": "js-remove-readonly-onfocus"}
 
