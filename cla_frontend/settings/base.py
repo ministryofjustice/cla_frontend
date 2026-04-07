@@ -54,7 +54,7 @@ except ImportError:
 
 
 def get_env_value(var_name):
-    """ Get the env value `var_name` or return exception """
+    """Get the env value `var_name` or return exception"""
     try:
         return getattr(env_values, var_name)
     except AttributeError:
@@ -205,6 +205,7 @@ MIDDLEWARE_CLASSES = (
     "core.session_security.middleware.SessionSecurityMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "cla_auth.middleware.EntraAccessTokenMiddleware",
     "cla_auth.middleware.ZoneMiddleware",
     "core.middlewares.Cla401Middleware",
     "csp.middleware.CSPMiddleware",
@@ -294,6 +295,14 @@ else:
     provider_client_secret = os.environ.get("CALL_PROVIDER_SECRET_ID", "0494287c65bdf61d29f0eeed467ec8e090f0d80f")
 
 ZONE_PROFILES = {
+    "entra": {
+        "LOGIN_REDIRECT_URL": "auth:login",
+        "AUTHENTICATION_BACKEND": "cla_auth.backend.EntraBackend",
+        "BASE_URI": {
+            "operator": "%s/call_centre/api/v1/" % BACKEND_BASE_URI,
+            "provider": "%s/cla_provider/api/v1/" % BACKEND_BASE_URI,
+        },
+    },
     "call_centre": {
         "CLIENT_ID": os.environ.get("CALL_CENTRE_CLIENT_ID", "b4b9220ffcb11ebfdab1"),
         "CLIENT_SECRET": os.environ.get("CALL_CENTRE_SECRET_ID", "2df71313bdd38a2e1b815015e1b14387e7681d41"),
@@ -325,9 +334,9 @@ SESSION_COOKIE_HTTPONLY = os.environ.get("SESSION_COOKIE_HTTPONLY", "True") == "
 SESSION_COOKIE_PATH = "/"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SESSION_SECURITY_WARN_AFTER = 60 * 25  # 25 minutes
-SESSION_SECURITY_EXPIRE_AFTER = 60 * 30  # 30 minutes
-SESSION_COOKIE_AGE = 60 * 30  # 30 minutes
+SESSION_SECURITY_WARN_AFTER = 60 * 55  # 55 minutes
+SESSION_SECURITY_EXPIRE_AFTER = 60 * 60  # 60 minutes
+SESSION_COOKIE_AGE = 60 * 60  # 60 minutes
 
 SESSION_SECURITY_PASSIVE_URLS = []
 SESSION_SECURITY_PASSIVE_HEADER = "HTTP__PASSIVE"
@@ -358,6 +367,18 @@ ZENDESK_API_ENDPOINT = "https://ministryofjustice.zendesk.com/api/v2/"
 
 OS_PLACES_API_KEY = os.environ.get("OS_PLACES_API_KEY")
 
+# ENTRA SETTINGS
+USE_LEGACY_AUTH = os.environ.get("USE_LEGACY_AUTH", "True").lower() == "true"
+USERS_ALLOWED_ENTRA_ACCESS = [u for u in os.environ.get("USERS_ALLOWED_ENTRA_ACCESS", "").split(",") if u]
+ENTRA_CLIENT_ID = os.environ.get("ENTRA_CLIENT_ID")
+ENTRA_TENANT_ID = os.environ.get("ENTRA_TENANT_ID")
+ENTRA_CLIENT_SECRET = os.environ.get("ENTRA_CLIENT_SECRET")
+ENTRA_SCOPE = os.environ.get("ENTRA_SCOPE", "")
+ENTRA_REDIRECT_PATH = "/auth/entra-callback"
+ENTRA_AUTHORITY = "https://login.microsoftonline.com/%s" % ENTRA_TENANT_ID
+ENTRA_ISSUER_URL = "https://login.microsoftonline.com/%s/v2.0" % ENTRA_TENANT_ID
+ENTRA_KEYS_URL = "https://login.microsoftonline.com/%s/discovery/v2.0/keys" % ENTRA_TENANT_ID
+
 # importing test settings file if necessary (TODO chould be done better)
 if len(sys.argv) > 1 and "test" in sys.argv[1]:
     from .testing import *  # noqa: F403, F401
@@ -380,3 +401,10 @@ STATSD_RECORD_KEYS = [
 ]
 
 MAINTENANCE_MODE = os.environ.get("MAINTENANCE_MODE", "False") == "True"
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/home/app/tmp",
+        "TIMEOUT": 300,
+    }
+}

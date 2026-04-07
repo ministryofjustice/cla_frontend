@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 import mock
 
 
@@ -8,12 +8,22 @@ class CLATFrontEndTestCase(SimpleTestCase):
     credentials = {"username": "my-username", "password": "my-password"}
 
     def login(self):
-        resp = self.client.post(self.login_url, data=self.credentials, follow=True)
+        self.client.post(self.login_url, data={"step": "username"})
+        resp = self.client.post(
+            self.login_url,
+            data={
+                "step": "password",
+                "username": self.credentials["username"],
+                "password": self.credentials["password"],
+            },
+            follow=True,
+        )
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(self.mocked_get_auth_connection.called)
 
     @mock.patch("cla_auth.forms.get_available_zone_names")
     @mock.patch("cla_auth.backend.get_auth_connection")
+    @override_settings(USERS_ALLOWED_ENTRA_ACCESS=[], USE_LEGACY_AUTH="True")
     def __call__(self, result, mocked_get_auth_connection, mocked_get_available_zone_names, *args, **kwargs):
         self.mocked_get_available_zone_names = mocked_get_available_zone_names
         self.mocked_get_available_zone_names.return_value = [self.zone]

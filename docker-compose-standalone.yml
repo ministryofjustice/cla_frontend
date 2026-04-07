@@ -5,7 +5,8 @@ services:
     build:
       context: ./
       args:
-        BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-testing.txt"
+        BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-production.txt"
+        CMD_SCRIPT: "docker/run_local.sh"
     ports:
       - "8000:8000"
     volumes:
@@ -23,3 +24,6 @@ services:
       CALL_PROVIDER_SECRET_ID: 0494287c65bdf61d29f0eeed467ec8e090f0d80f
       SOCKETIO_SERVER_URL: /socket.io
       BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-dev.txt"
+      PYTHONUNBUFFERED: "1"
+      USERS_ALLOWED_ENTRA_ACCESS: ${USERS_ALLOWED_ENTRA_ACCESS:-}
+      DJANGO_SETTINGS_MODULE: cla_frontend.settings.local

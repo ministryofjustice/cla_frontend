@@ -1,10 +1,7 @@
 import slumber
-
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
-
-from cla_auth.auth_providers import BearerTokenAuth
 
 
 class FormSerializer(slumber.serialize.JsonSerializer):
@@ -31,8 +28,4 @@ def get_connection(request):
     if not zone:
         raise PermissionDenied(u"no such app")
 
-    return get_raw_connection(user.pk, zone)
-
-
-def get_raw_connection(token, zone):
-    return slumber.API(base_url=zone["BASE_URI"], auth=BearerTokenAuth(token))
+    return user.get_raw_connection()

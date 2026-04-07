@@ -2,7 +2,7 @@ import mock
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
-
+from django.test import override_settings
 from slumber.exceptions import HttpClientError
 
 from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
@@ -14,6 +14,7 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
     zone = "cla_provider"
 
     @mock.patch("cla_provider.views.get_connection")
+    @override_settings(USE_LEGACY_AUTH="True")
     def __call__(self, result, mocked_get_connection, *args, **kwargs):
         self.mocked_get_connection = mocked_get_connection()
         self.mocked_extract = self.mocked_get_connection.case("case_ref").legal_help_form_extract

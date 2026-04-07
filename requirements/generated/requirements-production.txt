@@ -17,10 +17,17 @@ certifi==2021.10.8
     # via
     #   requests
     #   sentry-sdk
+cffi==1.15.1
+    # via cryptography
 chardet==4.0.0
     # via requests
 https://github.com/ministryofjustice/cla_common/archive/refs/tags/0.3.20.tar.gz
-    # via -r requirements/source/requirements-base.in
+    # via -r requirements/source/requirements-git.in
+cryptography==3.3.2
+    # via
+    #   -r requirements/source/requirements-base.in
+    #   msal
+    #   pyjwt
 django-cookies-samesite==0.9.0
     # via -r requirements/source/requirements-base.in
 django-csp==2.0.3
@@ -32,7 +39,9 @@ django-extended-choices==0.3.0
 django-ipware==0.1.0
     # via -r requirements/source/requirements-base.in
 https://github.com/said-moj/django-moj-irat/archive/refs/tags/0.3.1.tar.gz
-    # via -r requirements/source/requirements-base.in
+    # via
+    #   -r requirements/source/requirements-base.in
+    #   -r requirements/source/requirements-git.in
 django-proxy==1.0.2
     # via -r requirements/source/requirements-base.in
 django-secure==1.0.2
@@ -51,18 +60,34 @@ django==1.7.9
     #   django-moj-irat
     #   django-secure
     #   django-session-security
+enum34==1.1.10
+    # via cryptography
+funcsigs==1.0.2
+    # via mock
 futures==3.4.0
     # via s3transfer
 idna==2.10
     # via requests
+ipaddress==1.0.23
+    # via cryptography
 jmespath==0.10.0
     # via
     #   boto3
     #   botocore
 logstash-formatter==0.5.9
     # via -r requirements/source/requirements-base.in
+mock==3.0.5
+    # via msal
+msal==1.27.0
+    # via -r requirements/source/requirements-base.in
+pycparser==2.21
+    # via cffi
 pyjade==3.0.0
     # via -r requirements/source/requirements-base.in
+pyjwt[crypto]==1.7.1
+    # via
+    #   -r requirements/source/requirements-base.in
+    #   msal
 python-dateutil==2.4.0
     # via
     #   -r requirements/source/requirements-base.in
@@ -76,6 +101,7 @@ requests==2.27.1
     #   cla-common
     #   django-moj-irat
     #   django-proxy
+    #   msal
     #   slumber
 s3transfer==0.4.2
     # via boto3
@@ -83,6 +109,8 @@ sentry-sdk==0.19.3
     # via -r requirements/source/requirements-base.in
 six==1.16.0
     # via
+    #   cryptography
+    #   mock
     #   pyjade
     #   python-dateutil
     #   websocket-client

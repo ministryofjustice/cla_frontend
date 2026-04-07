@@ -3,4 +3,145 @@
     padding-top: 20px;
     padding-bottom: 60px;
   }
+
+  .back-link {
+    margin-bottom: 30px;
+  }
+
+  .PageHeader {
+    margin-bottom: 30px;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .login-question {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    line-height: 1.25;
+  }
+
+  .FormRow {
+    margin-bottom: 30px;
+
+    label {
+      font-size: 19px;
+      line-height: 1.3;
+    }
+
+    input[type=text],
+    input[type=password] {
+      display: block;
+      float: none;
+      width: 100%;
+      max-width: 500px;
+      height: 40px;
+      padding: 6px 10px;
+      font-size: 19px;
+      border: 2px solid #0b0c0c;
+      border-radius: 0;
+      box-sizing: border-box;
+    }
+
+    input[type=text]:focus,
+    input[type=password]:focus {
+      outline: 3px solid #ffdd00;
+      outline-offset: 0;
+    }
+  }
+
+  .FormActions {
+    margin-top: 40px;
+  }
+
+  .Button {
+    position: relative;
+    margin: 0;
+    padding: 8px 30px 7px 10px;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background-color: #00703c;
+    box-shadow: 0 2px 0 #002d18;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: top;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    -webkit-appearance: none;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      width: 7px;
+      height: 7px;
+      margin-top: -4px;
+      transform: rotate(45deg);
+      border: solid #fff;
+      border-width: 1px 1px 0 0;
+    }
+
+    &:hover {
+      background-color: darken(#00703c, 5%);
+      color: #fff;
+    }
+
+    &:focus {
+      outline: 3px solid #ffdd00;
+      outline-offset: 0;
+      background-color: #ffdd00;
+      color: #0b0c0c;
+      box-shadow: 0 2px 0 #0b0c0c;
+
+      &::after {
+        border-color: #0b0c0c;
+      }
+    }
+  }
+}
+
+// This is to replicate the back-link we have in Jinja templates, but in Vue.
+.back-link {
+  display: inline-block;
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  padding-left: 14px;
+  color: #0b0c0c;
+  font-size: 14px;
+  text-decoration: underline;
+
+  &.back-link--hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  &:visited {
+    color: #0b0c0c;
+  }
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -1px;
+    bottom: 1px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    margin: auto 0;
+    transform: rotate(225deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #0b0c0c;
+  }
 }
