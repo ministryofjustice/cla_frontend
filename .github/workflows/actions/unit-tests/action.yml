@@ -1,0 +1,24 @@
+name: Run unit tests
+
+runs:
+  using: composite
+  steps:
+
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+      with:
+        path: .pip-cache
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements/generated/requirements-testing.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install dependencies
+      run: |
+        mkdir -p .pip-cache
+        pip install --cache-dir=.pip-cache --requirement requirements/generated/requirements-testing.txt
+      shell: bash
+    - name: Run unit tests
+      run: python manage.py test --verbosity=2
+      shell: bash
+      env:
+        DJANGO_SETTINGS_MODULE: cla_frontend.settings.testing
+        SECRET_KEY: testing_key
