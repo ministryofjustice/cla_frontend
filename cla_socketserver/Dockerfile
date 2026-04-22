@@ -11,7 +11,7 @@ WORKDIR /home/app
 
 COPY cla_socketserver/package.json cla_socketserver/package-lock.json ./
 RUN npm install
-COPY . .
+COPY cla_socketserver/ .
 
 USER 1000
 EXPOSE 8005
