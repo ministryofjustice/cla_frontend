@@ -17,6 +17,9 @@ inputs:
   ECR_REPOSITORY_SOCKET_SERVER:
     required: true
     description: ECR repository (socket server)
+  ECR_ROLE_TO_ASSUME_SOCKET_SERVER:
+    required: true
+    description: ECR role to assume for socket server
 
 runs:
   using: composite
@@ -62,6 +65,13 @@ runs:
         image_repo: ${{ inputs.ECR_REPOSITORY }}
         dockerfile_path: Dockerfile
         image_tag: ${{ steps.branch-tag.outputs.tag }}
+
+    - name: Set up AWS credentials for socket server
+      uses: ministryofjustice/laa-reusable-github-actions/.github/actions/ecr-auth@cb1ebcbca5efcd1e91b7ee1e27c73650c1bba9d8
+      with:
+        ecr_region: ${{ inputs.ECR_REGION }}
+        ecr_role: ${{ inputs.ECR_ROLE_TO_ASSUME_SOCKET_SERVER }}
+        role-session-name: laa-cla-frontend-socket-server
 
     - name: Build and push socket server image
       uses: ministryofjustice/laa-reusable-github-actions/.github/actions/build_and_push_with_cache@7c81d37978aef9418f7185d9ecf70e3cd1c63c02
