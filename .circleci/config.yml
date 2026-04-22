@@ -171,6 +171,29 @@ jobs:
 # WORKFLOWS
 #
 # ------------------
+  behave:
+    executor: aws-ecr/default
+    environment:
+      SESSION_COOKIE_NAME: "SID"
+      SESSION_COOKIE_SECURE: "False"
+      SESSION_COOKIE_HTTPONLY: "False"
+      SESSION_COOKIE_SAMESITE: "None"
+      DISABLE_SAMESITE_MIDDLEWARE: "True"
+      SECURE_CONTENT_TYPE_NOSNIFF: "False"
+      CSRF_COOKIE_SECURE: "False"
+    steps:
+      - checkout:
+          path: cla_frontend
+      - run: |
+          cd cla_frontend
+          source .circleci/define_build_environment_variables
+          export APP_IMAGE=$ECR_URL_APP:$IMAGE_TAG
+          export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$IMAGE_TAG
+          echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
+          echo "Setting CLA Frontend image $APP_IMAGE"
+          echo "Setting CLA Socket Server image $SOCKET_IMAGE"
+      - cla-end-to-end-tests/behave
+
 workflows:
   version: 2
   test_and_build:
@@ -179,4 +202,11 @@ workflows:
       - python_unit_test
       - socket_server_tests
       - javascript_unit_test
+      - behave:
+          requires:
+            - python_unit_test
+            - javascript_unit_test
+            - socket_server_tests
+          context:
+            - laa-cla-frontend
 
