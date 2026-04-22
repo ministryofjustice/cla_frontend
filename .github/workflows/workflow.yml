@@ -46,7 +46,7 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
-      - uses: ./.github/actions/unit-tests/deploy
+      - uses: ./.github/actions/deploy
         with:
           namespace: uat
           dynamic_hostname: 'true'
@@ -70,7 +70,7 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
-      - uses: ./.github/actions/unit-tests/deploy
+      - uses: ./.github/actions/deploy
         with:
           namespace: staging
           KUBE_CERT: ${{ secrets.KUBE_CERT }}
@@ -93,7 +93,7 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
-      - uses: ./.github/actions/unit-tests/deploy
+      - uses: ./.github/actions/deploy
         with:
           namespace: training
           KUBE_CERT: ${{ secrets.KUBE_CERT }}
@@ -116,7 +116,7 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
-      - uses: ./.github/actions/unit-tests/deploy
+      - uses: ./.github/actions/deploy
         with:
           namespace: production
           KUBE_CERT: ${{ secrets.KUBE_CERT }}
