@@ -9,7 +9,7 @@ RUN adduser -D app && \
 
 WORKDIR /home/app
 
-COPY package.json package-lock.json ./
+COPY cla_socketserver/package.json cla_socketserver/package-lock.json ./
 RUN npm install
 COPY . .
 
