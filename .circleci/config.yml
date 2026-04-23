@@ -43,6 +43,48 @@ references:
 #
 # ------------------
 jobs:
+  build:
+    executor: aws-ecr/default
+    parameters:
+      image:
+        type: string
+      ecr_role_to_assume:
+        type: string
+    steps:
+      - checkout
+      - run:
+          name: Create target tags
+          command: |
+            source .circleci/define_build_environment_variables
+            echo "export IMAGE_TAG=$IMAGE_TAG" >> $BASH_ENV
+      - aws-cli/setup:
+          role_arn: << parameters.ecr_role_to_assume >>
+          region: $ECR_REGION
+      - run: |
+          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
+      - when:
+          condition:
+            equal: ["app", << parameters.image >>]
+          steps:
+            - aws-ecr/build_image:
+                push_image: true
+                account_id: $AWS_ECR_REGISTRY_ID
+                tag: $IMAGE_TAG
+                region: $ECR_REGION
+                repo: $ECR_APP_REPOSITORY
+      - when:
+          condition:
+            equal: ["socket-server", << parameters.image >>]
+          steps:
+            - aws-ecr/build_image:
+                push_image: true
+                account_id: $AWS_ECR_REGISTRY_ID
+                path: cla_socketserver
+                build_path: .
+                tag: $IMAGE_TAG
+                region: $ECR_REGION
+                repo: $ECR_SOCKET_SERVER_REPOSITORY
+
   pip-compile:
     executor: python2-executor
     steps:
@@ -202,11 +244,29 @@ workflows:
       - python_unit_test
       - socket_server_tests
       - javascript_unit_test
-      - behave:
+      - build:
+          name: build_app
+          image: app
+          ecr_role_to_assume: "$ECR_APP_ROLE_TO_ASSUME"
+          requires:
+            - python_unit_test
+            - javascript_unit_test
+          context:
+            - laa-cla-frontend
+      - build:
+          name: build_socket_server
+          image: socket-server
+          ecr_role_to_assume: "$ECR_SOCKET_SERVER_ROLE_TO_ASSUME"
           requires:
             - python_unit_test
             - javascript_unit_test
             - socket_server_tests
+          context:
+            - laa-cla-frontend
+      - behave:
+          requires:
+            - build_app
+            - build_socket_server
           context:
             - laa-cla-frontend
 
