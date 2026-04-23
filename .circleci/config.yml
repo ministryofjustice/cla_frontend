@@ -12,30 +12,12 @@ orbs:
 # ------------------
 
 executors:
-  cloud-platform-executor:
-    docker:
-      - image: ministryofjustice/cloud-platform-tools:2.1
   python2-executor:
     docker:
       - image: cimg/python:2.7
   python3-executor:
     docker:
       - image: cimg/python:3.7
-
-# ------------------
-#
-# REFERENCES
-#
-# ------------------
-
-references:
-  install_helm: &install_helm
-    run:
-      name: Install helm v3
-      command: |
-        wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
-        tar -zxvf helm-v3.2.4-linux-amd64.tar.gz
-        mv linux-amd64/helm /usr/local/bin/helm
 
 # ------------------
 #
@@ -117,6 +99,7 @@ jobs:
             pre-commit run pip-compile --files requirements-docs.in
             pre-commit run pip-compile --files requirements-testing.in
             pre-commit run pip-compile --files requirements-production.in
+
   python_unit_test:
     docker:
       - image: cimg/python:2.7
@@ -149,6 +132,7 @@ jobs:
           command: |
             source env/bin/activate
             python manage.py test --verbosity=2
+
   socket_server_tests:
     docker:
       - image: cimg/node:18.8.0
@@ -167,6 +151,7 @@ jobs:
           name: Run tests
           command: |
             npm run test
+
   javascript_unit_test:
     docker:
       - image: cimg/node:18.8.0
@@ -208,11 +193,6 @@ jobs:
             npm install
             npm run test-single-run
 
-# ------------------
-#
-# WORKFLOWS
-#
-# ------------------
   behave:
     executor: aws-ecr/default
     environment:
@@ -236,6 +216,11 @@ jobs:
           echo "Setting CLA Socket Server image $SOCKET_IMAGE"
       - cla-end-to-end-tests/behave
 
+# ------------------
+#
+# WORKFLOWS
+#
+# ------------------
 workflows:
   version: 2
   test_and_build:
@@ -269,4 +254,3 @@ workflows:
             - build_socket_server
           context:
             - laa-cla-frontend
-
