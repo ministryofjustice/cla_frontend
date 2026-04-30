@@ -266,7 +266,7 @@ class EntraBackendTestCase(SimpleTestCase):
     @mock.patch("cla_auth.backend.EntraTokenDecoder")
     def test_token_to_user_sets_is_manager_for_manager_role(self, mock_decoder_cls):
         # Arrange: the decoder's decode method returns a payload with a manager role.
-        role = "Civil Legal Advice - Helpline Operator Manager"
+        role = "Civil Legal Advice - Operator Manager"
         mock_decoder_cls.return_value.decode.return_value = {
             "preferred_username": "manager@example.com",
             "LAA_APP_ROLES": [role],
