@@ -1,0 +1,19 @@
+name: e2e.yml
+on: push
+
+jobs:
+  end-to-end-test:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name:  Pull Cla BACKEND image
+        uses: ./.github/actions/pull-image
+        with:
+          ECR_ROLE_TO_ASSUME: ${{ secrets.CLA_BACKEND_ECR_ROLE_TO_ASSUME}}
+          ECR_REGION: ${{ vars.CLA_BACKEND_ECR_REGION }}
+          SERVICE_NAME: clabackend
