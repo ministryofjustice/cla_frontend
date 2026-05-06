@@ -29,11 +29,11 @@ jobs:
       - uses: ./.github/actions/build-and-push
         with:
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          ECR_ROLE_TO_ASSUME: ${{ secrets.CLA_FRONTEND_ECR_ROLE_TO_ASSUME }}
           ECR_ROLE_TO_ASSUME_SOCKET_SERVER: ${{ secrets.SOCKET_SERVER_ECR_ROLE_TO_ASSUME }}
-          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          ECR_REPOSITORY: ${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}
           ECR_REPOSITORY_SOCKET_SERVER: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
-          ECR_REGION: ${{ vars.ECR_REGION }}
+          ECR_REGION: ${{ vars.CLA_FRONTEND_ECR_REGION }}
 
   uat-deploy:
     name: UAT deploy
