@@ -55,7 +55,7 @@ jobs:
           KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
           KUBE_TOKEN: ${{ secrets.KUBE_TOKEN }}
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          ECR_REPOSITORY: ${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}
           ECR_REPOSITORY_SOCKET_SERVER: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
           HOST: ${{ vars.UAT_HOST }}
 
@@ -79,7 +79,7 @@ jobs:
           KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
           KUBE_TOKEN: ${{ secrets.KUBE_TOKEN }}
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          ECR_REPOSITORY: ${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}
           ECR_REPOSITORY_SOCKET_SERVER: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
           HOST: ${{ vars.UAT_HOST }}
 
@@ -102,7 +102,7 @@ jobs:
           KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
           KUBE_TOKEN: ${{ secrets.KUBE_TOKEN }}
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          ECR_REPOSITORY: ${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}
           ECR_REPOSITORY_SOCKET_SERVER: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
           HOST: ${{ vars.STAGING_HOST }}
 
@@ -125,7 +125,7 @@ jobs:
           KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
           KUBE_TOKEN: ${{ secrets.KUBE_TOKEN }}
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          ECR_REPOSITORY: ${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}
           ECR_REPOSITORY_SOCKET_SERVER: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
           HOST: ${{ vars.TRAINING_HOST }}
 
@@ -148,6 +148,6 @@ jobs:
           KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
           KUBE_TOKEN: ${{ secrets.KUBE_TOKEN }}
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          ECR_REPOSITORY: ${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}
           ECR_REPOSITORY_SOCKET_SERVER: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
           HOST: ${{ vars.PRODUCTION_HOST }}
