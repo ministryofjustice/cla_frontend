@@ -20,6 +20,10 @@ inputs:
   ECR_ROLE_TO_ASSUME_SOCKET_SERVER:
     required: true
     description: ECR role to assume for socket server
+outputs:
+  image_tag:
+    value: ${{ steps.branch-tag.outputs.tag }}
+    description: The tag the image was tagged with
 
 runs:
   using: composite
