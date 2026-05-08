@@ -13,7 +13,7 @@ runs:
     - name: Install dependencies
       run: |
         mkdir -p .pip-cache
-        pip install --cache-dir=.pip-cache --requirement requirements/generated/requirements-testing.txt --safe-chain-logging=verbose
+        pip install --cache-dir=.pip-cache --requirement requirements/generated/requirements-testing.txt
       shell: bash
       env:
         PIP_CACHE_DIR: "${{ github.workspace }}/.pip-cache"
