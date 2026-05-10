@@ -19,6 +19,7 @@
 
             {% if step == "password" %}
               <input type="hidden" name="username" value="{{ username }}">
+              <p class="login-username-display">Signing in as <strong>{{ username }}</strong></p>
             {% endif %}
 
           {% include "includes/error_summary.html" %}
