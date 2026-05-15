@@ -73,7 +73,7 @@
             is_spor: $scope.is_spor,
             is_urgent: $scope.is_urgent
           };
-
+   
           if ($scope.is_manual) {
             data.notes = $scope.notes;
           }
@@ -83,6 +83,11 @@
               $scope.assigning_provider_in_progress = true;
               $scope.case.$assign(data).then(
                 function(response) {
+                  if (response.data && response.data.short_code === "EDFF_DUMMY") {
+                      $state.go('case_detail.alternative_help'); 
+                      return; 
+                  }
+                      
                   $state.go('case_list');
                   $window.dataLayer.push({ 'event': 'ProviderAssigned', 'AssignedProviderId': $scope.selected_provider ? $scope.selected_provider.id : null, 'MatterType1': $scope.$parent.case ? $scope.$parent.case.matter_type1 : null, 'MatterType2': $scope.$parent.case ? $scope.$parent.case.matter_type2 : null  });
                   flash('success', 'Case ' + $scope.case.reference + ' assigned to ' + response.data.name);
