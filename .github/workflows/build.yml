@@ -34,17 +34,20 @@ on:
       image_tag:
         description: The docker image tag
         value: ${{ jobs.build-and-push-to-ecr.outputs.image_tag }}
-      
+
 jobs:
   build-and-push-to-ecr:
     name: Build and Push
     runs-on: ubuntu-latest
+
     outputs:
       image_uri: ${{ steps.meta.outputs.tags }}
-      image_tag: ${{ steps.meta.outputs.tag-names }}
+      image_tag: ${{ steps.extract-tag.outputs.tag }}
+
     permissions:
-      id-token: write # This is required for requesting the JWT
-      contents: read # This is required for actions/checkout
+      id-token: write
+      contents: read
+
     steps:
       - name: Checkout GitHub repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -56,8 +59,8 @@ jobs:
           aws-region: ${{ inputs.ECR_REGION }}
 
       - name: Login to container repository
-        uses: aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
         id: login-ecr
+        uses: aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
         with:
           mask-password: true
 
@@ -75,26 +78,44 @@ jobs:
           tags: |
             type=raw,value=${{ github.ref_name == 'main' && format('main-{0}', github.sha) || format('branch-{0}', github.sha) }}
 
+      - name: Extract image tag
+        id: extract-tag
+        run: |
+          TAG=$(echo "${{ steps.meta.outputs.tags }}" | sed 's/.*://')
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: Debug image URL
         run: |
-          echo "Built image:"
-          echo "${{ steps.meta.outputs.tags }}"
+          echo "Built image: ${{ steps.meta.outputs.tags }}"
+          echo "Extracted tag: ${{ steps.extract-tag.outputs.tag }}"
 
-      - name: Build and push a Docker image to the container repository
+      - name: Build and push main image
         id: docker-build
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-    
-      - name: Build and push socket server image
-        uses: ministryofjustice/laa-reusable-github-actions/.github/actions/build_and_push_with_cache@7c81d37978aef9418f7185d9ecf70e3cd1c63c02
+          cache-from: type=gha,scope=main
+          cache-to: type=gha,mode=max,scope=main
+
+      - name: Assume role for socket server ECR
+        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
         with:
-          image_registry: ${{ secrets.ECR_REGISTRY_URL }}
-          image_repo: ${{ inputs.ECR_REPOSITORY_SOCKET_SERVER }}
-          dockerfile_path: cla_socketserver/Dockerfile
-          image_tag: ${{ steps.meta.outputs.tags }}
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME_SOCKET_SERVER }}
+          aws-region: ${{ inputs.ECR_REGION }}
+
+      - name: Login to socket server container repository
+        uses: aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
+        with:
+          mask-password: true
+
+      - name: Build and push socket server image
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
+        with:
+          context: .
+          file: cla_socketserver/Dockerfile
+          push: true
+          tags: ${{ secrets.ECR_REGISTRY_URL }}/${{ inputs.ECR_REPOSITORY_SOCKET_SERVER }}:${{ steps.extract-tag.outputs.tag }}
+          cache-from: type=gha,scope=socket-server
+          cache-to: type=gha,mode=max,scope=socket-server
