@@ -77,7 +77,6 @@ jobs:
     needs: [build-and-push]
     if: |
       github.event_name == 'pull_request'
-      
     environment: uat
     permissions:
       contents: read
