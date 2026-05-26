@@ -29,14 +29,14 @@ on:
     outputs:
       image_uri:
         description: The docker image URI
-        value: ${{ jobs.build-and-push-to-ecr.outputs.image_uri }}
+        value: ${{ jobs.build-and-push.outputs.image_uri }}
 
       image_tag:
         description: The docker image tag
-        value: ${{ jobs.build-and-push-to-ecr.outputs.image_tag }}
+        value: ${{ jobs.build-and-push.outputs.image_tag }}
 
 jobs:
-  build-and-push-to-ecr:
+  build-and-push:
     name: Build and Push
     runs-on: ubuntu-latest
 
