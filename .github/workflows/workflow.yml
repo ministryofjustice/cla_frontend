@@ -19,22 +19,22 @@ jobs:
       - uses: ./.github/actions/unit-tests
   
   build-and-push:
-    name: Build
-    uses: ./.github/workflows/build.yml
+      name: Build
+      uses: ./.github/workflows/build.yml
 
-    permissions:
-      contents: read
-      id-token: write
+      permissions:
+        contents: read
+        id-token: write
 
-    with:
-      ECR_REGION: ${{ vars.CLA_FRONTEND_ECR_REGION }}
-      ECR_REPOSITORY: ${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}
-      ECR_REPOSITORY_SOCKET_SERVER: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
+      with:
+        ECR_REGION: ${{ vars.CLA_FRONTEND_ECR_REGION }}
+        ECR_REPOSITORY: ${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}
+        ECR_REPOSITORY_SOCKET_SERVER: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
 
-    secrets:
-      ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-      ECR_ROLE_TO_ASSUME_SOCKET_SERVER: ${{ secrets.SOCKET_SERVER_ECR_ROLE_TO_ASSUME }}
-      ECR_ROLE_TO_ASSUME: ${{ secrets.CLA_FRONTEND_ECR_ROLE_TO_ASSUME }}
+      secrets:
+        ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
+        ECR_ROLE_TO_ASSUME_SOCKET_SERVER: ${{ secrets.SOCKET_SERVER_ECR_ROLE_TO_ASSUME }}
+        ECR_ROLE_TO_ASSUME: ${{ secrets.CLA_FRONTEND_ECR_ROLE_TO_ASSUME }}
 
   snyk-image-scan:
     name: Snyk Image Scan
@@ -76,8 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-and-push]
     if: |
-      github.event_name == 'pull_request' ||
-      (github.event_name == 'push')
+      github.event_name == 'pull_request'
     environment: uat
     permissions:
       contents: read
