@@ -47,7 +47,7 @@ jobs:
       security-events: write
       actions: read
     with:
-      image_uri: ${{ needs.build-and-push.outputs.image_uri }}
+      image_uri: ${{ needs.build-and-push.outputs.socket_server_image_uri }}
       dockerfile_path: ./Dockerfile
     secrets:
       SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}

@@ -27,12 +27,16 @@ on:
 
     outputs:
       image_uri:
-        description: The docker image URI
+        description: The frontend docker image URI
         value: ${{ jobs.build-and-push-ecr.outputs.image_uri }}
 
       image_tag:
-        description: The docker image tag
+        description: The frontend docker image tag
         value: ${{ jobs.build-and-push-ecr.outputs.image_tag }}
+
+      socket_server_image_uri:
+        description: The socket server docker image URI
+        value: ${{ jobs.build-and-push-ecr.outputs.socket_server_image_uri }}
 
 jobs:
   build-and-push-ecr:
@@ -45,7 +49,11 @@ jobs:
 
     outputs:
       image_uri: ${{ steps.meta.outputs.tags }}
-      image_tag: ${{ steps.meta.outputs.tag-names }}
+
+      image_tag: ${{ steps.branch-tag.outputs.tag }}
+
+      socket_server_image_uri: >-
+        ${{ secrets.ECR_REGISTRY_URL }}/${{ inputs.ECR_REPOSITORY_SOCKET_SERVER }}:${{ steps.branch-tag.outputs.tag }}
 
     steps:
       - name: Checkout GitHub repository
