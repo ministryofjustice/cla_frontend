@@ -52,7 +52,7 @@ jobs:
 
       image_tag: ${{ steps.branch-tag.outputs.tag }}
 
-      socket_server_image_uri: >-
+      socket_server_image_uri:
         ${{ secrets.ECR_REGISTRY_URL }}/${{ inputs.ECR_REPOSITORY_SOCKET_SERVER }}:${{ steps.branch-tag.outputs.tag }}
 
     steps:
