@@ -56,7 +56,6 @@ jobs:
           tags: |
             type=raw,value=${{ github.ref_name == 'main' && format('main-{0}', github.sha) || format('branch-{0}', github.sha) }}
 
-
       - name: Debug image URL
         run: |
           echo "Built image:"
@@ -71,4 +70,3 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-  
