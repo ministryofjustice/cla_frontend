@@ -27,16 +27,16 @@ on:
 
     outputs:
       image_uri:
-        description: The frontend docker image URI
+        description: Frontend image URI
         value: ${{ jobs.build-and-push-ecr.outputs.image_uri }}
 
-      image_tag:
-        description: The frontend docker image tag
-        value: ${{ jobs.build-and-push-ecr.outputs.image_tag }}
-
       socket_server_image_uri:
-        description: The socket server docker image URI
+        description: Socket server image URI
         value: ${{ jobs.build-and-push-ecr.outputs.socket_server_image_uri }}
+
+      image_tag:
+        description: Docker image tag
+        value: ${{ jobs.build-and-push-ecr.outputs.image_tag }}
 
 jobs:
   build-and-push-ecr:
@@ -52,7 +52,7 @@ jobs:
 
       image_tag: ${{ steps.branch-tag.outputs.tag }}
 
-      socket_server_image_uri:
+      socket_server_image_uri: >-
         ${{ secrets.ECR_REGISTRY_URL }}/${{ inputs.ECR_REPOSITORY_SOCKET_SERVER }}:${{ steps.branch-tag.outputs.tag }}
 
     steps:
@@ -97,11 +97,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Debug image URL
-        run: |
-          echo "Built image: ${{ steps.meta.outputs.tags }}"
-          echo "Extracted tag: ${{ steps.branch-tag.outputs.tag }}"
 
       - name: Set up AWS credentials for socket server
         uses: ministryofjustice/laa-reusable-github-actions/.github/actions/ecr-auth@cb1ebcbca5efcd1e91b7ee1e27c73650c1bba9d8
