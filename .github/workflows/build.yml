@@ -45,7 +45,7 @@ jobs:
 
     outputs:
       image_uri: ${{ steps.meta.outputs.tags }}
-      image_tag: ${{ steps.branch-tag.outputs.tag }}
+      image_tag: ${{ steps.meta.outputs.tag-names }}
 
     steps:
       - name: Checkout GitHub repository
