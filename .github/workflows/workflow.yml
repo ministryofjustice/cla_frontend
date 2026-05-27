@@ -17,11 +17,11 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - uses: ./.github/actions/unit-tests
 
-  build-and-push-socket-server:
+  build-and-push-ocket-server:
     permissions:
       contents: read
       id-token: write
-    name: Build and push socket server 
+    name: Build and push Socket Server
     runs-on: "ubuntu-latest"
     outputs:
       image_tag: ${{ steps.build-step.outputs.image_tag }}
@@ -48,8 +48,6 @@ jobs:
       ECR_REPOSITORY: ${{vars.CLA_FRONTEND_ECR_REPOSITORY}}
     secrets:
       ECR_ROLE_TO_ASSUME: ${{ secrets.CLA_FRONTEND_ECR_ROLE_TO_ASSUME }}
-
-
 
   snyk-image-scan:
     name: Snyk Image Scan

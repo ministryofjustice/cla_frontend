@@ -62,14 +62,6 @@ runs:
         fi
       shell: bash
 
-    - name: Build and push app image
-      uses: ministryofjustice/laa-reusable-github-actions/.github/actions/build_and_push_with_cache@7c81d37978aef9418f7185d9ecf70e3cd1c63c02
-      with:
-        image_registry: ${{ inputs.ECR_REGISTRY_URL }}
-        image_repo: ${{ inputs.ECR_REPOSITORY }}
-        dockerfile_path: Dockerfile
-        image_tag: ${{ steps.branch-tag.outputs.tag }}
-
     - name: Set up AWS credentials for socket server
       uses: ministryofjustice/laa-reusable-github-actions/.github/actions/ecr-auth@cb1ebcbca5efcd1e91b7ee1e27c73650c1bba9d8
       with:
