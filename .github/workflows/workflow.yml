@@ -18,7 +18,7 @@ jobs:
       - uses: ./.github/actions/unit-tests
 
   build-and-push-socket-server:
-    name: Build socket server
+    name: Build and push to socet server ECR
     uses: ./.github/workflows/build.yml
     permissions:
       contents: read
@@ -30,7 +30,7 @@ jobs:
       ECR_ROLE_TO_ASSUME: ${{ secrets.SOCKET_SERVER_ECR_ROLE_TO_ASSUME }}
 
   build-and-push:
-    name: Build
+    name: Build and push main ECR
     uses: ./.github/workflows/build.yml
     permissions:
       contents: read
