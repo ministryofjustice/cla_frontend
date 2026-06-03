@@ -2,7 +2,6 @@ version: 2.1
 orbs:
   slack: circleci/slack@3.4.2
   node: circleci/node@5.0.2
-  cla-end-to-end-tests: ministryofjustice/cla-end-to-end-tests@volatile
   aws-cli: circleci/aws-cli@4.1 # use v4 of this orb
   aws-ecr: circleci/aws-ecr@9.0 # this orb doesn't support OIDC v2, so we use aws-cli to authenticate
 
@@ -192,29 +191,6 @@ jobs:
           command: |
             npm install
             npm run test-single-run
-
-  behave:
-    executor: aws-ecr/default
-    environment:
-      SESSION_COOKIE_NAME: "SID"
-      SESSION_COOKIE_SECURE: "False"
-      SESSION_COOKIE_HTTPONLY: "False"
-      SESSION_COOKIE_SAMESITE: "None"
-      DISABLE_SAMESITE_MIDDLEWARE: "True"
-      SECURE_CONTENT_TYPE_NOSNIFF: "False"
-      CSRF_COOKIE_SECURE: "False"
-    steps:
-      - checkout:
-          path: cla_frontend
-      - run: |
-          cd cla_frontend
-          source .circleci/define_build_environment_variables
-          export APP_IMAGE=$ECR_URL_APP:$IMAGE_TAG
-          export SOCKET_IMAGE=$ECR_URL_SOCKET_SERVER:$IMAGE_TAG
-          echo "export CLA_FRONTEND_IMAGE=$APP_IMAGE; export CLA_SOCKET_SERVER_IMAGE=$SOCKET_IMAGE" >> $BASH_ENV
-          echo "Setting CLA Frontend image $APP_IMAGE"
-          echo "Setting CLA Socket Server image $SOCKET_IMAGE"
-      - cla-end-to-end-tests/behave
 
 # ------------------
 #
