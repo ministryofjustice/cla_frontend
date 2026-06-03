@@ -224,9 +224,3 @@ workflows:
             - socket_server_tests
           context:
             - laa-cla-frontend
-      - behave:
-          requires:
-            - build_app
-            - build_socket_server
-          context:
-            - laa-cla-frontend
