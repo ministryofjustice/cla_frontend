@@ -9,6 +9,34 @@ permissions:
   contents: read
 
 jobs:
+  pip-compile-check:
+    name: Pip Compile Check
+    runs-on: ubuntu-latest
+    container: python:2.7
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y libcurl4-gnutls-dev
+
+      - name: Install dependencies
+        run: |
+          pip install virtualenv
+          virtualenv pip-compile-env
+          . pip-compile-env/bin/activate
+          pip install pre-commit==1.14.2
+
+      - name: Verify generated requirements
+        run: |
+          . pip-compile-env/bin/activate
+          pre-commit run pip-compile --files requirements-dev.in
+          pre-commit run pip-compile --files requirements-docs.in
+          pre-commit run pip-compile --files requirements-testing.in
+          pre-commit run pip-compile --files requirements-production.in
+
   unit-tests:
     name: "Unit tests"
     runs-on: "ubuntu-latest"
@@ -20,6 +48,7 @@ jobs:
   build-and-push-socket-server:
     name: Build and push to socket server ECR
     uses: ./.github/workflows/build.yml
+    needs: [unit-tests, pip-compile-check]
     permissions:
       contents: read
       id-token: write
@@ -32,6 +61,7 @@ jobs:
   build-and-push:
     name: Build and push to main ECR
     uses: ./.github/workflows/build.yml
+    needs: [unit-tests, pip-compile-check]
     permissions:
       contents: read
       id-token: write
@@ -58,6 +88,23 @@ jobs:
       SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
       SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
       ECR_ROLE_TO_ASSUME: ${{ secrets.CLA_FRONTEND_ECR_ROLE_TO_ASSUME }}
+
+  socket-server-tests:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: cla_socketserver
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - run: npm ci
+      - run: npm test
 
   end-to-end-tests:
     needs: [build-and-push]
