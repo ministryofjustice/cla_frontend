@@ -1,4 +1,4 @@
-name: workflow.yml
+name: Test, Build and Deploy
 on:
   pull_request:
   push:
