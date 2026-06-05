@@ -15,7 +15,7 @@ jobs:
     container: python:2.7
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
 
       - name: Install dependencies
         run: |
@@ -70,7 +70,7 @@ jobs:
     name: Snyk Image Scan
     needs: [build-and-push]
     if: always() #allowed to be passed for the error
-    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@a652d1076b05dd80d3ab619d263aac6ce526d70b
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@a652d1076b05dd80d3ab619d263aac6ce526d70b # unversioned
     permissions:
       id-token: write
       contents: read
@@ -92,9 +92,9 @@ jobs:
         working-directory: cla_socketserver
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
 
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.0.0
         with:
           node-version: 18
 
@@ -106,7 +106,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    uses: ministryofjustice/cla-end-to-end-tests/.github/workflows/e2e.yml@main
+    uses: ministryofjustice/cla-end-to-end-tests/.github/workflows/e2e.yml@main # unversioned
     with:
       CLA_FRONTEND_IMAGE: "${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}:${{ needs.build-and-push.outputs.image_tag }}"
       CLA_FRONTEND_ECR_REGION: ${{ vars.CLA_FRONTEND_ECR_REGION}}
