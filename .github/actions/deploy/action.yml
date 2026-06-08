@@ -11,7 +11,7 @@ inputs:
     required: false
     default: 'false'
   KUBE_CERT:
-    description: Kubernetes cluster certificate (base64 encoded)
+    description: Kubernetes cluster certificate
     required: true
   KUBE_CLUSTER:
     description: Kubernetes cluster hostname
