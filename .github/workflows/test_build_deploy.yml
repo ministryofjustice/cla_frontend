@@ -1,4 +1,4 @@
-name: workflow.yml
+name: Test, Build and Deploy
 on:
   pull_request:
   push:
@@ -9,6 +9,29 @@ permissions:
   contents: read
 
 jobs:
+  pip-compile-check:
+    name: Pip Compile Check
+    runs-on: ubuntu-latest
+    container: python:2.7
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+
+      - name: Install dependencies
+        run: |
+          pip install virtualenv
+          virtualenv pip-compile-env
+          . pip-compile-env/bin/activate
+          pip install pre-commit==1.14.2
+
+      - name: Verify generated requirements
+        run: |
+          . pip-compile-env/bin/activate
+          pre-commit run pip-compile --files requirements-dev.in
+          pre-commit run pip-compile --files requirements-docs.in
+          pre-commit run pip-compile --files requirements-testing.in
+          pre-commit run pip-compile --files requirements-production.in
+
   unit-tests:
     name: "Unit tests"
     runs-on: "ubuntu-latest"
@@ -20,6 +43,7 @@ jobs:
   build-and-push-socket-server:
     name: Build and push to socket server ECR
     uses: ./.github/workflows/build.yml
+    needs: [unit-tests, pip-compile-check]
     permissions:
       contents: read
       id-token: write
@@ -32,6 +56,7 @@ jobs:
   build-and-push:
     name: Build and push to main ECR
     uses: ./.github/workflows/build.yml
+    needs: [unit-tests, pip-compile-check]
     permissions:
       contents: read
       id-token: write
@@ -45,7 +70,7 @@ jobs:
     name: Snyk Image Scan
     needs: [build-and-push]
     if: always() #allowed to be passed for the error
-    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@a652d1076b05dd80d3ab619d263aac6ce526d70b
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@a652d1076b05dd80d3ab619d263aac6ce526d70b # unversioned
     permissions:
       id-token: write
       contents: read
@@ -59,12 +84,29 @@ jobs:
       SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
       ECR_ROLE_TO_ASSUME: ${{ secrets.CLA_FRONTEND_ECR_ROLE_TO_ASSUME }}
 
+  socket-server-tests:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: cla_socketserver
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.0.0
+        with:
+          node-version: 18
+
+      - run: npm ci
+      - run: npm test
+
   end-to-end-tests:
     needs: [build-and-push]
     permissions:
       contents: read
       id-token: write
-    uses: ministryofjustice/cla-end-to-end-tests/.github/workflows/e2e.yml@main
+    uses: ministryofjustice/cla-end-to-end-tests/.github/workflows/e2e.yml@main # unversioned
     with:
       CLA_FRONTEND_IMAGE: "${{ vars.CLA_FRONTEND_ECR_REPOSITORY }}:${{ needs.build-and-push.outputs.image_tag }}"
       CLA_FRONTEND_ECR_REGION: ${{ vars.CLA_FRONTEND_ECR_REGION}}
