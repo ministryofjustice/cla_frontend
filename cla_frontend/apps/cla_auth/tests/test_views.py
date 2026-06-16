@@ -320,11 +320,11 @@ class BackendProxyViewTestCase(SimpleTestCase):
             path="caseExport/",
             use_auth_header=False,
             use_entra_token=True,
-            base_remote_url="http://backend/",
+            base_remote_url="https://backend/",
         )
 
         mock_proxy_view.assert_called_once_with(
-            request, "http://backend/caseExport/", {"headers": {"Authorization": "Bearer tok123"}}
+            request, "https://backend/caseExport/", {"headers": {"Authorization": "Bearer tok123"}}
         )
 
     @mock.patch("cla_auth.views.proxy_view")
@@ -336,10 +336,10 @@ class BackendProxyViewTestCase(SimpleTestCase):
             path="caseExport/",
             use_auth_header=False,
             use_entra_token=True,
-            base_remote_url="http://backend/",
+            base_remote_url="https://backend/",
         )
 
-        mock_proxy_view.assert_called_once_with(request, "http://backend/caseExport/", {"headers": {}})
+        mock_proxy_view.assert_called_once_with(request, "https://backend/caseExport/", {"headers": {}})
 
     @mock.patch("cla_auth.views.proxy_view")
     @mock.patch("cla_auth.views.get_connection")
@@ -349,7 +349,7 @@ class BackendProxyViewTestCase(SimpleTestCase):
             "session": mock.MagicMock(
                 auth=mock.MagicMock(get_header=mock.Mock(return_value=("authorization", "Bearer legacy-token")))
             ),
-            "base_url": "http://legacy-base/",
+            "base_url": "https://legacy-base/",
         }
         mock_get_connection.return_value = mock_client
         request = self._make_request()
@@ -357,7 +357,7 @@ class BackendProxyViewTestCase(SimpleTestCase):
         backend_proxy_view(request, path="case/ABC/")
 
         mock_proxy_view.assert_called_once_with(
-            request, "http://legacy-base/case/ABC/", {"headers": {"AUTHORIZATION": "Bearer legacy-token"}}
+            request, "https://legacy-base/case/ABC/", {"headers": {"AUTHORIZATION": "Bearer legacy-token"}}
         )
 
     def test_raises_when_no_auth_method_or_base_url_given(self):

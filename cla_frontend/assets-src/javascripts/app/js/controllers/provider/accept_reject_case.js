@@ -123,42 +123,19 @@
           a.download = $scope.case.reference + '.xml';
           a.click();
           $window.URL.revokeObjectURL(downloadUrl);
-        }, function(rejection) {
-          if (rejection.status === 401) {
+        }, function(error_) {
+          if (error_.status === 401) {
             flash('error', 'Your session has expired. Please sign in again.');
-          } else if (rejection.status === 403) {
+          } else if (error_.status === 403) {
             flash('error', 'You do not have permission to export this case.');
-          } else if (rejection.status === 404) {
+          } else if (error_.status === 404) {
             flash('error', 'Case ' + $scope.case.reference + ' could not be found.');
-          } else if (rejection.status === 400) {
-            readBlobAsText(rejection.data, function(text) {
-              flash('error', parseValidationErrors(text));
-            });
+          } else if (error_.status === 400) {
+            flash('error', 'There was a problem with the export request.');
           } else {
             flash('error', 'There was a problem exporting this case.');
           }
         });
-      };
-
-      var readBlobAsText = function(blob, callback) {
-        var reader = new FileReader();
-        reader.onload = function() { callback(reader.result); };
-        reader.onerror = function() { callback(''); };
-        reader.readAsText(blob);
-      };
-
-      var parseValidationErrors = function(text) {
-        var fallback = 'There was a problem with the export request.';
-        try {
-          var errors = JSON.parse(text);
-          var fieldErrors = [];
-          angular.forEach(errors, function(messages, field) {
-            fieldErrors.push(field + ': ' + (angular.isArray(messages) ? messages.join(', ') : messages));
-          });
-          return fieldErrors.length ? fieldErrors.join('; ') : fallback;
-        } catch (e) {
-          return fallback;
-        }
       };
     }]
   );
