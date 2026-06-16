@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse
+from django.conf import settings
 
 from api.client import get_connection
 
@@ -11,7 +12,12 @@ from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
 @cla_provider_zone_required
 def dashboard(request):
-    return render(request, "cla_provider/angular_app.html", {})
+    return render(request, "cla_provider/angular_app.html", {"cla_features": get_enabled_feature_flags()})
+
+
+def get_enabled_feature_flags():
+    flags = {"xml_export_button": settings.XML_EXPORT_BUTTON_FEATURE_FLAG}
+    return [name for name, value in flags.items() if value]
 
 
 @cla_provider_zone_required

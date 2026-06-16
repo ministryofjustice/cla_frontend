@@ -96,6 +96,17 @@
         }
       );
 
+      resource.prototype.$export_xml = function () {
+        return $http.post(
+          url_utils.proxy('caseExport/'),
+          $.param({CHSCRN: this.reference}),
+          {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            responseType: 'blob'
+          }
+        );
+      };
+
       resource.prototype.$defer_assignment = function(data) {
         var url = url_utils.proxy('case/'+this.reference+'/defer_assignment/');
         return $http.post(url, data);

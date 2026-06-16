@@ -2,8 +2,11 @@
   'use strict';
 
   angular.module('cla.controllers.provider').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$uibModal', 'flash', 'postal', '$state', '$window',
-    function($scope, $uibModal, flash, postal, $state, $window){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$uibModal', 'flash', 'postal', '$state', '$window', 'ClaFeatures',
+    function($scope, $uibModal, flash, postal, $state, $window, ClaFeatures){
+      $scope.userIsEntra = document.head.dataset.userIsEntra === 'true';
+      $scope.xmlExportButton = ClaFeatures.is_feature_enabled('xml_export_button');
+
       $scope.showDebtReferralButton = function() {
         if (!$scope.case.provider_accepted || $scope.case.provider_closed) {
           return false;
@@ -108,6 +111,20 @@
               return Category.query().$promise;
             }]
           }
+        });
+      };
+
+      $scope.exportXml = function() {
+        $scope.case.$export_xml().then(function(response) {
+          var blob = new Blob([response.data], { type: 'application/xml' });
+          var downloadUrl = $window.URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = $scope.case.reference + '.xml';
+          a.click();
+          $window.URL.revokeObjectURL(downloadUrl);
+        }, function() {
+          flash('error', 'There was a problem exporting this case');
         });
       };
     }]

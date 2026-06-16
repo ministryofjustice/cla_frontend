@@ -213,7 +213,7 @@ def _handle_password_step(request, template_name, redirect_to):
 # LEGACY VIEWS - to be removed once we have fully switched to Entra ID authentication
 # ==============================================================
 @csrf_exempt
-def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None):
+def backend_proxy_view(request, path, use_auth_header=True, use_entra_token=False, base_remote_url=None):
     """
     TODO: hacky as it's getting the base_url and the auth header from the
         get_connection slumber object.
@@ -223,8 +223,11 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
     if you specifiy `use_auth_header` to be false, then it won't use the zone
     or url info from the get_connection slumber object. In that case you
     should pass in the base_remote_url yourself.
+
+    if you specify `use_entra_token` to be true, the Entra access token stored
+    in the session will be forwarded as a Bearer token to the remote endpoint.
     """
-    assert use_auth_header or base_remote_url
+    assert use_auth_header or use_entra_token or base_remote_url
     if use_auth_header:
         client = get_connection(request)
         extra_requests_args = {
@@ -232,6 +235,11 @@ def backend_proxy_view(request, path, use_auth_header=True, base_remote_url=None
         }
         if not base_remote_url:
             base_remote_url = client._store["base_url"]
+    elif use_entra_token:
+        token = request.session.get("entra_access_token")
+        extra_requests_args = {
+            "headers": {"Authorization": "Bearer %s" % token} if token else {}
+        }
     else:
         extra_requests_args = {}
     remoteurl = "%s%s" % (base_remote_url, path)
