@@ -2,11 +2,12 @@ import mock
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.test import override_settings
+from django.test import SimpleTestCase, override_settings
 from slumber.exceptions import HttpClientError
 
 from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
+from cla_provider.views import get_enabled_feature_flags
 from core.testing.test_base import CLATFrontEndTestCase
 
 
@@ -242,3 +243,29 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
             },
             {},
         )
+
+
+class GetEnabledFeatureFlagsTestCase(SimpleTestCase):
+    @override_settings(XML_EXPORT_BUTTON_FEATURE_FLAG=True)
+    def test_xml_export_button_enabled(self):
+        self.assertEqual(get_enabled_feature_flags(), ["xml_export_button"])
+
+    @override_settings(XML_EXPORT_BUTTON_FEATURE_FLAG=False)
+    def test_xml_export_button_disabled(self):
+        self.assertEqual(get_enabled_feature_flags(), [])
+
+
+class DashboardFeatureFlagsTestCase(CLATFrontEndTestCase):
+    zone = "cla_provider"
+
+    @override_settings(XML_EXPORT_BUTTON_FEATURE_FLAG=True)
+    def test_cla_features_in_context_when_enabled(self):
+        self.login()
+        response = self.client.get(reverse("cla_provider:dashboard"))
+        self.assertIn("xml_export_button", response.context["cla_features"])
+
+    @override_settings(XML_EXPORT_BUTTON_FEATURE_FLAG=False)
+    def test_cla_features_in_context_when_disabled(self):
+        self.login()
+        response = self.client.get(reverse("cla_provider:dashboard"))
+        self.assertNotIn("xml_export_button", response.context["cla_features"])

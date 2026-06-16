@@ -102,7 +102,8 @@
           $.param({CHSCRN: this.reference}),
           {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            responseType: 'blob'
+            responseType: 'blob',
+            ignoreExceptions: [400, 401, 403, 404]
           }
         );
       };
