@@ -176,7 +176,7 @@ envVars:
     secret:
       name: sso
       key: backend_scope
-  XML_EXPORT_BUTTON_FEATURE_FLAG:
+  XML_EXPORT_BUTTON_OFFICE_CODES:
     configmap:
       name: xml-export-button
-      key: enabled
+      key: office_codes

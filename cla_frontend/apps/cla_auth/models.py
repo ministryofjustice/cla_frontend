@@ -36,6 +36,10 @@ class ClaUser(object):
         return self._data.get("is_manager")
 
     @property
+    def office_codes(self):
+        return self._data.get("office_codes", [])
+
+    @property
     def username(self):
         return self._data.get("username")
 

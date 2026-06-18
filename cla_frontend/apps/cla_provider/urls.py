@@ -23,7 +23,7 @@ urlpatterns = patterns(
         r"^proxy/caseExport/$",
         auth_views.backend_proxy_view,
         name="backend_proxy_provider_export",
-        kwargs={"use_auth_header": False, "use_entra_token": True, "path": "caseExport/", "base_remote_url": zone.get("BASE_URI")},
+        kwargs={"use_auth_header": True, "path": "caseExport/", "base_remote_url": zone.get("BASE_URI")},
     ),
     url(r"^proxy/(?P<path>.*)", auth_views.backend_proxy_view, name="backend_proxy"),
     url(r"^.*$", views.dashboard, name="dashboard"),

@@ -312,38 +312,27 @@ class BackendProxyViewTestCase(SimpleTestCase):
         return request
 
     @mock.patch("cla_auth.views.proxy_view")
-    def test_entra_token_present_forwards_bearer_header(self, mock_proxy_view):
+    @mock.patch("cla_auth.views.get_connection")
+    def test_entra_token_present_forwards_bearer_header(self, mock_get_connection, mock_proxy_view):
+        mock_client = mock.MagicMock()
+        mock_client._store = {
+            "session": mock.MagicMock(
+                auth=mock.MagicMock(get_header=mock.Mock(return_value=("authorization", "Bearer tok123")))
+            ),
+            "base_url": "https://backend/",
+        }
+        mock_get_connection.return_value = mock_client
         request = self._make_request(session={"entra_access_token": "tok123"})
 
-        backend_proxy_view(
-            request,
-            path="caseExport/",
-            use_auth_header=False,
-            use_entra_token=True,
-            base_remote_url="https://backend/",
-        )
+        backend_proxy_view(request, path="caseExport/", base_remote_url="https://backend/")
 
         mock_proxy_view.assert_called_once_with(
-            request, "https://backend/caseExport/", {"headers": {"Authorization": "Bearer tok123"}}
+            request, "https://backend/caseExport/", {"headers": {"AUTHORIZATION": "Bearer tok123"}}
         )
-
-    @mock.patch("cla_auth.views.proxy_view")
-    def test_entra_token_absent_sends_no_auth_header(self, mock_proxy_view):
-        request = self._make_request(session={})
-
-        backend_proxy_view(
-            request,
-            path="caseExport/",
-            use_auth_header=False,
-            use_entra_token=True,
-            base_remote_url="https://backend/",
-        )
-
-        mock_proxy_view.assert_called_once_with(request, "https://backend/caseExport/", {"headers": {}})
 
     @mock.patch("cla_auth.views.proxy_view")
     @mock.patch("cla_auth.views.get_connection")
-    def test_use_auth_header_builds_headers_from_legacy_connection(self, mock_get_connection, mock_proxy_view):
+    def test_entra_token_absent_falls_back_to_legacy_connection(self, mock_get_connection, mock_proxy_view):
         mock_client = mock.MagicMock()
         mock_client._store = {
             "session": mock.MagicMock(
@@ -352,7 +341,7 @@ class BackendProxyViewTestCase(SimpleTestCase):
             "base_url": "https://legacy-base/",
         }
         mock_get_connection.return_value = mock_client
-        request = self._make_request()
+        request = self._make_request(session={})
 
         backend_proxy_view(request, path="case/ABC/")
 
@@ -360,10 +349,27 @@ class BackendProxyViewTestCase(SimpleTestCase):
             request, "https://legacy-base/case/ABC/", {"headers": {"AUTHORIZATION": "Bearer legacy-token"}}
         )
 
-    def test_raises_when_no_auth_method_or_base_url_given(self):
+    @mock.patch("cla_auth.views.proxy_view")
+    @mock.patch("cla_auth.views.get_connection")
+    def test_explicit_base_url_overrides_connection_url(self, mock_get_connection, mock_proxy_view):
+        mock_client = mock.MagicMock()
+        mock_client._store = {
+            "session": mock.MagicMock(
+                auth=mock.MagicMock(get_header=mock.Mock(return_value=("authorization", "Bearer legacy-token")))
+            ),
+            "base_url": "https://legacy-base/",
+        }
+        mock_get_connection.return_value = mock_client
+        request = self._make_request(session={})
+
+        backend_proxy_view(request, path="case/ABC/", base_remote_url="https://explicit-base/")
+
+        mock_proxy_view.assert_called_once_with(
+            request, "https://explicit-base/case/ABC/", {"headers": {"AUTHORIZATION": "Bearer legacy-token"}}
+        )
+
+    def test_raises_when_no_auth_and_no_base_url(self):
         request = self._make_request()
 
         with self.assertRaises(AssertionError):
-            backend_proxy_view(
-                request, path="caseExport/", use_auth_header=False, use_entra_token=False, base_remote_url=None
-            )
+            backend_proxy_view(request, path="caseExport/", use_auth_header=False, base_remote_url=None)

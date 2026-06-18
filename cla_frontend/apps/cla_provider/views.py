@@ -12,11 +12,14 @@ from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
 @cla_provider_zone_required
 def dashboard(request):
-    return render(request, "cla_provider/angular_app.html", {"cla_features": get_enabled_feature_flags()})
+    return render(request, "cla_provider/angular_app.html", {"cla_features": get_enabled_feature_flags(request.user)})
 
 
-def get_enabled_feature_flags():
-    flags = {"xml_export_button": settings.XML_EXPORT_BUTTON_FEATURE_FLAG}
+def get_enabled_feature_flags(user):
+    allowed_offices = settings.XML_EXPORT_BUTTON_OFFICE_CODES
+    flags = {
+        "xml_export_button": bool(allowed_offices) and any(code in allowed_offices for code in user.office_codes)
+    }
     return [name for name, value in flags.items() if value]
 
 
