@@ -183,7 +183,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 FAMILY_ISSUE_FEATURE_FLAG = os.environ.get("FAMILY_ISSUE_FEATURE_FLAG", "False").lower() == "true"
 
 # Sets whether the Export XML button is shown on the provider case screen
-XML_EXPORT_BUTTON_FEATURE_FLAG = os.environ.get("XML_EXPORT_BUTTON_FEATURE_FLAG", "True").lower() == "true"
+XML_EXPORT_BUTTON_FEATURE_FLAG = os.environ.get("XML_EXPORT_BUTTON_FEATURE_FLAG", "False").lower() == "true"
 
 # Sets whether the new notes format is displayed
 NEW_CLIENT_NOTE_FEATURE_FLAG = os.environ.get("NEW_CLIENT_NOTE_FEATURE_FLAG", "False").lower() == "true"
