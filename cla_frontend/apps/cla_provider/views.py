@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 from api.client import get_connection
 
 from slumber.exceptions import HttpClientError
 from cla_auth.utils import cla_provider_zone_required
+from cla_auth.views import backend_proxy_view
 
 from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
@@ -21,6 +23,18 @@ def get_enabled_feature_flags(user):
         "xml_export_button": bool(allowed_offices) and any(code in allowed_offices for code in user.office_codes)
     }
     return [name for name, value in flags.items() if value]
+
+
+@csrf_exempt
+@cla_provider_zone_required
+def case_export_proxy(request):
+    zone = settings.ZONE_PROFILES.get("cla_provider", {})
+    return backend_proxy_view(
+        request,
+        path="caseExport/",
+        use_auth_header="xml_export_button" in get_enabled_feature_flags(request.user),
+        base_remote_url=zone.get("BASE_URI"),
+    )
 
 
 @cla_provider_zone_required
