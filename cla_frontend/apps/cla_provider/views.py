@@ -20,7 +20,7 @@ def dashboard(request):
 def get_enabled_feature_flags(user):
     allowed_offices = settings.XML_EXPORT_BUTTON_OFFICE_CODES
     flags = {
-        "xml_export_button": bool(allowed_offices) and any(code in allowed_offices for code in user.office_codes)
+        "xml_export_button": any(code in allowed_offices for code in user.office_codes)
     }
     return [name for name, value in flags.items() if value]
 
