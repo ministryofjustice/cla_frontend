@@ -50,6 +50,7 @@ jobs:
     with:
       ECR_REGION: ${{vars.CLA_FRONTEND_ECR_REGION}}
       ECR_REPOSITORY: ${{ vars.SOCKET_SERVER_ECR_REPOSITORY }}
+      DOCKERFILE: cla_socketserver/Dockerfile
     secrets:
       ECR_ROLE_TO_ASSUME: ${{ secrets.SOCKET_SERVER_ECR_ROLE_TO_ASSUME }}
 
