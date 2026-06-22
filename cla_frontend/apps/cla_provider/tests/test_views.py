@@ -2,11 +2,12 @@ import mock
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.test import override_settings
+from django.test import SimpleTestCase, override_settings
 from slumber.exceptions import HttpClientError
 
 from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
+from cla_provider.views import get_enabled_feature_flags
 from core.testing.test_base import CLATFrontEndTestCase
 
 
@@ -242,3 +243,44 @@ class LegalHelpFormTestCase(CLATFrontEndTestCase):
             },
             {},
         )
+
+
+class GetEnabledFeatureFlagsTestCase(SimpleTestCase):
+    def _make_user(self, office_codes):
+        user = mock.MagicMock()
+        user.office_codes = office_codes
+        return user
+
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01", "B02"])
+    def test_xml_export_button_enabled_for_matching_office(self):
+        self.assertEqual(get_enabled_feature_flags(self._make_user(["B01"])), ["xml_export_button"])
+
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01", "B02"])
+    def test_xml_export_button_disabled_for_non_matching_office(self):
+        self.assertEqual(get_enabled_feature_flags(self._make_user(["X99"])), [])
+
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=[])
+    def test_xml_export_button_disabled_when_no_offices_configured(self):
+        self.assertEqual(get_enabled_feature_flags(self._make_user(["B01"])), [])
+
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"])
+    def test_xml_export_button_disabled_when_user_has_no_accounts(self):
+        self.assertEqual(get_enabled_feature_flags(self._make_user([])), [])
+
+
+class DashboardFeatureFlagsTestCase(CLATFrontEndTestCase):
+    zone = "cla_provider"
+
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"])
+    @mock.patch("cla_provider.views.get_enabled_feature_flags", return_value=["xml_export_button"])
+    def test_cla_features_in_context_when_enabled(self, _):
+        self.login()
+        response = self.client.get(reverse("cla_provider:dashboard"))
+        self.assertIn("xml_export_button", response.context["cla_features"])
+
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=[])
+    @mock.patch("cla_provider.views.get_enabled_feature_flags", return_value=[])
+    def test_cla_features_in_context_when_disabled(self, _):
+        self.login()
+        response = self.client.get(reverse("cla_provider:dashboard"))
+        self.assertNotIn("xml_export_button", response.context["cla_features"])
