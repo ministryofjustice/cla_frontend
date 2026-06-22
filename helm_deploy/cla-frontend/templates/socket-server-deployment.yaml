@@ -41,8 +41,3 @@ spec:
           env:
             - name: SITE_HOSTNAME
               value: "{{ .Values.host }}"
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: secret
-                  key: value
