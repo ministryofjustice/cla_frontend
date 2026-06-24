@@ -22,7 +22,7 @@ def get_connection(request):
     user = request.user
     zone = request.zone
 
-    if not user:
+    if not user or not user.is_authenticated():
         raise PermissionDenied(u"no such user")
 
     if not zone:
