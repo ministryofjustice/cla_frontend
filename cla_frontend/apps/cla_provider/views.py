@@ -29,10 +29,13 @@ def get_enabled_feature_flags(user):
 @cla_provider_zone_required
 def case_export_proxy(request):
     zone = settings.ZONE_PROFILES.get("cla_provider", {})
+    is_entra_user = hasattr(request.user, "_me_data")
+    use_auth_header = not is_entra_user or "xml_export_button" in get_enabled_feature_flags(request.user)
+    print("is_entra:", is_entra_user, "use_auth_header:", use_auth_header)
     return backend_proxy_view(
         request,
         path="caseExport/",
-        use_auth_header="xml_export_button" in get_enabled_feature_flags(request.user),
+        use_auth_header=use_auth_header,
         base_remote_url=zone.get("BASE_URI"),
     )
 
