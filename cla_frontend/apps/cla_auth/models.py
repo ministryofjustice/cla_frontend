@@ -36,6 +36,12 @@ class ClaUser(object):
         return self._data.get("is_manager")
 
     @property
+    def office_codes(self):
+        if not hasattr(self, "_me_data"):
+            return []
+        return self._me_data.get("office_codes", [])
+
+    @property
     def username(self):
         return self._data.get("username")
 

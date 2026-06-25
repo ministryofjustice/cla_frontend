@@ -84,11 +84,14 @@ class EntraBackend(object):
         user = ClaUser(token, self.zone_name)
         roles = payload["LAA_APP_ROLES"] if isinstance(payload["LAA_APP_ROLES"], list) else [payload["LAA_APP_ROLES"]]
         roles = [role for role in roles if role in ROLES]
+        raw_accounts = payload.get("LAA_ACCOUNTS", [])
+        office_codes = raw_accounts if isinstance(raw_accounts, list) else [raw_accounts]
         user._me_data = {
             "username": payload["preferred_username"],
             "roles": roles,
             "is_manager": any([ROLES[role]["is_manager"] for role in roles]),
             "ui_access": [ROLES[role]["ui"] for role in roles],
+            "office_codes": office_codes,
         }
         return user
 

@@ -2,8 +2,11 @@
   'use strict';
 
   angular.module('cla.controllers.provider').
-    controller('AcceptRejectCaseCtrl', ['$scope', '$uibModal', 'flash', 'postal', '$state', '$window',
-    function($scope, $uibModal, flash, postal, $state, $window){
+    controller('AcceptRejectCaseCtrl', ['$scope', '$uibModal', 'flash', 'postal', '$state', '$window', 'ClaFeatures',
+    function($scope, $uibModal, flash, postal, $state, $window, ClaFeatures){
+      $scope.userIsEntra = document.head.dataset.userIsEntra === 'true';
+      $scope.xmlExportButton = ClaFeatures.is_feature_enabled('xml_export_button');
+
       $scope.showDebtReferralButton = function() {
         if (!$scope.case.provider_accepted || $scope.case.provider_closed) {
           return false;
@@ -107,6 +110,30 @@
             categories: ['Category', function(Category) {
               return Category.query().$promise;
             }]
+          }
+        });
+      };
+
+      $scope.exportXml = function() {
+        $scope.case.$export_xml().then(function(response) {
+          var blob = new Blob([response.data], { type: 'application/xml' });
+          var downloadUrl = $window.URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = $scope.case.reference + '.xml';
+          a.click();
+          $window.URL.revokeObjectURL(downloadUrl);
+        }, function(error_) {
+          if (error_.status === 401) {
+            flash('error', 'Your session has expired. Please sign in again.');
+          } else if (error_.status === 403) {
+            flash('error', 'You do not have permission to export this case.');
+          } else if (error_.status === 404) {
+            flash('error', 'Case ' + $scope.case.reference + ' could not be found.');
+          } else if (error_.status === 400) {
+            flash('error', 'There was a problem with the export request.');
+          } else {
+            flash('error', 'There was a problem exporting this case.');
           }
         });
       };
