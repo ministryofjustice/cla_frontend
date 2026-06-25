@@ -288,7 +288,7 @@ class CaseExportProxyTestCase(SimpleTestCase):
         return request
 
     @mock.patch("cla_provider.views.backend_proxy_view")
-    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "http://backend/"}})
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "https://backend/"}})
     def test_unauthenticated_request_skips_auth_header(self, mock_proxy):
         request = self.factory.post("/proxy/caseExport/")
         request.zone = {}
@@ -298,7 +298,7 @@ class CaseExportProxyTestCase(SimpleTestCase):
         self.assertFalse(kwargs["use_auth_header"])
 
     @mock.patch("cla_provider.views.backend_proxy_view")
-    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "http://backend/"}})
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "https://backend/"}})
     def test_legacy_user_skips_auth_header(self, mock_proxy):
         request = self._make_request(has_me_data=False)
         case_export_proxy(request)
@@ -306,7 +306,7 @@ class CaseExportProxyTestCase(SimpleTestCase):
         self.assertFalse(kwargs["use_auth_header"])
 
     @mock.patch("cla_provider.views.backend_proxy_view")
-    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "http://backend/"}})
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "https://backend/"}})
     def test_entra_user_allowed_office_uses_auth_header(self, mock_proxy):
         request = self._make_request(has_me_data=True, office_codes=["B01"])
         case_export_proxy(request)
@@ -314,7 +314,7 @@ class CaseExportProxyTestCase(SimpleTestCase):
         self.assertTrue(kwargs["use_auth_header"])
 
     @mock.patch("cla_provider.views.backend_proxy_view")
-    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "http://backend/"}})
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "https://backend/"}})
     def test_entra_user_disallowed_office_skips_auth_header(self, mock_proxy):
         request = self._make_request(has_me_data=True, office_codes=["X99"])
         case_export_proxy(request)
