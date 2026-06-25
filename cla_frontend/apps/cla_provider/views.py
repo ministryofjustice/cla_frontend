@@ -25,7 +25,7 @@ def get_enabled_feature_flags(user):
     return [name for name, value in flags.items() if value]
 
 # ============================================================================
-# TODO: This proxy view allows legacy user to still use the old XML export flow. 
+# TODO: This proxy view allows legacy user to still use the old XML export flow.
 # Update accordingly once SiLAS is fully implemented and the legacy flow is deprecated.
 # ============================================================================
 
