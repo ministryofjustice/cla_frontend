@@ -2,6 +2,7 @@ import mock
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
 from django.test import SimpleTestCase, override_settings, RequestFactory
 from slumber.exceptions import HttpClientError
 
@@ -285,6 +286,16 @@ class CaseExportProxyTestCase(SimpleTestCase):
             del request.user._me_data
             request.user.office_codes = []
         return request
+
+    @mock.patch("cla_provider.views.backend_proxy_view")
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "http://backend/"}})
+    def test_unauthenticated_request_skips_auth_header(self, mock_proxy):
+        request = self.factory.post("/proxy/caseExport/")
+        request.zone = {}
+        request.user = AnonymousUser()
+        case_export_proxy(request)
+        _, kwargs = mock_proxy.call_args
+        self.assertFalse(kwargs["use_auth_header"])
 
     @mock.patch("cla_provider.views.backend_proxy_view")
     @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "http://backend/"}})

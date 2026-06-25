@@ -26,11 +26,14 @@ def get_enabled_feature_flags(user):
 
 
 @csrf_exempt
-@cla_provider_zone_required
 def case_export_proxy(request):
     zone = settings.ZONE_PROFILES.get("cla_provider", {})
-    is_entra_user = hasattr(request.user, "_me_data")
-    use_auth_header = not is_entra_user or "xml_export_button" in get_enabled_feature_flags(request.user)
+    is_authenticated = getattr(request.user, "is_authenticated", lambda: False)()
+    if is_authenticated:
+        is_entra_user = hasattr(request.user, "_me_data")
+        use_auth_header = not is_entra_user or "xml_export_button" in get_enabled_feature_flags(request.user)
+    else:
+        use_auth_header = False
     return backend_proxy_view(
         request,
         path="caseExport/",
