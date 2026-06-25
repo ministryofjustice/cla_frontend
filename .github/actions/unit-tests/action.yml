@@ -1,4 +1,5 @@
 name: Run unit tests
+description: Run Django unit tests in this composite action
 
 runs:
   using: composite
