@@ -2,12 +2,13 @@ import mock
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.test import SimpleTestCase, override_settings
+from django.contrib.auth.models import AnonymousUser
+from django.test import SimpleTestCase, override_settings, RequestFactory
 from slumber.exceptions import HttpClientError
 
 from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
-from cla_provider.views import get_enabled_feature_flags
+from cla_provider.views import get_enabled_feature_flags, case_export_proxy
 from core.testing.test_base import CLATFrontEndTestCase
 
 
@@ -266,6 +267,59 @@ class GetEnabledFeatureFlagsTestCase(SimpleTestCase):
     @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"])
     def test_xml_export_button_disabled_when_user_has_no_accounts(self):
         self.assertEqual(get_enabled_feature_flags(self._make_user([])), [])
+
+
+class CaseExportProxyTestCase(SimpleTestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def _make_request(self, has_me_data=False, office_codes=None):
+        request = self.factory.post("/proxy/caseExport/")
+        request.zone = {}
+        request.user = mock.MagicMock()
+        request.user.is_authenticated.return_value = True
+        request.user.zone_to_ui.return_value = ["provider"]
+        if has_me_data:
+            request.user._me_data = {"office_codes": office_codes or []}
+            request.user.office_codes = office_codes or []
+        else:
+            del request.user._me_data
+            request.user.office_codes = []
+        return request
+
+    @mock.patch("cla_provider.views.backend_proxy_view")
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "https://backend/"}})
+    def test_unauthenticated_request_skips_auth_header(self, mock_proxy):
+        request = self.factory.post("/proxy/caseExport/")
+        request.zone = {}
+        request.user = AnonymousUser()
+        case_export_proxy(request)
+        _, kwargs = mock_proxy.call_args
+        self.assertFalse(kwargs["use_auth_header"])
+
+    @mock.patch("cla_provider.views.backend_proxy_view")
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "https://backend/"}})
+    def test_legacy_user_skips_auth_header(self, mock_proxy):
+        request = self._make_request(has_me_data=False)
+        case_export_proxy(request)
+        _, kwargs = mock_proxy.call_args
+        self.assertFalse(kwargs["use_auth_header"])
+
+    @mock.patch("cla_provider.views.backend_proxy_view")
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "https://backend/"}})
+    def test_entra_user_allowed_office_uses_auth_header(self, mock_proxy):
+        request = self._make_request(has_me_data=True, office_codes=["B01"])
+        case_export_proxy(request)
+        _, kwargs = mock_proxy.call_args
+        self.assertTrue(kwargs["use_auth_header"])
+
+    @mock.patch("cla_provider.views.backend_proxy_view")
+    @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "https://backend/"}})
+    def test_entra_user_disallowed_office_skips_auth_header(self, mock_proxy):
+        request = self._make_request(has_me_data=True, office_codes=["X99"])
+        case_export_proxy(request)
+        _, kwargs = mock_proxy.call_args
+        self.assertFalse(kwargs["use_auth_header"])
 
 
 class DashboardFeatureFlagsTestCase(CLATFrontEndTestCase):
