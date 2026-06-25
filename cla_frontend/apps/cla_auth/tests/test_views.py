@@ -4,7 +4,7 @@ from slumber.exceptions import HttpClientError
 
 from django.test.testcases import SimpleTestCase
 from django.test import override_settings, RequestFactory
-from cla_auth.views import EntraAuthView
+from cla_auth.views import EntraAuthView, backend_proxy_view
 from django.core.urlresolvers import reverse
 from django.contrib.auth import REDIRECT_FIELD_NAME, SESSION_KEY, BACKEND_SESSION_KEY
 
@@ -300,3 +300,76 @@ class EntraRouteCallBackTestCase(SimpleTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn("/some/next/url", response["Location"])
         self.assertNotIn(REDIRECT_FIELD_NAME, request.session)
+
+
+class BackendProxyViewTestCase(SimpleTestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def _make_request(self, session=None):
+        request = self.factory.post("/proxy/caseExport/")
+        request.session = session if session is not None else {}
+        return request
+
+    @mock.patch("cla_auth.views.proxy_view")
+    @mock.patch("cla_auth.views.get_connection")
+    def test_entra_token_present_forwards_bearer_header(self, mock_get_connection, mock_proxy_view):
+        mock_client = mock.MagicMock()
+        mock_client._store = {
+            "session": mock.MagicMock(
+                auth=mock.MagicMock(get_header=mock.Mock(return_value=("authorization", "Bearer tok123")))
+            ),
+            "base_url": "https://backend/",
+        }
+        mock_get_connection.return_value = mock_client
+        request = self._make_request(session={"entra_access_token": "tok123"})
+
+        backend_proxy_view(request, path="caseExport/", base_remote_url="https://backend/")
+
+        mock_proxy_view.assert_called_once_with(
+            request, "https://backend/caseExport/", {"headers": {"AUTHORIZATION": "Bearer tok123"}}
+        )
+
+    @mock.patch("cla_auth.views.proxy_view")
+    @mock.patch("cla_auth.views.get_connection")
+    def test_entra_token_absent_falls_back_to_legacy_connection(self, mock_get_connection, mock_proxy_view):
+        mock_client = mock.MagicMock()
+        mock_client._store = {
+            "session": mock.MagicMock(
+                auth=mock.MagicMock(get_header=mock.Mock(return_value=("authorization", "Bearer legacy-token")))
+            ),
+            "base_url": "https://legacy-base/",
+        }
+        mock_get_connection.return_value = mock_client
+        request = self._make_request(session={})
+
+        backend_proxy_view(request, path="case/ABC/")
+
+        mock_proxy_view.assert_called_once_with(
+            request, "https://legacy-base/case/ABC/", {"headers": {"AUTHORIZATION": "Bearer legacy-token"}}
+        )
+
+    @mock.patch("cla_auth.views.proxy_view")
+    @mock.patch("cla_auth.views.get_connection")
+    def test_explicit_base_url_overrides_connection_url(self, mock_get_connection, mock_proxy_view):
+        mock_client = mock.MagicMock()
+        mock_client._store = {
+            "session": mock.MagicMock(
+                auth=mock.MagicMock(get_header=mock.Mock(return_value=("authorization", "Bearer legacy-token")))
+            ),
+            "base_url": "https://legacy-base/",
+        }
+        mock_get_connection.return_value = mock_client
+        request = self._make_request(session={})
+
+        backend_proxy_view(request, path="case/ABC/", base_remote_url="https://explicit-base/")
+
+        mock_proxy_view.assert_called_once_with(
+            request, "https://explicit-base/case/ABC/", {"headers": {"AUTHORIZATION": "Bearer legacy-token"}}
+        )
+
+    def test_raises_when_no_auth_and_no_base_url(self):
+        request = self._make_request()
+
+        with self.assertRaises(AssertionError):
+            backend_proxy_view(request, path="caseExport/", use_auth_header=False, base_remote_url=None)

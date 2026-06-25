@@ -9,9 +9,9 @@ RUN adduser -D app && \
 
 WORKDIR /home/app
 
-COPY package.json package-lock.json ./
+COPY cla_socketserver/package.json cla_socketserver/package-lock.json ./
 RUN npm install
-COPY . .
+COPY cla_socketserver/ .
 
 USER 1000
 EXPOSE 8005
