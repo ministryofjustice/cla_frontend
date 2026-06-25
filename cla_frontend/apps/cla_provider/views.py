@@ -24,14 +24,19 @@ def get_enabled_feature_flags(user):
     }
     return [name for name, value in flags.items() if value]
 
+# ============================================================================
+# TODO: This proxy view allows legacy user to still use the old XML export flow. 
+# Update accordingly once SiLAS is fully implemented and the legacy flow is deprecated.
+# ============================================================================
+
 
 @csrf_exempt
 def case_export_proxy(request):
     zone = settings.ZONE_PROFILES.get("cla_provider", {})
     is_authenticated = getattr(request.user, "is_authenticated", lambda: False)()
     if is_authenticated:
-        is_entra_user = hasattr(request.user, "_me_data")
-        use_auth_header = is_entra_user and "xml_export_button" in get_enabled_feature_flags(request.user)
+        has_user_data = hasattr(request.user, "_me_data")
+        use_auth_header = has_user_data and "xml_export_button" in get_enabled_feature_flags(request.user)
     else:
         use_auth_header = False
     return backend_proxy_view(
