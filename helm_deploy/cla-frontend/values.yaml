@@ -176,3 +176,7 @@ envVars:
     secret:
       name: sso
       key: backend_scope
+  XML_EXPORT_BUTTON_OFFICE_CODES:
+    configmap:
+      name: xml-export-button
+      key: office_codes

@@ -8,6 +8,10 @@ on:
       ECR_REPOSITORY:
         required: true
         type: string
+      DOCKERFILE:
+        required: false
+        type: string
+        default: Dockerfile
     secrets:
       ECR_ROLE_TO_ASSUME:
         required: true
@@ -65,6 +69,7 @@ jobs:
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
           context: .
+          file: ${{ inputs.DOCKERFILE }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
