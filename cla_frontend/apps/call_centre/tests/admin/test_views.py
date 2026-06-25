@@ -10,7 +10,7 @@ class RotaTests(CLATFrontEndTestCase):
 
     zone = "call_centre"
 
-    @mock.patch("cla_auth.models.get_raw_connection")
+    @mock.patch("cla_auth.models.ClaUser.get_raw_connection")
     def __call__(self, result, mocked_get_raw_connection, *args, **kwargs):
         self.mocked_get_raw_connection = mocked_get_raw_connection
 

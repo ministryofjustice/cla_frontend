@@ -1,17 +1,50 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 from api.client import get_connection
 
 from slumber.exceptions import HttpClientError
 from cla_auth.utils import cla_provider_zone_required
+from cla_auth.views import backend_proxy_view
 
 from cla_common.constants import DISREGARDS, SPECIFIC_BENEFITS
 
 
 @cla_provider_zone_required
 def dashboard(request):
-    return render(request, "cla_provider/angular_app.html", {})
+    return render(request, "cla_provider/angular_app.html", {"cla_features": get_enabled_feature_flags(request.user)})
+
+
+def get_enabled_feature_flags(user):
+    allowed_offices = settings.XML_EXPORT_BUTTON_OFFICE_CODES
+    flags = {
+        "xml_export_button": any(code in allowed_offices for code in user.office_codes)
+    }
+    return [name for name, value in flags.items() if value]
+
+# ============================================================================
+# TODO: This proxy view allows legacy user to still use the old XML export flow.
+# Update accordingly once SiLAS is fully implemented and the legacy flow is deprecated.
+# ============================================================================
+
+
+@csrf_exempt
+def case_export_proxy(request):
+    zone = settings.ZONE_PROFILES.get("cla_provider", {})
+    is_authenticated = getattr(request.user, "is_authenticated", lambda: False)()
+    if is_authenticated:
+        has_user_data = hasattr(request.user, "_me_data")
+        use_auth_header = has_user_data and "xml_export_button" in get_enabled_feature_flags(request.user)
+    else:
+        use_auth_header = False
+    return backend_proxy_view(
+        request,
+        path="caseExport/",
+        use_auth_header=use_auth_header,
+        base_remote_url=zone.get("BASE_URI"),
+    )
 
 
 @cla_provider_zone_required

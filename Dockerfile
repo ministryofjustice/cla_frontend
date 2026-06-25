@@ -1,8 +1,12 @@
 ARG BASE_REQUIREMENTS_FILE="requirements/generated/requirements-production.txt"
+ARG CMD_SCRIPT="docker/run.sh"
 
 FROM alpine:3.15
 
 ARG BASE_REQUIREMENTS_FILE
+ARG CMD_SCRIPT
+# Save cmd script as environment variable
+ENV CMD_SCRIPT=$CMD_SCRIPT
 
 RUN apk add --no-cache \
       bash \
@@ -20,6 +24,8 @@ RUN apk add --no-cache \
       libxml2-dev \
       libxslt-dev \
       linux-headers \
+      libffi-dev \
+      openssl-dev \
       python2-dev && \
       python -m ensurepip --upgrade && \
       pip install -U setuptools pip==18.1 wheel \
@@ -52,13 +58,15 @@ COPY . .
 
 # Make sure static assets directory has correct permissions
 RUN chown -R app:app /home/app && \
-    mkdir -p cla_frontend/assets
+    mkdir -p cla_frontend/assets && \
+    mkdir tmp
 
 # Add file for liveness probe
 RUN touch /tmp/listen_queue_healthy && \
-    chown app:app /tmp/listen_queue_healthy
+    chown app:app /tmp/listen_queue_healthy && \
+    chown app:app tmp
 
 USER 1000
 EXPOSE 8000
 
-CMD ["docker/run.sh"]
+CMD ["sh", "-c", "${CMD_SCRIPT}"]

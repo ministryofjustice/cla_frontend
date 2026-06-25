@@ -5,8 +5,8 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.shortcuts import resolve_url
 from django.utils.decorators import available_attrs
 from django.utils.encoding import force_str
-from django.utils.functional import curry
 from django.http import Http404
+from django.utils.functional import curry
 
 
 def get_available_zone_names():
@@ -21,7 +21,7 @@ def get_zone_profile(zone_name):
     return None
 
 
-def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=None, login_url=None):
+def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=None, ui=None, login_url=None):
     """
     Decorator for views that checks that the zone for logged in user matches,
     given zone kwarg redirecting
@@ -32,9 +32,8 @@ def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=N
         @wraps(view_func, assigned=available_attrs(view_func))
         def _wrapped_view(request, *args, **kwargs):
             r_zone = getattr(request, "zone") or {}
-            if request.user.is_authenticated():
-                if r_zone.get("name") == zone:
-                    return view_func(request, *args, **kwargs)
+            if request.user.is_authenticated() and ui in request.user.zone_to_ui():
+                return view_func(request, *args, **kwargs)
             path = request.build_absolute_uri()
             # urlparse chokes on lazy objects in Python 3, force to str
             resolved_login_url = force_str(
@@ -59,8 +58,8 @@ def zone_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, zone=N
     return decorator
 
 
-call_centre_zone_required = curry(zone_required, zone="call_centre")
-cla_provider_zone_required = curry(zone_required, zone="cla_provider")
+call_centre_zone_required = curry(zone_required, zone="call_centre", ui="operator")
+cla_provider_zone_required = curry(zone_required, zone="cla_provider", ui="provider")
 
 
 def manager_member_required(view_func):
@@ -78,3 +77,13 @@ def manager_member_required(view_func):
         raise Http404()
 
     return _checklogin
+
+
+def user_has_entra_access(username):
+    """
+    Checks if the user is in the list of users allowed to use Entra, and that legacy auth is not enabled.
+    """
+    if not settings.USE_LEGACY_AUTH:
+        return True
+
+    return username in settings.USERS_ALLOWED_ENTRA_ACCESS
