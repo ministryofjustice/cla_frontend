@@ -299,11 +299,11 @@ class CaseExportProxyTestCase(SimpleTestCase):
 
     @mock.patch("cla_provider.views.backend_proxy_view")
     @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "http://backend/"}})
-    def test_legacy_user_always_uses_auth_header(self, mock_proxy):
+    def test_legacy_user_skips_auth_header(self, mock_proxy):
         request = self._make_request(has_me_data=False)
         case_export_proxy(request)
         _, kwargs = mock_proxy.call_args
-        self.assertTrue(kwargs["use_auth_header"])
+        self.assertFalse(kwargs["use_auth_header"])
 
     @mock.patch("cla_provider.views.backend_proxy_view")
     @override_settings(XML_EXPORT_BUTTON_OFFICE_CODES=["B01"], ZONE_PROFILES={"cla_provider": {"BASE_URI": "http://backend/"}})

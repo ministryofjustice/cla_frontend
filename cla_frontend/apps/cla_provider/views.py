@@ -31,7 +31,7 @@ def case_export_proxy(request):
     is_authenticated = getattr(request.user, "is_authenticated", lambda: False)()
     if is_authenticated:
         is_entra_user = hasattr(request.user, "_me_data")
-        use_auth_header = not is_entra_user or "xml_export_button" in get_enabled_feature_flags(request.user)
+        use_auth_header = is_entra_user and "xml_export_button" in get_enabled_feature_flags(request.user)
     else:
         use_auth_header = False
     return backend_proxy_view(
