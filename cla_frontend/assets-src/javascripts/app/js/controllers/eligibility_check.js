@@ -132,6 +132,10 @@
           };
           $scope.updateTabs();
 
+          var monthly = function (amount) {
+            return {'per_interval_value': amount, 'interval_period': 'per_month'};
+          };
+
           var setDetailsDefaults = function (ec) {
             ec.has_partner = false;
             ec.is_you_or_your_partner_over_60 = false;
@@ -169,42 +173,42 @@
           var setSavingsDefaults = function (ec) {
             [ec.you, ec.partner].map(function (person) {
               person.savings = {
-                bank_balance: null,
-                investment_balance: null,
-                childcare: null,
-                asset_balance: null,
-                credit_balance: null
+                bank_balance: 0,
+                investment_balance: 0,
+                childcare: 0,
+                asset_balance: 0,
+                credit_balance: 0
               };
             });
           };
 
           var setIncomeDefaults = function (ec) {
             [ec.you.income, ec.partner.income].map(function (person) {
-              person.earnings = null;
-              person.other_income = null;
+              person.earnings = monthly(0);
+              person.other_income = monthly(0);
               person.self_employed = false;
-              person.total = null;
-              person.self_employment_drawings = null;
-              person.benefits = null;
-              person.tax_credits = null;
-              person.child_benefits = null;
-              person.maintenance_received = null;
-              person.pension = null;
+              person.total = 0;
+              person.self_employment_drawings = monthly(0);
+              person.benefits = monthly(0);
+              person.tax_credits = monthly(0);
+              person.child_benefits = monthly(0);
+              person.maintenance_received = monthly(0);
+              person.pension = monthly(0);
             });
-            ec.dependants_young = null;
-            ec.dependants_old = null;
+            ec.dependants_young = 0;
+            ec.dependants_old = 0;
           };
 
           var setExpensesDefaults = function (ec) {
             [ec.you.deductions, ec.partner.deductions].map(function (person) {
-              person.income_tax = null;
-              person.mortgage = null;
-              person.childcare = null;
-              person.rent = null;
-              person.maintenance = null;
-              person.criminal_legalaid_contributions = null;
-              person.total = null;
-              person.national_insurance = null;
+              person.income_tax = monthly(0);
+              person.mortgage = monthly(0);
+              person.childcare = monthly(0);
+              person.rent = monthly(0);
+              person.maintenance = monthly(0);
+              person.criminal_legalaid_contributions = 0;
+              person.total = 0;
+              person.national_insurance = monthly(0);
             });
           };
 
