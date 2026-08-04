@@ -28,6 +28,8 @@ ROLES = {
 
 class EntraTokenDecoder(object):
     def __init__(self, token):
+        print("This is print")
+        print(token)
         self.tenant_id = settings.ENTRA_TENANT_ID
         self.expected_audience = settings.ENTRA_CLIENT_ID
         self.issuer = settings.ENTRA_ISSUER_URL
@@ -78,6 +80,7 @@ class EntraBackend(object):
     zone_name = "entra"
 
     def token_to_user(self, token):
+        print(token)
         payload = EntraTokenDecoder(token).decode()
         if not payload:
             return None
