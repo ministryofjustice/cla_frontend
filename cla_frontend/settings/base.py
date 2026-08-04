@@ -1,7 +1,7 @@
 import sys
 import os
 from os.path import join, abspath, dirname
-
+from django.core.exceptions import ImproperlyConfigured  # noqa: F402
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -18,8 +18,6 @@ PROJECT_ROOT = here("..")
 def root(*x):
     return join(abspath(PROJECT_ROOT), *x)
 
-
-from django.core.exceptions import ImproperlyConfigured  # noqa: F402
 
 APPS_ROOT = root("apps")
 
