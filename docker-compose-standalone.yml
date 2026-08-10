@@ -11,13 +11,12 @@ services:
       - "8000:8000"
     volumes:
       - ./cla_frontend:/home/app/cla_frontend
-      - /home/app/cla_frontend/assets
-      - /home/app/cla_frontend/static
     environment:
       ENV: local
       DEBUG: "True"
       SECRET_KEY: CHANGE_ME
       BACKEND_BASE_URI: ${BACKEND_BASE_URI:-http://clabackend:8000}
+      ENTRA_TOKEN_CACHE_REDIS_URL: ${ENTRA_TOKEN_CACHE_REDIS_URL:-redis://redis:6379/0}
       CALL_CENTRE_CLIENT_ID: b4b9220ffcb11ebfdab1
       CALL_CENTRE_SECRET_ID: 2df71313bdd38a2e1b815015e1b14387e7681d41
       CLA_PROVIDER_CLIENT_ID: 59657ed22d980251cdd3
@@ -27,3 +26,11 @@ services:
       PYTHONUNBUFFERED: "1"
       USERS_ALLOWED_ENTRA_ACCESS: ${USERS_ALLOWED_ENTRA_ACCESS:-}
       DJANGO_SETTINGS_MODULE: cla_frontend.settings.local
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
