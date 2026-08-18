@@ -180,3 +180,7 @@ envVars:
     configmap:
       name: xml-export-button
       key: office_codes
+  CLOUDFRONT_URL:
+    secret:
+      name: cloudfront-static-assets
+      key: cloudfront_url
