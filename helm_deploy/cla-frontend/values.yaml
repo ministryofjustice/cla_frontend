@@ -180,3 +180,7 @@ envVars:
     configmap:
       name: xml-export-button
       key: office_codes
+  ELASTICACHE_REDIS_URL:
+    secret:
+      name: "elasticache-redis"
+      key: "url"

@@ -9,3 +9,9 @@ envVars:
   BACKEND_BASE_URI:
     # Using service name instead of external domain name
     value: "http://cla-backend-app.laa-cla-backend-uat.svc.cluster.local"
+  ENTRA_TOKEN_CACHE_KEY_PREFIX:
+    value: "entra-token-uat"
+  ENTRA_TOKEN_CACHE_TTL:
+    value: "86400"
+  ENTRA_TOKEN_EXPIRY_SAFETY_WINDOW:
+    value: "300"

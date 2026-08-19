@@ -59,3 +59,15 @@ class EntraAccessTokenMiddlewareTestCase(SimpleTestCase):
         self.middleware.process_request(request)
 
         self.assertIsNone(user.entra_access_token)
+
+    def test_entra_user_with_token_in_session_gets_none_if_token_is_none(self):
+        request = self.factory.get("/")
+        user = mock.Mock()
+        user.is_authenticated.return_value = True
+        user.zone_name = "entra"
+        request.user = user
+        request.session = {"entra_access_token": None}
+
+        self.middleware.process_request(request)
+
+        self.assertIsNone(user.entra_access_token)

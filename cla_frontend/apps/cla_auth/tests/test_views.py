@@ -201,6 +201,36 @@ class EntraLogoutTestCase(SimpleTestCase):
         self.assertIn("set-cookie", response._headers)
         self.assertIn("Max-Age=0", response._headers["set-cookie"][1])
 
+    @override_settings(ENTRA_AUTHORITY=entra_url)
+    def test_logout_clears_session(self):
+        with mock.patch("cla_auth.views.logout"), mock.patch(
+            "django.contrib.auth.middleware.get_user", return_value=self.entra_user
+        ):
+            response = self.client.get(self.logout_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertIsNone(self.client.session.get("entra_access_token"))
+        self.assertIsNone(self.client.session.get("entra_token_cache_key"))
+        self.assertEqual(self.client.session.get("entra_access_token_expires_at", 0), 0)
+
+
+class EntraLoginTestCase(SimpleTestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    @mock.patch("cla_auth.views.logout")
+    @mock.patch("cla_auth.views.clear_entra_token_cache")
+    @mock.patch.object(EntraAuthView, "build_entra_auth_url", return_value="/entra/authorize")
+    def test_route_login_clears_cache_and_redirects(self, _mock_build_url, mock_clear_cache, mock_logout):
+        request = self.factory.get("/auth/entra-login/")
+        request.session = {}
+
+        response = EntraAuthView.route_login(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], "/entra/authorize")
+        mock_clear_cache.assert_called_once_with(request)
+        mock_logout.assert_called_once_with(request)
+
 
 @mock.patch("cla_auth.backend.get_auth_connection")
 @override_settings(USE_LEGACY_AUTH="True")
