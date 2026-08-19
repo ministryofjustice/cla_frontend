@@ -3,8 +3,6 @@ import logging
 import os
 import msal
 import base64
-import time
-import uuid
 
 from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, authenticate
@@ -26,7 +24,7 @@ from api.client import get_connection
 from .forms import UsernameForm, PasswordForm
 from .backend import get_backend
 from .utils import user_has_entra_access
-from .token_cache import clear_entra_token_cache, save_cache_blob
+from .token_cache import clear_entra_token_cache, save_cache_blob, set_access_token_session
 
 from . import get_zone
 
@@ -63,6 +61,7 @@ class EntraAuthView(object):
 
     @classmethod
     def route_login(cls, request):
+        clear_entra_token_cache(request)
         logout(request)
         return_to = request.GET.get(REDIRECT_FIELD_NAME)
         if return_to:
@@ -120,13 +119,8 @@ class EntraAuthView(object):
             return redirect("/")
 
         auth_login(request, user)
-        cache_key = request.session.get("entra_token_cache_key")
-        if not cache_key:
-            cache_key = "entra-token:%s" % uuid.uuid4().hex
-            request.session["entra_token_cache_key"] = cache_key
         save_cache_blob(request, token_cache)
-        request.session.update({"entra_access_token": result.get("access_token")})
-        request.session["entra_access_token_expires_at"] = int(time.time()) + int(result.get("expires_in", 0) or 0)
+        set_access_token_session(request, result.get("access_token"), int(result.get("expires_in", 0) or 0))
         logger.info(
             "login succeeded",
             extra={

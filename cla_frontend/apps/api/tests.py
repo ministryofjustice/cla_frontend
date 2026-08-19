@@ -48,3 +48,23 @@ class GetConnectionTestCase(SimpleTestCase):
 
         self.assertEqual(result, mock_connection)
         user.get_raw_connection.assert_called_once()
+
+    def test_entra_user_without_access_token_raises_permission_denied(self):
+        user = self._authenticated_user()
+        user.zone_name = "entra"
+        user.entra_access_token = None
+        request = self._make_request(user=user, zone=mock.MagicMock())
+        with self.assertRaises(PermissionDenied):
+            get_connection(request)
+
+    def test_entra_user_with_access_token_returns_connection(self):
+        user = self._authenticated_user()
+        user.zone_name = "entra"
+        user.entra_access_token = "some-token"
+        mock_connection = mock.MagicMock()
+        user.get_raw_connection.return_value = mock_connection
+        request = self._make_request(user=user, zone=mock.MagicMock())
+        result = get_connection(request)
+
+        self.assertEqual(result, mock_connection)
+        user.get_raw_connection.assert_called_once()

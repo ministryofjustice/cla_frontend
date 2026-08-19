@@ -34,7 +34,7 @@ class EntraTokenDecoder(object):
         self.discovery_url = settings.ENTRA_KEYS_URL
         self.token = token
 
-    def decode(self):
+    def decode(self, verify_exp=True):
         public_key = self.get_public_key()
         if not public_key:
             logger.error("Entra authentication - Could not retrieve public key for token")
@@ -44,7 +44,12 @@ class EntraTokenDecoder(object):
         public_key = cert_obj.public_key()
         try:
             return jwt.decode(
-                self.token, public_key, algorithms=["RS256"], audience=self.expected_audience, issuer=self.issuer
+                self.token,
+                public_key,
+                algorithms=["RS256"],
+                audience=self.expected_audience,
+                issuer=self.issuer,
+                options={"verify_exp": verify_exp},
             )
         except Exception as e:
             logger.error(e)
@@ -77,8 +82,8 @@ class EntraTokenDecoder(object):
 class EntraBackend(object):
     zone_name = "entra"
 
-    def token_to_user(self, token):
-        payload = EntraTokenDecoder(token).decode()
+    def token_to_user(self, token, verify_exp=True):
+        payload = EntraTokenDecoder(token).decode(verify_exp=verify_exp)
         if not payload:
             return None
         user = ClaUser(token, self.zone_name)
@@ -101,7 +106,7 @@ class EntraBackend(object):
         user.get_raw_connection().user.me.get()
 
     def authenticate(self, payload):
-        user = self.token_to_user(payload["id_token"])
+        user = self.token_to_user(payload["id_token"], verify_exp=True)
         if not user:
             return None
         user.entra_access_token = payload["access_token"]
@@ -109,7 +114,10 @@ class EntraBackend(object):
         return user
 
     def get_user(self, token):
-        user = self.token_to_user(token)
+        # Django session loading calls get_user on every request. Keep signature
+        # and issuer checks but allow an expired id_token here; API auth uses the
+        # Entra access token managed in session/token cache.
+        user = self.token_to_user(token, verify_exp=False)
         return user
 
 
