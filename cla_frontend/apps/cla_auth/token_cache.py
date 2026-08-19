@@ -13,14 +13,6 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
-def _mask_cache_key(cache_key):
-    if not cache_key:
-        return None
-    if len(cache_key) <= 8:
-        return "***"
-    return "%s...%s" % (cache_key[:4], cache_key[-4:])
-
-
 def _get_scopes():
     raw_scope = (settings.ENTRA_SCOPE or "").strip()
     if not raw_scope:
@@ -144,25 +136,12 @@ def get_valid_access_token(request):
         token_expiry = _get_token_expiry_from_jwt(token)
         if not token_expiry or (token_expiry - now) > safety_window:
             return token
-        logger.info(
-            "Session access token is close to JWT expiry; attempting silent refresh",
-            extra={
-                "ENTRA_TOKEN_EXPIRES_AT": expires_at,
-                "ENTRA_JWT_EXP": token_expiry,
-            },
-        )
+        logger.debug("Session access token is close to JWT expiry; attempting silent refresh")
 
     cache_key = request.session.get("entra_token_cache_key")
     cache_blob = _load_cache_blob(cache_key)
     if not cache_blob:
-        logger.warning(
-            "No Entra token cache found for session",
-            extra={
-                "ENTRA_CACHE_KEY": _mask_cache_key(cache_key),
-                "ENTRA_TOKEN_IN_SESSION": bool(token),
-                "ENTRA_TOKEN_EXPIRES_AT": expires_at,
-            },
-        )
+        logger.debug("No Entra token cache found for session")
         return None
 
     token_cache = msal.SerializableTokenCache()
@@ -171,10 +150,7 @@ def get_valid_access_token(request):
     scopes = _get_scopes()
     accounts = msal_app.get_accounts()
     if not accounts:
-        logger.warning(
-            "No account found in Entra MSAL token cache",
-            extra={"ENTRA_CACHE_KEY": _mask_cache_key(cache_key)},
-        )
+        logger.debug("No account found in Entra MSAL token cache")
         return None
 
     if not scopes:
@@ -186,24 +162,12 @@ def get_valid_access_token(request):
         logger.warning(
             "Unable to acquire Entra access token silently: %s",
             result.get("error_description") if result else "No result returned",
-            extra={
-                "ENTRA_CACHE_KEY": _mask_cache_key(cache_key),
-                "ENTRA_ERROR": result.get("error") if result else None,
-                "ENTRA_SUBERROR": result.get("suberror") if result else None,
-            },
         )
         return None
 
     expires_in = int(result.get("expires_in", 0) or 0)
     set_access_token_session(request, result["access_token"], expires_in)
-    logger.info(
-        "Entra access token refreshed silently",
-        extra={
-            "ENTRA_CACHE_KEY": _mask_cache_key(cache_key),
-            "ENTRA_EXPIRES_IN": expires_in,
-            "ENTRA_TOKEN_EXPIRES_AT": int(request.session.get("entra_access_token_expires_at", 0) or 0),
-        },
-    )
+    logger.debug("Entra access token refreshed silently")
     save_cache_blob(request, token_cache)
     return result["access_token"]
 
