@@ -24,7 +24,7 @@ from api.client import get_connection
 from .forms import UsernameForm, PasswordForm
 from .backend import get_backend
 from .utils import user_has_entra_access
-from .token_cache import clear_entra_token_cache, save_cache_blob, set_access_token_session
+from .token_cache import clear_entra_token_cache, save_cache_blob, set_home_account_id_session
 
 from . import get_zone
 
@@ -120,7 +120,7 @@ class EntraAuthView(object):
 
         auth_login(request, user)
         save_cache_blob(request, token_cache)
-        set_access_token_session(request, result.get("access_token"), int(result.get("expires_in", 0) or 0))
+        set_home_account_id_session(request, result.get("account"))
         logger.info(
             "login succeeded",
             extra={

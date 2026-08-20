@@ -1,0 +1,157 @@
+import mock
+
+from django.test.testcases import SimpleTestCase
+
+from .. import token_cache
+
+
+class TokenCacheTestCase(SimpleTestCase):
+    def _make_request(self, session_data=None):
+        request = mock.MagicMock()
+        request.session = session_data or {}
+        return request
+
+    @mock.patch("cla_auth.token_cache.save_cache_blob")
+    @mock.patch("cla_auth.token_cache._build_msal_app")
+    @mock.patch("cla_auth.token_cache.msal.SerializableTokenCache")
+    @mock.patch("cla_auth.token_cache._load_cache_blob", return_value="cache-blob")
+    def test_get_valid_access_token_prefers_msal_when_cache_exists(
+        self,
+        _mock_load,
+        mock_serializable_cache,
+        mock_build_app,
+        mock_save_cache,
+    ):
+        request = self._make_request(
+            {
+                "entra_token_cache_key": "entra-token:key",
+            }
+        )
+
+        fake_cache = mock.MagicMock()
+        mock_serializable_cache.return_value = fake_cache
+
+        fake_app = mock.MagicMock()
+        fake_app.get_accounts.return_value = [{"home_account_id": "abc"}]
+        fake_app.acquire_token_silent.return_value = {
+            "access_token": "cache-token",
+            "expires_in": 1200,
+        }
+        mock_build_app.return_value = fake_app
+
+        result = token_cache.get_valid_access_token(request)
+
+        self.assertEqual(result, "cache-token")
+        mock_save_cache.assert_called_once_with(request, fake_cache)
+
+    @mock.patch("cla_auth.token_cache._load_cache_blob", return_value=None)
+    def test_get_valid_access_token_returns_none_when_cache_missing(self, _):
+        request = self._make_request(
+            {
+                "entra_token_cache_key": "entra-token:key",
+            }
+        )
+
+        result = token_cache.get_valid_access_token(request)
+
+        self.assertIsNone(result)
+
+    def test_set_home_account_id_session_sets_value(self):
+        request = self._make_request()
+
+        token_cache.set_home_account_id_session(request, {"home_account_id": "home-123"})
+
+        self.assertEqual(request.session["entra_home_account_id"], "home-123")
+
+    @mock.patch("cla_auth.token_cache.save_cache_blob")
+    @mock.patch("cla_auth.token_cache._build_msal_app")
+    @mock.patch("cla_auth.token_cache.msal.SerializableTokenCache")
+    @mock.patch("cla_auth.token_cache._load_cache_blob", return_value="cache-blob")
+    def test_get_valid_access_token_uses_home_account_id_when_available(
+        self,
+        _mock_load,
+        mock_serializable_cache,
+        mock_build_app,
+        _mock_save_cache,
+    ):
+        request = self._make_request(
+            {
+                "entra_home_account_id": "home-2",
+                "entra_token_cache_key": "entra-token:key",
+            }
+        )
+
+        fake_cache = mock.MagicMock()
+        mock_serializable_cache.return_value = fake_cache
+
+        account_1 = {"home_account_id": "home-1"}
+        account_2 = {"home_account_id": "home-2"}
+        fake_app = mock.MagicMock()
+        fake_app.get_accounts.return_value = [account_1, account_2]
+        fake_app.acquire_token_silent.return_value = {
+            "access_token": "new-token",
+            "expires_in": 1200,
+            "account": account_2,
+        }
+        mock_build_app.return_value = fake_app
+
+        result = token_cache.get_valid_access_token(request)
+
+        self.assertEqual(result, "new-token")
+        fake_app.acquire_token_silent.assert_called_once_with(
+            scopes=mock.ANY,
+            account=account_2,
+        )
+
+    @mock.patch("cla_auth.token_cache._build_msal_app")
+    @mock.patch("cla_auth.token_cache.msal.SerializableTokenCache")
+    @mock.patch("cla_auth.token_cache._load_cache_blob", return_value="cache-blob")
+    def test_get_valid_access_token_returns_none_when_no_accounts(
+        self,
+        _mock_load,
+        mock_serializable_cache,
+        mock_build_app,
+    ):
+        request = self._make_request(
+            {
+                "entra_token_cache_key": "entra-token:key",
+            }
+        )
+
+        fake_cache = mock.MagicMock()
+        mock_serializable_cache.return_value = fake_cache
+
+        fake_app = mock.MagicMock()
+        fake_app.get_accounts.return_value = []
+        mock_build_app.return_value = fake_app
+
+        result = token_cache.get_valid_access_token(request)
+
+        self.assertIsNone(result)
+
+    @mock.patch("cla_auth.token_cache._build_msal_app")
+    @mock.patch("cla_auth.token_cache.msal.SerializableTokenCache")
+    @mock.patch("cla_auth.token_cache._load_cache_blob", return_value="cache-blob")
+    def test_get_valid_access_token_returns_none_when_silent_acquire_fails(
+        self,
+        _mock_load,
+        mock_serializable_cache,
+        mock_build_app,
+    ):
+        request = self._make_request(
+            {
+                "entra_token_cache_key": "entra-token:key",
+            }
+        )
+
+        fake_cache = mock.MagicMock()
+        mock_serializable_cache.return_value = fake_cache
+
+        fake_app = mock.MagicMock()
+        fake_app.get_accounts.return_value = [{"home_account_id": "abc"}]
+        fake_app.acquire_token_silent.return_value = {"error_description": "interaction required"}
+        mock_build_app.return_value = fake_app
+
+        result = token_cache.get_valid_access_token(request)
+
+        self.assertIsNone(result)

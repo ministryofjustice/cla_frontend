@@ -1,7 +1,4 @@
 import logging
-import base64
-import json
-import time
 import uuid
 
 import msal
@@ -11,6 +8,7 @@ from django.conf import settings
 
 
 logger = logging.getLogger(__name__)
+HOME_ACCOUNT_ID_SESSION_KEY = "entra_home_account_id"
 
 
 def _get_scopes():
@@ -21,34 +19,12 @@ def _get_scopes():
     return [scope for scope in raw_scope.split(" ") if scope and scope not in reserved]
 
 
-def _get_expiry_safety_window_seconds():
-    return int(getattr(settings, "ENTRA_TOKEN_EXPIRY_SAFETY_WINDOW", 300))
-
-
-def _get_token_expiry_from_jwt(token):
-    if not token or token.count(".") < 2:
-        return 0
-    try:
-        payload_segment = token.split(".")[1]
-        padding = "=" * ((4 - len(payload_segment) % 4) % 4)
-        payload_json = base64.urlsafe_b64decode(payload_segment + padding)
-        payload = json.loads(payload_json)
-        return int(payload.get("exp", 0) or 0)
-    except Exception:
-        return 0
-
-
-def _resolve_expires_at(access_token, expires_in=0):
-    expires_at = _get_token_expiry_from_jwt(access_token)
-    if expires_at:
-        return expires_at
-    expires_in = int(expires_in or 0)
-    return int(time.time()) + expires_in if expires_in else 0
-
-
-def set_access_token_session(request, access_token, expires_in=0):
-    request.session["entra_access_token"] = access_token
-    request.session["entra_access_token_expires_at"] = _resolve_expires_at(access_token, expires_in)
+def set_home_account_id_session(request, account):
+    if not isinstance(account, dict):
+        return
+    home_account_id = account.get("home_account_id")
+    if home_account_id:
+        request.session[HOME_ACCOUNT_ID_SESSION_KEY] = home_account_id
 
 
 def _build_msal_app(token_cache=None):
@@ -117,59 +93,55 @@ def save_cache_blob(request, token_cache):
         _store_cache_blob(cache_key, cache_blob)
 
 
-def get_valid_access_token(request):
-    """Return a valid Entra access token using silent refresh when required."""
-    token = request.session.get("entra_access_token")
-    expires_at = int(request.session.get("entra_access_token_expires_at", 0) or 0)
-    now = int(time.time())
-    safety_window = _get_expiry_safety_window_seconds()
-    if token and not expires_at:
-        token_expiry = _get_token_expiry_from_jwt(token)
-        if token_expiry:
-            request.session["entra_access_token_expires_at"] = token_expiry
-            if (token_expiry - now) > safety_window:
-                return token
-        else:
-            # Keep compatibility with older sessions that did not track expiry.
-            return token
-    if token and expires_at and (expires_at - now) > safety_window:
-        token_expiry = _get_token_expiry_from_jwt(token)
-        if not token_expiry or (token_expiry - now) > safety_window:
-            return token
-        logger.debug("Session access token is close to JWT expiry; attempting silent refresh")
+def _select_account_for_silent_acquire(request, accounts):
+    if not accounts:
+        return None
 
+    preferred_home_account_id = request.session.get(HOME_ACCOUNT_ID_SESSION_KEY)
+    if preferred_home_account_id:
+        for account in accounts:
+            if account.get("home_account_id") == preferred_home_account_id:
+                return account
+
+    selected_account = accounts[0]
+    set_home_account_id_session(request, selected_account)
+    return selected_account
+
+
+def get_valid_access_token(request):
+    """Return an Entra access token from MSAL cache using silent acquisition."""
     cache_key = request.session.get("entra_token_cache_key")
     cache_blob = _load_cache_blob(cache_key)
-    if not cache_blob:
-        logger.debug("No Entra token cache found for session")
-        return None
+    if cache_blob:
+        token_cache = msal.SerializableTokenCache()
+        token_cache.deserialize(cache_blob)
+        msal_app = _build_msal_app(token_cache=token_cache)
+        scopes = _get_scopes()
+        if not scopes:
+            logger.error("No Entra API scopes configured")
+            return None
 
-    token_cache = msal.SerializableTokenCache()
-    token_cache.deserialize(cache_blob)
-    msal_app = _build_msal_app(token_cache=token_cache)
-    scopes = _get_scopes()
-    accounts = msal_app.get_accounts()
-    if not accounts:
-        logger.debug("No account found in Entra MSAL token cache")
-        return None
+        accounts = msal_app.get_accounts()
+        account = _select_account_for_silent_acquire(request, accounts)
+        if not account:
+            logger.debug("No account found in Entra MSAL token cache")
+            return None
 
-    if not scopes:
-        logger.error("No Entra API scopes configured")
-        return None
+        result = msal_app.acquire_token_silent(scopes=scopes, account=account)
+        if not result or "access_token" not in result:
+            logger.warning(
+                "Unable to acquire Entra access token silently: %s",
+                result.get("error_description") if result else "No result returned",
+            )
+            return None
 
-    result = msal_app.acquire_token_silent(scopes=scopes, account=accounts[0])
-    if not result or "access_token" not in result:
-        logger.warning(
-            "Unable to acquire Entra access token silently: %s",
-            result.get("error_description") if result else "No result returned",
-        )
-        return None
+        set_home_account_id_session(request, result.get("account"))
+        logger.debug("Entra access token refreshed silently")
+        save_cache_blob(request, token_cache)
+        return result["access_token"]
 
-    expires_in = int(result.get("expires_in", 0) or 0)
-    set_access_token_session(request, result["access_token"], expires_in)
-    logger.debug("Entra access token refreshed silently")
-    save_cache_blob(request, token_cache)
-    return result["access_token"]
+    logger.debug("No Entra token cache found for session")
+    return None
 
 
 def clear_entra_token_cache(request):
@@ -182,5 +154,6 @@ def clear_entra_token_cache(request):
             except Exception as exc:
                 logger.warning("Unable to delete Entra token cache from Redis: %s", exc)
     request.session["entra_token_cache_key"] = None
+    request.session[HOME_ACCOUNT_ID_SESSION_KEY] = None
     request.session["entra_access_token"] = None
     request.session["entra_access_token_expires_at"] = 0

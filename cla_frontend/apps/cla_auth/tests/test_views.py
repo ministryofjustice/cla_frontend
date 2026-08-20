@@ -290,14 +290,18 @@ class EntraRouteCallBackTestCase(SimpleTestCase):
         mock_user = mock.Mock()
         mock_user.zone_to_ui.return_value = ["operator"]
         mock_authenticate.return_value = mock_user
-        self.mock_msal_app.acquire_token_by_authorization_code.return_value = {"access_token": "tok", "id_token": "id"}
+        self.mock_msal_app.acquire_token_by_authorization_code.return_value = {
+            "access_token": "tok",
+            "id_token": "id",
+            "account": {"home_account_id": "home-abc"},
+        }
 
         request = self._make_request(params={"code": "some-code", "state": "test-state"})
         response = EntraAuthView.route_call_back(request)
 
         self.assertEqual(response.status_code, 302)
         self.assertIn("/call_centre", response["Location"])
-        self.assertEqual(request.session.get("entra_access_token"), "tok")
+        self.assertEqual(request.session.get("entra_home_account_id"), "home-abc")
 
     @mock.patch("cla_auth.views.auth_login")
     @mock.patch("cla_auth.views.authenticate")
