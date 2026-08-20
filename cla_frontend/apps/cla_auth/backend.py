@@ -114,9 +114,8 @@ class EntraBackend(object):
         return user
 
     def get_user(self, token):
-        # Django session loading calls get_user on every request. Keep signature
-        # and issuer checks but allow an expired id_token here; API auth uses the
-        # Entra access token managed in session/token cache.
+        # Called on each request when Django reloads the session user.
+        # Keep signature/issuer/audience checks, but ignore id_token expiry here because API auth uses the MSAL managed access token.
         user = self.token_to_user(token, verify_exp=False)
         return user
 

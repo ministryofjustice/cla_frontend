@@ -15,8 +15,10 @@ class TokenCacheTestCase(SimpleTestCase):
     @mock.patch("cla_auth.token_cache._build_msal_app")
     @mock.patch("cla_auth.token_cache.msal.SerializableTokenCache")
     @mock.patch("cla_auth.token_cache._load_cache_blob", return_value="cache-blob")
+    @mock.patch("cla_auth.token_cache._get_scopes", return_value=["api://test/.default"])
     def test_get_valid_access_token_prefers_msal_when_cache_exists(
         self,
+        _mock_scopes,
         _mock_load,
         mock_serializable_cache,
         mock_build_app,
@@ -67,8 +69,10 @@ class TokenCacheTestCase(SimpleTestCase):
     @mock.patch("cla_auth.token_cache._build_msal_app")
     @mock.patch("cla_auth.token_cache.msal.SerializableTokenCache")
     @mock.patch("cla_auth.token_cache._load_cache_blob", return_value="cache-blob")
+    @mock.patch("cla_auth.token_cache._get_scopes", return_value=["api://test/.default"])
     def test_get_valid_access_token_uses_home_account_id_when_available(
         self,
+        _mock_scopes,
         _mock_load,
         mock_serializable_cache,
         mock_build_app,
@@ -106,8 +110,10 @@ class TokenCacheTestCase(SimpleTestCase):
     @mock.patch("cla_auth.token_cache._build_msal_app")
     @mock.patch("cla_auth.token_cache.msal.SerializableTokenCache")
     @mock.patch("cla_auth.token_cache._load_cache_blob", return_value="cache-blob")
+    @mock.patch("cla_auth.token_cache._get_scopes", return_value=["api://test/.default"])
     def test_get_valid_access_token_returns_none_when_no_accounts(
         self,
+        _mock_scopes,
         _mock_load,
         mock_serializable_cache,
         mock_build_app,
@@ -132,8 +138,10 @@ class TokenCacheTestCase(SimpleTestCase):
     @mock.patch("cla_auth.token_cache._build_msal_app")
     @mock.patch("cla_auth.token_cache.msal.SerializableTokenCache")
     @mock.patch("cla_auth.token_cache._load_cache_blob", return_value="cache-blob")
+    @mock.patch("cla_auth.token_cache._get_scopes", return_value=["api://test/.default"])
     def test_get_valid_access_token_returns_none_when_silent_acquire_fails(
         self,
+        _mock_scopes,
         _mock_load,
         mock_serializable_cache,
         mock_build_app,
