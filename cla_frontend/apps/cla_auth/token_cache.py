@@ -98,14 +98,13 @@ def get_valid_access_token(request):
     MSAL will use a cached access token where possible and silently
     refresh it when required.
     """
-    token_cache = _load_token_cache(request)
-
-    msal_app = _build_msal_app(token_cache=token_cache)
-
     scopes = _get_scopes()
     if not scopes:
         logger.error("No Entra API scopes configured")
         return None
+
+    token_cache = _load_token_cache(request)
+    msal_app = _build_msal_app(token_cache=token_cache)
 
     accounts = msal_app.get_accounts()
     account = _select_account_for_silent_acquire(

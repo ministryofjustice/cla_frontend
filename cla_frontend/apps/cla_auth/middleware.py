@@ -1,7 +1,12 @@
+import logging
+
 from django.utils.functional import SimpleLazyObject
 
 from . import get_zone as auth_get_zone
 from .token_cache import get_valid_access_token
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_zone(request):
@@ -28,4 +33,8 @@ class EntraAccessTokenMiddleware(object):
         if getattr(user, "zone_name", None) != "entra":
             return
 
-        user.entra_access_token = get_valid_access_token(request)
+        try:
+            user.entra_access_token = get_valid_access_token(request)
+        except Exception as exc:
+            logger.warning("Unable to resolve Entra access token for request: %s", exc)
+            user.entra_access_token = None
