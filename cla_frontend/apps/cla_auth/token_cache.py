@@ -100,7 +100,7 @@ def get_valid_access_token(request):
     """
     scopes = _get_scopes()
     if not scopes:
-        logger.error("No Entra API scopes configured")
+        logger.warning("No Entra API scopes configured")
         return None
 
     token_cache = _load_token_cache(request)

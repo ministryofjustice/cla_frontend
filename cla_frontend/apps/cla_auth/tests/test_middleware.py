@@ -2,6 +2,7 @@ import mock
 from django.test import RequestFactory
 from django.test.testcases import SimpleTestCase
 
+from .. import middleware as auth_middleware
 from ..middleware import EntraAccessTokenMiddleware
 
 
@@ -31,13 +32,13 @@ class EntraAccessTokenMiddlewareTestCase(SimpleTestCase):
         user.zone_name = "call_centre"
         request.user = user
 
-        with mock.patch("cla_frontend.apps.cla_auth.middleware.get_valid_access_token") as mock_get_token:
+        with mock.patch.object(auth_middleware, "get_valid_access_token") as mock_get_token:
             self.middleware.process_request(request)
 
         self.assertFalse(hasattr(user, "entra_access_token"))
         self.assertFalse(mock_get_token.called)
 
-    @mock.patch("cla_frontend.apps.cla_auth.middleware.get_valid_access_token", return_value="entra-token-abc")
+    @mock.patch.object(auth_middleware, "get_valid_access_token", return_value="entra-token-abc")
     def test_entra_user_gets_access_token(self, _mock_get_token):
         request = self.factory.get("/")
         user = mock.Mock()
@@ -50,7 +51,7 @@ class EntraAccessTokenMiddlewareTestCase(SimpleTestCase):
 
         self.assertEqual(user.entra_access_token, "entra-token-abc")
 
-    @mock.patch("cla_frontend.apps.cla_auth.middleware.get_valid_access_token", return_value=None)
+    @mock.patch.object(auth_middleware, "get_valid_access_token", return_value=None)
     def test_entra_user_with_no_token_gets_none(self, _mock_get_token):
         request = self.factory.get("/")
         user = mock.Mock()
@@ -63,7 +64,7 @@ class EntraAccessTokenMiddlewareTestCase(SimpleTestCase):
 
         self.assertIsNone(user.entra_access_token)
 
-    @mock.patch("cla_frontend.apps.cla_auth.middleware.get_valid_access_token", return_value=None)
+    @mock.patch.object(auth_middleware, "get_valid_access_token", return_value=None)
     def test_entra_user_with_token_gets_none_if_resolver_returns_none(self, _mock_get_token):
         request = self.factory.get("/")
         user = mock.Mock()
