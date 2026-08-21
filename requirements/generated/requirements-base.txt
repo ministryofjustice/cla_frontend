@@ -94,8 +94,8 @@ chardet==4.0.0 \
     --hash=sha256:0d6f53a15db4120f2b08c94f11e7d93d2c911ee118b6b30a04ec3ee8310179fa \
     --hash=sha256:f864054d66fd9118f2e67044ac8981a54775ec5b67aed0441892edb553d21da5
     # via requests
-https://github.com/ministryofjustice/cla_common/archive/refs/tags/0.3.20.tar.gz \
-    --hash=sha256:8d0b0b79e4aca46df2701d9f83245fcf622c84e92bf5572e3d1c7d9d03e51c0f
+https://github.com/ministryofjustice/cla_common/archive/refs/tags/0.3.25.tar.gz \
+    --hash=sha256:955ac3f69d72f01913fb959822e6856b4017a8c1335eefd3e1911a84465b417e
     # via -r requirements/source/requirements-git.in
 cryptography==3.3.2 \
     --hash=sha256:0d7b69674b738068fa6ffade5c962ecd14969690585aaca0a1b1fc9058938a72 \
@@ -137,6 +137,10 @@ https://github.com/said-moj/django-moj-irat/archive/refs/tags/0.3.1.tar.gz \
     #   -r requirements/source/requirements-git.in
 django-proxy==1.0.2 \
     --hash=sha256:aecb4d9a436522a0b9fd5c92523815368c02eb5d91d4aeb4bd54b829fde82f10
+    # via -r requirements/source/requirements-base.in
+django-redis-sessions==0.6.2 \
+    --hash=sha256:13b645a4fad4352c111057e44d0987a3163116b0a2f8b141c7d8abe0cab446c9 \
+    --hash=sha256:ba33ecca198f28ddc32d9f03742dc8dfc34c1857b789c75ea8425d6d7d7376be
     # via -r requirements/source/requirements-base.in
 django-secure==1.0.2 \
     --hash=sha256:b9511e5be1399616649be0402e341382ea40ba361efd48a81a0bbd3efc77f197
@@ -224,6 +228,12 @@ pytz==2021.1 \
     --hash=sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da \
     --hash=sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798
     # via cla-common
+redis==3.5.3 \
+    --hash=sha256:0e7e0cfca8660dea8b7d5cd8c4f6c5e29e11f31158c0b0ae91a397f00e5a05a2 \
+    --hash=sha256:432b788c4530cfe16d8d943a09d40ca6c16149727e4afe8c2c9d5580c59d9f24
+    # via
+    #   -r requirements/source/requirements-base.in
+    #   django-redis-sessions
 requests==2.27.1 \
     --hash=sha256:68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61 \
     --hash=sha256:f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d

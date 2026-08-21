@@ -251,9 +251,16 @@ ROOT_URLCONF = "cla_frontend.urls"
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = "cla_frontend.wsgi.application"
 
-# TODO change this ?
-# SESSION_ENGINE = 'django.contrib.sessions.backends.file'
-SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_ENGINE = "redis_sessions.session"
+# Redis settings for token cache
+ELASTICACHE_REDIS_URL = os.environ.get("ELASTICACHE_REDIS_URL", "")
+
+SESSION_REDIS = {
+    "url": ELASTICACHE_REDIS_URL,
+    "prefix": "django-session",
+    "socket_timeout": 2,
+    "retry_on_timeout": False,
+}
 
 TEMPLATE_DIRS = (root("templates"),)
 
@@ -388,9 +395,6 @@ ENTRA_KEYS_URL = "https://login.microsoftonline.com/%s/discovery/v2.0/keys" % EN
 ENTRA_TOKEN_CACHE_KEY_PREFIX = os.environ.get("ENTRA_TOKEN_CACHE_KEY_PREFIX", "entra-token")
 ENTRA_TOKEN_CACHE_TTL = int(os.environ.get("ENTRA_TOKEN_CACHE_TTL", 86400))
 ENTRA_TOKEN_EXPIRY_SAFETY_WINDOW = int(os.environ.get("ENTRA_TOKEN_EXPIRY_SAFETY_WINDOW", 300))
-
-# Redis settings for token cache
-ELASTICACHE_REDIS_URL = os.environ.get("ELASTICACHE_REDIS_URL", "")
 
 # importing test settings file if necessary (TODO chould be done better)
 if len(sys.argv) > 1 and "test" in sys.argv[1]:
