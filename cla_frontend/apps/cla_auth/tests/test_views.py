@@ -209,7 +209,7 @@ class EntraLogoutTestCase(SimpleTestCase):
             response = self.client.get(self.logout_url)
         self.assertEqual(response.status_code, 302)
         self.assertIsNone(self.client.session.get("entra_access_token"))
-        self.assertIsNone(self.client.session.get("entra_token_cache_key"))
+        self.assertIsNone(self.client.session.get("entra_token_cache"))
         self.assertEqual(self.client.session.get("entra_access_token_expires_at", 0), 0)
 
 

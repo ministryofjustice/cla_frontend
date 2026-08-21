@@ -157,11 +157,3 @@ def clear_entra_token_cache(request):
         HOME_ACCOUNT_ID_SESSION_KEY,
         None,
     )
-    request.session.pop(
-        "entra_access_token",
-        None,
-    )
-    request.session.pop(
-        "entra_access_token_expires_at",
-        None,
-    )

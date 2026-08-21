@@ -252,7 +252,7 @@ ROOT_URLCONF = "cla_frontend.urls"
 WSGI_APPLICATION = "cla_frontend.wsgi.application"
 
 SESSION_ENGINE = "redis_sessions.session"
-# Redis settings for token cache
+# Redis settings for Django session storage
 ELASTICACHE_REDIS_URL = os.environ.get("ELASTICACHE_REDIS_URL", "")
 
 SESSION_REDIS = {
@@ -392,9 +392,6 @@ ENTRA_REDIRECT_PATH = "/auth/entra-callback"
 ENTRA_AUTHORITY = "https://login.microsoftonline.com/%s" % ENTRA_TENANT_ID
 ENTRA_ISSUER_URL = "https://login.microsoftonline.com/%s/v2.0" % ENTRA_TENANT_ID
 ENTRA_KEYS_URL = "https://login.microsoftonline.com/%s/discovery/v2.0/keys" % ENTRA_TENANT_ID
-ENTRA_TOKEN_CACHE_KEY_PREFIX = os.environ.get("ENTRA_TOKEN_CACHE_KEY_PREFIX", "entra-token")
-ENTRA_TOKEN_CACHE_TTL = int(os.environ.get("ENTRA_TOKEN_CACHE_TTL", 86400))
-ENTRA_TOKEN_EXPIRY_SAFETY_WINDOW = int(os.environ.get("ENTRA_TOKEN_EXPIRY_SAFETY_WINDOW", 300))
 
 # importing test settings file if necessary (TODO chould be done better)
 if len(sys.argv) > 1 and "test" in sys.argv[1]:
