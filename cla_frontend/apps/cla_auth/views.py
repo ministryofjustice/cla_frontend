@@ -3,7 +3,7 @@ import logging
 import os
 import msal
 import base64
-
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, authenticate
 from django.views.decorators.debug import sensitive_post_parameters
@@ -86,6 +86,7 @@ class EntraAuthView(object):
 
         if state != request.session.get("oauth_state"):
             logger.error("Entra authentication - State provided does not match session state")
+            messages.error(request, "Authentication failed. Please try again.")
             return redirect("/")
 
         msal_app = cls.build_msal_app()
@@ -94,16 +95,35 @@ class EntraAuthView(object):
         )
 
         if "error" in result:
-            logger.error("Entra authentication - Error: %s" % result["error"])
+            logger.error(
+                "Entra authentication - Error: %s, Description: %s",
+                result.get("error"),
+                result.get("error_description"),
+            )
+            messages.error(
+                request,
+                "We couldn't complete your sign-in with Microsoft. Please try again.",
+            )
             return redirect("/")
 
         if not result:
+            logger.error("Entra authentication - Empty token response")
+            messages.error(
+                request,
+                "We couldn't complete your sign-in with Microsoft. Please try again.",
+            )
             return redirect("/")
 
         user = authenticate(payload=result)
         if not user:
             logger.error("Entra authentication - No user found")
+            messages.error(
+                request,
+                "Your Microsoft account could not be matched to a user account. "
+                "Please contact your administrator.",
+            )
             return redirect("/")
+
 
         auth_login(request, user)
         request.session.update({"entra_access_token": result.get("access_token")})
@@ -119,6 +139,11 @@ class EntraAuthView(object):
         )
         ui = user.zone_to_ui()
         if not ui:
+            messages.error(
+        request,
+        "Your account has been authenticated, but you don't have access "
+        "to any available applications. Please contact your administrator.",
+        )
             raise ValueError("User does not have access to any ui.")
 
         return_to = request.session.get(REDIRECT_FIELD_NAME, None)
