@@ -105,7 +105,7 @@ class EntraAuthView(object):
                 )
                 messages.error(
                     request,
-                    "We couldn't complete your sign-in with Microsoft. Please try again.",
+                    "We couldn't complete your sign-in with Microsoft. Please contact admin for help.",
                 )
                 return redirect("/")
 
@@ -131,7 +131,7 @@ class EntraAuthView(object):
                 "Entra authentication failed - No user found: %s",
                 e
             )
-            messages.info(
+            messages.error(
                 request,
                 "Your Microsoft account could not be matched to a user account. "
                 "Please contact your administrator.",
@@ -155,11 +155,6 @@ class EntraAuthView(object):
         )
         ui = user.zone_to_ui()
         if not ui:
-            messages.error(
-        request,
-        "Your account has been authenticated, but you don't have access "
-        "to any available applications. Please contact your administrator.",
-        )
             raise ValueError("User does not have access to any ui.")
 
         return_to = request.session.get(REDIRECT_FIELD_NAME, None)
