@@ -28,4 +28,7 @@ def get_connection(request):
     if not zone:
         raise PermissionDenied(u"no such app")
 
+    if user.zone_name == "entra" and not getattr(user, "entra_access_token", None):
+        raise PermissionDenied(u"no access token for Entra user")
+
     return user.get_raw_connection()

@@ -184,3 +184,7 @@ envVars:
     secret:
       name: cloudfront-static-assets
       key: cloudfront_url
+  ELASTICACHE_REDIS_URL:
+    secret:
+      name: "elasticache-redis"
+      key: "url"

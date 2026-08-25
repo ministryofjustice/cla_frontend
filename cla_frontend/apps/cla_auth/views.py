@@ -24,6 +24,7 @@ from api.client import get_connection
 from .forms import UsernameForm, PasswordForm
 from .backend import get_backend
 from .utils import user_has_entra_access
+from .token_cache import clear_entra_token_cache, save_cache_blob, set_home_account_id_session
 
 from . import get_zone
 
@@ -34,18 +35,25 @@ CONTENT_TYPE_JSON = "application/json"
 
 class EntraAuthView(object):
     @classmethod
-    def build_msal_app(cls):
+    def build_msal_app(cls, token_cache=None):
         return msal.ConfidentialClientApplication(
             settings.ENTRA_CLIENT_ID,
             authority=settings.ENTRA_AUTHORITY,
             client_credential=settings.ENTRA_CLIENT_SECRET,
+            token_cache=token_cache,
         )
+
+    @classmethod
+    def get_entra_scopes(cls):
+        reserved_scopes = ["openid", "profile", "offline_access"]
+        scopes = [scope for scope in (settings.ENTRA_SCOPE or "").split(" ") if scope and scope not in reserved_scopes]
+        return scopes
 
     @classmethod
     def build_entra_auth_url(cls, request, state):
         msal_app = cls.build_msal_app()
         kwargs = {
-            "scopes": [settings.ENTRA_SCOPE],
+            "scopes": cls.get_entra_scopes(),
             "redirect_uri": request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
             "state": state,
         }
@@ -53,6 +61,7 @@ class EntraAuthView(object):
 
     @classmethod
     def route_login(cls, request):
+        clear_entra_token_cache(request)
         logout(request)
         return_to = request.GET.get(REDIRECT_FIELD_NAME)
         if return_to:
@@ -63,6 +72,7 @@ class EntraAuthView(object):
 
     @classmethod
     def route_logout(cls, request):
+        clear_entra_token_cache(request)
         logout(request)
         post_logout_uri = request.build_absolute_uri("/auth/login/")
         logout_url = "{}/oauth2/v2.0/logout?post_logout_redirect_uri={}".format(
@@ -88,9 +98,12 @@ class EntraAuthView(object):
             logger.error("Entra authentication - State provided does not match session state")
             return redirect("/")
 
-        msal_app = cls.build_msal_app()
+        token_cache = msal.SerializableTokenCache()
+        msal_app = cls.build_msal_app(token_cache=token_cache)
         result = msal_app.acquire_token_by_authorization_code(
-            code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
+            code,
+            scopes=cls.get_entra_scopes(),
+            redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
         )
 
         if "error" in result:
@@ -106,7 +119,8 @@ class EntraAuthView(object):
             return redirect("/")
 
         auth_login(request, user)
-        request.session.update({"entra_access_token": result.get("access_token")})
+        save_cache_blob(request, token_cache)
+        set_home_account_id_session(request, result.get("account"))
         logger.info(
             "login succeeded",
             extra={
@@ -270,6 +284,7 @@ def legacy_logout(request):
     backend.revoke_token(token)
 
     # 2. Logout Django session
+    clear_entra_token_cache(request)
     logout(request)
 
     # 3. Delete cookies

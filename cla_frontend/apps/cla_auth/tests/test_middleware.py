@@ -2,6 +2,7 @@ import mock
 from django.test import RequestFactory
 from django.test.testcases import SimpleTestCase
 
+from .. import middleware as auth_middleware
 from ..middleware import EntraAccessTokenMiddleware
 
 
@@ -30,31 +31,47 @@ class EntraAccessTokenMiddlewareTestCase(SimpleTestCase):
         user.is_authenticated.return_value = True
         user.zone_name = "call_centre"
         request.user = user
-        request.session = {"entra_access_token": "some-token"}
 
-        self.middleware.process_request(request)
+        with mock.patch.object(auth_middleware, "get_valid_access_token") as mock_get_token:
+            self.middleware.process_request(request)
 
         self.assertFalse(hasattr(user, "entra_access_token"))
+        self.assertFalse(mock_get_token.called)
 
-    def test_entra_user_gets_access_token_from_session(self):
-        request = self.factory.get("/")
-        user = mock.Mock()
-        user.is_authenticated.return_value = True
-        user.zone_name = "entra"
-        request.user = user
-        request.session = {"entra_access_token": "entra-token-abc"}
-
-        self.middleware.process_request(request)
-
-        self.assertEqual(user.entra_access_token, "entra-token-abc")
-
-    def test_entra_user_with_no_token_in_session_gets_none(self):
+    @mock.patch.object(auth_middleware, "get_valid_access_token", return_value="entra-token-abc")
+    def test_entra_user_gets_access_token(self, _mock_get_token):
         request = self.factory.get("/")
         user = mock.Mock()
         user.is_authenticated.return_value = True
         user.zone_name = "entra"
         request.user = user
         request.session = {}
+
+        self.middleware.process_request(request)
+
+        self.assertEqual(user.entra_access_token, "entra-token-abc")
+
+    @mock.patch.object(auth_middleware, "get_valid_access_token", return_value=None)
+    def test_entra_user_with_no_token_gets_none(self, _mock_get_token):
+        request = self.factory.get("/")
+        user = mock.Mock()
+        user.is_authenticated.return_value = True
+        user.zone_name = "entra"
+        request.user = user
+        request.session = {}
+
+        self.middleware.process_request(request)
+
+        self.assertIsNone(user.entra_access_token)
+
+    @mock.patch.object(auth_middleware, "get_valid_access_token", return_value=None)
+    def test_entra_user_with_token_gets_none_if_resolver_returns_none(self, _mock_get_token):
+        request = self.factory.get("/")
+        user = mock.Mock()
+        user.is_authenticated.return_value = True
+        user.zone_name = "entra"
+        request.user = user
+        request.session = {"entra_token_cache": "k"}
 
         self.middleware.process_request(request)
 

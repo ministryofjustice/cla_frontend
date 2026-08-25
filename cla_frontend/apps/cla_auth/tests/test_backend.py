@@ -309,7 +309,7 @@ class EntraBackendTestCase(SimpleTestCase):
         # Act
         self.backend.authenticate(token_dict)
         # Assert
-        mock_token_to_user.assert_called_once_with(self.mock_jwt)
+        mock_token_to_user.assert_called_once_with(self.mock_jwt, verify_exp=True)
 
     @mock.patch.object(EntraBackend, "token_to_user")
     def test_get_user_passes_token(self, mock_token_to_user):
@@ -318,7 +318,7 @@ class EntraBackendTestCase(SimpleTestCase):
         # Act
         self.backend.get_user(self.mock_jwt)
 
-        mock_token_to_user.assert_called_once_with(self.mock_jwt)
+        mock_token_to_user.assert_called_once_with(self.mock_jwt, verify_exp=False)
 
 
 class EntraBackendAuthenticateTestCase(SimpleTestCase):
