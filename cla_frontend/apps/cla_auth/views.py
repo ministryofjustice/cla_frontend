@@ -74,57 +74,71 @@ class EntraAuthView(object):
 
     @classmethod
     def route_call_back(cls, request):
-        code = request.GET.get("code")
-        if not code:
-            messages.error(request, "Fail to get your details")
-            logger.error("Entra authentication - No code provided")
-            return redirect("/")
+        try:
+            code = request.GET.get("code")
+            if not code:
+                messages.error(request, "Fail to get your details")
+                logger.error("Entra authentication - No code provided")
+                return redirect("/")
 
-        state = request.GET.get("state")
-        if not state:
-            messages.error(request, "Authentication failed. Please try again.")
-            logger.error("Entra authentication - No state provided")
-            return redirect("/")
+            state = request.GET.get("state")
+            if not state:
+                messages.error(request, "Authentication failed. Please try again.")
+                logger.error("Entra authentication - No state provided")
+                return redirect("/")
 
-        if state != request.session.get("oauth_state"):
-            logger.error("Entra authentication - State provided does not match session state")
-            messages.error(request, "Authentication failed. Please try again.")
-            return redirect("/")
+            if state != request.session.get("oauth_state"):
+                logger.error("Entra authentication - State provided does not match session state")
+                messages.error(request, "Authentication failed. Please try again.")
+                return redirect("/")
 
-        msal_app = cls.build_msal_app()
-        result = msal_app.acquire_token_by_authorization_code(
-            code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
-        )
-
-        if "error" in result:
-            logger.error(
-                "Entra authentication - Error: %s, Description: %s",
-                result.get("error"),
-                result.get("error_description"),
+            msal_app = cls.build_msal_app()
+            result = msal_app.acquire_token_by_authorization_code(
+                code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
             )
-            messages.error(
-                request,
-                "We couldn't complete your sign-in with Microsoft. Please try again.",
-            )
-            return redirect("/")
 
-        if not result:
-            logger.error("Entra authentication - Empty token response")
-            messages.error(
-                request,
-                "We couldn't complete your sign-in with Microsoft. Please try again.",
-            )
-            return redirect("/")
+            if "error" in result:
+                logger.error(
+                    "Entra authentication - Error: %s, Description: %s",
+                    result.get("error"),
+                    result.get("error_description"),
+                )
+                messages.error(
+                    request,
+                    "We couldn't complete your sign-in with Microsoft. Please try again.",
+                )
+                return redirect("/")
 
-        user = authenticate(payload=result)
-        if not user:
-            logger.error("Entra authentication - No user found")
-            messages.error(
+            if not result:
+                logger.error("Entra authentication - Empty token response")
+                messages.error(
+                    request,
+                    "We couldn't complete your sign-in with Microsoft. Please try again.",
+                )
+                return redirect("/")
+
+            user = authenticate(payload=result)
+            if not user:
+                logger.error("Entra authentication - No user found")
+                messages.error(
+                    request,
+                    "Your Microsoft account could not be matched to a user account. "
+                    "Please contact your administrator.",
+                )
+                return redirect("/")
+        except Exception as e:
+            logger.exception(
+                "Entra authentication failed - No user found: %s",
+                e
+            )
+            messages.info(
                 request,
                 "Your Microsoft account could not be matched to a user account. "
                 "Please contact your administrator.",
             )
+
             return redirect("/")
+
 
 
         auth_login(request, user)
