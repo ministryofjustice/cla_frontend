@@ -11,6 +11,7 @@ python-dateutil==2.4.0
 django-proxy==1.0.2
 django-csp==2.0.3
 django-session-security==2.2.3
+django-redis-sessions==0.6.2
 django-cookies-samesite==0.9.0
 django-secure==1.0.2
 django-statsd-mozilla==0.3.14
@@ -34,4 +35,4 @@ https://github.com/said-moj/django-moj-irat/archive/refs/tags/0.3.1.tar.gz
 msal==1.27.0
 cryptography==3.3.2
 PyJWT==1.7.1
-
+redis==3.5.3

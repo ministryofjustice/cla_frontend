@@ -251,9 +251,16 @@ ROOT_URLCONF = "cla_frontend.urls"
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = "cla_frontend.wsgi.application"
 
-# TODO change this ?
-# SESSION_ENGINE = 'django.contrib.sessions.backends.file'
-SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_ENGINE = "redis_sessions.session"
+# Redis settings for Django session storage
+ELASTICACHE_REDIS_URL = os.environ.get("ELASTICACHE_REDIS_URL", "")
+
+SESSION_REDIS = {
+    "url": ELASTICACHE_REDIS_URL,
+    "prefix": "django-session",
+    "socket_timeout": 2,
+    "retry_on_timeout": False,
+}
 
 TEMPLATE_DIRS = (root("templates"),)
 
