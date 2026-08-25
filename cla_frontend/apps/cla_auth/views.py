@@ -76,11 +76,13 @@ class EntraAuthView(object):
     def route_call_back(cls, request):
         code = request.GET.get("code")
         if not code:
+            messages.error(request, "Fail to get your details")
             logger.error("Entra authentication - No code provided")
             return redirect("/")
 
         state = request.GET.get("state")
         if not state:
+            messages.error(request, "Authentication failed. Please try again.")
             logger.error("Entra authentication - No state provided")
             return redirect("/")
 
