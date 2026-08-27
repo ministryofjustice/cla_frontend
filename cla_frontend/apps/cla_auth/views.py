@@ -102,82 +102,67 @@ class EntraAuthView(object):
                 messages.error(request, "Your sign-in session has expired or is invalid. Please try signing in again.")
                 return redirect("/")
 
-            msal_app = cls.build_msal_app()
+            token_cache = msal.SerializableTokenCache()
+            msal_app = cls.build_msal_app(token_cache=token_cache)
             result = msal_app.acquire_token_by_authorization_code(
-                code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
+                code,
+                scopes=cls.get_entra_scopes(),
+                redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
             )
+
+            if not result:
+                logger.error("Entra authentication - Empty token response")
+                messages.error(request, "We didn't receive a response from Microsoft. Please try signing in again.")
+                return redirect("/")
+
             if "error" in result:
                 logger.error(
                     "Entra authentication - Error: %s, Description: %s",
                     result.get("error"),
                     result.get("error_description"),
                 )
-                messages.error(
-                    request,
-                    "We couldn't complete your sign-in with Microsoft. Please contact your administrator for help.",
-                )
+                messages.error(request, "We couldn't complete your sign-in with Microsoft. Please contact your administrator for help.")
                 return redirect("/")
 
-            if not result:
-                logger.error("Entra authentication - Empty token response")
-                messages.error(
-                    request,
-                    "We didn't receive a response from Microsoft. Please try signing in again.",
-                )
-                return redirect("/")
             user = authenticate(payload=result)
             if not user:
                 logger.error("Entra authentication - No user found")
-                messages.error(
-                        request,
-                        "No account found with those details. Contact your administrator for help.",
-                    )
+                messages.error(request, "No account found with those details. Contact your administrator for help.")
                 return redirect("/")
+
+            auth_login(request, user)
+            save_cache_blob(request, token_cache)
+            set_home_account_id_session(request, result.get("account"))
+
+            logger.info(
+                "login succeeded",
+                extra={
+                    "AUTH_METHOD": "ENTRA",
+                    "IP": get_ip(request),
+                    "USERNAME": request.POST.get("username"),
+                    "HTTP_REFERER": request.META.get("HTTP_REFERER"),
+                    "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
+                },
+            )
+
+            ui = user.zone_to_ui()
+            if not ui:
+                logger.error("Entra authentication - User has no UI/zone access: %s", getattr(user, "username", user))
+                messages.error(request, "Failed to authenticate user. Please contact your administrator.")
+                return redirect("/")
+
+            return_to = request.session.get(REDIRECT_FIELD_NAME, None)
+            if return_to:
+                del request.session[REDIRECT_FIELD_NAME]
+            else:
+                return_to = "/call_centre" if ui[0] == "operator" else "/provider"
+
+            return redirect(return_to)
+
         except Exception as e:
-            logger.exception(
-                "Entra authentication failed - No user found: %s",
-                e
-            )
-            messages.error(
-                request,
-                "Failed to authenicate user. Please contact your administrator.",
-            )
-
+            logger.exception("Entra authentication failed: %s", e)
+            messages.error(request, "Failed to authenticate user. Please contact your administrator.")
             return redirect("/")
-
-        token_cache = msal.SerializableTokenCache()
-        msal_app = cls.build_msal_app(token_cache=token_cache)
-        result = msal_app.acquire_token_by_authorization_code(
-            code,
-            scopes=cls.get_entra_scopes(),
-            redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
-        )
-
-
-        auth_login(request, user)
-        save_cache_blob(request, token_cache)
-        set_home_account_id_session(request, result.get("account"))
-        logger.info(
-            "login succeeded",
-            extra={
-                "AUTH_METHOD": "ENTRA",
-                "IP": get_ip(request),
-                "USERNAME": request.POST.get("username"),
-                "HTTP_REFERER": request.META.get("HTTP_REFERER"),
-                "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
-            },
-        )
-        ui = user.zone_to_ui()
-        if not ui:
-            raise ValueError("User does not have access to any ui.")
-
-        return_to = request.session.get(REDIRECT_FIELD_NAME, None)
-        if return_to:
-            del request.session[REDIRECT_FIELD_NAME]
-        else:
-            return_to = "/call_centre" if ui[0] == "operator" else "/provider"
-
-        return redirect(return_to)
 
 
 @sensitive_post_parameters()
