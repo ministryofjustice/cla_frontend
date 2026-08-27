@@ -87,26 +87,25 @@ class EntraAuthView(object):
         try:
             code = request.GET.get("code")
             if not code:
-                messages.error(request, "Fail to get your details")
+                messages.error(request, "Failed to get your account details. Contact your administrator.")
                 logger.error("Entra authentication - No code provided")
                 return redirect("/")
 
             state = request.GET.get("state")
             if not state:
-                messages.error(request, "Authentication failed. Please try again.")
+                messages.error(request, "Authentication failed. Please try again or contact your administrator.")
                 logger.error("Entra authentication - No state provided")
                 return redirect("/")
 
             if state != request.session.get("oauth_state"):
                 logger.error("Entra authentication - State provided does not match session state")
-                messages.error(request, "Authentication failed. Please try again.")
+                messages.error(request, "Your sign-in session has expired or is invalid. Please try signing in again.")
                 return redirect("/")
 
             msal_app = cls.build_msal_app()
             result = msal_app.acquire_token_by_authorization_code(
                 code, scopes=[settings.ENTRA_SCOPE], redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH)
             )
-
             if "error" in result:
                 logger.error(
                     "Entra authentication - Error: %s, Description: %s",
@@ -115,7 +114,7 @@ class EntraAuthView(object):
                 )
                 messages.error(
                     request,
-                    "We couldn't complete your sign-in with Microsoft. Please contact admin for help.",
+                    "We couldn't complete your sign-in with Microsoft. Please contact your administrator for help.",
                 )
                 return redirect("/")
 
@@ -123,18 +122,17 @@ class EntraAuthView(object):
                 logger.error("Entra authentication - Empty token response")
                 messages.error(
                     request,
-                    "We couldn't complete your sign-in with Microsoft. Please try again.",
+                    "We didn't receive a response from Microsoft. Please try signing in again.",
                 )
                 return redirect("/")
-
+            print(result)
             user = authenticate(payload=result)
             if not user:
                 logger.error("Entra authentication - No user found")
                 messages.error(
-                    request,
-                    "Your Microsoft account could not be matched to a user account. "
-                    "Please contact your administrator.",
-                )
+                        request,
+                        "No account found with those details. Contact your administrator for help.",
+                    )
                 return redirect("/")
         except Exception as e:
             logger.exception(
@@ -143,8 +141,7 @@ class EntraAuthView(object):
             )
             messages.error(
                 request,
-                "Your Microsoft account could not be matched to a user account. "
-                "Please contact your administrator.",
+                "Failed to authenicate user. Please contact your administrator.",
             )
 
             return redirect("/")
