@@ -125,7 +125,6 @@ class EntraAuthView(object):
                     "We didn't receive a response from Microsoft. Please try signing in again.",
                 )
                 return redirect("/")
-            print(result)
             user = authenticate(payload=result)
             if not user:
                 logger.error("Entra authentication - No user found")
