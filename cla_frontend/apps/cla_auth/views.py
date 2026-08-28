@@ -16,7 +16,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.conf import settings
-
 from ipware.ip import get_ip
 from proxy.views import proxy_view
 
@@ -31,6 +30,11 @@ from . import get_zone
 logger = logging.getLogger(__name__)
 
 CONTENT_TYPE_JSON = "application/json"
+
+
+class MsalError(Exception):
+    """Wraps MSAL-related failures for clearer call-site handling."""
+    pass
 
 
 class EntraAuthView(object):
@@ -158,7 +162,7 @@ class EntraAuthView(object):
                 ("/call_centre" if ui[0] == "operator" else "/provider")
             return redirect(return_to)
 
-        except Exception as e:
+        except MsalError as e:
             logger.exception("Entra authentication failed: %s", e)
             messages.error(request, "Failed to authenticate user. Please contact your administrator.")
             return redirect("/")
