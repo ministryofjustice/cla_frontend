@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 
 CONTENT_TYPE_JSON = "application/json"
 
+
 class EntraAuthView(object):
     @classmethod
     def build_msal_app(cls, token_cache=None):
