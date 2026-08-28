@@ -83,24 +83,28 @@ class EntraAuthView(object):
         return response
 
     @classmethod
+    def _fail(cls, request, log_msg, user_msg, *log_args):
+        logger.error(log_msg, *log_args)
+        messages.error(request, user_msg)
+        return redirect("/")
+
+    @classmethod
     def route_call_back(cls, request):
         try:
             code = request.GET.get("code")
             if not code:
-                messages.error(request, "Failed to get your account details. Contact your administrator.")
-                logger.error("Entra authentication - No code provided")
-                return redirect("/")
+                return cls._fail(
+                    request, "Entra authentication - No code provided",
+                    "Failed to get your account details. Contact your administrator."
+                )
 
             state = request.GET.get("state")
-            if not state:
-                messages.error(request, "Authentication failed. Please try again or contact your administrator.")
-                logger.error("Entra authentication - No state provided")
-                return redirect("/")
-
-            if state != request.session.get("oauth_state"):
-                logger.error("Entra authentication - State provided does not match session state")
-                messages.error(request, "Your sign-in session has expired or is invalid. Please try signing in again.")
-                return redirect("/")
+            if not state or state != request.session.get("oauth_state"):
+                return cls._fail(
+                    request,
+                    "Entra authentication - Invalid/missing state",
+                    "Your sign-in session has expired or is invalid. Please try signing in again."
+                )
 
             token_cache = msal.SerializableTokenCache()
             msal_app = cls.build_msal_app(token_cache=token_cache)
@@ -110,25 +114,21 @@ class EntraAuthView(object):
                 redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
             )
 
-            if not result:
-                logger.error("Entra authentication - Empty token response")
-                messages.error(request, "We didn't receive a response from Microsoft. Please try signing in again.")
-                return redirect("/")
-
-            if "error" in result:
-                logger.error(
-                    "Entra authentication - Error: %s, Description: %s",
-                    result.get("error"),
-                    result.get("error_description"),
+            if not result or "error" in result:
+                return cls._fail(
+                    request,
+                    "Entra authentication - Token error: %s / %s",
+                    "We couldn't complete your sign-in with Microsoft. Please contact your administrator for help.",
+                    result.get("error") if result else "empty response",
+                    result.get("error_description") if result else ""
                 )
-                messages.error(request, "We couldn't complete your sign-in with Microsoft. Please contact your administrator for help.")
-                return redirect("/")
 
             user = authenticate(payload=result)
             if not user:
-                logger.error("Entra authentication - No user found")
-                messages.error(request, "No account found with those details. Contact your administrator for help.")
-                return redirect("/")
+                return cls._fail(
+                    request, "Entra authentication - No user found",
+                    "No account found with those details. Contact your administrator for help."
+                )
 
             auth_login(request, user)
             save_cache_blob(request, token_cache)
@@ -147,16 +147,15 @@ class EntraAuthView(object):
 
             ui = user.zone_to_ui()
             if not ui:
-                logger.error("Entra authentication - User has no UI/zone access: %s", getattr(user, "username", user))
-                messages.error(request, "Failed to authenticate user. Please contact your administrator.")
-                return redirect("/")
+                return cls._fail(
+                    request,
+                    "Entra authentication - User has no UI/zone access: %s",
+                    "Failed to authenticate user. Please contact your administrator.",
+                    getattr(user, "username", user),
+                )
 
-            return_to = request.session.get(REDIRECT_FIELD_NAME, None)
-            if return_to:
-                del request.session[REDIRECT_FIELD_NAME]
-            else:
-                return_to = "/call_centre" if ui[0] == "operator" else "/provider"
-
+            return_to = request.session.pop(REDIRECT_FIELD_NAME, None) or \
+                ("/call_centre" if ui[0] == "operator" else "/provider")
             return redirect(return_to)
 
         except Exception as e:
