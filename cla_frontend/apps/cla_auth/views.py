@@ -31,12 +31,6 @@ logger = logging.getLogger(__name__)
 
 CONTENT_TYPE_JSON = "application/json"
 
-
-class MsalError(Exception):
-    """Wraps MSAL-related failures for clearer call-site handling."""
-    pass
-
-
 class EntraAuthView(object):
     @classmethod
     def build_msal_app(cls, token_cache=None):
@@ -162,7 +156,7 @@ class EntraAuthView(object):
                 ("/call_centre" if ui[0] == "operator" else "/provider")
             return redirect(return_to)
 
-        except MsalError as e:
+        except msal.MsalError as e:
             logger.exception("Entra authentication failed: %s", e)
             messages.error(request, "Failed to authenticate user. Please contact your administrator.")
             return redirect("/")
