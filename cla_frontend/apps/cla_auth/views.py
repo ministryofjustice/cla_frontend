@@ -3,7 +3,7 @@ import logging
 import os
 import msal
 import base64
-
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, authenticate
 from django.views.decorators.debug import sensitive_post_parameters
@@ -16,7 +16,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.conf import settings
-
 from ipware.ip import get_ip
 from proxy.views import proxy_view
 
@@ -83,65 +82,85 @@ class EntraAuthView(object):
         return response
 
     @classmethod
+    def _fail(cls, request, log_msg, user_msg, *log_args):
+        logger.error(log_msg, *log_args)
+        messages.error(request, user_msg)
+        return redirect("/")
+
+    @classmethod
     def route_call_back(cls, request):
-        code = request.GET.get("code")
-        if not code:
-            logger.error("Entra authentication - No code provided")
+        try:
+            code = request.GET.get("code")
+            if not code:
+                return cls._fail(
+                    request, "Entra authentication - No code provided",
+                    "Failed to get your account details. Contact your administrator."
+                )
+
+            state = request.GET.get("state")
+            if not state or state != request.session.get("oauth_state"):
+                return cls._fail(
+                    request,
+                    "Entra authentication - Invalid/missing state",
+                    "Your sign-in session has expired or is invalid. Please try signing in again."
+                )
+
+            token_cache = msal.SerializableTokenCache()
+            msal_app = cls.build_msal_app(token_cache=token_cache)
+            result = msal_app.acquire_token_by_authorization_code(
+                code,
+                scopes=cls.get_entra_scopes(),
+                redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
+            )
+
+            if not result or "error" in result:
+                return cls._fail(
+                    request,
+                    "Entra authentication - Token error: %s / %s",
+                    "We couldn't complete your sign-in with Microsoft. Please contact your administrator for help.",
+                    result.get("error") if result else "empty response",
+                    result.get("error_description") if result else ""
+                )
+
+            user = authenticate(payload=result)
+            if not user:
+                return cls._fail(
+                    request, "Entra authentication - No user found",
+                    "No account found with those details. Contact your administrator for help."
+                )
+
+            auth_login(request, user)
+            save_cache_blob(request, token_cache)
+            set_home_account_id_session(request, result.get("account"))
+
+            logger.info(
+                "login succeeded",
+                extra={
+                    "AUTH_METHOD": "ENTRA",
+                    "IP": get_ip(request),
+                    "USERNAME": request.POST.get("username"),
+                    "HTTP_REFERER": request.META.get("HTTP_REFERER"),
+                    "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
+                },
+            )
+
+            ui = user.zone_to_ui()
+            if not ui:
+                return cls._fail(
+                    request,
+                    "Entra authentication - User has no UI/zone access: %s",
+                    "Failed to authenticate user. Please contact your administrator.",
+                    getattr(user, "username", user),
+                )
+
+            return_to = request.session.pop(REDIRECT_FIELD_NAME, None) or \
+                ("/call_centre" if ui[0] == "operator" else "/provider")
+            return redirect(return_to)
+
+        except msal.MsalError as e:
+            logger.exception("Entra authentication failed: %s", e)
+            messages.error(request, "Failed to authenticate user. Please contact your administrator.")
             return redirect("/")
-
-        state = request.GET.get("state")
-        if not state:
-            logger.error("Entra authentication - No state provided")
-            return redirect("/")
-
-        if state != request.session.get("oauth_state"):
-            logger.error("Entra authentication - State provided does not match session state")
-            return redirect("/")
-
-        token_cache = msal.SerializableTokenCache()
-        msal_app = cls.build_msal_app(token_cache=token_cache)
-        result = msal_app.acquire_token_by_authorization_code(
-            code,
-            scopes=cls.get_entra_scopes(),
-            redirect_uri=request.build_absolute_uri(settings.ENTRA_REDIRECT_PATH),
-        )
-
-        if "error" in result:
-            logger.error("Entra authentication - Error: %s" % result["error"])
-            return redirect("/")
-
-        if not result:
-            return redirect("/")
-
-        user = authenticate(payload=result)
-        if not user:
-            logger.error("Entra authentication - No user found")
-            return redirect("/")
-
-        auth_login(request, user)
-        save_cache_blob(request, token_cache)
-        set_home_account_id_session(request, result.get("account"))
-        logger.info(
-            "login succeeded",
-            extra={
-                "AUTH_METHOD": "ENTRA",
-                "IP": get_ip(request),
-                "USERNAME": request.POST.get("username"),
-                "HTTP_REFERER": request.META.get("HTTP_REFERER"),
-                "HTTP_USER_AGENT": request.META.get("HTTP_USER_AGENT"),
-            },
-        )
-        ui = user.zone_to_ui()
-        if not ui:
-            raise ValueError("User does not have access to any ui.")
-
-        return_to = request.session.get(REDIRECT_FIELD_NAME, None)
-        if return_to:
-            del request.session[REDIRECT_FIELD_NAME]
-        else:
-            return_to = "/call_centre" if ui[0] == "operator" else "/provider"
-
-        return redirect(return_to)
 
 
 @sensitive_post_parameters()

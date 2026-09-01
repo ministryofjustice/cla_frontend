@@ -44,4 +44,3 @@ def get_zone(request):
         return get_zone_profile(backend.zone_name)
     except (KeyError, AssertionError):
         return None
-    return None
