@@ -157,8 +157,8 @@ class EntraAuthView(object):
                 ("/call_centre" if ui[0] == "operator" else "/provider")
             return redirect(return_to)
 
-        except msal.MsalError as e:
-            logger.exception("Entra authentication failed: %s", e)
+        except Exception as msalError:
+            logger.exception("Entra authentication failed: %s", msalError)
             messages.error(request, "Failed to authenticate user. Please contact your administrator.")
             return redirect("/")
 
