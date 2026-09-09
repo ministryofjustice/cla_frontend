@@ -27,6 +27,11 @@
                   if (_diagnosis === diagnosis && _diagnosis.category) {
                     // update eligibility check
                     eligibility_check.category = _diagnosis.category;
+
+                    if (!eligibility_check.hasSMOD()) {
+                      eligibility_check.resetDisputedSavings();
+                    }
+
                     if (eligibility_check.reference) {
                       eligibility_check.$update(case_.reference);
                     }

@@ -65,4 +65,65 @@ describe('OperatorApp controllers', function() {
     //   expect(scope.sortToggle('sorting_string')).toBe('sorting_string');
     // }));
   });
+
+  describe('EligibilityCheckCtrl', function () {
+    var $httpBackend, $controller, $rootScope, scope, eligibility_check;
+
+    beforeEach(inject(function (_$httpBackend_, _$controller_, _$rootScope_) {
+      $httpBackend = _$httpBackend_;
+      $controller = _$controller_;
+      $rootScope = _$rootScope_;
+
+      // catch-all for the Category.query() call made on controller init
+      $httpBackend.whenGET(/.*/).respond(200, []);
+
+      scope = $rootScope.$new();
+      eligibility_check = {
+        you: {},
+        partner: {},
+        category: 'family',
+        hasSMOD: jasmine.createSpy('hasSMOD').and.callFake(function () {
+          return eligibility_check.category === 'family' || eligibility_check.category === 'debt';
+        }),
+        resetDisputedSavings: jasmine.createSpy('resetDisputedSavings'),
+        $update: jasmine.createSpy('$update')
+      };
+      scope.eligibility_check = eligibility_check;
+
+      $controller('EligibilityCheckCtrl', {
+        $scope: scope,
+        diagnosis: {category: 'family', nodes: []}
+      });
+    }));
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingExpectation();
+    });
+
+    it('hasSMOD delegates to the eligibility_check model', function () {
+      expect(scope.hasSMOD()).toBe(true);
+      expect(eligibility_check.hasSMOD).toHaveBeenCalled();
+
+      eligibility_check.category = 'clinneg';
+      expect(scope.hasSMOD()).toBe(false);
+    });
+
+    it('save() resets disputed_savings before updating when SMOD does not apply', function () {
+      eligibility_check.category = 'clinneg';
+
+      scope.save();
+
+      expect(eligibility_check.resetDisputedSavings).toHaveBeenCalled();
+      expect(eligibility_check.$update).toHaveBeenCalled();
+    });
+
+    it('save() does not reset disputed_savings when SMOD applies', function () {
+      eligibility_check.category = 'family';
+
+      scope.save();
+
+      expect(eligibility_check.resetDisputedSavings).not.toHaveBeenCalled();
+      expect(eligibility_check.$update).toHaveBeenCalled();
+    });
+  });
 });
