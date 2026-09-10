@@ -248,40 +248,54 @@ class EntraRouteCallBackTestCase(SimpleTestCase):
         request.session = session or {"oauth_state": "test-state"}
         return request
 
-    def test_missing_code_redirects_to_root(self, _):
+    @mock.patch("cla_auth.views.messages.error")
+    def test_missing_code_redirects_to_root(self, mock_error, *args):
         request = self._make_request(params={"state": "test-state"})
         response = EntraAuthView.route_call_back(request)
+
         self.assertEqual(response.status_code, 302)
+        self.assertTrue(mock_error.called)
         self.assertEqual(response["Location"], "/")
 
-    def test_missing_state_redirects_to_root(self, _):
+    @mock.patch("cla_auth.views.messages.error")
+    def test_missing_state_redirects_to_root(self, mock_error, *args):
         request = self._make_request(params={"code": "some-code"})
         response = EntraAuthView.route_call_back(request)
+
         self.assertEqual(response.status_code, 302)
+        self.assertTrue(mock_error.called)
         self.assertEqual(response["Location"], "/")
 
-    def test_state_mismatch_redirects_to_root(self, _):
+    @mock.patch("cla_auth.views.messages.error")
+    def test_state_mismatch_redirects_to_root(self, mock_error, *args):
         request = self._make_request(
-            params={"code": "some-code", "state": "wrong-state"},
-            session={"oauth_state": "test-state"},
+            params={"code": "some-code", "state": "wrong-state"}, session={"oauth_state": "test-state"}
         )
         response = EntraAuthView.route_call_back(request)
+
         self.assertEqual(response.status_code, 302)
+        self.assertTrue(mock_error.called)
         self.assertEqual(response["Location"], "/")
 
-    def test_msal_error_redirects_to_root(self, _):
+    @mock.patch("cla_auth.views.messages.error")
+    def test_msal_error_redirects_to_root(self, mock_error, *args):
         self.mock_msal_app.acquire_token_by_authorization_code.return_value = {"error": "invalid_grant"}
         request = self._make_request(params={"code": "some-code", "state": "test-state"})
         response = EntraAuthView.route_call_back(request)
+
         self.assertEqual(response.status_code, 302)
+        self.assertTrue(mock_error.called)
         self.assertEqual(response["Location"], "/")
 
+    @mock.patch("cla_auth.views.messages.error")
     @mock.patch("cla_auth.views.authenticate", return_value=None)
-    def test_authenticate_returns_none_redirects_to_root(self, _, __):
+    def test_authenticate_returns_none_redirects_to_root(self, mock_authenticate, mock_error, *args):
         self.mock_msal_app.acquire_token_by_authorization_code.return_value = {"access_token": "tok", "id_token": "id"}
         request = self._make_request(params={"code": "some-code", "state": "test-state"})
         response = EntraAuthView.route_call_back(request)
+
         self.assertEqual(response.status_code, 302)
+        self.assertTrue(mock_error.called)
         self.assertEqual(response["Location"], "/")
 
     @mock.patch("cla_auth.views.auth_login")
