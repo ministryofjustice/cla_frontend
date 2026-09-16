@@ -30,6 +30,7 @@
 
                     if (!eligibility_check.hasSMOD()) {
                       eligibility_check.resetDisputedSavings();
+                      eligibility_check.resetDisputedProperties();
                     }
 
                     if (eligibility_check.reference) {

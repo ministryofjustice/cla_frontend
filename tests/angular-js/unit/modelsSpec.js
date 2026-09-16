@@ -54,4 +54,30 @@ describe('EligibilityCheck model', function() {
       });
     });
   });
+
+  describe('resetDisputedProperties', function () {
+    it('marks every property as not disputed without changing other fields', function () {
+      var ec = new EligibilityCheck({
+        property_set: [
+          {value: 100000, disputed: '1', main: true},
+          {value: 200000, disputed: 1, main: false}
+        ]
+      });
+
+      ec.resetDisputedProperties();
+
+      expect(ec.property_set).toEqual([
+        {value: 100000, disputed: 0, main: true},
+        {value: 200000, disputed: 0, main: false}
+      ]);
+    });
+
+    it('handles an unset property_set', function () {
+      var ec = new EligibilityCheck();
+
+      expect(function () {
+        ec.resetDisputedProperties();
+      }).not.toThrow();
+    });
+  });
 });

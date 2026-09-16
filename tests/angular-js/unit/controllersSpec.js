@@ -86,6 +86,7 @@ describe('OperatorApp controllers', function() {
           return eligibility_check.category === 'family' || eligibility_check.category === 'debt';
         }),
         resetDisputedSavings: jasmine.createSpy('resetDisputedSavings'),
+        resetDisputedProperties: jasmine.createSpy('resetDisputedProperties'),
         $update: jasmine.createSpy('$update')
       };
       scope.eligibility_check = eligibility_check;
@@ -108,21 +109,23 @@ describe('OperatorApp controllers', function() {
       expect(scope.hasSMOD()).toBe(false);
     });
 
-    it('save() resets disputed_savings before updating when SMOD does not apply', function () {
+    it('save() resets disputed savings and properties before updating when SMOD does not apply', function () {
       eligibility_check.category = 'clinneg';
 
       scope.save();
 
       expect(eligibility_check.resetDisputedSavings).toHaveBeenCalled();
+      expect(eligibility_check.resetDisputedProperties).toHaveBeenCalled();
       expect(eligibility_check.$update).toHaveBeenCalled();
     });
 
-    it('save() does not reset disputed_savings when SMOD applies', function () {
+    it('save() does not reset disputed savings or properties when SMOD applies', function () {
       eligibility_check.category = 'family';
 
       scope.save();
 
       expect(eligibility_check.resetDisputedSavings).not.toHaveBeenCalled();
+      expect(eligibility_check.resetDisputedProperties).not.toHaveBeenCalled();
       expect(eligibility_check.$update).toHaveBeenCalled();
     });
   });

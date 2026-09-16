@@ -303,6 +303,11 @@
           credit_balance: 0
         };
       };
+      resource.prototype.resetDisputedProperties = function() {
+        angular.forEach(this.property_set, function(property) {
+          property.disputed = 0;
+        });
+      };
       return resource;
     }]);
 

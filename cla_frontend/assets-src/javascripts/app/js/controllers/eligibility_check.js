@@ -313,6 +313,7 @@
             $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
             if (!$scope.eligibility_check.hasSMOD()) {
               $scope.eligibility_check.resetDisputedSavings();
+              $scope.eligibility_check.resetDisputedProperties();
             }
             $scope.eligibility_check.$update($scope.case.reference, function (data) {
               $scope.formDidChange = false;

@@ -17,6 +17,7 @@ describe('ModelsEventManager', function() {
       reference: 'some-reference',
       hasSMOD: jasmine.createSpy('hasSMOD').and.returnValue(hasSMOD),
       resetDisputedSavings: jasmine.createSpy('resetDisputedSavings'),
+      resetDisputedProperties: jasmine.createSpy('resetDisputedProperties'),
       $update: jasmine.createSpy('$update')
     };
   };
@@ -29,7 +30,7 @@ describe('ModelsEventManager', function() {
     });
   };
 
-  it('resets disputed_savings when the new category does not have SMOD', function () {
+  it('resets disputed savings and properties when the new category does not have SMOD', function () {
     var case_ = {reference: 'case-ref'};
     var eligibility_check = makeEligibilityCheck(undefined, false);
     var diagnosis = {category: 'clinneg'};
@@ -40,10 +41,11 @@ describe('ModelsEventManager', function() {
 
     expect(eligibility_check.category).toBe('clinneg');
     expect(eligibility_check.resetDisputedSavings).toHaveBeenCalled();
+    expect(eligibility_check.resetDisputedProperties).toHaveBeenCalled();
     expect(eligibility_check.$update).toHaveBeenCalledWith('case-ref');
   });
 
-  it('does not reset disputed_savings when the new category has SMOD', function () {
+  it('does not reset disputed savings or properties when the new category has SMOD', function () {
     var case_ = {reference: 'case-ref'};
     var eligibility_check = makeEligibilityCheck(undefined, true);
     var diagnosis = {category: 'family'};
@@ -54,6 +56,7 @@ describe('ModelsEventManager', function() {
 
     expect(eligibility_check.category).toBe('family');
     expect(eligibility_check.resetDisputedSavings).not.toHaveBeenCalled();
+    expect(eligibility_check.resetDisputedProperties).not.toHaveBeenCalled();
     expect(eligibility_check.$update).toHaveBeenCalledWith('case-ref');
   });
 
@@ -72,6 +75,7 @@ describe('ModelsEventManager', function() {
 
     expect(eligibility_check.category).toBeUndefined();
     expect(eligibility_check.resetDisputedSavings).not.toHaveBeenCalled();
+    expect(eligibility_check.resetDisputedProperties).not.toHaveBeenCalled();
     expect(eligibility_check.$update).not.toHaveBeenCalled();
   });
 });
