@@ -292,6 +292,22 @@
       resource.prototype.isEligibilityUnknown = function() {
         return (this.state === undefined || this.state === 'unknown');
       };
+      resource.prototype.hasSMOD = function() {
+        return this.category === 'family' || this.category === 'debt';
+      };
+      resource.prototype.resetDisputedSavings = function() {
+        this.disputed_savings = {
+          bank_balance: 0,
+          investment_balance: 0,
+          asset_balance: 0,
+          credit_balance: 0
+        };
+      };
+      resource.prototype.resetDisputedProperties = function() {
+        angular.forEach(this.property_set, function(property) {
+          property.disputed = 0;
+        });
+      };
       return resource;
     }]);
 

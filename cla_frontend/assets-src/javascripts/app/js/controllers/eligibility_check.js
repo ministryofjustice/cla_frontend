@@ -236,7 +236,7 @@
           };
 
           $scope.hasSMOD = function () {
-            return $scope.eligibility_check.category === 'family' || $scope.eligibility_check.category === 'debt';
+            return $scope.eligibility_check.hasSMOD();
           };
 
           $scope.hasPartner = function () {
@@ -311,6 +311,10 @@
 
           $scope.save = function () {
             $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
+            if (!$scope.eligibility_check.hasSMOD()) {
+              $scope.eligibility_check.resetDisputedSavings();
+              $scope.eligibility_check.resetDisputedProperties();
+            }
             $scope.eligibility_check.$update($scope.case.reference, function (data) {
               $scope.formDidChange = false;
               $scope.case.eligibility_check = data.reference;
