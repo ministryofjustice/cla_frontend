@@ -1,3 +1,13 @@
 {% extends "angular_app.html" %}
 
 {% block ng_app %}ng-app="cla.providerApp"{% endblock %}
+
+// This is a temp banner for only Providers to see - it appears on the case list page only.
+{% block notifications %}
+	<p class="Notice Notice--secondary" role="alert" ng-if="$state.includes('case_list')" style="text-align: center; margin: 0;">
+		<b>We're making a new version of this service for CLA Providers.
+		<a href="https://www.smartsurvey.co.uk/s/EVYR3U/" target="_blank" rel="noopener noreferrer">Complete the survey (opens in a new tab)</a>
+		to tell us about your experience. Your feedback will help us improve the service.
+		</b>
+	</p>
+{% endblock %}
