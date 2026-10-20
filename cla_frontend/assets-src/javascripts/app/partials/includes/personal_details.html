@@ -59,7 +59,7 @@
       <span>{{ getDisplayLabel(case.source, sources) }}</span>
     </p>
 
-    <p class="VCard-row u-highlightRed" ng-if="personal_details.vulnerable_user">User is deemed vulnerable</p>
+    <p class="VCard-row u-highlightRed" ng-if="personal_details.vulnerable_user">User is at risk of abuse</p>
 
     <p class="VCard-row" ng-if="case.exempt_user">User is exempt because: {{ getExemptReasonByCode(case.exempt_user_reason).text }}</p>
 
@@ -151,7 +151,7 @@
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.vulnerable_user.$invalid && personaldetails_submitted}">
       <span class="Error-message" ng-if="personaldetails_frm.vulnerable_user.$error.server">{{ errors.vulnerable_user }}</span>
-      <span editable-checkbox="personal_details.vulnerable_user" e-name="vulnerable_user" e-title="User is deemed vulnerable"></span>
+      <span editable-checkbox="personal_details.vulnerable_user" e-name="vulnerable_user" e-title="User is at risk of abuse"></span>
     </div>
 
     <div class="FormRow FormRow--narrow cf" ng-class="{Error: personaldetails_frm.contact_for_research.$invalid && personaldetails_submitted}">
