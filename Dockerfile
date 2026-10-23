@@ -53,6 +53,8 @@ RUN npm run build
 
 COPY ./requirements ./requirements
 RUN pip install -r ${BASE_REQUIREMENTS_FILE}
+COPY ./docker/update_ca_bundle.sh /usr/local/bin/update_ca_bundle.sh
+RUN update_ca_bundle.sh
 
 COPY . .
 
