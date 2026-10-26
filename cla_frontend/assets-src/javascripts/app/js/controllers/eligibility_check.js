@@ -300,16 +300,23 @@
             return current;
           };
 
-          $scope.gotoSection = function (section) {
+          $scope.gotoSection = function (section, form) {
             // auto-save eligibility check when switching tabs if form changed
             if($scope.formDidChange) {
               // can't use $dirty of form as it doesn't change at the right time
-              $scope.save();
+              if ($scope.save(form) === false) {
+                return;
+              }
             }
             $state.go(section.state);
           };
 
-          $scope.save = function () {
+          $scope.save = function (form) {
+            if (form && form.$invalid) {
+              form.$setSubmitted();
+              flash('error', 'The assessment has not been saved. Correct the invalid fields before continuing.');
+              return false;
+            }
             $scope.setDefaultsInNonRequiredSections($scope.eligibility_check);
             if (!$scope.eligibility_check.hasSMOD()) {
               $scope.eligibility_check.resetDisputedSavings();
