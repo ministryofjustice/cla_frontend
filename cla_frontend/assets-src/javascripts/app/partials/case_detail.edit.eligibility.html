@@ -3,12 +3,12 @@
     have a court date.</b></p>
   <p ng-if="appName == 'provider'">Please accept the case to continue or reject it if this information is not correct.</p>
 </div>
-<form ng-submit="save()" ng-if="!eligibility_check.has_passported_proceedings_letter" novalidate name="form" class="Form-eligibility u-relative" form-changed>
+<form ng-submit="save(form)" ng-if="!eligibility_check.has_passported_proceedings_letter" novalidate name="form" class="Form-eligibility u-relative" form-changed>
   <div class="Toolbar clearfix">
     <ul id="pills-section-list" class="Pills u-pullLeft">
       <li class="Pills-pill {{ tabWarningClass(section) }}" ng-repeat="section in sections"
           ng-class="{'is-active': currentState() === section.state}">
-        <a href="" ng-click="gotoSection(section)" class="Pills-pillLink">{{ ::section.title }}</a>
+        <a href="" ng-click="gotoSection(section, form)" class="Pills-pillLink">{{ ::section.title }}</a>
       </li>
     </ul>
     <div class="Actions u-pullRight">

@@ -67,7 +67,7 @@ describe('OperatorApp controllers', function() {
   });
 
   describe('EligibilityCheckCtrl', function () {
-    var $httpBackend, $controller, $rootScope, scope, eligibility_check;
+    var $httpBackend, $controller, $rootScope, scope, eligibility_check, flash, state;
 
     beforeEach(inject(function (_$httpBackend_, _$controller_, _$rootScope_) {
       $httpBackend = _$httpBackend_;
@@ -90,9 +90,18 @@ describe('OperatorApp controllers', function() {
         $update: jasmine.createSpy('$update')
       };
       scope.eligibility_check = eligibility_check;
+      scope.case = {reference: 'test-case'};
+      flash = jasmine.createSpy('flash');
+      state = {go: jasmine.createSpy('go')};
 
       $controller('EligibilityCheckCtrl', {
         $scope: scope,
+        flash: flash,
+        $state: state,
+        IncomeWarningsService: {
+          setEligibilityCheck: jasmine.createSpy('setEligibilityCheck'),
+          warnings: {}
+        },
         diagnosis: {category: 'family', nodes: []}
       });
     }));
@@ -127,6 +136,42 @@ describe('OperatorApp controllers', function() {
       expect(eligibility_check.resetDisputedSavings).not.toHaveBeenCalled();
       expect(eligibility_check.resetDisputedProperties).not.toHaveBeenCalled();
       expect(eligibility_check.$update).toHaveBeenCalled();
+    });
+
+    it('does not save an invalid form and shows an error', function () {
+      var form = {$invalid: true, $setSubmitted: jasmine.createSpy('$setSubmitted')};
+
+      expect(scope.save(form)).toBe(false);
+
+      expect(form.$setSubmitted).toHaveBeenCalled();
+      expect(flash).toHaveBeenCalledWith('error', 'The WERE has not been saved. Correct the invalid fields before continuing.');
+      expect(eligibility_check.$update).not.toHaveBeenCalled();
+    });
+
+    it('saves a valid form', function () {
+      scope.save({$invalid: false});
+
+      expect(eligibility_check.$update).toHaveBeenCalled();
+    });
+
+    it('keeps the current tab when auto-save encounters invalid input', function () {
+      scope.formDidChange = true;
+      var form = {$invalid: true, $setSubmitted: jasmine.createSpy('$setSubmitted')};
+
+      scope.gotoSection({state: 'case_detail.edit.eligibility.income'}, form);
+
+      expect(eligibility_check.$update).not.toHaveBeenCalled();
+      expect(state.go).not.toHaveBeenCalled();
+      expect(form.$setSubmitted).toHaveBeenCalled();
+    });
+
+    it('auto-saves valid changes before switching tabs', function () {
+      scope.formDidChange = true;
+
+      scope.gotoSection({state: 'case_detail.edit.eligibility.income'}, {$invalid: false});
+
+      expect(eligibility_check.$update).toHaveBeenCalled();
+      expect(state.go).toHaveBeenCalledWith('case_detail.edit.eligibility.income');
     });
   });
 });
