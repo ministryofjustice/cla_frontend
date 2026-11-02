@@ -15,7 +15,7 @@ class LoginTestCase(SimpleTestCase):
     urls = "cla_auth.tests.urls"
 
     @mock.patch("cla_auth.backend.get_auth_connection")
-    @override_settings(USERS_ALLOWED_ENTRA_ACCESS=[], USE_LEGACY_AUTH="True")
+    @override_settings(USERS_ALLOWED_LEGACY_ACCESS=["my-username", "old-username"], USE_LEGACY_AUTH=True)
     def __call__(self, result, mocked_get_auth_connection, *args, **kwargs):
         self.mocked_get_auth_connection = mocked_get_auth_connection
 
@@ -129,7 +129,7 @@ class LegacyLogoutTestCase(SimpleTestCase):
     urls = "cla_auth.tests.urls"
 
     @mock.patch("cla_auth.backend.get_auth_connection")
-    @override_settings(USE_LEGACY_AUTH="True")
+    @override_settings(USERS_ALLOWED_LEGACY_ACCESS=["my-username"], USE_LEGACY_AUTH=True)
     def __call__(self, result, mocked_get_auth_connection, *args, **kwargs):
         self.mocked_get_auth_connection = mocked_get_auth_connection
         self.credentials = {"username": "my-username", "password": "my-password"}

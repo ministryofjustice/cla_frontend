@@ -383,7 +383,7 @@ OS_PLACES_API_KEY = os.environ.get("OS_PLACES_API_KEY")
 
 # ENTRA SETTINGS
 USE_LEGACY_AUTH = os.environ.get("USE_LEGACY_AUTH", "True").lower() == "true"
-USERS_ALLOWED_ENTRA_ACCESS = [u for u in os.environ.get("USERS_ALLOWED_ENTRA_ACCESS", "").split(",") if u]
+USERS_ALLOWED_LEGACY_ACCESS = [u for u in os.environ.get("USERS_ALLOWED_LEGACY_ACCESS", "").split(",") if u]
 ENTRA_CLIENT_ID = os.environ.get("ENTRA_CLIENT_ID")
 ENTRA_TENANT_ID = os.environ.get("ENTRA_TENANT_ID")
 ENTRA_CLIENT_SECRET = os.environ.get("ENTRA_CLIENT_SECRET")

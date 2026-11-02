@@ -24,7 +24,7 @@ services:
       SOCKETIO_SERVER_URL: /socket.io
       BASE_REQUIREMENTS_FILE: "requirements/generated/requirements-dev.txt"
       PYTHONUNBUFFERED: "1"
-      USERS_ALLOWED_ENTRA_ACCESS: ${USERS_ALLOWED_ENTRA_ACCESS:-}
+      USERS_ALLOWED_LEGACY_ACCESS: ${USERS_ALLOWED_LEGACY_ACCESS:-}
       DJANGO_SETTINGS_MODULE: cla_frontend.settings.local
     depends_on:
       - redis

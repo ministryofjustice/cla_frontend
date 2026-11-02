@@ -81,9 +81,10 @@ def manager_member_required(view_func):
 
 def user_has_entra_access(username):
     """
-    Checks if the user is in the list of users allowed to use Entra, and that legacy auth is not enabled.
+    Checks if the user should have Entra access. Returns False if the user is in the
+    USERS_ALLOWED_LEGACY_ACCESS list (they should use legacy auth instead).
     """
     if not settings.USE_LEGACY_AUTH:
         return True
 
-    return username in settings.USERS_ALLOWED_ENTRA_ACCESS
+    return username not in settings.USERS_ALLOWED_LEGACY_ACCESS
