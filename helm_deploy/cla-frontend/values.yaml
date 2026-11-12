@@ -136,6 +136,11 @@ envVars:
     configmap:
       name: new-client-note-format
       key: enabled
+  DIVERSITY_SPECIALISTS_FEATURE_FLAG:
+    configmap:
+      name: diversity-specialist-access
+      key: enabled
+      optional: true
   ENABLE_NO_CACHE_MIDDLEWARE:
     configmap:
       name: no-cache-middleware
