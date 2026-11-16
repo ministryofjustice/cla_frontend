@@ -58,6 +58,7 @@ jobs:
           images: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.ECR_REPOSITORY }}
           tags: |
             type=raw,value=${{ github.ref_name == 'main' && format('main-{0}', github.sha) || format('branch-{0}', github.sha) }}
+            type=raw,value=main,enable=${{ github.ref_name == 'main' }}
 
       - name: Debug image URL
         run: |
