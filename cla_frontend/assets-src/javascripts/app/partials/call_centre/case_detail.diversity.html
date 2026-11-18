@@ -7,9 +7,14 @@
 </div>
 
 <div ng-if="!personal_details.has_diversity">
-  <call-script>
+  <call-script ng-if="!feature_flags.diversity_specialist_access">
     <p>Before I transfer you through can I ask some diversity questions?</p>
     <p>Your answers will be treated confidentially and you cannot be identified from them. We use the data we collect to monitor the service that we provide.</p>
+  </call-script>
+
+  <call-script ng-if="feature_flags.diversity_specialist_access">
+    <p>Before I transfer you, can I ask you some diversity questions? The information you provide will be visible to the Specialist Provider I transfer you to.</p>
+    <p>We use the data we collect to monitor the service we provide. In doing so your answers will be treated confidentially and you cannot be identified from them.</p>
   </call-script>
 
   <section class="SummaryBlock SummaryBlock--compact">
