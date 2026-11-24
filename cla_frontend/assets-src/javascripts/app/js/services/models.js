@@ -719,22 +719,6 @@
         }
       });
 
-      resource.prototype.$resetPassword = function(old_password, new_password) {
-        var url = url_utils.proxy('user/'+this.username+'/password_reset/'),
-          data = {
-            'new_password': new_password
-          };
-        if (old_password) {
-          data.old_password = old_password;
-        }
-        return $http.post(url, data);
-      };
-
-      resource.prototype.$resetLockout = function() {
-        var url = url_utils.proxy('user/'+this.username+'/reset_lockout/');
-        return $http.post(url, {});
-      };
-
       return resource;
     }]);
 
